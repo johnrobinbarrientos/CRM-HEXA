@@ -7,16 +7,6 @@ export default {
       }
     },
     methods: {
-        API_URL: function() {
-            // return 'https://tools.thinkorion.com/api'
-            return 'http://tools-orion.local/api'
-        },
-        AUTH_HEADERS: function () {
-            return {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Authorization': 'Bearer ' + localStorage.getItem("kxtoken")
-            }
-        },
         CHECK_VUE_INSTANCE: function () {
             console.log(this)
         },
@@ -60,12 +50,19 @@ export default {
             }
             return null;
         },
-        SAVE_DATA: function (name,payload) {
+        ROUTE: function (data) {
+            var scope = this
+            scope.$router.push(data)
+        },
+        POST: function (name,payload) {
             var scope = this
             // scope.credentials.error = null
             return scope.axios
-            .post(scope.API_URL() + '/' + name, payload,{
-                'headers': scope.AUTH_HEADERS()
+            .post(window.API_URL + '/' + name, payload,{
+                'headers': {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Authorization': 'Bearer ' + localStorage.getItem(window.TOKEN_KEY)
+                }
             })
             .then(response => {
                 var data = response.data
@@ -79,12 +76,15 @@ export default {
                 return {success: 0, data: data, code: code }
             })
         },
-        GET_ROWS: function (name) {
+        GET: function (name) {
             var scope = this
             // scope.credentials.error = null
             return scope.axios
-            .get(scope.API_URL() + '/' + name,{
-                'headers': scope.AUTH_HEADERS()
+            .get(window.API_URL + '/' + name,{
+                'headers': {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Authorization': 'Bearer ' + localStorage.getItem(window.TOKEN_KEY)
+                }
             })
             .then(response => {
                 var data = response.data
@@ -96,6 +96,28 @@ export default {
                 var data = error.response.data
                 var code = error.response.status
                 return {rows: [], data: data, code: code }
+            })
+        },
+        PUT: function (name,payload) {
+            var scope = this
+            // scope.credentials.error = null
+            return scope.axios
+            .put(window.API_URL + '/' + name, payload,{
+                'headers': {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Authorization': 'Bearer ' + localStorage.getItem(window.TOKEN_KEY)
+                }
+            })
+            .then(response => {
+                var data = response.data
+                if (data.success) {
+                    return data
+                }
+            })
+            .catch(function (error) {
+                var data = error.response.data
+                var code = error.response.status
+                return {success: 0, data: data, code: code }
             })
         }
     }

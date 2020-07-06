@@ -1,19 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Hello from './views/Hello'
 import Home from './views/Home'
 import Auth from './views/Auth'
+import Register from './views/Register'
 import Profile from './views/Profile'
 import Users from './views/Users'
-import Calculations from './views/Calculations'
+import Companies from './views/Companies'
 
 Vue.use(VueRouter)
 
 function checkAuth (to, from, next) {
     // check if route is protected
     if (to.meta.protected) {
-      var token = localStorage.getItem("kxtoken")
+      var token = localStorage.getItem(window.TOKEN_KEY)
       if (token && token !== null && token !== '' ) {
         next() // allow to enter route
       } else {
@@ -26,7 +26,7 @@ function checkAuth (to, from, next) {
 
 function checkGuess (to, from, next) {
     // check if route is protected
-    var token = localStorage.getItem("kxtoken")
+    var token = localStorage.getItem(window.TOKEN_KEY)
     if (token && token !== null && token !== '' ) {
     next('/')// allow to enter route
     } else {
@@ -53,16 +53,15 @@ export default new VueRouter({
             meta: { protected: false }
         },
         {
+            path: '/register',
+            name: 'register',
+            component: Register,
+            meta: { protected: false }
+        },
+        {
             path: '/profile',
             name: 'profile',
             component: Profile,
-            beforeEnter: checkAuth,
-            meta: { protected: true }
-        },
-        {
-            path: '/hello',
-            name: 'hello',
-            component: Hello,
             beforeEnter: checkAuth,
             meta: { protected: true }
         },
@@ -74,11 +73,11 @@ export default new VueRouter({
           meta: { protected: true }
       },
       {
-        path: '/calculations',
-        name: 'calculations',
-        component: Calculations,
+        path: '/companies',
+        name: 'companies',
+        component: Companies,
         beforeEnter: checkAuth,
         meta: { protected: true }
-    },
+      },
     ],
 });

@@ -11,11 +11,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('users')->insert([
-            'first_name' => 'Super',
-            'last_name' => 'Admin',
-            'email' => 'kenjimagto@gmail.com',
-            'password' => Hash::make('secret123'),
-        ]);
+        $company = new \App\Models\Company();
+        $company->name = 'ThinkOrion';
+        $company->description = 'One Happy Team';
+        $company->phone = '09177029292';
+        $company->address = 'Upper Nazareth, Cagayan de Oro City';
+        $company->save();
+        
+       
+        $user = new \App\Models\User();
+        $user->company_id = $company->id;
+        $user->first_name = 'Kenji';
+        $user->last_name = 'Magto';
+        $user->email = 'kenjimagto@gmail.com';
+        $user->password = Hash::make('secret123');
+        $user->phone = '09171234567';
+        $user->save();
     }
 }

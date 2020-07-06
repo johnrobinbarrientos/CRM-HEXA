@@ -13,13 +13,24 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('auth', 'API\UserController@login');
+//Route::post('auth', 'API\UserController@login');
+Route::post('/register', 'API\AuthController@register');
+Route::post('/login', 'API\AuthController@login');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::group(['middleware' => ['auth:api'] ], function(){
+    Route::get('/auth/check','API\AuthController@check');
+    Route::get('/auth/revoke','API\AuthController@revoke');
+
     Route::get('/users','API\UserController@index');
     Route::post('/users','API\UserController@store');
+    Route::put('/users','API\UserController@update');
+
+    Route::get('/companies','API\CompanyController@index');
+    Route::post('/companies','API\CompanyController@store');
+    Route::delete('/companies/{company}', 'API\CompanyController@delete');
+    Route::put('/companies','API\CompanyController@update');
 });
