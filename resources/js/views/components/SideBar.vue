@@ -56,8 +56,8 @@
                                         </a>
                                     </li>
                                     <li class="nk-menu-item">
-                                        <a href="html/general/pages/auths/auth-success.html" target="_blank" class="nk-menu-link">
-                                            <span class="nk-menu-text">LOCATION</span>
+                                        <a href="javascript:void(0);" @click="link('locations')" class="nk-menu-link">
+                                            <span class="nk-menu-text">LOCATIONS</span>
                                         </a>
                                     </li>
                                     <li class="nk-menu-item">
@@ -103,7 +103,7 @@
 
 
                             <li class="nk-menu-item">
-                                <a href="javascript:void(0);" @click="link('users')" class="nk-menu-link">
+                                <a @click="link('users')" class="nk-menu-link">
                                     <span class="nk-menu-icon"><em class="icon ni ni-user-c"></em></span>
                                     <span class="nk-menu-text">USERS</span>
                                 </a>

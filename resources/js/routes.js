@@ -7,6 +7,7 @@ import Register from './views/Register'
 import Profile from './views/Profile'
 import Users from './views/Users'
 import Companies from './views/Companies'
+import Locations from './views/locations/Locations'
 
 Vue.use(VueRouter)
 
@@ -71,13 +72,20 @@ export default new VueRouter({
           component: Users,
           beforeEnter: checkAuth,
           meta: { protected: true }
-      },
-      {
-        path: '/companies',
-        name: 'companies',
-        component: Companies,
-        beforeEnter: checkAuth,
-        meta: { protected: true }
-      },
+        },
+        {
+          path: '/companies',
+          name: 'companies',
+          component: Companies,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/locations',
+          name: 'locations',
+          component: Locations,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
     ],
 });
