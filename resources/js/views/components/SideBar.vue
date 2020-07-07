@@ -26,42 +26,42 @@
                 
                             <li class="nk-menu-item has-sub">
                                 <a href="javascript:void(0);" class="nk-menu-link nk-menu-toggle">
-                                    <span class="nk-menu-icon"><em class="icon ni ni-files-fill"></em></span>
+                                    <span class="nk-menu-icon"><em class="icon ni ni-db-fill"></em></span>
                                     <span class="nk-menu-text">MASTER DATA &amp; LEDGERS</span>
                                 </a>
                                 <ul class="nk-menu-sub">
                                     <li class="nk-menu-item">
-                                        <a href="html/crypto/welcome.html" class="nk-menu-link">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
                                             <span class="nk-menu-text">ITEM</span>
                                         </a>
                                     </li>
                                     <li class="nk-menu-item">
-                                        <a href="html/general/pages/auths/auth-login.html" target="_blank" class="nk-menu-link">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
                                             <span class="nk-menu-text">SUPPLIER</span>
                                         </a>
                                     </li>
                                     <li class="nk-menu-item">
-                                        <a href="html/general/pages/auths/auth-register.html" target="_blank" class="nk-menu-link">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
                                             <span class="nk-menu-text">CUSTOMER</span>
                                         </a>
                                     </li>
                                     <li class="nk-menu-item">
-                                        <a href="html/general/pages/auths/auth-reset.html" target="_blank" class="nk-menu-link">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
                                             <span class="nk-menu-text">EMPLOYEE</span>
                                         </a>
                                     </li>
                                     <li class="nk-menu-item">
-                                        <a href="html/general/pages/auths/auth-success.html" target="_blank" class="nk-menu-link">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
                                             <span class="nk-menu-text">COST CENTER</span>
                                         </a>
                                     </li>
                                     <li class="nk-menu-item">
-                                        <a href="html/general/pages/auths/auth-success.html" target="_blank" class="nk-menu-link">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
                                             <span class="nk-menu-text">LOCATION</span>
                                         </a>
                                     </li>
                                     <li class="nk-menu-item">
-                                        <a href="html/general/pages/auths/auth-success.html" target="_blank" class="nk-menu-link">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
                                             <span class="nk-menu-text">PROJECT</span>
                                         </a>
                                     </li>
@@ -69,38 +69,171 @@
                             </li>
 
                             
-                            <li class="nk-menu-item">
-                                <a href="javascript:void(0);" @click="link('home')" class="nk-menu-link">
-                                    <span class="nk-menu-icon"><em class="icon ni ni-user-c"></em></span>
+                            <li class="nk-menu-item has-sub">
+                                <a href="javascript:void(0);"  class="nk-menu-link  nk-menu-toggle">
+                                    <span class="nk-menu-icon"><em class="icon ni ni-money"></em></span>
                                     <span class="nk-menu-text">BUY &amp; PAY</span>
                                 </a>
+                                <ul class="nk-menu-sub">
+                                     <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">ORDERING</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">RECEIVING</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">BILLING &amp; RETURN</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">PAYMENT</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-                            <li class="nk-menu-item">
-                                <a href="javascript:void(0);" @click="link('home')" class="nk-menu-link">
-                                    <span class="nk-menu-icon"><em class="icon ni ni-wallet-alt"></em></span>
+
+                        
+                            <li class="nk-menu-item has-sub">
+                                <a href="javascript:void(0);"  class="nk-menu-link nk-menu-toggle">
+                                    <span class="nk-menu-icon"><em class="icon ni ni-coins"></em></span>
                                     <span class="nk-menu-text">SELL &amp; COLLECT</span>
                                 </a>
+                                <ul class="nk-menu-sub">
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">ORDERING</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">FULFILMENT</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">INVOICING &amp; REVERSAL</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">COLLECTION</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-                            <li class="nk-menu-item">
-                                <a href="javascript:void(0);" @click="link('home')" class="nk-menu-link">
-                                    <span class="nk-menu-icon"><em class="icon ni ni-coins"></em></span>
+
+                            <li class="nk-menu-item has-sub">
+                                <a href="javascript:void(0);"  class="nk-menu-link nk-menu-toggle">
+                                    <span class="nk-menu-icon"><em class="icon ni ni-report-profit"></em></span>
                                     <span class="nk-menu-text">ACCOUNTING</span>
                                 </a>
+                                <ul class="nk-menu-sub">
+                                     <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">RECONCILE BANK</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">RECONCILE CASH FUND</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">MAINTAINED FIXED ASSETS</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">MAKE PAYROL</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">JOURNAL ENTRY</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">STOCK ENTRY</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-                            <li class="nk-menu-item">
-                                <a href="javascript:void(0);" @click="link('home')" class="nk-menu-link">
-                                    <span class="nk-menu-icon"><em class="icon ni ni-repeat"></em></span>
+
+
+                            <li class="nk-menu-item has-sub">
+                                <a href="javascript:void(0);" class="nk-menu-link nk-menu-toggle">
+                                    <span class="nk-menu-icon"><em class="icon ni ni-reports"></em></span>
                                     <span class="nk-menu-text">FINANCIAL</span>
                                 </a>
+                                <ul class="nk-menu-sub">
+                                     <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">BANK RECONCILIATION</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">FUNDS RECONCILIATION</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">LAPSING SCHEDULE</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">PAYROL SUMMARY</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">JOURNAL LEDGER</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">PROFIT &amp; LOSS</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">BALANCE SHEET</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-                            <li class="nk-menu-item">
-                                <a href="javascript:void(0);" @click="link('home')" class="nk-menu-link">
-                                    <span class="nk-menu-icon"><em class="icon ni ni-account-setting"></em></span>
+
+                            <li class="nk-menu-item has-sub">
+                                <a href="javascript:void(0);" class="nk-menu-link nk-menu-toggle">
+                                    <span class="nk-menu-icon"><em class="icon ni ni-notes-alt"></em></span>
                                     <span class="nk-menu-text">OTHERS</span>
                                 </a>
+                                <ul class="nk-menu-sub">
+                                     <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">SAVED SEARCHES</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
+                                            <span class="nk-menu-text">ERROR LOGS</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-          
 
+                            <li class="nk-menu-heading">
+                                <h6 class="overline-title">Settings</h6>
+                            </li>
 
                             <li class="nk-menu-item">
                                 <a href="javascript:void(0);" @click="link('users')" class="nk-menu-link">
@@ -114,11 +247,11 @@
                                     <span class="nk-menu-text">COMPANIES</span>
                                 </a>
                             </li>
-                         
-                            
-                          
-
+                        
                         </ul><!-- .nk-menu -->
+
+
+                        
                     </div>
                     <div class="nk-sidebar-footer">
                         <ul class="nk-menu nk-menu-footer">
