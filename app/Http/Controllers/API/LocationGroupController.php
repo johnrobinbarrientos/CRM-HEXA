@@ -44,7 +44,7 @@ class LocationGroupController extends Controller
             return response()->json(['success' => 0, 'message' => 'Could not find Group location!'], 200);
         }
 
-        $locationGroup->location_group_name = request()->location_group_name;
+        $locationGroup->location_group_name = request()->temp;
         $locationGroup->save();
         
         return response()->json(['success' => 1, 'data' => $locationGroup, 'message' => 'Location Group Updated!'], 200); 

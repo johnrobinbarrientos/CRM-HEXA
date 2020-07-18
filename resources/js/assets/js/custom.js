@@ -1,12 +1,12 @@
 $(document).ready(function(){
-    $(document).on('click','.nk-menu-item.has-sub',function(){
+    $(document).on('click','.nk-menu-toggle',function(){
         var link = $(this)
-        if (!link.hasClass('active')) {
-            link.addClass('active')
-            link.find('.nk-menu-sub').css({ 'display' : 'block' });
+        if (!link.closest('.has-sub').hasClass('active')) {
+            link.closest('.has-sub').addClass('active')
+            link.closest('.has-sub').find('.nk-menu-sub').css({ 'display' : 'block' });
         } else {
-            link.removeClass('active')
-            link.find('.nk-menu-sub').css({ 'display' : 'none' });
+            link.closest('.has-sub').removeClass('active')
+            link.closest('.has-sub').find('.nk-menu-sub').css({ 'display' : 'none' });
         }
     });
 });
