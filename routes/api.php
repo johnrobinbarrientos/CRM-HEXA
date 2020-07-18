@@ -41,6 +41,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
     Route::get('/locations/groups','API\LocationGroupController@index');
     Route::post('/locations/groups','API\LocationGroupController@store');
+    Route::put('/locations/groups','API\LocationGroupController@update');
     // Route::delete('/locations/groups/{location}', 'API\LocationGroupController@delete');
     Route::put('/locations/groups','API\LocationGroupController@update');
 });

@@ -1,12 +1,12 @@
 $(document).ready(function(){
-    $(document).on('click','.nk-menu-item.has-sub > .nk-menu-link',function(){
+    $(document).on('click','.nk-menu-toggle',function(){
         var link = $(this)
-        if (!link.closest('.nk-menu-item').hasClass('active')) {
-            link.closest('.nk-menu-item').addClass('active')
-            link.closest('.nk-menu-item').find('.nk-menu-sub').css({ 'display' : 'block' });
+        if (!link.closest('.has-sub').hasClass('active')) {
+            link.closest('.has-sub').addClass('active')
+            link.closest('.has-sub').find('.nk-menu-sub').css({ 'display' : 'block' });
         } else {
-            link.closest('.nk-menu-item').removeClass('active')
-            link.closest('.nk-menu-item').find('.nk-menu-sub').css({ 'display' : 'none' });
+            link.closest('.has-sub').removeClass('active')
+            link.closest('.has-sub').find('.nk-menu-sub').css({ 'display' : 'none' });
         }
     });
 });
