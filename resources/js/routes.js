@@ -8,6 +8,7 @@ import Profile from './views/Profile'
 import Users from './views/Users'
 import Companies from './views/Companies'
 import Locations from './views/locations/Locations'
+import Supplier from './views/supplier/supplier-details'
 
 Vue.use(VueRouter)
 
@@ -84,6 +85,13 @@ export default new VueRouter({
           path: '/locations',
           name: 'locations',
           component: Locations,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/supplier',
+          name: 'supplier',
+          component: Supplier,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
