@@ -159,11 +159,16 @@
 
                                         <br/>
 
+                                         <div style="width:100%; margin-bottom:10px;">
+                                            <select class="select2">
+                                                <option value="0">SELECT A GROUP</option>
+                                                <option v-for="(group, index) in location_groups" :value="group.uuid">{{ group.location_group_name }}</option>
+                                            </select>
+                                        </div>
+
                                         <div class="row">
                                             <div class="col-md-12 col-12">
                                                 <div class="card card-bordered card-preview">
-                             
-
                                                     <table class="table table-tranx">
                                                         <thead>
                                                             <tr class="tb-tnx-head">
@@ -242,7 +247,8 @@ export default {
                 uuid: null, 
                 location_group_name: '',
                 form: 'hidden'
-            }
+            },
+            dropDownGroup: []
         }
     },
     methods: {
@@ -308,6 +314,7 @@ export default {
             var scope = this
             scope.GET('locations/groups').then(res => {
                 scope.location_groups = res.rows
+                $(".select2").select2();
             })
         },
         saveLocationGroup: function () {
