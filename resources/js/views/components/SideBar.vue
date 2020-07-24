@@ -32,227 +32,36 @@
                                 <ul class="nk-menu-sub">
                                     
                                     <li class="nk-menu-item">
-                                        <a href="javascript:void(0);" class="nk-menu-link nk-menu-toggle">
+                                        <a href="javascript:void(0);" @click="link('item-main')" class="nk-menu-link">
                                             <span class="nk-menu-text">Item</span>
                                         </a>
-                                        <ul class="nk-menu-sub">
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Item Details</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Item Group</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Asset Group</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Category 1</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Category 2</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Category 3</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Category 4</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Category 5</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Unit of Measure</span>
-                                                </a>
-                                            </li>
-                                        </ul>
                                     </li>
 
                                     <li class="nk-menu-item">
-                                        <a href="javascript:void(0);" class="nk-menu-link nk-menu-toggle">
+                                        <a href="javascript:void(0);" @click="link('supplier-main')" class="nk-menu-link">
                                             <span class="nk-menu-text">Supplier</span>
                                         </a>
-                                        <ul class="nk-menu-sub">
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" @click="link('supplier')" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Supplier Details</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Discount</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Supplier Group</span>
-                                                </a>
-                                            </li>
-                                        </ul>
                                     </li>
+
                                     <li class="nk-menu-item">
-                                        <a href="javascript:void(0);" class="nk-menu-link nk-menu-toggle">
+                                        <a href="javascript:void(0);" @click="link('customer-main')" class="nk-menu-link">
                                             <span class="nk-menu-text">Customer</span>
                                         </a>
-                                        <ul class="nk-menu-sub">
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Customer Details</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Discount</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Customer Group</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Chain</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Channel</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Customer Type</span>
-                                                </a>
-                                            </li>
-                                        </ul>
                                     </li>
                                     <li class="nk-menu-item">
-                                        <a href="javascript:void(0);" class="nk-menu-link nk-menu-toggle">
+                                        <a href="javascript:void(0);" @click="link('employee-main')" class="nk-menu-link">
                                             <span class="nk-menu-text">Employee</span>
                                         </a>
-                                        <ul class="nk-menu-sub">
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Employee Details</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Employment Type</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Witholding Tax Table</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">SSS Table</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">PHIC Table</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">HDMF Table</span>
-                                                </a>
-                                            </li>
-                                        </ul>
                                     </li>
                                     <li class="nk-menu-item">
-                                        <a href="javascript:void(0);" class="nk-menu-link nk-menu-toggle">
+                                        <a href="javascript:void(0);" class="nk-menu-link">
                                             <span class="nk-menu-text">Project</span>
                                         </a>
-                                        <ul class="nk-menu-sub">
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Project Details</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Scope of Work</span>
-                                                </a>
-                                            </li>
-                                        </ul>
                                     </li>
-                                    <!-- <li class="nk-menu-item">
-                                        <a href="javascript:void(0);" @click="link('locations')" class="nk-menu-link">
-                                            <span class="nk-menu-text">LOCATIONS</span>
-                                        </a>
-                                    </li> -->
                                     <li class="nk-menu-item">
-                                        <a href="javascript:void(0);" class="nk-menu-link nk-menu-toggle">
+                                        <a href="javascript:void(0);" @click="link('company-main')" class="nk-menu-link">
                                             <span class="nk-menu-text">Company</span>
                                         </a>
-                                        <ul class="nk-menu-sub">
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Company Details</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Branch</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Location</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Address</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Chart of Account</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Cost Centers</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Taxation Table</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Payment Terms</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="javascript:void(0);" class="nk-menu-link">
-                                                    <span class="nk-menu-text">System Users</span>
-                                                </a>
-                                            </li>
-                                        </ul>
                                     </li>
                                 </ul>
                             </li>
