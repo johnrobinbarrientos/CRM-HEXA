@@ -1,9 +1,7 @@
 <template>
     <div>
-        <div style="margin-bottom:40px;" class="nk-fmg-body-head d-none d-lg-flex">
-        </div>
-        
-        <div class="nk-content nk-content-fluid">          
+        <br/>
+        <div class="nk-content">          
             <div class="container-fluid">
                 <div class="nk-content-body">
 

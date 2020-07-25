@@ -28,6 +28,7 @@
                                         <tr class="tb-tnx-head">
                                             <th><span class="">#</span></th>
                                             <th><span class="">Item Asset Group</span></th>
+                                            <th><span class="">Actions</span></th>
                                         </tr>
                                     </thead>
                                     <tbody>
