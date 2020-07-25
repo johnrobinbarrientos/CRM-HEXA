@@ -8,8 +8,8 @@
             <div class="nk-fmg-actions">
                 <ul class="nk-block-tools g-3">
                     <li>
-                        <a href="javascript:void(0)" @click="OPEN_MODAL('#modalLocation');resetData()" class="btn btn-primary" data-toggle="modal">
-                            <em class="icon ni ni-plus"></em> <span>New Item Asset Group</span>
+                        <a href="javascript:void(0)" @click="OPEN_MODAL('#modalItemAssetGroup');resetData()" class="btn btn-primary" data-toggle="modal">
+                            <em class="icon ni ni-plus"></em> <span>New Asset Group</span>
                         </a>
                     </li>
                 </ul>
@@ -27,9 +27,21 @@
                                     <thead>
                                         <tr class="tb-tnx-head">
                                             <th><span class="">#</span></th>
-                                            <th><span class="">Asset Group</span></th>
+                                            <th><span class="">Item Asset Group</span></th>
                                         </tr>
                                     </thead>
+                                    <tbody>
+                                        <tr v-for="(asset, index) in assetGroups" :key="asset.uuid" class="tb-tnx-item">
+                                            <td><span class="">{{ (index + 1) }}</span></td>
+                                            <td><span class="">{{ asset.asset_group }}</span></td>
+                                            <td>
+                                                <span class="">
+                                                    <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemAssetGroup');setData(asset)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
+                                                    <a href="javascript:void(0)"  @click="remove(asset)" class="btn btn-sm btn-danger"><em class="icon ni ni-trash"></em></a>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -37,13 +49,13 @@
                     
 
 
-                    <!-- Modal Location Form -->
-                    <div class="modal fade" tabindex="-1" id="modalLocation">
+                    <!-- Modal Asset Group Form -->
+                    <div class="modal fade" tabindex="-1" id="modalItemAssetGroup">
                         <div class="modal-dialog modal-lg " role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Item Asset Group Details</h5>
-                                    <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalLocation');" class="close" data-dismiss="modal" aria-label="Close">
+                                    <h5 class="modal-title">Asset Group Details</h5>
+                                    <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalItemAssetGroup');" class="close" data-dismiss="modal" aria-label="Close">
                                         <em class="icon ni ni-cross"></em>
                                     </a>
                                 </div>
@@ -53,9 +65,9 @@
                                         <div class="row">
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label" for="business-name">Item Asset Group</label>
+                                                    <label class="form-label" for="item-asset-group">Asset Group</label>
                                                     <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_code" type="text" class="form-control" id="location-code" required>
+                                                        <input v-model="formdata.asset_group" type="text" class="form-control" id="asset-group" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -84,120 +96,124 @@
 import Swal from 'sweetalert2'
 
 export default {
-    name: 'home',
+    name: 'asset-group',
     props: ['properties'],
     data: function () {
         return {
-            locations: [],
-            location_groups: [],
+            assetGroups: [],
             formdata: { 
                 uuid: null, 
-                location_code: '', 
-                location_name: '', 
-                location_shortname: ''
-            },
-            formLocationGroup: {
-                uuid: null, 
-                location_group_name: '',
-                form: 'hidden'
+                asset_group: ''
             }
         }
     },
     methods: {
-        getLocations: function () {
+        getAllAssetGroup: function () {
            var scope = this
-            scope.GET('locations').then(res => {
-                scope.locations = res.rows
+            scope.GET('items/item-asset-group').then(res => {
+                scope.assetGroups = res.rows
             })
         },
         resetData: function () {
             var scope = this
             scope.formdata.uuid = null
-            scope.formdata.location_code = ''
-            scope.formdata.location_name = ''
-            scope.formdata.location_shortname = ''
+            scope.formdata.asset_group = ''
         },
         setData: function (data) {
             var scope = this
             scope.formdata.uuid = data.uuid
-            scope.formdata.location_code = data.location_code
-            scope.formdata.location_name = data.location_name
-            scope.formdata.location_shortname = data.location_shortname
+            scope.formdata.asset_group = data.asset_group
         },
         save: function () {
             var scope = this
-            scope.POST('locations', scope.formdata).then(res => {
+            scope.POST('items/item-asset-group/save', scope.formdata).then(res => {
                 if (res.success) {
-                    scope.locations.push(res.data)
-                    scope.CLOSE_MODAL('#modalLocation')
+                    window.swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Asset Group Successfuly Saved',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        scope.assetGroups.push(res.data)
+                        scope.CLOSE_MODAL('#modalItemAssetGroup')
+                    })
                 } else {
                     alert('ERROR:' + res.code)
                 }
                 
+            })
+        },
+        remove: function (data) {
+            var scope = this
+
+            window.swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.POST('items/item-asset-group/delete', data).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Asset Group Deleted',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                            scope.getAllAssetGroup()
+                            scope.CLOSE_MODAL('#modalItemAssetGroup')
+                            })
+                        }
+                        else{
+                            alert('ERROR:' + res.code)
+                        }
+                    })            
+                }                              
             })
         },
         update: function () {
             var scope = this
-            scope.PUT('locations', scope.formdata).then(res => {
-                if (res.success) {
-                    scope.getLocations()
-                    scope.CLOSE_MODAL('#modalLocation')
-                } else {
-                    alert('ERROR:' + res.code)
-                }
-                
-            })
-        },
-        editGroupToggle(group) {
-            var scope = this
-            scope.$set(group,'edit',!group.edit)
-            scope.$set(group,'temp',group.location_group_name)
-        },
-        formLocationGroupToggle(name) {
-            var scope = this
-
-            if (scope.formLocationGroup.form === name) {
-                scope.formLocationGroup.form = 'hidden'
-                return
-            }
-            scope.formLocationGroup.form = name
-        },
-        getLocationGroups: function () {
-            var scope = this
-            scope.GET('locations/groups').then(res => {
-                scope.location_groups = res.rows
-            })
-        },
-        saveLocationGroup: function () {
-            var scope = this
-            scope.POST('locations/groups', scope.formLocationGroup).then(res => {
-                if (res.success) {
-                    scope.location_groups.push(res.data)
-                    scope.formLocationGroup.location_group_name = ''
-                    // scope.CLOSE_MODAL('#modalGroup')
-                } else {
-                    alert('ERROR:' + res.code)
-                }
-                
-            })
-        },
-        updateLocationGroup: function (data) {
-            var scope = this
-            scope.PUT('locations/groups', data).then(res => {
-                if (res.success) {
-                    scope.$set(data,'edit',false)
-                    scope.$set(data,'location_group_name',res.data.location_group_name)
-                } else {
-                    alert('ERROR:' + res.code)
-                }
-                
+            window.swal.fire({
+                title: 'Update Record?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Update it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.PUT('items/item-asset-group/update', scope.formdata).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Asset Group Updated',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.getAllAssetGroup()
+                                scope.CLOSE_MODAL('#modalItemAssetGroup')
+                            })
+                        }
+                        else{
+                            alert('ERROR:' + res.code)
+                        }
+                    })            
+                }                              
             })
         },
     },
     mounted() {
         var scope = this
-        scope.getLocations()
-        scope.getLocationGroups()
+        scope.getAllAssetGroup()
          $(".form-select").select2();
     },
 }

@@ -31,6 +31,17 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
 
     Route::group(['prefix' => 'items'], function(){
+
+        Route::get('/item-group', 'API\ItemGroupController@getAllItemGroup');
+        Route::post('/item-group/save', 'API\ItemGroupController@save');
+        Route::put('/item-group/update', 'API\ItemGroupController@update');
+        Route::post('/item-group/delete', 'API\ItemGroupController@delete');
+
+        Route::get('/item-asset-group', 'API\ItemAssetGroupController@getAllItemAssetGroup');
+        Route::post('/item-asset-group/save', 'API\ItemAssetGroupController@save');
+        Route::put('/item-asset-group/update', 'API\ItemAssetGroupController@update');
+        Route::post('/item-asset-group/delete', 'API\ItemAssetGroupController@delete');
+        
         Route::get('/category1', 'API\ItemCategory1Controller@getAllCategory');
         Route::post('/category1/save', 'API\ItemCategory1Controller@save');
         Route::put('/category1/update', 'API\ItemCategory1Controller@update');
