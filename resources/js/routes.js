@@ -1,13 +1,20 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Home from './views/Home'
 import Auth from './views/Auth'
 import Register from './views/Register'
 import Profile from './views/Profile'
 import Users from './views/Users'
-import Companies from './views/Companies'
-import Locations from './views/locations/Locations'
+
+import ItemMain from './views/item/item-main'
+
+import SupplierMain from './views/supplier/supplier-main'
+
+import CustomerMain from './views/customer/customer-main'
+
+import EmployeeMain from './views/employee/employee-main'
+
+import CompanyMain from './views/company/company-main'
 
 Vue.use(VueRouter)
 
@@ -40,13 +47,6 @@ export default new VueRouter({
     mode: 'history',
     routes: [
         {
-            path: '/',
-            name: 'home',
-            component: Home,
-            beforeEnter: checkAuth,
-            meta: { protected: true }
-        },
-        {
             path: '/auth',
             name: 'auth',
             component: Auth,
@@ -74,16 +74,37 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
-          path: '/companies',
-          name: 'companies',
-          component: Companies,
+          path: '/item-main',
+          name: 'item-main',
+          component: ItemMain,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
         {
-          path: '/locations',
-          name: 'locations',
-          component: Locations,
+          path: '/supplier-main',
+          name: 'supplier-main',
+          component: SupplierMain,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/customer-main',
+          name: 'customer-main',
+          component: CustomerMain,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/employee-main',
+          name: 'employee-main',
+          component: EmployeeMain,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/company-main',
+          name: 'company-main',
+          component: CompanyMain,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },

@@ -24,6 +24,7 @@
         "datatables.net-bs4": "^1.10.21",
         "datatables.net-responsive": "^2.2.5",
         "moment": "^2.27.0",
+        "select2": "^4.0.13",
         "sweetalert2": "^9.17.0",
         "vue": "^2.6.11",
         "vue-axios": "^2.1.5",

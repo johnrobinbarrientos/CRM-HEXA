@@ -5,6 +5,7 @@ import VueAxios from 'vue-axios'
 import Vuex from 'vuex'
 import Notifications from 'vue-notification'
 
+
 // CSS 
 import './assets/vendors/lineawesome/css/line-awesome.min.css'
 import './assets/themes/css/dashlite.css?ver=1.6.0'
@@ -28,12 +29,15 @@ import App from './views/App'
 window.TOKEN_KEY = 'KX-HEXA'
 window.API_URL = '//'+ window.location.host +'/api'
 
+
 Vue.use(Vuex) 
 Vue.use(VueAxios, axios)
 Vue.use(Notifications)
 Vue.mixin(customs)
 Vue.mixin(mixins)
 Vue.mixin(require('./assets'));
+
+window.swal = require('sweetalert2')
 
 const store = new Vuex.Store({
     modules : stores
