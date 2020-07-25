@@ -28,5 +28,9 @@ class CompanyChartOfAccountsAccountGroup extends Model
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
     }
+
+    public function ReportGroup(){
+        return $this->belongsTo('App\Models\CompanyChartOfAccountsReportGroup','coa_report_uuid','uuid');
+    }
    
 }

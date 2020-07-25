@@ -51,7 +51,7 @@
                             <!-- <employment-type></employment-type>     -->
                         </div> 
                         <div class="tab-pane" id="chart-of-accounts">        
-                            <!-- <company-coa></company-coa>     -->
+                            <company-coa></company-coa>    
                         </div> 
                         <div class="tab-pane" id="account-group">        
                             <company-coa-account-group></company-coa-account-group>    
