@@ -137,14 +137,13 @@ export default {
                 $(".form-select-report").select2({data: scope.options_report_group});
                 
                 scope.selected_report_group = scope.options_report_group[0].id
-
-                console.log(scope.selected_report_group)
             })
 
         },
         getAllAccountGroups: function () {
            var scope = this
             scope.GET('company/coa-account-group').then(res => {
+                console.log(res.rows)
                 scope.accountGroups = res.rows
             })
         },

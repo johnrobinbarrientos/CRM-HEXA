@@ -42,7 +42,7 @@
 
                     <div class="tab-content">    
                         <div class="tab-pane active" id="company-details">        
-                            <company-details></company-details>   
+                            <!-- <company-details></company-details>    -->
                         </div>    
                         <div class="tab-pane" id="company-branch">        
                             <!-- <employment-type></employment-type>     -->
@@ -51,7 +51,7 @@
                             <!-- <employment-type></employment-type>     -->
                         </div> 
                         <div class="tab-pane" id="chart-of-accounts">        
-                            <company-coa></company-coa>    
+                            <!-- <company-coa></company-coa>     -->
                         </div> 
                         <div class="tab-pane" id="account-group">        
                             <company-coa-account-group></company-coa-account-group>    
@@ -60,13 +60,13 @@
                             <company-coa-report-group></company-coa-report-group>    
                         </div> 
                         <div class="tab-pane" id="cost-center">        
-                            <company-cost-center></company-cost-center>    
+                            <!-- <company-cost-center></company-cost-center>     -->
                         </div> 
                         <div class="tab-pane" id="payment-terms">        
-                            <company-payment-terms></company-payment-terms>    
+                            <!-- <company-payment-terms></company-payment-terms>     -->
                         </div> 
                         <div class="tab-pane" id="taxation-table">        
-                            <company-taxation></company-taxation>    
+                            <!-- <company-taxation></company-taxation>     -->
                         </div> 
                         <div class="tab-pane" id="system-users">
                             <!-- <employment-type></employment-type>     -->          
