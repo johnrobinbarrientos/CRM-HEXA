@@ -27,15 +27,16 @@
                                     <thead>
                                         <tr class="tb-tnx-head">
                                             <th><span class="">#</span></th>
-                                            <th><span class="">Report Group</span></th>
                                             <th><span class="">Account Group</span></th>
+                                            <th><span class="">Report Group</span></th> 
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(account, index) in accountGroups" :key="account.uuid" class="tb-tnx-item">
                                             <td><span class="">{{ (index + 1) }}</span></td>
-                                            <td><span class="">{{ account.coa_report_uuid }}</span></td>
                                             <td><span class="">{{ account.account_group }}</span></td>
+                                            <td><span class="">{{ account.report_group.coa_report_name }}</span></td>
+
                                             <td>
                                                 <span class="">
                                                     <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalAccountGroup');setData(account)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
@@ -143,7 +144,6 @@ export default {
         getAllAccountGroups: function () {
            var scope = this
             scope.GET('company/coa-account-group').then(res => {
-                console.log(res.rows)
                 scope.accountGroups = res.rows
             })
         },
@@ -160,7 +160,7 @@ export default {
             scope.formdata.coa_report_uuid = data.coa_report_uuid
             scope.formdata.account_group = data.account_group
 
-            console.log(data.coa_report_uuid)
+            // console.log(data.coa_report_uuid)
             $('.form-select-report').val(data.coa_report_uuid);
             $('.form-select-report').trigger('change');
         },
@@ -263,7 +263,6 @@ export default {
          
         $('.form-select-report').on("change", function(e) { 
             scope.selected_report_group = $('.form-select-report').val();
-            //console.log(scope.selected_report_group)
         })
     },
 }

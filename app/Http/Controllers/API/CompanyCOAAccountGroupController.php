@@ -11,7 +11,7 @@ class CompanyCOAAccountGroupController extends Controller
 {
     public function getAllAccountGroup()
     {
-        $accountGroup = CompanyChartOfAccountsAccountGroup::whereNull('deleted_at')->get();
+        $accountGroup = CompanyChartOfAccountsAccountGroup::whereNull('deleted_at')->with('ReportGroup')->get();
         return response()->json(['success' => 1, 'rows' => $accountGroup], 200);
     }
 

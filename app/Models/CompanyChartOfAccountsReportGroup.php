@@ -28,5 +28,9 @@ class CompanyChartOfAccountsReportGroup extends Model
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
     }
+
+    public function AccountGroup(){
+        return $this->hasMany('App\Models\CompanyChartOfAccountsReportGroup');
+    }
    
 }

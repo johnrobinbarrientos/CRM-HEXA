@@ -109,6 +109,11 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::put('/cost-center/update', 'API\CompanyCostCenterController@update');
         Route::post('/cost-center/delete', 'API\CompanyCostCenterController@delete');
 
+        Route::get('/chart-of-accounts', 'API\CompanyChartOfAccountController@getAllChartOfAccounts');
+        Route::post('/chart-of-accounts/save', 'API\CompanyChartOfAccountController@save');
+        Route::put('/chart-of-accounts/update', 'API\CompanyChartOfAccountController@update');
+        Route::post('/chart-of-accounts/delete', 'API\CompanyChartOfAccountController@delete');
+
         Route::get('/coa-report-group', 'API\CompanyCOAReportGroupController@getAllReportGroup');
         Route::post('/coa-report-group/save', 'API\CompanyCOAReportGroupController@save');
         Route::put('/coa-report-group/update', 'API\CompanyCOAReportGroupController@update');
