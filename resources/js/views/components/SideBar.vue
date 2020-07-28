@@ -63,6 +63,11 @@
                                             <span class="nk-menu-text">Company</span>
                                         </a>
                                     </li>
+                                    <li class="nk-menu-item">
+                                        <a href="javascript:void(0);" @click="link('address-list')" class="nk-menu-link">
+                                            <span class="nk-menu-text">Address List</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
 

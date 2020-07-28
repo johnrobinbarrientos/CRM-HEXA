@@ -14,7 +14,7 @@ class SupplierList extends Model
     protected $fillable = [
         'uuid', 'company_id', 'business_name','business_shortname','check_payee','tax_id_no',
         'supplier_group_uuid','lead_time','is_transporter','vat_uuid','ewt_uuid','payment_term_uuid',
-        'coa_payable_account_uuid','email','contact_no','shared_address_uuid',
+        'coa_payable_account_uuid','email','contact_no','global_address_uuid',
     ];
 
     protected $primaryKey = 'uuid';

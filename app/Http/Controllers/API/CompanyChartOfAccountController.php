@@ -5,14 +5,31 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
 
 use App\Models\CompanyChartOfAccounts; 
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
+use DB; 
 
 class CompanyChartOfAccountController extends Controller
 {
     public function getAllChartOfAccounts()
     {
-        $chartOfAccounts = CompanyChartOfAccounts::whereNull('deleted_at')->get();
+        $chartOfAccounts = CompanyChartOfAccounts::whereNull('deleted_at')->with('AccountGroup')->get();
         return response()->json(['success' => 1, 'rows' => $chartOfAccounts], 200);
+    }
+
+    public function getAllPayables()
+    {
+        // $chartOfAccountsPayables = CompanyChartOfAccounts::with('AccountGroup')->whereHas('AccountGroup', function (Builder $query) {
+        //         $query->where('account_group', '=', 'Payable');
+        //     })->get();
+
+        $chartOfAccountsPayables = DB::table('company_chart_of_accounts')
+        ->select('company_chart_of_accounts.uuid','account_name')
+        ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
+        ->where('account_group','Payable')
+        ->get();
+
+
+        return response()->json(['success' => 1, 'rows' => $chartOfAccountsPayables], 200);
     }
 
     public function save()

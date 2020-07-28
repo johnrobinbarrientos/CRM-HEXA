@@ -12,7 +12,7 @@ class CompanyBranchLocation extends Model
     protected $table = 'company_branch_location';
 
     protected $fillable = [
-        'uuid', 'location_name', 'location_shortname',
+        'uuid', 'company_id', 'branch_uuid', 'location_name', 'location_shortname',
     ];
 
     protected $primaryKey = 'uuid';
@@ -27,6 +27,10 @@ class CompanyBranchLocation extends Model
         static::creating(function (Model $model) {
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
+    }
+
+    public function branch(){
+        return $this->belongsTo('App\Models\CompanyBranch','branch_uuid','uuid');
     }
    
 }

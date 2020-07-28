@@ -28,5 +28,9 @@ class CompanyChartOfAccounts extends Model
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
     }
+
+    public function AccountGroup(){
+        return $this->belongsTo('App\Models\CompanyChartOfAccountsAccountGroup','coa_group_uuid','uuid');
+    }
    
 }

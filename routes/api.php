@@ -94,6 +94,17 @@ Route::group(['middleware' => ['auth:api'] ], function(){
     });
 
     Route::group(['prefix' => 'company'], function(){
+
+        Route::get('/branch', 'API\CompanyBranchController@getAllBranch');
+        Route::post('/branch/save', 'API\CompanyBranchController@save');
+        Route::put('/branch/update', 'API\CompanyBranchController@update');
+        Route::post('/branch/delete', 'API\CompanyBranchController@delete');
+
+        Route::get('/branch-location', 'API\CompanyBranchLocationController@getAllBranchLocation');
+        Route::post('/branch-location/save', 'API\CompanyBranchLocationController@save');
+        Route::put('/branch-location/update', 'API\CompanyBranchLocationController@update');
+        Route::post('/branch-location/delete', 'API\CompanyBranchLocationController@delete');
+
         Route::get('/payment-term', 'API\CompanyPaymentTermController@getAllPaymentTerm');
         Route::post('/payment-term/save', 'API\CompanyPaymentTermController@save');
         Route::put('/payment-term/update', 'API\CompanyPaymentTermController@update');
@@ -113,6 +124,9 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/chart-of-accounts/save', 'API\CompanyChartOfAccountController@save');
         Route::put('/chart-of-accounts/update', 'API\CompanyChartOfAccountController@update');
         Route::post('/chart-of-accounts/delete', 'API\CompanyChartOfAccountController@delete');
+        Route::get('/chart-of-accounts-payables', 'API\CompanyChartOfAccountController@getAllPayables');
+
+
 
         Route::get('/coa-report-group', 'API\CompanyCOAReportGroupController@getAllReportGroup');
         Route::post('/coa-report-group/save', 'API\CompanyCOAReportGroupController@save');
@@ -123,6 +137,14 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/coa-account-group/save', 'API\CompanyCOAAccountGroupController@save');
         Route::put('/coa-account-group/update', 'API\CompanyCOAAccountGroupController@update');
         Route::post('/coa-account-group/delete', 'API\CompanyCOAAccountGroupController@delete');
+
+    });
+
+    Route::group(['prefix' => 'globals'], function(){
+        Route::get('/address-list', 'API\GlobalAddressListController@getAllAddressList');
+        Route::post('/address-list/save', 'API\GlobalAddressListController@save');
+        Route::put('/address-list/update', 'API\GlobalAddressListController@update');
+        Route::post('/address-list/delete', 'API\GlobalAddressListController@delete');
 
     });
 

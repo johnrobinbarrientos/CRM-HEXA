@@ -6,15 +6,17 @@ import Register from './views/Register'
 import Profile from './views/Profile'
 import Users from './views/Users'
 
-import ItemMain from './views/item/item-main'
+import ItemMain from './views/client/item/item-main'
 
-import SupplierMain from './views/supplier/supplier-main'
+import SupplierMain from './views/client/supplier/supplier-main'
 
-import CustomerMain from './views/customer/customer-main'
+import CustomerMain from './views/client/customer/customer-main'
 
-import EmployeeMain from './views/employee/employee-main'
+import EmployeeMain from './views/client/employee/employee-main'
 
-import CompanyMain from './views/company/company-main'
+import CompanyMain from './views/client/company/company-main'
+
+import AddressList from './views/admin/global/address-list'
 
 Vue.use(VueRouter)
 
@@ -70,6 +72,13 @@ export default new VueRouter({
           path: '/users',
           name: 'users',
           component: Users,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/address-list',
+          name: 'address-list',
+          component: AddressList,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },

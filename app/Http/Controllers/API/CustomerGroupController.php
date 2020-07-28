@@ -23,7 +23,8 @@ class CustomerGroupController extends Controller
         $customerGroup->group_name = request()->group_name;
         $customerGroup->save();
 
-        $CustomerGroup = CustomerGroup::find($customerGroup->uuid);
+        $customerGroup = CustomerGroup::find($customerGroup->uuid);
+
         return response()->json(['success' => 1, 'data' => $customerGroup, 'message' => 'Customer Group Added!'], 200); 
     }
 
