@@ -494,6 +494,8 @@ export default {
             scope.formdata.global_address_uuid = ''
             scope.formdata.Address1 = ''
 
+            scope.supplierDiscounts = []
+
         },
         setData: function (data) {
             var scope = this
@@ -508,6 +510,7 @@ export default {
             scope.formdata.contact_no = data.contact_no
             scope.formdata.Address1 = data.Address1
 
+            scope.supplierDiscounts = []
             scope.supplierDiscounts = data.discounts
 
             $('.form-select-supplier-group').val(data.supplier_group_uuid);
