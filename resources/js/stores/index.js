@@ -1,5 +1,7 @@
 import auth from './auth'
+import menu from './menu'
 
 export default  {
-    auth: auth
+    auth: auth,
+    menu: menu
 }

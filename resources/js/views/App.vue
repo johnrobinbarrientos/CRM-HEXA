@@ -53,8 +53,9 @@
         }
     },
     mounted() {
-        if (this.$route.name !== 'auth') {
+        if (this.$route.meta.protected) {
             this.$store.dispatch('checkAuthenticated',{ test: 'test' })
+            this.$store.dispatch('getMenus',{})
         }
     }
 }

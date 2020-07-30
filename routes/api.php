@@ -145,7 +145,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/address-list/save', 'API\GlobalAddressListController@save');
         Route::put('/address-list/update', 'API\GlobalAddressListController@update');
         Route::post('/address-list/delete', 'API\GlobalAddressListController@delete');
-
     });
+
+    Route::get('/menus', 'API\MenuController@index');
 
 });
