@@ -81,6 +81,11 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::put('/supplier-group/update', 'API\SupplierGroupController@update');
         Route::post('/supplier-group/delete', 'API\SupplierGroupController@delete');
 
+        Route::get('/supplier-discount-regular', 'API\SupplierDiscountRegularController@getAllSupplierGroup');
+        Route::post('/supplier-discount-regular/save', 'API\SupplierDiscountRegularController@save');
+        Route::put('/supplier-discount-regular/update', 'API\SupplierDiscountRegularController@update');
+        Route::post('/supplier-discount-regular/delete', 'API\SupplierDiscountRegularController@delete');
+
     });
 
     Route::group(['prefix' => 'customers'], function(){

@@ -5,13 +5,14 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
 
 use App\Models\SupplierList; 
+use App\Models\SupplierDiscountRegular; 
 use Illuminate\Support\Facades\Auth; 
 
 class SupplierListController extends Controller
 {
     public function getAllSupplierList()
     {
-        $list = SupplierList::whereNull('deleted_at')->with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable')->get();
+        $list = SupplierList::whereNull('deleted_at')->with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable')->with('discounts')->get();
         return response()->json(['success' => 1, 'rows' => $list], 200);
     }
 
@@ -35,6 +36,17 @@ class SupplierListController extends Controller
         $supplier->global_address_uuid = request()->global_address_uuid;
         $supplier->Address1 = request()->Address1;
         $supplier->save();
+
+        $discounts = request()->discounts;
+
+        foreach ($discounts as $d)
+        {
+            $discount = new SupplierDiscountRegular;
+            $discount->supplier_uuid = $supplier->uuid;
+            $discount->discount_name = $d['discount_name'];
+            $discount->discount_rate = $d['discount_rate'];
+            $discount->save();
+        }
 
         $supplier = SupplierList::find($supplier->uuid);
         return response()->json(['success' => 1, 'data' => $supplier, 'message' => 'Supplier Added!'], 200); 

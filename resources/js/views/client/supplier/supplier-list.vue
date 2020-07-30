@@ -214,20 +214,67 @@
                         <div class="tab-pane" id="discounts">
                             
 
-                            <div class="col-md-3 col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="business-name">Discount Name</label>
-                                    <div class="form-control-wrap">
-                                        <input v-model="supplierDiscounts.discount_name" type="text" class="form-control" id="discount-name" required>
+                            <div class="row">
+                              
+
+                                <div class="col-md-6 col-12">
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="business-name">Discount Name</label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="supplierDiscountFormData.discount_name" type="text" class="form-control" id="discount-name" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="business-name">Discount Rate</label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="supplierDiscountFormData.discount_rate" type="text" class="form-control" id="discount-rate" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-12">
+                                            <div style="padding:10px 0px; text-align:right;">
+                                                <button v-if="supplierDiscountFormData.uuid !== null" @click="updateSupplierDiscount()" type="button" class="btn btn-lg btn-primary">Update</button>
+                                                <button v-if="supplierDiscountFormData.uuid === null && supplierDiscountFormData.index !== null "  @click="saveTempSupplierDiscount()" type="button" class="btn btn-lg btn-primary">Update</button>
+                                                <button v-if="supplierDiscountFormData.uuid === null && supplierDiscountFormData.index === null " @click="saveTempSupplierDiscount()" type="button" class="btn btn-lg btn-primary">Add</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="col-md-3 col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="business-name">Discount Rate</label>
-                                    <div class="form-control-wrap">
-                                        <input v-model="supplierDiscounts.discount_rate" type="text" class="form-control" id="discount-rate" required>
+                                <div class="col-md-6 col-12">
+                                    <div class="card card-bordered card-preview">
+                                        <table class="table table-items">
+                                            <thead>
+                                                <tr class="tb-tnx-head">
+                                                    <th><span class="">Discount Name</span></th>
+                                                    <th><span class="">Discount Rate</span></th>
+                                                    <th><span>Actions</span></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(tempSupplierDiscount, index) in tempSupplierDiscounts" :key="index">
+                                                    <td><span class="">{{ tempSupplierDiscount.discount_name }}</span></td>
+                                                    <td><span class="">{{ tempSupplierDiscount.discount_rate }}</span></td>
+                                                    <td>
+                                                        <a href="javascript:void(0);" @click="editTempSupplierDiscount(index)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
+                                                        <a href="javascript:void(0);" @click="removeTempSupplierDiscount(index)" class="btn btn-sm btn-danger"><em class="icon ni ni-cross"></em></a>
+                                                    </td>
+                                                </tr>
+                                                <tr v-for="(supplierDiscount, index) in supplierDiscounts" :key="index">
+                                                    <td><span class="">{{ supplierDiscount.discount_name }}</span></td>
+                                                    <td><span class="">{{ supplierDiscount.discount_rate }}</span></td>
+                                                    <td>
+                                                        <a href="javascript:void(0);" @click="editSupplierDiscount(supplierDiscount, index)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
+                                                        <a href="javascript:void(0);" @click="removeSupplierDiscount(supplierDiscount, index)" class="btn btn-sm btn-danger"><em class="icon ni ni-cross"></em></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -295,6 +342,9 @@ export default {
 
             supplierList: [],
 
+            supplierDiscounts: [],
+            tempSupplierDiscounts: [],
+
             formdata: { 
                 uuid: null, 
                 business_name: '', 
@@ -313,7 +363,8 @@ export default {
                 Address1: ''
             },
 
-            supplierDiscounts:{
+            supplierDiscountFormData:{
+                index: null, 
                 uuid: null,
                 supplier_uuid: null,
                 discount_name: '',
@@ -337,12 +388,10 @@ export default {
            var scope = this
             scope.GET('company/chart-of-accounts-payables').then(res => {
                 res.rows.forEach(function (data) {
-
                     scope.options_payables.push({
                         id: data.uuid,
                         text: data.account_name
                     })
-                
                 })
 
                 $(".form-select-payables").select2({data: scope.options_payables});
@@ -459,6 +508,8 @@ export default {
             scope.formdata.contact_no = data.contact_no
             scope.formdata.Address1 = data.Address1
 
+            scope.supplierDiscounts = data.discounts
+
             $('.form-select-supplier-group').val(data.supplier_group_uuid);
             $('.form-select-supplier-group').trigger('change');
 
@@ -481,6 +532,7 @@ export default {
             scope.formdata.vat_uuid = scope.selected_tax
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
             scope.formdata.global_address_uuid = scope.selected_global_address
+            scope.formdata.discounts = scope.tempSupplierDiscounts
 
             scope.POST('suppliers/supplier-list/save', scope.formdata).then(res => {
                 if (res.success) {
@@ -493,6 +545,8 @@ export default {
                     }).then(() => {
                         scope.getSupplier()
                         scope.toggleForm()
+                        scope.tempSupplierDiscounts = []
+                        scope.formdata.discounts = []
                     })
                 } else {
                     alert('ERROR:' + res.code)
@@ -525,7 +579,143 @@ export default {
                 }
                 
             })
-        }
+        },
+        saveTempSupplierDiscount() {
+            var scope = this
+            
+            // this means the supplier was previously added, no need to put discounts on temporary array
+            if (scope.formdata.uuid !== null) {
+
+                if (scope.supplierDiscountFormData.uuid === null) {
+                    scope.saveSupplierDiscount();
+                } else {
+                    scope.updateSupplierDiscount();
+                } 
+
+                return;
+            }
+
+            if (scope.supplierDiscountFormData.uuid == null && scope.supplierDiscountFormData.index !== null) {
+                var index = scope.supplierDiscountFormData.index
+                scope.tempSupplierDiscounts[index].discount_name = scope.supplierDiscountFormData.discount_name
+                scope.tempSupplierDiscounts[index].discount_rate = scope.supplierDiscountFormData.discount_rate 
+            } else {
+                scope.tempSupplierDiscounts.push({
+                    discount_name: scope.supplierDiscountFormData.discount_name, 
+                    discount_rate: scope.supplierDiscountFormData.discount_rate 
+                })
+            }
+            
+            // reset form
+            scope.supplierDiscountFormData.index = null
+            scope.supplierDiscountFormData.uuid  = null
+            scope.supplierDiscountFormData.discount_name = ''
+            scope.supplierDiscountFormData.discount_rate = ''
+        },
+        editTempSupplierDiscount(index) {
+            var scope = this
+            
+            scope.supplierDiscountFormData.index = index
+            scope.supplierDiscountFormData.uuid = null
+            scope.supplierDiscountFormData.discount_name = scope.tempSupplierDiscounts[index].discount_name
+            scope.supplierDiscountFormData.discount_rate =  scope.tempSupplierDiscounts[index].discount_rate
+        },
+        editSupplierDiscount(data, index) {
+            var scope = this
+            
+            scope.supplierDiscountFormData.index = index
+            scope.supplierDiscountFormData.uuid = data.uuid
+            scope.supplierDiscountFormData.discount_name = data.discount_name
+            scope.supplierDiscountFormData.discount_rate =  data.discount_rate
+        },
+        removeTempSupplierDiscount(index) {
+            var scope = this
+            scope.tempSupplierDiscounts.splice(index, 1)
+        },
+        updateSupplierDiscount: function () {
+            var scope = this
+
+            scope.PUT('suppliers/supplier-discount-regular/update', scope.supplierDiscountFormData).then(res => {
+                if (res.success) {
+                    window.swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Discount Successfuly Updated',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        var index = scope.supplierDiscountFormData.index
+                        scope.supplierDiscounts[index].discount_name = res.data.discount_name
+                        scope.supplierDiscounts[index].discount_rate = res.data.discount_rate
+
+                        // reset form
+                        scope.supplierDiscountFormData.index = null
+                        scope.supplierDiscountFormData.uuid  = null
+                        scope.supplierDiscountFormData.discount_name = ''
+                        scope.supplierDiscountFormData.discount_rate = ''
+                    })
+                } else {
+                    alert('ERROR:' + res.code)
+                } 
+            })
+        },
+        saveSupplierDiscount: function () {
+            var scope = this
+
+            // append the supplier UUID to the request payload
+            scope.supplierDiscountFormData.supplier_uuid = scope.formdata.uuid
+            scope.POST('suppliers/supplier-discount-regular/save', scope.supplierDiscountFormData).then(res => {
+                if (res.success) {
+                    window.swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Discount Successfuly Added',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                         scope.supplierDiscounts.push(res.data)
+
+                        // reset form
+                        scope.supplierDiscountFormData.index = null
+                        scope.supplierDiscountFormData.uuid  = null
+                        scope.supplierDiscountFormData.discount_name = ''
+                        scope.supplierDiscountFormData.discount_rate = ''
+                    })
+                } else {
+                    alert('ERROR:' + res.code)
+                } 
+            })
+        },
+        removeSupplierDiscount(data,index) {
+            var scope = this
+            window.swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                if (result.value) {
+                    scope.POST('suppliers/supplier-discount-regular/delete', data).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Discount Successfuly Deleted',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.supplierDiscounts.splice(index, 1)
+                            })
+                        } else {
+                            alert('ERROR:' + res.code)
+                        } 
+                    })
+                }
+            })
+        },
     },
     mounted() {
         var scope = this
