@@ -178,7 +178,6 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        console.log(res.data)
                         // scope.accountGroups.push(res.data)
                         scope.getAllAccountGroups()
                         scope.CLOSE_MODAL('#modalAccountGroup')

@@ -70,6 +70,12 @@ Route::group(['middleware' => ['auth:api'] ], function(){
     });
 
     Route::group(['prefix' => 'suppliers'], function(){
+
+        Route::get('/supplier-list', 'API\SupplierListController@getAllSupplierList');
+        Route::post('/supplier-list/save', 'API\SupplierListController@save');
+        Route::put('/supplier-list/update', 'API\SupplierListController@update');
+        Route::post('/supplier-list/delete', 'API\SupplierListController@delete');
+
         Route::get('/supplier-group', 'API\SupplierGroupController@getAllSupplierGroup');
         Route::post('/supplier-group/save', 'API\SupplierGroupController@save');
         Route::put('/supplier-group/update', 'API\SupplierGroupController@update');

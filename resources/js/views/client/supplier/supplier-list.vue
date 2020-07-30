@@ -4,7 +4,7 @@
         <div class="nk-fmg-body-head d-none d-lg-flex">
             <div class="nk-fmg-search">
                 <em class="icon ni ni-search"></em>
-                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Item">
+                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Supplier">
             </div>
             <div class="nk-fmg-actions">
                 <ul class="nk-block-tools g-3">
@@ -39,32 +39,34 @@
                                     <th><span class="">Lead Time (Days)</span></th>
                                     <th><span class="">Group Name</span></th>
                                     <th><span class="">Contact No</span></th>
-                                    <th><span class="">Applied VAT?</span></th>
                                     <th><span class="">Payment Term</span></th>
+                                    <th><span class="">Tax Identification No</span></th>
+                                    <th><span class="">Account Payable</span></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- <tr v-for="(item, index) in Groups" :key="item.uuid" class="tb-tnx-item"> -->
-                                <tr>
+                                <tr v-for="(supplier, index) in supplierList" :key="supplier.uuid" class="tb-tnx-supplier">
                                     <!-- <th class="table-fixed-column" style="border-top:1px solid #dbdfea; left:0px; width:150px; background:#fff;"><span class="">Actions</span></th>
                                     <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:150px; width:100px; background:#fff;"><span class="">#</span></td>
                                     <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:250px; width:200px; background:#fff; border-right:1px solid #dbdfea;"><span class="">Shortname Tide</span></td> -->
                                     <td>
                                     <span class="">
-                                        <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemGroup');setData(item)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
-                                        <a href="javascript:void(0)"  @click="remove(item)" class="btn btn-sm btn-danger"><em class="icon ni ni-trash"></em></a>
+                                        <a href="javascript:void(0)"  @click="setData(supplier); toggleForm() " class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
+                                        <a href="javascript:void(0)"  @click="remove(supplier)" class="btn btn-sm btn-danger"><em class="icon ni ni-trash"></em></a>
                                     </span>
                                     </td>
                                     <td><span class="">{{ (index + 1) }}</span></td>
-                                    <th><span class="">Business Name</span></th>
-                                    <th><span class="">Business Shortname</span></th>
-                                    <th><span class="">Check Payee</span></th>
-                                    <th><span class="">Is Transporter?</span></th>
-                                    <th><span class="">Lead Time (Days)</span></th>
-                                    <th><span class="">Group Name</span></th>
-                                    <th><span class="">Contact No</span></th>
-                                    <th><span class="">Applied VAT?</span></th>
-                                    <th><span class="">Payment Term</span></th>
+                                    <td><span class="">{{supplier.business_name}}</span></td>
+                                    <td><span class="">{{supplier.business_shortname}}</span></td>
+                                    <td><span class="">{{supplier.check_payee}}</span></td>
+                                    <td v-if="supplier.is_transporter === 1">Yes</td>
+                                    <td v-else>No</td>
+                                    <td><span class="">{{supplier.lead_time}}</span></td>
+                                    <td><span class="">{{supplier.supplier_group.group_name}}</span></td>
+                                    <td><span class="">{{supplier.contact_no}}</span></td>
+                                    <td><span class="">{{supplier.payment_term.term}}</span></td>
+                                    <td><span class="">{{supplier.tax_identification_no}}</span></td>
+                                    <td><span class="">{{supplier.account_payable.account_name}}</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -82,25 +84,25 @@
                         <div class="form-group">
                             <label class="form-label" for="business-name">Business Name</label>
                             <div class="form-control-wrap">
-                                <input v-model="formdata.location_code" type="text" class="form-control" id="location-code" required>
+                                <input v-model="formdata.business_name" type="text" class="form-control" id="business-name" required>
                             </div>
                         </div>
                     </div>
                     
                     <div class="col-md-3 col-12">
                         <div class="form-group">
-                            <label class="form-label" for="business-name">Business Shortname</label>
+                            <label class="form-label" for="business-shortname">Business Shortname</label>
                             <div class="form-control-wrap">
-                                <input v-model="formdata.location_code" type="text" class="form-control" id="location-code" required>
+                                <input v-model="formdata.business_shortname" type="text" class="form-control" id="business-shortname" required>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-3 col-12">
                         <div class="form-group">
-                            <label class="form-label" for="business-name">Check Payee</label>
+                            <label class="form-label" for="check-payee">Check Payee</label>
                             <div class="form-control-wrap">
-                                <input v-model="formdata.location_code" type="text" class="form-control" id="location-code" required>
+                                <input v-model="formdata.check_payee" type="text" class="form-control" id="check-payee" required>
                             </div>
                         </div>
                     </div>
@@ -108,41 +110,49 @@
                         <div class="form-group">
                             <div class="form-control-wrap">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" v-model="formdata.is_group" true-value="1" false-value="0" class="custom-control-input" id="is-group">
-                                    <label class="custom-control-label" for="is-group">Is Transporter?</label>
+                                    <input type="checkbox" v-model="formdata.is_transporter" true-value="1" false-value="0" class="custom-control-input" id="is-transporter">
+                                    <label class="custom-control-label" for="is-transporter">Is Transporter?</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3 col-12">
                         <div class="form-group">
-                            <label class="form-label" for="business-name">Lead Time (Days)</label>
+                            <label class="form-label" for="lead-time">Lead Time (Days)</label>
                             <div class="form-control-wrap">
-                                <input v-model="formdata.location_code" type="text" class="form-control" id="location-code" required>
+                                <input v-model="formdata.lead_time" type="text" class="form-control" id="lead-time" required>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3 col-12">
                         <div class="form-group">
-                            <label class="form-label" for="business-name">Group Name</label>
+                            <label class="form-label" for="group-name">Group Name</label>
                             <select class="form-select-supplier-group" v-model="selected_supplier_group" :options="options_supplier_group" name="supplier-group">
-                            <!-- <option></option> -->
                             </select>
                         </div>
                     </div>
                     <div class="col-md-3 col-12">
                         <div class="form-group">
-                            <label class="form-label" for="business-name">Email</label>
+                            <label class="form-label" for="email">Email</label>
                             <div class="form-control-wrap">
-                                <input v-model="formdata.location_code" type="text" class="form-control" id="location-code" required>
+                                <input v-model="formdata.email" type="text" class="form-control" id="email" required>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3 col-12">
                         <div class="form-group">
-                            <label class="form-label" for="business-name">Contact No</label>
+                            <label class="form-label" for="contact-no">Contact No</label>
                             <div class="form-control-wrap">
-                                <input v-model="formdata.location_code" type="text" class="form-control" id="location-code" required>
+                                <input v-model="formdata.contact_no" type="text" class="form-control" id="contact-no" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <label class="form-label" for="tax-identification-no">Tax Identification No</label>
+                            <div class="form-control-wrap">
+                                <input v-model="formdata.tax_identification_no" type="text" class="form-control" id="tax-identification-no" required>
                             </div>
                         </div>
                     </div>
@@ -170,7 +180,6 @@
                                 <div class="form-group">
                                     <label class="form-label" for="business-name">Default Account Payable</label>
                                     <select class="form-select-payables" v-model="selected_payables" :options="options_payables" name="payables">
-                                    <!-- <option></option> -->
                                     </select>
                                 </div>
                             </div>
@@ -179,7 +188,6 @@
                                 <div class="form-group">
                                     <label class="form-label" for="business-name">Payment Term</label>
                                     <select class="form-select-payment-term" v-model="selected_payment_term" :options="options_payment_term" name="payment-term">
-                                    <!-- <option></option> -->
                                     </select>
                                 </div>
                             </div>
@@ -197,7 +205,6 @@
                                 <div class="form-group">
                                     <label class="form-label" for="business-name">Tax</label>
                                     <select class="form-select-tax" v-model="selected_tax" :options="options_tax" name="tax">
-                                    <!-- <option></option> -->
                                     </select>
                                 </div>
                             </div>
@@ -206,20 +213,12 @@
 
                         <div class="tab-pane" id="discounts">
                             
-                            <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="business-name">Type</label>
-                                <div class="form-control-wrap">
-                                    <input v-model="formdata.location_code" type="text" class="form-control" id="location-code" required>
-                                </div>
-                            </div>
-                            </div>
 
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
                                     <label class="form-label" for="business-name">Discount Name</label>
                                     <div class="form-control-wrap">
-                                        <input v-model="formdata.location_code" type="text" class="form-control" id="location-code" required>
+                                        <input v-model="supplierDiscounts.discount_name" type="text" class="form-control" id="discount-name" required>
                                     </div>
                                 </div>
                             </div>
@@ -228,7 +227,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="business-name">Discount Rate</label>
                                     <div class="form-control-wrap">
-                                        <input v-model="formdata.location_code" type="text" class="form-control" id="location-code" required>
+                                        <input v-model="supplierDiscounts.discount_rate" type="text" class="form-control" id="discount-rate" required>
                                     </div>
                                 </div>
                             </div>
@@ -240,8 +239,7 @@
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
                                     <label class="form-label" for="business-name">Address</label>
-                                    <select class="form-select-address-list" v-model="selected_address_list" :options="options_address_list" name="address-list">
-                                    <!-- <option></option> -->
+                                    <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list">
                                     </select>
                                 </div>
                             </div>
@@ -250,7 +248,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="business-name">Address1</label>
                                     <div class="form-control-wrap">
-                                        <input v-model="formdata.location_code" type="text" class="form-control" id="location-code" required>
+                                        <input v-model="formdata.Address1" type="text" class="form-control" id="address1" required>
                                     </div>
                                 </div>
                             </div>
@@ -260,8 +258,8 @@
                 
             </form>
             <div style="margin-top:30px; text-align:right;">
-                <button v-if="formdata.uuid === null" @click="toggleForm()()" type="submit" class="btn btn-lg btn-primary">Save</button>
-                <button v-else @click="toggleForm()()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
+                <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
+                <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
             </div>
         </div>        
              
@@ -289,20 +287,38 @@ export default {
             selected_tax: null,
             options_tax: [],
 
-            selected_address_list: null,
-            options_address_list: [],
+            selected_global_address: null,
+            options_global_address: [],
 
             show_form: false,
 
+
+            supplierList: [],
+
             formdata: { 
                 uuid: null, 
-                location_code: '', 
-                location_name: '', 
-                location_shortname: '',
-                is_purchase_item: false,
-                is_sales_item: false,
-                is_expiry: false,
+                business_name: '', 
+                business_shortname: '', 
+                check_payee: '',
+                tax_identification_no: '',
+                supplier_group_uuid: '',
+                lead_time: '',
+                is_transporter: '',
+                vat_uuid: '',
+                payment_term_uuid: '',
+                coa_payable_account_uuid: '',
+                email: '',
+                contact_no: '',
+                global_address_uuid: '',
+                Address1: ''
             },
+
+            supplierDiscounts:{
+                uuid: null,
+                supplier_uuid: null,
+                discount_name: '',
+                discount_rate: ''
+            }
 
         }
     },
@@ -313,14 +329,13 @@ export default {
         },
         getSupplier: function () {
            var scope = this
-            scope.GET('locations').then(res => {
-                scope.locations = res.rows
+            scope.GET('suppliers/supplier-list').then(res => {
+                scope.supplierList = res.rows
             })
         },
         getAllPayables: function () {
            var scope = this
             scope.GET('company/chart-of-accounts-payables').then(res => {
-                console.log(res.rows)
                 res.rows.forEach(function (data) {
 
                     scope.options_payables.push({
@@ -399,39 +414,86 @@ export default {
                 
                 res.rows.forEach(function (data) {
 
-                    scope.options_address_list.push({
+                    scope.options_global_address.push({
                         id: data.uuid,
                         text: data.barangay + ' ' + data.city_municipality + ' ' + data.province + ' ' + data.region
                     })
                 
                 })
 
-                $(".form-select-address-list").select2({data: scope.options_address_list});
+                $(".form-select-address-list").select2({data: scope.options_global_address});
                 
-                scope.selected_address_list = scope.options_address_list[0].id
+                scope.selected_global_address = scope.options_global_address[0].id
             })
 
         },
         resetData: function () {
             var scope = this
             scope.formdata.uuid = null
-            scope.formdata.location_code = ''
-            scope.formdata.location_name = ''
-            scope.formdata.location_shortname = ''
+            scope.formdata.business_name = ''
+            scope.formdata.business_shortname = ''
+            scope.formdata.check_payee = ''
+            scope.formdata.tax_identification_no = ''
+            scope.formdata.supplier_group_uuid = ''
+            scope.formdata.lead_time = ''
+            scope.formdata.is_transporter = ''
+            scope.formdata.vat_uuid = ''
+            scope.formdata.payment_term_uuid = ''
+            scope.formdata.coa_payable_account_uuid = ''
+            scope.formdata.email = ''
+            scope.formdata.contact_no = ''
+            scope.formdata.global_address_uuid = ''
+            scope.formdata.Address1 = ''
+
         },
         setData: function (data) {
             var scope = this
             scope.formdata.uuid = data.uuid
-            scope.formdata.location_code = data.location_code
-            scope.formdata.location_name = data.location_name
-            scope.formdata.location_shortname = data.location_shortname
+            scope.formdata.business_name = data.business_name
+            scope.formdata.business_shortname = data.business_shortname
+            scope.formdata.check_payee = data.check_payee
+            scope.formdata.tax_identification_no = data.tax_identification_no
+            scope.formdata.lead_time = data.lead_time
+            scope.formdata.is_transporter = data.is_transporter
+            scope.formdata.email = data.email
+            scope.formdata.contact_no = data.contact_no
+            scope.formdata.Address1 = data.Address1
+
+            $('.form-select-supplier-group').val(data.supplier_group_uuid);
+            $('.form-select-supplier-group').trigger('change');
+
+            $('.form-select-tax').val(data.vat_uuid);
+            $('.form-select-tax').trigger('change');
+
+            $('.form-select-payment-term').val(data.payment_term_uuid);
+            $('.form-select-payment-term').trigger('change');
+
+            $('.form-select-payables').val(data.coa_payable_account_uuid);
+            $('.form-select-payables').trigger('change');
+
+            $('.form-select-address-list').val(data.global_address_uuid);
+            $('.form-select-address-list').trigger('change');
         },
         save: function () {
             var scope = this
-            scope.POST('locations', scope.formdata).then(res => {
+            scope.formdata.supplier_group_uuid = scope.selected_supplier_group
+            scope.formdata.payment_term_uuid = scope.selected_payment_term
+            scope.formdata.vat_uuid = scope.selected_tax
+            scope.formdata.coa_payable_account_uuid = scope.selected_payables
+            scope.formdata.global_address_uuid = scope.selected_global_address
+
+            scope.POST('suppliers/supplier-list/save', scope.formdata).then(res => {
                 if (res.success) {
-                    scope.locations.push(res.data)
-                    scope.CLOSE_MODAL('#modalLocation')
+                    window.swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Supplier Successfuly Saved',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        scope.getSupplier()
+                        scope.toggleForm()
+                    })
                 } else {
                     alert('ERROR:' + res.code)
                 }
@@ -440,10 +502,24 @@ export default {
         },
         update: function () {
             var scope = this
-            scope.PUT('locations', scope.formdata).then(res => {
+            scope.formdata.supplier_group_uuid = scope.selected_supplier_group
+            scope.formdata.payment_term_uuid = scope.selected_payment_term
+            scope.formdata.vat_uuid = scope.selected_tax
+            scope.formdata.coa_payable_account_uuid = scope.selected_payables
+            scope.formdata.global_address_uuid = scope.selected_global_address
+            
+            scope.PUT('suppliers/supplier-list/update', scope.formdata).then(res => {
                 if (res.success) {
-                    scope.getLocations()
-                    scope.CLOSE_MODAL('#modalLocation')
+                    window.swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Supplier Successfuly Updated',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        scope.getSupplier()
+                        scope.toggleForm()
+                    })
                 } else {
                     alert('ERROR:' + res.code)
                 }
@@ -453,13 +529,15 @@ export default {
     },
     mounted() {
         var scope = this
+        scope.getSupplier()
+        
         scope.getAllPayables()
         scope.getAllSupplierGroup()
         scope.getAllPaymentTerm()
         scope.getAllTax()
         scope.getAllAddressList()
-        
 
+        
         $('.form-select-payables').on("change", function(e) { 
             scope.selected_payables = $('.form-select-payables').val();
         })
@@ -477,8 +555,9 @@ export default {
         })
 
         $('.form-select-address-list').on("change", function(e) { 
-            scope.selected_address_list = $('.form-select-address-list').val();
+            scope.selected_global_address = $('.form-select-address-list').val();
         })
+        
     },
 }
 </script>
