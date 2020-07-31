@@ -18,40 +18,34 @@ class CompanyChartOfAccountController extends Controller
 
     public function getAllPayables()
     {
-        // $chartOfAccountsPayables = CompanyChartOfAccounts::with('AccountGroup')->whereHas('AccountGroup', function (Builder $query) {
-        //         $query->where('account_group', '=', 'Payable');
-        //     })->get();
 
-        $chartOfAccountsPayables = CompanyChartOfAccount::select('company_chart_of_accounts.uuid','account_name')
+        $payables = CompanyChartOfAccounts::select('company_chart_of_accounts.uuid','account_name')
         ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
         ->where('account_group','Payable')
         ->get();
 
-
-        return response()->json(['success' => 1, 'rows' => $chartOfAccountsPayables], 200);
+        return response()->json(['success' => 1, 'rows' => $payables], 200);
     }
 
     public function getAllIncomeAccount()
     {
 
-        $chartOfAccountsIncome = DB::table('company_chart_of_accounts')
-        ->select('company_chart_of_accounts.uuid','account_name')
+        $income = CompanyChartOfAccounts::select('company_chart_of_accounts.uuid','account_name')
         ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
         ->where('account_group','income')
         ->get();
 
-        return response()->json(['success' => 1, 'rows' => $chartOfAccountsIncome], 200);
+        return response()->json(['success' => 1, 'rows' => $income], 200);
     }
 
     public function getAllCostOfSales()
     {
-        $CostofSales = DB::table('company_chart_of_accounts')
-        ->select('company_chart_of_accounts.uuid','account_name')
+        $cos = CompanyChartOfAccounts::select('company_chart_of_accounts.uuid','account_name')
         ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
         ->where('account_group','Cost of sales')
         ->get();
 
-        return response()->json(['success' => 1, 'rows' => $CostofSales], 200);
+        return response()->json(['success' => 1, 'rows' => $cos], 200);
     }
 
     public function save()

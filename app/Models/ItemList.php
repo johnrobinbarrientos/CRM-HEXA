@@ -77,5 +77,9 @@ class ItemList extends Model
     public function AssetGroup(){
         return $this->belongsTo('App\Models\ItemAssetGroup','item_asset_group_uuid','uuid');
     }
+
+    public function UOMs(){
+        return $this->hasMany('App\Models\ItemUom','item_uuid','uuid');
+    }
    
 }

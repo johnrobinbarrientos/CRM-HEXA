@@ -4,7 +4,8 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller; 
 
-use App\Models\ItemList; 
+use App\Models\ItemList;
+use App\Models\ItemUom; 
 use Illuminate\Support\Facades\Auth; 
 
 class ItemListController extends Controller
@@ -17,7 +18,7 @@ class ItemListController extends Controller
         ->with('Tax')->with('Category1')
         ->with('Category2')->with('Category3')
         ->with('Category4')->with('Category5')
-        ->with('AssetGroup')
+        ->with('AssetGroup')->with('UOMs')
         ->get();
         return response()->json(['success' => 1, 'rows' => $list], 200);
     }
@@ -56,6 +57,20 @@ class ItemListController extends Controller
         $item->category4_uuid = request()->category4_uuid;
         $item->category5_uuid = request()->category5_uuid;
         $item->save();
+
+        $uoms = request()->uoms;
+
+        foreach ($uoms as $d)
+        {
+            $uom = new ItemUom;
+            $auth = \Auth::user();
+            $uom->company_id = $auth->company_id;
+            $uom->item_uuid = $item->uuid;
+            $uom->uom = $d['uom'];
+            $uom->conversion = $d['conversion'];
+            $uom->save();
+        }
+
 
         $item = ItemList::find($item->uuid);
         return response()->json(['success' => 1, 'data' => $item, 'message' => 'Item Added!'], 200); 

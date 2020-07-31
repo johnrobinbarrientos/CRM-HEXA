@@ -72,6 +72,11 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::put('/category5/update', 'API\ItemCategory5Controller@update');
         Route::post('/category5/delete', 'API\ItemCategory5Controller@delete');
 
+        // Route::get('/uom', 'API\ItemUomController@getAllSupplierGroup');
+        Route::post('/uom/save', 'API\ItemUomController@save');
+        Route::put('/uom/update', 'API\ItemUomController@update');
+        Route::post('/uom/delete', 'API\ItemUomController@delete');
+
     });
 
     Route::group(['prefix' => 'suppliers'], function(){
@@ -86,7 +91,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::put('/supplier-group/update', 'API\SupplierGroupController@update');
         Route::post('/supplier-group/delete', 'API\SupplierGroupController@delete');
 
-        Route::get('/supplier-discount-regular', 'API\SupplierDiscountRegularController@getAllSupplierGroup');
+        // Route::get('/supplier-discount-regular', 'API\SupplierDiscountRegularController@getAllSupplierGroup');
         Route::post('/supplier-discount-regular/save', 'API\SupplierDiscountRegularController@save');
         Route::put('/supplier-discount-regular/update', 'API\SupplierDiscountRegularController@update');
         Route::post('/supplier-discount-regular/delete', 'API\SupplierDiscountRegularController@delete');
