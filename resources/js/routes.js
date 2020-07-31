@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Auth from './views/Auth'
 import Register from './views/Register'
 import Profile from './views/Profile'
+import Dashboard from './views/Dashboard'
 import Users from './views/Users'
 
 import ItemMain from './views/client/item/item-main'
@@ -48,6 +49,13 @@ function checkGuess (to, from, next) {
 export default new VueRouter({
     mode: 'history',
     routes: [
+        {
+            path: '/',
+            name: 'dashboard',
+            component: Dashboard,
+            beforeEnter: checkAuth,
+            meta: { protected: true }
+        },
         {
             path: '/auth',
             name: 'auth',

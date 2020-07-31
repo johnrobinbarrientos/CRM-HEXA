@@ -22,8 +22,7 @@ class CompanyChartOfAccountController extends Controller
         //         $query->where('account_group', '=', 'Payable');
         //     })->get();
 
-        $chartOfAccountsPayables = DB::table('company_chart_of_accounts')
-        ->select('company_chart_of_accounts.uuid','account_name')
+        $chartOfAccountsPayables = CompanyChartOfAccount::select('company_chart_of_accounts.uuid','account_name')
         ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
         ->where('account_group','Payable')
         ->get();
