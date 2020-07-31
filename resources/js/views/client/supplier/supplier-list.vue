@@ -723,7 +723,7 @@ export default {
     mounted() {
         var scope = this
         scope.getSupplier()
-        
+
         scope.getAllPayables()
         scope.getAllSupplierGroup()
         scope.getAllPaymentTerm()

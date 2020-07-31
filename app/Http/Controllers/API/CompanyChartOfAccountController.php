@@ -31,6 +31,29 @@ class CompanyChartOfAccountController extends Controller
         return response()->json(['success' => 1, 'rows' => $chartOfAccountsPayables], 200);
     }
 
+    public function getAllIncomeAccount()
+    {
+
+        $chartOfAccountsIncome = DB::table('company_chart_of_accounts')
+        ->select('company_chart_of_accounts.uuid','account_name')
+        ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
+        ->where('account_group','income')
+        ->get();
+
+        return response()->json(['success' => 1, 'rows' => $chartOfAccountsIncome], 200);
+    }
+
+    public function getAllCostOfSales()
+    {
+        $CostofSales = DB::table('company_chart_of_accounts')
+        ->select('company_chart_of_accounts.uuid','account_name')
+        ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
+        ->where('account_group','Cost of sales')
+        ->get();
+
+        return response()->json(['success' => 1, 'rows' => $CostofSales], 200);
+    }
+
     public function save()
     {
         $chartOfAccounts = new CompanyChartOfAccounts();

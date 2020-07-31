@@ -32,6 +32,11 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
     Route::group(['prefix' => 'items'], function(){
 
+        Route::get('/item-list', 'API\ItemListController@getAllItem');
+        Route::post('/item-list/save', 'API\ItemListController@save');
+        Route::put('/item-list/update', 'API\ItemListController@update');
+        Route::post('/item-list/delete', 'API\ItemListController@delete');
+
         Route::get('/item-group', 'API\ItemGroupController@getAllItemGroup');
         Route::post('/item-group/save', 'API\ItemGroupController@save');
         Route::put('/item-group/update', 'API\ItemGroupController@update');
@@ -135,7 +140,10 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/chart-of-accounts/save', 'API\CompanyChartOfAccountController@save');
         Route::put('/chart-of-accounts/update', 'API\CompanyChartOfAccountController@update');
         Route::post('/chart-of-accounts/delete', 'API\CompanyChartOfAccountController@delete');
+
         Route::get('/chart-of-accounts-payables', 'API\CompanyChartOfAccountController@getAllPayables');
+        Route::get('/chart-of-accounts-income', 'API\CompanyChartOfAccountController@getAllIncomeAccount');
+        Route::get('/chart-of-accounts-cost-of-sales', 'API\CompanyChartOfAccountController@getAllCostOfSales');
 
 
 
