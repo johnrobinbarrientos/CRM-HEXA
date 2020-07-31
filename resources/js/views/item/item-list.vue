@@ -19,17 +19,17 @@
         </div>
         
         <br/>
-        <div v-show="!show_form">          
+        <div v-show="!show_form" class="container-fluid">          
             <div class="row">
                 <div class="col-12">
                     <div class="card card-bordered card-preview">
-                        <div style="overflow-x:auto; padding-left:450px;"> 
-                        <table class="table table-tranx table-items">
+                        <div class="jd-pl-table-wrapper"> 
+                        <table class="table table-tranx table-items jd-pl-table">
                             <thead>
                                 <tr class="tb-tnx-head">
-                                    <th class="table-fixed-column" style="left:0px; width:150px; background: #f5f6fa;"><span class="">Actions</span></th>
-                                    <th class="table-fixed-column" style="left:150px; width:100px; background: #f5f6fa;"><span class="">#</span></th>
-                                    <th class="table-fixed-column" style="left:250px; width:200px; background: #f5f6fa; border-right:1px solid #dbdfea;"><span class="">Shortname</span></th>
+                                    <th class="table-fixed-column th-actions"><span class="">Actions</span></th>
+                                    <th class="table-fixed-column id"><span class="">#</span></th>
+                                    <th class="table-fixed-column shortname"><span class="">Shortname</span></th>
                                     <th><span class="">Description</span></th>
                                     <th><span class="">Item Group</span></th>
                                     <th><span class="">Item Code</span></th>
@@ -60,9 +60,10 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <th class="table-fixed-column" style="border-top:1px solid #dbdfea; left:0px; width:150px; background:#fff;"><span class="">Actions</span></th>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:150px; width:100px; background:#fff;"><span class="">#</span></td>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:250px; width:200px; background:#fff; border-right:1px solid #dbdfea;"><span class="">Shortname Tide</span></td>
+                                    <th class="table-fixed-column actions"><span class="">Actions</span></th>
+                                    <td class="table-fixed-column id"><span class="">#</span></td>
+                                    <td class="table-fixed-column shortname"><span class="">Shortname Tide</span></td>
+                                    
                                     <td><span class="">Description</span></td>
                                     <td><span class="">Item Group</span></td>
                                     <td><span class="">Item Code</span></td>
@@ -91,9 +92,10 @@
                                     <td><span class="">Assigned To</span></td>
                                 </tr>
                                 <tr>
-                                    <th class="table-fixed-column" style="border-top:1px solid #dbdfea; left:0px; width:150px; background:#fff;"><span class="">Actions</span></th>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:150px; width:100px; background:#fff;"><span class="">#</span></td>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:250px; width:200px; background:#fff; border-right:1px solid #dbdfea;"><span class="">Shortname Tide</span></td>
+                                    <th class="table-fixed-column actions"><span class="">Actions</span></th>
+                                    <td class="table-fixed-column id"><span class="">#</span></td>
+                                    <td class="table-fixed-column shortname"><span class="">Shortname Tide</span></td>
+
                                     <td><span class="">Description</span></td>
                                     <td><span class="">Item Group</span></td>
                                     <td><span class="">Item Code</span></td>
@@ -122,9 +124,10 @@
                                     <td><span class="">Assigned To</span></td>
                                 </tr>
                                 <tr>
-                                    <th class="table-fixed-column" style="border-top:1px solid #dbdfea; left:0px; width:150px; background:#fff;"><span class="">Actions</span></th>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:150px; width:100px; background:#fff;"><span class="">#</span></td>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:250px; width:200px; background:#fff; border-right:1px solid #dbdfea;"><span class="">Shortname Tide</span></td>
+                                    <th class="table-fixed-column actions"><span class="">Actions</span></th>
+                                    <td class="table-fixed-column id"><span class="">#</span></td>
+                                    <td class="table-fixed-column shortname"><span class="">Shortname Tide</span></td>
+            
                                     <td><span class="">Description</span></td>
                                     <td><span class="">Item Group</span></td>
                                     <td><span class="">Item Code</span></td>
@@ -153,9 +156,10 @@
                                     <td><span class="">Assigned To</span></td>
                                 </tr>
                                 <tr>
-                                    <th class="table-fixed-column" style="border-top:1px solid #dbdfea; left:0px; width:150px; background:#fff;"><span class="">Actions</span></th>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:150px; width:100px; background:#fff;"><span class="">#</span></td>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:250px; width:200px; background:#fff; border-right:1px solid #dbdfea;"><span class="">Shortname Tide</span></td>
+                                    <th class="table-fixed-column actions"><span class="">Actions</span></th>
+                                    <td class="table-fixed-column id"><span class="">#</span></td>
+                                    <td class="table-fixed-column shortname"><span class="">Shortname Tide</span></td>
+
                                     <td><span class="">Description</span></td>
                                     <td><span class="">Item Group</span></td>
                                     <td><span class="">Item Code</span></td>
@@ -184,9 +188,10 @@
                                     <td><span class="">Assigned To</span></td>
                                 </tr>
                                 <tr>
-                                    <th class="table-fixed-column" style="border-top:1px solid #dbdfea; left:0px; width:150px; background:#fff;"><span class="">Actions</span></th>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:150px; width:100px; background:#fff;"><span class="">#</span></td>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:250px; width:200px; background:#fff; border-right:1px solid #dbdfea;"><span class="">Shortname Tide</span></td>
+                                    <th class="table-fixed-column actions"><span class="">Actions</span></th>
+                                    <td class="table-fixed-column id"><span class="">#</span></td>
+                                    <td class="table-fixed-column shortname"><span class="">Shortname Tide</span></td>
+
                                     <td><span class="">Description</span></td>
                                     <td><span class="">Item Group</span></td>
                                     <td><span class="">Item Code</span></td>
@@ -215,9 +220,10 @@
                                     <td><span class="">Assigned To</span></td>
                                 </tr>
                                 <tr>
-                                    <th class="table-fixed-column" style="border-top:1px solid #dbdfea; left:0px; width:150px; background:#fff;"><span class="">Actions</span></th>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:150px; width:100px; background:#fff;"><span class="">#</span></td>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:250px; width:200px; background:#fff; border-right:1px solid #dbdfea;"><span class="">Shortname Tide</span></td>
+                                    <th class="table-fixed-column actions"><span class="">Actions</span></th>
+                                    <td class="table-fixed-column id"><span class="">#</span></td>
+                                    <td class="table-fixed-column shortname"><span class="">Shortname Tide</span></td>
+
                                     <td><span class="">Description</span></td>
                                     <td><span class="">Item Group</span></td>
                                     <td><span class="">Item Code</span></td>
@@ -526,8 +532,9 @@
                 
             </form>
             <div style="margin-top:30px; text-align:right;">
+                <button @click="toggleForm()" class="btn btn-lg btn-danger">Cancel</button>
                 <button v-if="formdata.uuid === null" @click="toggleForm()()" type="submit" class="btn btn-lg btn-primary">Save</button>
-                <button v-else @click="toggleForm()()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
+                <button v-else @click="toggleForm()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
             </div>
         </div>
         

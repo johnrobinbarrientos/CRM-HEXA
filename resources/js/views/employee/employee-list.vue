@@ -21,38 +21,40 @@
                 <div class="nk-content-body">
 
                     <div class="row">
-                        <div class="col-md-8 col-12">
+                        <div class="col-12">
                             <div class="card card-bordered card-preview">
-                                <table class="table table-tranx">
-                                    <thead>
-                                        <tr class="tb-tnx-head">
-                                            <th><span class="">#</span></th>
-                                            <th><span class="">Employee ID</span></th>
-                                            <th><span class="">First Name</span></th>
-                                            <th><span class="">Middle Name</span></th>
-                                            <th><span class="">Last Name</span></th>
-                                            <th><span class="">Ext Name</span></th>
-                                            <th><span class="">Location</span></th>
-                                            <th><span class="">Cost Center</span></th>
-                                            <th><span class="">Employment Type</span></th>
-                                            <th><span class="">Is Custodian</span></th>
-                                            <th><span class="">Is Driver</span></th>
-                                            <th><span class="">WT Name</span></th>
-                                            <th><span class="">Date Hired</span></th>
-                                            <th><span class="">Date Regularized</span></th>
-                                            <th><span class="">Date Terminated</span></th>
-                                            <th><span class="">Emergency Contract</span></th>
-                                            <th><span class="">Contact Relation</span></th>
-                                            <th><span class="">Email</span></th>
-                                            <th><span class="">Contact Number</span></th>
-                                            <th><span class="">Address</span></th>
-                                            <th><span class="">Is Active?</span></th>
-                                            <th><span class="">Is System User?</span></th>
-                                            <th><span class="">Daily Wage</span></th>
-                                            <th><span class="">Is Minimum Wage?</span></th>
-                                        </tr>
-                                    </thead>
-                                </table>
+                                <div class="overflow-auto">
+                                    <table class="table table-tranx">
+                                        <thead>
+                                            <tr class="tb-tnx-head">
+                                                <th><span class="">#</span></th>
+                                                <th><span class="">Employee ID</span></th>
+                                                <th><span class="">First Name</span></th>
+                                                <th><span class="">Middle Name</span></th>
+                                                <th><span class="">Last Name</span></th>
+                                                <th><span class="">Ext Name</span></th>
+                                                <th><span class="">Location</span></th>
+                                                <th><span class="">Cost Center</span></th>
+                                                <th><span class="">Employment Type</span></th>
+                                                <th><span class="">Is Custodian</span></th>
+                                                <th><span class="">Is Driver</span></th>
+                                                <th><span class="">WT Name</span></th>
+                                                <th><span class="">Date Hired</span></th>
+                                                <th><span class="">Date Regularized</span></th>
+                                                <th><span class="">Date Terminated</span></th>
+                                                <th><span class="">Emergency Contract</span></th>
+                                                <th><span class="">Contact Relation</span></th>
+                                                <th><span class="">Email</span></th>
+                                                <th><span class="">Contact Number</span></th>
+                                                <th><span class="">Address</span></th>
+                                                <th><span class="">Is Active?</span></th>
+                                                <th><span class="">Is System User?</span></th>
+                                                <th><span class="">Daily Wage</span></th>
+                                                <th><span class="">Is Minimum Wage?</span></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

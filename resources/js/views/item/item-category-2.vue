@@ -21,13 +21,14 @@
                 <div class="nk-content-body">
 
                     <div class="row">
-                        <div class="col-md-8 col-12">
+                        <div class="col-md-12 col-12">
                             <div class="card card-bordered card-preview">
-                                <table class="table table-tranx">
+                                <table class="table table-tranx jd-sm-table">
                                     <thead>
                                         <tr class="tb-tnx-head">
                                             <th><span class="">#</span></th>
                                             <th><span class="">Item Category 2</span></th>
+                                            <th><span class="">Actions</span></th>
                                         </tr>
                                     </thead>
                                     <tbody>

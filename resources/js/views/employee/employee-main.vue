@@ -1,7 +1,6 @@
 <template>
     <div>
-        <div style="margin-bottom:40px;" class="nk-fmg-body-head d-none d-lg-flex">
-        </div>
+        <div style="margin-top: 60px;"></div>
         
         <div class="nk-content nk-content-fluid">          
             <div class="container-fluid">

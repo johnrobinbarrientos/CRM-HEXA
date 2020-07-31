@@ -21,29 +21,50 @@
                 <div class="nk-content-body">
 
                     <div class="row">
-                        <div class="col-md-8 col-12">
+                        <div class="col-12">
                             <div class="card card-bordered card-preview">
-                                <table class="table table-tranx">
-                                    <thead>
-                                        <tr class="tb-tnx-head">
-                                            <th><span class="">#</span></th>
-                                            <th><span class="">Business Name</span></th>
-                                            <th><span class="">Shortname</span></th>
-                                            <th><span class="">Check Payee</span></th>
-                                            <th><span class="">Tax ID No</span></th>
-                                            <th><span class="">Group</span></th>
-                                            <th><span class="">Lead Time</span></th>
-                                            <th><span class="">Is Transporter</span></th>
-                                            <th><span class="">Vat</span></th>
-                                            <th><span class="">Ewt</span></th>
-                                            <th><span class="">Term</span></th>
-                                            <th><span class="">Default Account Payable</span></th>
-                                            <th><span class="">Email</span></th>
-                                            <th><span class="">Contact Number</span></th>
-                                            <th><span class="">Address</span></th>
-                                        </tr>
-                                    </thead>
-                                </table>
+                                <div class="overflow-auto">
+                                    <table class="table table-tranx">
+                                        <thead>
+                                            <tr class="tb-tnx-head">
+                                                <th><span class="">#</span></th>
+                                                <th><span class="">Business Name</span></th>
+                                                <th><span class="">Shortname</span></th>
+                                                <th><span class="">Check Payee</span></th>
+                                                <th><span class="">Tax ID No</span></th>
+                                                <th><span class="">Group</span></th>
+                                                <th><span class="">Lead Time</span></th>
+                                                <th><span class="">Is Transporter</span></th>
+                                                <th><span class="">Vat</span></th>
+                                                <th><span class="">Ewt</span></th>
+                                                <th><span class="">Term</span></th>
+                                                <th><span class="">Default Account Payable</span></th>
+                                                <th><span class="">Email</span></th>
+                                                <th><span class="">Contact Number</span></th>
+                                                <th><span class="">Address</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr cldss="tb-tnx-head">
+                                                <td><span class="">#</span></td>
+                                                <td><span class="">Business Name</span></td>
+                                                <td><span class="">Shortname</span></td>
+                                                <td><span class="">Check Payee</span></td>
+                                                <td><span class="">Tax ID No</span></td>
+                                                <td><span class="">Group</span></td>
+                                                <td><span class="">Lead Time</span></td>
+                                                <td><span class="">Is Transporter</span></td>
+                                                <td><span class="">Vat</span></td>
+                                                <td><span class="">Ewt</span></td>
+                                                <td><span class="">Term</span></td>
+                                                <td><span class="">Default Account Payable</span></td>
+                                                <td><span class="">Email</span></td>
+                                                <td><span class="">Contact Number</span></td>
+                                                <td><span class="">Address</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
