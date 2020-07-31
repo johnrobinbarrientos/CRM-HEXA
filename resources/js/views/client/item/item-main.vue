@@ -1,7 +1,8 @@
 <template>
     <div>
-        <br/>
-        <div class="nk-content">          
+        <div style="margin-top: 60px;"></div>
+        
+        <div class="nk-content nk-content-fluid">  <!-- nk-content-fluid -->         
             <div class="container-fluid">
                 <div class="nk-content-body">
 

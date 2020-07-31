@@ -26,29 +26,31 @@
                 <div class="nk-content-body">
 
                     <div class="row">
-                        <div class="col-md-8 col-12">
+                        <div class="col-12">
                             <div class="card card-bordered card-preview">
-                                <table class="table table-tranx">
-                                    <thead>
-                                        <tr class="tb-tnx-head">
-                                            <th><span class="">#</span></th>
-                                            <th><span class="">Sold To Name</span></th>
-                                            <th><span class="">Business Group Name</span></th>
-                                            <th><span class="">Shortname</span></th>
-                                            <th><span class="">TIN</span></th>
-                                            <th><span class="">Group Name</span></th>
-                                            <th><span class="">Chain</span></th>
-                                            <th><span class="">Channel</span></th>
-                                            <th><span class="">Customer Type</span></th>
-                                            <th><span class="">VAT Name</span></th>
-                                            <th><span class="">Term</span></th>
-                                            <th><span class="">Default Account Receivable</span></th>
-                                            <th><span class="">Email</span></th>
-                                            <th><span class="">Contact Number</span></th>
-                                            <th><span class="">Address</span></th>
-                                        </tr>
-                                    </thead>
-                                </table>
+                                <div class="overflow-auto">
+                                    <table class="table table-tranx">
+                                        <thead>
+                                            <tr class="tb-tnx-head">
+                                                <th><span class="">#</span></th>
+                                                <th><span class="">Sold To Name</span></th>
+                                                <th><span class="">Business Group Name</span></th>
+                                                <th><span class="">Shortname</span></th>
+                                                <th><span class="">TIN</span></th>
+                                                <th><span class="">Group Name</span></th>
+                                                <th><span class="">Chain</span></th>
+                                                <th><span class="">Channel</span></th>
+                                                <th><span class="">Customer Type</span></th>
+                                                <th><span class="">VAT Name</span></th>
+                                                <th><span class="">Term</span></th>
+                                                <th><span class="">Default Account Receivable</span></th>
+                                                <th><span class="">Email</span></th>
+                                                <th><span class="">Contact Number</span></th>
+                                                <th><span class="">Address</span></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 

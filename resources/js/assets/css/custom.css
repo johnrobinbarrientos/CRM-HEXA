@@ -1,1 +1,60 @@
 .modal-xlg {     max-width: 1100px; }
+
+/* jepyoo styles start */
+:root {
+	--whiteblue: #f5f6fa;
+}
+
+
+/* masterdata styles */
+.nk-content { padding-top: 60px; }
+.nav-tabs .nav-link { padding-top: 1.5rem }
+.nav-tabs + .tab-content { margin-top: 0 }
+.nk-content.nk-content-fluid { padding: 0 }
+
+/* jd small table */
+.table-tranx.jd-sm-table th:first-child { width: 100px }
+.table-tranx.jd-sm-table th:last-child { width: 240px }
+.table-tranx.jd-sm-table .tb-tnx-item td { padding-top: 1rem; padding-bottom: 1rem; }
+
+/* jd padding-left table */
+.jd-pl-table-wrapper { overflow-x:auto; padding-left: 400px; }
+
+.table-tranx.jd-pl-table th.th-actions,
+.table-tranx.jd-pl-table th.id,
+.table-tranx.jd-pl-table th.shortname {
+    background: var(--whiteblue);
+    border-top: none !important;
+}
+
+.table-tranx.jd-pl-table .actions,
+.table-tranx.jd-pl-table .id,
+.table-tranx.jd-pl-table .shortname {
+	border-top: 1px solid rgb(219, 223, 234) !important;
+    background: rgb(255, 255, 255);
+}
+
+.table-tranx.jd-pl-table .th-actions,
+.table-tranx.jd-pl-table .actions {
+    left: 0px;
+    min-width: 120px;
+}
+.table-tranx.jd-pl-table .id {
+    left: 120px;
+    min-width: 80px;
+}
+.table-tranx.jd-pl-table .shortname {
+    left: 200px;
+    width: 200px;
+    border-right: 1px solid rgb(219, 223, 234);
+}
+
+/* media queries */
+@media (min-width: 1200px) {
+	.nk-sidebar-fat,
+	.nk-sidebar-fat .nk-sidebar-head { width: 320px; }
+	.nk-sidebar-fat + .nk-wrap { padding-left: 320px; }
+	.nk-sidebar-fat + .nk-wrap > .nk-header-fixed { left: 320px; }
+}
+
+/* jepyoo styles end */
