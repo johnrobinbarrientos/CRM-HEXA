@@ -109,7 +109,7 @@ export default {
         }
     },
     methods: {
-        getAllCategory: function () {
+        getCategory5: function () {
            var scope = this
             scope.GET('items/category5').then(res => {
                 scope.categories = res.rows
@@ -127,7 +127,7 @@ export default {
         },
         save: function () {
             var scope = this
-            scope.POST('items/category5/save', scope.formdata).then(res => {
+            scope.POST('items/category5', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -136,13 +136,45 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.categories.push(res.data)
+                        scope.getCategory5()
                         scope.CLOSE_MODAL('#modalCategory5')
                     })
                 } else {
                     alert('ERROR:' + res.code)
                 }
                 
+            })
+        },
+        update: function () {
+            var scope = this
+            window.swal.fire({
+                title: 'Update Record?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Update it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.POST('items/category5', scope.formdata).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Category Updated',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.getCategory5()
+                                scope.CLOSE_MODAL('#modalCategory5')
+                            })
+                        }
+                        else{
+                            alert('ERROR:' + res.code)
+                        }
+                    })            
+                }                              
             })
         },
         remove: function (data) {
@@ -168,7 +200,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            scope.getAllCategory()
+                            scope.getCategory5()
                             scope.CLOSE_MODAL('#modalCategory5')
                             })
                         }
@@ -178,44 +210,11 @@ export default {
                     })            
                 }                              
             })
-        },
-        update: function () {
-            var scope = this
-            window.swal.fire({
-                title: 'Update Record?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Update it!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.value) {
-                    scope.PUT('items/category5/update', scope.formdata).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Category Updated',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.getAllCategory()
-                                scope.CLOSE_MODAL('#modalCategory5')
-                            })
-                        }
-                        else{
-                            alert('ERROR:' + res.code)
-                        }
-                    })            
-                }                              
-            })
-        },
+        }
     },
     mounted() {
         var scope = this
-        scope.getAllCategory()
-         $(".form-select").select2();
+        scope.getCategory5()
     },
 }
 </script>

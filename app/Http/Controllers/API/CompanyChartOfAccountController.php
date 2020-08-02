@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller; 
 
-use App\Models\CompanyChartOfAccounts; 
+use App\Models\CompanyChartOfAccount; 
 use Illuminate\Support\Facades\Auth;
 use DB; 
 
@@ -12,14 +12,14 @@ class CompanyChartOfAccountController extends Controller
 {
     public function getAllChartOfAccounts()
     {
-        $chartOfAccounts = CompanyChartOfAccounts::whereNull('deleted_at')->with('AccountGroup')->get();
+        $chartOfAccounts = CompanyChartOfAccount::whereNull('deleted_at')->with('AccountGroup')->get();
         return response()->json(['success' => 1, 'rows' => $chartOfAccounts], 200);
     }
 
     public function getAllPayables()
     {
 
-        $payables = CompanyChartOfAccounts::select('company_chart_of_accounts.uuid','account_name')
+        $payables = CompanyChartOfAccount::select('company_chart_of_accounts.uuid','account_name')
         ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
         ->where('account_group','Payable')
         ->get();
@@ -30,7 +30,7 @@ class CompanyChartOfAccountController extends Controller
     public function getAllIncomeAccount()
     {
 
-        $income = CompanyChartOfAccounts::select('company_chart_of_accounts.uuid','account_name')
+        $income = CompanyChartOfAccount::select('company_chart_of_accounts.uuid','account_name')
         ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
         ->where('account_group','income')
         ->get();
@@ -40,7 +40,7 @@ class CompanyChartOfAccountController extends Controller
 
     public function getAllCostOfSales()
     {
-        $cos = CompanyChartOfAccounts::select('company_chart_of_accounts.uuid','account_name')
+        $cos = CompanyChartOfAccount::select('company_chart_of_accounts.uuid','account_name')
         ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
         ->where('account_group','Cost of sales')
         ->get();
@@ -50,7 +50,7 @@ class CompanyChartOfAccountController extends Controller
 
     public function save()
     {
-        $chartOfAccounts = new CompanyChartOfAccounts();
+        $chartOfAccounts = request()->uuid ? CompanyChartOfAccount::find(request()->uuid) : new CompanyChartOfAccount();
         $auth = \Auth::user();
         $chartOfAccounts->company_id = $auth->company_id;
         $chartOfAccounts->code = request()->code;
@@ -58,30 +58,14 @@ class CompanyChartOfAccountController extends Controller
         $chartOfAccounts->coa_group_uuid = request()->coa_group_uuid;
         $chartOfAccounts->save();
 
-        $chartOfAccounts = CompanyChartOfAccounts::find($chartOfAccounts->uuid);
-        return response()->json(['success' => 1, 'data' => $chartOfAccounts, 'message' => 'Chart Of Accounts Added!'], 200); 
-    }
+        $chartOfAccounts = CompanyChartOfAccount::find($chartOfAccounts->uuid);
 
-
-    public function update()
-    {
-        $chartOfAccounts = CompanyChartOfAccounts::find(request()->uuid);
-
-        if (!$chartOfAccounts) {
-            return response()->json(['success' => 0, 'message' => 'Could not find Chart Of Accounts!'], 200);
-        }
-
-        $chartOfAccounts->code = request()->code;
-        $chartOfAccounts->account_name = request()->account_name;
-        $chartOfAccounts->coa_group_uuid = request()->coa_group_uuid;
-        $chartOfAccounts->save();
-        
-        return response()->json(['success' => 1, 'data' => $chartOfAccounts, 'message' => 'Chart Of Accounts Updated!'], 200); 
+        return response()->json(['success' => 1, 'rows' => $chartOfAccounts], 200);
     }
 
     public function delete()
     {
-        $chartOfAccounts = CompanyChartOfAccounts::find(request()->uuid)->delete();
+        $chartOfAccounts = CompanyChartOfAccount::find(request()->uuid)->delete();
 
         return response()->json(['success' => 1, 'message' => 'Chart Of Accounts Deleted!'], 200);
     }

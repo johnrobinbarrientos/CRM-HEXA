@@ -161,7 +161,6 @@ export default {
             scope.formdata.coa_report_uuid = data.coa_report_uuid
             scope.formdata.account_group = data.account_group
 
-            // console.log(data.coa_report_uuid)
             $('.form-select-report').val(data.coa_report_uuid);
             $('.form-select-report').trigger('change');
         },
@@ -169,7 +168,7 @@ export default {
             var scope = this
             scope.formdata.coa_report_uuid = scope.selected_report_group
 
-            scope.POST('company/coa-account-group/save', scope.formdata).then(res => {
+            scope.POST('company/coa-account-group', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -178,7 +177,6 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        // scope.accountGroups.push(res.data)
                         scope.getAllAccountGroups()
                         scope.CLOSE_MODAL('#modalAccountGroup')
                     })
@@ -186,6 +184,40 @@ export default {
                     alert('ERROR:' + res.code)
                 }
                 
+            })
+        },
+        update: function () {
+            var scope = this
+            scope.formdata.coa_report_uuid = scope.selected_report_group
+
+            window.swal.fire({
+                title: 'Update Record?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Update it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.POST('company/coa-account-group', scope.formdata).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Account Group Updated',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.getAllAccountGroups()
+                                scope.CLOSE_MODAL('#modalAccountGroup')
+                            })
+                        }
+                        else{
+                            alert('ERROR:' + res.code)
+                        }
+                    })            
+                }                              
             })
         },
         remove: function (data) {
@@ -221,41 +253,7 @@ export default {
                     })            
                 }                              
             })
-        },
-        update: function () {
-            var scope = this
-            scope.formdata.coa_report_uuid = scope.selected_report_group
-
-            window.swal.fire({
-                title: 'Update Record?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Update it!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.value) {
-                    scope.PUT('company/coa-account-group/update', scope.formdata).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Account Group Updated',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.getAllAccountGroups()
-                                scope.CLOSE_MODAL('#modalAccountGroup')
-                            })
-                        }
-                        else{
-                            alert('ERROR:' + res.code)
-                        }
-                    })            
-                }                              
-            })
-        },
+        }
     },
 
     mounted() {

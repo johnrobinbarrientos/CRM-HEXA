@@ -127,7 +127,7 @@ export default {
         },
         save: function () {
             var scope = this
-            scope.POST('company/coa-report-group/save', scope.formdata).then(res => {
+            scope.POST('company/coa-report-group', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -136,13 +136,45 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.reportGroups.push(res.data)
+                        scope.getAllReportGroup()
                         scope.CLOSE_MODAL('#modalReportGroup')
                     })
                 } else {
                     alert('ERROR:' + res.code)
                 }
                 
+            })
+        },
+        update: function () {
+            var scope = this
+            window.swal.fire({
+                title: 'Update Record?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Update it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.POST('company/coa-report-group', scope.formdata).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Report Group Updated',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.getAllReportGroup()
+                                scope.CLOSE_MODAL('#modalReportGroup')
+                            })
+                        }
+                        else{
+                            alert('ERROR:' + res.code)
+                        }
+                    })            
+                }                              
             })
         },
         remove: function (data) {
@@ -178,39 +210,7 @@ export default {
                     })            
                 }                              
             })
-        },
-        update: function () {
-            var scope = this
-            window.swal.fire({
-                title: 'Update Record?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Update it!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.value) {
-                    scope.PUT('company/coa-report-group/update', scope.formdata).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Report Group Updated',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.getAllReportGroup()
-                                scope.CLOSE_MODAL('#modalReportGroup')
-                            })
-                        }
-                        else{
-                            alert('ERROR:' + res.code)
-                        }
-                    })            
-                }                              
-            })
-        },
+        }
     },
     mounted() {
         var scope = this

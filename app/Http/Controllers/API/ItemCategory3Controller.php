@@ -11,40 +11,26 @@ class ItemCategory3Controller extends Controller
 {
     public function getAllCategory()
     {
-        $Category3 = ItemCategory3::whereNull('deleted_at')->get();
-        return response()->json(['success' => 1, 'rows' => $Category3], 200);
+        $cat3 = ItemCategory3::whereNull('deleted_at')->get();
+        return response()->json(['success' => 1, 'rows' => $cat3], 200);
     }
 
     public function save()
     {
-        $Category3 = new ItemCategory3();
+        $cat3 = request()->uuid ? ItemCategory3::find(request()->uuid) : new ItemCategory3();
         $auth = \Auth::user();
-        $Category3->company_id = $auth->company_id;
-        $Category3->category3 = request()->category3;
-        $Category3->save();
+        $cat3->company_id = $auth->company_id;
+        $cat3->category3 = request()->category3;
+        $cat3->save();
 
-        $Category3 = ItemCategory3::find($Category3->uuid);
-        return response()->json(['success' => 1, 'data' => $Category3, 'message' => 'Category Added!'], 200); 
-    }
+        $cat3 = ItemCategory3::find($cat3->uuid);
 
-
-    public function update()
-    {
-        $Category3 = ItemCategory3::find(request()->uuid);
-
-        if (!$Category3) {
-            return response()->json(['success' => 0, 'message' => 'Could not find Category!'], 200);
-        }
-
-        $Category3->category3 = request()->category3;
-        $Category3->save();
-        
-        return response()->json(['success' => 1, 'data' => $Category3, 'message' => 'Category Updated!'], 200); 
+        return response()->json(['success' => 1, 'rows' => $cat3], 200);
     }
 
     public function delete()
     {
-        $Category3 = ItemCategory3::find(request()->uuid)->delete();
+        $cat3 = ItemCategory3::find(request()->uuid)->delete();
 
         return response()->json(['success' => 1, 'message' => 'Category Deleted!'], 200);
     }

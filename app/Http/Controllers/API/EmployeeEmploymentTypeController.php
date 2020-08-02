@@ -17,31 +17,16 @@ class EmployeeEmploymentTypeController extends Controller
 
     public function save()
     {
-        $employmentType = new EmployeeEmploymentType();
+        $employmentType = request()->uuid ? EmployeeEmploymentType::find(request()->uuid) : new EmployeeEmploymentType();
         $auth = \Auth::user();
         $employmentType->company_id = $auth->company_id;
         $employmentType->employment_type = request()->employment_type;
         $employmentType->save();
 
         $employmentType = EmployeeEmploymentType::find($employmentType->uuid);
-        return response()->json(['success' => 1, 'data' => $employmentType, 'message' => 'Employment Type Added!'], 200); 
+
+        return response()->json(['success' => 1, 'rows' => $employmentType], 200);
     }
-
-
-    public function update()
-    {
-        $employmentType = EmployeeEmploymentType::find(request()->uuid);
-
-        if (!$employmentType) {
-            return response()->json(['success' => 0, 'message' => 'Could not find Employment Type!'], 200);
-        }
-
-        $employmentType->employment_type = request()->employment_type;
-        $employmentType->save();
-        
-        return response()->json(['success' => 1, 'data' => $employmentType, 'message' => 'Employment Type Updated!'], 200); 
-    }
-
     public function delete()
     {
         $employmentType = EmployeeEmploymentType::find(request()->uuid)->delete();

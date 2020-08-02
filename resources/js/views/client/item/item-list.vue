@@ -536,7 +536,6 @@ export default {
         getItemList: function () {
            var scope = this
             scope.GET('items/item-list').then(res => {
-                console.log(res.rows)
                 scope.itemList = res.rows
             })
         },

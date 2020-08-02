@@ -41,7 +41,7 @@ class SupplierList extends Model
     }
 
     public function AccountPayable(){
-        return $this->belongsTo('App\Models\CompanyChartOfAccounts','coa_payable_account_uuid','uuid');
+        return $this->belongsTo('App\Models\CompanyChartOfAccount','coa_payable_account_uuid','uuid');
     }
    
     public function discounts(){

@@ -15,31 +15,18 @@ class ItemGroupController extends Controller
         return response()->json(['success' => 1, 'rows' => $itemGroup], 200);
     }
 
+
     public function save()
     {
-        $itemGroup = new ItemGroup();
+        $itemGroup = request()->uuid ? ItemGroup::find(request()->uuid) : new ItemGroup();
         $auth = \Auth::user();
         $itemGroup->company_id = $auth->company_id;
         $itemGroup->item_group = request()->item_group;
         $itemGroup->save();
 
         $itemGroup = ItemGroup::find($itemGroup->uuid);
-        return response()->json(['success' => 1, 'data' => $itemGroup, 'message' => 'item Group Added!'], 200); 
-    }
 
-
-    public function update()
-    {
-        $itemGroup = ItemGroup::find(request()->uuid);
-
-        if (!$itemGroup) {
-            return response()->json(['success' => 0, 'message' => 'Could not find item Group!'], 200);
-        }
-
-        $itemGroup->item_group = request()->item_group;
-        $itemGroup->save();
-        
-        return response()->json(['success' => 1, 'data' => $itemGroup, 'message' => 'item Group Updated!'], 200); 
+        return response()->json(['success' => 1, 'rows' => $itemGroup], 200);
     }
 
     public function delete()

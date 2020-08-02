@@ -31,6 +31,7 @@
                                             <th><span class="">Shortname</span></th>
                                             <th><span class="">Is Group</span></th>
                                             <th><span class="">Cost Center Group</span></th>
+                                            <th><span class="">Actions</span></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -156,7 +157,7 @@ export default {
         },
         save: function () {
             var scope = this
-            scope.POST('company/cost-center/save', scope.formdata).then(res => {
+            scope.POST('company/cost-center', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -165,13 +166,45 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.costCenters.push(res.data)
+                        scope.getAllCostCenters()
                         scope.CLOSE_MODAL('#modalCostCenter')
                     })
                 } else {
                     alert('ERROR:' + res.code)
                 }
                 
+            })
+        },
+        update: function () {
+            var scope = this
+            window.swal.fire({
+                title: 'Update Record?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Update it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.POST('company/cost-center', scope.formdata).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Cost Center Updated',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.getAllCostCenters()
+                                scope.CLOSE_MODAL('#modalCostCenter')
+                            })
+                        }
+                        else{
+                            alert('ERROR:' + res.code)
+                        }
+                    })            
+                }                              
             })
         },
         remove: function (data) {
@@ -207,39 +240,7 @@ export default {
                     })            
                 }                              
             })
-        },
-        update: function () {
-            var scope = this
-            window.swal.fire({
-                title: 'Update Record?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Update it!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.value) {
-                    scope.PUT('company/cost-center/update', scope.formdata).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Cost Center Updated',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.getAllCostCenters()
-                                scope.CLOSE_MODAL('#modalCostCenter')
-                            })
-                        }
-                        else{
-                            alert('ERROR:' + res.code)
-                        }
-                    })            
-                }                              
-            })
-        },
+        }
     },
     mounted() {
         var scope = this

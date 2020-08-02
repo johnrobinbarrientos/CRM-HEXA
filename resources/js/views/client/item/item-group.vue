@@ -127,7 +127,7 @@ export default {
         },
         save: function () {
             var scope = this
-            scope.POST('items/item-group/save', scope.formdata).then(res => {
+            scope.POST('items/item-group', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -136,13 +136,45 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.Groups.push(res.data)
+                        scope.getAllItemGroup()
                         scope.CLOSE_MODAL('#modalItemGroup')
                     })
                 } else {
                     alert('ERROR:' + res.code)
                 }
                 
+            })
+        },
+        update: function () {
+            var scope = this
+            window.swal.fire({
+                title: 'Update Record?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Update it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.POST('items/item-group', scope.formdata).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Item Group Updated',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.getAllItemGroup()
+                                scope.CLOSE_MODAL('#modalItemGroup')
+                            })
+                        }
+                        else{
+                            alert('ERROR:' + res.code)
+                        }
+                    })            
+                }                              
             })
         },
         remove: function (data) {
@@ -178,44 +210,11 @@ export default {
                     })            
                 }                              
             })
-        },
-        update: function () {
-            var scope = this
-            window.swal.fire({
-                title: 'Update Record?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Update it!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.value) {
-                    scope.PUT('items/item-group/update', scope.formdata).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Item Group Updated',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.getAllItemGroup()
-                                scope.CLOSE_MODAL('#modalItemGroup')
-                            })
-                        }
-                        else{
-                            alert('ERROR:' + res.code)
-                        }
-                    })            
-                }                              
-            })
-        },
+        }
     },
     mounted() {
         var scope = this
         scope.getAllItemGroup()
-         $(".form-select").select2();
     },
 }
 </script>

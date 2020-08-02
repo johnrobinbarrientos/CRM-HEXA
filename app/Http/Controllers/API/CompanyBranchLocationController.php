@@ -17,7 +17,7 @@ class CompanyBranchLocationController extends Controller
 
     public function save()
     {
-        $branchLocation = new CompanyBranchLocation();
+        $branchLocation = request()->uuid ? CompanyBranchLocation::find(request()->uuid) : new CompanyBranchLocation();
         $auth = \Auth::user();
         $branchLocation->company_id = $auth->company_id;
         $branchLocation->branch_uuid = request()->branch_uuid;
@@ -26,24 +26,8 @@ class CompanyBranchLocationController extends Controller
         $branchLocation->save();
 
         $branchLocation = CompanyBranchLocation::find($branchLocation->uuid);
-        return response()->json(['success' => 1, 'data' => $branchLocation, 'message' => 'Branch Location Added!'], 200); 
-    }
 
-
-    public function update()
-    {
-        $branchLocation = CompanyBranchLocation::find(request()->uuid);
-
-        if (!$branchLocation) {
-            return response()->json(['success' => 0, 'message' => 'Could not find Branch Location!'], 200);
-        }
-
-        $branchLocation->branch_uuid = request()->branch_uuid;
-        $branchLocation->location_name = request()->location_name;
-        $branchLocation->location_shortname = request()->location_shortname;
-        $branchLocation->save();
-        
-        return response()->json(['success' => 1, 'data' => $branchLocation, 'message' => 'Branch Location Updated!'], 200); 
+        return response()->json(['success' => 1, 'rows' => $branchLocation], 200);
     }
 
     public function delete()

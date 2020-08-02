@@ -116,7 +116,7 @@ export default {
         }
     },
     methods: {
-        getAllBranches: function () {
+        getBranches: function () {
            var scope = this
             scope.GET('company/branch').then(res => {
                 scope.Branches = res.rows
@@ -136,7 +136,7 @@ export default {
         },
         save: function () {
             var scope = this
-            scope.POST('company/branch/save', scope.formdata).then(res => {
+            scope.POST('company/branch', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -145,13 +145,45 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.Branches.push(res.data)
+                        scope.getBranches()
                         scope.CLOSE_MODAL('#modalBranch')
                     })
                 } else {
                     alert('ERROR:' + res.code)
                 }
                 
+            })
+        },
+        update: function () {
+            var scope = this
+            window.swal.fire({
+                title: 'Update Record?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Update it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.POST('company/branch', scope.formdata).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Branch Updated',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.getBranches()
+                                scope.CLOSE_MODAL('#modalBranch')
+                            })
+                        }
+                        else{
+                            alert('ERROR:' + res.code)
+                        }
+                    })            
+                }                              
             })
         },
         remove: function (data) {
@@ -177,7 +209,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            scope.getAllBranches()
+                            scope.getBranches()
                             scope.CLOSE_MODAL('#modalBranch')
                             })
                         }
@@ -187,44 +219,11 @@ export default {
                     })            
                 }                              
             })
-        },
-        update: function () {
-            var scope = this
-            window.swal.fire({
-                title: 'Update Record?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Update it!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.value) {
-                    scope.PUT('company/branch/update', scope.formdata).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Branch Updated',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.getAllBranches()
-                                scope.CLOSE_MODAL('#modalBranch')
-                            })
-                        }
-                        else{
-                            alert('ERROR:' + res.code)
-                        }
-                    })            
-                }                              
-            })
-        },
+        }
     },
     mounted() {
         var scope = this
-        scope.getAllBranches()
-         $(".form-select").select2();
+        scope.getBranches()
     },
 }
 </script>

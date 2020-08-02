@@ -28,6 +28,7 @@
                                         <tr class="tb-tnx-head">
                                             <th><span class="">#</span></th>
                                             <th><span class="">Employment Type</span></th>
+                                            <th><span class="">Actions</span></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -126,7 +127,7 @@ export default {
         },
         save: function () {
             var scope = this
-            scope.POST('employees/employment-type/save', scope.formdata).then(res => {
+            scope.POST('employees/employment-type', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -135,13 +136,45 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.employmentTypes.push(res.data)
+                        scope.getAllEmploymentType()
                         scope.CLOSE_MODAL('#modalEmploymentType')
                     })
                 } else {
                     alert('ERROR:' + res.code)
                 }
                 
+            })
+        },
+        update: function () {
+            var scope = this
+            window.swal.fire({
+                title: 'Update Record?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Update it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.POST('employees/employment-type', scope.formdata).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Employment Type Updated',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.getAllEmploymentType()
+                                scope.CLOSE_MODAL('#modalEmploymentType')
+                            })
+                        }
+                        else{
+                            alert('ERROR:' + res.code)
+                        }
+                    })            
+                }                              
             })
         },
         remove: function (data) {
@@ -177,44 +210,11 @@ export default {
                     })            
                 }                              
             })
-        },
-        update: function () {
-            var scope = this
-            window.swal.fire({
-                title: 'Update Record?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Update it!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.value) {
-                    scope.PUT('employees/employment-type/update', scope.formdata).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Employment Type Updated',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.getAllEmploymentType()
-                                scope.CLOSE_MODAL('#modalEmploymentType')
-                            })
-                        }
-                        else{
-                            alert('ERROR:' + res.code)
-                        }
-                    })            
-                }                              
-            })
-        },
+        }
     },
     mounted() {
         var scope = this
         scope.getAllEmploymentType()
-         $(".form-select").select2();
     },
 }
 </script>

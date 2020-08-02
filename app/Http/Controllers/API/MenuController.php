@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
 
 use App\Models\User;
-use App\Models\Company; 
+use App\Models\CompanyList; 
 
 use Illuminate\Support\Facades\Auth; 
 
@@ -13,7 +13,7 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $user = User::with('company')->find(Auth::id());
+        $user = User::with('companylist')->find(Auth::id());
         
         if (!$user) {
             return response()->json(['success' => 0, $menus => []], 200);
@@ -49,8 +49,20 @@ class MenuController extends Controller
 
         $menus[] = [
             'text' => 'COMPANIES',
-            'route' => 'companies',
+            'route' => 'company-list',
             'icon' => 'icon ni ni-building'
+        ];
+
+        $menus[] = [
+            'text' => 'GLOBALS',
+            'route' => '#has-submenu',
+            'icon' => 'icon ni ni-db-fill',
+            'submenus' => [
+                [ 'text' => 'Address List', 'route' => 'address-list'],
+                [ 'text' => 'Customer Chain', 'route' => 'customer-chain'],
+                [ 'text' => 'Customer Channel', 'route' => 'customer-channel'],
+                [ 'text' => 'Customer Type', 'route' => 'customer-type'],
+            ]
         ];
 
         return $menus;

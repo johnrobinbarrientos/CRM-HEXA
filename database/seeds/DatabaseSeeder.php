@@ -11,11 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $company = new \App\Models\Company();
-        $company->name = 'ThinkOrion';
-        $company->description = 'One Happy Team';
-        $company->phone = '09177029292';
-        $company->address = 'Upper Nazareth, Cagayan de Oro City';
+        $company = new \App\Models\CompanyList();
+        $company->company_name = 'ThinkOrion';
         $company->save();
         
        

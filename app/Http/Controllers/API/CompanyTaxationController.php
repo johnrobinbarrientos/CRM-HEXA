@@ -17,7 +17,7 @@ class CompanyTaxationController extends Controller
 
     public function save()
     {
-        $companyTaxation = new CompanyTaxation();
+        $companyTaxation = request()->uuid ? CompanyTaxation::find(request()->uuid) : new CompanyTaxation();
         $auth = \Auth::user();
         $companyTaxation->company_id = $auth->company_id;
         $companyTaxation->tax_type = request()->tax_type;
@@ -26,24 +26,8 @@ class CompanyTaxationController extends Controller
         $companyTaxation->save();
 
         $companyTaxation = CompanyTaxation::find($companyTaxation->uuid);
-        return response()->json(['success' => 1, 'data' => $companyTaxation, 'message' => 'Company Taxation Added!'], 200); 
-    }
 
-
-    public function update()
-    {
-        $companyTaxation = CompanyTaxation::find(request()->uuid);
-
-        if (!$companyTaxation) {
-            return response()->json(['success' => 0, 'message' => 'Could not find Company Taxation!'], 200);
-        }
-
-        $companyTaxation->tax_type = request()->tax_type;
-        $companyTaxation->tax_name = request()->tax_name;
-        $companyTaxation->tax_rate = request()->tax_rate;
-        $companyTaxation->save();
-        
-        return response()->json(['success' => 1, 'data' => $companyTaxation, 'message' => 'Company Taxation Updated!'], 200); 
+        return response()->json(['success' => 1, 'rows' => $companyTaxation], 200);
     }
 
     public function delete()

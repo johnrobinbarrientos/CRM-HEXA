@@ -43,11 +43,11 @@ class ItemList extends Model
     }
 
     public function IncomeAccount(){
-        return $this->belongsTo('App\Models\CompanyChartOfAccounts','coa_income_account_uuid','uuid');
+        return $this->belongsTo('App\Models\CompanyChartOfAccount','coa_income_account_uuid','uuid');
     }
 
     public function CosAccount(){
-        return $this->belongsTo('App\Models\CompanyChartOfAccounts','coa_cos_account_uuid','uuid');
+        return $this->belongsTo('App\Models\CompanyChartOfAccount','coa_cos_account_uuid','uuid');
     }
 
     public function Tax(){
