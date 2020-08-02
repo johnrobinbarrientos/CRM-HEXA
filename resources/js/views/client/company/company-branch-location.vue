@@ -130,7 +130,7 @@ export default {
 
     },
     methods: {
-        getAllBranch: function () {
+        getBranch: function () {
            var scope = this
             scope.GET('company/branch').then(res => {
                 
@@ -149,11 +149,10 @@ export default {
             })
 
         },
-        getAllBranchLocations: function () {
+        getBranchLocations: function () {
            var scope = this
             scope.GET('company/branch-location').then(res => {
                 scope.branchLocations = res.rows
-                console.log(res.rows)
             })
         },
 
@@ -176,7 +175,7 @@ export default {
             var scope = this
             scope.formdata.branch_uuid = scope.selected_branch
 
-            scope.POST('company/branch-location/save', scope.formdata).then(res => {
+            scope.POST('company/branch-location', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -185,15 +184,47 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        console.log(res.data)
-                        // scope.accountGroups.push(res.data)
-                        scope.getAllBranchLocations()
+                        scope.getBranchLocations()
                         scope.CLOSE_MODAL('#modalBranchLocation')
                     })
                 } else {
                     alert('ERROR:' + res.code)
                 }
                 
+            })
+        },
+        update: function () {
+            var scope = this
+            scope.formdata.branch_uuid = scope.selected_branch
+
+            window.swal.fire({
+                title: 'Update Record?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Update it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.POST('company/branch-location', scope.formdata).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Branch Location Updated',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.getBranchLocations()
+                                scope.CLOSE_MODAL('#modalBranchLocation')
+                            })
+                        }
+                        else{
+                            alert('ERROR:' + res.code)
+                        }
+                    })            
+                }                              
             })
         },
         remove: function (data) {
@@ -219,7 +250,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            scope.getAllBranchLocations()
+                            scope.getBranchLocations()
                             scope.CLOSE_MODAL('#modalBranchLocation')
                             })
                         }
@@ -229,47 +260,13 @@ export default {
                     })            
                 }                              
             })
-        },
-        update: function () {
-            var scope = this
-            scope.formdata.branch_uuid = scope.selected_branch
-
-            window.swal.fire({
-                title: 'Update Record?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Update it!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.value) {
-                    scope.PUT('company/branch-location/update', scope.formdata).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Branch Location Updated',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.getAllBranchLocations()
-                                scope.CLOSE_MODAL('#modalBranchLocation')
-                            })
-                        }
-                        else{
-                            alert('ERROR:' + res.code)
-                        }
-                    })            
-                }                              
-            })
-        },
+        }
     },
 
     mounted() {
         var scope = this
-        scope.getAllBranch()
-        scope.getAllBranchLocations()
+        scope.getBranch()
+        scope.getBranchLocations()
          
         $('.form-select-branch').on("change", function(e) { 
             scope.selected_branch = $('.form-select-branch').val();

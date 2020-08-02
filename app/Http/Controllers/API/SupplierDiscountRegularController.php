@@ -6,26 +6,17 @@ use App\Http\Controllers\Controller;
 
 use App\Models\SupplierList; 
 use App\Models\SupplierDiscountRegular; 
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
+ 
 
 class SupplierDiscountRegularController extends Controller
 {
-    public function getAllSupplierList()
-    {
-        $list = SupplierList::whereNull('deleted_at')->get();
-        return response()->json(['success' => 1, 'rows' => $list], 200);
-    }
 
     public function save()
     {
-        $supplier = SupplierList::find(request()->supplier_uuid);
-
-        if (!$supplier) {
-            return response()->json(['success' => 0, 'message' => 'Could not find Supplier!'], 200);
-        }
-
-
         $discount = new SupplierDiscountRegular();
+        $auth = \Auth::user();
+        $discount->company_id = $auth->company_id;
         $discount->supplier_uuid = request()->supplier_uuid;
         $discount->discount_name = request()->discount_name;
         $discount->discount_rate = request()->discount_rate;

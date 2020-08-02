@@ -42,6 +42,8 @@ class SupplierListController extends Controller
         foreach ($discounts as $d)
         {
             $discount = new SupplierDiscountRegular;
+            $auth = \Auth::user();
+            $discount->company_id = $auth->company_id;
             $discount->supplier_uuid = $supplier->uuid;
             $discount->discount_name = $d['discount_name'];
             $discount->discount_rate = $d['discount_rate'];

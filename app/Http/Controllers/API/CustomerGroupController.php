@@ -17,7 +17,7 @@ class CustomerGroupController extends Controller
 
     public function save()
     {
-        $customerGroup = new CustomerGroup();
+        $customerGroup = request()->uuid ? CustomerGroup::find(request()->uuid) : new CustomerGroup();
         $auth = \Auth::user();
         $customerGroup->company_id = $auth->company_id;
         $customerGroup->group_name = request()->group_name;
@@ -25,22 +25,7 @@ class CustomerGroupController extends Controller
 
         $customerGroup = CustomerGroup::find($customerGroup->uuid);
 
-        return response()->json(['success' => 1, 'data' => $customerGroup, 'message' => 'Customer Group Added!'], 200); 
-    }
-
-
-    public function update()
-    {
-        $customerGroup = CustomerGroup::find(request()->uuid);
-
-        if (!$customerGroup) {
-            return response()->json(['success' => 0, 'message' => 'Could not find Customer Group!'], 200);
-        }
-
-        $customerGroup->group_name = request()->group_name;
-        $customerGroup->save();
-        
-        return response()->json(['success' => 1, 'data' => $customerGroup, 'message' => 'Customer Group Updated!'], 200); 
+        return response()->json(['success' => 1, 'rows' => $customerGroup], 200);
     }
 
     public function delete()

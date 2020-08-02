@@ -17,7 +17,7 @@ class GlobalAddressListController extends Controller
 
     public function save()
     {
-        $addressList = new GlobalAddressList();
+        $addressList = request()->uuid ? GlobalAddressList::find(request()->uuid) : new GlobalAddressList();
         $auth = \Auth::user();
         $addressList->barangay = request()->barangay;
         $addressList->city_municipality = request()->city_municipality;
@@ -28,27 +28,8 @@ class GlobalAddressListController extends Controller
         $addressList->save();
 
         $addressList = GlobalAddressList::find($addressList->uuid);
-        return response()->json(['success' => 1, 'data' => $addressList, 'message' => 'Address Added!'], 200); 
-    }
 
-
-    public function update()
-    {
-        $addressList = GlobalAddressList::find(request()->uuid);
-
-        if (!$addressList) {
-            return response()->json(['success' => 0, 'message' => 'Could not find Address!'], 200);
-        }
-
-        $addressList->barangay = request()->barangay;
-        $addressList->city_municipality = request()->city_municipality;
-        $addressList->province = request()->province;
-        $addressList->region = request()->region;
-        $addressList->country = request()->country;
-        $addressList->postal_code = request()->postal_code;
-        $addressList->save();
-        
-        return response()->json(['success' => 1, 'data' => $addressList, 'message' => 'Address Updated!'], 200); 
+        return response()->json(['success' => 1, 'rows' => $addressList], 200);
     }
 
     public function delete()

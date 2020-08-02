@@ -17,29 +17,15 @@ class SupplierGroupController extends Controller
 
     public function save()
     {
-        $supplierGroup = new SupplierGroup();
+        $supplierGroup = request()->uuid ? SupplierGroup::find(request()->uuid) : new SupplierGroup();
         $auth = \Auth::user();
         $supplierGroup->company_id = $auth->company_id;
         $supplierGroup->group_name = request()->group_name;
         $supplierGroup->save();
 
         $supplierGroup = SupplierGroup::find($supplierGroup->uuid);
-        return response()->json(['success' => 1, 'data' => $supplierGroup, 'message' => 'Supplier Group Added!'], 200); 
-    }
 
-
-    public function update()
-    {
-        $supplierGroup = SupplierGroup::find(request()->uuid);
-
-        if (!$supplierGroup) {
-            return response()->json(['success' => 0, 'message' => 'Could not find Supplier Group!'], 200);
-        }
-
-        $supplierGroup->group_name = request()->group_name;
-        $supplierGroup->save();
-        
-        return response()->json(['success' => 1, 'data' => $supplierGroup, 'message' => 'Supplier Group Updated!'], 200); 
+        return response()->json(['success' => 1, 'rows' => $supplierGroup], 200);
     }
 
     public function delete()

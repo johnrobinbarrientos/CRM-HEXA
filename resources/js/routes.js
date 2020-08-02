@@ -17,7 +17,12 @@ import EmployeeMain from './views/client/employee/employee-main'
 
 import CompanyMain from './views/client/company/company-main'
 
-import AddressList from './views/admin/global/address-list'
+import AddressList from './views/admin/globals/address-list'
+import CustomerChain from './views/admin/globals/customer-chain'
+import CustomerChannel from './views/admin/globals/customer-channel'
+import CustomerType from './views/admin/globals/customer-type'
+
+import CompanyList from './views/admin/company-list'
 
 Vue.use(VueRouter)
 
@@ -122,6 +127,34 @@ export default new VueRouter({
           path: '/company-main',
           name: 'company-main',
           component: CompanyMain,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/customer-chain',
+          name: 'customer-chain',
+          component: CustomerChain,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/customer-channel',
+          name: 'customer-channel',
+          component: CustomerChannel,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/customer-type',
+          name: 'customer-type',
+          component: CustomerType,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/company-list',
+          name: 'company-list',
+          component: CompanyList,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },

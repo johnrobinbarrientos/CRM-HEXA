@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
 
 use App\Models\User;
-use App\Models\Company; 
+use App\Models\CompanyList; 
 use Illuminate\Support\Facades\Auth; 
 
 class AuthController extends Controller
@@ -41,8 +41,8 @@ class AuthController extends Controller
         
         $user = User::create($validatedUserData);
 
-        $company = new Company();
-        $company->name = $validatedCompanyData['name'];
+        $company = new CompanyList();
+        $company->company_name = $validatedCompanyData['company_name'];
         $company->save();
 
         $user->company_id = $company->id;
