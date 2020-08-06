@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyCostCenterController extends Controller
 {
-    public function getAllCostCenter()
+    public function getCostCenter()
     {
         $companyCostCenter = CompanyCostCenter::whereNull('deleted_at')->get();
         return response()->json(['success' => 1, 'rows' => $companyCostCenter], 200);

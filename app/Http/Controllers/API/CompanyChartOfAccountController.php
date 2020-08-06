@@ -10,42 +10,10 @@ use DB;
 
 class CompanyChartOfAccountController extends Controller
 {
-    public function getAllChartOfAccounts()
+    public function getChartOfAccounts()
     {
         $chartOfAccounts = CompanyChartOfAccount::whereNull('deleted_at')->with('AccountGroup')->get();
         return response()->json(['success' => 1, 'rows' => $chartOfAccounts], 200);
-    }
-
-    public function getAllPayables()
-    {
-
-        $payables = CompanyChartOfAccount::select('company_chart_of_accounts.uuid','account_name')
-        ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
-        ->where('account_group','Payable')
-        ->get();
-
-        return response()->json(['success' => 1, 'rows' => $payables], 200);
-    }
-
-    public function getAllIncomeAccount()
-    {
-
-        $income = CompanyChartOfAccount::select('company_chart_of_accounts.uuid','account_name')
-        ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
-        ->where('account_group','income')
-        ->get();
-
-        return response()->json(['success' => 1, 'rows' => $income], 200);
-    }
-
-    public function getAllCostOfSales()
-    {
-        $cos = CompanyChartOfAccount::select('company_chart_of_accounts.uuid','account_name')
-        ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
-        ->where('account_group','Cost of sales')
-        ->get();
-
-        return response()->json(['success' => 1, 'rows' => $cos], 200);
     }
 
     public function save()
@@ -69,4 +37,48 @@ class CompanyChartOfAccountController extends Controller
 
         return response()->json(['success' => 1, 'message' => 'Chart Of Accounts Deleted!'], 200);
     }
+
+    public function getPayables()
+    {
+
+        $payables = CompanyChartOfAccount::select('company_chart_of_accounts.uuid','account_name')
+        ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
+        ->where('account_group','Payable')
+        ->get();
+
+        return response()->json(['success' => 1, 'rows' => $payables], 200);
+    }
+
+    public function getIncomeAccount()
+    {
+
+        $income = CompanyChartOfAccount::select('company_chart_of_accounts.uuid','account_name')
+        ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
+        ->where('account_group','income')
+        ->get();
+
+        return response()->json(['success' => 1, 'rows' => $income], 200);
+    }
+
+    public function getCostOfSales()
+    {
+        $cos = CompanyChartOfAccount::select('company_chart_of_accounts.uuid','account_name')
+        ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
+        ->where('account_group','Cost of sales')
+        ->get();
+
+        return response()->json(['success' => 1, 'rows' => $cos], 200);
+    }
+
+    public function getRecievables()
+    {
+        $recievables = CompanyChartOfAccount::select('company_chart_of_accounts.uuid','account_name')
+        ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
+        ->where('account_group','Receivable')
+        ->get();
+
+        return response()->json(['success' => 1, 'rows' => $recievables], 200);
+    }
+
+
 }

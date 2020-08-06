@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ItemListController extends Controller
 {
-    public function getAllItem()
+    public function getItemList()
     {
         $list = ItemList::whereNull('deleted_at')
         ->with('ItemGroup')->with('Supplier')
@@ -49,8 +49,6 @@ class ItemListController extends Controller
         $item->coa_cos_account_uuid = request()->coa_cos_account_uuid;
         $item->reorder_qty = request()->reorder_qty;
         $item->item_asset_group_uuid = request()->item_asset_group_uuid;
-        $item->mv_registration_no = request()->mv_registration_no;
-        $item->plate_no = request()->plate_no;
         $item->category1_uuid = request()->category1_uuid;
         $item->category2_uuid = request()->category2_uuid;
         $item->category3_uuid = request()->category3_uuid;
@@ -105,8 +103,6 @@ class ItemListController extends Controller
         $item->coa_cos_account_uuid = request()->coa_cos_account_uuid;
         $item->reorder_qty = request()->reorder_qty;
         $item->item_asset_group_uuid = request()->item_asset_group_uuid;
-        $item->mv_registration_no = request()->mv_registration_no;
-        $item->plate_no = request()->plate_no;
         $item->category1_uuid = request()->category1_uuid;
         $item->category2_uuid = request()->category2_uuid;
         $item->category3_uuid = request()->category3_uuid;

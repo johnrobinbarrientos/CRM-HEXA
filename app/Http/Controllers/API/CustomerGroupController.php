@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CustomerGroupController extends Controller
 {
-    public function getAllCustomerGroup()
+    public function getCustomerGroup()
     {
         $customerGroup = CustomerGroup::whereNull('deleted_at')->get();
         return response()->json(['success' => 1, 'rows' => $customerGroup], 200);
@@ -21,6 +21,7 @@ class CustomerGroupController extends Controller
         $auth = \Auth::user();
         $customerGroup->company_id = $auth->company_id;
         $customerGroup->group_name = request()->group_name;
+        $customerGroup->markup_rate = request()->markup_rate;
         $customerGroup->save();
 
         $customerGroup = CustomerGroup::find($customerGroup->uuid);

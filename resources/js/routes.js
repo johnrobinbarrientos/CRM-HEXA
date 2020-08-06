@@ -24,6 +24,14 @@ import CustomerType from './views/admin/globals/customer-type'
 
 import CompanyList from './views/admin/company-list'
 
+import AdminCoaReportGroup from './views/admin/admin-globals/admin-coa-report-group'
+import AdminCoaAccountGroup from './views/admin/admin-globals/admin-coa-account-group'
+import AdminChartofAccounts from './views/admin/admin-globals/admin-chart-of-accounts'
+
+import AdminCostCenter from './views/admin/admin-globals/admin-cost-center'
+
+
+
 Vue.use(VueRouter)
 
 function checkAuth (to, from, next) {
@@ -158,5 +166,34 @@ export default new VueRouter({
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
+        {
+          path: '/admin-coa-report-group',
+          name: 'admin-coa-report-group',
+          component: AdminCoaReportGroup,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/admin-coa-account-group',
+          name: 'admin-coa-account-group',
+          component: AdminCoaAccountGroup,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/admin-chart-of-accounts',
+          name: 'admin-chart-of-accounts',
+          component: AdminChartofAccounts,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/admin-cost-center',
+          name: 'admin-cost-center',
+          component: AdminCostCenter,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+
     ],
 });

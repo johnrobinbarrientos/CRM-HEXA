@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyPaymentTermController extends Controller
 {
-    public function getAllPaymentTerm()
+    public function getPaymentTerm()
     {
         $companyPaymentTerm = CompanyPaymentTerm::whereNull('deleted_at')->get();
         return response()->json(['success' => 1, 'rows' => $companyPaymentTerm], 200);

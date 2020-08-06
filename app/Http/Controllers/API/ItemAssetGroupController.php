@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ItemAssetGroupController extends Controller
 {
-    public function getAllItemAssetGroup()
+    public function getItemAssetGroup()
     {
         $itemAssetGroup = ItemAssetGroup::whereNull('deleted_at')->get();
         return response()->json(['success' => 1, 'rows' => $itemAssetGroup], 200);

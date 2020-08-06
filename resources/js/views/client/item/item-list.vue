@@ -401,25 +401,7 @@
                                     <select class="form-select-asset-group" v-model="selected_asset_group" :options="options_asset_group" name="asset-group">
                                     </select>
                                 </div>
-                            </div>
-
-                            <div class="col-md-3 col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="mv-registration-no">MV Registration No</label>
-                                    <div class="form-control-wrap">
-                                        <input v-model="formdata.mv_registration_no" type="text" class="form-control" id="mv-registration-no" required>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3 col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="plate-no">Plate Number</label>
-                                    <div class="form-control-wrap">
-                                        <input v-model="formdata.plate_no" type="text" class="form-control" id="plate-no" required>
-                                    </div>
-                                </div>
-                            </div>        
+                            </div>   
       
                         </div>   
      
@@ -507,8 +489,6 @@ export default {
                 coa_cos_account_uuid: '',
                 reorder_qty: '',
                 item_asset_group_uuid: '',
-                mv_registration_no: '',
-                plate_no: '',
                 category1_uuid: '',
                 category2_uuid: '',
                 category3_uuid: '',
@@ -776,8 +756,6 @@ export default {
             scope.formdata.coa_cos_account_uuid = ''
             scope.formdata.reorder_qty = ''
             scope.formdata.item_asset_group_uuid = ''
-            scope.formdata.mv_registration_no = ''
-            scope.formdata.plate_no = ''
             scope.formdata.category1_uuid = ''
             scope.formdata.category2_uuid = ''
             scope.formdata.category3_uuid = ''
@@ -802,8 +780,6 @@ export default {
             scope.formdata.transfer_cost = data.transfer_cost
             scope.formdata.is_expiry = data.is_expiry
             scope.formdata.reorder_qty = data.reorder_qty
-            scope.formdata.mv_registration_no = data.mv_registration_no
-            scope.formdata.plate_no = data.plate_no
 
             scope.selected_purchase_uom = data.purchase_uom
             scope.selected_sales_uom = data.sales_uom

@@ -5,6 +5,10 @@ import VueAxios from 'vue-axios'
 import Vuex from 'vuex'
 import Notifications from 'vue-notification'
 
+import datePicker from 'vue-bootstrap-datetimepicker';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
+
 
 // CSS 
 import './assets/vendors/lineawesome/css/line-awesome.min.css'
@@ -31,6 +35,7 @@ window.TOKEN_KEY = 'KX-HEXA'
 window.API_URL = '//'+ window.location.host +'/api'
 
 
+Vue.use(datePicker)
 Vue.use(Vuex) 
 Vue.use(VueAxios, axios)
 Vue.use(Notifications)

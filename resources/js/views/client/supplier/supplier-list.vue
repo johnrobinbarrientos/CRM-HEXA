@@ -537,7 +537,7 @@ export default {
             scope.formdata.global_address_uuid = scope.selected_global_address
             scope.formdata.discounts = scope.tempSupplierDiscounts
 
-            scope.POST('suppliers/supplier-list/save', scope.formdata).then(res => {
+            scope.POST('suppliers/supplier-list', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -565,7 +565,7 @@ export default {
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
             scope.formdata.global_address_uuid = scope.selected_global_address
             
-            scope.PUT('suppliers/supplier-list/update', scope.formdata).then(res => {
+            scope.POST('suppliers/supplier-list', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -638,7 +638,8 @@ export default {
         updateSupplierDiscount: function () {
             var scope = this
 
-            scope.PUT('suppliers/supplier-discount-regular/update', scope.supplierDiscountFormData).then(res => {
+            scope.supplierDiscountFormData.supplier_uuid = scope.formdata.uuid
+            scope.POST('suppliers/supplier-discount-regular', scope.supplierDiscountFormData).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -667,7 +668,7 @@ export default {
 
             // append the supplier UUID to the request payload
             scope.supplierDiscountFormData.supplier_uuid = scope.formdata.uuid
-            scope.POST('suppliers/supplier-discount-regular/save', scope.supplierDiscountFormData).then(res => {
+            scope.POST('suppliers/supplier-discount-regular', scope.supplierDiscountFormData).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',

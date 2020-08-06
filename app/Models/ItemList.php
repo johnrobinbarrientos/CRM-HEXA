@@ -16,7 +16,7 @@ class ItemList extends Model
         'item_description','item_shortname','supplier_uuid','is_purchase_item','purchase_uom',
         'purchase_cost','is_sales_item','sales_uom','sales_cost','transfer_cost','is_expiry',
         'vat_uuid','coa_income_account_uuid','coa_cos_account_uuid','reorder_qty','item_asset_group_uuid',
-        'mv_registration_no','plate_no','category1_uuid','category2_uuid','category3_uuid','category4_uuid',
+        'category1_uuid','category2_uuid','category3_uuid','category4_uuid',
         'category5_uuid',
     ];
 
