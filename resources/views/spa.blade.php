@@ -19,7 +19,7 @@
     <div id="app">
         <app></app>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="/app/js/jquery-3.5.1.min.js"></script>
     <script src="/app/vendors/select2/js/select2.full.min.js?ver=1.6.0'"></script>
     <script src="{{ mix('js/app.js') }}?v={{ time() }}"></script>
 </body>

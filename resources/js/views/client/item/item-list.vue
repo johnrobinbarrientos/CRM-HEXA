@@ -63,7 +63,16 @@
                                     <td><span class="">{{item.cs_barcode}}</span></td>
                                     <td><span class="">{{item.item_group.item_group}}</span></td>
                                     <td><span class="">{{item.reorder_qty}}</span></td>
-                                    <td><span class="">{{item.supplier.business_shortname}}</span></td>
+                                    <td>
+                                        <span v-if="item.suppliers.length > 0">
+                                            <span v-for="item_supplier in item.suppliers" :key="item_supplier.uuid">
+                                                <span  class="badge badge-dim badge-outline-secondary">{{ item_supplier.supplier.business_shortname }}</span> &nbsp;
+                                            </span>
+                                        </span>
+                                        <span v-else>
+                                            NOT SPECIFIED
+                                        </span>
+                                    </td>
                                     <td v-if="item.is_expiry === 1">Yes</td>
                                     <td v-else>No</td>
                                     <td><span class="">{{item.purchase_cost}}</span></td>
@@ -131,7 +140,7 @@
                     <div class="col-md-3 col-12">
                         <div class="form-group">
                             <label class="form-label" for="supplier">Supplier Name</label>
-                            <select class="form-select-supplier" v-model="selected_supplier" :options="options_supplier" name="supplier">
+                            <select class="form-select-suppliers" v-model="selected_suppliers" :options="options_supplier" name="supplier"  multiple="multiple">
                             </select>
                         </div>
                     </div>
@@ -447,7 +456,7 @@ export default {
             selected_item_group: null,
             options_item_group: [],
 
-            selected_supplier: null,
+            selected_suppliers: [],
             options_supplier: [],
 
             selected_income_account: null,
@@ -570,9 +579,7 @@ export default {
                 
                 })
 
-                $(".form-select-supplier").select2({data: scope.options_supplier});
-                
-                scope.selected_supplier = scope.options_supplier[0].id
+                $(".form-select-suppliers").select2({data: scope.options_supplier});
             })
         },
 
@@ -814,8 +821,14 @@ export default {
             $('.form-select-item-group').val(data.item_group_uuid);
             $('.form-select-item-group').trigger('change');
 
-            $('.form-select-supplier').val(data.supplier_uuid);
-            $('.form-select-supplier').trigger('change');
+            var suppliers = [];
+
+            for(var i = 0; i < data.suppliers.length; i++) {
+                suppliers.push(data.suppliers[i].supplier_uuid)
+            }
+
+            $('.form-select-suppliers').val(suppliers);
+            $('.form-select-suppliers').trigger('change');
 
             $('.form-select-income-account').val(data.coa_income_account_uuid);
             $('.form-select-income-account').trigger('change');
@@ -848,7 +861,7 @@ export default {
         save: function () {
             var scope = this
             scope.formdata.item_group_uuid = scope.selected_item_group
-            scope.formdata.supplier_uuid = scope.selected_supplier
+            scope.formdata.supplier_uuids = scope.selected_suppliers
             scope.formdata.vat_uuid = scope.selected_tax
             scope.formdata.coa_income_account_uuid = scope.selected_income_account
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
@@ -889,7 +902,7 @@ export default {
         update: function () {
             var scope = this
             scope.formdata.item_group_uuid = scope.selected_item_group
-            scope.formdata.supplier_uuid = scope.selected_supplier
+            scope.formdata.supplier_uuids = scope.selected_suppliers
             scope.formdata.vat_uuid = scope.selected_tax
             scope.formdata.coa_income_account_uuid = scope.selected_income_account
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
@@ -1124,8 +1137,8 @@ export default {
             scope.selected_item_group = $('.form-select-item-group').val();
         })
 
-        $('.form-select-supplier').on("change", function(e) { 
-            scope.selected_supplier = $('.form-select-supplier').val();
+        $('.form-select-suppliers').on("change", function(e) { 
+            scope.selected_suppliers = $('.form-select-suppliers').val();
         })
 
         $('.form-select-income-account').on("change", function(e) { 

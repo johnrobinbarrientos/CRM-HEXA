@@ -5,7 +5,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
 
 use App\Models\ItemList;
+use App\Models\ItemSupplier;
 use App\Models\ItemUom; 
+use App\Models\SupplierList; 
 use Illuminate\Support\Facades\Auth; 
 
 class ItemListController extends Controller
@@ -13,7 +15,7 @@ class ItemListController extends Controller
     public function getAllItem()
     {
         $list = ItemList::whereNull('deleted_at')
-        ->with('ItemGroup')->with('Supplier')
+        ->with('ItemGroup')->with('Suppliers')
         ->with('IncomeAccount')->with('CosAccount')
         ->with('Tax')->with('Category1')
         ->with('Category2')->with('Category3')
@@ -25,17 +27,19 @@ class ItemListController extends Controller
 
     public function save()
     {
+
+        $list = SupplierList::whereNull('deleted_at')->with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable')->with('discounts')->get();
+        
+    
         $item = new ItemList();
         $auth = \Auth::user();
         $item->company_id = $auth->company_id;
-        
         $item->item_group_uuid = request()->item_group_uuid;
         $item->item_code = request()->item_code;
         $item->item_barcode = request()->item_barcode;
         $item->cs_barcode = request()->cs_barcode;
         $item->item_description = request()->item_description;
         $item->item_shortname = request()->item_shortname;
-        $item->supplier_uuid = request()->supplier_uuid;
         $item->is_purchase_item = request()->is_purchase_item;
         $item->purchase_uom = request()->purchase_uom;
         $item->purchase_cost = request()->purchase_cost;
@@ -57,6 +61,7 @@ class ItemListController extends Controller
         $item->category4_uuid = request()->category4_uuid;
         $item->category5_uuid = request()->category5_uuid;
         $item->save();
+        
 
         $uoms = request()->uoms;
 
@@ -71,6 +76,25 @@ class ItemListController extends Controller
             $uom->save();
         }
 
+        $supplier_uuids = request()->supplier_uuids;
+        $item_suppliers = ItemSupplier::where('item_uuid', '=', $item->uuid)->delete();
+        foreach ($supplier_uuids as $supplier_uuid) {
+            
+            // make sure the suppier belongs to the company
+            $exists = SupplierList::where('uuid','=',$supplier_uuid)->where('company_id','=',$auth->company_id)->first();
+            
+            if (!$exists) {
+                continue;
+            }
+
+            $item_supplier = ItemSupplier::where('item_uuid','=',$item->uuid)->where('supplier_uuid','=',$supplier_uuid)->withTrashed()->first();
+            $item_supplier = (!$item_supplier) ? new ItemSupplier : $item_supplier;
+            $item_supplier->item_uuid = $item->uuid;
+            $item_supplier->supplier_uuid = $supplier_uuid;
+            $item_supplier->deleted_at = null;
+            $item_supplier->save();
+        }
+
 
         $item = ItemList::find($item->uuid);
         return response()->json(['success' => 1, 'data' => $item, 'message' => 'Item Added!'], 200); 
@@ -79,6 +103,7 @@ class ItemListController extends Controller
 
     public function update()
     {
+        $auth = \Auth::user();
         $item = ItemList::find(request()->uuid);
 
         if (!$item) {
@@ -91,7 +116,6 @@ class ItemListController extends Controller
         $item->cs_barcode = request()->cs_barcode;
         $item->item_description = request()->item_description;
         $item->item_shortname = request()->item_shortname;
-        $item->supplier_uuid = request()->supplier_uuid;
         $item->is_purchase_item = request()->is_purchase_item;
         $item->purchase_uom = request()->purchase_uom;
         $item->purchase_cost = request()->purchase_cost;
@@ -113,6 +137,26 @@ class ItemListController extends Controller
         $item->category4_uuid = request()->category4_uuid;
         $item->category5_uuid = request()->category5_uuid;
         $item->save();
+
+
+        $supplier_uuids = request()->supplier_uuids;
+        $item_suppliers = ItemSupplier::where('item_uuid', '=', $item->uuid)->delete();
+        foreach ($supplier_uuids as $supplier_uuid) {
+            
+            // make sure the suppier belongs to the company
+            $exists = SupplierList::where('uuid','=',$supplier_uuid)->where('company_id','=',$auth->company_id)->first();
+            
+            if (!$exists) {
+                continue;
+            }
+
+            $item_supplier = ItemSupplier::where('item_uuid','=',$item->uuid)->where('supplier_uuid','=',$supplier_uuid)->withTrashed()->first();
+            $item_supplier = (!$item_supplier) ? new ItemSupplier : $item_supplier;
+            $item_supplier->item_uuid = $item->uuid;
+            $item_supplier->supplier_uuid = $supplier_uuid;
+            $item_supplier->deleted_at = null;
+            $item_supplier->save();
+        }
         
         return response()->json(['success' => 1, 'data' => $item, 'message' => 'Item Updated!'], 200); 
     }

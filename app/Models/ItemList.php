@@ -38,8 +38,9 @@ class ItemList extends Model
         return $this->belongsTo('App\Models\ItemGroup','item_group_uuid','uuid');
     }
 
-    public function Supplier(){
-        return $this->belongsTo('App\Models\SupplierList','supplier_uuid','uuid');
+
+    public function Suppliers(){
+        return $this->hasMany('App\Models\ItemSupplier','item_uuid','uuid')->with('Supplier');
     }
 
     public function IncomeAccount(){
