@@ -28,6 +28,7 @@
                                         <tr class="tb-tnx-head">
                                             <th><span class="">#</span></th>
                                             <th><span class="">Group Name</span></th>
+                                            <th><span class="">Markup Rate</span></th>
                                             <th><span class="">Actions</span></th>
                                         </tr>
                                     </thead>
@@ -35,6 +36,7 @@
                                         <tr v-for="(group, index) in Groups" :key="group.uuid" class="tb-tnx-item">
                                             <td><span class="">{{ (index + 1) }}</span></td>
                                             <td><span class="">{{ group.group_name }}</span></td>
+                                            <td><span class="">{{ group.markup_rate }}</span></td>
                                             <td>
                                                 <span class="">
                                                     <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalCustomerGroup');setData(group)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
@@ -72,6 +74,15 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="markup-rate">Markup Rate</label>
+                                                    <div class="form-control-wrap">
+                                                        <input v-model="formdata.markup_rate" type="text" class="form-control" id="markup-rate" required>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             
                                         </div>                                    
                                         
@@ -104,12 +115,13 @@ export default {
             Groups: [],
             formdata: { 
                 uuid: null, 
-                group_name: ''
+                group_name: '',
+                markup_rate: ''
             }
         }
     },
     methods: {
-        getAllCustomerGroup: function () {
+        getCustomerGroup: function () {
            var scope = this
             scope.GET('customers/customer-group').then(res => {
                 scope.Groups = res.rows
@@ -119,11 +131,13 @@ export default {
             var scope = this
             scope.formdata.uuid = null
             scope.formdata.group_name = ''
+            scope.formdata.markup_rate = ''
         },
         setData: function (data) {
             var scope = this
             scope.formdata.uuid = data.uuid
             scope.formdata.group_name = data.group_name
+            scope.formdata.markup_rate = data.markup_rate
         },
         save: function () {
             var scope = this
@@ -136,7 +150,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getAllCustomerGroup()
+                        scope.getCustomerGroup()
                         scope.CLOSE_MODAL('#modalCustomerGroup')
                     })
                 } else {
@@ -166,7 +180,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                                scope.getAllCustomerGroup()
+                                scope.getCustomerGroup()
                                 scope.CLOSE_MODAL('#modalCustomerGroup')
                             })
                         }
@@ -200,7 +214,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            scope.getAllCustomerGroup()
+                            scope.getCustomerGroup()
                             scope.CLOSE_MODAL('#modalCustomerGroup')
                             })
                         }
@@ -214,7 +228,7 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getAllCustomerGroup()
+        scope.getCustomerGroup()
     },
 }
 </script>

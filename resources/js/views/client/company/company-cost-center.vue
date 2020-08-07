@@ -133,7 +133,7 @@ export default {
         }
     },
     methods: {
-        getAllCostCenters: function () {
+        getCostCenters: function () {
            var scope = this
             scope.GET('company/cost-center').then(res => {
                 scope.costCenters = res.rows
@@ -166,7 +166,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getAllCostCenters()
+                        scope.getCostCenters()
                         scope.CLOSE_MODAL('#modalCostCenter')
                     })
                 } else {
@@ -196,7 +196,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                                scope.getAllCostCenters()
+                                scope.getCostCenters()
                                 scope.CLOSE_MODAL('#modalCostCenter')
                             })
                         }
@@ -230,7 +230,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            scope.getAllCostCenters()
+                            scope.getCostCenters()
                             scope.CLOSE_MODAL('#modalCostCenter')
                             })
                         }
@@ -244,8 +244,7 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getAllCostCenters()
-         $(".form-select").select2();
+        scope.getCostCenters()
     },
 }
 </script>

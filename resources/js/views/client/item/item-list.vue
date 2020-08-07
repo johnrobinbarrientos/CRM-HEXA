@@ -75,8 +75,8 @@
                                     </td>
                                     <td v-if="item.is_expiry === 1">Yes</td>
                                     <td v-else>No</td>
-                                    <td><span class="">{{item.purchase_cost}}</span></td>
-                                    <td><span class="">{{item.sales_cost}}</span></td>
+                                    <td><span class="">{{item.purchase_price}}</span></td>
+                                    <td><span class="">{{item.sales_price}}</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -157,8 +157,30 @@
                         <div class="form-group">
                             <div class="form-control-wrap">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" v-model="formdata.is_expiry" true-value="1" false-value="0" class="custom-control-input" id="is-expiry">
+                                    <input type="checkbox" v-model="formdata.is_expiry" value="1" class="custom-control-input" id="is-expiry">
                                     <label class="custom-control-label" for="is-expiry">Is Expiry?</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" v-model="formdata.is_maintain_stock" value="1" class="custom-control-input" id="is-maintain-stock">
+                                    <label class="custom-control-label" for="is-maintain-stock">Maintain Stock?</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" v-model="formdata.is_active" value="1" class="custom-control-input" id="is-active">
+                                    <label class="custom-control-label" for="is-active">Is Active?</label>
                                 </div>
                             </div>
                         </div>
@@ -175,7 +197,7 @@
                             <a class="nav-link" data-toggle="tab" href="#category">Category</a>    
                         </li>
                         <li class="nav-item">        
-                            <a class="nav-link" data-toggle="tab" href="#cost">Cost</a>    
+                            <a class="nav-link" data-toggle="tab" href="#pricing">Pricing</a>    
                         </li>
                         <li class="nav-item">        
                             <a class="nav-link" data-toggle="tab" href="#unit-of-measure">Unit of Measure</a>    
@@ -206,8 +228,16 @@
 
                             <div class="col-md-4 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="tax">Tax</label>
-                                    <select class="form-select-tax" v-model="selected_tax" :options="options_tax" name="tax">
+                                    <label class="form-label" for="vat-tax">VAT Tax</label>
+                                    <select class="form-select-vat-tax" v-model="selected_vat_tax" :options="options_vat_tax" name="vat-tax">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="ewt-tax">EWT Tax</label>
+                                    <select class="form-select-ewt-tax" v-model="selected_ewt_tax" :options="options_ewt_tax" name="ewt-tax">
                                     </select>
                                 </div>
                             </div>
@@ -252,7 +282,7 @@
                             </div>        
       
                         </div>
-                        <div class="tab-pane" id="cost"> 
+                        <div class="tab-pane" id="pricing"> 
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
@@ -276,9 +306,9 @@
 
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
-                                                <label class="form-label" for="purchase-cost">Purchase Cost</label>
+                                                <label class="form-label" for="purchase-price">Purchase Price</label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="formdata.purchase_cost" type="text" class="form-control" id="purchase-cost" required>
+                                                    <input v-model="formdata.purchase_price" type="text" class="form-control" id="purchase-price" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -312,18 +342,18 @@
 
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
-                                                <label class="form-label" for="sales-cost">Sales Cost</label>
+                                                <label class="form-label" for="sales-price">Sales Price</label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="formdata.sales_cost" type="text" class="form-control" id="sales-cost" required>
+                                                    <input v-model="formdata.sales_price" type="text" class="form-control" id="sales-price" required>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
-                                                <label class="form-label" for="transfer-cost">Transfer Cost</label>
+                                                <label class="form-label" for="transfer-price">Transfer Price</label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="formdata.transfer_cost" type="text" class="form-control" id="transfer-cost" required>
+                                                    <input v-model="formdata.transfer_price" type="text" class="form-control" id="transfer-price" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -410,25 +440,7 @@
                                     <select class="form-select-asset-group" v-model="selected_asset_group" :options="options_asset_group" name="asset-group">
                                     </select>
                                 </div>
-                            </div>
-
-                            <div class="col-md-3 col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="mv-registration-no">MV Registration No</label>
-                                    <div class="form-control-wrap">
-                                        <input v-model="formdata.mv_registration_no" type="text" class="form-control" id="mv-registration-no" required>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3 col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="plate-no">Plate Number</label>
-                                    <div class="form-control-wrap">
-                                        <input v-model="formdata.plate_no" type="text" class="form-control" id="plate-no" required>
-                                    </div>
-                                </div>
-                            </div>        
+                            </div>   
       
                         </div>   
      
@@ -465,8 +477,11 @@ export default {
             selected_cost_of_sales: null,
             options_cost_of_sales: [],
 
-            selected_tax: null,
-            options_tax: [],
+            selected_vat_tax: null,
+            options_vat_tax: [],
+
+            selected_ewt_tax: null,
+            options_ewt_tax: [],
 
             selected_category1: null,
             options_category1: [],
@@ -505,19 +520,20 @@ export default {
                 supplier_uuid: '',
                 is_purchase_item: 0,
                 purchase_uom: '',
-                purchase_cost: '',
+                purchase_price: '',
                 is_sales_item: 0,
                 sales_uom: '',
-                sales_cost: '',
-                transfer_cost: '',
-                is_expiry: '',
+                sales_price: '',
+                transfer_price: '',
+                is_expiry: 0,
                 vat_uuid: '',
+                ewt_uuid: '',
+                is_maintain_stock: 0,
+                is_active: 0,
                 coa_income_account_uuid: '',
                 coa_cos_account_uuid: '',
                 reorder_qty: '',
                 item_asset_group_uuid: '',
-                mv_registration_no: '',
-                plate_no: '',
                 category1_uuid: '',
                 category2_uuid: '',
                 category3_uuid: '',
@@ -549,7 +565,7 @@ export default {
             })
         },
 
-        getAllItemGroup: function () {
+        getItemGroup: function () {
            var scope = this
             scope.GET('items/item-group').then(res => {
                 res.rows.forEach(function (data) {
@@ -567,7 +583,7 @@ export default {
             })
         },
 
-        getAllSupplier: function () {
+        getSupplier: function () {
            var scope = this
             scope.GET('suppliers/supplier-list').then(res => {
                 res.rows.forEach(function (data) {
@@ -583,7 +599,7 @@ export default {
             })
         },
 
-        getAllIncomeAccount: function () {
+        getIncomeAccount: function () {
            var scope = this
             scope.GET('company/chart-of-accounts-income').then(res => {
                 res.rows.forEach(function (data) {
@@ -601,7 +617,7 @@ export default {
             })
         },
 
-        getAllCostofSales: function () {
+        getCostofSales: function () {
            var scope = this
             scope.GET('company/chart-of-accounts-cost-of-sales').then(res => {
                 res.rows.forEach(function (data) {
@@ -619,27 +635,45 @@ export default {
             })
         },
 
-        getAllTax: function () {
+        getVatTax: function () {
            var scope = this
             scope.GET('company/taxation').then(res => {
                 
                 res.rows.forEach(function (data) {
 
-                    scope.options_tax.push({
+                    scope.options_vat_tax.push({
                         id: data.uuid,
                         text: data.tax_name
                     })
                 
                 })
 
-                $(".form-select-tax").select2({data: scope.options_tax});
+                $(".form-select-vat-tax").select2({data: scope.options_vat_tax});
                 
-                scope.selected_tax = scope.options_tax[0].id
+                scope.selected_vat_tax = scope.options_vat_tax[0].id
             })
-
         },
 
-        getAllCategory1: function () {
+        getEwtTax: function () {
+           var scope = this
+            scope.GET('company/taxation').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_ewt_tax.push({
+                        id: data.uuid,
+                        text: data.tax_name
+                    })
+                
+                })
+
+                $(".form-select-ewt-tax").select2({data: scope.options_ewt_tax});
+                
+                scope.selected_ewt_tax = scope.options_ewt_tax[0].id
+            })
+        },
+
+        getCategory1: function () {
            var scope = this
             scope.GET('items/category1').then(res => {
                 
@@ -660,7 +694,7 @@ export default {
         },
 
 
-        getAllCategory2: function () {
+        getCategory2: function () {
            var scope = this
             scope.GET('items/category2').then(res => {
                 
@@ -680,7 +714,7 @@ export default {
 
         },
 
-        getAllCategory3: function () {
+        getCategory3: function () {
            var scope = this
             scope.GET('items/category3').then(res => {
                 
@@ -700,7 +734,7 @@ export default {
 
         },
 
-        getAllCategory4: function () {
+        getCategory4: function () {
            var scope = this
             scope.GET('items/category4').then(res => {
                 
@@ -720,7 +754,7 @@ export default {
 
         },
 
-        getAllCategory5: function () {
+        getCategory5: function () {
            var scope = this
             scope.GET('items/category5').then(res => {
                 
@@ -740,7 +774,7 @@ export default {
 
         },
 
-        getAllAssetGroup: function () {
+        getAssetGroup: function () {
            var scope = this
             scope.GET('items/item-asset-group').then(res => {
                 
@@ -755,7 +789,7 @@ export default {
 
                 $(".form-select-asset-group").select2({data: scope.options_asset_group});
                 
-                scope.selected_asset_group = scope.options_asset_group[0].id
+                // scope.selected_asset_group = scope.options_asset_group[0].id
             })
 
         },
@@ -772,19 +806,20 @@ export default {
             scope.formdata.supplier_uuid = ''
             scope.formdata.is_purchase_item = 0
             scope.formdata.purchase_uom = ''
-            scope.formdata.purchase_cost = ''
+            scope.formdata.purchase_price = ''
             scope.formdata.is_sales_item = 0
             scope.formdata.sales_uom = ''
-            scope.formdata.sales_cost = ''
-            scope.formdata.transfer_cost = ''
-            scope.formdata.is_expiry = ''
+            scope.formdata.sales_price = ''
+            scope.formdata.transfer_price = ''
+            scope.formdata.is_expiry = 0
             scope.formdata.vat_uuid = ''
+            scope.formdata.ewt_uuid = ''
+            scope.formdata.is_maintain_stock = 0
+            scope.formdata.is_active = 0
             scope.formdata.coa_income_account_uuid = ''
             scope.formdata.coa_cos_account_uuid = ''
             scope.formdata.reorder_qty = ''
             scope.formdata.item_asset_group_uuid = ''
-            scope.formdata.mv_registration_no = ''
-            scope.formdata.plate_no = ''
             scope.formdata.category1_uuid = ''
             scope.formdata.category2_uuid = ''
             scope.formdata.category3_uuid = ''
@@ -802,15 +837,16 @@ export default {
             scope.formdata.item_shortname = data.item_shortname
             scope.formdata.is_purchase_item = data.is_purchase_item
 
-            scope.formdata.purchase_cost = data.purchase_cost
+            scope.formdata.purchase_price = data.purchase_price
             scope.formdata.is_sales_item = data.is_sales_item
 
-            scope.formdata.sales_cost = data.sales_cost
-            scope.formdata.transfer_cost = data.transfer_cost
+            scope.formdata.sales_price = data.sales_price
+            scope.formdata.transfer_price = data.transfer_price
             scope.formdata.is_expiry = data.is_expiry
             scope.formdata.reorder_qty = data.reorder_qty
-            scope.formdata.mv_registration_no = data.mv_registration_no
-            scope.formdata.plate_no = data.plate_no
+
+            scope.formdata.is_maintain_stock = data.is_maintain_stock
+            scope.formdata.is_active = data.is_active
 
             scope.selected_purchase_uom = data.purchase_uom
             scope.selected_sales_uom = data.sales_uom
@@ -836,8 +872,11 @@ export default {
             $('.form-select-cost-of-sales').val(data.coa_cos_account_uuid);
             $('.form-select-cost-of-sales').trigger('change');
 
-            $('.form-select-tax').val(data.vat_uuid);
-            $('.form-select-tax').trigger('change');
+            $('.form-select-vat-tax').val(data.vat_uuid);
+            $('.form-select-vat-tax').trigger('change');
+
+            $('.form-select-ewt-tax').val(data.ewt_uuid);
+            $('.form-select-ewt-tax').trigger('change');
 
             $('.form-select-category-1').val(data.category1_uuid);
             $('.form-select-category-1').trigger('change');
@@ -861,8 +900,14 @@ export default {
         save: function () {
             var scope = this
             scope.formdata.item_group_uuid = scope.selected_item_group
+<<<<<<< HEAD
             scope.formdata.supplier_uuids = scope.selected_suppliers
             scope.formdata.vat_uuid = scope.selected_tax
+=======
+            scope.formdata.supplier_uuid = scope.selected_supplier
+            scope.formdata.vat_uuid = scope.selected_vat_tax
+            scope.formdata.ewt_uuid = scope.selected_ewt_tax
+>>>>>>> John
             scope.formdata.coa_income_account_uuid = scope.selected_income_account
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
             scope.formdata.item_asset_group_uuid = scope.selected_asset_group
@@ -879,7 +924,7 @@ export default {
 
             scope.formdata.uoms = scope.tempItemUOMs
 
-            scope.POST('items/item-list/save', scope.formdata).then(res => {
+            scope.POST('items/item-list', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -902,8 +947,14 @@ export default {
         update: function () {
             var scope = this
             scope.formdata.item_group_uuid = scope.selected_item_group
+<<<<<<< HEAD
             scope.formdata.supplier_uuids = scope.selected_suppliers
             scope.formdata.vat_uuid = scope.selected_tax
+=======
+            scope.formdata.supplier_uuid = scope.selected_supplier
+            scope.formdata.vat_uuid = scope.selected_vat_tax
+            scope.formdata.ewt_uuid = scope.selected_ewt_tax
+>>>>>>> John
             scope.formdata.coa_income_account_uuid = scope.selected_income_account
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
             scope.formdata.item_asset_group_uuid = scope.selected_asset_group
@@ -928,7 +979,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.PUT('items/item-list/update', scope.formdata).then(res => {
+                    scope.POST('items/item-list', scope.formdata).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
@@ -1121,17 +1172,18 @@ export default {
         var scope = this
         scope.getItemList()
 
-        scope.getAllItemGroup()
-        scope.getAllSupplier()
-        scope.getAllIncomeAccount()
-        scope.getAllCostofSales()
-        scope.getAllTax()
-        scope.getAllCategory1()
-        scope.getAllCategory2()
-        scope.getAllCategory3()
-        scope.getAllCategory4()
-        scope.getAllCategory5()
-        scope.getAllAssetGroup()
+        scope.getItemGroup()
+        scope.getSupplier()
+        scope.getIncomeAccount()
+        scope.getCostofSales()
+        scope.getVatTax()
+        scope.getEwtTax()
+        scope.getCategory1()
+        scope.getCategory2()
+        scope.getCategory3()
+        scope.getCategory4()
+        scope.getCategory5()
+        scope.getAssetGroup()
 
         $('.form-select-item-group').on("change", function(e) { 
             scope.selected_item_group = $('.form-select-item-group').val();
@@ -1149,8 +1201,12 @@ export default {
             scope.selected_cost_of_sales = $('.form-select-cost-of-sales').val();
         })
 
-        $('.form-select-tax').on("change", function(e) { 
-            scope.selected_tax = $('.form-select-tax').val();
+        $('.form-select-vat-tax').on("change", function(e) { 
+            scope.selected_vat_tax = $('.form-select-vat-tax').val();
+        })
+
+        $('.form-select-ewt-tax').on("change", function(e) { 
+            scope.selected_ewt_tax = $('.form-select-ewt-tax').val();
         })
 
         $('.form-select-category-1').on("change", function(e) { 

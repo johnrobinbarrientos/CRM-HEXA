@@ -123,7 +123,7 @@ export default {
 
     },
     methods: {
-        getAllReportGroups: function () {
+        getReportGroups: function () {
            var scope = this
             scope.GET('company/coa-report-group').then(res => {
                 
@@ -142,7 +142,7 @@ export default {
             })
 
         },
-        getAllAccountGroups: function () {
+        getAccountGroups: function () {
            var scope = this
             scope.GET('company/coa-account-group').then(res => {
                 scope.accountGroups = res.rows
@@ -177,7 +177,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getAllAccountGroups()
+                        scope.getAccountGroups()
                         scope.CLOSE_MODAL('#modalAccountGroup')
                     })
                 } else {
@@ -209,7 +209,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                                scope.getAllAccountGroups()
+                                scope.getAccountGroups()
                                 scope.CLOSE_MODAL('#modalAccountGroup')
                             })
                         }
@@ -243,7 +243,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            scope.getAllAccountGroups()
+                            scope.getAccountGroups()
                             scope.CLOSE_MODAL('#modalAccountGroup')
                             })
                         }
@@ -258,8 +258,8 @@ export default {
 
     mounted() {
         var scope = this
-        scope.getAllAccountGroups()
-        scope.getAllReportGroups()
+        scope.getAccountGroups()
+        scope.getReportGroups()
          
         $('.form-select-report').on("change", function(e) { 
             scope.selected_report_group = $('.form-select-report').val();

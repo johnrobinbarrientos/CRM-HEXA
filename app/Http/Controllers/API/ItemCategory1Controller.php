@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ItemCategory1Controller extends Controller
 {
-    public function getAllCategory()
+    public function getCategories()
     {
         $cat1 = ItemCategory1::whereNull('deleted_at')->get();
         return response()->json(['success' => 1, 'rows' => $cat1], 200);

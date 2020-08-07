@@ -32,36 +32,35 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
     Route::group(['prefix' => 'items'], function(){
 
-        Route::get('/item-list', 'API\ItemListController@getAllItem');
-        Route::post('/item-list/save', 'API\ItemListController@save');
-        Route::put('/item-list/update', 'API\ItemListController@update');
+        Route::get('/item-list', 'API\ItemListController@getItemList');
+        Route::post('/item-list', 'API\ItemListController@save');
         Route::post('/item-list/delete', 'API\ItemListController@delete');
 
-        Route::get('/item-group', 'API\ItemGroupController@getAllItemGroup');
+        Route::get('/item-group', 'API\ItemGroupController@getItemGroup');
         Route::post('/item-group', 'API\ItemGroupController@save');
         Route::post('/item-group/delete', 'API\ItemGroupController@delete');
 
-        Route::get('/item-asset-group', 'API\ItemAssetGroupController@getAllItemAssetGroup');
+        Route::get('/item-asset-group', 'API\ItemAssetGroupController@getItemAssetGroup');
         Route::post('/item-asset-group', 'API\ItemAssetGroupController@save');
         Route::post('/item-asset-group/delete', 'API\ItemAssetGroupController@delete');
         
-        Route::get('/category1', 'API\ItemCategory1Controller@getAllCategory');
+        Route::get('/category1', 'API\ItemCategory1Controller@getCategories');
         Route::post('/category1', 'API\ItemCategory1Controller@save');
         Route::post('/category1/delete', 'API\ItemCategory1Controller@delete');
 
-        Route::get('/category2', 'API\ItemCategory2Controller@getAllCategory');
+        Route::get('/category2', 'API\ItemCategory2Controller@getCategories');
         Route::post('/category2', 'API\ItemCategory2Controller@save');
         Route::post('/category2/delete', 'API\ItemCategory2Controller@delete');
 
-        Route::get('/category3', 'API\ItemCategory3Controller@getAllCategory');
+        Route::get('/category3', 'API\ItemCategory3Controller@getCategories');
         Route::post('/category3', 'API\ItemCategory3Controller@save');
         Route::post('/category3/delete', 'API\ItemCategory3Controller@delete');
 
-        Route::get('/category4', 'API\ItemCategory4Controller@getAllCategory');
+        Route::get('/category4', 'API\ItemCategory4Controller@getCategories');
         Route::post('/category4', 'API\ItemCategory4Controller@save');
         Route::post('/category4/delete', 'API\ItemCategory4Controller@delete');
 
-        Route::get('/category5', 'API\ItemCategory5Controller@getAllCategory');
+        Route::get('/category5', 'API\ItemCategory5Controller@getCategories');
         Route::post('/category5', 'API\ItemCategory5Controller@save');
         Route::post('/category5/delete', 'API\ItemCategory5Controller@delete');
 
@@ -73,30 +72,41 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
     Route::group(['prefix' => 'suppliers'], function(){
 
-        Route::get('/supplier-list', 'API\SupplierListController@getAllSupplierList');
-        Route::post('/supplier-list/save', 'API\SupplierListController@save');
-        Route::put('/supplier-list/update', 'API\SupplierListController@update');
+        Route::get('/supplier-list', 'API\SupplierListController@getSupplierList');
+        Route::post('/supplier-list', 'API\SupplierListController@save');
         Route::post('/supplier-list/delete', 'API\SupplierListController@delete');
 
-        Route::get('/supplier-group', 'API\SupplierGroupController@getAllSupplierGroup');
+        Route::get('/supplier-group', 'API\SupplierGroupController@getSupplierGroup');
         Route::post('/supplier-group', 'API\SupplierGroupController@save');
         Route::post('/supplier-group/delete', 'API\SupplierGroupController@delete');
 
-        Route::post('/supplier-discount-regular/save', 'API\SupplierDiscountRegularController@save');
-        Route::put('/supplier-discount-regular/update', 'API\SupplierDiscountRegularController@update');
+        Route::post('/supplier-discount-regular', 'API\SupplierDiscountRegularController@save');
         Route::post('/supplier-discount-regular/delete', 'API\SupplierDiscountRegularController@delete');
 
     });
 
     Route::group(['prefix' => 'customers'], function(){
-        Route::get('/customer-group', 'API\CustomerGroupController@getAllCustomerGroup');
+
+        Route::get('/customer-list', 'API\CustomerListController@getCustomerList');
+        Route::post('/customer-list', 'API\CustomerListController@save');
+        Route::post('/customer-list/delete', 'API\CustomerListController@delete');
+
+        Route::get('/customer-group', 'API\CustomerGroupController@getCustomerGroup');
         Route::post('/customer-group', 'API\CustomerGroupController@save');
         Route::post('/customer-group/delete', 'API\CustomerGroupController@delete');
+
+        Route::post('/customer-discount-regular', 'API\CustomerDiscountRegularController@save');
+        Route::post('/customer-discount-regular/delete', 'API\CustomerDiscountRegularController@delete');
 
     });
 
     Route::group(['prefix' => 'employees'], function(){
-        Route::get('/employment-type', 'API\EmployeeEmploymentTypeController@getAllEmploymentType');
+
+        Route::get('/employee-list', 'API\EmployeeListController@getEmployeeList');
+        Route::post('/employee-list', 'API\EmployeeListController@save');
+        Route::post('/employee-list/delete', 'API\EmployeeListController@delete');
+
+        Route::get('/employment-type', 'API\EmployeeEmploymentTypeController@getEmploymentType');
         Route::post('/employment-type', 'API\EmployeeEmploymentTypeController@save');
         Route::post('/employment-type/delete', 'API\EmployeeEmploymentTypeController@delete');
 
@@ -104,46 +114,47 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
     Route::group(['prefix' => 'company'], function(){
 
-        Route::get('/branch', 'API\CompanyBranchController@getAllBranch');
+        Route::get('/branch', 'API\CompanyBranchController@getBranch');
         Route::post('/branch', 'API\CompanyBranchController@save');
         Route::post('/branch/delete', 'API\CompanyBranchController@delete');
 
-        Route::get('/branch-location', 'API\CompanyBranchLocationController@getAllBranchLocation');
+        Route::get('/branch-location', 'API\CompanyBranchLocationController@getBranchLocation');
         Route::post('/branch-location', 'API\CompanyBranchLocationController@save');
         Route::post('/branch-location/delete', 'API\CompanyBranchLocationController@delete');
 
-        Route::get('/payment-term', 'API\CompanyPaymentTermController@getAllPaymentTerm');
+        Route::get('/payment-term', 'API\CompanyPaymentTermController@getPaymentTerm');
         Route::post('/payment-term', 'API\CompanyPaymentTermController@save');
         Route::post('/payment-term/delete', 'API\CompanyPaymentTermController@delete');
 
-        Route::get('/taxation', 'API\CompanyTaxationController@getAllTaxation');
+        Route::get('/taxation', 'API\CompanyTaxationController@getTaxation');
         Route::post('/taxation', 'API\CompanyTaxationController@save');
         Route::post('/taxation/delete', 'API\CompanyTaxationController@delete');
 
-        Route::get('/cost-center', 'API\CompanyCostCenterController@getAllCostCenter');
+        Route::get('/cost-center', 'API\CompanyCostCenterController@getCostCenter');
         Route::post('/cost-center', 'API\CompanyCostCenterController@save');
         Route::post('/cost-center/delete', 'API\CompanyCostCenterController@delete');
 
-        Route::get('/chart-of-accounts', 'API\CompanyChartOfAccountController@getAllChartOfAccounts');
+        Route::get('/chart-of-accounts', 'API\CompanyChartOfAccountController@getChartOfAccounts');
         Route::post('/chart-of-accounts', 'API\CompanyChartOfAccountController@save');
         Route::post('/chart-of-accounts/delete', 'API\CompanyChartOfAccountController@delete');
 
-        Route::get('/chart-of-accounts-payables', 'API\CompanyChartOfAccountController@getAllPayables');
-        Route::get('/chart-of-accounts-income', 'API\CompanyChartOfAccountController@getAllIncomeAccount');
-        Route::get('/chart-of-accounts-cost-of-sales', 'API\CompanyChartOfAccountController@getAllCostOfSales');
+        Route::get('/chart-of-accounts-payables', 'API\CompanyChartOfAccountController@getPayables');
+        Route::get('/chart-of-accounts-income', 'API\CompanyChartOfAccountController@getIncomeAccount');
+        Route::get('/chart-of-accounts-cost-of-sales', 'API\CompanyChartOfAccountController@getCostOfSales');
+        Route::get('/chart-of-accounts-recievables', 'API\CompanyChartOfAccountController@getRecievables');
 
-        Route::get('/coa-report-group', 'API\CompanyCOAReportGroupController@getAllReportGroup');
+        Route::get('/coa-report-group', 'API\CompanyCOAReportGroupController@getReportGroup');
         Route::post('/coa-report-group', 'API\CompanyCOAReportGroupController@save');
         Route::post('/coa-report-group/delete', 'API\CompanyCOAReportGroupController@delete');
 
-        Route::get('/coa-account-group', 'API\CompanyCOAAccountGroupController@getAllAccountGroup');
+        Route::get('/coa-account-group', 'API\CompanyCOAAccountGroupController@getAccountGroup');
         Route::post('/coa-account-group', 'API\CompanyCOAAccountGroupController@save');
         Route::post('/coa-account-group/delete', 'API\CompanyCOAAccountGroupController@delete');
 
     });
 
     Route::group(['prefix' => 'globals'], function(){
-        Route::get('/address-list', 'API\GlobalAddressListController@getAllAddressList');
+        Route::get('/address-list', 'API\GlobalAddressListController@getAddressList');
         Route::post('/address-list', 'API\GlobalAddressListController@save');
         Route::post('/address-list/delete', 'API\GlobalAddressListController@delete');
 
@@ -164,6 +175,22 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/company-list', 'API\CompanyListController@getCompanyList');
         Route::post('/company-list', 'API\CompanyListController@save');
         Route::post('/company-list/delete', 'API\CompanyListController@delete');
+
+        Route::get('/coa-report-group', 'API\AdminCOAReportGroupController@getReportGroup');
+        Route::post('/coa-report-group', 'API\AdminCOAReportGroupController@save');
+        Route::post('/coa-report-group/delete', 'API\AdminCOAReportGroupController@delete');
+
+        Route::get('/coa-account-group', 'API\AdminCOAAccountGroupController@getAccountGroup');
+        Route::post('/coa-account-group', 'API\AdminCOAAccountGroupController@save');
+        Route::post('/coa-account-group/delete', 'API\AdminCOAAccountGroupController@delete');
+
+        Route::get('/chart-of-accounts', 'API\AdminChartOfAccountController@getAccounts');
+        Route::post('/chart-of-accounts', 'API\AdminChartOfAccountController@save');
+        Route::post('/chart-of-accounts/delete', 'API\AdminChartOfAccountController@delete');
+
+        Route::get('/cost-center', 'API\AdminCostCenterController@getCostCenter');
+        Route::post('/cost-center', 'API\AdminCostCenterController@save');
+        Route::post('/cost-center/delete', 'API\AdminCostCenterController@delete');
     });
 
     Route::get('/menus', 'API\MenuController@index');

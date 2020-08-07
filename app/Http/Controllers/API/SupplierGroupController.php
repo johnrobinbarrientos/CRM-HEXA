@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class SupplierGroupController extends Controller
 {
-    public function getAllSupplierGroup()
+    public function getSupplierGroup()
     {
         $supplierGroup = SupplierGroup::whereNull('deleted_at')->get();
         return response()->json(['success' => 1, 'rows' => $supplierGroup], 200);

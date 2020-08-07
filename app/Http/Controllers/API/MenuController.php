@@ -65,6 +65,18 @@ class MenuController extends Controller
             ]
         ];
 
+        $menus[] = [
+            'text' => 'ADMIN GLOBALS',
+            'route' => '#has-submenu',
+            'icon' => 'icon ni ni-db-fill',
+            'submenus' => [
+                [ 'text' => 'Admin Chart of Accounts', 'route' => 'admin-chart-of-accounts'],
+                [ 'text' => 'Admin Account Group', 'route' => 'admin-coa-account-group'],
+                [ 'text' => 'Admin Report Group', 'route' => 'admin-coa-report-group'],
+                [ 'text' => 'Admin Cost Center', 'route' => 'admin-cost-center'],
+            ]
+        ];
+
         return $menus;
     }
 

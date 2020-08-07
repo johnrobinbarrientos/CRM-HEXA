@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EmployeeEmploymentTypeController extends Controller
 {
-    public function getAllEmploymentType()
+    public function getEmploymentType()
     {
         $employmentType = EmployeeEmploymentType::whereNull('deleted_at')->get();
         return response()->json(['success' => 1, 'rows' => $employmentType], 200);

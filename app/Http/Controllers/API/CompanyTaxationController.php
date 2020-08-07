@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyTaxationController extends Controller
 {
-    public function getAllTaxation()
+    public function getTaxation()
     {
         $companyTaxation = CompanyTaxation::whereNull('deleted_at')->get();
         return response()->json(['success' => 1, 'rows' => $companyTaxation], 200);

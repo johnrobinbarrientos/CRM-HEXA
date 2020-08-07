@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class GlobalAddressListController extends Controller
 {
-    public function getAllAddressList()
+    public function getAddressList()
     {
         $addressList = GlobalAddressList::whereNull('deleted_at')->get();
         return response()->json(['success' => 1, 'rows' => $addressList], 200);

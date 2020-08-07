@@ -109,7 +109,7 @@ export default {
         }
     },
     methods: {
-        getAllAssetGroup: function () {
+        getAssetGroup: function () {
            var scope = this
             scope.GET('items/item-asset-group').then(res => {
                 scope.assetGroups = res.rows
@@ -136,7 +136,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getAllAssetGroup()
+                        scope.getAssetGroup()
                         scope.CLOSE_MODAL('#modalItemAssetGroup')
                     })
                 } else {
@@ -166,7 +166,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                                scope.getAllAssetGroup()
+                                scope.getAssetGroup()
                                 scope.CLOSE_MODAL('#modalItemAssetGroup')
                             })
                         }
@@ -200,7 +200,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            scope.getAllAssetGroup()
+                            scope.getAssetGroup()
                             scope.CLOSE_MODAL('#modalItemAssetGroup')
                             })
                         }
@@ -214,7 +214,7 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getAllAssetGroup()
+        scope.getAssetGroup()
     },
 }
 </script>

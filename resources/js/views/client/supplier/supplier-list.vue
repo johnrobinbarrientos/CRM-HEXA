@@ -285,7 +285,7 @@
          
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="business-name">Address</label>
+                                    <label class="form-label" for="business-name">Postal/Zip Code/Country/Region/Province/City/Municipality/Barangay</label>
                                     <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list">
                                     </select>
                                 </div>
@@ -293,9 +293,9 @@
 
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="business-name">Address1</label>
+                                    <label class="form-label" for="business-name">Zone/Purok/Street</label>
                                     <div class="form-control-wrap">
-                                        <input v-model="formdata.Address1" type="text" class="form-control" id="address1" required>
+                                        <input v-model="formdata.address1" type="text" class="form-control" id="address1" required>
                                     </div>
                                 </div>
                             </div>
@@ -360,7 +360,7 @@ export default {
                 email: '',
                 contact_no: '',
                 global_address_uuid: '',
-                Address1: ''
+                address1: ''
             },
 
             supplierDiscountFormData:{
@@ -378,13 +378,13 @@ export default {
             var scope = this
             scope.show_form = !scope.show_form
         },
-        getSupplier: function () {
+        getSupplierList: function () {
            var scope = this
             scope.GET('suppliers/supplier-list').then(res => {
                 scope.supplierList = res.rows
             })
         },
-        getAllPayables: function () {
+        getPayables: function () {
            var scope = this
             scope.GET('company/chart-of-accounts-payables').then(res => {
                 res.rows.forEach(function (data) {
@@ -400,7 +400,7 @@ export default {
             })
 
         },
-        getAllSupplierGroup: function () {
+        getSupplierGroup: function () {
            var scope = this
             scope.GET('suppliers/supplier-group').then(res => {
                 
@@ -419,7 +419,7 @@ export default {
             })
 
         },
-        getAllPaymentTerm: function () {
+        getPaymentTerm: function () {
            var scope = this
             scope.GET('company/payment-term').then(res => {
                 
@@ -438,7 +438,7 @@ export default {
             })
 
         },
-        getAllTax: function () {
+        getTax: function () {
            var scope = this
             scope.GET('company/taxation').then(res => {
                 
@@ -457,7 +457,7 @@ export default {
             })
 
         },
-        getAllAddressList: function () {
+        getAddressList: function () {
            var scope = this
             scope.GET('globals/address-list').then(res => {
                 
@@ -492,7 +492,7 @@ export default {
             scope.formdata.email = ''
             scope.formdata.contact_no = ''
             scope.formdata.global_address_uuid = ''
-            scope.formdata.Address1 = ''
+            scope.formdata.address1 = ''
 
             scope.supplierDiscounts = []
 
@@ -508,7 +508,7 @@ export default {
             scope.formdata.is_transporter = data.is_transporter
             scope.formdata.email = data.email
             scope.formdata.contact_no = data.contact_no
-            scope.formdata.Address1 = data.Address1
+            scope.formdata.address1 = data.address1
 
             scope.supplierDiscounts = []
             scope.supplierDiscounts = data.discounts
@@ -537,7 +537,7 @@ export default {
             scope.formdata.global_address_uuid = scope.selected_global_address
             scope.formdata.discounts = scope.tempSupplierDiscounts
 
-            scope.POST('suppliers/supplier-list/save', scope.formdata).then(res => {
+            scope.POST('suppliers/supplier-list', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -546,7 +546,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getSupplier()
+                        scope.getSupplierList()
                         scope.toggleForm()
                         scope.tempSupplierDiscounts = []
                         scope.formdata.discounts = []
@@ -565,7 +565,7 @@ export default {
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
             scope.formdata.global_address_uuid = scope.selected_global_address
             
-            scope.PUT('suppliers/supplier-list/update', scope.formdata).then(res => {
+            scope.POST('suppliers/supplier-list', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -574,7 +574,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getSupplier()
+                        scope.getSupplierList()
                         scope.toggleForm()
                     })
                 } else {
@@ -638,7 +638,8 @@ export default {
         updateSupplierDiscount: function () {
             var scope = this
 
-            scope.PUT('suppliers/supplier-discount-regular/update', scope.supplierDiscountFormData).then(res => {
+            scope.supplierDiscountFormData.supplier_uuid = scope.formdata.uuid
+            scope.POST('suppliers/supplier-discount-regular', scope.supplierDiscountFormData).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -667,7 +668,7 @@ export default {
 
             // append the supplier UUID to the request payload
             scope.supplierDiscountFormData.supplier_uuid = scope.formdata.uuid
-            scope.POST('suppliers/supplier-discount-regular/save', scope.supplierDiscountFormData).then(res => {
+            scope.POST('suppliers/supplier-discount-regular', scope.supplierDiscountFormData).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -722,13 +723,13 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getSupplier()
+        scope.getSupplierList()
 
-        scope.getAllPayables()
-        scope.getAllSupplierGroup()
-        scope.getAllPaymentTerm()
-        scope.getAllTax()
-        scope.getAllAddressList()
+        scope.getPayables()
+        scope.getSupplierGroup()
+        scope.getPaymentTerm()
+        scope.getTax()
+        scope.getAddressList()
 
         
         $('.form-select-payables').on("change", function(e) { 

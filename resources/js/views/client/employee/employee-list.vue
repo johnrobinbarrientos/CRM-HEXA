@@ -1,288 +1,410 @@
 <template>
     <div>
-        <div style="margin-bottom:40px;" class="nk-fmg-body-head d-none d-lg-flex">
+        <div v-show="!show_form">
+        <div class="nk-fmg-body-head d-none d-lg-flex">
             <div class="nk-fmg-search">
                 <em class="icon ni ni-search"></em>
-                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Supplier">
+                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Employee">
             </div>
             <div class="nk-fmg-actions">
                 <ul class="nk-block-tools g-3">
                     <li>
-                        <a href="javascript:void(0)" @click="OPEN_MODAL('#modalLocation');resetData()" class="btn btn-primary" data-toggle="modal">
+                        <a href="javascript:void(0)" @click="toggleForm();resetData()" class="btn btn-primary" data-toggle="modal">
                             <em class="icon ni ni-plus"></em> <span>New Employee</span>
                         </a>
                     </li>
                 </ul>
             </div>
         </div>
+        </div>
         
-        <div class="nk-content nk-content-fluid">          
-            <div class="container-fluid">
-                <div class="nk-content-body">
+        <br/>
+        <div v-show="!show_form">          
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-bordered card-preview">
+                        <div style="overflow-x:auto;"> 
+                        <table class="table table-tranx table-employee">
+                            <thead>
+                                <tr class="tb-tnx-head">
+                                    <!-- <th class="table-fixed-column" style="left:0px; width:150px; background: #f5f6fa;"><span class="">Actions</span></th>
+                                    <th class="table-fixed-column" style="left:150px; width:100px; background: #f5f6fa;"><span class="">#</span></th>
+                                    <th class="table-fixed-column" style="left:250px; width:200px; background: #f5f6fa; border-right:1px solid #dbdfea;"><span class="">Shortname</span></th> -->
+                                    <th><span class="">Actions</span></th>
+                                    <th><span class="">#</span></th>
+                                    <th><span class="">Employee ID</span></th>
+                                    <th><span class="">First Name</span></th>
+                                    <th><span class="">Middle Name</span></th>
+                                    <th><span class="">Last Name</span></th>
+                                    <th><span class="">Ext</span></th>
+                                    <th><span class="">Is Custodian?</span></th>
+                                    <th><span class="">Is Driver?</span></th>
+                                    <th><span class="">Is System User?</span></th>
+                                    <th><span class="">Is Active</span></th>
+                                    <th><span class="">Contact No</span></th>
+                                    <th><span class="">Emergency Contact</span></th>
+                                    <th><span class="">Contact Relation</span></th>
+                                    <th><span class="">Relation Contact No</span></th>
+                                    <th><span class="">Location</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(employee, index) in employeeList" :key="employee.uuid" class="tb-tnx-employee">
+                                    <!-- <th class="table-fixed-column" style="border-top:1px solid #dbdfea; left:0px; width:150px; background:#fff;"><span class="">Actions</span></th>
+                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:150px; width:100px; background:#fff;"><span class="">#</span></td>
+                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:250px; width:200px; background:#fff; border-right:1px solid #dbdfea;"><span class="">Shortname Tide</span></td> -->
+                                    <td>
+                                    <span class="">
+                                        <a href="javascript:void(0)"  @click="setData(employee); toggleForm() " class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
+                                        <a href="javascript:void(0)"  @click="remove(employee)" class="btn btn-sm btn-danger"><em class="icon ni ni-trash"></em></a>
+                                    </span>
+                                    </td>
+                                    <td><span class="">{{ (index + 1) }}</span></td>
+                                    <td><span class="">{{employee.emp_id}}</span></td>
+                                    <td><span class="">{{employee.first_name}}</span></td>
+                                    <td><span class="">{{employee.middle_name}}</span></td>
+                                    <td><span class="">{{employee.last_name}}</span></td>
+                                    <td><span class="">{{employee.ext}}</span></td>
+                                    <td v-if="employee.is_custodian === 1">Yes</td>
+                                    <td v-else>No</td>
+                                    <td v-if="employee.is_driver === 1">Yes</td>
+                                    <td v-else>No</td>
+                                    <td v-if="employee.is_system_user === 1">Yes</td>
+                                    <td v-else>No</td>
+                                    <td v-if="employee.is_active === 1">Yes</td>
+                                    <td v-else>No</td>
+                                    <td><span class="">{{employee.contact_no}}</span></td>
+                                    <td><span class="">{{employee.emergeny_contact}}</span></td>
+                                    <td><span class="">{{employee.emergeny_contact_relation}}</span></td>
+                                    <td><span class="">{{employee.relation_contact_no}}</span></td>
+                                    <td><span class="">{{employee.branch_location.location_name}}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
 
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card card-bordered card-preview">
-                                <div class="overflow-auto">
-                                    <table class="table table-tranx">
-                                        <thead>
-                                            <tr class="tb-tnx-head">
-                                                <th><span class="">#</span></th>
-                                                <th><span class="">Employee ID</span></th>
-                                                <th><span class="">First Name</span></th>
-                                                <th><span class="">Middle Name</span></th>
-                                                <th><span class="">Last Name</span></th>
-                                                <th><span class="">Ext Name</span></th>
-                                                <th><span class="">Location</span></th>
-                                                <th><span class="">Cost Center</span></th>
-                                                <th><span class="">Employment Type</span></th>
-                                                <th><span class="">Is Custodian</span></th>
-                                                <th><span class="">Is Driver</span></th>
-                                                <th><span class="">WT Name</span></th>
-                                                <th><span class="">Date Hired</span></th>
-                                                <th><span class="">Date Regularized</span></th>
-                                                <th><span class="">Date Terminated</span></th>
-                                                <th><span class="">Emergency Contract</span></th>
-                                                <th><span class="">Contact Relation</span></th>
-                                                <th><span class="">Email</span></th>
-                                                <th><span class="">Contact Number</span></th>
-                                                <th><span class="">Address</span></th>
-                                                <th><span class="">Is Active?</span></th>
-                                                <th><span class="">Is System User?</span></th>
-                                                <th><span class="">Daily Wage</span></th>
-                                                <th><span class="">Is Minimum Wage?</span></th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
+        <div v-show="show_form">
+            <form action="#" class="form-validate is-alter">
+
+                <div class="row">
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <label class="form-label" for="employee-id">Employee ID</label>
+                            <div class="form-control-wrap">
+                                <input v-model="formdata.emp_id" type="text" class="form-control" id="employee-id" required>
                             </div>
                         </div>
                     </div>
                     
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <label class="form-label" for="first-name">First Name</label>
+                            <div class="form-control-wrap">
+                                <input v-model="formdata.first_name" type="text" class="form-control" id="first-name" required>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <label class="form-label" for="middle-name">Middle Name</label>
+                            <div class="form-control-wrap">
+                                <input v-model="formdata.middle_name" type="text" class="form-control" id="middle-name" required>
+                            </div>
+                        </div>
+                    </div>
 
-                    <!-- Modal Location Form -->
-                    <div class="modal fade" tabindex="-1" id="modalLocation">
-                        <div class="modal-dialog modal-lg " role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Employee Details</h5>
-                                    <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalLocation');" class="close" data-dismiss="modal" aria-label="Close">
-                                        <em class="icon ni ni-cross"></em>
-                                    </a>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="#" class="form-validate is-alter">
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <label class="form-label" for="last-name">Last Name</label>
+                            <div class="form-control-wrap">
+                                <input v-model="formdata.last_name" type="text" class="form-control" id="last-name" required>
+                            </div>
+                        </div>
+                    </div>
 
-                                        <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="business-name">Employee ID</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_code" type="text" class="form-control" id="location-code" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="business-shortname">First Name</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Middle Name</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Last Name</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Group Name</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Ext Name</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Location</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Cost Center</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Employment Type</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Is Custodian?</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Is Driver</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">WT Name</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Date Hired</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Date Regularized</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Date Terminated</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Emergency Contract</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Contact Relation</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Email</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Contact Number</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Address</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Is Active?</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Is System User?</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Daily Wage</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="check-payee">Is Minimum Wage?</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>                                    
-                                        
-                                    </form>
-                                </div>
-                                <div class="modal-footer bg-light">
-                                    <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
-                                    <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <label class="form-label" for="ext">Ext</label>
+                            <div class="form-control-wrap">
+                                <input v-model="formdata.ext" type="text" class="form-control" id="ext" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <label class="form-label" for="branch-location">Branch Location</label>
+                            <select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="branch-location">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" v-model="formdata.is_custodian" true-value="1" false-value="0" class="custom-control-input" id="is-custodian">
+                                    <label class="custom-control-label" for="is-custodian">Is Custodian?</label>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" v-model="formdata.is_driver " true-value="1" false-value="0" class="custom-control-input" id="is-driver">
+                                    <label class="custom-control-label" for="is-driver">Is Driver?</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" v-model="formdata.is_system_user" true-value="1" false-value="0" class="custom-control-input" id="is-system-user">
+                                    <label class="custom-control-label" for="is-system-user">Is System User?</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" v-model="formdata.is_active" true-value="1" false-value="0" class="custom-control-input" id="is-active">
+                                    <label class="custom-control-label" for="is-active">Is Active?</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email</label>
+                            <div class="form-control-wrap">
+                                <input v-model="formdata.email" type="text" class="form-control" id="email" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <label class="form-label" for="contact-no">Contact No</label>
+                            <div class="form-control-wrap">
+                                <input v-model="formdata.contact_no " type="text" class="form-control" id="contact-no" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <label class="form-label" for="emergency-contact">Emergency Contact</label>
+                            <div class="form-control-wrap">
+                                <input v-model="formdata.emergeny_contact" type="text" class="form-control" id="emergency-contact" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <label class="form-label" for="contact-relation">Contact Relation</label>
+                            <div class="form-control-wrap">
+                                <input v-model="formdata.emergeny_contact_relation" type="text" class="form-control" id="contact-relation" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <label class="form-label" for="relation-contact-no">Relation Contact No</label>
+                            <div class="form-control-wrap">
+                                <input v-model="formdata.relation_contact_no" type="text" class="form-control" id="relation-contact-no" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                          
                 </div>
+
+                <br/>
+                <ul class="nav nav-tabs">    
+                        <li class="nav-item">        
+                            <a class="nav-link active" data-toggle="tab" href="#employement">Employment</a>    
+                        </li>    
+                        <li class="nav-item">        
+                            <a class="nav-link" data-toggle="tab" href="#financial">Financial and Contribution</a>    
+                        </li>
+                        <li class="nav-item">        
+                            <a class="nav-link" data-toggle="tab" href="#address">Address</a>    
+                        </li>     
+                    </ul>
+
+                    <div class="tab-content">    
+                        <div class="tab-pane active" id="employement">
+                    
+                            <div class="col-md-4 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="employment-type">Employment Type</label>
+                                    <select class="form-select-employment-type" v-model="selected_employment_type" :options="options_employment_type" name="employment-type">
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="date-hired">Date Hired</label>
+                                    <div class="form-control-wrap">
+                                        <date-picker v-model="formdata.date_hired" :config="{format: 'YYYY-MM-DD'}"></date-picker>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="date-regularized">Date Regularized</label>
+                                    <div class="form-control-wrap">
+                                        <date-picker v-model="formdata.date_regularized" :config="{format: 'YYYY-MM-DD'}"></date-picker>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="date-terminated">Date Terminated</label>
+                                    <div class="form-control-wrap">
+                                        <date-picker v-model="formdata.date_terminated" :config="{format: 'YYYY-MM-DD'}"></date-picker>
+                                    </div>
+                                </div>
+                            </div>
+ 
+                        </div>
+
+                        <div class="tab-pane" id="financial">
+                            <div class="row">
+                              
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" v-model="formdata.is_min_wage" true-value="1" false-value="0" class="custom-control-input" id="is-min-wage">
+                                                <label class="custom-control-label" for="is-min-wage">Is Minimum Wage?</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="daily-wage">Daily Wage</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.daily_wage" type="text" class="form-control" id="daily-wage" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="cost-center">Cost Center</label>
+                                        <select class="form-select-cost-center" v-model="selected_cost_center" :options="options_cost_center" name="cost-center">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" v-model="formdata.is_applied_tax" true-value="1" false-value="0" class="custom-control-input" id="is-applied-tax">
+                                                <label class="custom-control-label" for="is-applied-tax">Is Applied WTax?</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="tax">Tax</label>
+                                        <select class="form-select-tax" v-model="selected_tax" :options="options_tax" name="tax">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="tax-id">Tax ID</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.tax_id" type="text" class="form-control" id="tax-id" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="sss-id">SSS ID</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.sss_id" type="text" class="form-control" id="sss-id" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="phic-id">PHIC ID</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.phic_id" type="text" class="form-control" id="phic-id" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="hdmf-id">HDMF ID</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.hdmf_id" type="text" class="form-control" id="hdmf-id" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>    
+                        </div>
+
+                        <div class="tab-pane" id="address"> 
+         
+                            <div class="col-md-3 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="address-list">Postal/Zip Code/Country/Region/Province/City/Municipality/Barangay</label>
+                                    <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="address1">Zone/Purok/Street</label>
+                                    <div class="form-control-wrap">
+                                        <input v-model="formdata.address1" type="text" class="form-control" id="address1" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>     
+                 </div>
+            </form>
+            <div style="margin-top:30px; text-align:right;">
+                <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
+                <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
             </div>
         </div>        
+             
     </div>
 </template>
 
@@ -291,52 +413,274 @@
 import Swal from 'sweetalert2'
 
 export default {
-    name: 'home',
+    name: 'employee-list',
     props: ['properties'],
     data: function () {
         return {
-            locations: [],
-            location_groups: [],
+
+            selected_branch_location: null,
+            options_branch_location: [],
+
+            selected_employment_type: null,
+            options_employment_type: [],
+
+            selected_cost_center: null,
+            options_cost_center: [],
+
+            selected_tax: null,
+            options_tax: [],
+
+            selected_global_address: null,
+            options_global_address: [],
+
+            show_form: false,
+
+            employeeList: [],
+
             formdata: { 
                 uuid: null, 
-                location_code: '', 
-                location_name: '', 
-                location_shortname: ''
+                emp_id: '', 
+                first_name: '', 
+                middle_name: '',
+                last_name: '',
+                ext: '',
+                branch_location_uuid: '',
+                is_custodian: '',
+                is_driver: '',
+                is_system_user: '',
+                is_active: '',
+                email: '',
+                contact_no: '',
+                emergeny_contact: '',
+                emergeny_contact_relation: '',
+                relation_contact_no: '',
+                employment_type_uuid: '',
+                date_hired: '',
+                date_regularized: '',
+                date_terminated: '',
+                is_min_wage: '',
+                daily_wage: '',
+                cost_center_uuid: '',
+                is_applied_tax: '',
+                wt_uuid: '',
+                tax_id: '',
+                sss_id: '',
+                phic_id: '',
+                hdmf_id: '',
+                global_address_uuid: '',
+                address1: ''
             },
-            formLocationGroup: {
-                uuid: null, 
-                location_group_name: '',
-                form: 'hidden'
-            }
+
         }
     },
     methods: {
-        getLocations: function () {
+        toggleForm() {
+            var scope = this
+            scope.show_form = !scope.show_form
+        },
+        
+        getEmployeeList: function () {
            var scope = this
-            scope.GET('locations').then(res => {
-                scope.locations = res.rows
+            scope.GET('employees/employee-list').then(res => {
+                scope.employeeList = res.rows
+                console.log(res.rows)
             })
+        },
+
+        getBranchLocation: function () {
+           var scope = this
+            scope.GET('company/branch-location').then(res => {
+                res.rows.forEach(function (data) {
+                    scope.options_branch_location.push({
+                        id: data.uuid,
+                        text: data.location_name
+                    })
+                })
+
+                $(".form-select-branch-location").select2({data: scope.options_branch_location});
+                
+                scope.selected_branch_location = scope.options_branch_location[0].id
+            })
+
+        },
+
+        getEmploymentType: function () {
+           var scope = this
+            scope.GET('employees/employment-type').then(res => {
+                res.rows.forEach(function (data) {
+                    scope.options_employment_type.push({
+                        id: data.uuid,
+                        text: data.employment_type
+                    })
+                })
+
+                $(".form-select-employment-type").select2({data: scope.options_employment_type});
+                
+                scope.selected_employment_type = scope.options_employment_type[0].id
+            })
+
+        },
+
+        getCostCenter: function () {
+           var scope = this
+            scope.GET('company/cost-center').then(res => {
+                res.rows.forEach(function (data) {
+                    scope.options_cost_center.push({
+                        id: data.uuid,
+                        text: data.cost_center_name
+                    })
+                })
+
+                $(".form-select-cost-center").select2({data: scope.options_cost_center});
+                
+                scope.selected_cost_center = scope.options_cost_center[0].id
+            })
+
+        },
+
+        getTax: function () {
+           var scope = this
+            scope.GET('company/taxation').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_tax.push({
+                        id: data.uuid,
+                        text: data.tax_name
+                    })
+                
+                })
+
+                $(".form-select-tax").select2({data: scope.options_tax});
+                
+                scope.selected_tax = scope.options_tax[0].id
+            })
+
+        },
+
+        getAddressList: function () {
+           var scope = this
+            scope.GET('globals/address-list').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_global_address.push({
+                        id: data.uuid,
+                        text: data.barangay + ' ' + data.city_municipality + ' ' + data.province + ' ' + data.region
+                    })
+                
+                })
+
+                $(".form-select-address-list").select2({data: scope.options_global_address});
+                
+                scope.selected_global_address = scope.options_global_address[0].id
+            })
+
         },
         resetData: function () {
             var scope = this
             scope.formdata.uuid = null
-            scope.formdata.location_code = ''
-            scope.formdata.location_name = ''
-            scope.formdata.location_shortname = ''
+            scope.formdata.emp_id = ''
+            scope.formdata.first_name = ''
+            scope.formdata.middle_name = ''
+            scope.formdata.last_name = ''
+            scope.formdata.ext = ''
+            scope.formdata.branch_location_uuid = ''
+            scope.formdata.is_custodian = ''
+            scope.formdata.is_driver = ''
+            scope.formdata.is_system_user = ''
+            scope.formdata.is_active = ''
+            scope.formdata.email = ''
+            scope.formdata.contact_no = ''
+            scope.formdata.emergeny_contact = ''
+            scope.formdata.emergeny_contact_relation = ''
+            scope.formdata.relation_contact_no = ''
+            scope.formdata.employment_type_uuid = ''
+            scope.formdata.date_hired = ''
+            scope.formdata.date_regularized = ''
+            scope.formdata.date_terminated = ''
+            scope.formdata.is_min_wage = ''
+            scope.formdata.daily_wage = ''
+            scope.formdata.cost_center_uuid = ''
+            scope.formdata.is_applied_tax = ''
+            scope.formdata.wt_uuid = ''
+            scope.formdata.tax_id = ''
+            scope.formdata.sss_id = ''
+            scope.formdata.phic_id = ''
+            scope.formdata.hdmf_id = ''
+            scope.formdata.global_address_uuid = ''
+            scope.formdata.address1 = ''
+
         },
         setData: function (data) {
             var scope = this
             scope.formdata.uuid = data.uuid
-            scope.formdata.location_code = data.location_code
-            scope.formdata.location_name = data.location_name
-            scope.formdata.location_shortname = data.location_shortname
+            scope.formdata.emp_id = data.emp_id
+            scope.formdata.first_name = data.first_name
+            scope.formdata.middle_name = data.middle_name
+            scope.formdata.last_name = data.last_name
+            scope.formdata.ext = data.ext
+            scope.formdata.is_custodian = data.is_custodian
+            scope.formdata.is_driver = data.is_driver
+            scope.formdata.is_system_user = data.is_system_user
+            scope.formdata.is_active = data.is_active
+            scope.formdata.email = data.email
+            scope.formdata.contact_no = data.contact_no
+            scope.formdata.emergeny_contact = data.emergeny_contact
+            scope.formdata.emergeny_contact_relation = data.emergeny_contact_relation
+            scope.formdata.relation_contact_no = data.relation_contact_no
+            scope.formdata.employment_type_uuid = data.employment_type_uuid
+            scope.formdata.date_hired = data.date_hired
+            scope.formdata.date_regularized = data.date_regularized
+            scope.formdata.date_terminated = data.date_terminated
+            scope.formdata.is_min_wage = data.is_min_wage
+            scope.formdata.daily_wage = data.daily_wage
+            scope.formdata.is_applied_tax = data.is_applied_tax
+            scope.formdata.wt_uuid = data.wt_uuid
+            scope.formdata.tax_id = data.tax_id
+            scope.formdata.sss_id = data.sss_id
+            scope.formdata.phic_id = data.phic_id
+            scope.formdata.hdmf_id = data.hdmf_id
+            scope.formdata.address1 = data.address1
+
+            $('.form-select-branch-location').val(data.branch_location_uuid);
+            $('.form-select-branch-location').trigger('change');
+
+            $('.form-select-employment-type').val(data.employment_type_uuid);
+            $('.form-select-employment-type').trigger('change');
+
+            $('.form-select-cost-center').val(data.cost_center_uuid);
+            $('.form-select-cost-center').trigger('change');
+
+            $('.form-select-tax').val(data.wt_uuid);
+            $('.form-select-tax').trigger('change');
+
+
+            $('.form-select-address-list').val(data.global_address_uuid);
+            $('.form-select-address-list').trigger('change');
         },
         save: function () {
             var scope = this
-            scope.POST('locations', scope.formdata).then(res => {
+            scope.formdata.branch_location_uuid = scope.selected_branch_location
+            scope.formdata.employment_type_uuid = scope.selected_employment_type
+            scope.formdata.cost_center_uuid = scope.selected_cost_center
+            scope.formdata.wt_uuid = scope.selected_tax
+            scope.formdata.global_address_uuid = scope.selected_global_address
+
+            console.log(scope.formdata)
+
+            scope.POST('employees/employee-list', scope.formdata).then(res => {
                 if (res.success) {
-                    scope.locations.push(res.data)
-                    scope.CLOSE_MODAL('#modalLocation')
+                    window.swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Employee Successfuly Saved',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        scope.getEmployeeList()
+                        scope.toggleForm()
+                    })
                 } else {
                     alert('ERROR:' + res.code)
                 }
@@ -345,72 +689,117 @@ export default {
         },
         update: function () {
             var scope = this
-            scope.PUT('locations', scope.formdata).then(res => {
-                if (res.success) {
-                    scope.getLocations()
-                    scope.CLOSE_MODAL('#modalLocation')
-                } else {
-                    alert('ERROR:' + res.code)
-                }
-                
+            scope.formdata.branch_location_uuid = scope.selected_branch_location
+            scope.formdata.employment_type_uuid = scope.selected_employment_type
+            scope.formdata.cost_center_uuid = scope.selected_cost_center
+            scope.formdata.wt_uuid = scope.selected_tax
+            scope.formdata.global_address_uuid = scope.selected_global_address
+            
+            window.swal.fire({
+                title: 'Update Record?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Update it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.POST('employees/employee-list', scope.formdata).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Employee Updated',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.getEmployeeList()
+                                scope.toggleForm()
+                            })
+                        }
+                        else{
+                            alert('ERROR:' + res.code)
+                        }
+                    })            
+                }                              
             })
         },
-        editGroupToggle(group) {
-            var scope = this
-            scope.$set(group,'edit',!group.edit)
-            scope.$set(group,'temp',group.location_group_name)
-        },
-        formLocationGroupToggle(name) {
+
+        remove: function (data) {
             var scope = this
 
-            if (scope.formLocationGroup.form === name) {
-                scope.formLocationGroup.form = 'hidden'
-                return
-            }
-            scope.formLocationGroup.form = name
-        },
-        getLocationGroups: function () {
-            var scope = this
-            scope.GET('locations/groups').then(res => {
-                scope.location_groups = res.rows
+            window.swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.POST('employees/employee-list/delete', data).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Employee Deleted',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                            scope.getEmployeeList()
+                            scope.toggleForm()
+                            })
+                        }
+                        else{
+                            alert('ERROR:' + res.code)
+                        }
+                    })            
+                }                              
             })
-        },
-        saveLocationGroup: function () {
-            var scope = this
-            scope.POST('locations/groups', scope.formLocationGroup).then(res => {
-                if (res.success) {
-                    scope.location_groups.push(res.data)
-                    scope.formLocationGroup.location_group_name = ''
-                    // scope.CLOSE_MODAL('#modalGroup')
-                } else {
-                    alert('ERROR:' + res.code)
-                }
-                
-            })
-        },
-        updateLocationGroup: function (data) {
-            var scope = this
-            scope.PUT('locations/groups', data).then(res => {
-                if (res.success) {
-                    scope.$set(data,'edit',false)
-                    scope.$set(data,'location_group_name',res.data.location_group_name)
-                } else {
-                    alert('ERROR:' + res.code)
-                }
-                
-            })
-        },
+        }
+
     },
     mounted() {
         var scope = this
-        scope.getLocations()
-        scope.getLocationGroups()
-         $(".form-select").select2();
+        scope.getEmployeeList()
+
+        scope.getBranchLocation()
+        scope.getEmploymentType()
+        scope.getCostCenter()
+        scope.getTax()
+        scope.getAddressList()
+
+
+        $('.form-select-branch-location').on("change", function(e) { 
+            scope.selected_branch_location = $('.form-select-branch-location').val();
+        })
+        
+        $('.form-select-employment-type').on("change", function(e) { 
+            scope.selected_employment_type = $('.form-select-employment-type').val();
+        })
+
+        $('.form-select-cost-center').on("change", function(e) { 
+            scope.selected_cost_center = $('.form-select-cost-center').val();
+        })
+
+        $('.form-select-tax').on("change", function(e) { 
+            scope.selected_tax = $('.form-select-tax').val();
+        })
+
+        $('.form-select-address-list').on("change", function(e) { 
+            scope.selected_global_address = $('.form-select-address-list').val();
+        })
+        
     },
 }
 </script>
 
 <style scoped>
-.table-tranx { table-layout: auto; width: 500%;}
-
+.table-tranx { table-layout: auto; }
+.table-items tr th { min-width:300px; width:auto; padding-left:10px; padding-right:10px; }
+.table-fixed-column { position:absolute; }
+.form-group { margin-top:10px !important; }
 </style>

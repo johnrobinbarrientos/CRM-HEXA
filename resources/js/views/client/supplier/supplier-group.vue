@@ -109,7 +109,7 @@ export default {
         }
     },
     methods: {
-        getAllSupplierGroup: function () {
+        getSupplierGroup: function () {
            var scope = this
             scope.GET('suppliers/supplier-group').then(res => {
                 scope.groups = res.rows
@@ -136,7 +136,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getAllSupplierGroup()
+                        scope.getSupplierGroup()
                         scope.CLOSE_MODAL('#modalSupplierGroup')
                     })
                 } else {
@@ -166,7 +166,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                                scope.getAllSupplierGroup()
+                                scope.getSupplierGroup()
                                 scope.CLOSE_MODAL('#modalSupplierGroup')
                             })
                         }
@@ -200,7 +200,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            scope.getAllSupplierGroup()
+                            scope.getSupplierGroup()
                             scope.CLOSE_MODAL('#modalSupplierGroup')
                             })
                         }
@@ -214,7 +214,7 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getAllSupplierGroup()
+        scope.getSupplierGroup()
     },
 }
 </script>
