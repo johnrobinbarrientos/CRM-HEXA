@@ -123,7 +123,7 @@ export default {
         }
     },
     methods: {
-        getAllTaxation: function () {
+        getTaxation: function () {
            var scope = this
             scope.GET('company/taxation').then(res => {
                 scope.Taxations = res.rows
@@ -154,7 +154,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getAllTaxation()
+                        scope.getTaxation()
                         scope.CLOSE_MODAL('#modalTaxation')
                     })
                 } else {
@@ -184,7 +184,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                                scope.getAllTaxation()
+                                scope.getTaxation()
                                 scope.CLOSE_MODAL('#modalTaxation')
                             })
                         }
@@ -218,7 +218,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            scope.getAllTaxation()
+                            scope.getTaxation()
                             scope.CLOSE_MODAL('#modalTaxation')
                             })
                         }
@@ -232,8 +232,7 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getAllTaxation()
-         $(".form-select").select2();
+        scope.getTaxation()
     },
 }
 </script>

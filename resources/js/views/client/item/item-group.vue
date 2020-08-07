@@ -109,7 +109,7 @@ export default {
         }
     },
     methods: {
-        getAllItemGroup: function () {
+        getItemGroup: function () {
            var scope = this
             scope.GET('items/item-group').then(res => {
                 scope.Groups = res.rows
@@ -136,7 +136,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getAllItemGroup()
+                        scope.getItemGroup()
                         scope.CLOSE_MODAL('#modalItemGroup')
                     })
                 } else {
@@ -166,7 +166,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                                scope.getAllItemGroup()
+                                scope.getItemGroup()
                                 scope.CLOSE_MODAL('#modalItemGroup')
                             })
                         }
@@ -200,7 +200,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            scope.getAllItemGroup()
+                            scope.getItemGroup()
                             scope.CLOSE_MODAL('#modalItemGroup')
                             })
                         }
@@ -214,7 +214,7 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getAllItemGroup()
+        scope.getItemGroup()
     },
 }
 </script>

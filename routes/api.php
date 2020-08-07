@@ -33,8 +33,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
     Route::group(['prefix' => 'items'], function(){
 
         Route::get('/item-list', 'API\ItemListController@getItemList');
-        Route::post('/item-list/save', 'API\ItemListController@save');
-        Route::put('/item-list/update', 'API\ItemListController@update');
+        Route::post('/item-list', 'API\ItemListController@save');
         Route::post('/item-list/delete', 'API\ItemListController@delete');
 
         Route::get('/item-group', 'API\ItemGroupController@getItemGroup');

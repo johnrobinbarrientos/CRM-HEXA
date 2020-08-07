@@ -109,7 +109,7 @@ export default {
         }
     },
     methods: {
-        getAllReportGroup: function () {
+        getReportGroup: function () {
            var scope = this
             scope.GET('company/coa-report-group').then(res => {
                 scope.reportGroups = res.rows
@@ -136,7 +136,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getAllReportGroup()
+                        scope.getReportGroup()
                         scope.CLOSE_MODAL('#modalReportGroup')
                     })
                 } else {
@@ -166,7 +166,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                                scope.getAllReportGroup()
+                                scope.getReportGroup()
                                 scope.CLOSE_MODAL('#modalReportGroup')
                             })
                         }
@@ -200,7 +200,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            scope.getAllReportGroup()
+                            scope.getReportGroup()
                             scope.CLOSE_MODAL('#modalReportGroup')
                             })
                         }
@@ -214,8 +214,7 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getAllReportGroup()
-         $(".form-select").select2();
+        scope.getReportGroup()
     },
 }
 </script>

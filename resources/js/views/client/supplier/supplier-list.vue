@@ -378,13 +378,13 @@ export default {
             var scope = this
             scope.show_form = !scope.show_form
         },
-        getSupplier: function () {
+        getSupplierList: function () {
            var scope = this
             scope.GET('suppliers/supplier-list').then(res => {
                 scope.supplierList = res.rows
             })
         },
-        getAllPayables: function () {
+        getPayables: function () {
            var scope = this
             scope.GET('company/chart-of-accounts-payables').then(res => {
                 res.rows.forEach(function (data) {
@@ -400,7 +400,7 @@ export default {
             })
 
         },
-        getAllSupplierGroup: function () {
+        getSupplierGroup: function () {
            var scope = this
             scope.GET('suppliers/supplier-group').then(res => {
                 
@@ -419,7 +419,7 @@ export default {
             })
 
         },
-        getAllPaymentTerm: function () {
+        getPaymentTerm: function () {
            var scope = this
             scope.GET('company/payment-term').then(res => {
                 
@@ -438,7 +438,7 @@ export default {
             })
 
         },
-        getAllTax: function () {
+        getTax: function () {
            var scope = this
             scope.GET('company/taxation').then(res => {
                 
@@ -457,7 +457,7 @@ export default {
             })
 
         },
-        getAllAddressList: function () {
+        getAddressList: function () {
            var scope = this
             scope.GET('globals/address-list').then(res => {
                 
@@ -546,7 +546,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getSupplier()
+                        scope.getSupplierList()
                         scope.toggleForm()
                         scope.tempSupplierDiscounts = []
                         scope.formdata.discounts = []
@@ -574,7 +574,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getSupplier()
+                        scope.getSupplierList()
                         scope.toggleForm()
                     })
                 } else {
@@ -723,13 +723,13 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getSupplier()
+        scope.getSupplierList()
 
-        scope.getAllPayables()
-        scope.getAllSupplierGroup()
-        scope.getAllPaymentTerm()
-        scope.getAllTax()
-        scope.getAllAddressList()
+        scope.getPayables()
+        scope.getSupplierGroup()
+        scope.getPaymentTerm()
+        scope.getTax()
+        scope.getAddressList()
 
         
         $('.form-select-payables').on("change", function(e) { 

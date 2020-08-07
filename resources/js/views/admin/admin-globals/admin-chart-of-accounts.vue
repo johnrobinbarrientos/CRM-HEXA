@@ -128,7 +128,7 @@ export default {
         }
     },
     methods: {
-        getAllAccountGroups: function () {
+        getAccountGroups: function () {
            var scope = this
             scope.GET('admin/coa-account-group').then(res => {
                 
@@ -146,7 +146,7 @@ export default {
             })
 
         },
-        getAllChartofAccounts: function () {
+        getChartofAccounts: function () {
            var scope = this
             scope.GET('admin/chart-of-accounts').then(res => {
                 scope.chartOfAccounts = res.rows
@@ -184,7 +184,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getAllChartofAccounts()
+                        scope.getChartofAccounts()
                         scope.CLOSE_MODAL('#modalCOA')
                     })
                 } else {
@@ -216,7 +216,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                                scope.getAllChartofAccounts()
+                                scope.getChartofAccounts()
                                 scope.CLOSE_MODAL('#modalCOA')
                             })
                         }
@@ -250,7 +250,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            scope.getAllChartofAccounts()
+                            scope.getChartofAccounts()
                             scope.CLOSE_MODAL('#modalCOA')
                             })
                         }
@@ -265,8 +265,8 @@ export default {
 
     mounted() {
         var scope = this
-        scope.getAllChartofAccounts()
-        scope.getAllAccountGroups()
+        scope.getChartofAccounts()
+        scope.getAccountGroups()
          
         $('.form-select-account-group').on("change", function(e) { 
             scope.selected_account_group = $('.form-select-account-group').val();

@@ -109,7 +109,7 @@ export default {
         }
     },
     methods: {
-        getAllPaymentTerms: function () {
+        getPaymentTerms: function () {
            var scope = this
             scope.GET('company/payment-term').then(res => {
                 scope.paymentTerms = res.rows
@@ -136,7 +136,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getAllPaymentTerms()
+                        scope.getPaymentTerms()
                         scope.CLOSE_MODAL('#modalPaymentTerm')
                     })
                 } else {
@@ -166,7 +166,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                                scope.getAllPaymentTerms()
+                                scope.getPaymentTerms()
                                 scope.CLOSE_MODAL('#modalPaymentTerm')
                             })
                         }
@@ -200,7 +200,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            scope.getAllPaymentTerms()
+                            scope.getPaymentTerms()
                             scope.CLOSE_MODAL('#modalPaymentTerm')
                             })
                         }
@@ -214,8 +214,7 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getAllPaymentTerms()
-         $(".form-select").select2();
+        scope.getPaymentTerms()
     },
 }
 </script>

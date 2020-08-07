@@ -25,10 +25,9 @@ class ItemListController extends Controller
 
     public function save()
     {
-        $item = new ItemList();
+        $item = request()->uuid ? ItemList::find(request()->uuid) : new ItemList();
         $auth = \Auth::user();
         $item->company_id = $auth->company_id;
-        
         $item->item_group_uuid = request()->item_group_uuid;
         $item->item_code = request()->item_code;
         $item->item_barcode = request()->item_barcode;
@@ -45,6 +44,9 @@ class ItemListController extends Controller
         $item->transfer_cost = request()->transfer_cost;
         $item->is_expiry = request()->is_expiry;
         $item->vat_uuid = request()->vat_uuid;
+        $item->ewt_uuid = request()->ewt_uuid;
+        $item->is_maintain_stock = request()->is_maintain_stock;
+        $item->is_active = request()->is_active;
         $item->coa_income_account_uuid = request()->coa_income_account_uuid;
         $item->coa_cos_account_uuid = request()->coa_cos_account_uuid;
         $item->reorder_qty = request()->reorder_qty;
@@ -56,61 +58,27 @@ class ItemListController extends Controller
         $item->category5_uuid = request()->category5_uuid;
         $item->save();
 
-        $uoms = request()->uoms;
+        
+        if (request()->uuid===null){ 
 
-        foreach ($uoms as $d)
-        {
-            $uom = new ItemUom;
-            $auth = \Auth::user();
-            $uom->company_id = $auth->company_id;
-            $uom->item_uuid = $item->uuid;
-            $uom->uom = $d['uom'];
-            $uom->conversion = $d['conversion'];
-            $uom->save();
+            $uoms = request()->uoms;
+
+            foreach ($uoms as $d)
+            {
+                $uom = new ItemUom;
+                $auth = \Auth::user();
+                $uom->company_id = $auth->company_id;
+                $uom->item_uuid = $item->uuid;
+                $uom->uom = $d['uom'];
+                $uom->conversion = $d['conversion'];
+                $uom->save();
+            }
+
         }
 
 
         $item = ItemList::find($item->uuid);
         return response()->json(['success' => 1, 'data' => $item, 'message' => 'Item Added!'], 200); 
-    }
-
-
-    public function update()
-    {
-        $item = ItemList::find(request()->uuid);
-
-        if (!$item) {
-            return response()->json(['success' => 0, 'message' => 'Could not find Item!'], 200);
-        }
-
-        $item->item_group_uuid = request()->item_group_uuid;
-        $item->item_code = request()->item_code;
-        $item->item_barcode = request()->item_barcode;
-        $item->cs_barcode = request()->cs_barcode;
-        $item->item_description = request()->item_description;
-        $item->item_shortname = request()->item_shortname;
-        $item->supplier_uuid = request()->supplier_uuid;
-        $item->is_purchase_item = request()->is_purchase_item;
-        $item->purchase_uom = request()->purchase_uom;
-        $item->purchase_cost = request()->purchase_cost;
-        $item->is_sales_item = request()->is_sales_item;
-        $item->sales_uom = request()->sales_uom;
-        $item->sales_cost = request()->sales_cost;
-        $item->transfer_cost = request()->transfer_cost;
-        $item->is_expiry = request()->is_expiry;
-        $item->vat_uuid = request()->vat_uuid;
-        $item->coa_income_account_uuid = request()->coa_income_account_uuid;
-        $item->coa_cos_account_uuid = request()->coa_cos_account_uuid;
-        $item->reorder_qty = request()->reorder_qty;
-        $item->item_asset_group_uuid = request()->item_asset_group_uuid;
-        $item->category1_uuid = request()->category1_uuid;
-        $item->category2_uuid = request()->category2_uuid;
-        $item->category3_uuid = request()->category3_uuid;
-        $item->category4_uuid = request()->category4_uuid;
-        $item->category5_uuid = request()->category5_uuid;
-        $item->save();
-        
-        return response()->json(['success' => 1, 'data' => $item, 'message' => 'Item Updated!'], 200); 
     }
 
     public function delete()
