@@ -37,11 +37,11 @@ class ItemListController extends Controller
         $item->supplier_uuid = request()->supplier_uuid;
         $item->is_purchase_item = request()->is_purchase_item;
         $item->purchase_uom = request()->purchase_uom;
-        $item->purchase_cost = request()->purchase_cost;
+        $item->purchase_price = request()->purchase_price;
         $item->is_sales_item = request()->is_sales_item;
         $item->sales_uom = request()->sales_uom;
-        $item->sales_cost = request()->sales_cost;
-        $item->transfer_cost = request()->transfer_cost;
+        $item->sales_price = request()->sales_price;
+        $item->transfer_price = request()->transfer_price;
         $item->is_expiry = request()->is_expiry;
         $item->vat_uuid = request()->vat_uuid;
         $item->ewt_uuid = request()->ewt_uuid;

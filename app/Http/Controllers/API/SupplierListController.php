@@ -34,7 +34,7 @@ class SupplierListController extends Controller
         $supplier->email = request()->email;
         $supplier->contact_no = request()->contact_no;
         $supplier->global_address_uuid = request()->global_address_uuid;
-        $supplier->Address1 = request()->Address1;
+        $supplier->address1 = request()->address1;
         $supplier->save();
 
         

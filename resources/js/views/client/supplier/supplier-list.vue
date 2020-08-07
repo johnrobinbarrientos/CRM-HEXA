@@ -285,7 +285,7 @@
          
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="business-name">Address</label>
+                                    <label class="form-label" for="business-name">Postal/Zip Code/Country/Region/Province/City/Municipality/Barangay</label>
                                     <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list">
                                     </select>
                                 </div>
@@ -293,9 +293,9 @@
 
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="business-name">Address1</label>
+                                    <label class="form-label" for="business-name">Zone/Purok/Street</label>
                                     <div class="form-control-wrap">
-                                        <input v-model="formdata.Address1" type="text" class="form-control" id="address1" required>
+                                        <input v-model="formdata.address1" type="text" class="form-control" id="address1" required>
                                     </div>
                                 </div>
                             </div>
@@ -360,7 +360,7 @@ export default {
                 email: '',
                 contact_no: '',
                 global_address_uuid: '',
-                Address1: ''
+                address1: ''
             },
 
             supplierDiscountFormData:{
@@ -492,7 +492,7 @@ export default {
             scope.formdata.email = ''
             scope.formdata.contact_no = ''
             scope.formdata.global_address_uuid = ''
-            scope.formdata.Address1 = ''
+            scope.formdata.address1 = ''
 
             scope.supplierDiscounts = []
 
@@ -508,7 +508,7 @@ export default {
             scope.formdata.is_transporter = data.is_transporter
             scope.formdata.email = data.email
             scope.formdata.contact_no = data.contact_no
-            scope.formdata.Address1 = data.Address1
+            scope.formdata.address1 = data.address1
 
             scope.supplierDiscounts = []
             scope.supplierDiscounts = data.discounts

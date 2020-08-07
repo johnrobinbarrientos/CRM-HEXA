@@ -66,8 +66,8 @@
                                     <td><span class="">{{item.supplier.business_shortname}}</span></td>
                                     <td v-if="item.is_expiry === 1">Yes</td>
                                     <td v-else>No</td>
-                                    <td><span class="">{{item.purchase_cost}}</span></td>
-                                    <td><span class="">{{item.sales_cost}}</span></td>
+                                    <td><span class="">{{item.purchase_price}}</span></td>
+                                    <td><span class="">{{item.sales_price}}</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -188,7 +188,7 @@
                             <a class="nav-link" data-toggle="tab" href="#category">Category</a>    
                         </li>
                         <li class="nav-item">        
-                            <a class="nav-link" data-toggle="tab" href="#cost">Cost</a>    
+                            <a class="nav-link" data-toggle="tab" href="#pricing">Pricing</a>    
                         </li>
                         <li class="nav-item">        
                             <a class="nav-link" data-toggle="tab" href="#unit-of-measure">Unit of Measure</a>    
@@ -273,7 +273,7 @@
                             </div>        
       
                         </div>
-                        <div class="tab-pane" id="cost"> 
+                        <div class="tab-pane" id="pricing"> 
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
@@ -297,9 +297,9 @@
 
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
-                                                <label class="form-label" for="purchase-cost">Purchase Cost</label>
+                                                <label class="form-label" for="purchase-price">Purchase Price</label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="formdata.purchase_cost" type="text" class="form-control" id="purchase-cost" required>
+                                                    <input v-model="formdata.purchase_price" type="text" class="form-control" id="purchase-price" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -333,18 +333,18 @@
 
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
-                                                <label class="form-label" for="sales-cost">Sales Cost</label>
+                                                <label class="form-label" for="sales-price">Sales Price</label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="formdata.sales_cost" type="text" class="form-control" id="sales-cost" required>
+                                                    <input v-model="formdata.sales_price" type="text" class="form-control" id="sales-price" required>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
-                                                <label class="form-label" for="transfer-cost">Transfer Cost</label>
+                                                <label class="form-label" for="transfer-price">Transfer Price</label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="formdata.transfer_cost" type="text" class="form-control" id="transfer-cost" required>
+                                                    <input v-model="formdata.transfer_price" type="text" class="form-control" id="transfer-price" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -511,11 +511,11 @@ export default {
                 supplier_uuid: '',
                 is_purchase_item: 0,
                 purchase_uom: '',
-                purchase_cost: '',
+                purchase_price: '',
                 is_sales_item: 0,
                 sales_uom: '',
-                sales_cost: '',
-                transfer_cost: '',
+                sales_price: '',
+                transfer_price: '',
                 is_expiry: 0,
                 vat_uuid: '',
                 ewt_uuid: '',
@@ -782,7 +782,7 @@ export default {
 
                 $(".form-select-asset-group").select2({data: scope.options_asset_group});
                 
-                scope.selected_asset_group = scope.options_asset_group[0].id
+                // scope.selected_asset_group = scope.options_asset_group[0].id
             })
 
         },
@@ -799,11 +799,11 @@ export default {
             scope.formdata.supplier_uuid = ''
             scope.formdata.is_purchase_item = 0
             scope.formdata.purchase_uom = ''
-            scope.formdata.purchase_cost = ''
+            scope.formdata.purchase_price = ''
             scope.formdata.is_sales_item = 0
             scope.formdata.sales_uom = ''
-            scope.formdata.sales_cost = ''
-            scope.formdata.transfer_cost = ''
+            scope.formdata.sales_price = ''
+            scope.formdata.transfer_price = ''
             scope.formdata.is_expiry = 0
             scope.formdata.vat_uuid = ''
             scope.formdata.ewt_uuid = ''
@@ -830,11 +830,11 @@ export default {
             scope.formdata.item_shortname = data.item_shortname
             scope.formdata.is_purchase_item = data.is_purchase_item
 
-            scope.formdata.purchase_cost = data.purchase_cost
+            scope.formdata.purchase_price = data.purchase_price
             scope.formdata.is_sales_item = data.is_sales_item
 
-            scope.formdata.sales_cost = data.sales_cost
-            scope.formdata.transfer_cost = data.transfer_cost
+            scope.formdata.sales_price = data.sales_price
+            scope.formdata.transfer_price = data.transfer_price
             scope.formdata.is_expiry = data.is_expiry
             scope.formdata.reorder_qty = data.reorder_qty
 
