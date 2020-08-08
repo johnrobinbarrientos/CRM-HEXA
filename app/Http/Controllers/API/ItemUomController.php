@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Auth;
 class ItemUomController extends Controller
 {
 
+    public function getUom()
+    {
+        $uom = ItemUom::whereNull('deleted_at')->get();
+        return response()->json(['success' => 1, 'rows' => $uom], 200);
+    }
+
     public function save()
     {
         $uom = new ItemUom();
