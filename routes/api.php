@@ -64,7 +64,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/category5', 'API\ItemCategory5Controller@save');
         Route::post('/category5/delete', 'API\ItemCategory5Controller@delete');
 
-        Route::get('/uom', 'API\ItemUomController@getUom');
+        Route::get('/{uuid}/uom', 'API\ItemUomController@getUom');
         Route::post('/uom/save', 'API\ItemUomController@save');
         Route::put('/uom/update', 'API\ItemUomController@update');
         Route::post('/uom/delete', 'API\ItemUomController@delete');

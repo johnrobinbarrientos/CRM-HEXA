@@ -226,21 +226,50 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" v-model="is_vat" value="1" class="custom-control-input" id="is-vat">
+                                                    <label class="custom-control-label" for="is-vat">Is Vat?</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-show="is_vat" class="row">
+                                            <div class="col-md-4 col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="vat-tax">VAT</label>
+                                                    <select class="form-select-vat-tax" v-model="selected_vat_tax" :options="options_vat_tax" name="vat-tax">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                            <div class="col-md-4 col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="vat-tax">VAT</label>
-                                    <select class="form-select-vat-tax" v-model="selected_vat_tax" :options="options_vat_tax" name="vat-tax">
-                                    </select>
-                                </div>
+                                    </div>
                             </div>
 
-                            <div class="col-md-4 col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="ewt-tax">EWT</label>
-                                    <select class="form-select-ewt-tax" v-model="selected_ewt_tax" :options="options_ewt_tax" name="ewt-tax">
-                                    </select>
-                                </div>
+                            <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" v-model="is_ewt" value="1" class="custom-control-input" id="is-ewt">
+                                                    <label class="custom-control-label" for="is-ewt">Is Ewt?</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div v-show="is_ewt" class="row">
+                                            <div class="col-md-4 col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="ewt-tax">EWT</label>
+                                                    <select class="form-select-ewt-tax" v-model="selected_ewt_tax" :options="options_ewt_tax" name="ewt-tax">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
  
                         </div>
@@ -351,12 +380,24 @@
                                                         </div>
                                                     </div>
 
+                                                    <!-- <div class="col-md-4 col-12">
+                                                        <div class="custom-control custom-radio">    
+                                                            <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">    
+                                                            <label class="custom-control-label" for="customRadio1">Manual</label>
+                                                        </div>
+                                                    </div> -->
+
+
                                                     <div class="col-md-4 col-12">
                                                         <div class="form-group">
                                                             <label class="form-label" for="mark-up-rate">Markup Rate</label>
+                                                            <div class="custom-control custom-radio">    
+                                                                <input v-model="compute_selection" value = "manual" type="radio" id="manual-compute" class="custom-control-input" checked>    
+                                                                <label class="custom-control-label" for="manual-compute">Manual</label>
+                                                            </div>  
                                                             <div class="form-control-wrap">
-                                                                <input v-model="input_markup_rate" type="text" class="form-control" id="mark-up-rate" required>
-                                                                <button @click="computePrice()" type="submit" class="btn btn-lg btn-primary">Apply</button>
+                                                                <input v-model="input_markup_rate" :disabled="isDisabledManual" type="text" class="form-control" id="mark-up-rate" required>
+                                                                <button @click="computePrice()" :disabled="isDisabledManual" type="button" class="btn btn-lg btn-primary">Apply</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -364,7 +405,11 @@
                                                     <div class="col-md-3 col-12">
                                                         <div class="form-group">
                                                             <label class="form-label" for="customer-group">Customer Group</label>
-                                                            <select class="form-select-customer-group" v-model="selected_customer_group" :options="options_customer_group" name="customer-group">
+                                                            <div class="custom-control custom-radio">    
+                                                                <input v-model="compute_selection" value="auto" type="radio" id="auto-compute" class="custom-control-input">    
+                                                                <label class="custom-control-label" for="auto-compute">Auto</label>
+                                                            </div>  
+                                                            <select class="form-select-customer-group" :disabled="isDisabledAuto" v-model="selected_customer_group" :options="options_customer_group" name="customer-group">
                                                             </select>
                                                         </div>
                                                     </div>
@@ -468,6 +513,7 @@
                 
             </form>
             <div style="margin-top:30px; text-align:right;">
+                <button @click="toggleForm()" type="submit" class="btn btn-lg btn-primary">Back</button>
                 <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
                 <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
             </div>
@@ -534,6 +580,9 @@ export default {
             input_markup_rate: '',
             customer_markup_rate: '',
 
+            is_vat: 0,
+            is_ewt: 0,
+            compute_selection: 'manual',
 
             show_form: false,
 
@@ -583,6 +632,29 @@ export default {
             }
         }
     },
+
+    computed: {
+      isDisabledManual() {
+        var scope = this
+        if (scope.compute_selection=='manual'){
+            return false
+        }
+        else{
+            scope.input_markup_rate = ''
+            return true
+        }  
+      },
+      isDisabledAuto() {
+        var scope = this
+        if (scope.compute_selection=='auto'){
+            return false
+        }
+        else{
+            return true
+        }  
+      }
+    },
+
     methods: {
         toggleForm() {
             var scope = this
@@ -609,7 +681,6 @@ export default {
 
                 $(".form-select-item-group").select2({data: scope.options_item_group});
                 
-                scope.selected_item_group = scope.options_item_group[0].id
             })
         },
 
@@ -643,7 +714,6 @@ export default {
 
                 $(".form-select-income-account").select2({data: scope.options_income_account});
                 
-                scope.selected_income_account = scope.options_income_account[0].id
             })
         },
 
@@ -661,12 +731,17 @@ export default {
 
                 $(".form-select-cost-of-sales").select2({data: scope.options_cost_of_sales});
                 
-                scope.selected_cost_of_sales = scope.options_cost_of_sales[0].id
             })
         },
 
         getVatTax: function () {
            var scope = this
+
+           scope.options_vat_tax.push({
+               id: '',
+               text: 'NONE'
+           });
+
             scope.GET('company/taxation-vat').then(res => {
                 
                 res.rows.forEach(function (data) {
@@ -680,12 +755,17 @@ export default {
 
                 $(".form-select-vat-tax").select2({data: scope.options_vat_tax});
                 
-                scope.selected_vat_tax = scope.options_vat_tax[0].id
             })
         },
 
         getEwtTax: function () {
            var scope = this
+
+           scope.options_ewt_tax.push({
+               id: '',
+               text: 'NONE'
+           });
+
             scope.GET('company/taxation-ewt').then(res => {
                 
                 res.rows.forEach(function (data) {
@@ -699,7 +779,6 @@ export default {
 
                 $(".form-select-ewt-tax").select2({data: scope.options_ewt_tax});
                 
-                scope.selected_ewt_tax = scope.options_ewt_tax[0].id
             })
         },
 
@@ -718,7 +797,6 @@ export default {
 
                 $(".form-select-category-1").select2({data: scope.options_category1});
                 
-                scope.selected_category1 = scope.options_category1[0].id
             })
 
         },
@@ -739,7 +817,6 @@ export default {
 
                 $(".form-select-category-2").select2({data: scope.options_category2});
                 
-                scope.selected_category2 = scope.options_category2[0].id
             })
 
         },
@@ -759,7 +836,6 @@ export default {
 
                 $(".form-select-category-3").select2({data: scope.options_category3});
                 
-                scope.selected_category3 = scope.options_category3[0].id
             })
 
         },
@@ -779,7 +855,6 @@ export default {
 
                 $(".form-select-category-4").select2({data: scope.options_category4});
                 
-                scope.selected_category4 = scope.options_category4[0].id
             })
 
         },
@@ -799,7 +874,6 @@ export default {
 
                 $(".form-select-category-5").select2({data: scope.options_category5});
                 
-                scope.selected_category5 = scope.options_category5[0].id
             })
 
         },
@@ -821,16 +895,20 @@ export default {
                     })
                 })
 
-                $(".form-select-asset-group").select2({selectionCssClass: 'TESTTEST', data: scope.options_asset_group});
-                $('.form-select-asset-group').val(null);
-                $('.form-select-asset-group').trigger('change');
+                $(".form-select-asset-group").select2({data: scope.options_asset_group});
             })
 
         },
 
         getPurchaseUom: function () {
            var scope = this
-            scope.GET('items/uom').then(res => {
+
+           scope.options_purchase_uom.push({
+               id: '',
+               text: 'NONE'
+           });
+
+            scope.GET('items/' + scope.formdata.uuid + '/uom').then(res => {
                 
                 res.rows.forEach(function (data) {
 
@@ -851,7 +929,13 @@ export default {
 
         getSalesUom: function () {
            var scope = this
-            scope.GET('items/uom').then(res => {
+
+           scope.options_sales_uom.push({
+               id: '',
+               text: 'NONE'
+           });
+
+            scope.GET('items/' + scope.formdata.uuid + '/uom').then(res => {
                 
                 res.rows.forEach(function (data) {
 
@@ -922,6 +1006,13 @@ export default {
             scope.formdata.category4_uuid = ''
             scope.formdata.category5_uuid = ''
 
+            scope.input_markup_rate = ''
+            scope.customer_markup_rate = ''
+
+            scope.is_vat = 0
+            scope.is_ewt = 0
+            scope.compute_selection = 'manual'
+
         },
         setData: function (data) {
             var scope = this
@@ -948,6 +1039,17 @@ export default {
             scope.itemUOMs = data.u_o_ms
 
             var suppliers = [];
+
+            scope.getPurchaseUom()
+            scope.getSalesUom()
+
+            if (data.vat_uuid!=null){
+                scope.is_vat = 1
+            }
+
+            if (data.ewt_uuid!=null){
+                scope.is_ewt = 1
+            }            
 
             for(var i = 0; i < data.suppliers.length; i++) {
                 suppliers.push(data.suppliers[i].supplier_uuid)
@@ -1264,7 +1366,7 @@ export default {
         },
         computePrice: function () {
             var scope = this
-            scope.formdata.sales_price = (scope.input_markup_rate/100) * scope.formdata.sales_price
+            scope.formdata.sales_price = (scope.input_markup_rate/100) * scope.formdata.purchase_price
         }
     },
     mounted() {
@@ -1283,8 +1385,7 @@ export default {
         scope.getCategory4()
         scope.getCategory5()
         scope.getAssetGroup()
-        scope.getPurchaseUom()
-        scope.getSalesUom()
+
         scope.getCustomerGroup()
 
         $('.form-select-item-group').on("change", function(e) { 
@@ -1356,6 +1457,7 @@ export default {
                 if(scope.options_customer_group[i].id==scope.selected_customer_group){
                     scope.customer_markup_rate = scope.options_customer_group[i].markup_rate
                     console.log(scope.customer_markup_rate)
+                    scope.formdata.sales_price = (scope.customer_markup_rate/100) * scope.formdata.purchase_price
                 }
             }
 
