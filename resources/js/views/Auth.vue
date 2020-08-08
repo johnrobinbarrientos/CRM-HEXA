@@ -151,7 +151,6 @@
             .post(window.API_URL + '/login', scope.credentials)
             .then(response => {
                 var data = response.data
-                console.log(data.token)
                 if (data.success) {
                     scope.$store.dispatch('authenticate',{ token: data.token })
                 }

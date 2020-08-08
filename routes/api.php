@@ -34,7 +34,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
         Route::get('/item-list', 'API\ItemListController@getItemList');
         Route::post('/item-list', 'API\ItemListController@save');
-        Route::post('/item-list/delete', 'API\ItemListController@delete');
+        Route::delete('/item-list/{itemUUID}', 'API\ItemListController@delete');
 
         Route::get('/item-group', 'API\ItemGroupController@getItemGroup');
         Route::post('/item-group', 'API\ItemGroupController@save');

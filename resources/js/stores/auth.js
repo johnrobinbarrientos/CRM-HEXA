@@ -18,6 +18,7 @@ export default {
     authenticate  (state, payload) {
         localStorage.setItem(window.TOKEN_KEY, payload.token);
         state.isAuthenticated = true
+        this.dispatch('getMenus',{})
         router.push({name: 'home'})
     },
     revoke (state, payload) {

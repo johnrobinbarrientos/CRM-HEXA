@@ -806,19 +806,22 @@ export default {
 
         getAssetGroup: function () {
            var scope = this
+           
+           scope.options_asset_group.push({
+               id: '',
+               text: 'NONE'
+           });
+
             scope.GET('items/item-asset-group').then(res => {
                 
                 res.rows.forEach(function (data) {
-
                     scope.options_asset_group.push({
                         id: data.uuid,
                         text: data.asset_group
                     })
-                
                 })
 
-                $(".form-select-asset-group").select2({data: scope.options_asset_group});
-                
+                $(".form-select-asset-group").select2({selectionCssClass: 'TESTTEST', data: scope.options_asset_group});
                 $('.form-select-asset-group').val(null);
                 $('.form-select-asset-group').trigger('change');
             })
@@ -1100,7 +1103,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST('items/item-list/delete', data).then(res => {
+                    scope.DELETE('items/item-list/' + data.uuid).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
@@ -1331,10 +1334,6 @@ export default {
         $('.form-select-asset-group').on("change", function(e) { 
             scope.selected_asset_group = $('.form-select-asset-group').val();
         })
-
-        $('.form-select-asset-group').on('select2:select', function (e) {
-            $('.form-select-asset-group').val(null);
-        }).trigger('change');
 
         // $('.form-select-asset-group').on('select2:unselecting', function(e){
         //  scope.selected_asset_group = null;

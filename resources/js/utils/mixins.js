@@ -98,6 +98,28 @@ export default {
                 return {rows: [], data: data, code: code }
             })
         },
+        DELETE: function (name) {
+            var scope = this
+            // scope.credentials.error = null
+            return scope.axios
+            .delete(window.API_URL + '/' + name,{
+                'headers': {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Authorization': 'Bearer ' + localStorage.getItem(window.TOKEN_KEY)
+                }
+            })
+            .then(response => {
+                var data = response.data
+                if (data.success) {
+                    return data
+                }
+            })
+            .catch(function (error) {
+                var data = error.response.data
+                var code = error.response.status
+                return {rows: [], data: data, code: code }
+            })
+        },
         PUT: function (name,payload) {
             var scope = this
             // scope.credentials.error = null

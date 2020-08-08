@@ -102,9 +102,9 @@ class ItemListController extends Controller
         return response()->json(['success' => 1, 'data' => $item, 'message' => 'Item Added!'], 200); 
     }
 
-    public function delete()
+    public function delete($itemUUID)
     {
-        $item = ItemList::find(request()->uuid)->delete();
+        $item = ItemList::find($itemUUID)->delete();
 
         return response()->json(['success' => 1, 'message' => 'Item Deleted!'], 200);
     }
