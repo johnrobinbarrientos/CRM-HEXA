@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Auth from './views/Auth'
+import Logout from './views/Logout'
 import Register from './views/Register'
 import Profile from './views/Profile'
 import Dashboard from './views/Dashboard'
@@ -74,6 +75,12 @@ export default new VueRouter({
             name: 'auth',
             component: Auth,
             beforeEnter: checkGuess,
+            meta: { protected: false }
+        },
+        {
+            path: '/logout',
+            name: 'logout',
+            component: Logout,
             meta: { protected: false }
         },
         {
