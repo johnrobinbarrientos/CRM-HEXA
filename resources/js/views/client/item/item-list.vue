@@ -900,14 +900,9 @@ export default {
         save: function () {
             var scope = this
             scope.formdata.item_group_uuid = scope.selected_item_group
-<<<<<<< HEAD
             scope.formdata.supplier_uuids = scope.selected_suppliers
-            scope.formdata.vat_uuid = scope.selected_tax
-=======
-            scope.formdata.supplier_uuid = scope.selected_supplier
             scope.formdata.vat_uuid = scope.selected_vat_tax
             scope.formdata.ewt_uuid = scope.selected_ewt_tax
->>>>>>> John
             scope.formdata.coa_income_account_uuid = scope.selected_income_account
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
             scope.formdata.item_asset_group_uuid = scope.selected_asset_group
@@ -947,14 +942,9 @@ export default {
         update: function () {
             var scope = this
             scope.formdata.item_group_uuid = scope.selected_item_group
-<<<<<<< HEAD
             scope.formdata.supplier_uuids = scope.selected_suppliers
-            scope.formdata.vat_uuid = scope.selected_tax
-=======
-            scope.formdata.supplier_uuid = scope.selected_supplier
             scope.formdata.vat_uuid = scope.selected_vat_tax
             scope.formdata.ewt_uuid = scope.selected_ewt_tax
->>>>>>> John
             scope.formdata.coa_income_account_uuid = scope.selected_income_account
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
             scope.formdata.item_asset_group_uuid = scope.selected_asset_group
