@@ -36,4 +36,22 @@ class CompanyTaxationController extends Controller
 
         return response()->json(['success' => 1, 'message' => 'Company Taxation Deleted!'], 200);
     }
+
+    public function getVAT()
+    {
+        $vat = CompanyTaxation::whereNull('deleted_at')->where('tax_type','VAT')->get();
+        return response()->json(['success' => 1, 'rows' => $vat], 200);
+    }
+
+    public function getEWT()
+    {
+        $ewt = CompanyTaxation::whereNull('deleted_at')->where('tax_type','EWT')->get();
+        return response()->json(['success' => 1, 'rows' => $ewt], 200);
+    }
+
+    public function getWT()
+    {
+        $wt = CompanyTaxation::whereNull('deleted_at')->where('tax_type','WT')->get();
+        return response()->json(['success' => 1, 'rows' => $wt], 200);
+    }
 }

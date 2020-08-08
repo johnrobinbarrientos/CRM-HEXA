@@ -64,6 +64,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/category5', 'API\ItemCategory5Controller@save');
         Route::post('/category5/delete', 'API\ItemCategory5Controller@delete');
 
+        Route::get('/uom', 'API\ItemUomController@getUom');
         Route::post('/uom/save', 'API\ItemUomController@save');
         Route::put('/uom/update', 'API\ItemUomController@update');
         Route::post('/uom/delete', 'API\ItemUomController@delete');
@@ -129,6 +130,10 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/taxation', 'API\CompanyTaxationController@getTaxation');
         Route::post('/taxation', 'API\CompanyTaxationController@save');
         Route::post('/taxation/delete', 'API\CompanyTaxationController@delete');
+
+        Route::get('/taxation-vat', 'API\CompanyTaxationController@getVAT');
+        Route::get('/taxation-ewt', 'API\CompanyTaxationController@getEWT');
+        Route::get('/taxation-wt', 'API\CompanyTaxationController@getWT');
 
         Route::get('/cost-center', 'API\CompanyCostCenterController@getCostCenter');
         Route::post('/cost-center', 'API\CompanyCostCenterController@save');

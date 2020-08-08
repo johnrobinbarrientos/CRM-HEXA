@@ -540,7 +540,7 @@ export default {
 
         getTax: function () {
            var scope = this
-            scope.GET('company/taxation').then(res => {
+            scope.GET('company/taxation-wt').then(res => {
                 
                 res.rows.forEach(function (data) {
 
@@ -666,8 +666,6 @@ export default {
             scope.formdata.cost_center_uuid = scope.selected_cost_center
             scope.formdata.wt_uuid = scope.selected_tax
             scope.formdata.global_address_uuid = scope.selected_global_address
-
-            console.log(scope.formdata)
 
             scope.POST('employees/employee-list', scope.formdata).then(res => {
                 if (res.success) {
