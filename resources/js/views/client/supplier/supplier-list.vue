@@ -214,14 +214,37 @@
                                     <div v-show="is_vat" class="row">
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
-                                                <label class="form-label" for="vat">Tax</label>
+                                                <label class="form-label" for="vat">VAT</label>
                                                 <select class="form-select-vat" v-model="selected_vat" :options="options_vat" name="vat">
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>            
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" v-model="is_ewt" value="1" class="custom-control-input" id="is-ewt">
+                                                <label class="custom-control-label" for="is-ewt">Is Ewt?</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div v-show="is_ewt" class="row">
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="ewt">EWT</label>
+                                                <select class="form-select-ewt" v-model="selected_ewt" :options="options_ewt" name="ewt">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
  
                         </div>
 
@@ -393,12 +416,16 @@ export default {
             selected_vat: null,
             options_vat: [],
 
+            selected_ewt: null,
+            options_ewt: [],
+
             selected_global_address: null,
             options_global_address: [],
 
             show_form: false,
 
             is_vat: 0,
+            is_ewt: 0,
             barangay: '',
             city_municipality: '',
             province: '',
@@ -421,6 +448,7 @@ export default {
                 lead_time: '',
                 is_transporter: '',
                 vat_uuid: '',
+                ewt_uuid: '',
                 payment_term_uuid: '',
                 coa_payable_account_uuid: '',
                 email: '',
@@ -529,6 +557,33 @@ export default {
             })
 
         },
+
+        getEwt: function () {
+           var scope = this
+
+           scope.options_ewt.push({
+               id: '',
+               text: 'NONE'
+           });
+
+            scope.GET('company/taxation-ewt').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_ewt.push({
+                        id: data.uuid,
+                        text: data.tax_name
+                    })
+                
+                })
+
+                $(".form-select-ewt").select2({data: scope.options_ewt});
+                
+                scope.selected_ewt = scope.options_ewt[0].id
+            })
+
+        },
+
         getAddressList: function () {
            var scope = this
             scope.GET('globals/address-list').then(res => {
@@ -576,6 +631,7 @@ export default {
             scope.formdata.lead_time = ''
             scope.formdata.is_transporter = ''
             scope.formdata.vat_uuid = ''
+            scope.formdata.ewt_uuid = ''
             scope.formdata.payment_term_uuid = ''
             scope.formdata.coa_payable_account_uuid = ''
             scope.formdata.email = ''
@@ -585,6 +641,7 @@ export default {
 
 
             scope.is_vat = 0
+            scope.is_ewt = 0
             scope.supplierDiscounts = []
 
         },
@@ -607,6 +664,12 @@ export default {
                 scope.is_vat = 0
             }
 
+            if (data.ewt_uuid!=null){
+                scope.is_ewt = 1
+            }else{
+                scope.is_ewt = 0
+            }
+
             scope.supplierDiscounts = []
             scope.supplierDiscounts = data.discounts
 
@@ -615,6 +678,9 @@ export default {
 
             $('.form-select-vat').val(data.vat_uuid);
             $('.form-select-vat').trigger('change');
+
+            $('.form-select-ewt').val(data.ewt_uuid);
+            $('.form-select-ewt').trigger('change');
 
             $('.form-select-payment-term').val(data.payment_term_uuid);
             $('.form-select-payment-term').trigger('change');
@@ -630,6 +696,7 @@ export default {
             scope.formdata.supplier_group_uuid = scope.selected_supplier_group
             scope.formdata.payment_term_uuid = scope.selected_payment_term
             scope.formdata.vat_uuid = scope.selected_vat
+            scope.formdata.ewt_uuid = scope.selected_ewt
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
             scope.formdata.global_address_uuid = scope.selected_global_address
             scope.formdata.discounts = scope.tempSupplierDiscounts
@@ -659,6 +726,7 @@ export default {
             scope.formdata.supplier_group_uuid = scope.selected_supplier_group
             scope.formdata.payment_term_uuid = scope.selected_payment_term
             scope.formdata.vat_uuid = scope.selected_vat
+            scope.formdata.ewt_uuid = scope.selected_ewt
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
             scope.formdata.global_address_uuid = scope.selected_global_address
             window.swal.fire({
@@ -836,6 +904,7 @@ export default {
         scope.getSupplierGroup()
         scope.getPaymentTerm()
         scope.getVat()
+        scope.getEwt()
         scope.getAddressList()
 
         
@@ -853,6 +922,10 @@ export default {
 
         $('.form-select-vat').on("change", function(e) { 
             scope.selected_vat = $('.form-select-vat').val();
+        })
+
+        $('.form-select-ewt').on("change", function(e) { 
+            scope.selected_ewt = $('.form-select-ewt').val();
         })
 
         $('.form-select-address-list').on("change", function(e) { 

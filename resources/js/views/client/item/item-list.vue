@@ -248,29 +248,6 @@
 
                                     </div>
                             </div>
-
-                            <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <div class="form-control-wrap">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" v-model="is_ewt" value="1" class="custom-control-input" id="is-ewt">
-                                                    <label class="custom-control-label" for="is-ewt">Is Ewt?</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div v-show="is_ewt" class="row">
-                                            <div class="col-md-4 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="ewt">EWT</label>
-                                                    <select class="form-select-ewt" v-model="selected_ewt" :options="options_ewt" name="ewt">
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                            </div>
  
                         </div>
 
@@ -544,9 +521,6 @@ export default {
             selected_vat: null,
             options_vat: [],
 
-            selected_ewt: null,
-            options_ewt: [],
-
             selected_category1: null,
             options_category1: [],
 
@@ -579,7 +553,6 @@ export default {
             customer_markup_rate: '',
 
             is_vat: 0,
-            is_ewt: 0,
             compute_selection: 'manual',
 
             show_form: false,
@@ -604,7 +577,6 @@ export default {
                 transfer_price: '',
                 is_expiry: 0,
                 vat_uuid: '',
-                ewt_uuid: '',
                 is_maintain_stock: 0,
                 is_active: 0,
                 coa_income_account_uuid: '',
@@ -678,6 +650,7 @@ export default {
                 })
 
                 $(".form-select-item-group").select2({data: scope.options_item_group});
+                scope.selected_item_group = scope.options_item_group[0].id
                 
             })
         },
@@ -711,6 +684,7 @@ export default {
                 })
 
                 $(".form-select-income-account").select2({data: scope.options_income_account});
+                scope.selected_income_account = scope.options_income_account[0].id
                 
             })
         },
@@ -728,7 +702,7 @@ export default {
                 })
 
                 $(".form-select-cost-of-sales").select2({data: scope.options_cost_of_sales});
-                
+                scope.selected_cost_of_sales = scope.options_cost_of_sales[0].id
             })
         },
 
@@ -756,30 +730,6 @@ export default {
             })
         },
 
-        getEwt: function () {
-           var scope = this
-
-           scope.options_ewt.push({
-               id: '',
-               text: 'NONE'
-           });
-
-            scope.GET('company/taxation-ewt').then(res => {
-                
-                res.rows.forEach(function (data) {
-
-                    scope.options_ewt.push({
-                        id: data.uuid,
-                        text: data.tax_name
-                    })
-                
-                })
-
-                $(".form-select-ewt").select2({data: scope.options_ewt});
-                
-            })
-        },
-
         getCategory1: function () {
            var scope = this
             scope.GET('items/category1').then(res => {
@@ -794,6 +744,7 @@ export default {
                 })
 
                 $(".form-select-category-1").select2({data: scope.options_category1});
+                scope.selected_category1 = scope.options_category1[0].id
                 
             })
 
@@ -814,7 +765,7 @@ export default {
                 })
 
                 $(".form-select-category-2").select2({data: scope.options_category2});
-                
+                scope.selected_category2 = scope.options_category2[0].id
             })
 
         },
@@ -833,7 +784,7 @@ export default {
                 })
 
                 $(".form-select-category-3").select2({data: scope.options_category3});
-                
+                scope.selected_category3 = scope.options_category3[0].id
             })
 
         },
@@ -852,7 +803,7 @@ export default {
                 })
 
                 $(".form-select-category-4").select2({data: scope.options_category4});
-                
+                scope.selected_category4 = scope.options_category4[0].id
             })
 
         },
@@ -871,6 +822,7 @@ export default {
                 })
 
                 $(".form-select-category-5").select2({data: scope.options_category5});
+                scope.selected_category5 = scope.options_category5[0].id
                 
             })
 
@@ -991,7 +943,6 @@ export default {
             scope.formdata.transfer_price = ''
             scope.formdata.is_expiry = 0
             scope.formdata.vat_uuid = ''
-            scope.formdata.ewt_uuid = ''
             scope.formdata.is_maintain_stock = 0
             scope.formdata.is_active = 0
             scope.formdata.coa_income_account_uuid = ''
@@ -1008,7 +959,7 @@ export default {
             scope.customer_markup_rate = ''
 
             scope.is_vat = 0
-            scope.is_ewt = 0
+            
             scope.compute_selection = 'manual'
 
         },
@@ -1046,12 +997,7 @@ export default {
             }else{
                 scope.is_vat = 0
             }
-
-            if (data.ewt_uuid!=null){
-                scope.is_ewt = 1
-            }else{
-                scope.is_ewt = 0
-            }            
+            
 
             for(var i = 0; i < data.suppliers.length; i++) {
                 suppliers.push(data.suppliers[i].supplier_uuid)
@@ -1071,9 +1017,6 @@ export default {
 
             $('.form-select-vat').val(data.vat_uuid);
             $('.form-select-vat').trigger('change');
-
-            $('.form-select-ewt').val(data.ewt_uuid);
-            $('.form-select-ewt').trigger('change');
 
             $('.form-select-category-1').val(data.category1_uuid);
             $('.form-select-category-1').trigger('change');
@@ -1105,7 +1048,6 @@ export default {
             scope.formdata.item_group_uuid = scope.selected_item_group
             scope.formdata.supplier_uuids = scope.selected_suppliers
             scope.formdata.vat_uuid = scope.selected_vat
-            scope.formdata.ewt_uuid = scope.selected_ewt
             scope.formdata.coa_income_account_uuid = scope.selected_income_account
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
             scope.formdata.item_asset_group_uuid = scope.selected_asset_group
@@ -1147,7 +1089,6 @@ export default {
             scope.formdata.item_group_uuid = scope.selected_item_group
             scope.formdata.supplier_uuids = scope.selected_suppliers
             scope.formdata.vat_uuid = scope.selected_vat
-            scope.formdata.ewt_uuid = scope.selected_ewt
             scope.formdata.coa_income_account_uuid = scope.selected_income_account
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
             scope.formdata.item_asset_group_uuid = scope.selected_asset_group
@@ -1380,7 +1321,6 @@ export default {
         scope.getIncomeAccount()
         scope.getCostofSales()
         scope.getVat()
-        scope.getEwt()
         scope.getCategory1()
         scope.getCategory2()
         scope.getCategory3()
@@ -1408,10 +1348,6 @@ export default {
 
         $('.form-select-vat').on("change", function(e) { 
             scope.selected_vat = $('.form-select-vat').val();
-        })
-
-        $('.form-select-ewt').on("change", function(e) { 
-            scope.selected_ewt = $('.form-select-ewt').val();
         })
 
         $('.form-select-category-1').on("change", function(e) { 

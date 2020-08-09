@@ -45,7 +45,6 @@ class ItemListController extends Controller
         $item->transfer_price = request()->transfer_price;
         $item->is_expiry = request()->is_expiry;
         $item->vat_uuid = request()->vat_uuid;
-        $item->ewt_uuid = request()->ewt_uuid;
         $item->is_maintain_stock = request()->is_maintain_stock;
         $item->is_active = request()->is_active;
         $item->coa_income_account_uuid = request()->coa_income_account_uuid;
