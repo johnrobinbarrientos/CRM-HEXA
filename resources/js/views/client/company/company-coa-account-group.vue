@@ -69,11 +69,11 @@
                                         <div class="row">
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label" for="report-groups">Report Group</label>
+                                                    <label class="form-label" for="report-group">Report Group</label>
                                                      <select class="form-select-report" v-model="selected_report_group" :options="options_report_group" name="report-group">
                                                         <!-- <option></option> -->
                                                     </select>
-                                                    <label class="form-label" for="account-groups">Account Group</label>
+                                                    <label class="form-label" for="account-group">Account Group</label>
                                                     <div class="form-control-wrap">
                                                         <input v-model="formdata.account_group" type="text" class="form-control" id="account-group" required>
                                                     </div>

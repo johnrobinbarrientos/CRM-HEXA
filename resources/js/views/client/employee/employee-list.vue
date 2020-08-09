@@ -138,8 +138,8 @@
 
                     <div class="col-md-3 col-12">
                         <div class="form-group">
-                            <label class="form-label" for="branch-location">Branch Location</label>
-                            <select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="branch-location">
+                            <label class="form-label" for="location">Location</label>
+                            <select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="location">
                             </select>
                         </div>
                     </div>
@@ -334,8 +334,8 @@
 
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="tax">Tax</label>
-                                        <select class="form-select-tax" v-model="selected_tax" :options="options_tax" name="tax">
+                                        <label class="form-label" for="vat">Tax</label>
+                                        <select class="form-select-ewt" v-model="selected_ewt" :options="options_ewt" name="vat">
                                         </select>
                                     </div>
                                 </div>
@@ -379,10 +379,18 @@
                         </div>
 
                         <div class="tab-pane" id="address"> 
+
+                            <div class="col-md-3 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="address1">Purok/Street/Zone</label>
+                                    <div class="form-control-wrap">
+                                        <input v-model="formdata.address1" type="text" class="form-control" id="address1" required>
+                                    </div>
+                                </div>
+                            </div>
          
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="address-list">Postal/Zip Code/Country/Region/Province/City/Municipality/Barangay</label>
                                     <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list">
                                     </select>
                                 </div>
@@ -390,16 +398,54 @@
 
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="address1">Zone/Purok/Street</label>
+                                    <label class="form-label" for="barangay">Barangay</label>
                                     <div class="form-control-wrap">
-                                        <input v-model="formdata.address1" type="text" class="form-control" id="address1" required>
+                                        <label class="form-label" for="barangay">{{barangay}}</label>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-3 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="city-municipality">City/Municipality</label>
+                                    <div class="form-control-wrap">
+                                        <label class="form-label" for="city-municipality">{{city_municipality}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="province">Province</label>
+                                    <div class="form-control-wrap">
+                                        <label class="form-label" for="province">{{province}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="region">Region</label>
+                                    <div class="form-control-wrap">
+                                        <label class="form-label" for="region">{{region}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="postal-code">Postal Code</label>
+                                    <div class="form-control-wrap">
+                                        <label class="form-label" for="postal-code">{{postal_code}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>     
                  </div>
             </form>
             <div style="margin-top:30px; text-align:right;">
+                <button @click="toggleForm()" type="submit" class="btn btn-lg btn-primary">Back</button>
                 <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
                 <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
             </div>
@@ -427,8 +473,8 @@ export default {
             selected_cost_center: null,
             options_cost_center: [],
 
-            selected_tax: null,
-            options_tax: [],
+            selected_ewt: null,
+            options_ewt: [],
 
             selected_global_address: null,
             options_global_address: [],
@@ -471,6 +517,12 @@ export default {
                 address1: ''
             },
 
+            barangay: '',
+            city_municipality: '',
+            province: '',
+            region: '',
+            postal_code: ''
+
         }
     },
     methods: {
@@ -483,7 +535,6 @@ export default {
            var scope = this
             scope.GET('employees/employee-list').then(res => {
                 scope.employeeList = res.rows
-                console.log(res.rows)
             })
         },
 
@@ -538,22 +589,22 @@ export default {
 
         },
 
-        getTax: function () {
+        getEwt: function () {
            var scope = this
             scope.GET('company/taxation-wt').then(res => {
                 
                 res.rows.forEach(function (data) {
 
-                    scope.options_tax.push({
+                    scope.options_ewt.push({
                         id: data.uuid,
                         text: data.tax_name
                     })
                 
                 })
 
-                $(".form-select-tax").select2({data: scope.options_tax});
+                $(".form-select-ewt").select2({data: scope.options_ewt});
                 
-                scope.selected_tax = scope.options_tax[0].id
+                scope.selected_ewt = scope.options_ewt[0].id
             })
 
         },
@@ -566,16 +617,37 @@ export default {
 
                     scope.options_global_address.push({
                         id: data.uuid,
-                        text: data.barangay + ' ' + data.city_municipality + ' ' + data.province + ' ' + data.region
+                        text: data.barangay + ' ' + data.city_municipality + ' ' + data.province + ' ' + data.region + ' ' + data.postal_code,
+                        barangay: data.barangay,
+                        city_municipality: data.city_municipality,
+                        province: data.province,
+                        region: data.region,
+                        postal_code: data.postal_code
+
                     })
                 
                 })
 
                 $(".form-select-address-list").select2({data: scope.options_global_address});
+                scope.selected_global_address= scope.options_global_address[0].id
+                scope.fillAddress()
                 
-                scope.selected_global_address = scope.options_global_address[0].id
             })
 
+            
+
+        },
+        fillAddress: function () {
+           var scope = this
+            for (var i = 0; i < scope.options_global_address.length; i++) {
+                if(scope.options_global_address[i].id==scope.selected_global_address){
+                    scope.barangay = scope.options_global_address[i].barangay
+                    scope.city_municipality = scope.options_global_address[i].city_municipality
+                    scope.province = scope.options_global_address[i].province
+                    scope.region = scope.options_global_address[i].region
+                    scope.postal_code = scope.options_global_address[i].postal_code
+                }
+            }
         },
         resetData: function () {
             var scope = this
@@ -652,8 +724,8 @@ export default {
             $('.form-select-cost-center').val(data.cost_center_uuid);
             $('.form-select-cost-center').trigger('change');
 
-            $('.form-select-tax').val(data.wt_uuid);
-            $('.form-select-tax').trigger('change');
+            $('.form-select-ewt').val(data.wt_uuid);
+            $('.form-select-ewt').trigger('change');
 
 
             $('.form-select-address-list').val(data.global_address_uuid);
@@ -664,7 +736,7 @@ export default {
             scope.formdata.branch_location_uuid = scope.selected_branch_location
             scope.formdata.employment_type_uuid = scope.selected_employment_type
             scope.formdata.cost_center_uuid = scope.selected_cost_center
-            scope.formdata.wt_uuid = scope.selected_tax
+            scope.formdata.wt_uuid = scope.selected_ewt
             scope.formdata.global_address_uuid = scope.selected_global_address
 
             scope.POST('employees/employee-list', scope.formdata).then(res => {
@@ -690,7 +762,7 @@ export default {
             scope.formdata.branch_location_uuid = scope.selected_branch_location
             scope.formdata.employment_type_uuid = scope.selected_employment_type
             scope.formdata.cost_center_uuid = scope.selected_cost_center
-            scope.formdata.wt_uuid = scope.selected_tax
+            scope.formdata.wt_uuid = scope.selected_ewt
             scope.formdata.global_address_uuid = scope.selected_global_address
             
             window.swal.fire({
@@ -767,7 +839,7 @@ export default {
         scope.getBranchLocation()
         scope.getEmploymentType()
         scope.getCostCenter()
-        scope.getTax()
+        scope.getEwt()
         scope.getAddressList()
 
 
@@ -783,12 +855,13 @@ export default {
             scope.selected_cost_center = $('.form-select-cost-center').val();
         })
 
-        $('.form-select-tax').on("change", function(e) { 
-            scope.selected_tax = $('.form-select-tax').val();
+        $('.form-select-ewt').on("change", function(e) { 
+            scope.selected_ewt = $('.form-select-ewt').val();
         })
 
         $('.form-select-address-list').on("change", function(e) { 
             scope.selected_global_address = $('.form-select-address-list').val();
+            scope.fillAddress()
         })
         
     },

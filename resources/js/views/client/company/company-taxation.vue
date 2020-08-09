@@ -70,15 +70,15 @@
                                         <div class="row">
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label" for="tax-types">Tax Type</label>
+                                                    <label class="form-label" for="tax-type">Tax Type</label>
                                                     <div class="form-control-wrap">
                                                         <input v-model="formdata.tax_type" type="text" class="form-control" id="tax-type" required>
                                                     </div>
-                                                    <label class="form-label" for="tax-types">Tax Name</label>
+                                                    <label class="form-label" for="tax-name">Tax Name</label>
                                                     <div class="form-control-wrap">
                                                         <input v-model="formdata.tax_name" type="text" class="form-control" id="tax-name" required>
                                                     </div>
-                                                    <label class="form-label" for="tax-types">Tax Rate</label>
+                                                    <label class="form-label" for="tax-rate">Tax Rate</label>
                                                     <div class="form-control-wrap">
                                                         <input v-model="formdata.tax_rate" type="text" class="form-control" id="tax-rate" required>
                                                     </div>

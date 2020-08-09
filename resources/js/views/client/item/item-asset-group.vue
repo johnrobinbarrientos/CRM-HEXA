@@ -66,7 +66,7 @@
                                         <div class="row">
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label" for="item-asset-group">Asset Group</label>
+                                                    <label class="form-label" for="asset-group">Asset Group</label>
                                                     <div class="form-control-wrap">
                                                         <input v-model="formdata.asset_group" type="text" class="form-control" id="asset-group" required>
                                                     </div>

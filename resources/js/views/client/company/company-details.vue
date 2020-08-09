@@ -12,17 +12,17 @@
                             <div class="row g-4">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label class="form-label" for="full-name-1">Company Name</label>
+                                        <label class="form-label" for="company-name">Company Name</label>
                                         <div class="form-control-wrap">
-                                            <input type="text" class="form-control" id="full-name-1">
+                                            <input type="text" class="form-control" id="company-name">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label class="form-label" for="email-address-1">Shortname</label>
+                                        <label class="form-label" for="shortname">Shortname</label>
                                         <div class="form-control-wrap">
-                                            <input type="text" class="form-control" id="email-address-1">
+                                            <input type="text" class="form-control" id="shortname">
                                         </div>
                                     </div>
                                 </div>

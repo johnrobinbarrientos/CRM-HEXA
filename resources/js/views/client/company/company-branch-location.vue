@@ -71,15 +71,15 @@
                                         <div class="row">
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label" for="location-branch">Location Name</label>
+                                                    <label class="form-label" for="location-name">Location Name</label>
                                                     <div class="form-control-wrap">
                                                         <input v-model="formdata.location_name" type="text" class="form-control" id="location-name" required>
                                                     </div>
-                                                    <label class="form-label" for="location-branch">Location Shortname</label>
+                                                    <label class="form-label" for="location-shortname">Location Shortname</label>
                                                     <div class="form-control-wrap">
                                                         <input v-model="formdata.location_shortname" type="text" class="form-control" id="location-shortname" required>
                                                     </div>
-                                                    <label class="form-label" for="location-branch">Branch</label>
+                                                    <label class="form-label" for="branch">Branch</label>
                                                      <select class="form-select-branch" v-model="selected_branch" :options="options_branch" name="branch">
                                                         <!-- <option></option> -->
                                                     </select>

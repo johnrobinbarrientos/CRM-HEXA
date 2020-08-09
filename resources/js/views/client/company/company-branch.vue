@@ -68,11 +68,11 @@
                                         <div class="row">
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label" for="company-branch">Branch Name</label>
+                                                    <label class="form-label" for="branch-name">Branch Name</label>
                                                     <div class="form-control-wrap">
                                                         <input v-model="formdata.branch_name" type="text" class="form-control" id="branch-name" required>
                                                     </div>
-                                                    <label class="form-label" for="company-branch">Shortname</label>
+                                                    <label class="form-label" for="shortname">Shortname</label>
                                                     <div class="form-control-wrap">
                                                         <input v-model="formdata.branch_shortname" type="text" class="form-control" id="shortname" required>
                                                     </div>

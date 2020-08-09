@@ -178,7 +178,7 @@
                     
                             <div class="col-md-4 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="business-name">Default Account Payable</label>
+                                    <label class="form-label" for="payables">Default Account Payable</label>
                                     <select class="form-select-payables" v-model="selected_payables" :options="options_payables" name="payables">
                                     </select>
                                 </div>
@@ -186,7 +186,7 @@
 
                             <div class="col-md-4 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="business-name">Payment Term</label>
+                                    <label class="form-label" for="payment-term">Payment Term</label>
                                     <select class="form-select-payment-term" v-model="selected_payment_term" :options="options_payment_term" name="payment-term">
                                     </select>
                                 </div>
@@ -200,14 +200,28 @@
                                     </div>
                                 </div>
                             </div> -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" v-model="is_vat" value="1" class="custom-control-input" id="is-vat">
+                                                <label class="custom-control-label" for="is-vat">Is Vat?</label>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                            <div class="col-md-4 col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="business-name">Tax</label>
-                                    <select class="form-select-tax" v-model="selected_tax" :options="options_tax" name="tax">
-                                    </select>
+                                    <div v-show="is_vat" class="row">
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="vat">Tax</label>
+                                                <select class="form-select-vat" v-model="selected_vat" :options="options_vat" name="vat">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </div>            
  
                         </div>
 
@@ -221,7 +235,7 @@
                                     <div class="row">
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
-                                                <label class="form-label" for="business-name">Discount Name</label>
+                                                <label class="form-label" for="discount-name">Discount Name</label>
                                                 <div class="form-control-wrap">
                                                     <input v-model="supplierDiscountFormData.discount_name" type="text" class="form-control" id="discount-name" required>
                                                 </div>
@@ -230,7 +244,7 @@
 
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
-                                                <label class="form-label" for="business-name">Discount Rate</label>
+                                                <label class="form-label" for="discount-rate">Discount Rate</label>
                                                 <div class="form-control-wrap">
                                                     <input v-model="supplierDiscountFormData.discount_rate" type="text" class="form-control" id="discount-rate" required>
                                                 </div>
@@ -285,7 +299,15 @@
          
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="business-name">Postal/Zip Code/Country/Region/Province/City/Municipality/Barangay</label>
+                                    <label class="form-label" for="address1">Purok/Street/Zone</label>
+                                    <div class="form-control-wrap">
+                                        <input v-model="formdata.address1" type="text" class="form-control" id="address1" required>
+                                    </div>
+                                </div>
+                            </div>
+         
+                            <div class="col-md-3 col-12">
+                                <div class="form-group">
                                     <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list">
                                     </select>
                                 </div>
@@ -293,9 +315,45 @@
 
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="business-name">Zone/Purok/Street</label>
+                                    <label class="form-label" for="barangay">Barangay</label>
                                     <div class="form-control-wrap">
-                                        <input v-model="formdata.address1" type="text" class="form-control" id="address1" required>
+                                        <label class="form-label" for="barangay">{{barangay}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="city-municipality">City/Municipality</label>
+                                    <div class="form-control-wrap">
+                                        <label class="form-label" for="city-municipality">{{city_municipality}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="province">Province</label>
+                                    <div class="form-control-wrap">
+                                        <label class="form-label" for="province">{{province}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="region">Region</label>
+                                    <div class="form-control-wrap">
+                                        <label class="form-label" for="region">{{region}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="postal-code">Postal Code</label>
+                                    <div class="form-control-wrap">
+                                        <label class="form-label" for="postal-code">{{postal_code}}</label>
                                     </div>
                                 </div>
                             </div>
@@ -305,6 +363,7 @@
                 
             </form>
             <div style="margin-top:30px; text-align:right;">
+                <button @click="toggleForm()" type="submit" class="btn btn-lg btn-primary">Back</button>
                 <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
                 <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
             </div>
@@ -331,13 +390,20 @@ export default {
             selected_payment_term: null,
             options_payment_term: [],
 
-            selected_tax: null,
-            options_tax: [],
+            selected_vat: null,
+            options_vat: [],
 
             selected_global_address: null,
             options_global_address: [],
 
             show_form: false,
+
+            is_vat: 0,
+            barangay: '',
+            city_municipality: '',
+            province: '',
+            region: '',
+            postal_code: '',
 
 
             supplierList: [],
@@ -438,22 +504,28 @@ export default {
             })
 
         },
-        getTax: function () {
+        getVat: function () {
            var scope = this
-            scope.GET('company/taxation').then(res => {
+
+           scope.options_vat.push({
+               id: '',
+               text: 'NONE'
+           });
+
+            scope.GET('company/taxation-vat').then(res => {
                 
                 res.rows.forEach(function (data) {
 
-                    scope.options_tax.push({
+                    scope.options_vat.push({
                         id: data.uuid,
                         text: data.tax_name
                     })
                 
                 })
 
-                $(".form-select-tax").select2({data: scope.options_tax});
+                $(".form-select-vat").select2({data: scope.options_vat});
                 
-                scope.selected_tax = scope.options_tax[0].id
+                scope.selected_vat = scope.options_vat[0].id
             })
 
         },
@@ -465,16 +537,33 @@ export default {
 
                     scope.options_global_address.push({
                         id: data.uuid,
-                        text: data.barangay + ' ' + data.city_municipality + ' ' + data.province + ' ' + data.region
+                        text: data.barangay + ' ' + data.city_municipality + ' ' + data.province + ' ' + data.region + ' ' + data.postal_code,
+                        barangay: data.barangay,
+                        city_municipality: data.city_municipality,
+                        province: data.province,
+                        region: data.region,
+                        postal_code: data.postal_code
                     })
                 
                 })
 
                 $(".form-select-address-list").select2({data: scope.options_global_address});
-                
                 scope.selected_global_address = scope.options_global_address[0].id
+                scope.fillAddress()
             })
 
+        },
+        fillAddress: function () {
+           var scope = this
+            for (var i = 0; i < scope.options_global_address.length; i++) {
+                if(scope.options_global_address[i].id==scope.selected_global_address){
+                    scope.barangay = scope.options_global_address[i].barangay
+                    scope.city_municipality = scope.options_global_address[i].city_municipality
+                    scope.province = scope.options_global_address[i].province
+                    scope.region = scope.options_global_address[i].region
+                    scope.postal_code = scope.options_global_address[i].postal_code
+                }
+            }
         },
         resetData: function () {
             var scope = this
@@ -494,6 +583,8 @@ export default {
             scope.formdata.global_address_uuid = ''
             scope.formdata.address1 = ''
 
+
+            scope.is_vat = 0
             scope.supplierDiscounts = []
 
         },
@@ -510,14 +601,20 @@ export default {
             scope.formdata.contact_no = data.contact_no
             scope.formdata.address1 = data.address1
 
+            if (data.vat_uuid!=null){
+                scope.is_vat = 1
+            }else{
+                scope.is_vat = 0
+            }
+
             scope.supplierDiscounts = []
             scope.supplierDiscounts = data.discounts
 
             $('.form-select-supplier-group').val(data.supplier_group_uuid);
             $('.form-select-supplier-group').trigger('change');
 
-            $('.form-select-tax').val(data.vat_uuid);
-            $('.form-select-tax').trigger('change');
+            $('.form-select-vat').val(data.vat_uuid);
+            $('.form-select-vat').trigger('change');
 
             $('.form-select-payment-term').val(data.payment_term_uuid);
             $('.form-select-payment-term').trigger('change');
@@ -532,7 +629,7 @@ export default {
             var scope = this
             scope.formdata.supplier_group_uuid = scope.selected_supplier_group
             scope.formdata.payment_term_uuid = scope.selected_payment_term
-            scope.formdata.vat_uuid = scope.selected_tax
+            scope.formdata.vat_uuid = scope.selected_vat
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
             scope.formdata.global_address_uuid = scope.selected_global_address
             scope.formdata.discounts = scope.tempSupplierDiscounts
@@ -561,26 +658,36 @@ export default {
             var scope = this
             scope.formdata.supplier_group_uuid = scope.selected_supplier_group
             scope.formdata.payment_term_uuid = scope.selected_payment_term
-            scope.formdata.vat_uuid = scope.selected_tax
+            scope.formdata.vat_uuid = scope.selected_vat
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
             scope.formdata.global_address_uuid = scope.selected_global_address
-            
-            scope.POST('suppliers/supplier-list', scope.formdata).then(res => {
-                if (res.success) {
-                    window.swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Supplier Successfuly Updated',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        scope.getSupplierList()
-                        scope.toggleForm()
+            window.swal.fire({
+                title: 'Update Record?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Update it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.POST('suppliers/supplier-list', scope.formdata).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Supplier Successfuly Updated',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.getSupplierList()
+                                scope.toggleForm()
+                            })
+                        } else {
+                            alert('ERROR:' + res.code)
+                        }
                     })
-                } else {
-                    alert('ERROR:' + res.code)
-                }
-                
+                }                              
             })
         },
         saveTempSupplierDiscount() {
@@ -728,7 +835,7 @@ export default {
         scope.getPayables()
         scope.getSupplierGroup()
         scope.getPaymentTerm()
-        scope.getTax()
+        scope.getVat()
         scope.getAddressList()
 
         
@@ -744,12 +851,13 @@ export default {
             scope.selected_payment_term = $('.form-select-payment-term').val();
         })
 
-        $('.form-select-tax').on("change", function(e) { 
-            scope.selected_tax = $('.form-select-tax').val();
+        $('.form-select-vat').on("change", function(e) { 
+            scope.selected_vat = $('.form-select-vat').val();
         })
 
         $('.form-select-address-list').on("change", function(e) { 
             scope.selected_global_address = $('.form-select-address-list').val();
+            scope.fillAddress()
         })
         
     },

@@ -75,11 +75,11 @@
                                                 <div class="form-group">
                                                     <label class="form-label" for="cost-center">Cost Center Name</label>
                                                     <div class="form-control-wrap">
-                                                        <input v-model="formdata.cost_center_name" type="text" class="form-control" id="cost-center-name" required>
+                                                        <input v-model="formdata.cost_center_name" type="text" class="form-control" id="cost-center" required>
                                                     </div>
-                                                    <label class="form-label" for="cost-center">Shortname</label>
+                                                    <label class="form-label" for="shortname">Shortname</label>
                                                     <div class="form-control-wrap">
-                                                        <input v-model="formdata.cost_center_shortname" type="text" class="form-control" id="cost-center-shortname" required>
+                                                        <input v-model="formdata.cost_center_shortname" type="text" class="form-control" id="shortname" required>
                                                     </div>
                                                     <div class="form-control-wrap">
                                                         <div class="custom-control custom-checkbox">

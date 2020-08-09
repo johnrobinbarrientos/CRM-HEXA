@@ -66,9 +66,9 @@
                                         <div class="row">
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label" for="item-groups">Item Group</label>
+                                                    <label class="form-label" for="item-group">Item Group</label>
                                                     <div class="form-control-wrap">
-                                                        <input v-model="formdata.item_group" type="text" class="form-control" id="group-name" required>
+                                                        <input v-model="formdata.item_group" type="text" class="form-control" id="item-group" required>
                                                     </div>
                                                 </div>
                                             </div>

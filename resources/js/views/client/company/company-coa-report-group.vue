@@ -68,7 +68,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label" for="report-group">Report Group</label>
                                                     <div class="form-control-wrap">
-                                                        <input v-model="formdata.coa_report_name" type="text" class="form-control" id="report-name" required>
+                                                        <input v-model="formdata.coa_report_name" type="text" class="form-control" id="report-group" required>
                                                     </div>
                                                 </div>
                                             </div>

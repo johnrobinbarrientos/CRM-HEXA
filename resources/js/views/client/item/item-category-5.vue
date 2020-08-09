@@ -66,9 +66,9 @@
                                         <div class="row">
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label" for="item-category-5">Category 5</label>
+                                                    <label class="form-label" for="category5">Category 5</label>
                                                     <div class="form-control-wrap">
-                                                        <input v-model="formdata.category5" type="text" class="form-control" id="category-5" required>
+                                                        <input v-model="formdata.category5" type="text" class="form-control" id="category5" required>
                                                     </div>
                                                 </div>
                                             </div>

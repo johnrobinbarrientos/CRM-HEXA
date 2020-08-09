@@ -109,7 +109,7 @@ export default {
         }
     },
     methods: {
-        getAllEmploymentType: function () {
+        getEmploymentType: function () {
            var scope = this
             scope.GET('employees/employment-type').then(res => {
                 scope.employmentTypes = res.rows
@@ -136,7 +136,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getAllEmploymentType()
+                        scope.getEmploymentType()
                         scope.CLOSE_MODAL('#modalEmploymentType')
                     })
                 } else {
@@ -166,7 +166,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                                scope.getAllEmploymentType()
+                                scope.getEmploymentType()
                                 scope.CLOSE_MODAL('#modalEmploymentType')
                             })
                         }
@@ -200,7 +200,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            scope.getAllEmploymentType()
+                            scope.getEmploymentType()
                             scope.CLOSE_MODAL('#modalEmploymentType')
                             })
                         }
@@ -214,7 +214,7 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getAllEmploymentType()
+        scope.getEmploymentType()
     },
 }
 </script>

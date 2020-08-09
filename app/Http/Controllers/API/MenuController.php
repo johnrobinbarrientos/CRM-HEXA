@@ -118,7 +118,14 @@ class MenuController extends Controller
                 [ 'text' => 'Employee', 'route' => 'employee-main'],
                 [ 'text' => 'Project', 'route' => 'project-main'],
                 [ 'text' => 'Company', 'route' => 'company-main'],
-                [ 'text' => 'Address List', 'route' => 'address-list'],
+
+                // ['text' => 'Settings',
+                // 'route' => '#has-submenu',
+                // 'icon' => 'icon ni ni-db-fill',
+                // 'submenus' => [
+                //     [ 'text' => 'Company', 'route' => 'company-main'],
+                // ]
+                // ],   
             ]
         ];
 

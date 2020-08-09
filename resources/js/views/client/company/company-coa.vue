@@ -71,15 +71,15 @@
                                         <div class="row">
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label" for="account-groups">Account Group</label>
+                                                    <label class="form-label" for="account-group">Account Group</label>
                                                      <select class="form-select-account-group" v-model="selected_account_group" :options="options_account_group" name="account-group">
                                                         <!-- <option></option> -->
                                                     </select>
-                                                    <label class="form-label" for="account-groups">Code</label>
+                                                    <label class="form-label" for="code">Code</label>
                                                     <div class="form-control-wrap">
                                                         <input v-model="formdata.code" type="text" class="form-control" id="code" required>
                                                     </div>
-                                                    <label class="form-label" for="account-groups">Account Name</label>
+                                                    <label class="form-label" for="account-name">Account Name</label>
                                                     <div class="form-control-wrap">
                                                         <input v-model="formdata.account_name" type="text" class="form-control" id="account-name" required>
                                                     </div>
