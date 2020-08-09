@@ -195,6 +195,28 @@ class MenuController extends Controller
             ]
         ];
 
+        $menus[] = [
+            'text' => 'Level One',
+            'route' => '#has-submenu',
+            'icon' => 'icon ni ni-reports',
+            'submenus' => [
+                [ 
+                    'text' => 'Level Two', 
+                    'route' => '#has-submenu',
+                    'submenus' => [ 
+                        [ 'text' => 'Level Three 1', 'route' => 'employee-main'],
+                        [ 'text' => 'Level Three 2', 'route' => 'project-main'],
+                    ]
+                ],
+                [ 'text' => 'Funds Reconciliation', 'route' => 'supplier-main'],
+                [ 'text' => 'Lapsing Schedule', 'route' => 'customer-main'],
+                [ 'text' => 'Payroll Summary', 'route' => 'employee-main'],
+                [ 'text' => 'Journal and Ledger', 'route' => 'project-main'],
+                [ 'text' => 'Profit & Loss', 'route' => 'company-main'],
+                [ 'text' => 'Balance Sheet', 'route' => 'address-list'],
+            ]
+        ];
+
         return $menus;
     }
 

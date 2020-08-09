@@ -37,15 +37,28 @@
                                         <span class="nk-menu-text">{{ menu.text }}</span>
                                     </a>
                                     <ul class="nk-menu-sub">
-                                        <li v-for="(submenu, index2) in menu.submenus" :key="'submenu-' + index + '-' + index2" class="nk-menu-item">
-                                            <a href="javascript:void(0);" @click="link(submenu.route)" class="nk-menu-link">
-                                                <span class="nk-menu-text">{{ submenu.text }}</span>
-                                            </a>
+                                        <li v-for="(submenu1, index2) in menu.submenus" :key="'submenu-' + index + '-' + index2" class="nk-menu-item" v-bind:class="{'has-sub' : submenu1.route === '#has-submenu'}">
+                                            <template v-if="submenu1.route !== '#has-submenu'">
+                                                <a href="javascript:void(0);" @click="link(submenu1.route)" class="nk-menu-link">
+                                                    <span class="nk-menu-text">{{ submenu1.text }}</span>
+                                                </a>
+                                            </template>
+                                            <template v-else>
+                                                <a href="javascript:void(0);" class="nk-menu-link nk-menu-toggle">
+                                                    <span class="nk-menu-text">{{ submenu1.text }}</span>
+                                                </a>
+                                                <ul class="nk-menu-sub">
+                                                    <li v-for="(submenu2, index3) in submenu1.submenus" :key="'submenu-' + index2 + '-' + index3" class="nk-menu-item">
+                                                        <a href="javascript:void(0);" @click="link(submenu2.route)" class="nk-menu-link">
+                                                            <span class="nk-menu-text">{{ submenu2.text }}</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </template>
                                         </li>
                                     </ul>
                                 </template>
-                            </li>
-                
+                            </li>             
 <!-- 
                             <li class="nk-menu-heading">
                                 <h6 class="overline-title">Settings</h6>
