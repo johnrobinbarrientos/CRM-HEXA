@@ -367,7 +367,7 @@
                                                         <div class="form-group">
                                                             <label class="form-label" for="mark-up-rate">Markup Rate</label>
                                                             <div class="custom-control custom-radio">    
-                                                                <input v-model="compute_selection" value = "manual" type="radio" id="manual-compute" class="custom-control-input" checked>    
+                                                                <input v-model="compute_selection" value = "manual" type="radio" id="manual-compute" class="custom-control-input">    
                                                                 <label class="custom-control-label" for="manual-compute">Manual</label>
                                                             </div>  
                                                             <div class="form-control-wrap">

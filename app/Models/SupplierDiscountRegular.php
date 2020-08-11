@@ -13,6 +13,7 @@ class SupplierDiscountRegular extends Model
 
     protected $fillable = [
         'uuid', 'company_id', 'supplier_uuid','discount_name','discount_rate',
+        'start_date','end_date','discount_type','is_active',
     ];
 
     protected $primaryKey = 'uuid';

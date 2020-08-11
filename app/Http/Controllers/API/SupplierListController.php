@@ -52,6 +52,10 @@ class SupplierListController extends Controller
                 $discount->supplier_uuid = $supplier->uuid;
                 $discount->discount_name = $d['discount_name'];
                 $discount->discount_rate = $d['discount_rate'];
+                $discount->start_date = $d['start_date'];
+                $discount->end_date = $d['end_date'];
+                $discount->is_active = $d['is_active'];
+                $discount->discount_type = $d['discount_type'];
                 $discount->save();
             }
         }

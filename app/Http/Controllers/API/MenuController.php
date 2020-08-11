@@ -118,12 +118,12 @@ class MenuController extends Controller
                 [ 'text' => 'Employee', 'route' => 'employee-main'],
                 [ 'text' => 'Project', 'route' => 'project-main'],
 
-                ['text' => 'Settings',
-                'route' => '#has-submenu',
-                'submenus' => [
-                    [ 'text' => 'Company', 'route' => 'company-main'],
-                ]
-                ],   
+                // ['text' => 'Settings',
+                // 'route' => '#has-submenu',
+                // 'submenus' => [
+                //     [ 'text' => 'Company', 'route' => 'company-main'],
+                // ]
+                // ],   
             ]
         ];
 
@@ -194,26 +194,14 @@ class MenuController extends Controller
         ];
 
         $menus[] = [
-            'text' => 'Level One',
+            'text' => 'Settings',
             'route' => '#has-submenu',
-            'icon' => 'icon ni ni-reports',
+            // 'icon' => 'icon ni ni-db-fill',
             'submenus' => [
-                [ 
-                    'text' => 'Level Two', 
-                    'route' => '#has-submenu',
-                    'submenus' => [ 
-                        [ 'text' => 'Level Three 1', 'route' => 'employee-main'],
-                        [ 'text' => 'Level Three 2', 'route' => 'project-main'],
-                    ]
-                ],
-                [ 'text' => 'Funds Reconciliation', 'route' => 'supplier-main'],
-                [ 'text' => 'Lapsing Schedule', 'route' => 'customer-main'],
-                [ 'text' => 'Payroll Summary', 'route' => 'employee-main'],
-                [ 'text' => 'Journal and Ledger', 'route' => 'project-main'],
-                [ 'text' => 'Profit & Loss', 'route' => 'company-main'],
-                [ 'text' => 'Balance Sheet', 'route' => 'address-list'],
+                [ 'text' => 'Company', 'route' => 'company-main'],
             ]
         ];
+
 
         return $menus;
     }

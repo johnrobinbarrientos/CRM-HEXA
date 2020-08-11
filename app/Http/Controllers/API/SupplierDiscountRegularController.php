@@ -19,6 +19,10 @@ class SupplierDiscountRegularController extends Controller
         $discount->supplier_uuid = request()->supplier_uuid;
         $discount->discount_name = request()->discount_name;
         $discount->discount_rate = request()->discount_rate;
+        $discount->start_date = request()->start_date;
+        $discount->end_date = request()->end_date;
+        $discount->is_active = request()->is_active;
+        $discount->discount_type = request()->discount_type;
         $discount->save();
 
 
