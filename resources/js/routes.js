@@ -8,15 +8,15 @@ import Profile from './views/Profile'
 import Dashboard from './views/Dashboard'
 import Users from './views/Users'
 
-import ItemMain from './views/client/item/item-main'
+import ItemMain from './views/client/master-data/item/item-main'
 
-import SupplierMain from './views/client/supplier/supplier-main'
+import SupplierMain from './views/client/master-data/supplier/supplier-main'
 
-import CustomerMain from './views/client/customer/customer-main'
+import CustomerMain from './views/client/master-data/customer/customer-main'
 
-import EmployeeMain from './views/client/employee/employee-main'
+import EmployeeMain from './views/client/master-data/employee/employee-main'
 
-import CompanyMain from './views/client/company/company-main'
+import CompanyMain from './views/client/master-data/company/company-main'
 
 import AddressList from './views/admin/globals/address-list'
 import CustomerChain from './views/admin/globals/customer-chain'

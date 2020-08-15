@@ -156,6 +156,9 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/coa-account-group', 'API\CompanyCOAAccountGroupController@save');
         Route::post('/coa-account-group/delete', 'API\CompanyCOAAccountGroupController@delete');
 
+        Route::get('/account-period', 'API\CompanyAccountingPeriodController@getAccountingPeriod');
+        Route::post('/account-period', 'API\CompanyAccountingPeriodController@save');
+
     });
 
     Route::group(['prefix' => 'globals'], function(){
