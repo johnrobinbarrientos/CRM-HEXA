@@ -14,7 +14,7 @@ class TestController extends Controller
     {
         $data = ['message' => 'Hi HELOW GOOD BYE'];
         Mail::to('kenjimagto@gmail.com')->send(new TestEmail($data));
-        return 'Sent!'
+        return 'Sent!';
     }
 
     public function mailConfirmation()
