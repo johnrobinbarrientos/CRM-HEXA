@@ -23,7 +23,8 @@ import CustomerChain from './views/admin/globals/customer-chain'
 import CustomerChannel from './views/admin/globals/customer-channel'
 import CustomerType from './views/admin/globals/customer-type'
 
-import CompanyList from './views/admin/company-list'
+import CompanyList from './views/admin/companies/list'
+import CompanyForm from './views/admin/companies/form'
 
 import AdminCoaReportGroup from './views/admin/admin-globals/admin-coa-report-group'
 import AdminCoaAccountGroup from './views/admin/admin-globals/admin-coa-account-group'
@@ -167,9 +168,16 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
-          path: '/company-list',
+          path: '/companies',
           name: 'company-list',
           component: CompanyList,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/companies/create',
+          name: 'company-create',
+          component: CompanyForm,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },

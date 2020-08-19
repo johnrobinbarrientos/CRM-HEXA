@@ -12,8 +12,9 @@ class TestController extends Controller
 {
     public function mail()
     {
-        $data = ['message' => 'Hi HELOW GOOD BYE'];
-        Mail::to('admin@abchexa.ph')->send(new TestEmail($data));
+        $data = ['message' => 'Hi HELOW GOOD BYE AA'];
+        Mail::to('kenjimagto@gmail.com')->send(new TestEmail($data));
+        return 'Sent!';
     }
 
     public function mailConfirmation()
