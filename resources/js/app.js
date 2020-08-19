@@ -34,7 +34,6 @@ import App from './views/App'
 window.TOKEN_KEY = 'KX-HEXA'
 window.API_URL = '//'+ window.location.host +'/api'
 
-
 Vue.use(datePicker)
 Vue.use(Vuex) 
 Vue.use(VueAxios, axios)
