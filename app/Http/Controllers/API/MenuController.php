@@ -27,6 +27,8 @@ class MenuController extends Controller
     public static function getMenus($user) {
         if ($user->type === 'Super Admin') {
             return self::super();
+        } else if ($user->type === 'Admin') { 
+            return self::administrator($user);
         } else { 
             return self::user($user);
         }
@@ -36,27 +38,27 @@ class MenuController extends Controller
         $menus = [];
 
         $menus[] = [
-            'text' => 'DASHBOARD',
+            'text' => 'Dashboard',
             'route' => 'home',
-            'icon' => 'icon ni ni-dashboard'
+            'icon' => 'bx bxs-dashboard'
         ];
 
         $menus[] = [
-            'text' => 'USERS',
+            'text' => 'Users',
             'route' => 'users',
-            'icon' => 'icon ni ni-user-c'
+            'icon' => 'bx bxs-user'
         ];
 
         $menus[] = [
-            'text' => 'COMPANIES',
+            'text' => 'Companies',
             'route' => 'company-list',
-            'icon' => 'icon ni ni-building'
+            'icon' => 'bx bxs-building'
         ];
 
         $menus[] = [
-            'text' => 'GLOBALS',
+            'text' => 'Globals',
             'route' => '#has-submenu',
-            'icon' => 'icon ni ni-db-fill',
+            'icon' => 'bx bxs-cog',
             'submenus' => [
                 [ 'text' => 'Address List', 'route' => 'address-list'],
                 [ 'text' => 'Customer Chain', 'route' => 'customer-chain'],
@@ -66,9 +68,9 @@ class MenuController extends Controller
         ];
 
         $menus[] = [
-            'text' => 'ADMIN GLOBALS',
+            'text' => 'Admin Globals',
             'route' => '#has-submenu',
-            'icon' => 'icon ni ni-db-fill',
+            'icon' => 'bx bx-globe',
             'submenus' => [
                 [ 'text' => 'Admin Chart of Accounts', 'route' => 'admin-chart-of-accounts'],
                 [ 'text' => 'Admin Account Group', 'route' => 'admin-coa-account-group'],
@@ -80,50 +82,44 @@ class MenuController extends Controller
         return $menus;
     }
 
+    public static function administrator($user) {
+        $menus[] = [
+            'text' => 'Dashboard',
+            'route' => 'home',
+            'icon' => 'bx bxs-dashboard'
+        ];
+
+        $menus[] = [
+            'text' => 'Users',
+            'route' => 'users',
+            'icon' => 'bx bxs-user'
+        ];
+
+        $menus[] = [
+            'text' => 'Settings',
+            'route' => '#has-submenu',
+            'icon' => 'bx bx-cog',
+            'submenus' => [
+                [ 'text' => 'Company', 'route' => 'company-main'],
+            ]
+        ];
+
+        return $menus;
+    }
+
     public static function user($user) {
         $menus = [];
-
-        if ($user->type == 'Administrator') {
-
-            $menus[] = [
-                'text' => 'DASHBOARD',
-                'route' => 'home',
-                'icon' => 'icon ni ni-dashboard'
-            ];
-
-            $menus[] = [
-                'text' => 'USERS',
-                'route' => 'users',
-                'icon' => 'icon ni ni-user-c'
-            ];
-
-        
-            $menus[] = [
-                'text' => $user->company->name,
-                'route' => 'companies',
-                'icon' => 'icon ni ni-building'
-            ];
-
-        }
-        
 
         $menus[] = [
             'text' => 'Masterdata',
             'route' => '#has-submenu',
-            'icon' => 'icon ni ni-db-fill',
+            'icon' => 'bx bx-data',
             'submenus' => [
                 [ 'text' => 'Item', 'route' => 'item-main'],
                 [ 'text' => 'Supplier', 'route' => 'supplier-main'],
                 [ 'text' => 'Customer', 'route' => 'customer-main'],
                 [ 'text' => 'Employee', 'route' => 'employee-main'],
-                [ 'text' => 'Project', 'route' => 'project-main'],
-
-                // ['text' => 'Settings',
-                // 'route' => '#has-submenu',
-                // 'submenus' => [
-                //     [ 'text' => 'Company', 'route' => 'company-main'],
-                // ]
-                // ],   
+                [ 'text' => 'Project', 'route' => 'project-main'], 
             ]
         ];
 
@@ -131,7 +127,7 @@ class MenuController extends Controller
         $menus[] = [
             'text' => 'Buy and Pay',
             'route' => '#has-submenu',
-            'icon' => 'icon ni ni-money',
+            'icon' => 'bx bx-money',
             'submenus' => [
                 [ 'text' => 'Ordering', 'route' => 'item-main'],
                 [ 'text' => 'Receiving', 'route' => 'supplier-main'],
@@ -145,7 +141,7 @@ class MenuController extends Controller
         $menus[] = [
             'text' => 'Sell and Collect',
             'route' => '#has-submenu',
-            'icon' => 'icon ni ni-coins',
+            'icon' => 'bx bx-coin-stack',
             'submenus' => [
                 [ 'text' => 'Ordering', 'route' => 'item-main'],
                 [ 'text' => 'Fulfillment', 'route' => 'supplier-main'],
@@ -158,7 +154,7 @@ class MenuController extends Controller
         $menus[] = [
             'text' => 'Stock',
             'route' => '#has-submenu',
-            'icon' => 'icon ni ni-package',
+            'icon' => 'bx bx-package',
             'submenus' => [
                 [ 'text' => 'Stock Entry', 'route' => 'item-main'],
                 [ 'text' => 'Price Rule', 'route' => 'supplier-main']
@@ -168,7 +164,7 @@ class MenuController extends Controller
         $menus[] = [
             'text' => 'Accounting',
             'route' => '#has-submenu',
-            'icon' => 'icon ni ni-report-profit',
+            'icon' => 'bx bxs-report',
             'submenus' => [
                 [ 'text' => 'Reconcile Bank', 'route' => 'item-main'],
                 [ 'text' => 'Reconcile Cash Fund', 'route' => 'supplier-main'],
@@ -181,7 +177,7 @@ class MenuController extends Controller
         $menus[] = [
             'text' => 'Financial Report',
             'route' => '#has-submenu',
-            'icon' => 'icon ni ni-reports',
+            'icon' => 'bx bx-bar-chart-square',
             'submenus' => [
                 [ 'text' => 'Bank Reconciliation', 'route' => 'item-main'],
                 [ 'text' => 'Funds Reconciliation', 'route' => 'supplier-main'],
@@ -193,14 +189,7 @@ class MenuController extends Controller
             ]
         ];
 
-        $menus[] = [
-            'text' => 'Settings',
-            'route' => '#has-submenu',
-            // 'icon' => 'icon ni ni-db-fill',
-            'submenus' => [
-                [ 'text' => 'Company', 'route' => 'company-main'],
-            ]
-        ];
+        
 
 
         return $menus;

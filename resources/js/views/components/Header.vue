@@ -1,158 +1,164 @@
 <template>
-    <div class="nk-header nk-header-fluid nk-header-fixed is-light">
-        <div class="container-fluid">
-            <div class="nk-header-wrap">
-                <div class="nk-menu-trigger d-xl-none ml-n1">
-                    <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
-                </div>
-                <div class="nk-header-brand d-xl-none">
-                    <a href="html/crypto/index.html" class="logo-link">
-                        <img class="logo-light logo-img" src="#" srcset="#" alt="logo">
-                        <img class="logo-dark logo-img" src="#" srcset="#" alt="logo-dark">
-                        <span class="nio-version">Crypto</span>
+    <header id="page-topbar">
+        <div class="navbar-header">
+            <div class="d-flex">
+                <div style="line-height:70px;" class="navbar-brand-box">
+                    <a href="javascript:void(0);">
+                        <img :src="logo" style="height:50px;">
                     </a>
                 </div>
-                <!-- <div class="nk-header-news d-none d-xl-block">
-                    <div class="nk-news-list">
-                        <a class="nk-news-item" href="#">
-                            <div class="nk-news-icon">
-                                <em class="icon ni ni-card-view"></em>
+                <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect" id="vertical-menu-btn"><i class="mdi mdi-menu"></i></button>
+                <form class="app-search d-none d-lg-block">
+                    <div class="position-relative"><input type="text" class="form-control" placeholder="Search..."><span class="bx bx-search-alt"></span></div>
+                </form>
+                
+            </div>
+            <div class="d-flex">
+                <div class="dropdown d-inline-block d-lg-none ml-2">
+                    <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-search-dropdown"><i class="mdi mdi-magnify"></i></button>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0" aria-labelledby="page-header-search-dropdown">
+                        <form class="p-3">
+                            <div class="form-group m-0">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient&#39;s username">
+                                    <div class="input-group-append"><button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button></div>
+                                </div>
                             </div>
-                            <div class="nk-news-text">
-                                <p>Do you know the latest update of 2020? <span> ORION Toolkit beta version</span></p>
-                                <em class="icon ni ni-external"></em>
-                            </div>
-                        </a>
+                        </form>
                     </div>
-                </div> -->
-                <div class="nk-header-tools">
-                    <ul class="nk-quick-nav">
-                        <li class="dropdown user-dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <div class="user-toggle">
-                                    <div class="user-avatar sm">
-                                        <em class="icon ni ni-user-alt"></em>
-                                    </div>
-                                    <div class="user-info d-none d-md-block">
-                                        <div class="user-status user-status-verified">Verified</div>
-                                        <div class="user-name dropdown-indicator">Kenji Magto</div>
-                                    </div>
+                </div>
+
+                <li class="dropdown d-inline-block dropdown">
+                    <button id="page-header-notifications-dropdown" aria-haspopup="true" class="btn header-item noti-icon waves-effect" aria-expanded="false"><i class="bx bx-bell bx-tada"></i><span class="badge badge-danger badge-pill">3</span></button>
+                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-lg p-0 dropdown-menu dropdown-menu-right">
+                        <div class="p-3">
+                            <div class="align-items-center row">
+                                <div class="col">
+                                    <h6 class="m-0"> Notifications </h6>
                                 </div>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-md dropdown-menu-right dropdown-menu-s1">
-                                <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
-                                    <div class="user-card">
-                                        <div class="user-avatar">
-                                            <span>AB</span>
-                                        </div>
-                                        <div class="user-info">
-                                            <span class="lead-text">Kenji Magto</span>
-                                            <span class="sub-text">dev@thinkorion.com</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="dropdown-inner">
-                                    <ul class="link-list">
-                                        <li><a href="html/crypto/profile.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
-                                        <li><a href="html/crypto/profile-security.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
-                                        <li><a href="html/crypto/profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
-                                    </ul>
-                                </div>
-                                <div class="dropdown-inner">
-                                    <ul class="link-list">
-                                        <li><a href="javascript:void(0)" @click="logout()"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
-                                    </ul>
-                                </div>
+                                <div class="col-auto"><a href="javascript:void(0);#!" class="small"> View All</a></div>
                             </div>
-                        </li>
-                        <li class="dropdown notification-dropdown mr-n1">
-                            <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-toggle="dropdown">
-                                <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right dropdown-menu-s1">
-                                <div class="dropdown-head">
-                                    <span class="sub-title nk-dropdown-title">Notifications</span>
-                                    <a href="#">Mark All as Read</a>
+                        </div>
+                        <div data-simplebar="init" style="height: 230px;">
+                            <div class="simplebar-wrapper" style="margin: 0px;">
+                                <div class="simplebar-height-auto-observer-wrapper">
+                                    <div class="simplebar-height-auto-observer"></div>
                                 </div>
-                                <div class="dropdown-body">
-                                    <div class="nk-notification">
-                                        <div class="nk-notification-item dropdown-inner">
-                                            <div class="nk-notification-icon">
-                                                <em class="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
+                                <div class="simplebar-mask">
+                                    <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                                        <div class="simplebar-content-wrapper" style="height: auto; overflow: hidden;">
+                                            <div class="simplebar-content" style="padding: 0px;">
+                                                <a class="text-reset notification-item" href="javascript:void(0);">
+                                                    <div class="media">
+                                                        <div class="avatar-xs mr-3"><span class="avatar-title bg-primary rounded-circle font-size-16"><i class="bx bx-cart"></i></span></div>
+                                                        <div class="media-body">
+                                                            <h6 class="mt-0 mb-1">Your order is placed</h6>
+                                                            <div class="font-size-12 text-muted">
+                                                                <p class="mb-1">If several languages coalesce the grammar</p>
+                                                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i> 3 min ago </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <a class="text-reset notification-item" href="javascript:void(0);">
+                                                    <div class="media">
+                                                        <img src="" class="mr-3 rounded-circle avatar-xs" alt="user-pic">
+                                                        <div class="media-body">
+                                                            <h6 class="mt-0 mb-1">James Lemire</h6>
+                                                            <div class="font-size-12 text-muted">
+                                                                <p class="mb-1">It will seem like simplified English.</p>
+                                                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i>1 hours ago </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <a class="text-reset notification-item" href="javascript:void(0);">
+                                                    <div class="media">
+                                                        <div class="avatar-xs mr-3"><span class="avatar-title bg-success rounded-circle font-size-16"><i class="bx bx-badge-check"></i></span></div>
+                                                        <div class="media-body">
+                                                            <h6 class="mt-0 mb-1">Your item is shipped</h6>
+                                                            <div class="font-size-12 text-muted">
+                                                                <p class="mb-1">If several languages coalesce the grammar</p>
+                                                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i> 3 min ago</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <a class="text-reset notification-item" href="javascript:void(0);">
+                                                    <div class="media">
+                                                        <img src="" class="mr-3 rounded-circle avatar-xs" alt="user-pic">
+                                                        <div class="media-body">
+                                                            <h6 class="mt-0 mb-1">Salena Layfield</h6>
+                                                            <div class="font-size-12 text-muted">
+                                                                <p class="mb-1">As a skeptical Cambridge friend of mine occidental.</p>
+                                                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i>1 hours ago </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
                                             </div>
-                                            <div class="nk-notification-content">
-                                                <div class="nk-notification-text">You have requested to <span>Widthdrawl</span></div>
-                                                <div class="nk-notification-time">2 hrs ago</div>
-                                            </div>
-                                        </div><!-- .dropdown-inner -->
-                                        <div class="nk-notification-item dropdown-inner">
-                                            <div class="nk-notification-icon">
-                                                <em class="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
-                                            </div>
-                                            <div class="nk-notification-content">
-                                                <div class="nk-notification-text">Your <span>Deposit Order</span> is placed</div>
-                                                <div class="nk-notification-time">2 hrs ago</div>
-                                            </div>
-                                        </div><!-- .dropdown-inner -->
-                                        <div class="nk-notification-item dropdown-inner">
-                                            <div class="nk-notification-icon">
-                                                <em class="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
-                                            </div>
-                                            <div class="nk-notification-content">
-                                                <div class="nk-notification-text">You have requested to <span>Widthdrawl</span></div>
-                                                <div class="nk-notification-time">2 hrs ago</div>
-                                            </div>
-                                        </div><!-- .dropdown-inner -->
-                                        <div class="nk-notification-item dropdown-inner">
-                                            <div class="nk-notification-icon">
-                                                <em class="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
-                                            </div>
-                                            <div class="nk-notification-content">
-                                                <div class="nk-notification-text">Your <span>Deposit Order</span> is placed</div>
-                                                <div class="nk-notification-time">2 hrs ago</div>
-                                            </div>
-                                        </div><!-- .dropdown-inner -->
-                                        <div class="nk-notification-item dropdown-inner">
-                                            <div class="nk-notification-icon">
-                                                <em class="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
-                                            </div>
-                                            <div class="nk-notification-content">
-                                                <div class="nk-notification-text">You have requested to <span>Widthdrawl</span></div>
-                                                <div class="nk-notification-time">2 hrs ago</div>
-                                            </div>
-                                        </div><!-- .dropdown-inner -->
-                                        <div class="nk-notification-item dropdown-inner">
-                                            <div class="nk-notification-icon">
-                                                <em class="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
-                                            </div>
-                                            <div class="nk-notification-content">
-                                                <div class="nk-notification-text">Your <span>Deposit Order</span> is placed</div>
-                                                <div class="nk-notification-time">2 hrs ago</div>
-                                            </div>
-                                        </div><!-- .dropdown-inner -->
+                                        </div>
                                     </div>
-                                </div><!-- .nk-dropdown-body -->
-                                <div class="dropdown-foot center">
-                                    <a href="#">View All</a>
                                 </div>
+                                <div class="simplebar-placeholder" style="width: 0px; height: 0px;"></div>
                             </div>
-                        </li>
-                    </ul>
+                            <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                                <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
+                            </div>
+                            <div class="simplebar-track simplebar-vertical" style="visibility: hidden;">
+                                <div class="simplebar-scrollbar" style="height: 0px; display: none;"></div>
+                            </div>
+                        </div>
+                        <div class="p-2 border-top"><a class="btn btn-sm btn-link font-size-14 btn-block text-center" href="javascript:void(0);"> View all </a></div>
+                    </div>
+                </li>
+                <div class="d-inline-block dropdown">
+                    <button id="page-header-user-dropdown" aria-haspopup="true" class="btn header-item waves-effect" aria-expanded="false">
+                        <img class="rounded-circle header-profile-user" :src="avatar" alt="Header Avatar">
+                        <span class="d-none d-xl-inline-block ml-2 mr-1">{{ user.first_name }} {{ user.last_name }}</span>
+                        <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                    </button>
+                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                        <a href="javascript:void(0);profile" tabindex="0" role="menuitem" class="dropdown-item">
+                            <i class="bx bx-user font-size-16 align-middle mr-1"></i> Profile
+                        </a>
+                        <a href="javascript:void(0);#" tabindex="0" role="menuitem" class="dropdown-item">
+                            <span style="display:none;" class="badge badge-success float-right mt-1">5</span>
+                            <i class="bx bx-wrench font-size-17 align-middle mr-1"></i> Settings
+                        </a>
+                        <a href="javascript:void(0);crypto-wallet" tabindex="0" role="menuitem" class="dropdown-item">
+                            <i class="bx bx-notepad font-size-16 align-middle mr-1"></i> Activity Logs
+                        </a>
+                        <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="javascript:void(0);" @click="logout()">
+                                <i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i><span>Logout</span>
+                            </a>
+                    </div>
                 </div>
             </div>
         </div>
-</div>
+    </header>
 <!-- main header @e -->
 </template>
 
 <script>
+
+    import logo from '../../assets/themes/images/hexa-logo.png';
+    import avatar from '../../assets/themes/images/favicon.png';
+
     export default {
     name: 'Header',
     props: ['properties'],
     data: function () {
         return {
-            
+            logo,
+            avatar,
         }
+    },
+    computed: {
+        user: function () {
+            return this.$store.getters.getAuthenticatedUser 
+        } 
     },
     components: {
     

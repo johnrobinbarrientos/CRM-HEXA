@@ -1,67 +1,45 @@
 <template>
     <div>
-        <div style="margin-top: 60px;"></div>
-        
-        <div class="nk-content nk-content-fluid">  <!-- nk-content-fluid -->         
-            <div class="container-fluid">
-                <div class="nk-content-body">
-
-                    <ul class="nav nav-tabs">    
-                        <li class="nav-item">        
-                            <a class="nav-link active" data-toggle="tab" href="#item-list">Items List</a>    
-                        </li>    
-                        <li class="nav-item">        
-                            <a class="nav-link" data-toggle="tab" href="#item-group">Item Group</a>    
-                        </li>    
-                        <li class="nav-item">        
-                            <a class="nav-link" data-toggle="tab" href="#asset-group">Asset Group</a>    
-                            </li>    
-                        <li class="nav-item">        
-                            <a class="nav-link" data-toggle="tab" href="#category1">Category 1</a>    
-                        </li>
-                        <li class="nav-item">        
-                            <a class="nav-link" data-toggle="tab" href="#category2">Category 2</a>    
-                        </li>
-                        <li class="nav-item">        
-                            <a class="nav-link" data-toggle="tab" href="#category3">Category 3</a>    
-                        </li>
-                        <li class="nav-item">        
-                            <a class="nav-link" data-toggle="tab" href="#category4">Category 4</a>    
-                        </li>
-                        <li class="nav-item">        
-                            <a class="nav-link" data-toggle="tab" href="#category5">Category 5</a>    
-                        </li>
-                    </ul>
-                    <div class="tab-content">    
-                        <div class="tab-pane active" id="item-list">        
-                            <item-list ></item-list>   
-                        </div>    
-                        <div class="tab-pane" id="item-group">        
-                            <item-group></item-group>    
-                        </div>    
-                        <div class="tab-pane" id="asset-group">        
-                            <asset-group></asset-group>     
-                        </div>    
-                        <div class="tab-pane" id="category1">        
-                            <category-1></category-1>     
-                        </div>
-                        <div class="tab-pane" id="category2">        
-                            <category-2></category-2>    
-                        </div>
-                        <div class="tab-pane" id="category3">        
-                            <category-3></category-3>     
-                        </div>
-                        <div class="tab-pane" id="category4">        
-                            <category-4></category-4>     
-                        </div>
-                        <div class="tab-pane" id="category5">        
-                            <category-5></category-5>     
-                        </div>
+        <div class="card">
+            <div class="card-body">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="active nav-link" style="cursor: pointer;"><span class="d-none d-sm-block">Item List</span></a></li>
+                    <li class="nav-item"><a class="nav-link" style="cursor: pointer;"><span class="d-none d-sm-block">Item Group</span></a></li>
+                    <li class="nav-item"><a class="nav-link" style="cursor: pointer;"><span class="d-none d-sm-block">Assets Group</span></a></li>
+                    <li class="nav-item"><a class="nav-link" style="cursor: pointer;"><span class="d-none d-sm-block">Category 1</span></a></li>
+                    <li class="nav-item"><a class="nav-link" style="cursor: pointer;"><span class="d-none d-sm-block">Category 2</span></a></li>
+                    <li class="nav-item"><a class="nav-link" style="cursor: pointer;"><span class="d-none d-sm-block">Category 3</span></a></li>
+                    <li class="nav-item"><a class="nav-link" style="cursor: pointer;"><span class="d-none d-sm-block">Category 4</span></a></li>
+                    <li class="nav-item"><a class="nav-link" style="cursor: pointer;"><span class="d-none d-sm-block">Category 5</span></a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane p-3 active">
+                        <item-list ></item-list> 
                     </div>
-
+                    <div class="tab-pane p-3">
+                        <item-group></item-group> 
+                    </div>
+                    <div class="tab-pane p-3">
+                        <asset-group></asset-group> 
+                    </div>
+                    <div class="tab-pane p-3">
+                        <category-1></category-1> 
+                    </div>
+                    <div class="tab-pane p-3">
+                        <category-2></category-2> 
+                    </div>
+                    <div class="tab-pane p-3">
+                        <category-3></category-3>
+                    </div>
+                    <div class="tab-pane p-3">
+                        <category-4></category-4>
+                    </div>
+                    <div class="tab-pane p-3">
+                        <category-5></category-5>
+                    </div>
                 </div>
             </div>
-        </div>        
+        </div> 
     </div>
 </template>
 

@@ -1,29 +1,30 @@
 <template>
     <div>
-        <div v-if="authenticated" class="nk-app-root">
-            <!-- main @s -->
-            <div class="nk-main ">
-                <!-- SIDEBAR HERE -->
-                <SideBar></SideBar>
-               
-                <!-- wrap @s -->
-                <div class="nk-wrap">
-                    <!-- main header @s -->
-                
-                    <!-- HEADER HERE -->
-                     <Header></Header>
-                    <!-- content @s -->
-                    <router-view></router-view>
-                    
+        <div  v-if="authenticated" id="layout-wrapper">
+            
+            <Header></Header>
+            <SideBar></SideBar>
+            <div class="main-content">
+                <div class="page-content">
+                    <div class="container-fluid">
+                        <router-view></router-view>
+                    </div>
                 </div>
-                <!-- wrap @e -->
             </div>
-            <!-- main @e -->
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">2020 © HEXA SUITE</div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-right d-none d-sm-block">Powered by HEXA.PH</div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
         <div v-else>
             <router-view></router-view>
         </div>
-        <div style="display:none;" class="modal-backdrop fade"></div>
     </div>
 </template>
 

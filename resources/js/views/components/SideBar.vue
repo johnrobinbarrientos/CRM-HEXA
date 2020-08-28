@@ -1,89 +1,67 @@
 <template>
-    <!-- sidebar @s -->
-    <div class="nk-sidebar nk-sidebar-fat nk-sidebar-fixed" data-content="sidebarMenu">
-        <div class="nk-sidebar-element nk-sidebar-head">
-            <div class="nk-sidebar-brand">
-               <a href="html/general/index.html" class="logo-link nk-sidebar-logo">
-                    <img class="logo logo-img logo-img-lg" :src="logo"  alt="logo">
-                    <img class="logo-dark logo-img logo-img-lg" :src="logo"  alt="logo-dark">
-                    <span class="nio-version">SYSTEM</span>
-                </a>
-            </div>
-            <div class="nk-menu-trigger mr-n2">
-                <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
-            </div>
-        </div><!-- .nk-sidebar-element -->
-        <div class="nk-sidebar-element">
-            <div class="nk-sidebar-body" data-simplebar>
-                <div class="nk-sidebar-content">
-                    <div class="nk-sidebar-menu">
-                        <!-- Menu -->
-                        <ul class="nk-menu">
-
-                            <li class="nk-menu-heading">
-                                <h6 class="overline-title">Menu</h6>
-                            </li>
-
-                            <li v-for="(menu, index) in menus" :key="'menu-' + index" class="nk-menu-item" v-bind:class="{'has-sub' : menu.route === '#has-submenu'}">
-                                <template v-if="menu.route !== '#has-submenu'">
-                                    <a href="javascript:void(0);" @click="link(menu.route)" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em v-bind:class="menu.icon"></em></span>
-                                        <span class="nk-menu-text">{{ menu.text }}</span>
-                                    </a>
-                                </template>
-                                <template v-else>
-                                    <a href="javascript:void(0);" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em v-bind:class="menu.icon"></em></span>
-                                        <span class="nk-menu-text">{{ menu.text }}</span>
-                                    </a>
-                                    <ul class="nk-menu-sub">
-                                        <li v-for="(submenu1, index2) in menu.submenus" :key="'submenu-' + index + '-' + index2" class="nk-menu-item" v-bind:class="{'has-sub' : submenu1.route === '#has-submenu'}">
-                                            <template v-if="submenu1.route !== '#has-submenu'">
-                                                <a href="javascript:void(0);" @click="link(submenu1.route)" class="nk-menu-link">
-                                                    <span class="nk-menu-text">{{ submenu1.text }}</span>
+    <div class="vertical-menu">
+    <div data-simplebar="true" class="h-100">
+        <div data-simplebar="init" style="max-height: 100%;">
+            <div class="simplebar-wrapper" style="margin: 0px;">
+                <div class="simplebar-height-auto-observer-wrapper">
+                    <div class="simplebar-height-auto-observer"></div>
+                </div>
+                <div class="simplebar-mask">
+                    <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                        <div class="simplebar-content-wrapper" style="height: auto; overflow: hidden scroll;">
+                            <div class="simplebar-content" style="padding: 0px;">
+                                <div id="sidebar-menu">
+                                    <ul class="metismenu list-unstyled mm-active" id="side-menu">
+                                        <li class="menu-title">Menu</li>
+                                        <li v-for="(menu, index) in menus" :key="'menu-' + index">
+                                             <template v-if="menu.route !== '#has-submenu'">
+                                                <a href="javascript:void(0);" @click="link(menu.route)" class="waves-effect is-page">
+                                                    <i v-bind:class="menu.icon"></i>
+                                                    <span>{{ menu.text }}</span>
                                                 </a>
                                             </template>
                                             <template v-else>
-                                                <a href="javascript:void(0);" class="nk-menu-link nk-menu-toggle">
-                                                    <span class="nk-menu-text">{{ submenu1.text }}</span>
+                                                <a href="javascript:void(0);" class="has-arrow waves-effect">
+                                                    <i v-bind:class="menu.icon"></i>
+                                                    <span>{{ menu.text }}</span>
                                                 </a>
-                                                <ul class="nk-menu-sub">
-                                                    <li v-for="(submenu2, index3) in submenu1.submenus" :key="'submenu-' + index2 + '-' + index3" class="nk-menu-item">
-                                                        <a href="javascript:void(0);" @click="link(submenu2.route)" class="nk-menu-link">
-                                                            <span class="nk-menu-text">{{ submenu2.text }}</span>
-                                                        </a>
+                                                <ul class="sub-menu mm-collapse" aria-expanded="false">
+                                                    <li v-for="(submenu1, index2) in menu.submenus" :key="'submenu-' + index + '-' + index2" >
+                                                        <template v-if="submenu1.route !== '#has-submenu'">
+                                                            <a href="javascript:void(0);"  @click="link(submenu1.route)" class="is-page">{{ submenu1.text }}</a>
+                                                        </template>
+                                                        <template v-else>
+                                                            <a href="javascript:void(0);" class="has-arrow waves-effect">{{ submenu1.text }}</a>
+                                                            <ul  class="sub-menu mm-collapse">
+                                                                <li v-for="(submenu2, index3) in submenu1.submenus" :key="'submenu-' + index2 + '-' + index3" class="nk-menu-item">
+                                                                    <a href="javascript:void(0);" class="has-arrow waves-effect">
+                                                                        <span class="nk-menu-icon"><em v-bind:class="submenu2.icon"></em></span>
+                                                                        <span class="nk-menu-text">{{ submenu2.text }}</span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </template>
                                                     </li>
                                                 </ul>
                                             </template>
                                         </li>
                                     </ul>
-                                </template>
-                            </li>             
-<!-- 
-                            <li class="nk-menu-heading">
-                                <h6 class="overline-title">Settings</h6>
-                            </li>
-
-                            <li class="nk-menu-item">
-                                <a @click="link('users')" class="nk-menu-link">
-                                    <span class="nk-menu-icon"><em class="icon ni ni-user-c"></em></span>
-                                    <span class="nk-menu-text">USERS</span>
-                                </a>
-                            </li>
-                            <li class="nk-menu-item">
-                                <a href="javascript:void(0);" @click="link('companies')" class="nk-menu-link">
-                                    <span class="nk-menu-icon"><em class="icon ni ni-building"></em></span>
-                                    <span class="nk-menu-text">COMPANIES</span>
-                                </a>
-                            </li> -->
-                        
-                        </ul><!-- .nk-menu -->     
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div><!-- .nk-sidebar-contnet -->
-            </div><!-- .nk-sidebar-body -->
-        </div><!-- .nk-sidebar-element -->
+                </div>
+                <div class="simplebar-placeholder" style="width: 250px; height: 1300px;"></div>
+            </div>
+            <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
+            </div>
+            <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+                <div class="simplebar-scrollbar" style="height: 527px; transform: translate3d(0px, 0px, 0px); display: block;"></div>
+            </div>
+        </div>
     </div>
-    <!-- sidebar @e -->
+</div>
 </template>
 
 <script>
@@ -116,11 +94,3 @@
     }
 }
 </script>
-
-<style scoped>
-.nk-menu {
-      max-height: calc(100vh - 9rem);
-      overflow-y: auto;
- }
-
-</style>

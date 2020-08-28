@@ -1,89 +1,106 @@
 <template>
     <div>
+        
         <div v-show="!show_form">
-        <div class="nk-fmg-body-head d-none d-lg-flex">
-            <div class="nk-fmg-search">
-                <em class="icon ni ni-search"></em>
-                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Item">
-            </div>
-            <div class="nk-fmg-actions">
-                <ul class="nk-block-tools g-3">
-                    <li>
-                        <a href="javascript:void(0)" @click="toggleForm();resetData()" class="btn btn-primary" data-toggle="modal">
+            <div style="margin-bottom:10px;">
+                <div class="row">
+                    <div class="col-12 col-md-3">
+                        <input type="text" class="form-control" placeholder="Search Item">
+                    </div>
+                    <div class="col-12 col-md-1 offset-md-8">
+                        <a href="javascript:void(0)" @click="toggleForm();resetData()" class="btn btn-block btn-primary" data-toggle="modal">
                             <em class="icon ni ni-plus"></em> <span>New Item</span>
                         </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        </div>
-        
-        <br/>
-        <div v-show="!show_form">          
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-bordered card-preview">
-                        <div style="overflow-x:auto;"> 
-                        <table class="table table-tranx table-items">
-                            <thead>
-                                <tr class="tb-tnx-head">
-                                    <!-- <th class="table-fixed-column" style="left:0px; width:150px; background: #f5f6fa;"><span class="">Actions</span></th>
-                                    <th class="table-fixed-column" style="left:150px; width:100px; background: #f5f6fa;"><span class="">#</span></th>
-                                    <th class="table-fixed-column" style="left:250px; width:200px; background: #f5f6fa; border-right:1px solid #dbdfea;"><span class="">Shortname</span></th> -->
-                                    <th><span class="">Actions</span></th>
-                                    <th><span class="">#</span></th>
-                                    <th><span class="">Item Description</span></th>
-                                    <th><span class="">Item Code</span></th>
-                                    <th><span class="">Item Barcode</span></th>
-                                    <th><span class="">Case/Box Barcode</span></th>
-                                    <th><span class="">Item Group</span></th>
-                                    <th><span class="">Re-order Qtyy / ICO</span></th>
-                                    <th><span class="">Supplier</span></th>
-                                    <th><span class="">Is Expiry?</span></th>
-                                    <th><span class="">Purchase Cost</span></th>
-                                    <th><span class="">Sales Cost</span></th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(item, index) in itemList" :key="item.uuid" class="tb-tnx-item">
-                                    <!-- <th class="table-fixed-column" style="border-top:1px solid #dbdfea; left:0px; width:150px; background:#fff;"><span class="">Actions</span></th>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:150px; width:100px; background:#fff;"><span class="">#</span></td>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:250px; width:200px; background:#fff; border-right:1px solid #dbdfea;"><span class="">Shortname Tide</span></td> -->
-                                    <td>
-                                    <span class="">
-                                        <a href="javascript:void(0)"  @click="setData(item); toggleForm() " class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
-                                        <a href="javascript:void(0)"  @click="remove(item)" class="btn btn-sm btn-danger"><em class="icon ni ni-trash"></em></a>
-                                    </span>
-                                    </td>
-                                    <td><span class="">{{ (index + 1) }}</span></td>
-                                    <td><span class="">{{item.item_description}}</span></td>
-                                    <td><span class="">{{item.item_code}}</span></td>
-                                    <td><span class="">{{item.item_barcode}}</span></td>
-                                    <td><span class="">{{item.cs_barcode}}</span></td>
-                                    <td><span class="">{{item.item_group.item_group}}</span></td>
-                                    <td><span class="">{{item.reorder_qty}}</span></td>
-                                    <td>
-                                        <span v-if="item.suppliers.length > 0">
-                                            <span v-for="item_supplier in item.suppliers" :key="item_supplier.uuid">
-                                                <span  class="badge badge-dim badge-outline-secondary">{{ item_supplier.supplier.business_shortname }}</span> &nbsp;
-                                            </span>
-                                        </span>
-                                        <span v-else>
-                                            NOT SPECIFIED
-                                        </span>
-                                    </td>
-                                    <td v-if="item.is_expiry === 1">Yes</td>
-                                    <td v-else>No</td>
-                                    <td><span class="">{{item.purchase_price}}</span></td>
-                                    <td><span class="">{{item.sales_price}}</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        </div>
                     </div>
                 </div>
             </div>
+
+            
+            <div class="table-rep-plugin">
+                <div class="table-responsive mb-0" data-pattern="priority-columns">
+                    <table id="tech-companies-1" class="table table-striped table-bordered responsiveTable">
+                        <thead>
+                            <tr>
+                                <th>Actions</th>
+                                <th data-priority="1">#</th>
+                                <th data-priority="3">Item Description</th>
+                                <th data-priority="1">Item Code</th>
+                                <th data-priority="3">Item Barcode</th>
+                                <th data-priority="3">Case/Box Barcode</th>
+                                <th data-priority="6">Item Group</th>
+                                <th data-priority="6">Re-order Qty / ICO</th>
+                                <th data-priority="6">Supplier</th>
+                                <th data-priority="6">Is Expiry?</th>
+                                <th data-priority="6">Purchase Cost</th>
+                                <th data-priority="6">Sales Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in itemList" :key="item.uuid">
+                                <td>
+                                    <a href="javascript:void(0)"  @click="setData(item); toggleForm() " class="btn btn-light btn-sm waves-effect"><i class="mdi mdi-pencil"></i></a>
+                                    <a href="javascript:void(0)"  @click="remove(item)" class="btn btn-sm btn-danger waves-effect"><i class="mdi mdi-trash-can"></i></a>
+                                </td>
+                                <td class=" pivoted">
+                                    <div class="tdBefore">#</div>
+                                {{ (index + 1) }}
+                                </td>
+                                <td class=" pivoted">
+                                    <div class="tdBefore">Item Description</div>
+                                    {{ item.item_description }}
+                                </td>
+                                <td class=" pivoted">
+                                    <div class="tdBefore">Item Code</div>
+                                    {{ item.item_code }}
+                                </td>
+                                <td class=" pivoted">
+                                    <div class="tdBefore">Item Barcode</div>
+                                    {{ item.item_barcode }}
+                                </td>
+                                <td class=" pivoted">
+                                    <div class="tdBefore">Case/Box Barcode</div>
+                                    {{ item.cs_barcode }}
+                                </td>
+                                <td class=" pivoted">
+                                    <div class="tdBefore">Item Group</div>
+                                    {{ item.item_group.item_group }}
+                                </td>
+                                <td class=" pivoted">
+                                    <div class="tdBefore">Re-order Qtyy / ICO</div>
+                                    {{ item.reorder_qty }}
+                                </td>
+                                <td class=" pivoted">
+                                    <div class="tdBefore">Supplier</div>
+                                    <span v-if="item.suppliers.length > 0">
+                                        <span v-for="item_supplier in item.suppliers" :key="item_supplier.uuid">
+                                            <span  class="badge badge-dim badge-outline-secondary">{{ item_supplier.supplier.business_shortname }}</span> &nbsp;
+                                        </span>
+                                    </span>
+                                    <span v-else>
+                                        NOT SPECIFIED
+                                    </span>
+                                </td>
+                                <td class=" pivoted">
+                                    <div class="tdBefore">Is Expiry?</div>
+                                    <span v-if="item.is_expiry === 1">Yes</span>
+                                    <span v-else>No</span>
+                                </td>
+                                <td class=" pivoted">
+                                    <div class="tdBefore">Purchase Cost</div>
+                                    {{ item.purchase_price }}
+                                </td>
+                                <td class=" pivoted">
+                                    <div class="tdBefore">Sales Cost</div>
+                                    {{ item.sales_price }}
+                                </td>
+                                
+                            </tr>
+                            
+                        </tbody>
+                    </table>         
+                </div>         
+            </div>
+           
         </div>  
 
         <div v-show="show_form">
@@ -189,7 +206,7 @@
                 </div>
 
                 <br/>
-                <ul class="nav nav-tabs">    
+                <ul class="nav nav-tabs nav-tabs-custom">    
                         <li class="nav-item">        
                             <a class="nav-link active" data-toggle="tab" href="#account">Financial Account</a>    
                         </li>    
@@ -1399,8 +1416,5 @@ export default {
 </script>
 
 <style scoped>
-.table-tranx { table-layout: auto; }
-.table-items tr th { min-width:200px; width:auto; padding-left:10px; padding-right:10px; }
-.table-fixed-column { position:absolute; }
 .form-group { margin-top:10px !important; }
 </style>

@@ -1,196 +1,68 @@
 <template>
     <div>
-        <div style="margin-bottom:40px;" class="nk-fmg-body-head d-none d-lg-flex">
-            <div class="nk-fmg-search">
-                <em class="icon ni ni-search"></em>
-                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Company">
-            </div>
-            <div class="nk-fmg-actions">
-                <ul class="nk-block-tools g-3">
-                    <li>
-                        <a href="javascript:void(0)"  @click="ROUTE({ path: '/companies/create' })" class="btn btn-primary" data-toggle="modal">
-                            <em class="icon ni ni-plus"></em> <span>New Company</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="nk-content nk-content-fluid">          
-            <div class="container-fluid">
-                <div class="nk-content-body">
 
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">Companies</div>
+                <div class="mb-3 card-subtitle">
+                    Below are the list of active companies.
+                </div>
+
+                <div style="margin-bottom:10px;">
                     <div class="row">
-                        <div class="col-md-8 col-12">
-                            <div class="card card-bordered card-preview">
-                                <table class="table table-tranx">
-                                    <thead>
-                                        <tr class="tb-tnx-head">
-                                            <th><span class="">Actions</span></th>
-                                            <th><span class="">#</span></th>
-                                            <th><span class="">Company Name</span></th>
-                                            <th><span class="">Shortname</span></th>
-                                            <th><span class="">Tagline</span></th>
-                                            <th><span class="">Website</span></th>
-                                            <th><span class="">Email</span></th>
-                                            <th><span class="">Contact Number</span></th>
-                                            <th><span class="">TIN</span></th>
-                                            <th><span class="">Prefix</span></th>
-                                            <th><span class="">Address</span></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(company, index) in companies" :key="company.id" class="tb-tnx-item">
-                                            <td>
-                                                <span class="">
-                                                    <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalCompanyList');setData(company)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
-                                                    <a href="javascript:void(0)"  @click="remove(company)" class="btn btn-sm btn-danger"><em class="icon ni ni-trash"></em></a>
-                                                </span>
-                                            </td>
-                                            <td><span class="">{{ (index + 1) }}</span></td>
-                                            <td><span class="">{{ company.company_name }}</span></td>
-                                            <td><span class="">{{ company.shortname }}</span></td>
-                                            <td><span class="">{{ company.tagline }}</span></td>
-                                            <td><span class="">{{ company.website }}</span></td>
-                                            <td><span class="">{{ company.email }}</span></td>
-                                            <td><span class="">{{ company.contact_no }}</span></td>
-                                            <td><span class="">{{ company.tax_id_no }}</span></td>
-                                            <td><span class="">{{ company.prefix }}</span></td>
-                                            <td><span class="">{{ company.address_list.barangay }} {{ company.address_list.city_municipality }} {{ company.address_list.postal_code }} {{ company.address_list.province }} {{ company.address_list.region }}</span></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="col-12 col-md-3">
+                            <input type="text" class="form-control" placeholder="Search Item">
+                        </div>
+                        <div class="col-12 col-md-2 offset-md-7 text-right">
+                            <a href="javascript:void(0)"  @click="ROUTE({ path: '/companies/create' })" class="btn btn-primary bl" data-toggle="modal">
+                                <em class="icon ni ni-plus"></em> <span>New Company</span>
+                            </a>
                         </div>
                     </div>
-                    
-
-
-                    <!-- Modal Group Form -->
-                    <div class="modal fade" tabindex="-1" id="modalCompanyList">
-                        <div class="modal-dialog modal-lg " role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Company Details</h5>
-                                    <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalCompanyList');" class="close" data-dismiss="modal" aria-label="Close">
-                                        <em class="icon ni ni-cross"></em>
-                                    </a>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="#" class="form-validate is-alter">
-
-                                        <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="company-name">Company Name</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.company_name" type="text" class="form-control" id="company-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>                                           
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="shortname">Shortname</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.shortname" type="text" class="form-control" id="shortname" required>
-                                                    </div>
-                                                </div>
-                                            </div>                                           
-                                        </div> 
-
-                                        <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="tagline">Tagline</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.tagline" type="text" class="form-control" id="tagline" required>
-                                                    </div>
-                                                </div>
-                                            </div>                                           
-                                        </div> 
-
-                                        <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="website">Website</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.website" type="text" class="form-control" id="website" required>
-                                                    </div>
-                                                </div>
-                                            </div>                                           
-                                        </div> 
-
-                                        <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="email">Email</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.email" type="text" class="form-control" id="email" required>
-                                                    </div>
-                                                </div>
-                                            </div>                                           
-                                        </div> 
-
-                                        <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="contact-no">Contact Number</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.contact_no" type="text" class="form-control" id="contact-no" required>
-                                                    </div>
-                                                </div>
-                                            </div>                                           
-                                        </div> 
-
-                                        <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="tin">TIN</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.tax_id_no" type="text" class="form-control" id="tin" required>
-                                                    </div>
-                                                </div>
-                                            </div>                                           
-                                        </div> 
-
-                                        <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="prefix">Prefix</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.prefix" type="text" class="form-control" id="prefix" required>
-                                                    </div>
-                                                </div>
-                                            </div>                                           
-                                        </div> 
-
-                                        <div class="row">
-                                            <div class="col-md-3 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="address-list">Address</label>
-                                                    <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list">
-                                                    </select>
-                                                </div>
-                                            </div>                                          
-                                        </div>                                     
-                                        
-                                    </form>
-                                </div>
-                                <div class="modal-footer bg-light">
-                                    <button v-if="formdata.id === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
-                                    <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
+                </div>
+                <div class="table-responsive">
+                    <table class="table mb-0 table">
+                        <thead>
+                            <tr>
+                                <th>Actions</th>
+                                <th>#</th>
+                                <th>Company Name</th>
+                                <th>Shortname</th>
+                                <th>Tagline</th>
+                                <th>Website</th>
+                                <th>Email</th>
+                                <th>Contact Number</th>
+                                <th>TIN</th>
+                                <th>Prefix</th>
+                                <th>Address</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(company, index) in companies" :key="company.id" class="tb-tnx-item">
+                                <td>
+                                   
+                                    <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalCompanyList');setData(company)" class="btn btn-sm btn-light"><i class="bx bx-pencil"></i></a>
+                                    <a href="javascript:void(0)"  @click="remove(company)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
+                                
+                                </td>
+                                <td>{{ (index + 1) }}</td>
+                                <td>{{ company.company_name }}</td>
+                                <td>{{ company.shortname }}</td>
+                                <td>{{ company.tagline }}</td>
+                                <td>{{ company.website }}</td>
+                                <td>{{ company.email }}</td>
+                                <td>{{ company.contact_no }}</td>
+                                <td>{{ company.tax_id_no }}</td>
+                                <td>{{ company.prefix }}</td>
+                                <td>{{ company.address_list.barangay }} {{ company.address_list.city_municipality }} {{ company.address_list.postal_code }} {{ company.address_list.province }} {{ company.address_list.region }}</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>        
+        </div>
+
+           
     </div>
 </template>
 

@@ -13,7 +13,8 @@ class AuthController extends Controller
 
     public function check()
     {
-        return response()->json(['success' => 1, 'authenticated' => true], 200);
+        $user = Auth::user();
+        return response()->json(['success' => 1, 'user' => $user, 'authenticated' => true], 200);
     }
 
     public function revoke()

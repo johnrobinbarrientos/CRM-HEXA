@@ -1,18 +1,15 @@
 <template>
     <div>
-        <div style="margin-bottom:40px;" class="nk-fmg-body-head d-none d-lg-flex">
-            <div class="nk-fmg-search">
-                <em class="icon ni ni-search"></em>
-                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Category 5">
-            </div>
-            <div class="nk-fmg-actions">
-                <ul class="nk-block-tools g-3">
-                    <li>
-                        <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCategory5');resetData()" class="btn btn-primary" data-toggle="modal">
-                            <em class="icon ni ni-plus"></em> <span>New Item Category 5</span>
-                        </a>
-                    </li>
-                </ul>
+        <div style="margin-bottom:10px;">
+            <div class="row">
+                <div class="col-12 col-md-3">
+                    <input type="text" class="form-control" placeholder="Search Item">
+                </div>
+                <div class="col-12 col-md-1 offset-md-8">
+                    <a href="javascript:void(0)" @click="toggleForm();resetData()" class="btn btn-block btn-primary" data-toggle="modal">
+                        <em class="icon ni ni-plus"></em> <span>New Item</span>
+                    </a>
+                </div>
             </div>
         </div>
         

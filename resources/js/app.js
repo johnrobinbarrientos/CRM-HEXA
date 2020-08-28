@@ -6,19 +6,18 @@ import Vuex from 'vuex'
 import Notifications from 'vue-notification'
 
 import datePicker from 'vue-bootstrap-datetimepicker';
-import 'bootstrap/dist/css/bootstrap.css';
 import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 
 
 // CSS 
-import './assets/vendors/lineawesome/css/line-awesome.min.css'
-import './assets/themes/css/dashlite.css?ver=1.6.0'
-import './assets/themes/css/skins/theme-blue.css?ver=1.6.0'
-import './assets/css/custom.css'
+// import './assets/vendors/lineawesome/css/line-awesome.min.css'
+//import './assets/themes/css/dashlite.css?ver=1.6.0'
+//import './assets/themes/css/skins/theme-blue.css?ver=1.6.0'
+//import './assets/css/custom.css'
 
 // JS
-import './assets/themes/js/bundle.js?ver=1.6.0'
-import './assets/js/custom.js?ver=1.6.0'
+//import './assets/themes/js/bundle.js?ver=1.6.0'
+//import './assets/js/custom.js?ver=1.6.0'
 // import './assets/themes/js/scripts.js?ver=1.6.0'
 // import './assets/themes/js/charts/chart-crypto.js?ver=1.6.0'
 

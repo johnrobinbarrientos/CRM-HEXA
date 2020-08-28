@@ -13,11 +13,15 @@ export default {
     isAuthenticated: state => {
         return state.isAuthenticated
     },
+    getAuthenticatedUser: state => {
+        return state.user
+    },
   },
   mutations: {
     authenticate  (state, payload) {
         localStorage.setItem(window.TOKEN_KEY, payload.token);
         state.isAuthenticated = true
+        state.user = payload.user
         this.dispatch('getMenus',{})
         router.push({name: 'home'})
     },
@@ -36,12 +40,14 @@ export default {
         .then(response => {
           if (response.data.success) {
             state.isAuthenticated = false
+            state.user = null
             localStorage.removeItem(window.TOKEN_KEY);
             router.push({name: 'auth'})
           }
         })
         .catch(function (error) {
             state.isAuthenticated = false
+            state.user = null
             localStorage.removeItem(window.TOKEN_KEY)
             router.push({name: 'auth'})
         })
@@ -61,8 +67,10 @@ export default {
         .then(response => {
           if (response.data.success) {
             state.isAuthenticated = true
+            state.user = response.data.user
           } else {
             state.isAuthenticated = false
+            state.user = null
             router.push({name: 'auth'})
             localStorage.clear()
           }
