@@ -24,25 +24,27 @@
                     <table class="table mb-0 table">
                         <thead>
                                 <tr class="tb-tnx-head">
+                                    <th width="100">Actions</th>
                                     <th>#</th>
                                     <th>Full Name</th>
                                     <th>Phone #</th>
                                     <th>Company</th>
                                     <th>Date Added</th>
-                                    <th>Actions</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(user, index) in users" :key="user.id" class="tb-tnx-item">
+                                    <td>
+                                        <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalForm');setData(user)" class="btn btn-sm btn-light"><i class="bx bx-pencil"></i></a>
+                                        <a href="javascript:void(0)"  @click="remove(user)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
+                                    </td>
                                     <td>{{ (index + 1) }}</td>
                                     <td>{{ user.first_name }} {{ user.last_name }}</td>
                                     <td>{{ user.phone }}</td>
                                     <td>{{ user.company_id }}</td>
                                     <td>{{ user.created_at }}</td>
-                                    <td>
-                                        <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalForm');setData(user)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
-                                        <a href="javascript:void(0)"  @click="remove(user)" class="btn btn-sm btn-danger"><em class="icon ni ni-trash"></em></a>
-                                    </td>
+                                    
                                 </tr>
                             </tbody>
                     </table>

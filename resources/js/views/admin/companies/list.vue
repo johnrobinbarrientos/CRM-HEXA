@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table mb-0 table">
+                    <table class="table mb-0 table table-striped">
                         <thead>
                             <tr>
                                 <th>Actions</th>
@@ -54,7 +54,7 @@
                                 <td>{{ company.contact_no }}</td>
                                 <td>{{ company.tax_id_no }}</td>
                                 <td>{{ company.prefix }}</td>
-                                <td>{{ company.address_list.barangay }} {{ company.address_list.city_municipality }} {{ company.address_list.postal_code }} {{ company.address_list.province }} {{ company.address_list.region }}</span></td>
+                                <td>{{ company.address_list.barangay }} {{ company.address_list.city_municipality }} {{ company.address_list.postal_code }} {{ company.address_list.province }} {{ company.address_list.region }}</td>
                             </tr>
                         </tbody>
                     </table>

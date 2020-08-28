@@ -16,7 +16,7 @@
                     <div class="row">
                         <div class="col-sm-6">2020 © HEXA SUITE</div>
                         <div class="col-sm-6">
-                            <div class="text-sm-right d-none d-sm-block">Powered by HEXA.PH</div>
+                            <div class="text-sm-right d-none d-sm-block">Powered by <img height="25" :src="logo"></div>
                         </div>
                     </div>
                 </div>
@@ -31,12 +31,14 @@
 <script>
     import SideBar from './components/SideBar'
     import Header from './components/Header'
+    import logo from '../assets/themes/images/hexa-logo.png';
+
     export default {
     name: 'home',
     props: ['properties'],
     data: function () {
         return {
-            
+            logo
         }
     },
     computed: {

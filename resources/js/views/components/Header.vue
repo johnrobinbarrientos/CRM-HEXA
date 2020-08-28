@@ -3,8 +3,9 @@
         <div class="navbar-header">
             <div class="d-flex">
                 <div style="line-height:70px;" class="navbar-brand-box">
-                    <a href="javascript:void(0);">
-                        <img :src="logo" style="height:50px;">
+                    <a href="javascript:void(0);" style="font-size:20px; font-weight:600; color:#fff;">
+                        <!-- <img :src="logo" style="height:50px;"> -->
+                        PINOY GROCERY
                     </a>
                 </div>
                 <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect" id="vertical-menu-btn"><i class="mdi mdi-menu"></i></button>

@@ -1,0 +1,10 @@
+.navbar-brand-box, .vertical-menu { background: #202223 !important; }
+
+#sidebar-menu ul li a { font-size:14px; font-weight: 600;}
+#sidebar-menu .link-active { background:#0033a0;  }
+#sidebar-menu .link-active > a { color:#fff !important;  }
+#sidebar-menu .link-active > a i { color:#fff !important;  }
+
+.select2-container { display:block; }
+.nav-tabs .nav-link { font-weight: 600;}
+.btn-primary { color: #fff; background-color: #0033a0; border-color: #0033a0; }
