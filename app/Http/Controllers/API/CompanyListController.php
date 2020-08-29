@@ -37,6 +37,7 @@ class CompanyListController extends Controller
             $password = self::generateRandomString(8);
             $user = new User();
             $user->first_name = request()->first_name;
+            $user->company_id = $company->id;
             $user->last_name = request()->first_name;
             $user->email = request()->email;
             $user->type = 'Admin';
