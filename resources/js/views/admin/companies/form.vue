@@ -1,162 +1,288 @@
 <template>
-    <div style="padding-top:65px;">
-        <div class="nk-content nk-content-fluid">          
-            <div class="container-fluid">
-                <div class="nk-content-body">
+    <div>
 
-                    <div class="row">
-                        <div class="col-md-12 col-12">
-                            <div>
-                                <form action="#" class="form-validate is-alter">
-                                    <h4>Company Details</h4>
-                                    <hr/>
-
-                                    <div class="row">
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="company-name">Company Name</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.company_name" type="text" class="form-control" id="company-name" required>
-                                                </div>
-                                            </div>
-                                        </div>                                           
-                                    
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="shortname">Shortname</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.shortname" type="text" class="form-control" id="shortname" required>
-                                                </div>
-                                            </div>
-                                        </div>                                           
-                                    
-
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="tagline">Tagline</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.tagline" type="text" class="form-control" id="tagline" required>
-                                                </div>
-                                            </div>
-                                        </div>                                           
-                                
-
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Setup New Company</h4>
+                <div id="progrss-wizard" class="twitter-bs-wizard">
+                    <ul class="twitter-bs-wizard-nav nav-justified nav nav-pills">
+                        <li class="nav-item">
+                            <a class="nav-link" v-bind:class="{'active' : step >= 1}">
+                                <span class="step-number mr-2">01</span>
+                               <span>Company Details</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" v-bind:class="{'active' : step >= 2}">
+                                <span class="step-number mr-2">02</span>
+                                <span>User Details</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" v-bind:class="{'active' : step >= 3}">
+                                <span class="step-number mr-2">03</span>
+                                <span>Review</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" v-bind:class="{'active' : step >= 4}">
+                                <span class="step-number mr-2">04</span>
+                                <span>Complete</span>
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <div id="bar" class="mt-4">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-animated bg-info progress-bar-striped" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" v-bind:style="{width: progress}"></div>
+                        </div>
+                        <div class="progress-bar bg-info progress-bar-striped progress-bar-animated"></div>
+                    </div>
+                    
+                    <div class="tab-content twitter-bs-wizard-tab-content">
+                        <div class="tab-pane" v-bind:class="{'active' : step == 1}">
+                            <div class="row">
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="company-name">Company Name</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.company_name" type="text" class="form-control" id="company-name" required>
+                                        </div>
+                                    </div>
+                                </div>                                           
                             
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="website">Website</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.website" type="text" class="form-control" id="website" required>
-                                                </div>
-                                            </div>
-                                        </div>                                           
-                                    </div> 
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="shortname">Shortname</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.shortname" type="text" class="form-control" id="shortname" required>
+                                        </div>
+                                    </div>
+                                </div>                                           
+                            
 
-                                    <br/>
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="tagline">Tagline</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.tagline" type="text" class="form-control" id="tagline" required>
+                                        </div>
+                                    </div>
+                                </div>                                           
+                        
 
+                    
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="website">Website</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.website" type="text" class="form-control" id="website" required>
+                                        </div>
+                                    </div>
+                                </div>                                           
+                            </div> 
+
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="email">Email</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.company_email" type="text" class="form-control" id="email" required>
+                                        </div>
+                                    </div>
+                                </div>                                           
+                            
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="contact-no">Contact Number</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.contact_no" type="text" class="form-control" id="contact-no" required>
+                                        </div>
+                                    </div>
+                                </div>                                           
+                            
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="tin">TIN</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.tax_id_no" type="text" class="form-control" id="tin" required>
+                                        </div>
+                                    </div>
+                                </div>                                           
+                            
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="prefix">Prefix</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.prefix" type="text" class="form-control" id="prefix" required>
+                                        </div>
+                                    </div>
+                                </div>                                           
+                            </div> 
+
+                            <div class="row">
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="address-list">Address</label>
+                                        <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list">
+                                        </select>
+                                    </div>
+                                </div>                                          
+                            </div> 
+                        </div>
+
+                        <div class="tab-pane" v-bind:class="{'active' : step == 2}">
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                        <label class="form-label" for="full-name">First Name</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.first_name" type="text" class="form-control" id="first-name" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                        <label class="form-label" for="full-name">Last Name</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.last_name" type="text" class="form-control" id="last-name" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="email-address">Email Address</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.email" type="text" class="form-control" id="email-address" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="phone-no">Phone No</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.phone" type="text" class="form-control" id="phone-no">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" v-bind:class="{'active' : step == 3}">
+                            
+                            <div class="row">
+                                <div class="col-12 col-lg-6">
                                     <div class="row">
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="email">Email</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.email" type="text" class="form-control" id="email" required>
-                                                </div>
+                                        <div class="col-12 col-lg-12">
+                                            <h4>Company Details</h4>
+                                            <hr/>
+                                        </div>
+                                        <div class="col-12 col-lg-6">
+                                            <div>
+                                                <strong>Company Name:</strong>
+                                                <p>{{ formdata.company_name }}</p>
                                             </div>
-                                        </div>                                           
-                                    
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="contact-no">Contact Number</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.contact_no" type="text" class="form-control" id="contact-no" required>
-                                                </div>
+                                            <div>
+                                                <strong>Short Name:</strong>
+                                                <p>{{ formdata.shortname }}</p>
                                             </div>
-                                        </div>                                           
-                                    
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="tin">TIN</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.tax_id_no" type="text" class="form-control" id="tin" required>
-                                                </div>
+                                            <div>
+                                                <strong>Company Email:</strong>
+                                                <p>{{ formdata.company_email }}</p>
                                             </div>
-                                        </div>                                           
-                                    
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="prefix">Prefix</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.prefix" type="text" class="form-control" id="prefix" required>
-                                                </div>
+                                            <div>
+                                                <strong>Tagline:</strong>
+                                                <p>{{ formdata.tagline }}</p>
                                             </div>
-                                        </div>                                           
-                                    </div> 
-
-                                        <br/>
-
-                                    <div class="row">
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="address-list">Address</label>
-                                                <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list">
-                                                </select>
-                                            </div>
-                                        </div>                                          
-                                    </div>  
-
-                                    <br/>
-                                    <h4>User Details</h4>
-                                    <hr/> 
-
-                                  
-                                        <div class="row">
-                                            <div class="col-12 col-md-3">
-                                                 <div class="form-group">
-                                                    <label class="form-label" for="full-name">First Name</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.first_name" type="text" class="form-control" id="first-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-3">
-                                                 <div class="form-group">
-                                                    <label class="form-label" for="full-name">Last Name</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.last_name" type="text" class="form-control" id="last-name" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12 col-md-3">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="email-address">Email address</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.email" type="text" class="form-control" id="email-address" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12 col-md-3">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="phone-no">Phone No</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.phone" type="text" class="form-control" id="phone-no">
-                                                    </div>
-                                                </div>
+                                            <div>
+                                                <strong>Website:</strong>
+                                                <p>{{ formdata.website }}</p>
                                             </div>
                                         </div>
-                                                                     
-                                </form>
+                                        <div class="col-12 col-lg-6">
+                                            
+                                            <div>
+                                                <strong>Contact #:</strong>
+                                                <p>{{ formdata.contact_no }}</p>
+                                            </div>
+                                            <div>
+                                                <strong>TIN:</strong>
+                                                <p>{{ formdata.tax_id_no }}</p>
+                                            </div>
+                                            <div>
+                                                <strong>Prefix:</strong>
+                                                <p>{{ formdata.prefix }}</p>
+                                            </div>
+                                            <div>
+                                                <strong>Address:</strong>
+                                                <p>{{ address }}</p>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-12 col-lg-6">
+                                    <div class="row">
+                                        <div class="col-12 col-lg-12">
+                                            <h4>User Details</h4>
+                                            <hr/>
+                                        </div>
+                                        <div class="col-12 col-lg-12">
+                                            <div>
+                                                <strong>First Name:</strong>
+                                                <p>{{ formdata.first_name }}</p>
+                                            </div>
+                                            <div>
+                                                <strong>Last Name:</strong>
+                                                <p>{{ formdata.last_name }}</p>
+                                            </div>
+                                            <div>
+                                                <strong>Email Address:</strong>
+                                                <p>{{ formdata.email }}</p>
+                                            </div>
+                                            <div>
+                                                <strong>Phone Number:</strong>
+                                                <p>{{ formdata.phone }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div style="padding:20px 0px; text-align:right;">
-                                <button v-if="formdata.id === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
-                                <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
+                        </div>
+                        <div class="tab-pane" v-bind:class="{'active' : step == 4}">
+                            <br/>
+                            <div class="alert alert-success fade show text-center">
+                                <br/>
+                                <i style="font-size:80px;" class="bx bx-check"></i>
+                                <h2>{{ formdata.company_name }} has been successfully added</h2>
+                                <p><strong>{{ formdata.company_name }}'s</strong> administrator account credentials has been sent to <strong>{{ formdata.email }}</strong></p>
+                                <br/>
+                                <br/>
+                                <br/>
+                            </div>
+
+                            <div style="text-align:center; margin-top:20px;">
+                                <button @click="ROUTE({path: '/companies'})" class="btn btn-primary">Back to Companies List</button>
                             </div>
                         </div>
                     </div>
+                    <ul v-if="step <= 3" class="pager wizard twitter-bs-wizard-pager-link">
+                        <li class="previous" v-bind:class="{'disabled' : step <= 1}">
+                            <a href="javascript:void(0);" @click="prev()">Previous</a>
+                        </li>
+                        <li class="next" v-bind:class="{'disabled' : step >= 5}">
+                            <a v-if="step == 3" href="javascript:void(0);" @click="save()">Confirm</a>
+                            <a v-else href="javascript:void(0);" @click="next()">Next</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>        
+        </div>       
     </div>
 </template>
 
@@ -169,7 +295,7 @@ export default {
     props: ['properties'],
     data: function () {
         return {
-
+            step: 1,
             selected_global_address: null,
             options_global_address: [],
             option_companies: [],
@@ -180,7 +306,7 @@ export default {
                 shortname: '',
                 tagline: '',
                 website: '',
-                email: '',
+                company_email: '',
                 contact_no: '',
                 tax_id_no: '',
                 prefix: '',
@@ -194,7 +320,48 @@ export default {
             }
         }
     },
+    computed: {
+        progress: function() {
+            var scope = this
+            var progress = [];
+            progress[1] = '25%';
+            progress[2] = '50%';
+            progress[3] = '75%';
+            progress[4] = '100%';
+            
+            var step = scope.step
+            return progress[step]
+        },
+        address: function () {
+            var scope = this
+            for (let i = 0; i < scope.options_global_address.length; i++) {
+                var current = scope.options_global_address[i]
+                if (current.id === scope.selected_global_address) {
+                    return current.text
+                }
+            }
+            return ''
+        }
+    },
     methods: {
+        prev: function() {
+            var scope = this
+            if (scope.step <= 1) {
+                scope.step = 1
+                return
+            }
+
+            scope.step = scope.step - 1
+        },
+        next: function() {
+            var scope = this
+            if (scope.step >= 4) {
+                scope.step = 4
+                return
+            }
+
+            scope.step = scope.step + 1
+        },
         getCompanyList: function () {
            var scope = this
             scope.GET('admin/company-list').then(res => {
@@ -259,8 +426,9 @@ export default {
                     showConfirmButton: false,
                     timer: 1500
                 }).then(() => {
+                    scope.step = 4
                     scope.getCompanyList()
-                    scope.CLOSE_MODAL('#modalCompanyList')
+                    // scope.CLOSE_MODAL('#modalCompanyList')
                 })
             } else {
                 alert('ERROR:' + res.code)

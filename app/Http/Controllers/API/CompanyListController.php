@@ -5,6 +5,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
 
 use App\Models\CompanyList; 
+use App\Models\User;
+
+use App\Jobs\SendEmail;
+
 use Illuminate\Support\Facades\Auth; 
 
 class CompanyListController extends Controller
@@ -29,9 +33,34 @@ class CompanyListController extends Controller
         $company->global_address_uuid = request()->global_address_uuid;
         $company->save();
 
+        if ($company) {
+            $password = self::generateRandomString(8);
+            $user = new User();
+            $user->first_name = request()->first_name;
+            $user->last_name = request()->first_name;
+            $user->email = request()->email;
+            $user->password = \Hash::make($password);
+            $user->phone = request()->phone;
+            $user->confirmation_token = 'CONF-'.\Uuid::generate(4);
+            $user->save();
+        }
+        
         $company = CompanyList::find($company->id);
+        $user = User::find($user->id);
 
-        return response()->json(['success' => 1, 'rows' => $company], 200);
+        SendEmail::dispatch('confirmation',['to' => 'kenjimagto@gmail.com', 'data' => ['company' => $company, 'user' => $user]]);
+
+        return response()->json(['success' => 1, 'company' => $company, 'user' => $user], 200);
+    }
+
+    static private function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 
 

@@ -23,7 +23,12 @@ export default {
         state.isAuthenticated = true
         state.user = payload.user
         this.dispatch('getMenus',{})
-        router.push({name: 'home'})
+        console.log(state.user)
+        setTimeout(function(){
+            router.push({name: 'home'})
+        },300);
+        
+        
     },
     revoke (state, payload) {
         var token = (localStorage.getItem(window.TOKEN_KEY) === null || localStorage.getItem(window.TOKEN_KEY) === '') ? 'INVALID' : localStorage.getItem(window.TOKEN_KEY)

@@ -73,7 +73,7 @@
 </head>
 
 <body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #f5f6fa;">
-	<center style="width: 100%; background-color: #f5f6fa;">
+	<center style="width: 100%; background-color: #e5eaf5;">
         <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#f5f6fa">
             <tr>
                <td style="padding: 40px 0;">
@@ -81,8 +81,7 @@
                         <tbody>
                             <tr>
                                 <td style="text-align: center; padding-bottom:25px">
-                                    <a href="#"><img style="height: 40px" src="http://abchexa.ph/images/hexa-logo.png?" alt="logo"></a>
-                                    <p style="font-size: 14px; color: #6576ff; padding-top: 12px;">Conceptual Base Modern Dashboard Theme</p>
+                                    <a href="#"><img style="height: 40px" src="https://suite.hexa.ph/images/hexa-logo.png?v=1.0.0" alt="logo"></a>
                                 </td>
                             </tr>
                         </tbody>
@@ -91,10 +90,12 @@
                         <tbody>
                             <tr>
                                 <td style="padding: 30px 30px 20px">
-                                    <p style="margin-bottom: 10px;">Hi Ishtiyak,</p>
-                                    <p style="margin-bottom: 10px;">We are pleased to have you as a member of TokenWiz Family.</p>
-                                    <p style="margin-bottom: 10px;">Your account is now verified and you can purchase tokens for the ICO. Also you can submit your documents for the KYC from my Account page.</p>
-                                    <p style="margin-bottom: 15px;">Hope you'll enjoy the experience, we're here if you have any questions, drop us a line at <a style="color: #6576ff; text-decoration:none;" href="mailto:info@yourwebsite.com">info@yourwebsite.com</a> anytime. </p>
+                                    <p style="margin-bottom: 10px;">Hi {{ $data['user']['first_name'] }},</p>
+                                    <p style="margin-bottom: 10px;">We are pleased to have you as a member of HEXA Suite.</p>
+                                    <p style="margin-bottom: 20px;">Your are now one step away to complete your account, please click the <strong style="color: #0033a0;">confirm</strong> button below to proceed.</p>
+                                    <p style="margin-bottom: 15px;"> 
+                                        <a href="{{ env('APP_URL') }}/confirmation?token={{ $data['user']['confirmation_token'] }}" style="background:#0033a0; text-decoration:none; color:#fff; display:inline-block; padding:5px 30px">Confirm</a>
+                                    </p>
                                 </td>
                             </tr>
                         </tbody>
@@ -103,8 +104,8 @@
                         <tbody>
                             <tr>
                                 <td style="text-align: center; padding:25px 20px 0;">
-                                    <p style="font-size: 13px;">Copyright © 2020 HeXASuite. All rights reserved. <br> Template Made By <a style="color: #6576ff; text-decoration:none;" href="https://themeforest.net/user/softnio/portfolio">Softnio</a>.</p>
-                                    <p style="padding-top: 15px; font-size: 12px;">This email was sent to you as a registered user of <a style="color: #6576ff; text-decoration:none;" href="https://softnio.com">softnio.com</a>. To update your emails preferences <a style="color: #6576ff; text-decoration:none;" href="#">click here</a>.</p>
+                                    <p style="font-size: 13px;">Copyright © 2020 HEXA Suite. All rights reserved.</p>
+                                    <p style="padding-top: 15px; font-size: 12px;">This email was sent to you as a registered user of <a style="color: #0033a0; text-decoration:none;" href="https://hexa.ph">HEXA.PH</a>. To update your emails preferences <a style="color: #0033a0; text-decoration:none;" href="#">click here</a>.</p>
                                 </td>
                             </tr>
                         </tbody>

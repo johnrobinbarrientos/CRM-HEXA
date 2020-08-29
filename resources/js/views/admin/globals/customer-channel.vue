@@ -1,94 +1,85 @@
 <template>
     <div>
-        <div style="margin-bottom:40px;" class="nk-fmg-body-head d-none d-lg-flex">
-            <div class="nk-fmg-search">
-                <em class="icon ni ni-search"></em>
-                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Customer Channel">
-            </div>
-            <div class="nk-fmg-actions">
-                <ul class="nk-block-tools g-3">
-                    <li>
-                        <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCustomerChannel');resetData()" class="btn btn-primary" data-toggle="modal">
-                            <em class="icon ni ni-plus"></em> <span>New Customer Channel</span>
-                        </a>
-                    </li>
-                </ul>
+
+
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">Customer Channel</div>
+                <div class="mb-3 card-subtitle">
+                    Below are the list of active customer channel.
+                </div>
+
+                <div style="margin-bottom:10px;">
+                    <div class="row">
+                        <div class="col-12 col-md-3">
+                            <input type="text" class="form-control" placeholder="Search Item">
+                        </div>
+                        <div class="col-12 col-md-2 offset-md-7 text-right">
+                            <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCustomerChannel');resetData()" class="btn btn-primary" data-toggle="modal">
+                                <em class="icon ni ni-plus"></em> <span>New Customer Channel</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table mb-0 table table-striped">
+                        <thead>
+                            <tr>
+                                <th width="100">Actions</th>
+                                <th>#</th>
+                                <th>Channel</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(channel, index) in customerChannels" :key="channel.uuid">
+                                <td>
+                                    <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalCustomerChannel');setData(channel)" class="btn btn-sm btn-light"><i class="bx bx-pencil"></i></a>
+                                    <a href="javascript:void(0)"  @click="remove(channel)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
+                                </td>
+                                <td>{{ (index + 1) }}</td>
+                                <td>{{ channel.channel }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         
-        <div class="nk-content nk-content-fluid">          
-            <div class="container-fluid">
-                <div class="nk-content-body">
 
-                    <div class="row">
-                        <div class="col-md-8 col-12">
-                            <div class="card card-bordered card-preview">
-                                <table class="table table-tranx">
-                                    <thead>
-                                        <tr class="tb-tnx-head">
-                                            <th><span class="">#</span></th>
-                                            <th><span class="">Channel</span></th>
-                                            <th><span class="">Actions</span></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(channel, index) in customerChannels" :key="channel.uuid" class="tb-tnx-item">
-                                            <td><span class="">{{ (index + 1) }}</span></td>
-                                            <td><span class="">{{ channel.channel }}</span></td>
-                                            <td>
-                                                <span class="">
-                                                    <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalCustomerChannel');setData(channel)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
-                                                    <a href="javascript:void(0)"  @click="remove(channel)" class="btn btn-sm btn-danger"><em class="icon ni ni-trash"></em></a>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+        <!-- Modal Group Form -->
+        <div class="modal fade" tabindex="-1" id="modalCustomerChannel">
+            <div class="modal-dialog modal-lg " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Channel Details</h5>
+                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalCustomerChannel');" class="close" data-dismiss="modal" aria-label="Close">
+                            <em class="icon ni ni-cross"></em>
+                        </a>
                     </div>
-                    
+                    <div class="modal-body">
+                        <form action="#" class="form-validate is-alter">
 
-
-                    <!-- Modal Group Form -->
-                    <div class="modal fade" tabindex="-1" id="modalCustomerChannel">
-                        <div class="modal-dialog modal-lg " role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Channel Details</h5>
-                                    <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalCustomerChannel');" class="close" data-dismiss="modal" aria-label="Close">
-                                        <em class="icon ni ni-cross"></em>
-                                    </a>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="#" class="form-validate is-alter">
-
-                                        <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="channel">Channel</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.channel" type="text" class="form-control" id="channel" required>
-                                                    </div>
-                                                </div>
-                                            </div>                                           
-                                            
-                                        </div>                                    
-                                        
-                                    </form>
-                                </div>
-                                <div class="modal-footer bg-light">
-                                    <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
-                                    <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
-                                </div>
-                            </div>
-                        </div>
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="channel">Channel</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.channel" type="text" class="form-control" id="channel" required>
+                                        </div>
+                                    </div>
+                                </div>                                           
+                                
+                            </div>                                    
+                            
+                        </form>
                     </div>
-
-
+                    <div class="modal-footer bg-light">
+                        <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
+                        <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
+                    </div>
                 </div>
             </div>
-        </div>        
+        </div>       
     </div>
 </template>
 

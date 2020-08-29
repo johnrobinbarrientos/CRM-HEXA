@@ -116,7 +116,7 @@
                 <div class="d-inline-block dropdown">
                     <button id="page-header-user-dropdown" aria-haspopup="true" class="btn header-item waves-effect" aria-expanded="false">
                         <img class="rounded-circle header-profile-user" :src="avatar" alt="Header Avatar">
-                        <span class="d-none d-xl-inline-block ml-2 mr-1">{{ user.first_name }} {{ user.last_name }}</span>
+                        <span class="d-none d-xl-inline-block ml-2 mr-1">John Lenon</span>
                         <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                     </button>
                     <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
@@ -145,7 +145,7 @@
 <script>
 
     import logo from '../../assets/themes/images/hexa-logo.png';
-    import avatar from '../../assets/themes/images/favicon.png';
+    import avatar from '../../assets/themes/images/icon.png';
 
     export default {
     name: 'Header',
@@ -174,7 +174,7 @@
         }
     },
     mounted() {
-        
+        console.log(this.user)
     }
 }
 </script>

@@ -1,7 +1,6 @@
 <template>
     <div>
-        <div  v-if="authenticated" id="layout-wrapper">
-            
+        <div v-if="authenticated" id="layout-wrapper">
             <Header></Header>
             <SideBar></SideBar>
             <div class="main-content">

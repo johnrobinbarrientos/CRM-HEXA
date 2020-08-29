@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Auth from './views/Auth'
+import Auth from './views/public/Auth'
+import Confirmation from './views/public/Confirmation'
+
 import Logout from './views/Logout'
-import Register from './views/Register'
 import Profile from './views/Profile'
 import Dashboard from './views/Dashboard'
 import Users from './views/Users'
@@ -65,13 +66,6 @@ export default new VueRouter({
     mode: 'history',
     routes: [
         {
-            path: '/',
-            name: 'dashboard',
-            component: Dashboard,
-            beforeEnter: checkAuth,
-            meta: { protected: true }
-        },
-        {
             path: '/auth',
             name: 'auth',
             component: Auth,
@@ -79,15 +73,22 @@ export default new VueRouter({
             meta: { protected: false }
         },
         {
-            path: '/logout',
-            name: 'logout',
-            component: Logout,
+            path: '/confirmation',
+            name: 'confirmation',
+            component: Confirmation,
             meta: { protected: false }
         },
         {
-            path: '/register',
-            name: 'register',
-            component: Register,
+            path: '/',
+            name: 'dashboard',
+            component: Dashboard,
+            beforeEnter: checkAuth,
+            meta: { protected: true }
+        },
+        {
+            path: '/logout',
+            name: 'logout',
+            component: Logout,
             meta: { protected: false }
         },
         {
