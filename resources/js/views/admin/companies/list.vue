@@ -24,7 +24,7 @@
                     <table class="table mb-0 table table-striped">
                         <thead>
                             <tr>
-                                <th>Actions</th>
+                                <th width="100">Actions</th>
                                 <th>#</th>
                                 <th>Company Name</th>
                                 <th>Shortname</th>
