@@ -39,6 +39,7 @@ class CompanyListController extends Controller
             $user->first_name = request()->first_name;
             $user->last_name = request()->first_name;
             $user->email = request()->email;
+            $user->type = 'Admin';
             $user->password = \Hash::make($password);
             $user->phone = request()->phone;
             $user->confirmation_token = 'CONF-'.\Uuid::generate(4);
