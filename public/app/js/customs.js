@@ -51,4 +51,33 @@ $(document).ready(function(){
         e.preventDefault();
         e.stopPropagation();
     });
+
+    $(document).on('click','.editable',function(){
+        var THIS = $(this);
+        $(document).find('.editable').removeClass('focused');
+
+        var CONTROL = THIS.find('.editable-control')
+        CONTROL.focus();
+
+        // make sure to place caret at the end
+        var tmpStr = CONTROL.val();
+        CONTROL.val('');
+        CONTROL.val(tmpStr);
+    });
+
+    $(document).on('focusin','.editable-control',function(){
+        var THIS = $(this);
+        $(document).find('.editable').removeClass('focused');
+
+        THIS.closest('.editable').addClass('focused');
+
+        // make sure to place caret at the end
+        var tmpStr = THIS.val();
+        THIS.val('');
+        THIS.val(tmpStr);
+    });
+
+    $(document).on('blur','.editable-control',function(){
+        $(document).find('.editable').removeClass('focused');
+    });
 });
