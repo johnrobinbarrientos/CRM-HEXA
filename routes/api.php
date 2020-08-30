@@ -116,6 +116,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
     Route::group(['prefix' => 'company'], function(){
 
+        Route::get('/details', 'API\CompanyBranchController@getBranch');
+
         Route::get('/branch', 'API\CompanyBranchController@getBranch');
         Route::post('/branch', 'API\CompanyBranchController@save');
         Route::post('/branch/delete', 'API\CompanyBranchController@delete');
@@ -200,6 +202,21 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/cost-center', 'API\AdminCostCenterController@getCostCenter');
         Route::post('/cost-center', 'API\AdminCostCenterController@save');
         Route::post('/cost-center/delete', 'API\AdminCostCenterController@delete');
+    });
+
+    Route::group(['prefix' => 'buy-and-pay'], function(){
+
+        Route::get('/orders', 'API\BuyAndPayOrdersController@getOrders');
+        Route::post('/order', 'API\BuyAndPayOrdersController@saveOrder');
+        Route::post('/order/delete', 'API\BuyAndPayOrdersController@deleteOrder');
+
+        Route::get('/order-details', 'API\BuyAndPayOrderDetailsController@getOrderDetails');
+        Route::post('/order-details', 'API\BuyAndPayOrderDetailsController@saveOrderDetails');
+        Route::post('/order-detail/delete', 'API\BuyAndPayOrderDetailsController@deleteOrderDetail');
+
+        Route::get('/order-reason-code', 'API\BuyAndPayOrderReasonCodesController@getReasonCode');
+        Route::post('/order-reason-code', 'API\BuyAndPayOrderReasonCodesController@saveReasonCode');
+        Route::post('/order-reason-code/delete', 'API\BuyAndPayOrderReasonCodesController@deleteReasonCode');
     });
 
     Route::get('/menus', 'API\MenuController@index');

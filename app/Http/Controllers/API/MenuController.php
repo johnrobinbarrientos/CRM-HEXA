@@ -129,7 +129,7 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bx-money',
             'submenus' => [
-                [ 'text' => 'Ordering', 'route' => 'item-main'],
+                [ 'text' => 'Ordering', 'route' => 'main-purchase-order'],
                 [ 'text' => 'Receiving', 'route' => 'supplier-main'],
                 [ 'text' => 'Returns', 'route' => 'customer-main'],
                 [ 'text' => 'Billing', 'route' => 'employee-main'],
