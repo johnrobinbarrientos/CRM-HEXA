@@ -69,7 +69,7 @@
 
                                 <div class="col-md-3 col-12">
                                     <div class="form-group">
-                                        <label class="form-label">PO No.</label>
+                                        <label class="form-label">PO No.: </label>
                                         <label class="form-label" >{{formdata.po_no}}</label>
                                     </div>
                                 </div>
@@ -169,8 +169,9 @@ export default {
                 date_expected: '',
                 supplier_uuid: '',
                 status: 'open',
-                reason_code_uuid: ''
-            }
+                orders_reason_code_uuid: ''
+            },
+
         }
     },
     methods: {
@@ -261,6 +262,7 @@ export default {
             })
         },
 
+
         resetData: function () {
             var scope = this
             scope.formdata.uuid = null
@@ -296,16 +298,21 @@ export default {
         },
         save: function () {
             var scope = this
-            scope.POST('globals/customer-chain', scope.formdata).then(res => {
+            scope.formdata.item_group_uuid = scope.selected_item_group
+            scope.formdata.asset_group_uuid = scope.selected_asset_group
+            scope.formdata.supplier_uuid = scope.selected_supplier
+            scope.formdata.orders_reason_code_uuid = scope.selected_reason_code
+
+            scope.POST('buy-and-pay/order', scope.formdata).then(res => {
             if (res.success) {
                 window.swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Chain Successfuly Saved',
+                    title: 'Orders Successfuly Saved',
                     showConfirmButton: false,
                     timer: 1500
                 }).then(() => {
-                    scope.getCustomerChains()
+                    scope.getPurchaseOrders()
                     scope.CLOSE_MODAL('#modalPurchaseOrder')
                 })
             } else {
@@ -387,6 +394,9 @@ export default {
         scope.getAssetGroup()
         scope.getSupplier()
         scope.getOrderReasonCodes()
+
+
+        scope.formdata.po_no = scope.company_prefix + '_' 
 
 
         $('.form-select-item-group').on("change", function(e) { 

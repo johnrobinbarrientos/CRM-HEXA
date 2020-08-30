@@ -13,9 +13,10 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyDetailsController extends Controller
 {
-    public function getCompanyList()
+    public function getCompanyDetails()
     {
-        $company = CompanyList::whereNull('deleted_at')->with('AddressList')->get();
+        $auth = \Auth::user();
+        $company = CompanyList::whereNull('deleted_at')->where('id',$auth->company_id)->first();
         return response()->json(['success' => 1, 'rows' => $company], 200);
     }
 
