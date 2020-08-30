@@ -61,8 +61,37 @@
                 </div>
             </div>
         </div>
-
-           
+        <div class="card">
+            <div class="card-body">
+              
+                <table class="table mb-0 table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name 1</th>
+                            <th>Name 2</th>
+                            <th>Name 3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(company, index) in companies" :key="index">
+                            <td class="editable">
+                                <span>{{ company.company_name  }}</span>
+                                <input v-model="company.company_name" type="text" class="editable-control">
+                            </td>
+                            <td class="editable">
+                                <span>{{ company.shortname  }}</span>
+                                <input  v-model="company.shortname" type="text" class="editable-control">
+                            </td>
+                            <td class="editable">
+                                <span>{{ company.website  }}</span>
+                                <input  v-model="company.website" type="text" class="editable-control">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+             
+            </div>
+        </div>
     </div>
 </template>
 
@@ -78,7 +107,6 @@ export default {
 
             selected_global_address: null,
             options_global_address: [],
-
             companies: [],
             formdata: { 
                 id: null, 
@@ -250,6 +278,8 @@ export default {
 </script>
 
 <style scoped>
-.table-tranx { table-layout: auto; width: 200%;}
-
+    .editable.focused { background:red; }
+    .editable.focused span {display:none; }
+    .editable > .editable-control { width:0px; height:0px; opacity:0; }
+    .editable > .editable-control:focus { width:inherit; height:25px; opacity:1; }
 </style>
