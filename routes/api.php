@@ -118,7 +118,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
     Route::group(['prefix' => 'company'], function(){
 
-        Route::get('/details', 'API\CompanyBranchController@getBranch');
+        Route::get('/details', 'API\CompanyDetailsController@getCompanyDetails');
 
         Route::get('/branch', 'API\CompanyBranchController@getBranch');
         Route::post('/branch', 'API\CompanyBranchController@save');
