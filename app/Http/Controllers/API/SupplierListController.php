@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 
 use App\Models\SupplierList; 
 use App\Models\SupplierDiscountRegular; 
+use App\Models\ItemList; 
+use App\Models\ItemSupplier; 
 use Illuminate\Support\Facades\Auth; 
 
 class SupplierListController extends Controller
@@ -68,7 +70,15 @@ class SupplierListController extends Controller
     public function delete()
     {
         $supplier = SupplierList::find(request()->uuid)->delete();
-
         return response()->json(['success' => 1, 'message' => 'Supplier Deleted!'], 200);
+    }
+
+    public function getSupplierItems($supplier_uuid)
+    {
+        $supplier = SupplierList::find($supplier_uuid);
+        $supplier_item_uuids = ItemSupplier::where('supplier_uuid','=',$supplier_uuid)->pluck('item_uuid')->toArray();
+        $items = ItemList::whereIn('uuid',$supplier_item_uuids)->get();
+        
+        return response()->json(['success' => 1, 'rows' => $items], 200);
     }
 }

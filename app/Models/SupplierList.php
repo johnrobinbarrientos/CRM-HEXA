@@ -47,4 +47,5 @@ class SupplierList extends Model
     public function discounts(){
         return $this->hasMany('App\Models\SupplierDiscountRegular','supplier_uuid','uuid');
     }
+    
 }

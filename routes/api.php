@@ -85,6 +85,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/supplier-discount-regular', 'API\SupplierDiscountRegularController@save');
         Route::post('/supplier-discount-regular/delete', 'API\SupplierDiscountRegularController@delete');
 
+        Route::get('/supplier-list/{supplier_uuid}/items','API\SupplierListController@getSupplierItems');
+
     });
 
     Route::group(['prefix' => 'customers'], function(){

@@ -11,7 +11,7 @@ $(document).ready(function(){
             DROPDOWN.removeClass('show')
             DROPDOWN.find('.dropdown-menu').removeClass('show')
         }
-    });
+    }); 
 
     $(document).on('click','#sidebar-menu  ul  li  .is-page',function() {
         var BUTTON = $(this);
