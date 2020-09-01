@@ -209,6 +209,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
     Route::group(['prefix' => 'buy-and-pay'], function(){
 
         Route::get('/orders', 'API\BuyAndPayOrdersController@getOrders');
+        Route::get('/orders/{order_uuid}', 'API\BuyAndPayOrdersController@getOrderDetails');
         Route::post('/order', 'API\BuyAndPayOrdersController@saveOrder');
         Route::post('/order/delete', 'API\BuyAndPayOrdersController@deleteOrder');
 

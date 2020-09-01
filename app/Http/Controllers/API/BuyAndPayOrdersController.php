@@ -71,4 +71,10 @@ class BuyAndPayOrdersController extends Controller
 
         return response()->json(['success' => 1, 'message' => 'Deleted!'], 200);
     }
+
+    public function getOrderDetails($order_uuid)
+    {
+        $order = BuyAndPayOrders::find($order_uuid);
+        return response()->json(['success' => 1, 'data' => $order], 200);
+    }
 }

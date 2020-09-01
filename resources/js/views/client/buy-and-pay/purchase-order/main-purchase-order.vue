@@ -21,7 +21,7 @@
                     <table class="table mb-0 table table-striped">
                         <thead>
                             <tr>
-                                <th width="100">Actions</th>
+                                <th width="120">Actions</th>
                                 <th width="100">#</th>
                                 <th>PO No.</th>
                                 <th>PO Date</th>
@@ -34,6 +34,7 @@
                         <tbody>
                             <tr v-for="(purchase, index) in purchaseOrders" :key="purchase.uuid" class="tb-tnx-item">
                                 <td>
+                                    <a href="javascript:void(0)"  @click="ROUTE({path: '/purchase-order/' + purchase.uuid })" class="btn btn-sm btn-light"><i class="bx bx bx-detail"></i></a>
                                     <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalPurchaseOrder');setData(purchase)" class="btn btn-sm btn-light"><i class="bx bx-pencil"></i></a>
                                     <a href="javascript:void(0)"  @click="remove(chain)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
                                 </td>
@@ -222,8 +223,6 @@ export default {
             })
 
         },
-
-
         getOrderReasonCodes: function () {
            var scope = this
            
@@ -245,7 +244,6 @@ export default {
             })
 
         },
-
         getSupplier: function () {
            var scope = this
             scope.GET('suppliers/supplier-list').then(res => {
@@ -261,8 +259,6 @@ export default {
                 $(".form-select-supplier").select2({data: scope.options_supplier});
             })
         },
-
-
         resetData: function () {
             var scope = this
             scope.formdata.uuid = null

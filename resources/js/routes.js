@@ -221,7 +221,7 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
-          path: '/purchase-order-details',
+          path: '/purchase-order/:order_uuid',
           name: 'purchase-order-details',
           component: PurchaseOrderDetails,
           beforeEnter: checkAuth,

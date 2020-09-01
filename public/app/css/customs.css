@@ -9,9 +9,17 @@
 .nav-tabs .nav-link { font-weight: 600;}
 .btn-primary { color: #fff; background-color: #0033a0; border-color: #0033a0; }
 .text-primary { color: #0033a0!important; }
+
+.btn-danger { color: #fff; background-color: #c4013d; border-color: #c4013d; }
+.btn-danger:hover { color: #fff; background-color: #636678; border-color:#5d6071; }
+
 .modal-open .modal.show { background:rgba(0,0,0,0.5); }
 .modal-dialog { margin-top:50px; }
 .modal-title { font-weight:600; }
+
+.table td, .table th {
+    padding: .65rem;
+}
 
 .twitter-bs-wizard .twitter-bs-wizard-nav {     background-color: rgba(0,51,160,.1); }
 .twitter-bs-wizard .twitter-bs-wizard-nav .nav-link.active .step-number {  background-color: #0033a0; }
@@ -20,3 +28,6 @@
 .twitter-bs-wizard .twitter-bs-wizard-pager-link li.disabled a {  background-color: #2b5cc5; }
 
 .bg-info { background-color: #2b5cc5 !important; }
+
+.kx-checkbox { font-size:25px; cursor:pointer; }
+.kx-checkbox.checked {color:green; }
