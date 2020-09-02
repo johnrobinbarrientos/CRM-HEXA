@@ -24,6 +24,9 @@ import CustomerChain from './views/admin/globals/customer-chain'
 import CustomerChannel from './views/admin/globals/customer-channel'
 import CustomerType from './views/admin/globals/customer-type'
 
+import GlobalUom from './views/admin/globals/global-uom'
+
+
 import CompanyList from './views/admin/companies/list'
 import CompanyForm from './views/admin/companies/form'
 
@@ -32,8 +35,6 @@ import AdminCoaAccountGroup from './views/admin/admin-globals/admin-coa-account-
 import AdminChartofAccounts from './views/admin/admin-globals/admin-chart-of-accounts'
 
 import AdminCostCenter from './views/admin/admin-globals/admin-cost-center'
-
-import AdminUom from './views/admin/admin-globals/admin-uom'
 
 import PurchaseOrder from './views/client/buy-and-pay/purchase-order/main-purchase-order'
 import PurchaseOrderDetails from './views/client/buy-and-pay/purchase-order/purchase-order-details'
@@ -216,9 +217,9 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
-          path: '/admin-uom',
-          name: 'admin-uom',
-          component: AdminUom,
+          path: '/global-uom',
+          name: 'global-uom',
+          component: GlobalUom,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },

@@ -65,11 +65,6 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/category5', 'API\ItemCategory5Controller@save');
         Route::post('/category5/delete', 'API\ItemCategory5Controller@delete');
 
-        Route::get('/{uuid}/uom', 'API\ItemUomController@getUom');
-        Route::post('/uom/save', 'API\ItemUomController@save');
-        Route::put('/uom/update', 'API\ItemUomController@update');
-        Route::post('/uom/delete', 'API\ItemUomController@delete');
-
     });
 
     Route::group(['prefix' => 'suppliers'], function(){
@@ -182,6 +177,14 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/customer-type', 'API\GlobalCustomerTypeController@getCustomerTypes');
         Route::post('/customer-type', 'API\GlobalCustomerTypeController@save');
         Route::post('/customer-type/delete', 'API\GlobalCustomerTypeController@delete');
+
+        Route::get('/uom', 'API\GlobalUomController@getUoms');
+        Route::post('/uom', 'API\GlobalUomController@save');
+        Route::post('/uom/delete', 'API\GlobalUomController@delete');
+
+
+        Route::get('/base-uom', 'API\GlobalUomController@getBaseUom');
+        Route::get('/packing-uom', 'API\GlobalUomController@getPackingUom');
     });
 
     Route::group(['prefix' => 'admin'], function(){
@@ -205,9 +208,6 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/cost-center', 'API\AdminCostCenterController@save');
         Route::post('/cost-center/delete', 'API\AdminCostCenterController@delete');
 
-        Route::get('/uom', 'API\AdminUomController@getUoms');
-        Route::post('/uom', 'API\AdminUomController@save');
-        Route::post('/uom/delete', 'API\AdminUomController@delete');
     });
 
     Route::group(['prefix' => 'buy-and-pay'], function(){

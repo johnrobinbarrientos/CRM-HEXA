@@ -20,7 +20,7 @@ class ItemListController extends Controller
         ->with('Tax')->with('Category1')
         ->with('Category2')->with('Category3')
         ->with('Category4')->with('Category5')
-        ->with('AssetGroup')->with('UOMs')
+        ->with('AssetGroup')
         ->get();
         return response()->json(['success' => 1, 'rows' => $list], 200);
     }
@@ -36,13 +36,17 @@ class ItemListController extends Controller
         $item->cs_barcode = request()->cs_barcode;
         $item->item_description = request()->item_description;
         $item->item_shortname = request()->item_shortname;
+        $item->base_uom_uuid = request()->base_uom_uuid;
+        $item->packing_uom_uuid = request()->packing_uom_uuid;
+        $item->packing_qtty = request()->packing_qtty;
         $item->is_purchase_item = request()->is_purchase_item;
-        $item->purchase_uom_uuid = request()->purchase_uom_uuid;
         $item->purchase_price = request()->purchase_price;
         $item->is_sales_item = request()->is_sales_item;
-        $item->sales_uom_uuid = request()->sales_uom_uuid;
         $item->sales_price = request()->sales_price;
         $item->transfer_price = request()->transfer_price;
+        $item->manual_rate = request()->manual_rate;
+        $item->customer_group_uuid = request()->customer_group_uuid;
+        $item->option_rate = request()->option_rate;
         $item->is_expiry = request()->is_expiry;
         $item->vat_uuid = request()->vat_uuid;
         $item->is_maintain_stock = request()->is_maintain_stock;
@@ -58,24 +62,6 @@ class ItemListController extends Controller
         $item->category5_uuid = request()->category5_uuid;
         $item->save();
         
-
-        
-        if (request()->uuid===null){ 
-
-            $uoms = request()->uoms;
-
-            foreach ($uoms as $d)
-            {
-                $uom = new ItemUom;
-                $auth = \Auth::user();
-                $uom->company_id = $auth->company_id;
-                $uom->item_uuid = $item->uuid;
-                $uom->uom = $d['uom'];
-                $uom->conversion = $d['conversion'];
-                $uom->save();
-            }
-
-        }
 
         $supplier_uuids = request()->supplier_uuids;
         $item_suppliers = ItemSupplier::where('item_uuid', '=', $item->uuid)->delete();

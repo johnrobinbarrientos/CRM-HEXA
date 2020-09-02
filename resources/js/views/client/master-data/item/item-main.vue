@@ -13,7 +13,7 @@
                     <li class="nav-item"><a class="nav-link" style="cursor: pointer;"><span class="d-none d-sm-block">Category 5</span></a></li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane p-3 active">
+                    <div class="tab-pane active">
                         <item-list ></item-list> 
                     </div>
                     <div class="tab-pane p-3">

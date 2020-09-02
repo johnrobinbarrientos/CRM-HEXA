@@ -213,12 +213,12 @@
                         <li class="nav-item">        
                             <a class="nav-link" data-toggle="tab" href="#category">Category</a>    
                         </li>
+                        <li class="nav-item">        
+                            <a class="nav-link" data-toggle="tab" href="#unit-of-measure">Unit of Measure</a>    
+                        </li>
                         <li class="nav-item">
                             <a v-if="formdata.uuid === null" class="nav-link disabled" data-toggle="tab" href="#pricing">Pricing</a> 
                             <a v-else class="nav-link" data-toggle="tab" href="#pricing">Pricing</a>           
-                        </li>
-                        <li class="nav-item">        
-                            <a class="nav-link" data-toggle="tab" href="#unit-of-measure">Unit of Measure</a>    
                         </li>
                         <li class="nav-item">        
                             <a class="nav-link" data-toggle="tab" href="#asset">Asset</a>    
@@ -262,10 +262,8 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                             </div>
- 
                         </div>
 
                         <div class="tab-pane" id="category">
@@ -306,6 +304,35 @@
                             </div>        
       
                         </div>
+
+                        <div class="tab-pane" id="unit-of-measure">
+                            <div class="row">
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="base-uom">Base UOM</label>
+                                        <select class="form-select-base-uom" v-model="selected_base_uom" :options="options_base_uom" name="base-uom">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="packing-uom">Packing UOM</label>
+                                        <select class="form-select-packing-uom" v-model="selected_packing_uom" :options="options_packing_uom" name="packing-uom">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="packing-qtty">Packing Qtty</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.packing_qtty" type="text" class="form-control" id="packing-qtty" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>   
+
                         <div class="tab-pane" id="pricing"> 
                             <div class="row">
                                 <div class="col-12">
@@ -318,13 +345,6 @@
                                         </div>
                                     </div>
                                     <div v-show="formdata.is_purchase_item" class="row">
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="purchase-uom">Purchase UOM</label>
-                                                <select class="form-select-purchase-uom" v-model="selected_purchase_uom" :options="options_purchase_uom" name="purchase-uom">
-                                                </select>
-                                            </div>
-                                        </div>
 
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
@@ -347,13 +367,6 @@
                                                 </div>
 
                                                 <div v-show="formdata.is_sales_item" class="row">
-                                                    <div class="col-md-3 col-12">
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="sales-uom">Sales UOM</label>
-                                                            <select class="form-select-sales-uom" v-model="selected_sales_uom" :options="options_sales_uom" name="sales-uom">
-                                                            </select>
-                                                        </div>
-                                                    </div>
 
                                                     <div class="col-md-3 col-12">
                                                         <div class="form-group">
@@ -373,12 +386,6 @@
                                                         </div>
                                                     </div>
 
-                                                    <!-- <div class="col-md-4 col-12">
-                                                        <div class="custom-control custom-radio">    
-                                                            <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">    
-                                                            <label class="custom-control-label" for="customRadio1">Manual</label>
-                                                        </div>
-                                                    </div> -->
 
                                                     <div class="col-md-4 col-12">
                                                         <div class="form-group">
@@ -415,80 +422,8 @@
                                 </div>
                             </div>
 
-
-
-
                         </div>   
 
-
-                        <div class="tab-pane" id="unit-of-measure">
-                            
-                            <div class="row">
-                              
-
-                                <div class="col-md-6 col-12">
-                                    <div class="row">
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="item-uom">UOM</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="itemUOMFormData.uom" type="text" class="form-control" id="item-uom" required>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="conversion">Conversion</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="itemUOMFormData.conversion" type="text" class="form-control" id="conversion" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 col-12">
-                                            <div style="padding:10px 0px; text-align:right;">
-                                                <button v-if="itemUOMFormData.uuid !== null" @click="updateUOMs()" type="button" class="btn btn-lg btn-primary">Update</button>
-                                                <button v-if="itemUOMFormData.uuid === null && itemUOMFormData.index !== null "  @click="saveTempUOMs()" type="button" class="btn btn-lg btn-primary">Update</button>
-                                                <button v-if="itemUOMFormData.uuid === null && itemUOMFormData.index === null " @click="saveTempUOMs()" type="button" class="btn btn-lg btn-primary">Add</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 col-12">
-                                    <div class="card card-bordered card-preview">
-                                        <table class="table table-items">
-                                            <thead>
-                                                <tr class="tb-tnx-head">
-                                                    <th><span class="">UOM</span></th>
-                                                    <th><span class="">Conversion</span></th>
-                                                    <th><span>Actions</span></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="(tempItemUOM, index) in tempItemUOMs" :key="index">
-                                                    <td><span class="">{{ tempItemUOM.uom }}</span></td>
-                                                    <td><span class="">{{ tempItemUOM.conversion }}</span></td>
-                                                    <td>
-                                                        <a href="javascript:void(0);" @click="editTempUOM(index)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
-                                                        <a href="javascript:void(0);" @click="removeTempUOM(index)" class="btn btn-sm btn-danger"><em class="icon ni ni-cross"></em></a>
-                                                    </td>
-                                                </tr>
-                                                <tr v-for="(itemUOM, index) in itemUOMs" :key="index">
-                                                    <td><span class="">{{ itemUOM.uom }}</span></td>
-                                                    <td><span class="">{{ itemUOM.conversion }}</span></td>
-                                                    <td>
-                                                        <a href="javascript:void(0);" @click="editUOM(itemUOM, index)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
-                                                        <a href="javascript:void(0);" @click="removeUOM(itemUOM, index)" class="btn btn-sm btn-danger"><em class="icon ni ni-cross"></em></a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-      
-                        </div>   
 
                         <div class="tab-pane" id="asset">
                             <div class="col-md-3 col-12">
@@ -556,15 +491,14 @@ export default {
             selected_asset_group: null,
             options_asset_group: [],
 
-            selected_purchase_uom: null,
-            options_purchase_uom: [],
-
-            selected_sales_uom: null,
-            options_sales_uom: [],
-
-
             selected_customer_group: null,
             options_customer_group: [],
+
+            selected_base_uom: null,
+            options_base_uom: [],
+
+            selected_packing_uom: null,
+            options_packing_uom: [],    
 
             input_markup_rate: '',
             customer_markup_rate: '',
@@ -584,14 +518,23 @@ export default {
                 cs_barcode: '',
                 item_description: '',
                 item_shortname: '',
+
+                base_uom_uuid: '',
+                packing_uom_uuid: '',
+                packing_qtty: '',
+
                 supplier_uuid: '',
                 is_purchase_item: 0,
-                purchase_uom_uuid: '',
                 purchase_price: '',
                 is_sales_item: 0,
-                sales_uom_uuid: '',
                 sales_price: '',
+
                 transfer_price: '',
+
+                manual_rate: '',
+                customer_group_uuid: '',
+                option_rate: '',
+
                 is_expiry: 0,
                 vat_uuid: '',
                 is_maintain_stock: 0,
@@ -605,18 +548,8 @@ export default {
                 category3_uuid: '',
                 category4_uuid: '',
                 category5_uuid: ''
-            },
-
-            itemUOMs: [],
-            tempItemUOMs: [],
-            
-            itemUOMFormData:{
-                index: null, 
-                uuid: null,
-                item_uuid: null,
-                uom: '',
-                conversion: ''
             }
+
         }
     },
 
@@ -867,59 +800,6 @@ export default {
 
         },
 
-        getPurchaseUom: function () {
-           var scope = this
-
-           scope.options_purchase_uom.push({
-               id: '',
-               text: 'NONE'
-           });
-
-            scope.GET('items/' + scope.formdata.uuid + '/uom').then(res => {
-                
-                res.rows.forEach(function (data) {
-
-                    scope.options_purchase_uom.push({
-                        id: data.uuid,
-                        text: data.uom
-                    })
-                
-                })
-
-                $(".form-select-purchase-uom").select2({data: scope.options_purchase_uom});
-                
-                $('.form-select-purchase-uom').val(null);
-                $('.form-select-purchase-uom').trigger('change');
-            })
-
-        },
-
-        getSalesUom: function () {
-           var scope = this
-
-           scope.options_sales_uom.push({
-               id: '',
-               text: 'NONE'
-           });
-
-            scope.GET('items/' + scope.formdata.uuid + '/uom').then(res => {
-                
-                res.rows.forEach(function (data) {
-
-                    scope.options_sales_uom.push({
-                        id: data.uuid,
-                        text: data.uom
-                    })
-                
-                })
-
-                $(".form-select-sales-uom").select2({data: scope.options_sales_uom});
-                
-                $('.form-select-sales-uom').val(null);
-                $('.form-select-sales-uom').trigger('change');
-            })
-
-        },
 
         getCustomerGroup: function () {
            var scope = this
@@ -941,6 +821,45 @@ export default {
             })
         },
 
+        getBaseUom: function () {
+           var scope = this
+            scope.GET('globals/base-uom').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_base_uom.push({
+                        id: data.uuid,
+                        text: data.uom
+                    })
+                
+                })
+
+                $(".form-select-base-uom").select2({data: scope.options_base_uom});
+                scope.selected_base_uom = scope.options_base_uom[0].id
+                
+            })
+
+        },
+
+        getPackingUom: function () {
+           var scope = this
+            scope.GET('globals/packing-uom').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_packing_uom.push({
+                        id: data.uuid,
+                        text: data.uom
+                    })
+                })
+
+                $(".form-select-packing-uom").select2({data: scope.options_packing_uom});
+                scope.selected_base_uom = scope.options_base_uom[0].id
+                
+            })
+
+        },
+
         resetData: function () {
             var scope = this
             scope.formdata.uuid = null
@@ -950,14 +869,22 @@ export default {
             scope.formdata.cs_barcode = ''
             scope.formdata.item_description = ''
             scope.formdata.item_shortname = ''
+
+            scope.formdata.base_uom_uuid = ''
+            scope.formdata.packing_uom_uuid =  ''
+            scope.formdata.packing_qtty = ''
+
             scope.formdata.supplier_uuid = ''
             scope.formdata.is_purchase_item = 0
-            scope.formdata.purchase_uom_uuid = ''
             scope.formdata.purchase_price = ''
             scope.formdata.is_sales_item = 0
-            scope.formdata.sales_uom_uuid = ''
             scope.formdata.sales_price = ''
             scope.formdata.transfer_price = ''
+
+            scope.formdata.manual_rate = ''
+            scope.formdata.customer_group_uuid = ''
+            scope.formdata.option_rate = ''
+
             scope.formdata.is_expiry = 0
             scope.formdata.vat_uuid = ''
             scope.formdata.is_maintain_stock = 0
@@ -1001,13 +928,8 @@ export default {
             scope.formdata.is_maintain_stock = data.is_maintain_stock
             scope.formdata.is_active = data.is_active
 
-            scope.itemUOMs = []
-            scope.itemUOMs = data.u_o_ms
 
             var suppliers = [];
-
-            scope.getPurchaseUom()
-            scope.getSalesUom()
 
             if (data.vat_uuid!=null){
                 scope.is_vat = 1
@@ -1053,11 +975,12 @@ export default {
             $('.form-select-asset-group').val(data.item_asset_group_uuid);
             $('.form-select-asset-group').trigger('change');
 
-            $('.form-select-purchase-uom').val(data.purchase_uom_uuid);
-            $('.form-select-purchase-uom').trigger('change');
+            $('.form-select-base-uom').val(data.base_uom_uuid);
+            $('.form-select-base-uom').trigger('change');
 
-            $('.form-select-sales-uom').val(data.sales_uom_uuid);
-            $('.form-select-sales-uom').trigger('change');
+            $('.form-select-packing-uom').val(data.packing_uom_uuid);
+            $('.form-select-packing-uom').trigger('change');
+
 
         },
         save: function () {
@@ -1075,11 +998,9 @@ export default {
             scope.formdata.category4_uuid = scope.selected_category4
             scope.formdata.category5_uuid = scope.selected_category5
 
+            scope.formdata.base_uom_uuid = scope.selected_base_uom
+            scope.formdata.packing_uom_uuid = scope.selected_packing_uom
 
-            scope.formdata.purchase_uom_uuid = scope.selected_purchase_uom
-            scope.formdata.sales_uom_uuid = scope.selected_sales_uom
-
-            scope.formdata.uoms = scope.tempItemUOMs
 
             scope.POST('items/item-list', scope.formdata).then(res => {
                 if (res.success) {
@@ -1116,9 +1037,8 @@ export default {
             scope.formdata.category4_uuid = scope.selected_category4
             scope.formdata.category5_uuid = scope.selected_category5
 
-
-            scope.formdata.purchase_uom_uuid = scope.selected_purchase_uom
-            scope.formdata.sales_uom_uuid = scope.selected_sales_uom
+            scope.formdata.base_uom_uuid = scope.selected_base_uom
+            scope.formdata.packing_uom_uuid = scope.selected_packing_uom
 
              window.swal.fire({
                 title: 'Update Record?',
@@ -1184,146 +1104,6 @@ export default {
                 }                              
             })
         },
-        saveTempUOMs() {
-            var scope = this
-            
-            if (scope.formdata.uuid !== null) {
-
-                if (scope.itemUOMFormData.uuid === null) {
-                    scope.saveUOMs();
-                } else {
-                    scope.updateUOMs();
-                } 
-
-                return;
-            }
-
-            if (scope.itemUOMFormData.uuid == null && scope.itemUOMFormData.index !== null) {
-                var index = scope.itemUOMFormData.index
-                scope.tempItemUOMs[index].uom = scope.itemUOMFormData.uom
-                scope.tempItemUOMs[index].conversion = scope.itemUOMFormData.conversion 
-            } else {
-                scope.tempItemUOMs.push({
-                    uom: scope.itemUOMFormData.uom, 
-                    conversion: scope.itemUOMFormData.conversion 
-                })
-            }
-            
-            // reset form
-            scope.itemUOMFormData.index = null
-            scope.itemUOMFormData.uuid  = null
-            scope.itemUOMFormData.uom = ''
-            scope.itemUOMFormData.conversion = ''
-        },
-        editTempUOM(index) {
-            var scope = this
-            
-            scope.itemUOMFormData.index = index
-            scope.itemUOMFormData.uuid = null
-            scope.itemUOMFormData.uom = scope.tempItemUOMs[index].uom
-            scope.itemUOMFormData.conversion =  scope.tempItemUOMs[index].conversion
-        },
-        editUOM(data, index) {
-            var scope = this
-            
-            scope.itemUOMFormData.index = index
-            scope.itemUOMFormData.uuid = data.uuid
-            scope.itemUOMFormData.uom = data.uom
-            scope.itemUOMFormData.conversion =  data.conversion
-        },
-        removeTempUOM(index) {
-            var scope = this
-            scope.tempItemUOMs.splice(index, 1)
-        },
-        updateUOMs: function () {
-            var scope = this
-
-            scope.PUT('items/uom/update', scope.itemUOMFormData).then(res => {
-                if (res.success) {
-                    window.swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'UOM Successfuly Updated',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        var index = scope.itemUOMFormData.index
-                        scope.itemUOMs[index].uom = res.data.uom
-                        scope.itemUOMs[index].conversion = res.data.conversion
-
-                        scope.getPurchaseUom()
-                        scope.getSalesUom()
-
-                        // reset form
-                        scope.itemUOMFormData.index = null
-                        scope.itemUOMFormData.uuid  = null
-                        scope.itemUOMFormData.uom = ''
-                        scope.itemUOMFormData.conversion = ''
-                    })
-                } else {
-                    alert('ERROR:' + res.code)
-                } 
-            })
-        },
-        saveUOMs: function () {
-            var scope = this
-
-            scope.itemUOMFormData.item_uuid = scope.formdata.uuid
-            scope.POST('items/uom/save', scope.itemUOMFormData).then(res => {
-                if (res.success) {
-                    window.swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'UOM Successfuly Added',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                         scope.itemUOMs.push(res.data)
-
-                         scope.getPurchaseUom()
-                         scope.getSalesUom()
-
-                        // reset form
-                        scope.itemUOMFormData.index = null
-                        scope.itemUOMFormData.uuid  = null
-                        scope.itemUOMFormData.uom = ''
-                        scope.itemUOMFormData.conversion = ''
-                    })
-                } else {
-                    alert('ERROR:' + res.code)
-                } 
-            })
-        },
-        removeUOM(data,index) {
-            var scope = this
-            window.swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                if (result.value) {
-                    scope.POST('items/uom/delete', data).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'UOM Successfuly Deleted',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.itemUOMs.splice(index, 1)
-                            })
-                        } else {
-                            alert('ERROR:' + res.code)
-                        } 
-                    })
-                }
-            })
-        },
         computePrice: function () {
             var scope = this
             scope.formdata.sales_price = (scope.input_markup_rate/100) * scope.formdata.purchase_price
@@ -1345,7 +1125,19 @@ export default {
         scope.getCategory5()
         scope.getAssetGroup()
 
+        scope.getBaseUom()
+        scope.getPackingUom()
+
         scope.getCustomerGroup()
+
+
+        $('.form-select-base-uom').on("change", function(e) { 
+            scope.selected_base_uom = $('.form-select-base-uom').val();
+        })
+
+        $('.form-select-packing-uom').on("change", function(e) { 
+            scope.selected_packing_uom = $('.form-select-packing-uom').val();
+        })
 
         $('.form-select-item-group').on("change", function(e) { 
             scope.selected_item_group = $('.form-select-item-group').val();
@@ -1391,13 +1183,7 @@ export default {
             scope.selected_asset_group = $('.form-select-asset-group').val();
         })
 
-        $('.form-select-purchase-uom').on("change", function(e) { 
-            scope.selected_purchase_uom = $('.form-select-purchase-uom').val();
-        })
 
-        $('.form-select-sales-uom').on("change", function(e) { 
-            scope.selected_sales_uom = $('.form-select-sales-uom').val();
-        })
 
         $('.form-select-customer-group').on("change", function(e) { 
             scope.selected_customer_group = $('.form-select-customer-group').val();

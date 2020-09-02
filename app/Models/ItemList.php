@@ -12,12 +12,11 @@ class ItemList extends Model
     protected $table = 'item_list';
 
     protected $fillable = [
-        'uuid', 'company_id', 'item_group_uuid','item_code','item_barcode','cs_barcode',
-        'item_description','item_shortname','supplier_uuid','is_purchase_item','purchase_uom_uuid',
-        'purchase_price','is_sales_item','sales_uom_uuid','sales_price','transfer_price','is_expiry',
-        'vat_uuid','is_maintain_stock','is_active','coa_income_account_uuid','coa_cos_account_uuid','reorder_qty','item_asset_group_uuid',
-        'category1_uuid','category2_uuid','category3_uuid','category4_uuid',
-        'category5_uuid',
+        'uuid','company_id','item_group_uuid','item_code','item_barcode','cs_barcode','item_description','item_shortname',
+        'base_uom_uuid','packing_uom_uuid','packing_qtty','is_purchase_item','purchase_price','is_sales_item',
+        'sales_price','transfer_price','manual_rate','customer_group_uuid','option_rate','is_expiry','vat_uuid','is_maintain_stock',
+        'is_active','coa_income_account_uuid','coa_cos_account_uuid','reorder_qty','item_asset_group_uuid','category1_uuid',
+        'category2_uuid','category3_uuid','category4_uuid','category5_uuid',
     ];
 
     protected $primaryKey = 'uuid';
@@ -79,8 +78,5 @@ class ItemList extends Model
         return $this->belongsTo('App\Models\ItemAssetGroup','item_asset_group_uuid','uuid');
     }
 
-    public function UOMs(){
-        return $this->hasMany('App\Models\ItemUom','item_uuid','uuid');
-    }
    
 }
