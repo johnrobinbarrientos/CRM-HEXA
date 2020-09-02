@@ -29,5 +29,21 @@ class BuyAndPayOrders extends Model
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
     }
+
+    public function Supplier(){
+        return $this->belongsTo('App\Models\SupplierList','supplier_uuid','uuid');
+    }
+
+    public function ItemGroup(){
+        return $this->belongsTo('App\Models\ItemGroup','item_group_uuid','uuid');
+    }
+
+    public function ItemAssetGroup(){
+        return $this->belongsTo('App\Models\ItemAssetGroup','asset_group_uuid','uuid');
+    }
+
+    public function OrderReasonCode(){
+        return $this->belongsTo('App\Models\BuyAndPayOrderReasonCodes','orders_reason_code_uuid','uuid');
+    }
    
 }

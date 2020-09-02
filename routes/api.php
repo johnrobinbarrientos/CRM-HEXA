@@ -204,6 +204,10 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/cost-center', 'API\AdminCostCenterController@getCostCenter');
         Route::post('/cost-center', 'API\AdminCostCenterController@save');
         Route::post('/cost-center/delete', 'API\AdminCostCenterController@delete');
+
+        Route::get('/uom', 'API\AdminUomController@getUoms');
+        Route::post('/uom', 'API\AdminUomController@save');
+        Route::post('/uom/delete', 'API\AdminUomController@delete');
     });
 
     Route::group(['prefix' => 'buy-and-pay'], function(){

@@ -39,13 +39,12 @@
                                     <a href="javascript:void(0)"  @click="remove(chain)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
                                 </td>
                                 <td><span class="">{{ (index + 1) }}</span></td>
-                                <td><span class="">PO_ABC2020071500001</span></td>
-                                <td><span class="">7/15/2020</span></td>
-                                <td><span class="">{{ purchase.chain }}</span></td>
-                                <td><span class="">{{ purchase.chain }}</span></td>
-                                <td><span class="">{{ purchase.chain }}</span></td>
-                                <td><span class="">{{ purchase.chain }}</span></td>
-                                <td><span class="">{{ purchase.chain }}</span></td>
+                                <td><span class="">{{purchase.po_no}}</span></td>
+                                <td><span class="">{{purchase.date_purchased}}</span></td>
+                                <td><span class="">{{ purchase.supplier.business_shortname }}</span></td>
+                                <td><span class=""></span></td>
+                                <td><span class="">{{ purchase.status }}</span></td>
+                                <td><span class="">{{ purchase.order_reason_code.reason_code }}</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -60,7 +59,7 @@
                     <div class="modal-header">
                         <h5 class="modal-title">Purchase Order Details</h5>
                         <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalPurchaseOrder');" class="close" data-dismiss="modal" aria-label="Close">
-                            <em class="icon ni ni-cross"></em>
+                            <i class="bx bx-x"></i>
                         </a>
                     </div>
                     <div class="modal-body">
@@ -68,14 +67,14 @@
 
                             <div class="row">
 
-                                <div class="col-md-3 col-12">
+                                <div class="col-md-12 col-12">
                                     <div class="form-group">
                                         <label class="form-label">PO No.: </label>
                                         <label class="form-label" >{{formdata.po_no}}</label>
                                     </div>
                                 </div>
 
-                                <div class="col-md-3 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="item-group">Item Group</label>
                                         <select class="form-select-item-group" v-model="selected_item_group" :options="options_item_group" name="item-group">
@@ -83,7 +82,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="asset-group">Asset Group</label>
                                         <select class="form-select-asset-group" v-model="selected_asset_group" :options="options_asset_group" name="asset-group">
@@ -91,7 +90,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="supplier">Supplier</label>
                                         <select class="form-select-supplier" v-model="selected_supplier" :options="options_supplier" name="supplier">
@@ -99,7 +98,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="date-terminated">PO Date</label>
                                         <div class="form-control-wrap">
@@ -108,7 +107,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="date-terminated">Expected Date</label>
                                         <div class="form-control-wrap">
@@ -117,7 +116,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="asset-group">Reason Code</label>
                                         <select class="form-select-reason-code" v-model="selected_reason_code" :options="options_reason_code" name="reason-code">
@@ -179,6 +178,7 @@ export default {
         getPurchaseOrders: function () {
            var scope = this
             scope.GET('buy-and-pay/orders').then(res => {
+                console.log(res.rows)
                 scope.purchaseOrders = res.rows
             })
         },
@@ -268,7 +268,7 @@ export default {
             scope.formdata.date_purchased = ''
             scope.formdata.date_expected = ''
             scope.formdata.supplier_uuid = ''
-            scope.formdata.status = ''
+            scope.formdata.status = 'Open'
             scope.formdata.orders_reason_code_uuid = ''
         },
         setData: function (data) {
@@ -329,7 +329,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST('globals/customer-chain', scope.formdata).then(res => {
+                    scope.POST('buy-and-pay/order', scope.formdata).then(res => {
                     if (res.success) {
                         window.swal.fire({
                             position: 'center',

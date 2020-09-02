@@ -76,6 +76,7 @@ class MenuController extends Controller
                 [ 'text' => 'Admin Account Group', 'route' => 'admin-coa-account-group'],
                 [ 'text' => 'Admin Report Group', 'route' => 'admin-coa-report-group'],
                 [ 'text' => 'Admin Cost Center', 'route' => 'admin-cost-center'],
+                [ 'text' => 'Admin UOM', 'route' => 'admin-uom'],
             ]
         ];
 
