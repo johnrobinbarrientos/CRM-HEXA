@@ -13,7 +13,7 @@ class BuyAndPayOrdersController extends Controller
 {
     public function getOrders()
     {
-        $orders = BuyAndPayOrders::whereNull('deleted_at')->get();
+        $orders = BuyAndPayOrders::whereNull('deleted_at')->with('Supplier')->with('ItemGroup')->with('OrderReasonCode')->with('ItemAssetGroup')->get();
         return response()->json(['success' => 1, 'rows' => $orders], 200);
     }
 
