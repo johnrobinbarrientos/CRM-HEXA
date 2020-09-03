@@ -8,6 +8,7 @@ use App\Models\SupplierList;
 use App\Models\SupplierDiscountRegular; 
 use App\Models\ItemList; 
 use App\Models\ItemSupplier; 
+use App\Models\GlobalUom; 
 use Illuminate\Support\Facades\Auth; 
 
 class SupplierListController extends Controller
@@ -77,7 +78,46 @@ class SupplierListController extends Controller
     {
         $supplier = SupplierList::find($supplier_uuid);
         $supplier_item_uuids = ItemSupplier::where('supplier_uuid','=',$supplier_uuid)->pluck('item_uuid')->toArray();
-        $items = ItemList::whereIn('uuid',$supplier_item_uuids)->get();
+
+        $items = ItemList::whereIn('uuid',$supplier_item_uuids);
+
+        if (isset($_GET['is_purchase_item']) && $_GET['is_purchase_item'] == 'yes' ) {
+            $items = $items->where('is_purchase_item','=',true);
+        }
+
+        $items = $items->get();
+
+        if (isset($_GET['with_uoms']) && $_GET['with_uoms'] == 'yes' ) {
+            foreach ($items as $item) {
+                $base = GlobalUom::find($item->base_uom_uuid);
+                $packing = GlobalUom::find($item->packing_uom_uuid);
+                $uoms = [];
+
+                if ($base) {
+                    $item->uom = $base->uuid;
+                    $uoms[$base->uuid] = [
+                        'uuid' => $base->uuid,
+                        'uom' => $base->uom,
+                        'quantity' => 1,
+                        'price' => $item->purchase_price
+                    ];
+                }
+
+                if ($packing) {
+                    $uoms[$packing->uuid] = [
+                        'uuid' => $packing->uuid,
+                        'uom' => $packing->uom,
+                        'quantity' => $item->packing_qtty,
+                        'price' => ($item->packing_qtty * $item->purchase_price)
+                    ];
+                }
+               
+
+                $item->uoms = $uoms;
+            }
+        }
+        
+     
         
         return response()->json(['success' => 1, 'rows' => $items], 200);
     }

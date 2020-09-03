@@ -52,16 +52,15 @@
                                 <input v-model="item.quantity" type="text" class="editable-control">
                             </td>
                             <td class="editable">
-                                <span>{{ item.uom }}</span>
+                                <span>{{ item.uoms[item.uom].uom }}</span>
                                 <select v-model="item.uom" type="text" class="editable-control">
-                                    <option value="PC">PC</option>
-                                    <option value="CASE">CASE</option>
+                                    <option v-for="uom in item.uoms" :key="uom.uuid" :value="uom.uuid">{{ uom.uom }}</option>
                                 </select>
                             </td>
                             <td class="text-right">
-                                {{ item.purchase_price }}
+                                {{ item.uoms[item.uom].price }}
                             </td>
-                            <td class="text-right">{{ (item.quantity * item.purchase_price) || '0.00' }}</td>
+                            <td class="text-right">{{ (item.quantity * item.uoms[item.uom].price) || '0.00' }}</td>
                             
                             <td>N/A</td>
                             <td>N/A</td>
@@ -207,7 +206,7 @@ export default {
             var scope = this
 
             scope.selected_items = []
-            scope.GET('suppliers/supplier-list/' + supplier_uuid + '/items').then(res => {
+            scope.GET('suppliers/supplier-list/' + supplier_uuid + '/items?is_purchase_item=yes&with_uoms=yes').then(res => {
                 scope.items = res.rows
             })
         },
