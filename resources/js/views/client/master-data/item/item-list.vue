@@ -854,7 +854,7 @@ export default {
                 })
 
                 $(".form-select-packing-uom").select2({data: scope.options_packing_uom});
-                scope.selected_base_uom = scope.options_base_uom[0].id
+                scope.selected_packing_uom = scope.options_packing_uom[0].id
                 
             })
 
