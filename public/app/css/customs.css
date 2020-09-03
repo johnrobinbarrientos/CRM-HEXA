@@ -1,17 +1,14 @@
-.navbar-brand-box, .vertical-menu { background: #202223 !important; }
+/** .navbar-brand-box, .vertical-menu { background: #202223 !important; } **/
 
-#sidebar-menu ul li a { font-size:14px; font-weight: 600;}
 #sidebar-menu .link-active { background:#0033a0;  }
 #sidebar-menu .link-active > a { color:#fff !important;  }
 #sidebar-menu .link-active > a i { color:#fff !important;  }
 
 .select2-container { display:block; width:100% !important; }
 .nav-tabs .nav-link { font-weight: 600;}
-.btn-primary { color: #fff; background-color: #0033a0; border-color: #0033a0; }
 .text-primary { color: #0033a0!important; }
 
-.btn-danger { color: #fff; background-color: #c4013d; border-color: #c4013d; }
-.btn-danger:hover { color: #fff; background-color: #636678; border-color:#5d6071; }
+
 
 .modal-open .modal.show { background:rgba(0,0,0,0.5); }
 .modal-dialog { margin-top:50px; }
@@ -31,3 +28,43 @@
 
 .kx-checkbox { font-size:25px; cursor:pointer; }
 .kx-checkbox.checked {color:green; }
+
+
+
+
+
+/** === jepyoo styles start === **/
+
+/* general */
+body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight: normal; }
+
+/* side menu */
+.navbar-brand-box, .vertical-menu { background-image: linear-gradient(45deg,var(--shine-blue) 0%,var(--hexa-blue) 100%) !important; }
+.navbar-brand-box { background: #fff !important; height: 70px; }
+.navbar-brand-box a { color: #111 !important; }
+
+#sidebar-menu ul li a { font-family: "OpenSans"; font-weight: 500; color: #fff !important;  font-size: 14px; }
+#sidebar-menu ul li a i { color: #fff !important; }
+
+.menu-title { color: #fff !important; }
+
+/* footer */
+.footer { background: #eee !important; }
+
+
+
+/** Modules **/
+
+/* btn */
+.btn { font-family: "OpenSans" !important; }
+.btn-primary { color: #fff; background-color: var(--hexa-blue); border-color: var(--hexa-blue); }
+.btn-danger { color: #fff; background-color: var(--hexa-red); border-color: var(--hexa-red); }
+
+.btn-danger:hover { color: #fff; background-color: #636678; border-color:#5d6071; }
+
+/* card */
+.card { box-shadow: 0 1px 4px 0 rgba(21,27,38,.08) !important; }
+
+
+
+/** === jepyoo styles end === **/

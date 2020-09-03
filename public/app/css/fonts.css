@@ -1,0 +1,71 @@
+/* Primary: Opensans */
+@font-face {
+  font-family: OpenSans;
+  src: url(/fonts/OpenSans/OpenSans-Bold.ttf);
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: OpenSans;
+  src: url(/fonts/OpenSans/OpenSans-ExtraBold.ttf);
+  font-weight: bolder;
+}
+
+@font-face {
+  font-family: OpenSans;
+  src: url(/fonts/OpenSans/OpenSans-Italic.ttf);
+  font-weight: italic;
+}
+
+@font-face {
+  font-family: OpenSans;
+  src: url(/fonts/OpenSans/OpenSans-Light.ttf);
+  font-weight: lighter;
+}
+
+@font-face {
+  font-family: OpenSans;
+  src: url(/fonts/OpenSans/OpenSans-Regular.ttf);
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: OpenSans;
+  src: url(/fonts/OpenSans/OpenSans-SemiBold.ttf);
+  font-weight: 500;
+}
+
+
+
+
+
+/* Secondary, Numbers etc: Lato */
+@font-face {
+  font-family: Lato;
+  src: url(/fonts/Lato/Lato-ExtraBold.ttf);
+  font-weight: bolder;
+}
+
+@font-face {
+  font-family: Lato;
+  src: url(/fonts/Lato/Lato-Bold.ttf);
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: Lato;
+  src: url(/fonts/Lato/Lato-Light.ttf);
+  font-weight: lighter;
+}
+
+@font-face {
+  font-family: Lato;
+  src: url(/fonts/Lato/Lato-Regular.ttf);
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: Lato;
+  src: url(/fonts/Lato/Lato-Thin.ttf);
+  font-weight: thin;
+}
