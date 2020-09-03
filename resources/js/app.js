@@ -14,6 +14,8 @@ import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 //import './assets/themes/css/dashlite.css?ver=1.6.0'
 //import './assets/themes/css/skins/theme-blue.css?ver=1.6.0'
 //import './assets/css/custom.css'
+// import './assets/css/fonts.css'
+
 
 // JS
 //import './assets/themes/js/bundle.js?ver=1.6.0'

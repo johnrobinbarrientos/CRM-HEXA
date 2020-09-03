@@ -12,7 +12,10 @@
         <link href="/app/vendors/select2/css/select2.min.css?ver=1.6.0" rel="stylesheet" />
         
         <link href="/themes/themes/css/theme.css" rel="stylesheet">
+        <link href="/app/css/fonts.css" rel="stylesheet" />
         <link href="/app/css/customs.css" rel="stylesheet" />
+        <link href="/app/css/color-palette.css" rel="stylesheet" />
+
    
     </head>
     <body data-sidebar="dark" data-sidebar-size="" data-topbar="light" data-layout-size="fluid" class="">
