@@ -29,6 +29,12 @@
 .kx-checkbox { font-size:25px; cursor:pointer; }
 .kx-checkbox.checked {color:green; }
 
+/* editables */
+.editable.focused {  }
+.editable.focused span {display:none; }
+.editable > .editable-control { width:0px; height:0px; opacity:0; }
+.editable > .editable-control:focus { width:100%; height:25px; opacity:1; }
+
 
 
 
@@ -40,7 +46,7 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
 
 /* side menu */
 .navbar-brand-box, .vertical-menu { background-image: linear-gradient(45deg,var(--shine-blue) 0%,var(--hexa-blue) 100%) !important; }
-.navbar-brand-box { background: #fff !important; height: 70px; }
+.navbar-brand-box { background: #fff !important; height: 70px; border-right:1px solid #efefef; }
 .navbar-brand-box a { color: #111 !important; }
 
 #sidebar-menu ul li a { font-family: "OpenSans"; font-weight: 500; color: #fff !important;  font-size: 14px; }

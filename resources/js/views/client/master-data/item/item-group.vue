@@ -19,27 +19,25 @@
                     <table id="tech-companies-1" class="table table-striped table-bordered responsiveTable">
                         <thead>
                             <tr>
-                                <th data-priority="1">#</th>
+                                <th width="100">Actions</th>
+                                <th width="100">#</th>
                                 <th data-priority="3">Item Group</th>
-                                <th data-priority="6">Actions</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(item, index) in Groups" :key="item.uuid">
-                               
-                                <td class=" pivoted">
-                                    <div class="tdBefore">#</div>
+                               <td>
+                                    <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemGroup');setData(item)" class="btn btn-sm btn-light"><i class="bx bx-pencil"></i></a>
+                                    <a href="javascript:void(0)"  @click="remove(item)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
+                                </td>
+                                <td>
                                     {{ (index + 1) }}
                                 </td>
-                                <td class=" pivoted">
-                                    <div class="tdBefore">Item Group</div>
+                                <td>
                                    {{ item.item_group }}
                                 </td>
-                                <td class=" pivoted">
-                                    <div class="tdBefore">Actions</div>
-                                    <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemGroup');setData(item)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
-                                    <a href="javascript:void(0)"  @click="remove(item)" class="btn btn-sm btn-danger"><em class="icon ni ni-trash"></em></a>
-                                </td>
+                                
                                 
                             </tr>
                             
@@ -53,19 +51,19 @@
 
         <!-- Modal Item Group Form -->
         <div class="modal fade" tabindex="-1" id="modalItemGroup">
-            <div class="modal-dialog modal-lg " role="document">
+            <div class="modal-dialog modal-md " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Item Group Details</h5>
                         <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalItemGroup');" class="close" data-dismiss="modal" aria-label="Close">
-                            <em class="icon ni ni-cross"></em>
+                            <i class="bx bx-x"></i>
                         </a>
                     </div>
                     <div class="modal-body">
                         <form action="#" class="form-validate is-alter">
 
                             <div class="row">
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-12 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="item-group">Item Group</label>
                                         <div class="form-control-wrap">

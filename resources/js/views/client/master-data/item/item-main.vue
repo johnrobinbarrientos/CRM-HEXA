@@ -2,40 +2,122 @@
     <div>
         <div class="card">
             <div class="card-body">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item"><a class="active nav-link" style="cursor: pointer;"><span class="d-none d-sm-block">Item List</span></a></li>
-                    <li class="nav-item"><a class="nav-link" style="cursor: pointer;"><span class="d-none d-sm-block">Item Group</span></a></li>
-                    <li class="nav-item"><a class="nav-link" style="cursor: pointer;"><span class="d-none d-sm-block">Assets Group</span></a></li>
-                    <li class="nav-item"><a class="nav-link" style="cursor: pointer;"><span class="d-none d-sm-block">Category 1</span></a></li>
-                    <li class="nav-item"><a class="nav-link" style="cursor: pointer;"><span class="d-none d-sm-block">Category 2</span></a></li>
-                    <li class="nav-item"><a class="nav-link" style="cursor: pointer;"><span class="d-none d-sm-block">Category 3</span></a></li>
-                    <li class="nav-item"><a class="nav-link" style="cursor: pointer;"><span class="d-none d-sm-block">Category 4</span></a></li>
-                    <li class="nav-item"><a class="nav-link" style="cursor: pointer;"><span class="d-none d-sm-block">Category 5</span></a></li>
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#item-list" role="tab">
+                            <span class="d-block d-sm-none"></span>
+                            <span class="d-none d-sm-block">Item List</span>    
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#item-group" role="tab">
+                            <span class="d-block d-sm-none"></span>
+                            <span class="d-none d-sm-block">Item Group</span>    
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#asset-group" role="tab">
+                            <span class="d-block d-sm-none"></span>
+                            <span class="d-none d-sm-block">Assets Group</span>    
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#categories" role="tab">
+                            <span class="d-block d-sm-none"></span>
+                            <span class="d-none d-sm-block">Categories</span>    
+                        </a>
+                    </li>
                 </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active">
-                        <item-list ></item-list> 
+
+                <!-- Tab panes -->
+                <div class="tab-content p-3 text-muted">
+                    <div class="tab-pane active" id="item-list" role="tabpanel">
+                         <item-list ></item-list>
                     </div>
-                    <div class="tab-pane p-3">
+                    <div class="tab-pane" id="item-group" role="tabpanel">
                         <item-group></item-group> 
                     </div>
-                    <div class="tab-pane p-3">
-                        <asset-group></asset-group> 
+                    <div class="tab-pane" id="asset-group" role="tabpanel">
+                        <asset-group></asset-group>
                     </div>
-                    <div class="tab-pane p-3">
-                        <category-1></category-1> 
+                    <div class="tab-pane" id="categories" role="tabpanel">
+
+                        <div id="accordion">
+                        <div class="card mb-1 shadow-none">
+                            <div class="card-header" id="headingOne">
+                                <h6 class="m-0">
+                                    <a href="#collapseOne" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">
+                                        Category 1
+                                    </a>
+                                </h6>
+                            </div>
+
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion" style="">
+                                <div class="card-body">
+                                    <category-1></category-1> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-1 shadow-none">
+                            <div class="card-header" id="headingTwo">
+                                <h6 class="m-0">
+                                    <a href="#collapseTwo" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                                        Category2
+                                    </a>
+                                </h6>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                <div class="card-body">
+                                    <category-2></category-2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-0 shadow-none">
+                            <div class="card-header" id="headingThree">
+                                <h6 class="m-0">
+                                    <a href="#collapseThree" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseThree">
+                                        Category 3
+                                    </a>
+                                </h6>
+                            </div>
+                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                                <div class="card-body">
+                                   <category-3></category-3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-0 shadow-none">
+                            <div class="card-header" id="headingFour">
+                                <h6 class="m-0">
+                                    <a href="#collapseFour" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseThree">
+                                        Category 4
+                                    </a>
+                                </h6>
+                            </div>
+                            <div id="collapseFour" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                                <div class="card-body">
+                                   <category-4></category-4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-0 shadow-none">
+                            <div class="card-header" id="headingFive">
+                                <h6 class="m-0">
+                                    <a href="#collapseFive" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseThree">
+                                        Category 5
+                                    </a>
+                                </h6>
+                            </div>
+                            <div id="collapseFive" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                                <div class="card-body">
+                                   <category-5></category-5>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="tab-pane p-3">
-                        <category-2></category-2> 
-                    </div>
-                    <div class="tab-pane p-3">
-                        <category-3></category-3>
-                    </div>
-                    <div class="tab-pane p-3">
-                        <category-4></category-4>
-                    </div>
-                    <div class="tab-pane p-3">
-                        <category-5></category-5>
+                         
                     </div>
                 </div>
             </div>

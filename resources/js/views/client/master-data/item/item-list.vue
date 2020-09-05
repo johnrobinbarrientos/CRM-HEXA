@@ -2,7 +2,7 @@
     <div>
         
         <div v-show="!show_form">
-            <div style="margin-bottom:10px;">
+            <div style="margin-top:10px; margin-bottom:10px;">
                 <div class="row">
                     <div class="col-12 col-md-3">
                         <input type="text" class="form-control" placeholder="Search Item">
@@ -41,36 +41,26 @@
                                     <a href="javascript:void(0)"  @click="setData(item); toggleForm() " class="btn btn-light btn-sm waves-effect"><i class="mdi mdi-pencil"></i></a>
                                     <a href="javascript:void(0)"  @click="remove(item)" class="btn btn-sm btn-danger waves-effect"><i class="mdi mdi-trash-can"></i></a>
                                 </td>
-                                <td class=" pivoted">
-                                    <div class="tdBefore">#</div>
-                                {{ (index + 1) }}
-                                </td>
-                                <td class=" pivoted">
-                                    <div class="tdBefore">Item Description</div>
+                                <td>{{ (index + 1) }}</td>
+                                <td>
                                     {{ item.item_description }}
                                 </td>
-                                <td class=" pivoted">
-                                    <div class="tdBefore">Item Code</div>
+                                <td>
                                     {{ item.item_code }}
                                 </td>
-                                <td class=" pivoted">
-                                    <div class="tdBefore">Item Barcode</div>
+                                <td>
                                     {{ item.item_barcode }}
                                 </td>
-                                <td class=" pivoted">
-                                    <div class="tdBefore">Case/Box Barcode</div>
+                                <td>
                                     {{ item.cs_barcode }}
                                 </td>
-                                <td class=" pivoted">
-                                    <div class="tdBefore">Item Group</div>
+                                <td>
                                     {{ item.item_group.item_group }}
                                 </td>
-                                <td class=" pivoted">
-                                    <div class="tdBefore">Re-order Qtyy / ICO</div>
+                                <td>
                                     {{ item.reorder_qty }}
                                 </td>
-                                <td class=" pivoted">
-                                    <div class="tdBefore">Supplier</div>
+                                <td>
                                     <span v-if="item.suppliers.length > 0">
                                         <span v-for="item_supplier in item.suppliers" :key="item_supplier.uuid">
                                             <span  class="badge badge-dim badge-outline-secondary">{{ item_supplier.supplier.business_shortname }}</span> &nbsp;
@@ -80,17 +70,14 @@
                                         NOT SPECIFIED
                                     </span>
                                 </td>
-                                <td class=" pivoted">
-                                    <div class="tdBefore">Is Expiry?</div>
+                                <td>
                                     <span v-if="item.is_expiry === 1">Yes</span>
                                     <span v-else>No</span>
                                 </td>
-                                <td class=" pivoted">
-                                    <div class="tdBefore">Purchase Cost</div>
+                                <td>
                                     {{ item.purchase_price }}
                                 </td>
-                                <td class=" pivoted">
-                                    <div class="tdBefore">Sales Cost</div>
+                                <td>
                                     {{ item.sales_price }}
                                 </td>
                                 
@@ -257,8 +244,7 @@
                                             <div class="col-md-4 col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="vat">VAT</label>
-                                                    <select class="form-select-vat" v-model="selected_vat" :options="options_vat" name="vat">
-                                                    </select>
+                                                    <select class="form-select-vat" v-model="selected_vat" :options="options_vat" name="vat"></select>
                                                 </div>
                                             </div>
                                         </div>
@@ -307,27 +293,49 @@
 
                         <div class="tab-pane" id="unit-of-measure">
                             <div class="row">
-                                <div class="col-md-3 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="base-uom">Base UOM</label>
-                                        <select class="form-select-base-uom" v-model="selected_base_uom" :options="options_base_uom" name="base-uom">
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="packing-uom">Packing UOM</label>
-                                        <select class="form-select-packing-uom" v-model="selected_packing_uom" :options="options_packing_uom" name="packing-uom">
-                                        </select>
-                                    </div>
-                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div style="padding:20px 0px;">
+                                        <table class="table mb-0 table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>UOM</th>
+                                                    <th width="100">Packing</th>
+                                                    <th width="50">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(item_uom, index) in item_uoms" :key="item_uom.uuid" v-bind:class="{'table-success' : index == 0}">
+                                                    <td class="editable">
+                                                        <span>{{ getGlobalUOMName(item_uom.uuid) }}</span>
+                                                        <select v-if="index === 0" v-model="item_uom.uuid" class="editable-control">
+                                                            <option v-for="uom in globalBaseUOM" :key="'base-' + uom.uuid" :value="uom.uuid">{{ uom.uom}}</option>
+                                                        </select>
+                                                        <select v-else v-model="item_uom.uuid" class="editable-control">
+                                                            <option value="PACK">Select a UOM</option>
+                                                            <option v-for="uom in globalNonBaseUOM" v-if="!itemUomExists(uom.uuid) || uom.uuid == item_uom.uuid" :key="'pack-' + uom.uuid" :value="uom.uuid">{{ uom.uom}}</option>
+                                                        </select>
+                                                    </td>
 
-                                <div class="col-md-3 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="packing-qtty">Packing Qtty</label>
-                                        <div class="form-control-wrap">
-                                            <input v-model="formdata.packing_qtty" type="text" class="form-control" id="packing-qtty" required>
-                                        </div>
+                                                    <td  v-if="index !== 0" class="editable text-right">
+                                                        <input v-model="item_uom.packing" type="text" class="editable-control">
+                                                        <span>{{ item_uom.packing }}</span>
+                                                    </td>
+                                                    <td v-else class="text-right">
+                                                        <span>{{ item_uom.packing }}</span>
+                                                    </td>
+
+                                                    <td v-if="index !== 0">
+                                                        <a @click="removeItemUom(index)" href="javascript:void(0)" class="btn btn-sm btn-danger waves-effect"><i class="mdi mdi-trash-can"></i></a>
+                                                    </td>
+                                                    <td v-else>
+                                                        <span>N/A</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td @click="addItemUom()" style="text-align:center; cursor:pointer; font-weight:600;" colspan="3">NEW UOM</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -510,6 +518,9 @@ export default {
 
             itemList: [],
 
+            global_uoms: [],
+            item_uoms: [],
+
             formdata: { 
                 uuid: null, 
                 item_group_uuid: '', 
@@ -552,7 +563,6 @@ export default {
 
         }
     },
-
     computed: {
       isDisabledManual() {
         var scope = this
@@ -572,6 +582,16 @@ export default {
         else{
             return true
         }  
+      },
+      globalBaseUOM() {
+        return this.global_uoms.filter((uom) => {
+            return uom.type.toLowerCase().indexOf("base") > -1;
+        })
+      },
+      globalNonBaseUOM() {
+        return this.global_uoms.filter((uom) => {
+            return uom.type.toLowerCase().indexOf("pack") > -1;
+        })
       }
     },
 
@@ -821,6 +841,50 @@ export default {
             })
         },
 
+        itemUomExists: function(uuid) {
+            var scope = this
+            var data = this.item_uoms.filter((uom) => {
+                return uom.uuid.indexOf(uuid) > -1;
+            })
+            
+            if (data.length < 1) {
+                return false
+            }
+
+            return true
+        },
+        addItemUom: function(uuid) {
+            var scope = this
+            scope.item_uoms.push({uuid: 'PACK', uom: '', packing: 1});
+        },
+        removeItemUom: function(index) {
+            var scope = this
+            scope.item_uoms.splice(index,1)
+        },
+
+        getGlobalUoms: function () {
+           var scope = this
+            scope.GET('globals/uom').then(res => {
+                scope.global_uoms = res.rows 
+            })
+        },
+
+        getItemUoms: function () {
+           var scope = this
+             scope.item_uoms = [];
+            if (!scope.formdata.uuid) {
+                scope.item_uoms.push({uuid: 'BASE', uom: '', packing: 1});
+                return
+            }
+            
+            scope.GET('items/'+ scope.formdata.uuid +'/uoms').then(res => {
+                // we use global UOM UUID as uuid instead
+                res.rows.forEach(function (data) {
+                    scope.item_uoms.push({uuid: data.global_uom_uuid, uom: data.global_uom_uuid, packing: data.packing_qtty})
+                })
+            })
+        },
+
         getBaseUom: function () {
            var scope = this
             scope.GET('globals/base-uom').then(res => {
@@ -858,6 +922,18 @@ export default {
                 
             })
 
+        },
+
+        getGlobalUOMName: function (uuid) {
+            var data = this.global_uoms.filter((uom) => {
+                return uom.uuid.indexOf(uuid) > -1;
+            })
+            
+            if (data.length < 1) {
+                return ''
+            }
+
+            return data[0].uom
         },
 
         resetData: function () {
@@ -928,6 +1004,7 @@ export default {
             scope.formdata.is_maintain_stock = data.is_maintain_stock
             scope.formdata.is_active = data.is_active
 
+            scope.getItemUoms()
 
             var suppliers = [];
 
@@ -941,6 +1018,7 @@ export default {
             for(var i = 0; i < data.suppliers.length; i++) {
                 suppliers.push(data.suppliers[i].supplier_uuid)
             }
+            
 
             $('.form-select-item-group').val(data.item_group_uuid);
             $('.form-select-item-group').trigger('change');
@@ -980,8 +1058,6 @@ export default {
 
             $('.form-select-packing-uom').val(data.packing_uom_uuid);
             $('.form-select-packing-uom').trigger('change');
-
-
         },
         save: function () {
             var scope = this
@@ -1000,6 +1076,8 @@ export default {
 
             scope.formdata.base_uom_uuid = scope.selected_base_uom
             scope.formdata.packing_uom_uuid = scope.selected_packing_uom
+
+            scope.formdata.item_uoms = scope.item_uoms
 
 
             scope.POST('items/item-list', scope.formdata).then(res => {
@@ -1040,7 +1118,9 @@ export default {
             scope.formdata.base_uom_uuid = scope.selected_base_uom
             scope.formdata.packing_uom_uuid = scope.selected_packing_uom
 
-             window.swal.fire({
+            scope.formdata.item_uoms = scope.item_uoms
+
+            window.swal.fire({
                 title: 'Update Record?',
                 icon: 'warning',
                 showCancelButton: true,
@@ -1125,8 +1205,10 @@ export default {
         scope.getCategory5()
         scope.getAssetGroup()
 
-        scope.getBaseUom()
-        scope.getPackingUom()
+        scope.getGlobalUoms()
+        
+        //scope.getBaseUom()
+        //scope.getPackingUom()
 
         scope.getCustomerGroup()
 
@@ -1196,7 +1278,6 @@ export default {
             }
 
         })
-
     },
 }
 </script>

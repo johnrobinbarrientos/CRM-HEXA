@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ItemList;
 use App\Models\ItemSupplier;
 use App\Models\ItemUom; 
+use App\Models\GlobalUom; 
 use App\Models\SupplierList; 
 use Illuminate\Support\Facades\Auth; 
 
@@ -82,7 +83,37 @@ class ItemListController extends Controller
             $item_supplier->save();
         }
 
+        $uoms = request()->item_uoms;
+        // mark all current item uom as deleted
+        $item_uom = ItemUom::where('item_uuid','=',$item->uuid)->delete();
 
+        foreach ($uoms as $uom) {
+
+            $packing = $uom['packing'];
+            $global_uom_uuid = $uom['uuid'];
+
+            if (!is_numeric($packing) || $packing < 1) {
+                continue;
+            }
+            
+            // check if valid UOM (meaning the uuid exist on global)
+            $exist = GlobalUom::find($global_uom_uuid);
+
+            if (!$exist ) {
+                continue;
+            }
+            
+            $item_uom = ItemUom::where('item_uuid','=',$item->uuid)->where('global_uom_uuid','=',$global_uom_uuid)->withTrashed()->first();
+            $item_uom = ($item_uom) ? $item_uom :  new ItemUom;
+
+            $item_uom->item_uuid = $item->uuid;
+            $item_uom->global_uom_uuid = $global_uom_uuid;
+            $item_uom->packing_qtty = $packing;
+
+            $item_uom->deleted_at = null;
+            $item_uom->save();
+            
+        }
         $item = ItemList::find($item->uuid);
         return response()->json(['success' => 1, 'data' => $item, 'message' => 'Item Added!'], 200); 
     }
@@ -90,7 +121,13 @@ class ItemListController extends Controller
     public function delete($itemUUID)
     {
         $item = ItemList::find($itemUUID)->delete();
-
         return response()->json(['success' => 1, 'message' => 'Item Deleted!'], 200);
+    }
+
+    public function uoms($itemUUID)
+    {
+        $uoms = ItemUom::with('Item')->with('GlobalUom')->where('item_uuid','=',$itemUUID)->orderBy('packing_qtty')->get();
+
+        return response()->json(['success' => 1, 'rows' => $uoms], 200);
     }
 }

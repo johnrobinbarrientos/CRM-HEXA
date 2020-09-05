@@ -36,6 +36,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/item-list', 'API\ItemListController@getItemList');
         Route::post('/item-list', 'API\ItemListController@save');
         Route::delete('/item-list/{itemUUID}', 'API\ItemListController@delete');
+        Route::get('/{itemUUID}/uoms', 'API\ItemListController@uoms');
 
         Route::get('/item-group', 'API\ItemGroupController@getItemGroup');
         Route::post('/item-group', 'API\ItemGroupController@save');
@@ -64,6 +65,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/category5', 'API\ItemCategory5Controller@getCategories');
         Route::post('/category5', 'API\ItemCategory5Controller@save');
         Route::post('/category5/delete', 'API\ItemCategory5Controller@delete');
+
+        
 
     });
 

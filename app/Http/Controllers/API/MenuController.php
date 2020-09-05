@@ -142,7 +142,7 @@ class MenuController extends Controller
         $menus[] = [
             'text' => 'Sell and Collect',
             'route' => '#has-submenu',
-            'icon' => 'bx bx-coin-stack',
+            'icon' => 'bx bx-purchase-tag',
             'submenus' => [
                 [ 'text' => 'Ordering', 'route' => 'item-main'],
                 [ 'text' => 'Fulfillment', 'route' => 'supplier-main'],

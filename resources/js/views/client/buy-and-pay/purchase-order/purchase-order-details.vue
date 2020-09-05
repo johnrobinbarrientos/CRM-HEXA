@@ -267,9 +267,4 @@ export default {
 
 </script>
 
-<style scoped>
-    .editable.focused {  }
-    .editable.focused span {display:none; }
-    .editable > .editable-control { width:0px; height:0px; opacity:0; }
-    .editable > .editable-control:focus { width:100%; height:25px; opacity:1; }
-</style>
+
