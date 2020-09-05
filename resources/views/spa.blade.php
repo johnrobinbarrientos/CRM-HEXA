@@ -20,7 +20,7 @@
         
    
         <link href="/app/css/fonts.css" rel="stylesheet" />
-        <link href="/app/css/customs.css" rel="stylesheet" />
+        <link href="/app/css/customs.css?v={{ time() }}" rel="stylesheet" />
         <link href="/app/css/color-palette.css" rel="stylesheet" />
 
    
@@ -57,7 +57,7 @@
        
 		
         <script src="{{ mix('js/app.js') }}?v={{ time() }}"></script>
-        <script src="/app/js/customs.js"></script>
+        <script src="/app/js/customs.js?v={{ time() }}"></script>
 
     </body>
 </html>
