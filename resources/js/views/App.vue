@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="authenticated" id="layout-wrapper">
+        <div v-bind:class="{'collapsed-sidebar': $store.getters.collapsedSideNav}" v-if="authenticated" id="layout-wrapper">
             <Header></Header>
             <SideBar></SideBar>
             <div class="main-content">

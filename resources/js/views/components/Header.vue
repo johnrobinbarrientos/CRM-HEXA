@@ -2,17 +2,18 @@
     <header id="page-topbar">
         <div class="navbar-header">
             <div class="d-flex">
-                <div style="line-height:70px;" class="navbar-brand-box">
+                <div class="navbar-brand-box">
                     <a href="javascript:void(0);" style="font-size:20px; font-weight:600; color:#fff;">
                         <!-- <img :src="logo" style="height:50px;"> -->
                         PINOY GROCERY
                     </a>
+                    <button @click="$store.commit('toggleSideNav')" type="button" class="btn btn-sm p-0  font-size-16 header-item waves-effect" id="vertical-menu-btn"><i class="mdi mdi-menu"></i></button>
                 </div>
-                <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect" id="vertical-menu-btn"><i class="mdi mdi-menu"></i></button>
-                <form class="app-search d-none d-lg-block">
-                    <div class="position-relative"><input type="text" class="form-control" placeholder="Search..."><span class="bx bx-search-alt"></span></div>
-                </form>
-                
+                <div style="padding-left: 1.5rem; padding-right: 1.5rem;">
+                    <form class="app-search d-none d-lg-block">
+                        <div class="position-relative"><input type="text" class="form-control" placeholder="Search..."><span class="bx bx-search-alt"></span></div>
+                    </form>
+                </div>
             </div>
             <div class="d-flex">
                 <div class="dropdown d-inline-block d-lg-none ml-2">

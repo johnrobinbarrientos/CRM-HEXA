@@ -2,13 +2,13 @@
     <div>
         
         <div v-show="!show_form">
-            <div style="margin-bottom:10px;">
+            <div class="actions-bar">
                 <div class="row">
                     <div class="col-12 col-md-3">
                         <input type="text" class="form-control" placeholder="Search Item">
                     </div>
-                    <div class="col-12 col-md-1 offset-md-8">
-                        <a href="javascript:void(0)" @click="toggleForm();resetData()" class="btn btn-block btn-primary" data-toggle="modal">
+                    <div class="col-12 col-md-2 offset-md-7">
+                        <a href="javascript:void(0)" @click="toggleForm();resetData()" class="btn btn-block btn-primary" style="display: inline-block; padding-left: 15px; padding-right: 15px; width: auto; float: right;" data-toggle="modal">
                             <em class="icon ni ni-plus"></em> <span>New Item</span>
                         </a>
                     </div>
