@@ -8,6 +8,7 @@ use App\Models\SupplierList;
 use App\Models\SupplierDiscountRegular; 
 use App\Models\ItemList; 
 use App\Models\ItemSupplier; 
+use App\Models\ItemUom; 
 use App\Models\GlobalUom; 
 use Illuminate\Support\Facades\Auth; 
 
@@ -88,31 +89,14 @@ class SupplierListController extends Controller
         $items = $items->get();
 
         if (isset($_GET['with_uoms']) && $_GET['with_uoms'] == 'yes' ) {
+
             foreach ($items as $item) {
-                $base = GlobalUom::find($item->base_uom_uuid);
-                $packing = GlobalUom::find($item->packing_uom_uuid);
-                $uoms = [];
-
-                if ($base) {
-                    $item->uom = $base->uuid;
-                    $uoms[$base->uuid] = [
-                        'uuid' => $base->uuid,
-                        'uom' => $base->uom,
-                        'quantity' => 1,
-                        'price' => $item->purchase_price
-                    ];
-                }
-
-                if ($packing) {
-                    $uoms[$packing->uuid] = [
-                        'uuid' => $packing->uuid,
-                        'uom' => $packing->uom,
-                        'quantity' => $item->packing_qtty,
-                        'price' => ($item->packing_qtty * $item->purchase_price)
-                    ];
-                }
-               
-
+                $uoms = ItemUom::leftJoin('global_uom','global_uom_uuid','=','global_uom.uuid')
+                ->where('item_uuid','=',$item->uuid)
+                ->orderBy('packing_qtty')
+                ->select('global_uom.uuid as uuid','global_uom.uom as uom','packing_qtty')
+                ->get();
+   
                 $item->uoms = $uoms;
             }
         }

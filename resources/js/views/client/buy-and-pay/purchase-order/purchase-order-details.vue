@@ -30,8 +30,9 @@
                             <th width="120">#</th>
                             <th>Item Code</th>
                             <th>Item Description</th>
-                            <th width="120">Quantity</th>
                             <th>UOM</th>
+                            <th width="120">Quantity</th>
+                            
                             <th>Price</th>
                             <th>Amount</th>
                             <th>Discount</th>
@@ -47,44 +48,29 @@
                             <td>{{ (index + 1) }}</td>
                             <td>{{ item.item_code }}</td>
                             <td>{{ item.item_description }}</td>
-                            <td class="editable text-right">
-                                <span>{{ item.quantity }}</span>
-                                <input v-model="item.quantity" type="text" class="editable-control">
-                            </td>
                             <td class="editable">
-                                <span>{{ item.uoms[item.uom].uom }}</span>
+                                <span>{{ getItemUOMName(item.uoms, item.uom) }}</span>
                                 <select v-model="item.uom" type="text" class="editable-control">
                                     <option v-for="uom in item.uoms" :key="uom.uuid" :value="uom.uuid">{{ uom.uom }}</option>
                                 </select>
                             </td>
-                            <td class="text-right">
-                                {{ item.uoms[item.uom].price }}
+                            <td class="editable text-right">
+                                <span>{{ item.quantity }}</span>
+                                <input v-model="item.quantity" type="text" class="editable-control">
                             </td>
-                            <td class="text-right">{{ (item.quantity * item.uoms[item.uom].price) || '0.00' }}</td>
+                            
+                            <td class="text-right">
+                                {{   (item.purchase_price * getItemUOMPacking(item.uoms, item.uom)) }}
+                            </td>
+                            <td class="text-right">{{ (item.purchase_price * (item.quantity * getItemUOMPacking(item.uoms, item.uom))) || '0.00' }}</td>
                             
                             <td>N/A</td>
                             <td>N/A</td>
                             <td>12%</td>
                             <td>0</td>
                             <td>N/A</td>
-                            <td>PN/A</td>
+                            <td>N/A</td>
                         </tr> 
-                        <!--
-                        <tr v-for="(company, index) in companies" :key="index">
-                            <td class="editable">
-                                <span>{{ company.company_name  }}</span>
-                                <input v-model="company.company_name" type="text" class="editable-control">
-                            </td>
-                            <td class="editable">
-                                <span>{{ company.shortname  }}</span>
-                                <input  v-model="company.shortname" type="text" class="editable-control">
-                            </td>
-                            <td class="editable">
-                                <span>{{ company.website  }}</span>
-                                <input  v-model="company.website" type="text" class="editable-control">
-                            </td>
-                        </tr>
-                        -->
                     </tbody>
                 </table>
             </div>
@@ -246,7 +232,29 @@ export default {
                 return item.uuid.indexOf(pointed.uuid) > -1
             }).length
             return (count > 0) ? true : false
-        }
+        },
+        getItemUOMName: function (uoms, uuid) {
+            var data = uoms.filter((uom) => {
+                return uom.uuid.indexOf(uuid) > -1;
+            })
+            
+            if (data.length < 1) {
+                return ''
+            }
+
+            return data[0].uom
+        },
+        getItemUOMPacking: function (uoms, uuid) {
+            var data = uoms.filter((uom) => {
+                return uom.uuid.indexOf(uuid) > -1;
+            })
+            
+            if (data.length < 1) {
+                return ''
+            }
+
+            return data[0].packing_qtty
+        },
     },
     mounted() {
         var scope = this
