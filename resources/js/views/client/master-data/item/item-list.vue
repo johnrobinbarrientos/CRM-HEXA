@@ -101,6 +101,15 @@
                             </select>
                         </div>
                     </div>
+
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <label class="form-label" for="discount-group">Item Discount Group</label>
+                            <select class="form-select-discount-group" v-model="selected_discount_group" :options="options_discount_group" name="discount-group">
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="col-md-3 col-12">
                         <div class="form-group">
                             <label class="form-label" for="item-code">Item Code</label>
@@ -387,10 +396,7 @@
 
                                                     <div class="col-md-3 col-12">
                                                         <div class="form-group">
-                                                            <label class="form-label" for="transfer-price">Transfer Price</label>
-                                                            <div class="form-control-wrap">
-                                                                <input v-model="formdata.transfer_price" type="text" class="form-control" id="transfer-price" required>
-                                                            </div>
+                                                            <label class="form-label" for="transfer-price">Transfer Price:</label>
                                                         </div>
                                                     </div>
 
@@ -499,14 +505,11 @@ export default {
             selected_asset_group: null,
             options_asset_group: [],
 
+            selected_discount_group: null,
+            options_discount_group: [],
+
             selected_customer_group: null,
             options_customer_group: [],
-
-            selected_base_uom: null,
-            options_base_uom: [],
-
-            selected_packing_uom: null,
-            options_packing_uom: [],    
 
             input_markup_rate: '',
             customer_markup_rate: '',
@@ -530,17 +533,11 @@ export default {
                 item_description: '',
                 item_shortname: '',
 
-                base_uom_uuid: '',
-                packing_uom_uuid: '',
-                packing_qtty: '',
-
                 supplier_uuid: '',
                 is_purchase_item: 0,
                 purchase_price: '',
                 is_sales_item: 0,
                 sales_price: '',
-
-                transfer_price: '',
 
                 manual_rate: '',
                 customer_group_uuid: '',
@@ -554,6 +551,7 @@ export default {
                 coa_cos_account_uuid: '',
                 reorder_qty: '',
                 item_asset_group_uuid: '',
+                item_discount_group_uuid: '',
                 category1_uuid: '',
                 category2_uuid: '',
                 category3_uuid: '',
@@ -820,6 +818,28 @@ export default {
 
         },
 
+        getDiscountGroup: function () {
+           var scope = this
+           
+           scope.options_discount_group.push({
+               id: '',
+               text: 'NONE'
+           });
+
+            scope.GET('items/item-discount-group').then(res => {
+                
+                res.rows.forEach(function (data) {
+                    scope.options_discount_group.push({
+                        id: data.uuid,
+                        text: data.group_name
+                    })
+                })
+
+                $(".form-select-discount-group").select2({data: scope.options_discount_group});
+            })
+
+        },
+
 
         getCustomerGroup: function () {
            var scope = this
@@ -885,44 +905,6 @@ export default {
             })
         },
 
-        getBaseUom: function () {
-           var scope = this
-            scope.GET('globals/base-uom').then(res => {
-                
-                res.rows.forEach(function (data) {
-
-                    scope.options_base_uom.push({
-                        id: data.uuid,
-                        text: data.uom
-                    })
-                
-                })
-
-                $(".form-select-base-uom").select2({data: scope.options_base_uom});
-                scope.selected_base_uom = scope.options_base_uom[0].id
-                
-            })
-
-        },
-
-        getPackingUom: function () {
-           var scope = this
-            scope.GET('globals/packing-uom').then(res => {
-                
-                res.rows.forEach(function (data) {
-
-                    scope.options_packing_uom.push({
-                        id: data.uuid,
-                        text: data.uom
-                    })
-                })
-
-                $(".form-select-packing-uom").select2({data: scope.options_packing_uom});
-                scope.selected_packing_uom = scope.options_packing_uom[0].id
-                
-            })
-
-        },
 
         getGlobalUOMName: function (uuid) {
             var data = this.global_uoms.filter((uom) => {
@@ -946,16 +928,11 @@ export default {
             scope.formdata.item_description = ''
             scope.formdata.item_shortname = ''
 
-            scope.formdata.base_uom_uuid = ''
-            scope.formdata.packing_uom_uuid =  ''
-            scope.formdata.packing_qtty = ''
-
             scope.formdata.supplier_uuid = ''
             scope.formdata.is_purchase_item = 0
             scope.formdata.purchase_price = ''
             scope.formdata.is_sales_item = 0
             scope.formdata.sales_price = ''
-            scope.formdata.transfer_price = ''
 
             scope.formdata.manual_rate = ''
             scope.formdata.customer_group_uuid = ''
@@ -969,6 +946,7 @@ export default {
             scope.formdata.coa_cos_account_uuid = ''
             scope.formdata.reorder_qty = ''
             scope.formdata.item_asset_group_uuid = ''
+            scope.formdata.item_discount_group_uuid = ''
             scope.formdata.category1_uuid = ''
             scope.formdata.category2_uuid = ''
             scope.formdata.category3_uuid = ''
@@ -997,7 +975,6 @@ export default {
             scope.formdata.is_sales_item = data.is_sales_item
 
             scope.formdata.sales_price = data.sales_price
-            scope.formdata.transfer_price = data.transfer_price
             scope.formdata.is_expiry = data.is_expiry
             scope.formdata.reorder_qty = data.reorder_qty
 
@@ -1053,11 +1030,9 @@ export default {
             $('.form-select-asset-group').val(data.item_asset_group_uuid);
             $('.form-select-asset-group').trigger('change');
 
-            $('.form-select-base-uom').val(data.base_uom_uuid);
-            $('.form-select-base-uom').trigger('change');
+            $('.form-select-discount-group').val(data.item_discount_group_uuid);
+            $('.form-select-discount-group').trigger('change');
 
-            $('.form-select-packing-uom').val(data.packing_uom_uuid);
-            $('.form-select-packing-uom').trigger('change');
         },
         save: function () {
             var scope = this
@@ -1067,15 +1042,13 @@ export default {
             scope.formdata.coa_income_account_uuid = scope.selected_income_account
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
             scope.formdata.item_asset_group_uuid = scope.selected_asset_group
+            scope.formdata.item_discount_group_uuid = scope.selected_discount_group
 
             scope.formdata.category1_uuid = scope.selected_category1
             scope.formdata.category2_uuid = scope.selected_category2
             scope.formdata.category3_uuid = scope.selected_category3
             scope.formdata.category4_uuid = scope.selected_category4
             scope.formdata.category5_uuid = scope.selected_category5
-
-            scope.formdata.base_uom_uuid = scope.selected_base_uom
-            scope.formdata.packing_uom_uuid = scope.selected_packing_uom
 
             scope.formdata.item_uoms = scope.item_uoms
 
@@ -1108,15 +1081,13 @@ export default {
             scope.formdata.coa_income_account_uuid = scope.selected_income_account
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
             scope.formdata.item_asset_group_uuid = scope.selected_asset_group
+             scope.formdata.item_discount_group_uuid = scope.selected_discount_group
 
             scope.formdata.category1_uuid = scope.selected_category1
             scope.formdata.category2_uuid = scope.selected_category2
             scope.formdata.category3_uuid = scope.selected_category3
             scope.formdata.category4_uuid = scope.selected_category4
             scope.formdata.category5_uuid = scope.selected_category5
-
-            scope.formdata.base_uom_uuid = scope.selected_base_uom
-            scope.formdata.packing_uom_uuid = scope.selected_packing_uom
 
             scope.formdata.item_uoms = scope.item_uoms
 
@@ -1204,21 +1175,16 @@ export default {
         scope.getCategory4()
         scope.getCategory5()
         scope.getAssetGroup()
+        scope.getDiscountGroup()
 
         scope.getGlobalUoms()
         
-        //scope.getBaseUom()
-        //scope.getPackingUom()
-
         scope.getCustomerGroup()
 
 
-        $('.form-select-base-uom').on("change", function(e) { 
-            scope.selected_base_uom = $('.form-select-base-uom').val();
-        })
 
-        $('.form-select-packing-uom').on("change", function(e) { 
-            scope.selected_packing_uom = $('.form-select-packing-uom').val();
+        $('.form-select-discount-group').on("change", function(e) { 
+            scope.selected_discount_group = $('.form-select-discount-group').val();
         })
 
         $('.form-select-item-group').on("change", function(e) { 

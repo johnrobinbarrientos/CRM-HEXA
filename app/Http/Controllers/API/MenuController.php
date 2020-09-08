@@ -116,10 +116,10 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bx-data',
             'submenus' => [
-                [ 'text' => 'Item', 'route' => 'item-main'],
+                [ 'text' => 'Employee', 'route' => 'employee-main'],
                 [ 'text' => 'Supplier', 'route' => 'supplier-main'],
                 [ 'text' => 'Customer', 'route' => 'customer-main'],
-                [ 'text' => 'Employee', 'route' => 'employee-main'],
+                [ 'text' => 'Item', 'route' => 'item-main'],
                 [ 'text' => 'Project', 'route' => 'project-main'], 
             ]
         ];

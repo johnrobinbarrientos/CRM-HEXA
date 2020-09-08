@@ -45,6 +45,10 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/item-asset-group', 'API\ItemAssetGroupController@getItemAssetGroup');
         Route::post('/item-asset-group', 'API\ItemAssetGroupController@save');
         Route::post('/item-asset-group/delete', 'API\ItemAssetGroupController@delete');
+
+        Route::get('/item-discount-group', 'API\ItemDiscountGroupController@getItemDiscountGroup');
+        Route::post('/item-discount-group', 'API\ItemDiscountGroupController@save');
+        Route::post('/item-discount-group/delete', 'API\ItemDiscountGroupController@delete');
         
         Route::get('/category1', 'API\ItemCategory1Controller@getCategories');
         Route::post('/category1', 'API\ItemCategory1Controller@save');
@@ -80,8 +84,14 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/supplier-group', 'API\SupplierGroupController@save');
         Route::post('/supplier-group/delete', 'API\SupplierGroupController@delete');
 
-        Route::post('/supplier-discount-regular', 'API\SupplierDiscountRegularController@save');
-        Route::post('/supplier-discount-regular/delete', 'API\SupplierDiscountRegularController@delete');
+        Route::get('/supplier-regular-discount', 'API\SupplierRegularDiscountController@getSupplierRegularDiscount');
+        Route::post('/supplier-regular-discount', 'API\SupplierRegularDiscountController@save');
+        Route::post('/supplier-regular-discount/delete', 'API\SupplierRegularDiscountController@delete');
+
+        Route::get('/supplier-price-rule', 'API\SupplierPriceRuleController@getSupplierPriceRule');
+        Route::post('/supplier-price-rule', 'API\SupplierPriceRuleController@save');
+        Route::post('/supplier-price-rule/delete', 'API\SupplierPriceRuleController@delete');
+
 
         Route::get('/supplier-list/{supplier_uuid}/items','API\SupplierListController@getSupplierItems');
 
