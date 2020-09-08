@@ -59,7 +59,7 @@
                                     <div class="form-group">
                                         <label class="form-label" for="discount-name">Discount Name</label>
                                         <div class="form-control-wrap">
-                                            <input v-model="formdata.discount_name" type="text" class="form-control" id="discount-name" required>
+                                            <input v-model="formdata.discount_name" type="text" class="form-control" id="discount-name-regular" required>
                                         </div>
                                     </div>
                                 </div>
@@ -67,12 +67,12 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <div class="custom-control custom-radio">    
-                                            <input v-model="formdata.discount_type" value ="rate" type="radio" id="option-rate" class="custom-control-input">    
-                                            <label class="custom-control-label" for="option-rate">Rate</label>
+                                            <input v-model="formdata.discount_type" value ="rate" type="radio" id="option-rate-regular" class="custom-control-input">    
+                                            <label class="custom-control-label" for="option-rate-regular">Rate</label>
                                         </div> 
 
                                         <div class="form-control-wrap">
-                                            <input v-model="formdata.discount_rate" :disabled="isDisabledRate" type="text" class="form-control" id="discount-rate" required>
+                                            <input v-model="formdata.discount_rate" :disabled="isDisabledRate" type="text" class="form-control" id="discount-rate-regular" required>
                                         </div>
                                     </div>
                                 </div>
@@ -80,12 +80,12 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <div class="custom-control custom-radio">    
-                                            <input v-model="formdata.discount_type" value ="fixed" type="radio" id="option-fixed" class="custom-control-input">    
-                                            <label class="custom-control-label" for="option-fixed">Fixed</label>
+                                            <input v-model="formdata.discount_type" value ="fixed" type="radio" id="option-fixed-regular" class="custom-control-input">    
+                                            <label class="custom-control-label" for="option-fixed-regular">Fixed</label>
                                         </div> 
 
                                         <div class="form-control-wrap">
-                                            <input v-model="formdata.discount_fixed" :disabled="isDisabledFixed" type="text" class="form-control" id="discount-fixed" required>
+                                            <input v-model="formdata.discount_fixed" :disabled="isDisabledFixed" type="text" class="form-control" id="discount-fixed-regular" required>
                                         </div>
                                     </div>
                                 </div>
@@ -148,7 +148,8 @@ export default {
         return {
             regularDiscounts: [],
             formdata: { 
-                uuid: null, 
+                uuid: null,
+                supplier_uuid: '', 
                 discount_type: 'rate',
                 discount_name: '',
                 discount_rate: '',
@@ -161,7 +162,7 @@ export default {
     methods: {
         getregularDiscounts: function () {
            var scope = this
-            scope.GET('suppliers/supplier-regular-discount').then(res => {
+            scope.GET('suppliers/supplier-regular-discount/' + scope.formdata.supplier_uuid).then(res => {
                 scope.regularDiscounts = res.rows
             })
         },
@@ -194,7 +195,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getItemDiscountGroup()
+                        scope.getregularDiscounts()
                         scope.CLOSE_MODAL('#modalRegularDiscount')
                     })
                 } else {
@@ -224,7 +225,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                                scope.getItemDiscountGroup()
+                                scope.getregularDiscounts()
                                 scope.CLOSE_MODAL('#modalRegularDiscount')
                             })
                         }
@@ -258,7 +259,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            scope.getItemDiscountGroup()
+                            scope.getregularDiscounts()
                             scope.CLOSE_MODAL('#modalRegularDiscount')
                             })
                         }
@@ -272,8 +273,9 @@ export default {
     },
     mounted() {
         var scope = this
+        scope.formdata.supplier_uuid = scope.properties
         scope.getregularDiscounts()
-        console.log(scope.properties)
+        //console.log(scope.properties)
     },
 }
 </script>

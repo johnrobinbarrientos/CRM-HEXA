@@ -12,7 +12,7 @@ class SupplierRegularDiscountController extends Controller
 {
     public function getSupplierRegularDiscount()
     {
-        $discount = SupplierRegularDiscount::whereNull('deleted_at')->get();
+        $discount = SupplierRegularDiscount::whereNull('deleted_at')->where('supplier_uuid', request()->supplier_uuid)->get();
         return response()->json(['success' => 1, 'rows' => $discount], 200);
     }
 

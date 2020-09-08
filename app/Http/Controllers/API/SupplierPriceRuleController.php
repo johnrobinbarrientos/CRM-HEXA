@@ -12,7 +12,7 @@ class SupplierPriceRuleController extends Controller
 {
     public function getSupplierPriceRule()
     {
-        $discount = SupplierPriceRule::whereNull('deleted_at')->get();
+        $discount = SupplierPriceRule::whereNull('deleted_at')->where('supplier_uuid', request()->supplier_uuid)->get();
         return response()->json(['success' => 1, 'rows' => $discount], 200);
     }
 
@@ -26,8 +26,8 @@ class SupplierPriceRuleController extends Controller
         $discount->discount_name = request()->discount_name;
         $discount->discount_rate = request()->discount_rate;
         $discount->discount_fixed = request()->discount_fixed;
-        $discount->start_date = request()->start_date;
-        $discount->end_date = request()->end_date;
+        $discount->date_start = request()->date_start;
+        $discount->date_end = request()->date_end;
         $discount->save();
 
 

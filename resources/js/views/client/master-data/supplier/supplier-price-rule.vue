@@ -7,7 +7,7 @@
                     <input type="text" class="form-control" placeholder="Search Item">
                 </div>
                 <div class="col-12 col-md-2 offset-md-7">
-                    <a href="javascript:void(0)" @click="OPEN_MODAL('#modalItemDiscountGroup');resetData()" class="btn btn-block btn-primary" data-toggle="modal">
+                    <a href="javascript:void(0)" @click="OPEN_MODAL('#modalPriceRule');resetData()" class="btn btn-block btn-primary" data-toggle="modal">
                         <em class="icon ni ni-plus"></em> <span>New Price Rule</span>
                     </a>
                 </div>
@@ -19,35 +19,35 @@
                     <tr class="tb-tnx-head">
                         <th width="100">Actions</th>
                         <th width="100">#</th>
-                        <th>Group Name</th>
-                        <th>Group Rate</th>
-                        
+                        <th>Discount Name</th>
+                        <th>Discount Rate</th>
+                        <th>Discount Fixed</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(discount_group, index) in discountGroups" :key="discount_group.uuid" class="tb-tnx-item">
+                    <tr v-for="(price_rule, index) in priceRules" :key="price_rule.uuid" class="tb-tnx-item">
                         <td>
                             <span class="">
-                                <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemDiscountGroup');setData(discount_group)" class="btn btn-sm btn-light"><i class="bx bx-pencil"></i></a>
-                                <a href="javascript:void(0)"  @click="remove(discount_group)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
+                                <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalPriceRule');setData(price_rule)" class="btn btn-sm btn-light"><i class="bx bx-pencil"></i></a>
+                                <a href="javascript:void(0)"  @click="remove(price_rule)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
                             </span>
                         </td>
                         <td><span class="">{{ (index + 1) }}</span></td>
-                        <td><span class="">{{ discount_group.group_name }}</span></td>
-                        <td><span class="">{{ discount_group.group_rate }}</span></td>
-                        
+                        <td><span class="">{{ price_rule.discount_name }}</span></td>
+                        <td><span class="">{{ price_rule.discount_rate }}</span></td>
+                        <td><span class="">{{ price_rule.discount_fixed }}</span></td>
                     </tr>
                 </tbody>
             </table>
  
 
         <!-- Modal Discount Group Form -->
-        <div class="modal fade" tabindex="-1" id="modalItemDiscountGroup">
+        <div class="modal fade" tabindex="-1" id="modalPriceRule">
             <div class="modal-dialog modal-md " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Item Discount Group Details</h5>
-                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalItemDiscountGroup');" class="close" data-dismiss="modal" aria-label="Close">
+                        <h5 class="modal-title">Price Rule Details</h5>
+                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalPriceRule');" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
                         </a>
                     </div>
@@ -55,24 +55,59 @@
                         <form action="#" class="form-validate is-alter">
 
                             <div class="row">
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="discount-group-name">Group Name</label>
+                                        <label class="form-label" for="discount-name">Discount Name</label>
                                         <div class="form-control-wrap">
-                                            <input v-model="formdata.group_name" type="text" class="form-control" id="discount-group-name" required>
+                                            <input v-model="formdata.discount_name" type="text" class="form-control" id="discount-name-price-rule" required>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="discount-group-rate">Group Rate</label>
+                                        <div class="custom-control custom-radio">    
+                                            <input v-model="formdata.discount_type" value ="rate" type="radio" id="option-rate-price-rule" class="custom-control-input">    
+                                            <label class="custom-control-label" for="option-rate-price-rule">Rate</label>
+                                        </div> 
+
                                         <div class="form-control-wrap">
-                                            <input v-model="formdata.group_rate" type="text" class="form-control" id="discount-group-rate" required>
+                                            <input v-model="formdata.discount_rate" :disabled="isDisabledRate" type="text" class="form-control" id="discount-rate-price-rule" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-radio">    
+                                            <input v-model="formdata.discount_type" value ="fixed" type="radio" id="option-fixed-price-rule" class="custom-control-input">    
+                                            <label class="custom-control-label" for="option-fixed-price-rule">Fixed</label>
+                                        </div> 
+
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.discount_fixed" :disabled="isDisabledFixed" type="text" class="form-control" id="discount-fixed-price-rule" required>
                                         </div>
                                     </div>
                                 </div>
                                 
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="date-start">Date Start</label>
+                                        <div class="form-control-wrap">
+                                            <date-picker v-model="formdata.date_start" :config="{format: 'YYYY-MM-DD'}"></date-picker>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="date-end">Date End</label>
+                                        <div class="form-control-wrap">
+                                            <date-picker v-model="formdata.date_end" :config="{format: 'YYYY-MM-DD'}"></date-picker>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>                                    
                             
                         </form>
@@ -85,60 +120,95 @@
             </div>
         </div>
 
-
-                
     </div>
 </template>
 
 <script>
 
 import Swal from 'sweetalert2'
+import moment from 'moment'
 
 export default {
     name: 'supplier-price-rule',
     props: ['properties'],
+    computed: {
+      isDisabledRate() {
+        var scope = this
+        if (scope.formdata.discount_type =='rate'){
+            return false
+        }
+        else{
+            scope.formdata.discount_rate = ''
+            return true
+        }  
+      },
+      isDisabledFixed() {
+        var scope = this
+        if (scope.formdata.discount_type =='fixed'){
+            return false
+        }
+        else{
+            scope.formdata.discount_fixed = ''
+            return true
+        }  
+      }
+    },
     data: function () {
         return {
-            discountGroups: [],
+            priceRules: [],
             formdata: { 
-                uuid: null, 
-                group_name: '',
-                group_rate: ''
+                uuid: null,
+                supplier_uuid: '', 
+                discount_type: 'rate',
+                discount_name: '',
+                discount_rate: '',
+                discount_fixed: '',
+                date_start: '',
+                date_end: ''
             }
+
         }
     },
     methods: {
-        getItemDiscountGroup: function () {
+        getPriceRules: function () {
            var scope = this
-            scope.GET('items/item-discount-group').then(res => {
-                scope.discountGroups = res.rows
+            scope.GET('suppliers/supplier-price-rule/' + scope.formdata.supplier_uuid).then(res => {
+                scope.priceRules = res.rows
             })
         },
         resetData: function () {
             var scope = this
             scope.formdata.uuid = null
-            scope.formdata.group_name = ''
-            scope.formdata.group_rate = ''
+            scope.formdata.discount_type = ''
+            scope.formdata.discount_name = ''
+            scope.formdata.discount_rate = ''
+            scope.formdata.discount_fixed = ''
+            scope.formdata.date_start = ''
+            scope.formdata.date_end = ''
         },
         setData: function (data) {
             var scope = this
             scope.formdata.uuid = data.uuid
-            scope.formdata.group_name = data.group_name
-            scope.formdata.group_rate = data.group_rate
+            scope.formdata.discount_type = data.discount_type
+            scope.formdata.discount_name = data.discount_name
+            scope.formdata.discount_rate = data.discount_rate
+            scope.formdata.discount_fixed = data.discount_fixed
+            scope.formdata.date_start = data.date_start
+            scope.formdata.date_end = data.date_end
         },
         save: function () {
             var scope = this
-            scope.POST('items/item-discount-group', scope.formdata).then(res => {
+            scope.POST('suppliers/supplier-price-rule', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Discount Group Successfuly Saved',
+                        title: 'Discount Successfuly Saved',
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getItemDiscountGroup()
-                        scope.CLOSE_MODAL('#modalItemDiscountGroup')
+                        scope.getPriceRules()
+                        scope.CLOSE_MODAL('#modalPriceRule')
                     })
                 } else {
                     alert('ERROR:' + res.code)
@@ -158,17 +228,17 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST('items/item-discount-group', scope.formdata).then(res => {
+                    scope.POST('suppliers/supplier-price-rule', scope.formdata).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Discount Group Updated',
+                                title: 'Discount Updated',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                                scope.getItemDiscountGroup()
-                                scope.CLOSE_MODAL('#modalItemDiscountGroup')
+                                scope.getPriceRules()
+                                scope.CLOSE_MODAL('#modalPriceRule')
                             })
                         }
                         else{
@@ -192,7 +262,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST('items/item-discount-group/delete', data).then(res => {
+                    scope.POST('suppliers/supplier-price-rule/delete', data).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
@@ -201,8 +271,8 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            scope.getItemDiscountGroup()
-                            scope.CLOSE_MODAL('#modalItemDiscountGroup')
+                            scope.getPriceRules()
+                            scope.CLOSE_MODAL('#modalPriceRule')
                             })
                         }
                         else{
@@ -215,7 +285,9 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getItemDiscountGroup()
+        scope.formdata.supplier_uuid = scope.properties
+        scope.getPriceRules()
+        //console.log(scope.properties)
     },
 }
 </script>

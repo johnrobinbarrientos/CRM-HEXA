@@ -263,7 +263,7 @@
 
                                     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion" style="">
                                         <div class="card-body">
-                                            <supplier-regular-discount :properties="formdata.uuid"></supplier-regular-discount> 
+                                            <supplier-regular-discount v-if="formdata.uuid" :properties="formdata.uuid"></supplier-regular-discount> 
                                         </div>
                                     </div>
                                 </div>
@@ -277,7 +277,7 @@
                                     </div>
                                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                                         <div class="card-body">
-                                            <supplier-price-rule :properties="formdata.uuid"></supplier-price-rule>
+                                            <supplier-price-rule v-if="formdata.uuid" :properties="formdata.uuid"></supplier-price-rule>
                                         </div>
                                     </div>
                                 </div>
@@ -353,7 +353,7 @@
                 
             </form>
             <div style="margin-top:30px; text-align:right;">
-                <button @click="toggleForm()" type="submit" class="btn btn-lg btn-primary">Back</button>
+                <button @click="toggleForm(); resetData()" type="submit" class="btn btn-lg btn-primary">Back</button>
                 <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
                 <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
             </div>

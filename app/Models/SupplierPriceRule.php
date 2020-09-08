@@ -13,7 +13,7 @@ class SupplierPriceRule extends Model
 
     protected $fillable = [
         'uuid', 'company_id', 'supplier_uuid','discount_type','discount_name','discount_rate',
-        'discount_fixed','start_date','end_date',
+        'discount_fixed','date_start','date_end',
     ];
 
     protected $primaryKey = 'uuid';
