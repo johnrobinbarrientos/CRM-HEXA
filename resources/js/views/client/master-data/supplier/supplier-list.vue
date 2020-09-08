@@ -263,7 +263,7 @@
 
                                     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion" style="">
                                         <div class="card-body">
-                                            <supplier-regular-discount></supplier-regular-discount> 
+                                            <supplier-regular-discount :properties="formdata.uuid"></supplier-regular-discount> 
                                         </div>
                                     </div>
                                 </div>
