@@ -3,15 +3,14 @@
         
         <div v-show="!show_form">
             <div class="actions-bar">
-                <div class="row">
-                    <div class="col-12 col-md-3">
-                        <input type="text" class="form-control" placeholder="Search Item">
-                    </div>
-                    <div class="col-12 col-md-2 offset-md-7">
-                        <a href="javascript:void(0)" @click="toggleForm();resetData()" class="btn btn-block btn-primary" style="display: inline-block; padding-left: 15px; padding-right: 15px; width: auto; float: right;" data-toggle="modal">
-                            <em class="icon ni ni-plus"></em> <span>New Item</span>
-                        </a>
-                    </div>
+                <div class="w-100">
+                    <h1>Item List</h1>
+                </div>
+                <div class="bar-right">
+                    <input type="text" class="form-control" placeholder="Search Item">
+                    <a @click="toggleForm();resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                        <em class="icon ni ni-plus"></em> <span>New Item</span>
+                    </a>
                 </div>
             </div>
 
@@ -91,6 +90,17 @@
         </div>  
 
         <div v-show="show_form">
+            <div class="actions-bar">
+                <div class="w-100">
+                    <h1>Add New Item</h1>
+                </div>
+                <div class="bar-right">
+                    <a @click="toggleForm()" type="submit" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>
+                    <a v-if="formdata.uuid === null" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
+                    <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save Changes</a>
+                    </div>
+            </div>
+
             <form action="#" class="form-validate is-alter">
 
                 <div class="row">
