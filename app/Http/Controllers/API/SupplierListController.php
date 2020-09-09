@@ -15,7 +15,7 @@ class SupplierListController extends Controller
 {
     public function getSupplierList()
     {
-        $list = SupplierList::whereNull('deleted_at')->with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable')->with('discounts')->get();
+        $list = SupplierList::whereNull('deleted_at')->with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable')->get();
         return response()->json(['success' => 1, 'rows' => $list], 200);
     }
 
@@ -40,28 +40,6 @@ class SupplierListController extends Controller
         $supplier->global_address_uuid = request()->global_address_uuid;
         $supplier->address1 = request()->address1;
         $supplier->save();
-
-        
-
-        if (request()->uuid===null){ 
-
-            $discounts = request()->discounts;
-            
-            foreach ($discounts as $d)
-            {
-                $discount = new SupplierDiscountRegular;
-                $auth = \Auth::user();
-                $discount->company_id = $auth->company_id;
-                $discount->supplier_uuid = $supplier->uuid;
-                $discount->discount_name = $d['discount_name'];
-                $discount->discount_rate = $d['discount_rate'];
-                $discount->start_date = $d['start_date'];
-                $discount->end_date = $d['end_date'];
-                $discount->is_active = $d['is_active'];
-                $discount->discount_type = $d['discount_type'];
-                $discount->save();
-            }
-        }
 
         $supplier = SupplierList::find($supplier->uuid);
         return response()->json(['success' => 1, 'rows' => $supplier], 200);

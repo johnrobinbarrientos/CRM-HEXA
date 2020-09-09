@@ -162,7 +162,8 @@
                             <a class="nav-link active" data-toggle="tab" href="#account">Financial Account</a>    
                         </li>    
                         <li class="nav-item">        
-                            <a class="nav-link" data-toggle="tab" href="#discounts">Discounts</a>    
+                            <a v-if="formdata.uuid === null" class="nav-link disabled" data-toggle="tab" href="#discounts">Discounts</a> 
+                            <a v-else class="nav-link" data-toggle="tab" href="#discounts">Discounts</a>   
                         </li>
                         <li class="nav-item">        
                             <a class="nav-link" data-toggle="tab" href="#address">Address</a>    
@@ -245,144 +246,39 @@
                         </div>
 
                         <div class="tab-pane" id="discounts">
-                            
 
-                            <div class="row">
-                                <div class="col-md-6 col-12">
-                                    <div class="row">
+                            <div id="accordion">
+                                <div class="card mb-1 shadow-none">
+                                    <div class="card-header" id="headingOne">
+                                        <h6 class="m-0">
+                                            <a href="#collapseOne" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">
+                                                Regular Discounts
+                                            </a>
+                                        </h6>
+                                    </div>
 
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <div class="custom-control custom-radio">    
-                                                        <input v-model="supplierDiscountFormData.discount_type" value = "Regular" type="radio" id="regular" class="custom-control-input">    
-                                                        <label class="custom-control-label" for="regular">Regular</label>
-                                                    </div>  
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <div class="custom-control custom-radio">    
-                                                        <input v-model="supplierDiscountFormData.discount_type" value="Price Rule" type="radio" id="price-rule" class="custom-control-input">    
-                                                        <label class="custom-control-label" for="price-rule">Price Rule</label>
-                                                    </div> 
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="discount-name">Discount Name</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="supplierDiscountFormData.discount_name" type="text" class="form-control" id="discount-name" required>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="discount-rate">Discount Rate</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="supplierDiscountFormData.discount_rate" type="text" class="form-control" id="discount-rate" required>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-12 col-12">
-                                            <div v-if="supplierDiscountFormData.discount_type === 'Price Rule'">
-                                                
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="date-start">Date Start</label>
-                                                        <div class="form-control-wrap">
-                                                            <date-picker v-model="supplierDiscountFormData.start_date" :config="{format: 'YYYY-MM-DD'}"></date-picker>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="date-end">Date End</label>
-                                                        <div class="form-control-wrap">
-                                                            <date-picker v-model="supplierDiscountFormData.end_date" :config="{format: 'YYYY-MM-DD'}"></date-picker>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" v-model="supplierDiscountFormData.is_active" true-value="1" false-value="0" class="custom-control-input" id="is-active-discount">
-                                                        <label class="custom-control-label" for="is-active-discount">Is Active?</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-12 col-12">
-                                            <div style="padding:10px 0px; text-align:right;">
-                                                <button v-if="supplierDiscountFormData.uuid !== null" @click="updateSupplierDiscount()" type="button" class="btn btn-lg btn-primary">Update</button>
-                                                <button v-if="supplierDiscountFormData.uuid === null && supplierDiscountFormData.index !== null "  @click="saveTempSupplierDiscount()" type="button" class="btn btn-lg btn-primary">Update</button>
-                                                <button v-if="supplierDiscountFormData.uuid === null && supplierDiscountFormData.index === null " @click="saveTempSupplierDiscount()" type="button" class="btn btn-lg btn-primary">Add</button>
-                                            </div>
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion" style="">
+                                        <div class="card-body">
+                                            <supplier-regular-discount v-if="formdata.uuid" :properties="formdata.uuid"></supplier-regular-discount> 
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="col-md-6 col-12">
-                                    <div class="card card-bordered card-preview">
-                                        <table class="table table-items">
-                                            <thead>
-                                                <tr class="tb-tnx-head">
-                                                    <th><span class="">Discount Name</span></th>
-                                                    <th><span class="">Discount Rate</span></th>
-                                                    <th><span class="">Is Active</span></th>
-                                                    <th><span class="">Discount Type</span></th>
-                                                    <th><span class="">Start Date</span></th>
-                                                    <th><span class="">End Date</span></th>
-                                                    <th><span>Actions</span></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="(tempSupplierDiscount, index) in tempSupplierDiscounts" :key="index">
-                                                    <td><span class="">{{ tempSupplierDiscount.discount_name }}</span></td>
-                                                    <td><span class="">{{ tempSupplierDiscount.discount_rate }}</span></td>
-                                                    <td v-if="tempSupplierDiscount.is_active === 1">Yes</td>
-                                                    <td v-else>No</td>
-                                                    <td><span class="">{{ tempSupplierDiscount.discount_type }}</span></td>
-                                                    <td><span class="">{{ tempSupplierDiscount.start_date }}</span></td>
-                                                    <td><span class="">{{ tempSupplierDiscount.end_date }}</span></td>
-                                                    <td>
-                                                        <a href="javascript:void(0);" @click="editTempSupplierDiscount(index)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
-                                                        <a href="javascript:void(0);" @click="removeTempSupplierDiscount(index)" class="btn btn-sm btn-danger"><em class="icon ni ni-cross"></em></a>
-                                                    </td>
-                                                </tr>
-                                                <tr v-for="(supplierDiscount, index) in supplierDiscounts" :key="index">
-                                                    <td><span class="">{{ supplierDiscount.discount_name }}</span></td>
-                                                    <td><span class="">{{ supplierDiscount.discount_rate }}</span></td>
-                                                    <td v-if="supplierDiscount.is_active === 1">Yes</td>
-                                                    <td v-else>No</td>
-                                                    <td><span class="">{{ supplierDiscount.discount_type }}</span></td>
-                                                    <td><span class="">{{ supplierDiscount.start_date }}</span></td>
-                                                    <td><span class="">{{ supplierDiscount.end_date }}</span></td>
-                                                    <td>
-                                                        <a href="javascript:void(0);" @click="editSupplierDiscount(supplierDiscount, index)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
-                                                        <a href="javascript:void(0);" @click="removeSupplierDiscount(supplierDiscount, index)" class="btn btn-sm btn-danger"><em class="icon ni ni-cross"></em></a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                <div class="card mb-1 shadow-none">
+                                    <div class="card-header" id="headingTwo">
+                                        <h6 class="m-0">
+                                            <a href="#collapseTwo" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                                                Price Rules
+                                            </a>
+                                        </h6>
+                                    </div>
+                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                        <div class="card-body">
+                                            <supplier-price-rule v-if="formdata.uuid" :properties="formdata.uuid"></supplier-price-rule>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-    
+           
                         </div>
 
                         <div class="tab-pane" id="address"> 
@@ -453,7 +349,7 @@
                 
             </form>
             <div style="margin-top:30px; text-align:right;">
-                <button @click="toggleForm()" type="submit" class="btn btn-lg btn-primary">Back</button>
+                <button @click="toggleForm(); resetData()" type="submit" class="btn btn-lg btn-primary">Back</button>
                 <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
                 <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
             </div>
@@ -463,12 +359,20 @@
 </template>
 
 <script>
+import SupplierRegularDiscount from './supplier-regular-discount'
+import SupplierPriceRule from './supplier-price-rule'
 
 import Swal from 'sweetalert2'
 
 export default {
-    name: 'home',
+    name: 'supplier-list',
     props: ['properties'],
+
+    components: {
+        'supplier-regular-discount': SupplierRegularDiscount,
+        'supplier-price-rule': SupplierPriceRule
+    },
+
     data: function () {
         return {
             selected_payables: null,
@@ -499,11 +403,7 @@ export default {
             region: '',
             postal_code: '',
 
-
             supplierList: [],
-
-            supplierDiscounts: [],
-            tempSupplierDiscounts: [],
 
             formdata: { 
                 uuid: null, 
@@ -522,18 +422,6 @@ export default {
                 contact_no: '',
                 global_address_uuid: '',
                 address1: ''
-            },
-
-            supplierDiscountFormData:{
-                index: null, 
-                uuid: null,
-                supplier_uuid: null,
-                discount_name: '',
-                discount_rate: '',
-                start_date: '',
-                end_date: '',
-                is_active: 1,
-                discount_type: 'Regular'
             }
 
         }
@@ -713,7 +601,6 @@ export default {
 
             scope.is_vat = 0
             scope.is_ewt = 0
-            scope.supplierDiscounts = []
 
         },
         setData: function (data) {
@@ -741,9 +628,6 @@ export default {
                 scope.is_ewt = 0
             }
 
-            scope.supplierDiscounts = []
-            scope.supplierDiscounts = data.discounts
-
             $('.form-select-supplier-group').val(data.supplier_group_uuid);
             $('.form-select-supplier-group').trigger('change');
 
@@ -770,7 +654,6 @@ export default {
             scope.formdata.ewt_uuid = scope.selected_ewt
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
             scope.formdata.global_address_uuid = scope.selected_global_address
-            scope.formdata.discounts = scope.tempSupplierDiscounts
 
             scope.POST('suppliers/supplier-list', scope.formdata).then(res => {
                 if (res.success) {
@@ -783,8 +666,6 @@ export default {
                     }).then(() => {
                         scope.getSupplierList()
                         scope.toggleForm()
-                        scope.tempSupplierDiscounts = []
-                        scope.formdata.discounts = []
                     })
                 } else {
                     alert('ERROR:' + res.code)
@@ -829,175 +710,8 @@ export default {
                 }                              
             })
         },
-        saveTempSupplierDiscount() {
-            var scope = this
-            
-            // this means the supplier was previously added, no need to put discounts on temporary array
-            if (scope.formdata.uuid !== null) {
 
-                if (scope.supplierDiscountFormData.uuid === null) {
-                    scope.saveSupplierDiscount();
-                } else {
-                    scope.updateSupplierDiscount();
-                } 
 
-                return;
-            }
-
-            if (scope.supplierDiscountFormData.uuid == null && scope.supplierDiscountFormData.index !== null) {
-                var index = scope.supplierDiscountFormData.index
-                scope.tempSupplierDiscounts[index].discount_name = scope.supplierDiscountFormData.discount_name
-                scope.tempSupplierDiscounts[index].discount_rate = scope.supplierDiscountFormData.discount_rate
-                scope.tempSupplierDiscounts[index].discount_type = scope.supplierDiscountFormData.discount_type
-                scope.tempSupplierDiscounts[index].is_active = scope.supplierDiscountFormData.is_active
-                scope.tempSupplierDiscounts[index].start_date = scope.supplierDiscountFormData.start_date
-                scope.tempSupplierDiscounts[index].end_date = scope.supplierDiscountFormData.end_date      
-            } else {
-                scope.tempSupplierDiscounts.push({
-                    discount_name: scope.supplierDiscountFormData.discount_name, 
-                    discount_rate: scope.supplierDiscountFormData.discount_rate,
-                    discount_type: scope.supplierDiscountFormData.discount_type,
-                    is_active: scope.supplierDiscountFormData.is_active,
-                    start_date: scope.supplierDiscountFormData.start_date,  
-                    end_date: scope.supplierDiscountFormData.end_date
-                })
-            }
-            
-            // reset form
-            scope.supplierDiscountFormData.index = null
-            scope.supplierDiscountFormData.uuid  = null
-            scope.supplierDiscountFormData.discount_name = ''
-            scope.supplierDiscountFormData.discount_rate = ''
-            scope.supplierDiscountFormData.discount_type = 'Regular'
-            scope.supplierDiscountFormData.is_active = 1
-            scope.supplierDiscountFormData.start_date = ''
-            scope.supplierDiscountFormData.end_date = ''
-        },
-        editTempSupplierDiscount(index) {
-            var scope = this
-            
-            scope.supplierDiscountFormData.index = index
-            scope.supplierDiscountFormData.uuid = null
-            scope.supplierDiscountFormData.discount_name = scope.tempSupplierDiscounts[index].discount_name
-            scope.supplierDiscountFormData.discount_rate =  scope.tempSupplierDiscounts[index].discount_rate
-            scope.supplierDiscountFormData.discount_type =  scope.tempSupplierDiscounts[index].discount_type
-            scope.supplierDiscountFormData.is_active =  scope.tempSupplierDiscounts[index].is_active
-            scope.supplierDiscountFormData.start_date =  scope.tempSupplierDiscounts[index].start_date
-            scope.supplierDiscountFormData.end_date =  scope.tempSupplierDiscounts[index].end_date
-        },
-        editSupplierDiscount(data, index) {
-            var scope = this
-            
-            scope.supplierDiscountFormData.index = index
-            scope.supplierDiscountFormData.uuid = data.uuid
-            scope.supplierDiscountFormData.discount_name = data.discount_name
-            scope.supplierDiscountFormData.discount_rate =  data.discount_rate
-            scope.supplierDiscountFormData.discount_type =  data.discount_type
-            scope.supplierDiscountFormData.is_active =  data.is_active
-            scope.supplierDiscountFormData.start_date =  data.start_date
-            scope.supplierDiscountFormData.end_date =  data.end_date
-        },
-        removeTempSupplierDiscount(index) {
-            var scope = this
-            scope.tempSupplierDiscounts.splice(index, 1)
-        },
-        updateSupplierDiscount: function () {
-            var scope = this
-
-            scope.supplierDiscountFormData.supplier_uuid = scope.formdata.uuid
-            scope.POST('suppliers/supplier-discount-regular', scope.supplierDiscountFormData).then(res => {
-                if (res.success) {
-                    window.swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Discount Successfuly Updated',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        var index = scope.supplierDiscountFormData.index
-                        scope.supplierDiscounts[index].discount_name = res.data.discount_name
-                        scope.supplierDiscounts[index].discount_rate = res.data.discount_rate
-                        scope.supplierDiscounts[index].discount_type = res.data.discount_type
-                        scope.supplierDiscounts[index].is_active = res.data.is_active
-                        scope.supplierDiscounts[index].start_date = res.data.start_date
-                        scope.supplierDiscounts[index].end_date = res.data.end_date
-
-                        // reset form
-                        scope.supplierDiscountFormData.index = null
-                        scope.supplierDiscountFormData.uuid  = null
-                        scope.supplierDiscountFormData.discount_name = ''
-                        scope.supplierDiscountFormData.discount_rate = ''
-                        scope.supplierDiscountFormData.discount_type = 'Regular'
-                        scope.supplierDiscountFormData.is_active = 1
-                        scope.supplierDiscountFormData.start_date = ''
-                        scope.supplierDiscountFormData.end_date = ''
-                    })
-                } else {
-                    alert('ERROR:' + res.code)
-                } 
-            })
-        },
-        saveSupplierDiscount: function () {
-            var scope = this
-
-            // append the supplier UUID to the request payload
-            scope.supplierDiscountFormData.supplier_uuid = scope.formdata.uuid
-            scope.POST('suppliers/supplier-discount-regular', scope.supplierDiscountFormData).then(res => {
-                if (res.success) {
-                    window.swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Discount Successfuly Added',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                         scope.supplierDiscounts.push(res.data)
-
-                        // reset form
-                        scope.supplierDiscountFormData.index = null
-                        scope.supplierDiscountFormData.uuid  = null
-                        scope.supplierDiscountFormData.discount_name = ''
-                        scope.supplierDiscountFormData.discount_rate = ''
-                        scope.supplierDiscountFormData.discount_type = 'Regular'
-                        scope.supplierDiscountFormData.is_active = 1
-                        scope.supplierDiscountFormData.start_date = ''
-                        scope.supplierDiscountFormData.end_date = ''
-                    })
-                } else {
-                    alert('ERROR:' + res.code)
-                } 
-            })
-        },
-        removeSupplierDiscount(data,index) {
-            var scope = this
-            window.swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                if (result.value) {
-                    scope.POST('suppliers/supplier-discount-regular/delete', data).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Discount Successfuly Deleted',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.supplierDiscounts.splice(index, 1)
-                            })
-                        } else {
-                            alert('ERROR:' + res.code)
-                        } 
-                    })
-                }
-            })
-        },
     },
     mounted() {
         var scope = this

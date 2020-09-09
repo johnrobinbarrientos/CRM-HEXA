@@ -37,14 +37,10 @@ class ItemListController extends Controller
         $item->cs_barcode = request()->cs_barcode;
         $item->item_description = request()->item_description;
         $item->item_shortname = request()->item_shortname;
-        $item->base_uom_uuid = request()->base_uom_uuid;
-        $item->packing_uom_uuid = request()->packing_uom_uuid;
-        $item->packing_qtty = request()->packing_qtty;
         $item->is_purchase_item = request()->is_purchase_item;
         $item->purchase_price = request()->purchase_price;
         $item->is_sales_item = request()->is_sales_item;
         $item->sales_price = request()->sales_price;
-        $item->transfer_price = request()->transfer_price;
         $item->manual_rate = request()->manual_rate;
         $item->customer_group_uuid = request()->customer_group_uuid;
         $item->option_rate = request()->option_rate;
@@ -56,6 +52,7 @@ class ItemListController extends Controller
         $item->coa_cos_account_uuid = request()->coa_cos_account_uuid;
         $item->reorder_qty = request()->reorder_qty;
         $item->item_asset_group_uuid = request()->item_asset_group_uuid;
+        $item->item_discount_group_uuid = request()->item_discount_group_uuid;
         $item->category1_uuid = request()->category1_uuid;
         $item->category2_uuid = request()->category2_uuid;
         $item->category3_uuid = request()->category3_uuid;

@@ -44,8 +44,5 @@ class SupplierList extends Model
         return $this->belongsTo('App\Models\CompanyChartOfAccount','coa_payable_account_uuid','uuid');
     }
    
-    public function discounts(){
-        return $this->hasMany('App\Models\SupplierDiscountRegular','supplier_uuid','uuid');
-    }
     
 }
