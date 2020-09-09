@@ -52,23 +52,8 @@
                         <item-discount-group></item-discount-group>
                     </div>
                     <div class="tab-pane" id="categories" role="tabpanel">
+                        <category-1></category-1> 
 
-                        <div id="accordion">
-                        <div class="card mb-1 shadow-none">
-                            <div class="card-header" id="headingOne">
-                                <h6 class="m-0">
-                                    <a href="#collapseOne" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">
-                                        Category 1
-                                    </a>
-                                </h6>
-                            </div>
-
-                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion" style="">
-                                <div class="card-body">
-                                    <category-1></category-1> 
-                                </div>
-                            </div>
-                        </div>
                         <div class="card mb-1 shadow-none">
                             <div class="card-header" id="headingTwo">
                                 <h6 class="m-0">

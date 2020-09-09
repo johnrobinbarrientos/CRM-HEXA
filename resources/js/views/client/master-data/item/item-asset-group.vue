@@ -1,16 +1,15 @@
 <template>
     <div>
 
-        <div style="margin-top:10px; margin-bottom:10px;">
-            <div class="row">
-                <div class="col-12 col-md-3">
-                    <input type="text" class="form-control" placeholder="Search Item">
-                </div>
-                <div class="col-12 col-md-2 offset-md-7">
-                    <a href="javascript:void(0)" @click="OPEN_MODAL('#modalItemAssetGroup');resetData()" class="btn btn-block btn-primary" data-toggle="modal">
-                        <em class="icon ni ni-plus"></em> <span>New Asset Group</span>
-                    </a>
-                </div>
+        <div class="actions-bar">
+            <div class="w-100">
+                <h1 class="title"><i class="las la-stream"></i> Asset Group</h1>
+            </div>
+            <div class="bar-right">
+                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Item Asset Group"> 
+                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalItemAssetGroup');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                    <i class="las la-plus"></i> <span>New Asset Group</span>
+                </a>
             </div>
         </div>
 

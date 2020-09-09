@@ -1,10 +1,9 @@
 <template>
     <div>
-        <div style="margin-top: 60px;"></div>
+
         
-        <div class="nk-content nk-content-fluid"> <!-- nk-content-fluid -->        
-            <div class="container-fluid">
-                <div class="nk-content-body">
+            <div class="card">
+                <div class="card-body">
 
                     <ul class="nav nav-tabs">    
                         <li class="nav-item">        
@@ -25,7 +24,6 @@
                     </div>
                 </div>
             </div>
-        </div>        
     </div>
 </template>
 

@@ -1,95 +1,109 @@
 <template>
     <div>
-        <div style="margin-bottom:40px;" class="nk-fmg-body-head d-none d-lg-flex">
-            <div class="nk-fmg-search">
-                <em class="icon ni ni-search"></em>
-                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Category 1">
+        <div class="actions-bar">
+            <div class="w-100">
+                <h1 class="title h-36"><i class="las la-layer-group"></i> Categories</h1>
             </div>
-            <div class="nk-fmg-actions">
-                <ul class="nk-block-tools g-3">
-                    <li>
-                        <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCategory1');resetData()" class="btn btn-primary" data-toggle="modal">
-                            <em class="icon ni ni-plus"></em> <span>New Item Category 1</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <div class="bar-right"></div>
         </div>
-        
-        <div class="nk-content nk-content-fluid">          
-            <div class="container-fluid">
-                <div class="nk-content-body">
 
-                    <div class="row">
-                        <div class="col-md-12 col-12">
-                            <div class="card card-bordered card-preview">
-                                <table class="table table-tranx jd-sm-table">
-                                    <thead>
-                                        <tr class="tb-tnx-head">
-                                            <th><span class="">#</span></th>
-                                            <th><span class="">Item Category 1</span></th>
-                                            <th><span class="">Actions</span></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(category, index) in categories" :key="category.uuid" class="tb-tnx-item">
-                                            <td><span class="">{{ (index + 1) }}</span></td>
-                                            <td><span class="">{{ category.category1 }}</span></td>
-                                            <td>
-                                                <span class="">
-                                                    <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalCategory1');setData(category)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
-                                                    <a href="javascript:void(0)"  @click="remove(category)" class="btn btn-sm btn-danger"><em class="icon ni ni-trash"></em></a>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+        <div id="accordion">
+            <div class="card mb-1 shadow-none">
+                <a href="#collapseOne" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="m-0">Category 1</h5>
                     </div>
-                    
+                </a>
 
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion" style="">
+                    <div class="card-body">
 
-                    <!-- Modal Category1 Form -->
-                    <div class="modal fade" tabindex="-1" id="modalCategory1">
-                        <div class="modal-dialog modal-lg " role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Category 1 Details</h5>
-                                    <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalCategory1');" class="close" data-dismiss="modal" aria-label="Close">
-                                        <em class="icon ni ni-cross"></em>
-                                    </a>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div style="margin-bottom: 20px;" class="d-none d-lg-flex justify-content-between">
+                                        <div>
+                                            <em class="icon ni ni-search"></em>
+                                            <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Category 1">
+                                        </div>
+                                        <div>
+                                            <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCategory1');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                                                <i class="las la-plus"></i> <span>New Item Category 1</span>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="modal-body">
-                                    <form action="#" class="form-validate is-alter">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-12">
+                                    <div class="card card-bordered card-preview">
+                                        <table class="table table-tranx jd-sm-table">
+                                            <thead>
+                                                <tr class="tb-tnx-head">
+                                                    <th><span class="">#</span></th>
+                                                    <th><span class="">Item Category 1</span></th>
+                                                    <th><span class="">Actions</span></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(category, index) in categories" :key="category.uuid" class="tb-tnx-item">
+                                                    <td><span class="">{{ (index + 1) }}</span></td>
+                                                    <td><span class="">{{ category.category1 }}</span></td>
+                                                    <td>
+                                                        <span class="">
+                                                            <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalCategory1');setData(category)" class="btn btn-sm btn-light"><i class="mdi mdi-pencil"></i></a>
+                                                            <a href="javascript:void(0)"  @click="remove(category)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                                    
+                            <!-- Modal Category1 Form -->
+                            <div class="modal fade" tabindex="-1" id="modalCategory1">
+                                <div class="modal-dialog modal-lg " role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Category 1 Details</h5>
+                                            <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalCategory1');" class="close" data-dismiss="modal" aria-label="Close">
+                                                <em class="icon ni ni-cross"></em>
+                                            </a>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="#" class="form-validate is-alter">
 
-                                        <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="category1">Category 1</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.category1" type="text" class="form-control" id="category1" required>
+                                                <div class="row">
+                                                    <div class="col-md-6 col-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="category1">Category 1</label>
+                                                            <div class="form-control-wrap">
+                                                                <input v-model="formdata.category1" type="text" class="form-control" id="category1" required>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>                                    
-                                        
-                                    </form>
-                                </div>
-                                <div class="modal-footer bg-light">
-                                    <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
-                                    <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
+                                                    
+                                                </div>                                    
+                                                
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer bg-light">
+                                            <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
+                                            <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
+
                     </div>
-
-
                 </div>
             </div>
-        </div>        
-    </div>
+        </div>
+    </div><!-- div end -->
 </template>
 
 <script>

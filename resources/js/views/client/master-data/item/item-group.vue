@@ -1,50 +1,49 @@
 <template>
     <div>
 
-        <div style="margin-bottom:10px;">
-            <div class="row">
-                <div class="col-12 col-md-3">
-                    <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Item Group">
-                </div>
-                <div class="col-12 col-md-2 offset-md-7">
-                    <a href="javascript:void(0)" @click="OPEN_MODAL('#modalItemGroup');resetData()" class="btn btn-block btn-primary" data-toggle="modal">
-                        <em class="icon ni ni-plus"></em> <span>New Item Group</span>
-                    </a>
-                </div>
+        <div class="actions-bar">
+            <div class="w-100">
+                <h1 class="title"><i class="las la-th-list"></i> Item Group</h1>
+            </div>
+            <div class="bar-right">
+                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Item Group"> 
+                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalItemGroup');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                    <i class="las la-plus"></i> <span>New Item Group</span>
+                </a>
             </div>
         </div>
 
-            <div class="table-rep-plugin">
-                <div class="table-responsive mb-0" data-pattern="priority-columns">
-                    <table id="tech-companies-1" class="table table-striped table-bordered responsiveTable">
-                        <thead>
-                            <tr>
-                                <th width="100">Actions</th>
-                                <th width="100">#</th>
-                                <th data-priority="3">Item Group</th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(item, index) in Groups" :key="item.uuid">
-                               <td>
-                                    <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemGroup');setData(item)" class="btn btn-sm btn-light"><i class="bx bx-pencil"></i></a>
-                                    <a href="javascript:void(0)"  @click="remove(item)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
-                                </td>
-                                <td>
-                                    {{ (index + 1) }}
-                                </td>
-                                <td>
-                                   {{ item.item_group }}
-                                </td>
-                                
-                                
-                            </tr>
+        <div class="table-rep-plugin">
+            <div class="table-responsive mb-0" data-pattern="priority-columns">
+                <table id="tech-companies-1" class="table table-striped table-bordered responsiveTable">
+                    <thead>
+                        <tr>
+                            <th width="100">Actions</th>
+                            <th width="100">#</th>
+                            <th data-priority="3">Item Group</th>
                             
-                        </tbody>
-                    </table>         
-                </div>         
-            </div>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in Groups" :key="item.uuid">
+                           <td>
+                                <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemGroup');setData(item)" class="btn btn-sm btn-light"><i class="bx bx-pencil"></i></a>
+                                <a href="javascript:void(0)"  @click="remove(item)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
+                            </td>
+                            <td>
+                                {{ (index + 1) }}
+                            </td>
+                            <td>
+                               {{ item.item_group }}
+                            </td>
+                            
+                            
+                        </tr>
+                        
+                    </tbody>
+                </table>         
+            </div>         
+        </div>
 
 
 
