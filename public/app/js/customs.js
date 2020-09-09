@@ -83,4 +83,6 @@ $(document).ready(function(){
     $(document).on('blur','.editable-control',function(){
         $(document).find('.editable').removeClass('focused');
     });
+
+    
 });

@@ -67,7 +67,7 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <div class="custom-control custom-radio">    
-                                            <input v-model="formdata.discount_type" value ="rate" type="radio" id="option-rate-price-rule" class="custom-control-input">    
+                                            <input v-model="formdata.discount_type" value="rate" type="radio" id="option-rate-price-rule" class="custom-control-input">    
                                             <label class="custom-control-label" for="option-rate-price-rule">Rate</label>
                                         </div> 
 
@@ -92,10 +92,14 @@
                                 
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="date-start">Date Start</label>
-                                        <div class="form-control-wrap">
-                                            <date-picker v-model="formdata.date_start" ref="datepick" :config="{format: 'YYYY-MM-DD'}"></date-picker>
-                                        </div>
+                                        <label>Default Functionality</label>
+                                        <div class="input-group">
+                                            <input type="text" v-model="formdata.date_start" class="form-control datepicker" data-date-format="yyyy-mm-dd" data-provide="datepicker">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                            </div>
+                                        </div><!-- input-group -->
+                                     
                                     </div>
                                 </div>
 
@@ -163,7 +167,7 @@ export default {
                 discount_name: '',
                 discount_rate: '',
                 discount_fixed: '',
-                date_start: moment(new Date).format('YYYY-MM-DD'),
+                date_start: '',
                 date_end: ''
             }
 
@@ -179,12 +183,12 @@ export default {
         resetData: function () {
             var scope = this
             scope.formdata.uuid = null
-            scope.formdata.discount_type = ''
+            scope.formdata.discount_type = 'rate'
             scope.formdata.discount_name = ''
             scope.formdata.discount_rate = ''
             scope.formdata.discount_fixed = ''
-            scope.formdata.date_start = ''
-            scope.formdata.date_end = ''
+            scope.formdata.date_start = moment().format('YYYY-MM-DD')
+            scope.formdata.date_end = moment().format('YYYY-MM-DD')
         },
         setData: function (data) {
             var scope = this
@@ -288,7 +292,6 @@ export default {
         scope.formdata.supplier_uuid = scope.properties
         scope.getPriceRules()
 
-        console.log(scope.$refs.datepicker)
         // var d = new Date();
         // var month = d.getMonth();
         // var day = d.getDate();

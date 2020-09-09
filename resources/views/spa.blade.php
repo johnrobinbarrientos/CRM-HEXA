@@ -7,9 +7,14 @@
         <meta name="description" content="Web site created using create-react-app">
         <title>HEXA SUITE</title>
         
+        <!-- <link href="/app/vendors/select2/css/select2.min.css?ver=1.6.0" rel="stylesheet" /> -->
 
-
-        <link href="/app/vendors/select2/css/select2.min.css?ver=1.6.0" rel="stylesheet" />
+        <link href="/themes/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
+        <link href="assets/libs/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css">
+        <link href="assets/libs/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css">
+        <link href="assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="assets/libs/@chenfengyuan/datepicker/datepicker.min.css">
 		
 		<!-- Bootstrap Css -->
         <link href="/themes/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
@@ -46,13 +51,24 @@
         </div>
            <!-- JAVASCRIPT -->
         <script src="/themes/libs/jquery/jquery.min.js"></script>
-		 <script src="/app/vendors/select2/js/select2.full.min.js?ver=1.6.0'"></script>
+		<!-- <script src="/app/vendors/select2/js/select2.full.min.js?ver=1.6.0'"></script> -->
 		 
         <script src="/themes/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="/themes/libs/metismenu/metisMenu.min.js"></script>
         <script src="/themes/libs/simplebar/simplebar.min.js"></script>
         <script src="/themes/libs/node-waves/waves.min.js"></script>
-	
+
+
+        <script src="/themes/libs/select2/js/select2.min.js"></script>
+        <script src="/themes/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+        <script src="/themes/libs/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+        <script src="/themes/libs/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+        <script src="/themes/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
+        <script src="/themes/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+        <script src="/themes/libs/@chenfengyuan/datepicker/datepicker.min.js"></script>
+
+        <!-- form advanced init -->
+        <script src="/themes/js/pages/form-advanced.init.js"></script>
         <script src="/themes/js/app.js"></script>
        
 		
