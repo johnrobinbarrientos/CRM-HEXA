@@ -4,12 +4,12 @@
         <div v-show="!show_form">
             <div class="actions-bar">
                 <div class="w-100">
-                    <h1>Item List</h1>
+                    <h1 class="title"><i class="las la-list-ul"></i> Item List</h1>
                 </div>
                 <div class="bar-right">
                     <input type="text" class="form-control" placeholder="Search Item">
                     <a @click="toggleForm();resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
-                        <em class="icon ni ni-plus"></em> <span>New Item</span>
+                        <i class="las la-plus"></i> <span>New Item</span>
                     </a>
                 </div>
             </div>
@@ -98,7 +98,7 @@
                     <a @click="toggleForm()" type="submit" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>
                     <a v-if="formdata.uuid === null" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
                     <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save Changes</a>
-                    </div>
+                </div>
             </div>
 
             <form action="#" class="form-validate is-alter">
