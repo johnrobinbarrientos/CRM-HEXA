@@ -94,7 +94,7 @@
                                     <div class="form-group">
                                         <label class="form-label" for="date-start">Date Start</label>
                                         <div class="form-control-wrap">
-                                            <date-picker v-model="formdata.date_start" :config="{format: 'YYYY-MM-DD'}"></date-picker>
+                                            <date-picker v-model="formdata.date_start" ref="datepick" :config="{format: 'YYYY-MM-DD'}"></date-picker>
                                         </div>
                                     </div>
                                 </div>
@@ -163,7 +163,7 @@ export default {
                 discount_name: '',
                 discount_rate: '',
                 discount_fixed: '',
-                date_start: '',
+                date_start: moment(new Date).format('YYYY-MM-DD'),
                 date_end: ''
             }
 
@@ -287,6 +287,18 @@ export default {
         var scope = this
         scope.formdata.supplier_uuid = scope.properties
         scope.getPriceRules()
+
+        console.log(scope.$refs.datepicker)
+        // var d = new Date();
+        // var month = d.getMonth();
+        // var day = d.getDate();
+        // var year = d.getFullYear();
+        // const toTwoDigits = num => num < 10 ? '0' + num : num;
+        // let today = new Date();
+        // let year = today.getFullYear();
+        // let month = toTwoDigits(today.getMonth() + 1);
+        // let day = toTwoDigits(today.getDate());
+
         //console.log(scope.properties)
     },
 }
