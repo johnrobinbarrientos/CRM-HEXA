@@ -12,7 +12,7 @@ class EmployeeList extends Model
     protected $table = 'employee_list';
 
     protected $fillable = [
-        'uuid', 'company_id', 'emp_id','first_name','middle_name','last_name',
+        'uuid','user_id','company_id', 'emp_id','first_name','middle_name','last_name',
         'ext', 'branch_location_uuid', 'is_custodian', 'is_driver', 'is_system_user',
         'is_active', 'email', 'contact_no', 'emergeny_contact', 'emergeny_contact_relation',
         'relation_contact_no', 'employment_type_uuid', 'date_hired', 'date_regularized',

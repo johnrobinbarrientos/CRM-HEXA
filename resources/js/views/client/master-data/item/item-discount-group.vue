@@ -20,7 +20,8 @@
                         <th width="100">Actions</th>
                         <th width="100">#</th>
                         <th>Group Name</th>
-                        <th>Group Rate</th>
+                        <th>Discount Rate</th>
+                        <th>Discount Fixed</th>
                         
                     </tr>
                 </thead>
@@ -34,7 +35,8 @@
                         </td>
                         <td><span class="">{{ (index + 1) }}</span></td>
                         <td><span class="">{{ discount_group.group_name }}</span></td>
-                        <td><span class="">{{ discount_group.group_rate }}</span></td>
+                        <td><span class="">{{ discount_group.discount_rate }} %</span></td>
+                        <td><span class="">{{ discount_group.discount_fixed }}</span></td>
                         
                     </tr>
                 </tbody>
@@ -55,7 +57,7 @@
                         <form action="#" class="form-validate is-alter">
 
                             <div class="row">
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-12 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="discount-group-name">Group Name</label>
                                         <div class="form-control-wrap">
@@ -66,9 +68,26 @@
 
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="discount-group-rate">Group Rate</label>
+                                        <div class="custom-control custom-radio">    
+                                            <input v-model="formdata.discount_type" value ="rate" type="radio" id="option-rate-regular" class="custom-control-input">    
+                                            <label class="custom-control-label" for="option-rate-regular">Rate</label>
+                                        </div> 
+
                                         <div class="form-control-wrap">
-                                            <input v-model="formdata.group_rate" type="text" class="form-control" id="discount-group-rate" required>
+                                            <input v-model="formdata.discount_rate" :disabled="isDisabledRate" type="text" class="form-control" id="discount-rate-regular" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-radio">    
+                                            <input v-model="formdata.discount_type" value ="fixed" type="radio" id="option-fixed-regular" class="custom-control-input">    
+                                            <label class="custom-control-label" for="option-fixed-regular">Fixed</label>
+                                        </div> 
+
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.discount_fixed" :disabled="isDisabledFixed" type="text" class="form-control" id="discount-fixed-regular" required>
                                         </div>
                                     </div>
                                 </div>
@@ -103,9 +122,33 @@ export default {
             formdata: { 
                 uuid: null, 
                 group_name: '',
-                group_rate: ''
+                discount_type: 'rate',
+                discount_rate: '',
+                discount_fixed: ''
             }
         }
+    },
+    computed: {
+      isDisabledRate() {
+        var scope = this
+        if (scope.formdata.discount_type =='rate'){
+            return false
+        }
+        else{
+            scope.formdata.discount_rate = ''
+            return true
+        }  
+      },
+      isDisabledFixed() {
+        var scope = this
+        if (scope.formdata.discount_type =='fixed'){
+            return false
+        }
+        else{
+            scope.formdata.discount_fixed = ''
+            return true
+        }  
+      }
     },
     methods: {
         getItemDiscountGroup: function () {
@@ -118,13 +161,17 @@ export default {
             var scope = this
             scope.formdata.uuid = null
             scope.formdata.group_name = ''
-            scope.formdata.group_rate = ''
+            scope.formdata.discount_type = 'rate'
+            scope.formdata.discount_rate = ''
+            scope.formdata.discount_fixed = ''
         },
         setData: function (data) {
             var scope = this
             scope.formdata.uuid = data.uuid
             scope.formdata.group_name = data.group_name
-            scope.formdata.group_rate = data.group_rate
+            scope.formdata.discount_type = data.discount_type
+            scope.formdata.discount_rate = data.discount_rate
+            scope.formdata.discount_fixed = data.discount_fixed
         },
         save: function () {
             var scope = this

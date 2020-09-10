@@ -44,7 +44,8 @@
                                 <td><span class="">{{ purchase.supplier.business_shortname }}</span></td>
                                 <td><span class=""></span></td>
                                 <td><span class="">{{ purchase.status }}</span></td>
-                                <td><span class="">{{ purchase.order_reason_code.reason_code }}</span></td>
+                                <!-- <td><span class="">{{ purchase.order_reason_code.reason_code }}</span></td> -->
+                                 <td><span class=""></span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -66,23 +67,23 @@
                         <form action="#" class="form-validate is-alter">
 
                             <div class="row">
-
+<!-- 
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
                                         <label class="form-label">PO No.: </label>
                                         <label class="form-label" >{{formdata.po_no}}</label>
                                     </div>
-                                </div>
+                                </div> -->
 
-                                <div class="col-md-4 col-12">
+                                <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="item-group">Item Group</label>
+                                        <label class="form-label" for="item-group">PO Type</label>
                                         <select class="form-select-item-group" v-model="selected_item_group" :options="options_item_group" name="item-group">
                                         </select>
                                     </div>
                                 </div>
 
-                                <div class="col-md-4 col-12">
+                                <div class="col-md-6 col-12" v-show="show_asset_group">
                                     <div class="form-group">
                                         <label class="form-label" for="asset-group">Asset Group</label>
                                         <select class="form-select-asset-group" v-model="selected_asset_group" :options="options_asset_group" name="asset-group">
@@ -90,15 +91,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="supplier">Supplier</label>
-                                        <select class="form-select-supplier" v-model="selected_supplier" :options="options_supplier" name="supplier">
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4 col-12">
+                                <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="date-terminated">PO Date</label>
                                         <div class="form-control-wrap">
@@ -107,7 +100,31 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4 col-12">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="supplier">Supplier</label>
+                                        <select class="form-select-supplier" v-model="selected_supplier" :options="options_supplier" name="supplier">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="date-terminated">Term:</label>
+                                            <strong><span>{{formdata.term}}</span></strong>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="discount-group">Discount Group</label>
+                                        <select class="form-select-item-discount-group" v-model="selected_item_discount_group" :options="options_item_discount_group" name="discount-group">
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="date-terminated">Expected Date</label>
                                         <div class="form-control-wrap">
@@ -116,13 +133,28 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4 col-12">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="branch">Branch: </label>
+                                        <strong><span>{{branch_name}}</span></strong>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="branch-location">Location</label>
+                                        <select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="branch-location">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="asset-group">Reason Code</label>
                                         <select class="form-select-reason-code" v-model="selected_reason_code" :options="options_reason_code" name="reason-code">
                                         </select>
                                     </div>
-                                </div>  
+                                </div>   -->
                                 
                             </div>                                    
                             
@@ -141,6 +173,7 @@
 <script>
 
 import Swal from 'sweetalert2'
+import moment from 'moment'
 
 export default {
     name: 'purchase-order',
@@ -159,17 +192,32 @@ export default {
             selected_reason_code: null,
             options_reason_code: [],
 
+            selected_item_discount_group: null,
+            options_item_discount_group: [],
+
+            selected_branch_location: null,
+            options_branch_location: [],
+
+            show_asset_group: false,
+
+            branch_name: '',
+
             purchaseOrders: [],
             formdata: { 
                 uuid: null, 
                 po_no: '',
                 item_group_uuid: '',
                 asset_group_uuid: '',
+                item_discount_group_uuid: '',
+                term: '',
                 date_purchased: '',
                 date_expected: '',
                 supplier_uuid: '',
                 status: 'open',
-                orders_reason_code_uuid: ''
+                orders_reason_code_uuid: '',
+                is_apply_tax: 0,
+                branch_uuid: '',
+                branch_locations_uuid: ''
             },
 
         }
@@ -178,8 +226,32 @@ export default {
         getPurchaseOrders: function () {
            var scope = this
             scope.GET('buy-and-pay/orders').then(res => {
-                console.log(res.rows)
                 scope.purchaseOrders = res.rows
+            })
+        },
+
+        getBranch: function () {
+           var scope = this
+            scope.GET('users/get-branch').then(res => {
+                scope.formdata.branch_uuid = res.rows.branch_uuid
+                scope.branch_name = res.rows.branch_name
+            })
+        },
+
+        getBranchLocations: function () {
+           var scope = this
+            scope.GET('users/get-branch-locations').then(res => {
+                res.rows.forEach(function (data) {
+
+                    scope.options_branch_location.push({
+                        id: data.uuid,
+                        text: data.location_name
+                    })
+                
+                })
+
+                $(".form-select-branch-location").select2({data: scope.options_branch_location});
+                scope.selected_branch_location = scope.options_branch_location[0].id
             })
         },
 
@@ -197,6 +269,24 @@ export default {
 
                 $(".form-select-item-group").select2({data: scope.options_item_group});
                 scope.selected_item_group = scope.options_item_group[0].id
+                
+            })
+        },
+
+        getItemDiscountGroup: function () {
+           var scope = this
+            scope.GET('items/item-discount-group').then(res => {
+                res.rows.forEach(function (data) {
+
+                    scope.options_item_discount_group.push({
+                        id: data.uuid,
+                        text: data.group_name
+                    })
+                
+                })
+
+                $(".form-select-item-discount-group").select2({data: scope.options_item_discount_group});
+                scope.selected_item_discount_group = scope.options_item_discount_group[0].id
                 
             })
         },
@@ -251,25 +341,78 @@ export default {
 
                     scope.options_supplier.push({
                         id: data.uuid,
-                        text: data.business_shortname
+                        text: data.business_shortname,
+                        lead_time: data.lead_time,
+                        vat_uuid: data.vat_uuid
                     })
                 
                 })
 
+                if (scope.options_supplier[0].vat_uuid!==null){
+                    scope.formdata.is_apply_tax = 1
+                }
+                else{
+                    scope.formdata.is_apply_tax = 0
+                }
+
+                scope.formdata.term = scope.options_supplier[0].lead_time
+                scope.formdata.date_expected = moment().add(parseInt(scope.options_supplier[0].lead_time) ,'days').format('YYYY-MM-DD')
+
                 $(".form-select-supplier").select2({data: scope.options_supplier});
             })
         },
+
+        checkLeadTime: function() {
+            var scope = this
+            for (var i = 0; i < scope.options_supplier.length; i++) {
+                if(scope.options_supplier[i].id==scope.selected_supplier){
+                    
+                    scope.formdata.term = scope.options_supplier[i].lead_time
+                    scope.formdata.date_expected = moment().add(scope.options_supplier[i].lead_time ,'days').format('YYYY-MM-DD')
+                    
+                    if (scope.options_supplier[i].vat_uuid!==null){
+                        scope.formdata.is_apply_tax = 1
+                    }
+                    else{
+                        scope.formdata.is_apply_tax = 0
+                    }
+                }
+            }
+        },
+        
+        checkAsset: function () {
+           var scope = this
+           for (var i = 0; i < scope.options_item_group.length; i++) {
+                if(scope.options_item_group[i].id==scope.selected_item_group){
+                    if (scope.options_item_group[i].text === 'Asset'){
+                        scope.show_asset_group = true
+                    }
+                    else{
+                        scope.show_asset_group = false
+                        scope.selected_asset_group = ''
+                        $('.form-select-asset-group').val(null);
+                        $('.form-select-asset-group').trigger('change');
+                    }
+
+                }
+            }
+        },
+
         resetData: function () {
             var scope = this
             scope.formdata.uuid = null
             scope.formdata.po_no = ''
             scope.formdata.item_group_uuid = ''
             scope.formdata.asset_group_uuid = ''
-            scope.formdata.date_purchased = ''
-            scope.formdata.date_expected = ''
+            scope.formdata.item_discount_group_uuid = ''
+            scope.formdata.date_purchased = moment().format('YYYY-MM-DD')
+            // scope.formdata.date_expected = moment().format('YYYY-MM-DD')
             scope.formdata.supplier_uuid = ''
             scope.formdata.status = 'Open'
             scope.formdata.orders_reason_code_uuid = ''
+            scope.formdata.branch_locations_uuid = ''
+
+            scope.show_asset_group = false
         },
         setData: function (data) {
             var scope = this
@@ -278,6 +421,8 @@ export default {
             scope.formdata.date_purchased = data.date_purchased
             scope.formdata.date_expected = data.date_expected
             scope.formdata.status = data.status
+
+            scope.formdata.term = data.term
 
             $('.form-select-item-group').val(data.item_group_uuid);
             $('.form-select-item-group').trigger('change');
@@ -291,6 +436,12 @@ export default {
             $('.form-select-orders_reason_code').val(data.orders_reason_code_uuid);
             $('.form-select-orders_reason_code').trigger('change');
 
+            $('.form-select-item-discount-group').val(data.item_discount_group_uuid);
+            $('.form-select-item-discount-group').trigger('change');
+
+            $('.form-select-branch-location').val(data.branch_locations_uuid);
+            $('.form-select--branch-location').trigger('change');
+
         },
         save: function () {
             var scope = this
@@ -298,6 +449,9 @@ export default {
             scope.formdata.asset_group_uuid = scope.selected_asset_group
             scope.formdata.supplier_uuid = scope.selected_supplier
             scope.formdata.orders_reason_code_uuid = scope.selected_reason_code
+            scope.formdata.item_discount_group_uuid = scope.selected_item_discount_group
+            scope.formdata.branch_locations_uuid = scope.selected_branch_location
+
 
             scope.POST('buy-and-pay/order', scope.formdata).then(res => {
             if (res.success) {
@@ -390,6 +544,10 @@ export default {
         scope.getAssetGroup()
         scope.getSupplier()
         scope.getOrderReasonCodes()
+        scope.getItemDiscountGroup()
+
+        scope.getBranch()
+        scope.getBranchLocations()
 
 
         scope.formdata.po_no = scope.company_prefix + '_' 
@@ -397,10 +555,12 @@ export default {
 
         $('.form-select-item-group').on("change", function(e) { 
             scope.selected_item_group = $('.form-select-item-group').val();
+            scope.checkAsset()
         })
 
         $('.form-select-supplier').on("change", function(e) { 
             scope.selected_supplier = $('.form-select-supplier').val();
+            scope.checkLeadTime()
         })
 
         $('.form-select-asset-group').on("change", function(e) { 
@@ -409,6 +569,14 @@ export default {
 
         $('.form-select-reason-code').on("change", function(e) { 
             scope.selected_reason_code = $('.form-select-reason-code').val();
+        })
+
+         $('.form-select-item-discount-group').on("change", function(e) { 
+            scope.selected_item_discount_group = $('.form-select-item-discount-group').val();
+        })
+
+        $('.form-select-branch-location').on("change", function(e) { 
+            scope.selected_branch_location = $('.form-select-branch-location').val();
         })
     },
 }

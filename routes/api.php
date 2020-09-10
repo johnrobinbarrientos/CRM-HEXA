@@ -239,6 +239,12 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/order-reason-code/delete', 'API\BuyAndPayOrderReasonCodesController@deleteReasonCode');
     });
 
+    Route::group(['prefix' => 'users'], function(){
+        Route::get('/get-branch', 'API\UserController@getBranch');
+        Route::get('/get-branch-locations', 'API\UserController@getBranchLocations');
+    });
+
+
     Route::get('/menus', 'API\MenuController@index');
 
 });

@@ -22,7 +22,9 @@ class ItemDiscountGroupController extends Controller
         $auth = \Auth::user();
         $discountGroup->company_id = $auth->company_id;
         $discountGroup->group_name = request()->group_name;
-        $discountGroup->group_rate = request()->group_rate;
+        $discountGroup->discount_type = request()->discount_type;
+        $discountGroup->discount_rate = request()->discount_rate;
+        $discountGroup->discount_fixed = request()->discount_fixed;
         $discountGroup->save();
 
         $discountGroup = ItemDiscountGroup::find($discountGroup->uuid);

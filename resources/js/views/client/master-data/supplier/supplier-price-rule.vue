@@ -34,7 +34,7 @@
                         </td>
                         <td><span class="">{{ (index + 1) }}</span></td>
                         <td><span class="">{{ price_rule.discount_name }}</span></td>
-                        <td><span class="">{{ price_rule.discount_rate }}</span></td>
+                        <td><span class="">{{ price_rule.discount_rate }} %</span></td>
                         <td><span class="">{{ price_rule.discount_fixed }}</span></td>
                     </tr>
                 </tbody>
@@ -135,6 +135,22 @@ import moment from 'moment'
 export default {
     name: 'supplier-price-rule',
     props: ['properties'],
+    data: function () {
+        return {
+            priceRules: [],
+            formdata: { 
+                uuid: null,
+                supplier_uuid: '', 
+                discount_type: 'rate',
+                discount_name: '',
+                discount_rate: '',
+                discount_fixed: '',
+                date_start: '',
+                date_end: ''
+            }
+
+        }
+    },
     computed: {
       isDisabledRate() {
         var scope = this
@@ -156,22 +172,6 @@ export default {
             return true
         }  
       }
-    },
-    data: function () {
-        return {
-            priceRules: [],
-            formdata: { 
-                uuid: null,
-                supplier_uuid: '', 
-                discount_type: 'rate',
-                discount_name: '',
-                discount_rate: '',
-                discount_fixed: '',
-                date_start: '',
-                date_end: ''
-            }
-
-        }
     },
     methods: {
         getPriceRules: function () {
@@ -292,17 +292,6 @@ export default {
         scope.formdata.supplier_uuid = scope.properties
         scope.getPriceRules()
 
-        // var d = new Date();
-        // var month = d.getMonth();
-        // var day = d.getDate();
-        // var year = d.getFullYear();
-        // const toTwoDigits = num => num < 10 ? '0' + num : num;
-        // let today = new Date();
-        // let year = today.getFullYear();
-        // let month = toTwoDigits(today.getMonth() + 1);
-        // let day = toTwoDigits(today.getDate());
-
-        //console.log(scope.properties)
     },
 }
 </script>

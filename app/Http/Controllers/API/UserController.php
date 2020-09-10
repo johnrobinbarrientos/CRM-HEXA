@@ -4,7 +4,11 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller; 
 
-use App\Models\User; 
+use App\Models\User;
+use App\Models\CompanyBranch;
+use App\Models\CompanyBranchLocation;
+use App\Models\EmployeeList; 
+
 use Illuminate\Support\Facades\Auth; 
 
 class UserController extends Controller
@@ -62,4 +66,38 @@ class UserController extends Controller
         
         return response()->json(['success' => 1, 'data' => $user, 'message' => 'User Updated!'], 200); 
     }
+
+    public function getBranch()
+    {
+        $auth = \Auth::user();
+
+        $branch = EmployeeList::select('branch_name', 'branch_uuid')
+        ->leftJoin('company_branch_location', 'employee_list.branch_location_uuid', '=', 'company_branch_location.uuid')
+        ->leftJoin('company_branch', 'company_branch_location.branch_uuid', '=', 'company_branch.uuid')
+        ->where('user_id', $auth->id)
+        ->first();
+
+        return response()->json(['success' => 1, 'rows' => $branch], 200);
+
+    }
+
+    public function getBranchLocations()
+    {
+        $auth = \Auth::user();
+
+        $branch = EmployeeList::select('branch_uuid')
+        ->leftJoin('company_branch_location', 'employee_list.branch_location_uuid', '=', 'company_branch_location.uuid')
+        ->leftJoin('company_branch', 'company_branch_location.branch_uuid', '=', 'company_branch.uuid')
+        ->where('user_id', $auth->id)
+        ->first();
+
+
+        $locations= CompanyBranchLocation::where('branch_uuid', $branch->branch_uuid)->get();
+
+        return response()->json(['success' => 1, 'rows' => $locations], 200);
+
+    }
+
+
+
 }

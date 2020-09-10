@@ -37,11 +37,16 @@ class BuyAndPayOrdersController extends Controller
 
         $orders->item_group_uuid = request()->item_group_uuid;
         $orders->asset_group_uuid = request()->asset_group_uuid;
+        $orders->item_discount_group_uuid = request()->item_discount_group_uuid;
+        $orders->term = request()->term;
         $orders->date_purchased = request()->date_purchased;
         $orders->date_expected = request()->date_expected;
         $orders->supplier_uuid = request()->supplier_uuid;
         $orders->status = request()->status;
         $orders->orders_reason_code_uuid = request()->orders_reason_code_uuid;
+        $orders->is_apply_tax = request()->is_apply_tax;
+        $orders->branch_uuid = request()->branch_uuid;
+        $orders->branch_locations_uuid = request()->branch_locations_uuid;
         $orders->save();
 
         $orders = BuyAndPayOrders::find($orders->uuid);

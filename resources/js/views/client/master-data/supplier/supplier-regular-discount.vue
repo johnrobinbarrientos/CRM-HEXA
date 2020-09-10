@@ -34,7 +34,7 @@
                         </td>
                         <td><span class="">{{ (index + 1) }}</span></td>
                         <td><span class="">{{ regular_discount.discount_name }}</span></td>
-                        <td><span class="">{{ regular_discount.discount_rate }}</span></td>
+                        <td><span class="">{{ regular_discount.discount_rate }} %</span></td>
                         <td><span class="">{{ regular_discount.discount_fixed }}</span></td>
                     </tr>
                 </tbody>
@@ -122,6 +122,21 @@ import Swal from 'sweetalert2'
 export default {
     name: 'supplier-regular-discount',
     props: ['properties'],
+    data: function () {
+        return {
+            regularDiscounts: [],
+            formdata: { 
+                uuid: null,
+                supplier_uuid: '', 
+                discount_type: 'rate',
+                discount_name: '',
+                discount_rate: '',
+                discount_fixed: '',
+                is_active: 1
+            }
+
+        }
+    },
     computed: {
       isDisabledRate() {
         var scope = this
@@ -144,21 +159,6 @@ export default {
         }  
       }
     },
-    data: function () {
-        return {
-            regularDiscounts: [],
-            formdata: { 
-                uuid: null,
-                supplier_uuid: '', 
-                discount_type: 'rate',
-                discount_name: '',
-                discount_rate: '',
-                discount_fixed: '',
-                is_active: 1
-            }
-
-        }
-    },
     methods: {
         getregularDiscounts: function () {
            var scope = this
@@ -169,7 +169,7 @@ export default {
         resetData: function () {
             var scope = this
             scope.formdata.uuid = null
-            scope.formdata.discount_type = ''
+            scope.formdata.discount_type = 'rate'
             scope.formdata.discount_name = ''
             scope.formdata.discount_rate = ''
             scope.formdata.discount_fixed = ''

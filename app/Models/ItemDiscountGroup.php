@@ -12,7 +12,8 @@ class ItemDiscountGroup extends Model
     protected $table = 'item_discount_group';
 
     protected $fillable = [
-        'uuid', 'company_id', 'group_name', 'group_rate'
+        'uuid', 'company_id', 'group_name', 'discount_type',
+        'discount_rate','discount_fixed',
     ];
 
     protected $primaryKey = 'uuid';

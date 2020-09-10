@@ -12,8 +12,9 @@ class BuyAndPayOrders extends Model
     protected $table = 'buy_and_pay_orders';
 
     protected $fillable = [
-        'uuid', 'company_id', 'po_no','item_group_uuid','asset_group_uuid',
-        'date_purchased','date_expected','supplier_uuid','status','orders_reason_code_uuid',
+        'uuid', 'company_id', 'po_no','item_group_uuid','asset_group_uuid','item_discount_group_uuid',
+        'term','date_purchased','date_expected','supplier_uuid','status','orders_reason_code_uuid','is_apply_tax','branch_uuid',
+        'branch_locations_uuid',
     ];
 
     protected $primaryKey = 'uuid';
