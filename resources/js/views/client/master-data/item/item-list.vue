@@ -92,12 +92,12 @@
         <div v-show="show_form">
             <div class="actions-bar">
                 <div class="w-100">
-                    <h1 class="title">Add New Item</h1>
+                    <h1 class="title">New Item Details</h1>
                 </div>
                 <div class="bar-right">
-                    <a @click="toggleForm()" type="submit" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>
                     <a v-if="formdata.uuid === null" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
                     <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save Changes</a>
+                    <a @click="toggleForm()" type="submit" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>
                 </div>
             </div>
 

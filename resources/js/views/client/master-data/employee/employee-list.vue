@@ -1,24 +1,19 @@
 <template>
     <div>
         <div v-show="!show_form">
-        <div class="nk-fmg-body-head d-none d-lg-flex">
-            <div class="nk-fmg-search">
-                <em class="icon ni ni-search"></em>
-                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Employee">
-            </div>
-            <div class="nk-fmg-actions">
-                <ul class="nk-block-tools g-3">
-                    <li>
-                        <a href="javascript:void(0)" @click="toggleForm();resetData()" class="btn btn-primary" data-toggle="modal">
-                            <em class="icon ni ni-plus"></em> <span>New Employee</span>
-                        </a>
-                    </li>
-                </ul>
+            <div class="actions-bar">
+                <div class="w-100">
+                    <h1 class="title"><i class="las la-list-ul"></i> Employee List</h1>
+                </div>
+                <div class="bar-right">
+                    <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Employee">
+                    <a @click="toggleForm();resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                        <i class="las la-plus"></i> <span>New Employee</span>
+                    </a>
+                </div>
             </div>
         </div>
-        </div>
-        
-        <br/>
+
         <div v-show="!show_form">          
             <div class="row">
                 <div class="col-12">
@@ -55,8 +50,8 @@
                                     <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:250px; width:200px; background:#fff; border-right:1px solid #dbdfea;"><span class="">Shortname Tide</span></td> -->
                                     <td>
                                     <span class="">
-                                        <a href="javascript:void(0)"  @click="setData(employee); toggleForm() " class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
-                                        <a href="javascript:void(0)"  @click="remove(employee)" class="btn btn-sm btn-danger"><em class="icon ni ni-trash"></em></a>
+                                        <a href="javascript:void(0)"  @click="setData(employee); toggleForm() " class="btn btn-sm btn-light"><i class="mdi mdi-pencil"></i></a>
+                                        <a href="javascript:void(0)"  @click="remove(employee)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
                                     </span>
                                     </td>
                                     <td><span class="">{{ (index + 1) }}</span></td>
@@ -88,6 +83,17 @@
         </div>  
 
         <div v-show="show_form">
+            <div class="actions-bar">
+                <div class="w-100">
+                    <h1 class="title">New Employee Details</h1>
+                </div>
+                <div class="bar-right">
+                    <a v-if="formdata.uuid === null" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
+                    <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save Changes</a>
+                    <a @click="toggleForm(); resetData();" type="submit" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>       
+                </div>
+            </div>
+
             <form action="#" class="form-validate is-alter">
 
                 <div class="row">

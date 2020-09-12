@@ -74,12 +74,12 @@
         <div v-show="show_form">
             <div class="actions-bar">
                 <div class="w-100">
-                    <h1 class="title">Add New List</h1>
+                    <h1 class="title">New Supplier Details</h1>
                 </div>
                 <div class="bar-right">
-                    <a @click="toggleForm(); resetData();" type="submit" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>
                     <a v-if="formdata.uuid === null" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
                     <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save Changes</a>
+                    <a @click="toggleForm(); resetData();" type="submit" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a> 
                 </div>
             </div>
 
@@ -766,7 +766,7 @@ export default {
 
 <style scoped>
 .table-tranx { table-layout: auto; }
-.table-items tr th { min-width:200px; width:auto; padding-left:10px; padding-right:10px; }
+/*.table-items tr th { min-width:200px; width:auto; padding-left:10px; padding-right:10px; }*/
 .table-fixed-column { position:absolute; }
 .form-group { margin-top:10px !important; }
 </style>

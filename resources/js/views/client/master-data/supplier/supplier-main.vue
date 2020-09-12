@@ -1,29 +1,27 @@
 <template>
     <div>
+        <div class="card">
+            <div class="card-body">
 
-        
-            <div class="card">
-                <div class="card-body">
+                <ul class="nav nav-tabs">    
+                    <li class="nav-item">        
+                        <a class="nav-link active" data-toggle="tab" href="#supplier-list">Supplier List</a>    
+                    </li>    
+                    <li class="nav-item">        
+                        <a class="nav-link" data-toggle="tab" href="#supplier-group">Supplier Group</a>    
+                    </li>    
+                </ul>
 
-                    <ul class="nav nav-tabs">    
-                        <li class="nav-item">        
-                            <a class="nav-link active" data-toggle="tab" href="#supplier-list">Supplier List</a>    
-                        </li>    
-                        <li class="nav-item">        
-                            <a class="nav-link" data-toggle="tab" href="#supplier-group">Supplier Group</a>    
-                        </li>    
-                    </ul>
-
-                    <div class="tab-content p-3">    
-                        <div class="tab-pane active" id="supplier-list">        
-                            <supplier-list></supplier-list>   
-                        </div>    
-                        <div class="tab-pane" id="supplier-group">        
-                            <supplier-group></supplier-group>    
-                        </div>    
-                    </div>
+                <div class="tab-content p-3">    
+                    <div class="tab-pane active" id="supplier-list">        
+                        <supplier-list></supplier-list>   
+                    </div>    
+                    <div class="tab-pane" id="supplier-group">        
+                        <supplier-group></supplier-group>    
+                    </div>    
                 </div>
             </div>
+        </div>
     </div>
 </template>
 
