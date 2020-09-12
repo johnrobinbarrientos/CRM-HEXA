@@ -98,7 +98,8 @@ class BuyAndPayOrdersController extends Controller
         // active supplier price rules discounts
         $supplier_discount_price_rules = SupplierPriceRule::where('supplier_uuid','=',$orders->supplier_uuid)
             ->where('company_id','=',$auth->company_id)
-
+            ->where('date_start','<=',$po_date)
+            ->where('date_end','>=',$po_date)
             ->get();
 
         foreach ($supplier_discount_price_rules as $supplier_discount_price_rule) {
@@ -112,7 +113,7 @@ class BuyAndPayOrdersController extends Controller
             $discount->save();
         }
 
-        return response()->json(['success' => 1, 'rows' => $orders], 200);
+        return response()->json(['success' => 1, 'rows' => $orders, 'po_date' => $po_date], 200);
     }
 
     public function getNumberOfTransactions($uuid)
