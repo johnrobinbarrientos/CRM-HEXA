@@ -97,9 +97,8 @@
                             <th>Item Rate</th>
                             <th>Gross Amount</th>
                             <th>Discount</th>
-                            <th>Net Sales</th>
+                            <th>Net</th>
                             <th>VAT Amount</th>
-                            <th>EWT Amount</th>
                             <th>Total Amount</th>
                             
                             <th>Price Rule?</th>
@@ -125,9 +124,8 @@
                             <td class="text-right"> {{ item.purchase_price }}</td>
                             <td class="text-right">{{ processItemCalculations(item).gross_amount }}</td>
                             <td class="text-right">{{ processItemCalculations(item).discount_amount }}</td>
-                            <td class="text-right">{{ processItemCalculations(item).net_sales }}</td>
+                            <td class="text-right">{{ processItemCalculations(item).net }}</td>
                             <td class="text-right">{{ processItemCalculations(item).vat_amount }}</td>
-                            <td class="text-right">{{ processItemCalculations(item).ewt_amount }}</td>
                             <td class="text-right">{{ processItemCalculations(item).total_amount }}</td>
                             <td>No</td>
                         </tr> 
@@ -138,7 +136,7 @@
                 <br/>
                 <div class="row">
                     <div class="col-md-6 col-12">
-                        <h3>Regular Discounts</h3>
+                        <h3>Base Discounts</h3>
                         <table class="table mb-0 table table-striped table-bordered">
                             <thead>
                                 <tr>
@@ -374,19 +372,17 @@ export default {
             var gross_amount = scope.calculateItemGrossAmount(item)
 
             var discount_amount = gross_amount * discounts
-            var net_sales = gross_amount - discount_amount
+            var net = gross_amount - discount_amount
 
-            var vat_amount = net_sales * 0.12
-            var ewt_amount = 0
-            var total_amount = (net_sales + vat_amount) - ewt_amount;
+            var vat_amount = net * 0.12
+            var total_amount = (net + vat_amount);
             
             return { 
                 discounts : discounts.toFixed(2),
                 gross_amount : gross_amount,
                 discount_amount : discount_amount.toFixed(2),
-                net_sales : net_sales.toFixed(2),
+                net : net.toFixed(2),
                 vat_amount : vat_amount.toFixed(2),
-                ewt_amount : ewt_amount.toFixed(2),
                 total_amount : total_amount.toFixed(2),
             }
         },

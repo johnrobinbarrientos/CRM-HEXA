@@ -153,11 +153,11 @@ class MenuController extends Controller
         ];
 
         $menus[] = [
-            'text' => 'Stock',
+            'text' => 'Inventory',
             'route' => '#has-submenu',
             'icon' => 'bx bx-package',
             'submenus' => [
-                [ 'text' => 'Stock Entry', 'route' => 'item-main'],
+                [ 'text' => 'Inventory Movement', 'route' => 'item-main'],
                 [ 'text' => 'Price Rule', 'route' => 'supplier-main']
             ]
         ];

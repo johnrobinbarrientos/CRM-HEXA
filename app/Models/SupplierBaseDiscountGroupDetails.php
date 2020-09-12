@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SupplierDiscountGroupDetails extends Model
+class SupplierBaseDiscountGroupDetails extends Model
 {
     use SoftDeletes;
     
-    protected $table = 'supplier_discount_group_details';
+    protected $table = 'supplier_base_discount_group_details';
 
     protected $fillable = [
-        'uuid', 'company_id', 'supplier_discount_group_uuid', 'discount_name', 'discount_rate',
+        'uuid', 'company_id', 'supplier_base_discount_group_uuid', 'discount_name', 'discount_rate',
     ];
 
     protected $primaryKey = 'uuid';
