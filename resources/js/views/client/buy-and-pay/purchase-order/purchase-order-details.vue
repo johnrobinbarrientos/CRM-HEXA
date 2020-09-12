@@ -138,7 +138,7 @@
                 <br/>
                 <div class="row">
                     <div class="col-md-6 col-12">
-                        <h3>Discounts</h3>
+                        <h3>Regular Discounts</h3>
                         <table class="table mb-0 table table-striped table-bordered">
                             <thead>
                                 <tr>
@@ -146,7 +146,6 @@
                                     <th>Gross Amount</th>
                                     <th>Discount Rate</th>
                                     <th>Discount Amount</th>
-                                    <th>Classification</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -155,7 +154,29 @@
                                     <th class="text-right">{{ calculateTotals().total_gross_amount }}</th>
                                     <th class="text-right">{{ discount.discount_rate }}%</th>
                                     <th class="text-right">{{ calculateDiscountAmount(discount) }}</th>
-                                    <th>Regular</th>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <br/>
+                        <br/>
+
+                        <h3>Price Rule Discounts</h3>
+                        <table class="table mb-0 table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Discount Name</th>
+                                    <th>Gross Amount</th>
+                                    <th>Discount Rate</th>
+                                    <th>Discount Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(discount, index) in price_rules" :key="index">
+                                    <th>{{ discount.discount_name }}</th>
+                                    <th class="text-right">{{ calculateTotals().total_gross_amount }}</th>
+                                    <th class="text-right">{{ discount.discount_rate }}%</th>
+                                    <th class="text-right">{{ calculatePriceRuleDiscountAmount(discount) }}</th>
                                 </tr>
                             </tbody>
                         </table>
@@ -171,7 +192,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 col-12">
-                                <h2>{{ (calculateTotalDiscounts() * 100) + '%' }}  Discounts</h2>
+                                <h2>{{ (calculateTotalDiscounts() * 100).toFixed(2) + '%' }}  Discounts</h2>
                             </div>
                             <div class="col-md-6 col-12">
                                 <h2 class="text-right text-disabled"><strong> -{{ calculateTotals().total_discount_amount }} </strong></h2>
@@ -292,6 +313,9 @@ export default {
         },
         discounts() {
             return this.order.discounts
+        },
+        price_rules() {
+            return this.order.price_rules
         }
     },
     watch: {
@@ -326,6 +350,27 @@ export default {
         calculateTotalDiscounts: function() {
             var scope = this
             var discounts = scope.discounts
+            var total_discount_rate = 0;
+            for (let i = 0; i< discounts.length; i++) {
+                var current = discounts[i]
+
+                total_discount_rate += parseFloat(current.discount_rate)
+
+                if (i == (discounts.length - 1)) {
+                    var price_rules = scope.calculateTotalPriceRuleDiscounts() * 100
+                    total_discount_rate += price_rules
+                    return total_discount_rate / 100
+                }
+            }
+
+            var price_rules = scope.calculateTotalPriceRuleDiscounts() * 100
+            total_discount_rate += price_rules
+
+            return total_discount_rate / 100
+        },
+        calculateTotalPriceRuleDiscounts: function() {
+            var scope = this
+            var discounts = scope.price_rules
             var total_discount_rate = 0;
             for (let i = 0; i< discounts.length; i++) {
                 var current = discounts[i]
@@ -389,6 +434,15 @@ export default {
             }
         },
         calculateDiscountAmount: function(discount) {
+            var scope = this
+            var total_gross_amount = scope.calculateTotals().total_gross_amount
+            var discount_rate = discount.discount_rate
+            discount_rate = discount_rate / 100
+
+            var discount_amount = total_gross_amount * discount_rate
+            return discount_amount.toFixed(2)
+        },
+        calculatePriceRuleDiscountAmount: function(discount) {
             var scope = this
             var total_gross_amount = scope.calculateTotals().total_gross_amount
             var discount_rate = discount.discount_rate

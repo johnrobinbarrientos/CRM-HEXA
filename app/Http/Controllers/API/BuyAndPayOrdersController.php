@@ -13,7 +13,9 @@ use App\Models\ItemGroup;
 use App\Models\ItemDiscountGroup;  
 use App\Models\SupplierList;  
 use App\Models\SupplierRegularDiscount;  
+use App\Models\SupplierPriceRule;  
 use App\Models\BuyAndPayOrderRegularDiscount;  
+use App\Models\BuyAndPayOrderPriceRuleDiscount;  
 use Illuminate\Support\Facades\Auth; 
 
 class BuyAndPayOrdersController extends Controller
@@ -91,6 +93,25 @@ class BuyAndPayOrdersController extends Controller
             $discount->save();
         }
 
+        $po_date = date('Y-m-d',strtotime($orders->date_purchased));
+
+        // active supplier price rules discounts
+        $supplier_discount_price_rules = SupplierPriceRule::where('supplier_uuid','=',$orders->supplier_uuid)
+            ->where('company_id','=',$auth->company_id)
+
+            ->get();
+
+        foreach ($supplier_discount_price_rules as $supplier_discount_price_rule) {
+            $discount = new BuyAndPayOrderPriceRuleDiscount;
+            $discount->company_id = $auth->company_id;
+            $discount->bp_order_uuid = $orders->uuid;
+            $discount->discount_type = $supplier_discount_price_rule->discount_type;
+            $discount->discount_name = $supplier_discount_price_rule->discount_name;
+            $discount->discount_rate = $supplier_discount_price_rule->discount_rate;
+            $discount->discount_fixed = $supplier_discount_price_rule->discount_fixed;
+            $discount->save();
+        }
+
         return response()->json(['success' => 1, 'rows' => $orders], 200);
     }
 
@@ -123,6 +144,9 @@ class BuyAndPayOrdersController extends Controller
         
         $discounts = BuyAndPayOrderRegularDiscount::where('bp_order_uuid','=',$order->uuid)->get();
         $order->discounts = $discounts;
+
+        $price_rules = BuyAndPayOrderPriceRuleDiscount::where('bp_order_uuid','=',$order->uuid)->get();
+        $order->price_rules = $price_rules;
 
         $supplier = SupplierList::find($order->supplier_uuid);
         $order->supplier = $supplier;
