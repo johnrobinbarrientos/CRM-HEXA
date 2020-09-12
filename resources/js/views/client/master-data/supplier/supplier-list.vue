@@ -14,7 +14,6 @@
             </div>
         </div>
         
-        <br/>
         <div v-show="!show_form">          
             <div class="row">
                 <div class="col-12">
@@ -73,6 +72,17 @@
         </div>  
 
         <div v-show="show_form">
+            <div class="actions-bar">
+                <div class="w-100">
+                    <h1 class="title">Add New List</h1>
+                </div>
+                <div class="bar-right">
+                    <a @click="toggleForm(); resetData();" type="submit" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>
+                    <a v-if="formdata.uuid === null" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
+                    <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save Changes</a>
+                </div>
+            </div>
+
             <form action="#" class="form-validate is-alter">
 
                 <div class="row">

@@ -92,7 +92,7 @@
         <div v-show="show_form">
             <div class="actions-bar">
                 <div class="w-100">
-                    <h1>Add New Item</h1>
+                    <h1 class="title">Add New Item</h1>
                 </div>
                 <div class="bar-right">
                     <a @click="toggleForm()" type="submit" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>
