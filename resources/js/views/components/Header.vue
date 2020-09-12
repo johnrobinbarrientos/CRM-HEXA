@@ -5,7 +5,7 @@
                 <div class="navbar-brand-box">
                     <a href="javascript:void(0);" style="font-size:20px; font-weight:600; color:#fff;">
                         <!-- <img :src="logo" style="height:50px;"> -->
-                        PINOY GROCERY
+                        HEXA Corp.
                     </a>
                     <button @click="$store.commit('toggleSideNav')" type="button" class="btn btn-sm p-0  font-size-16 header-item waves-effect" id="vertical-menu-btn"><i class="mdi mdi-menu"></i></button>
                 </div>
@@ -117,7 +117,7 @@
                 <div class="d-inline-block dropdown">
                     <button id="page-header-user-dropdown" aria-haspopup="true" class="btn header-item waves-effect" aria-expanded="false">
                         <img class="rounded-circle header-profile-user" :src="avatar" alt="Header Avatar">
-                        <span class="d-none d-xl-inline-block ml-2 mr-1">John Lenon</span>
+                        <span class="d-none d-xl-inline-block ml-2 mr-1">User</span>
                         <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                     </button>
                     <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">

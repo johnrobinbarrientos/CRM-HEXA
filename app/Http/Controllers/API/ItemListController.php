@@ -18,7 +18,7 @@ class ItemListController extends Controller
         $list = ItemList::whereNull('deleted_at')
         ->with('ItemGroup')->with('Suppliers')
         ->with('IncomeAccount')->with('CosAccount')
-        ->with('Tax')->with('Category1')
+        ->with('Category1')
         ->with('Category2')->with('Category3')
         ->with('Category4')->with('Category5')
         ->with('AssetGroup')
@@ -45,14 +45,13 @@ class ItemListController extends Controller
         $item->customer_group_uuid = request()->customer_group_uuid;
         $item->option_rate = request()->option_rate;
         $item->is_expiry = request()->is_expiry;
-        $item->vat_uuid = request()->vat_uuid;
+        $item->without_vat = request()->without_vat;
         $item->is_maintain_stock = request()->is_maintain_stock;
         $item->is_active = request()->is_active;
         $item->coa_income_account_uuid = request()->coa_income_account_uuid;
         $item->coa_cos_account_uuid = request()->coa_cos_account_uuid;
         $item->reorder_qty = request()->reorder_qty;
         $item->item_asset_group_uuid = request()->item_asset_group_uuid;
-        $item->item_discount_group_uuid = request()->item_discount_group_uuid;
         $item->category1_uuid = request()->category1_uuid;
         $item->category2_uuid = request()->category2_uuid;
         $item->category3_uuid = request()->category3_uuid;

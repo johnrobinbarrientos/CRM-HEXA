@@ -6,9 +6,9 @@
                 <h1 class="title"><i class="las la-th-list"></i> Item Group</h1>
             </div>
             <div class="bar-right">
-                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Item Group"> 
+                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search"> 
                 <a href="javascript:void(0)" @click="OPEN_MODAL('#modalItemGroup');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
-                    <i class="las la-plus"></i> <span>New Item Group</span>
+                    <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
         </div>

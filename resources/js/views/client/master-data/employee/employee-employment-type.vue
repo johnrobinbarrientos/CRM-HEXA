@@ -5,9 +5,9 @@
                 <h1 class="title"><i class="las la-list-ul"></i> Employment Type</h1>
             </div>
             <div class="bar-right">
-                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Employee">
+                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
                 <a @click="OPEN_MODAL('#modalEmploymentType');resetData();" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
-                    <i class="las la-plus"></i> <span>Add New Employee</span>
+                    <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
         </div>

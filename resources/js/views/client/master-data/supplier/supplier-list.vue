@@ -6,9 +6,9 @@
                     <h1 class="title"><i class="las la-list-ul"></i> Supplier List</h1>
                 </div>
                 <div class="bar-right">
-                    <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Supplier">
+                    <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
                     <a @click="toggleForm();resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
-                        <i class="las la-plus"></i> <span>New Supplier</span>
+                        <i class="las la-plus"></i> <span>New</span>
                     </a>
                 </div>
             </div>
@@ -199,26 +199,19 @@
                                 </div>
                             </div>
 
-                            <!-- <div class="col-md-4 col-12">
-                                <div class="form-group">
-                                    <div class="custom-control custom-checkbox">
-                                        <input v-model="formdata.is_sales_item" type="checkbox" class="custom-control-input" id="customCheck2">
-                                        <label class="custom-control-label" for="customCheck2">Applied VAT?</label>
-                                    </div>
-                                </div>
-                            </div> -->
+
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
                                         <div class="form-control-wrap">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" v-model="is_vat" value="1" class="custom-control-input" id="is-vat">
-                                                <label class="custom-control-label" for="is-vat">Is Vat?</label>
+                                                <input type="checkbox" v-model="with_vat" class="custom-control-input" id="with-vat">
+                                                <label class="custom-control-label" for="with-vat">With VAT?</label>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div v-show="is_vat" class="row">
+                                    <div v-show="with_vat" class="row">
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="vat">VAT</label>
@@ -235,13 +228,13 @@
                                     <div class="form-group">
                                         <div class="form-control-wrap">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" v-model="is_ewt" value="1" class="custom-control-input" id="is-ewt">
-                                                <label class="custom-control-label" for="is-ewt">Is Ewt?</label>
+                                                <input type="checkbox" v-model="with_ewt" value="1" class="custom-control-input" id="with-ewt">
+                                                <label class="custom-control-label" for="with-ewt">With EWT?</label>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div v-show="is_ewt" class="row">
+                                    <div v-show="with_ewt" class="row">
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="ewt">EWT</label>
@@ -257,37 +250,7 @@
 
                         <div class="tab-pane" id="discounts">
 
-                            <div id="accordion">
-                                <div class="card mb-1 shadow-none">
-                                    <div class="card-header" id="headingOne">
-                                        <h6 class="m-0">
-                                            <a href="#collapseOne" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">
-                                                Regular Discounts
-                                            </a>
-                                        </h6>
-                                    </div>
 
-                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion" style="">
-                                        <div class="card-body">
-                                            <supplier-regular-discount v-if="formdata.uuid" :properties="formdata.uuid"></supplier-regular-discount> 
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card mb-1 shadow-none">
-                                    <div class="card-header" id="headingTwo">
-                                        <h6 class="m-0">
-                                            <a href="#collapseTwo" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
-                                                Price Rules
-                                            </a>
-                                        </h6>
-                                    </div>
-                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                                        <div class="card-body">
-                                            <supplier-price-rule v-if="formdata.uuid" :properties="formdata.uuid"></supplier-price-rule>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
            
                         </div>
 
@@ -358,30 +321,19 @@
                     </div>
                 
             </form>
-            <div style="margin-top:30px; text-align:right;">
-                <button @click="toggleForm(); resetData()" type="submit" class="btn btn-lg btn-primary">Back</button>
-                <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
-                <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
-            </div>
         </div>        
              
     </div>
 </template>
 
 <script>
-import SupplierRegularDiscount from './supplier-regular-discount'
-import SupplierPriceRule from './supplier-price-rule'
+
 
 import Swal from 'sweetalert2'
 
 export default {
     name: 'supplier-list',
     props: ['properties'],
-
-    components: {
-        'supplier-regular-discount': SupplierRegularDiscount,
-        'supplier-price-rule': SupplierPriceRule
-    },
 
     data: function () {
         return {
@@ -405,8 +357,8 @@ export default {
 
             show_form: false,
 
-            is_vat: 0,
-            is_ewt: 0,
+            with_vat: 0,
+            with_ewt: 0,
             barangay: '',
             city_municipality: '',
             province: '',
@@ -435,6 +387,21 @@ export default {
             }
 
         }
+    },
+    watch: {
+        // with_vat: function () {
+        //     console.log('resrser')
+        //         if(this.with_vat===0)
+        //         {
+        //             console.log('test sulod')
+        //             scope.selected_vat = ''
+        //             $('.form-select-vat').val(null);
+        //             $('.form-select-vat').trigger('change');
+        //         }
+        //         else {
+        //             console.log('diri')
+        //         }
+        // },
     },
     methods: {
         toggleForm() {
@@ -506,7 +473,7 @@ export default {
 
            scope.options_vat.push({
                id: '',
-               text: 'NONE'
+               text: 'None'
            });
 
             scope.GET('company/taxation-vat').then(res => {
@@ -532,7 +499,7 @@ export default {
 
            scope.options_ewt.push({
                id: '',
-               text: 'NONE'
+               text: 'None'
            });
 
             scope.GET('company/taxation-ewt').then(res => {
@@ -609,8 +576,8 @@ export default {
             scope.formdata.address1 = ''
 
 
-            scope.is_vat = 0
-            scope.is_ewt = 0
+            scope.with_vat = 0
+            scope.with_ewt = 0
 
         },
         setData: function (data) {
@@ -627,15 +594,15 @@ export default {
             scope.formdata.address1 = data.address1
 
             if (data.vat_uuid!=null){
-                scope.is_vat = 1
+                scope.with_vat = 1
             }else{
-                scope.is_vat = 0
+                scope.with_vat = 0
             }
 
             if (data.ewt_uuid!=null){
-                scope.is_ewt = 1
+                scope.with_ewt = 1
             }else{
-                scope.is_ewt = 0
+                scope.with_ewt = 0
             }
 
             $('.form-select-supplier-group').val(data.supplier_group_uuid);

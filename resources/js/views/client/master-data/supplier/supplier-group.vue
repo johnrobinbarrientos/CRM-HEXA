@@ -5,9 +5,9 @@
                 <h1 class="title"><i class="las la-list-ul"></i> Supplier Group</h1>
             </div>
             <div class="bar-right">
-                <input type="text" class="form-control" placeholder="Search Item">
+                <input type="text" class="form-control" placeholder="Search">
                 <a @click="OPEN_MODAL('#modalSupplierGroup');toggleForm();resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
-                    <i class="las la-plus"></i> <span>New Supplier Group</span>
+                    <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
         </div>

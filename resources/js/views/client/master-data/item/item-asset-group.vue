@@ -6,9 +6,9 @@
                 <h1 class="title"><i class="las la-stream"></i> Asset Group</h1>
             </div>
             <div class="bar-right">
-                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Item Asset Group"> 
+                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search"> 
                 <a href="javascript:void(0)" @click="OPEN_MODAL('#modalItemAssetGroup');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
-                    <i class="las la-plus"></i> <span>New Asset Group</span>
+                    <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
         </div>
@@ -18,7 +18,7 @@
                     <tr class="tb-tnx-head">
                         <th width="100">Actions</th>
                         <th width="100">#</th>
-                        <th>Item Asset Group</th>
+                        <th>Asset Group</th>
                         
                     </tr>
                 </thead>

@@ -3,11 +3,11 @@
         <div style="margin-bottom:10px;">
             <div class="row">
                 <div class="col-12 col-md-3">
-                    <input type="text" class="form-control" placeholder="Search Item">
+                    <input type="text" class="form-control" placeholder="Search">
                 </div>
                 <div class="col-12 col-md-1 offset-md-8">
                     <a href="javascript:void(0)" @click="toggleForm();resetData()" class="btn btn-block btn-primary" data-toggle="modal">
-                        <em class="icon ni ni-plus"></em> <span>New Item</span>
+                        <em class="icon ni ni-plus"></em> <span>New</span>
                     </a>
                 </div>
             </div>

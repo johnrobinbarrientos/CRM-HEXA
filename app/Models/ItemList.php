@@ -13,8 +13,8 @@ class ItemList extends Model
 
     protected $fillable = [
         'uuid','company_id','item_group_uuid','item_code','item_barcode','cs_barcode','item_description','item_shortname',
-        'is_purchase_item','purchase_price','is_sales_item','sales_price','manual_rate','customer_group_uuid','item_discount_group_uuid',
-        'option_rate','is_expiry','vat_uuid','is_maintain_stock','is_active','coa_income_account_uuid','coa_cos_account_uuid',
+        'is_purchase_item','purchase_price','is_sales_item','sales_price','manual_rate','customer_group_uuid',
+        'option_rate','is_expiry','without_vat','is_maintain_stock','is_active','coa_income_account_uuid','coa_cos_account_uuid',
         'reorder_qty','item_asset_group_uuid','category1_uuid','category2_uuid','category3_uuid','category4_uuid','category5_uuid',
     ];
 
@@ -49,9 +49,6 @@ class ItemList extends Model
         return $this->belongsTo('App\Models\CompanyChartOfAccount','coa_cos_account_uuid','uuid');
     }
 
-    public function Tax(){
-        return $this->belongsTo('App\Models\CompanyTaxation','vat_uuid','uuid');
-    }
 
     public function Category1(){
         return $this->belongsTo('App\Models\ItemCategory1','category1_uuid','uuid');

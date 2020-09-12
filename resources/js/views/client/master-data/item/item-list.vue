@@ -7,9 +7,9 @@
                     <h1 class="title"><i class="las la-list-ul"></i> Item List</h1>
                 </div>
                 <div class="bar-right">
-                    <input type="text" class="form-control" placeholder="Search Item">
+                    <input type="text" class="form-control" placeholder="Search">
                     <a @click="toggleForm();resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
-                        <i class="las la-plus"></i> <span>New Item</span>
+                        <i class="las la-plus"></i> <span>New</span>
                     </a>
                 </div>
             </div>
@@ -108,14 +108,6 @@
                         <div class="form-group">
                             <label class="form-label" for="item-group">Item Group</label>
                             <select class="form-select-item-group" v-model="selected_item_group" :options="options_item_group" name="item-group">
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-12">
-                        <div class="form-group">
-                            <label class="form-label" for="discount-group">Item Discount Group</label>
-                            <select class="form-select-discount-group" v-model="selected_discount_group" :options="options_discount_group" name="discount-group">
                             </select>
                         </div>
                     </div>
@@ -222,11 +214,10 @@
                         <li class="nav-item">        
                             <a class="nav-link" data-toggle="tab" href="#unit-of-measure">Unit of Measure</a>    
                         </li>
-                        <li class="nav-item">
-                            <a v-if="formdata.uuid === null" class="nav-link disabled" data-toggle="tab" href="#pricing">Pricing</a> 
-                            <a v-else class="nav-link" data-toggle="tab" href="#pricing">Pricing</a>           
+                        <li class="nav-item"> 
+                            <a class="nav-link" data-toggle="tab" href="#pricing">Pricing</a>           
                         </li>
-                        <li class="nav-item">        
+                        <li class="nav-item" v-show="show_asset_group">        
                             <a class="nav-link" data-toggle="tab" href="#asset">Asset</a>    
                         </li>   
                     </ul>
@@ -254,16 +245,8 @@
                                         <div class="form-group">
                                             <div class="form-control-wrap">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" v-model="is_vat" value="1" class="custom-control-input" id="is-vat">
-                                                    <label class="custom-control-label" for="is-vat">Is Vat?</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div v-show="is_vat" class="row">
-                                            <div class="col-md-4 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="vat">VAT</label>
-                                                    <select class="form-select-vat" v-model="selected_vat" :options="options_vat" name="vat"></select>
+                                                    <input type="checkbox" v-model="formdata.without_vat" value="1" class="custom-control-input" id="without-vat">
+                                                    <label class="custom-control-label" for="without-vat">Without VAT</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -449,7 +432,7 @@
                         </div>   
 
 
-                        <div class="tab-pane" id="asset">
+                        <div class="tab-pane" id="asset" v-show="show_asset_group">
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
                                     <label class="form-label" for="asset-group">Asset Group</label>
@@ -459,15 +442,8 @@
                             </div>   
       
                         </div>   
-     
                     </div>
-                
             </form>
-            <div style="margin-top:30px; text-align:right;">
-                <button @click="toggleForm()" type="submit" class="btn btn-lg btn-primary">Back</button>
-                <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
-                <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
-            </div>
         </div>        
              
     </div>
@@ -494,9 +470,6 @@ export default {
             selected_cost_of_sales: null,
             options_cost_of_sales: [],
 
-            selected_vat: null,
-            options_vat: [],
-
             selected_category1: null,
             options_category1: [],
 
@@ -515,17 +488,16 @@ export default {
             selected_asset_group: null,
             options_asset_group: [],
 
-            selected_discount_group: null,
-            options_discount_group: [],
-
             selected_customer_group: null,
             options_customer_group: [],
 
             input_markup_rate: '',
             customer_markup_rate: '',
 
-            is_vat: 0,
+            
             compute_selection: 'manual',
+
+            show_asset_group: false,
 
             show_form: false,
 
@@ -543,6 +515,8 @@ export default {
                 item_description: '',
                 item_shortname: '',
 
+                without_vat: 1,
+
                 supplier_uuid: '',
                 is_purchase_item: 0,
                 purchase_price: '',
@@ -554,14 +528,12 @@ export default {
                 option_rate: '',
 
                 is_expiry: 0,
-                vat_uuid: '',
                 is_maintain_stock: 0,
-                is_active: 0,
+                is_active: 1,
                 coa_income_account_uuid: '',
                 coa_cos_account_uuid: '',
                 reorder_qty: '',
                 item_asset_group_uuid: '',
-                item_discount_group_uuid: '',
                 category1_uuid: '',
                 category2_uuid: '',
                 category3_uuid: '',
@@ -684,29 +656,6 @@ export default {
             })
         },
 
-        getVat: function () {
-           var scope = this
-
-           scope.options_vat.push({
-               id: '',
-               text: 'NONE'
-           });
-
-            scope.GET('company/taxation-vat').then(res => {
-                
-                res.rows.forEach(function (data) {
-
-                    scope.options_vat.push({
-                        id: data.uuid,
-                        text: data.tax_name
-                    })
-                
-                })
-
-                $(".form-select-vat").select2({data: scope.options_vat});
-                
-            })
-        },
 
         getCategory1: function () {
            var scope = this
@@ -811,7 +760,7 @@ export default {
            
            scope.options_asset_group.push({
                id: '',
-               text: 'NONE'
+               text: 'None'
            });
 
             scope.GET('items/item-asset-group').then(res => {
@@ -824,28 +773,6 @@ export default {
                 })
 
                 $(".form-select-asset-group").select2({data: scope.options_asset_group});
-            })
-
-        },
-
-        getDiscountGroup: function () {
-           var scope = this
-           
-           scope.options_discount_group.push({
-               id: '',
-               text: 'NONE'
-           });
-
-            scope.GET('items/item-discount-group').then(res => {
-                
-                res.rows.forEach(function (data) {
-                    scope.options_discount_group.push({
-                        id: data.uuid,
-                        text: data.group_name
-                    })
-                })
-
-                $(".form-select-discount-group").select2({data: scope.options_discount_group});
             })
 
         },
@@ -928,6 +855,24 @@ export default {
             return data[0].uom
         },
 
+        checkAsset: function () {
+           var scope = this
+           for (var i = 0; i < scope.options_item_group.length; i++) {
+                if(scope.options_item_group[i].id==scope.selected_item_group){
+                    if (scope.options_item_group[i].text === 'Asset'){
+                        scope.show_asset_group = true
+                    }
+                    else{
+                        scope.show_asset_group = false
+                        scope.selected_asset_group = ''
+                        $('.form-select-asset-group').val(null);
+                        $('.form-select-asset-group').trigger('change');
+                    }
+
+                }
+            }
+        },
+
         resetData: function () {
             var scope = this
             scope.formdata.uuid = null
@@ -949,14 +894,13 @@ export default {
             scope.formdata.option_rate = ''
 
             scope.formdata.is_expiry = 0
-            scope.formdata.vat_uuid = ''
+            scope.formdata.without_vat = 1
             scope.formdata.is_maintain_stock = 0
-            scope.formdata.is_active = 0
+            scope.formdata.is_active = 1
             scope.formdata.coa_income_account_uuid = ''
             scope.formdata.coa_cos_account_uuid = ''
             scope.formdata.reorder_qty = ''
             scope.formdata.item_asset_group_uuid = ''
-            scope.formdata.item_discount_group_uuid = ''
             scope.formdata.category1_uuid = ''
             scope.formdata.category2_uuid = ''
             scope.formdata.category3_uuid = ''
@@ -965,10 +909,10 @@ export default {
 
             scope.input_markup_rate = ''
             scope.customer_markup_rate = ''
-
-            scope.is_vat = 0
             
             scope.compute_selection = 'manual'
+
+            scope.show_asset_group = false
 
         },
         setData: function (data) {
@@ -980,6 +924,8 @@ export default {
             scope.formdata.item_description = data.item_description
             scope.formdata.item_shortname = data.item_shortname
             scope.formdata.is_purchase_item = data.is_purchase_item
+
+            scope.formdata.without_vat = data.without_vat
 
             scope.formdata.purchase_price = data.purchase_price
             scope.formdata.is_sales_item = data.is_sales_item
@@ -994,12 +940,6 @@ export default {
             scope.getItemUoms()
 
             var suppliers = [];
-
-            if (data.vat_uuid!=null){
-                scope.is_vat = 1
-            }else{
-                scope.is_vat = 0
-            }
             
 
             for(var i = 0; i < data.suppliers.length; i++) {
@@ -1019,9 +959,6 @@ export default {
             $('.form-select-cost-of-sales').val(data.coa_cos_account_uuid);
             $('.form-select-cost-of-sales').trigger('change');
 
-            $('.form-select-vat').val(data.vat_uuid);
-            $('.form-select-vat').trigger('change');
-
             $('.form-select-category-1').val(data.category1_uuid);
             $('.form-select-category-1').trigger('change');
 
@@ -1040,19 +977,14 @@ export default {
             $('.form-select-asset-group').val(data.item_asset_group_uuid);
             $('.form-select-asset-group').trigger('change');
 
-            $('.form-select-discount-group').val(data.item_discount_group_uuid);
-            $('.form-select-discount-group').trigger('change');
-
         },
         save: function () {
             var scope = this
             scope.formdata.item_group_uuid = scope.selected_item_group
             scope.formdata.supplier_uuids = scope.selected_suppliers
-            scope.formdata.vat_uuid = scope.selected_vat
             scope.formdata.coa_income_account_uuid = scope.selected_income_account
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
             scope.formdata.item_asset_group_uuid = scope.selected_asset_group
-            scope.formdata.item_discount_group_uuid = scope.selected_discount_group
 
             scope.formdata.category1_uuid = scope.selected_category1
             scope.formdata.category2_uuid = scope.selected_category2
@@ -1087,11 +1019,9 @@ export default {
             var scope = this
             scope.formdata.item_group_uuid = scope.selected_item_group
             scope.formdata.supplier_uuids = scope.selected_suppliers
-            scope.formdata.vat_uuid = scope.selected_vat
             scope.formdata.coa_income_account_uuid = scope.selected_income_account
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
             scope.formdata.item_asset_group_uuid = scope.selected_asset_group
-             scope.formdata.item_discount_group_uuid = scope.selected_discount_group
 
             scope.formdata.category1_uuid = scope.selected_category1
             scope.formdata.category2_uuid = scope.selected_category2
@@ -1178,14 +1108,12 @@ export default {
         scope.getSupplier()
         scope.getIncomeAccount()
         scope.getCostofSales()
-        scope.getVat()
         scope.getCategory1()
         scope.getCategory2()
         scope.getCategory3()
         scope.getCategory4()
         scope.getCategory5()
         scope.getAssetGroup()
-        scope.getDiscountGroup()
 
         scope.getGlobalUoms()
         
@@ -1193,12 +1121,9 @@ export default {
 
 
 
-        $('.form-select-discount-group').on("change", function(e) { 
-            scope.selected_discount_group = $('.form-select-discount-group').val();
-        })
-
         $('.form-select-item-group').on("change", function(e) { 
             scope.selected_item_group = $('.form-select-item-group').val();
+            scope.checkAsset()
         })
 
         $('.form-select-suppliers').on("change", function(e) { 
@@ -1211,10 +1136,6 @@ export default {
 
         $('.form-select-cost-of-sales').on("change", function(e) { 
             scope.selected_cost_of_sales = $('.form-select-cost-of-sales').val();
-        })
-
-        $('.form-select-vat').on("change", function(e) { 
-            scope.selected_vat = $('.form-select-vat').val();
         })
 
         $('.form-select-category-1').on("change", function(e) { 

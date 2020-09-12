@@ -3,13 +3,13 @@
         <div style="margin-bottom:40px;" class="nk-fmg-body-head d-none d-lg-flex">
             <div class="nk-fmg-search">
                 <em class="icon ni ni-search"></em>
-                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Payment Term">
+                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
             </div>
             <div class="nk-fmg-actions">
                 <ul class="nk-block-tools g-3">
                     <li>
                         <a href="javascript:void(0)" @click="OPEN_MODAL('#modalPaymentTerm');resetData()" class="btn btn-primary" data-toggle="modal">
-                            <em class="icon ni ni-plus"></em> <span>New Payment Term</span>
+                            <em class="icon ni ni-plus"></em> <span>New</span>
                         </a>
                     </li>
                 </ul>

@@ -24,12 +24,6 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#item-discount-group" role="tab">
-                            <span class="d-block d-sm-none"></span>
-                            <span class="d-none d-sm-block">Item Discount Group</span>    
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" data-toggle="tab" href="#categories" role="tab">
                             <span class="d-block d-sm-none"></span>
                             <span class="d-none d-sm-block">Categories</span>    
@@ -47,9 +41,6 @@
                     </div>
                     <div class="tab-pane" id="asset-group" role="tabpanel">
                         <asset-group></asset-group>
-                    </div>
-                    <div class="tab-pane" id="item-discount-group" role="tabpanel">
-                        <item-discount-group></item-discount-group>
                     </div>
                     <div class="tab-pane" id="categories" role="tabpanel">
                         <category-1></category-1> 
@@ -113,7 +104,6 @@
                     </div>
                          
                     </div>
-                </div>
             </div>
         </div> 
     </div>
@@ -123,7 +113,6 @@
 import ItemList from './item-list'
 import ItemGroup from './item-group'
 import ItemAssetGroup from './item-asset-group'
-import ItemDiscountGroup from './item-discount-group'
 import ItemCategory1 from './item-category-1'
 import ItemCategory2 from './item-category-2'
 import ItemCategory3 from './item-category-3'
@@ -135,7 +124,6 @@ export default {
         'item-list': ItemList,
         'item-group': ItemGroup,
         'asset-group': ItemAssetGroup,
-        'item-discount-group': ItemDiscountGroup,
         'category-1': ItemCategory1,
         'category-2': ItemCategory2,
         'category-3': ItemCategory3,

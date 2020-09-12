@@ -24,11 +24,11 @@
                                     <div style="margin-bottom: 20px;" class="d-none d-lg-flex justify-content-between">
                                         <div>
                                             <em class="icon ni ni-search"></em>
-                                            <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Category 1">
+                                            <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
                                         </div>
                                         <div>
                                             <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCategory1');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
-                                                <i class="las la-plus"></i> <span>New Item Category 1</span>
+                                                <i class="las la-plus"></i> <span>New</span>
                                             </a>
                                         </div>
                                     </div>

@@ -11,11 +11,11 @@
                 <div style="margin-bottom:10px;">
                     <div class="row">
                         <div class="col-12 col-md-3">
-                            <input type="text" class="form-control" placeholder="Search Item">
+                            <input type="text" class="form-control" placeholder="Search">
                         </div>
                         <div class="col-12 col-md-2 offset-md-7 text-right">
                             <a href="javascript:void(0)" @click="OPEN_MODAL('#modalReportGroup');resetData()" class="btn btn-primary" data-toggle="modal">
-                                <em class="icon ni ni-plus"></em> <span>New Report Group</span>
+                                <em class="icon ni ni-plus"></em> <span>New</span>
                             </a>
                         </div>
                     </div>

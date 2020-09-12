@@ -6,9 +6,9 @@
                     <h1 class="title"><i class="las la-list-ul"></i> Employee List</h1>
                 </div>
                 <div class="bar-right">
-                    <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Employee">
+                    <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
                     <a @click="toggleForm();resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
-                        <i class="las la-plus"></i> <span>New Employee</span>
+                        <i class="las la-plus"></i> <span>New</span>
                     </a>
                 </div>
             </div>
@@ -450,11 +450,6 @@
                         </div>     
                  </div>
             </form>
-            <div style="margin-top:30px; text-align:right;">
-                <button @click="toggleForm()" type="submit" class="btn btn-lg btn-primary">Back</button>
-                <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
-                <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
-            </div>
         </div>        
              
     </div>
