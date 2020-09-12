@@ -64,6 +64,10 @@ class SupplierListController extends Controller
             $items = $items->where('is_purchase_item','=',true);
         }
 
+        if (isset($_GET['discount_group_uuid']) ) {
+            $items = $items->where('item_discount_group_uuid','=',$_GET['discount_group_uuid']);
+        }
+
         $items = $items->get();
 
         if (isset($_GET['with_uoms']) && $_GET['with_uoms'] == 'yes' ) {
@@ -76,6 +80,7 @@ class SupplierListController extends Controller
                 ->get();
    
                 $item->uoms = $uoms;
+                $item->quantity = 0;
             }
         }
         

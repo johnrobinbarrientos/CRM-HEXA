@@ -6,7 +6,14 @@ use App\Http\Controllers\Controller;
 
 use App\Models\BuyAndPayOrders;
 use App\Models\CompanyList;
+use App\Models\CompanyBranch;
+use App\Models\CompanyBranchLocation;
 use App\Models\BuyAndPayOrderDetails;  
+use App\Models\ItemGroup;  
+use App\Models\ItemDiscountGroup;  
+use App\Models\SupplierList;  
+use App\Models\SupplierRegularDiscount;  
+use App\Models\BuyAndPayOrderRegularDiscount;  
 use Illuminate\Support\Facades\Auth; 
 
 class BuyAndPayOrdersController extends Controller
@@ -35,6 +42,13 @@ class BuyAndPayOrdersController extends Controller
             $orders->po_no = $id;
         }
 
+
+        $item_discount_group = ItemDiscountGroup::where('company_id','=',$auth->company_id)->where('uuid',request()->item_discount_group_uuid)->first();
+
+        if (!$item_discount_group) {
+            return response()->json(['success' => 0, 'message' =>  'Invalid item discount group...'], 500);
+        }
+
         $orders->item_group_uuid = request()->item_group_uuid;
         $orders->asset_group_uuid = request()->asset_group_uuid;
         $orders->item_discount_group_uuid = request()->item_discount_group_uuid;
@@ -50,6 +64,32 @@ class BuyAndPayOrdersController extends Controller
         $orders->save();
 
         $orders = BuyAndPayOrders::find($orders->uuid);
+
+        // discounts
+
+        // save item group discount
+        $discount = new BuyAndPayOrderRegularDiscount;
+        $discount->company_id = $auth->company_id;
+        $discount->bp_order_uuid = $orders->uuid;
+        $discount->discount_type = $item_discount_group->discount_type;
+        $discount->discount_name = $item_discount_group->group_name;
+        $discount->discount_rate = $item_discount_group->discount_rate;
+        $discount->discount_fixed = $item_discount_group->discount_fixed;
+        $discount->save();
+
+        // active supplier regular discounts
+        $supplier_discount_groups = SupplierRegularDiscount::where('supplier_uuid','=',$orders->supplier_uuid)->where('company_id','=',$auth->company_id)->where('is_active','=',true)->get();
+
+        foreach ($supplier_discount_groups as $supplier_discount_group) {
+            $discount = new BuyAndPayOrderRegularDiscount;
+            $discount->company_id = $auth->company_id;
+            $discount->bp_order_uuid = $orders->uuid;
+            $discount->discount_type = $supplier_discount_group->discount_type;
+            $discount->discount_name = $supplier_discount_group->discount_name;
+            $discount->discount_rate = $supplier_discount_group->discount_rate;
+            $discount->discount_fixed = $supplier_discount_group->discount_fixed;
+            $discount->save();
+        }
 
         return response()->json(['success' => 1, 'rows' => $orders], 200);
     }
@@ -80,6 +120,22 @@ class BuyAndPayOrdersController extends Controller
     public function getOrderDetails($order_uuid)
     {
         $order = BuyAndPayOrders::find($order_uuid);
+        
+        $discounts = BuyAndPayOrderRegularDiscount::where('bp_order_uuid','=',$order->uuid)->get();
+        $order->discounts = $discounts;
+
+        $supplier = SupplierList::find($order->supplier_uuid);
+        $order->supplier = $supplier;
+
+        $item_group = ItemGroup::find($order->item_group_uuid);
+        $order->item_group = $item_group;
+
+        $branch = CompanyBranch::find($order->branch_uuid);
+        $order->branch = $branch;
+
+        $branch_location = CompanyBranchLocation::find($order->branch_locations_uuid);
+        $order->branch_location = $branch_location;
+
         return response()->json(['success' => 1, 'data' => $order], 200);
     }
 }

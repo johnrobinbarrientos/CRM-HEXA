@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="is_ready">
         <div class="card">
             <div class="card-body">
                 <div class="card-title">Purchase Order</div>
@@ -7,19 +7,79 @@
                     
                 </div>
 
+
+                <div class="po-details alert alert-warning fade show" role="alert">
+                    <div class="row">
+                        <div class="col-md-3 col-12">
+
+                            <div>
+                                <strong>Transaction Type:</strong>
+                                <p>Purchase Order</p>
+                            </div>
+
+                            <div>
+                                <strong>Reference #:</strong>
+                                <p>{{ order.po_no }}</p>
+                            </div>
+                            
+                            <div>
+                                <strong>Supplier:</strong>
+                                <p>{{ order.supplier.business_name }}</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <div>
+                                <strong>Item Group:</strong>
+                                <p>{{ order.item_group.item_group }}</p>
+                            </div>
+                            <div>
+                                <strong>Branch:</strong>
+                                <p>{{ order.branch.branch_name }}</p>
+                            </div>
+                            <div>
+                                <strong>Branch Location:</strong>
+                                <p>{{ order.branch_location.location_name }}</p>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3 col-12">
+                            <div>
+                                <strong>Date Purchased:</strong>
+                                <p>{{ order.date_purchased }}</p>
+                            </div>
+                            <div>
+                                <strong>Date Expected:</strong>
+                                <p>{{ order.date_expected }}</p>
+                            </div>
+                            <div>
+                                <strong>Term:</strong>
+                                <p>{{ order.term || '-' }}</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <div>
+                                <strong>Status:</strong>
+                                <p>{{ order.status }}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-12 col-lg-3">
-                        <input v-model="added_item_list_keyword"  class="form-control" type="text" placeholder="Search an Item">
+                        <input style="margin-bottom:10px;" v-model="added_item_list_keyword"  class="form-control" type="text" placeholder="Search an Item">
                     </div>
                     <div class="col-12 col-lg-9">
-                        <div style="float:right; padding-bottom:10px;">
-                            <div class="btn-group btn-group-sm mt-2" role="group" aria-label="Basic example">
-                                <button @click="addItems()" class="btn btn-primary btn btn-secondary">Add Items</button>
-                                <button @click="addAllItems()" class="btn btn-primary btn btn-secondary">Add All Items</button>
-                            </div>
-                            <div class="btn-group btn-group-sm mt-2" role="group" aria-label="Basic example">
-                                <button class="btn btn-danger btn btn-secondary">Remove Zero</button>
-                            </div>
+                        <div style="float:right;">
+                            
+                            <button @click="addItems()" class="btn btn-sm btn-primary btn btn-secondary">Add Items</button>
+                            <button @click="addAllItems()" class="btn btn-sm btn-primary btn btn-secondary">Add All Items</button>
+                            <button class="btn btn-sm btn-danger btn btn-secondary">Remove Zero</button>
+                        
                         </div>
                     </div>
                 </div>
@@ -30,16 +90,18 @@
                             <th width="120">#</th>
                             <th>Item Code</th>
                             <th>Item Description</th>
-                            <th>UOM</th>
-                            <th width="120">Quantity</th>
+                            <th>Location</th>
+                            <th width="100">Quantity</th>
+                            <th width="80">UOM</th>
                             
-                            <th>Price</th>
-                            <th>Amount</th>
+                            <th>Item Rate</th>
+                            <th>Gross Amount</th>
                             <th>Discount</th>
                             <th>Net Sales</th>
-                            <th>VAT</th>
+                            <th>VAT Amount</th>
+                            <th>EWT Amount</th>
                             <th>Total Amount</th>
-                            <th>Location</th>
+                            
                             <th>Price Rule?</th>
                         </tr>
                     </thead>
@@ -48,33 +110,95 @@
                             <td>{{ (index + 1) }}</td>
                             <td>{{ item.item_code }}</td>
                             <td>{{ item.item_description }}</td>
+                            <td>{{ order.branch_location.location_name }}</td>
+                            <td class="editable text-right">
+                                <span>{{ item.quantity }}</span>
+                                <input v-model="item.quantity" type="text" class="editable-control">
+                            </td>
                             <td class="editable">
                                 <span>{{ getItemUOMName(item.uoms, item.uom) }}</span>
                                 <select v-model="item.uom" type="text" class="editable-control">
                                     <option v-for="uom in item.uoms" :key="uom.uuid" :value="uom.uuid">{{ uom.uom }}</option>
                                 </select>
                             </td>
-                            <td class="editable text-right">
-                                <span>{{ item.quantity }}</span>
-                                <input v-model="item.quantity" type="text" class="editable-control">
-                            </td>
                             
-                            <td class="text-right">
-                                {{   (item.purchase_price * getItemUOMPacking(item.uoms, item.uom)) }}
-                            </td>
-                            <td class="text-right">{{ (item.purchase_price * (item.quantity * getItemUOMPacking(item.uoms, item.uom))) || '0.00' }}</td>
-                            
-                            <td>N/A</td>
-                            <td>N/A</td>
-                            <td>12%</td>
-                            <td>0</td>
-                            <td>N/A</td>
-                            <td>N/A</td>
+                            <td class="text-right"> {{ item.purchase_price }}</td>
+                            <td class="text-right">{{ processItemCalculations(item).gross_amount }}</td>
+                            <td class="text-right">{{ processItemCalculations(item).discount_amount }}</td>
+                            <td class="text-right">{{ processItemCalculations(item).net_sales }}</td>
+                            <td class="text-right">{{ processItemCalculations(item).vat_amount }}</td>
+                            <td class="text-right">{{ processItemCalculations(item).ewt_amount }}</td>
+                            <td class="text-right">{{ processItemCalculations(item).total_amount }}</td>
+                            <td>No</td>
                         </tr> 
                     </tbody>
                 </table>
+
+                <br/>
+                <br/>
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <h3>Discounts</h3>
+                        <table class="table mb-0 table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Discount Name</th>
+                                    <th>Gross Amount</th>
+                                    <th>Discount Rate</th>
+                                    <th>Discount Amount</th>
+                                    <th>Classification</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(discount, index) in discounts" :key="index">
+                                    <th>{{ discount.discount_name }}</th>
+                                    <th class="text-right">{{ calculateTotals().total_gross_amount }}</th>
+                                    <th class="text-right">{{ discount.discount_rate }}%</th>
+                                    <th class="text-right">{{ calculateDiscountAmount(discount) }}</th>
+                                    <th>Regular</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-4 col-12 offset-md-2">
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <h2>Total Gross Amount</h2>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <h2 class="text-right text-warning"><strong>{{ calculateTotals().total_gross_amount }}</strong></h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <h2>{{ (calculateTotalDiscounts() * 100) + '%' }}  Discounts</h2>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <h2 class="text-right text-disabled"><strong> -{{ calculateTotals().total_discount_amount }} </strong></h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <h2>12% VAT</h2>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <h2 class="text-right text-danger"><strong> {{ calculateTotals().total_vat_amount }} </strong></h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <h2>PO Total Amount</h2>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <h2 class="text-right text-success"><strong>{{ calculateTotals().total_po_amount }}</strong></h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
         </div>
+
 
         <div class="modal fade" tabindex="-1" id="modal-item-list">
             <div class="modal-dialog modal-lg " role="document">
@@ -135,6 +259,7 @@ export default {
     props: ['properties'],
     data: function () {
         return {
+            is_ready: false,
             order: null,
             selected_supplier: null,
             suppliers: [],
@@ -164,9 +289,114 @@ export default {
                 item.item_description.toLowerCase().indexOf(keyword) > -1 ||
                 item.item_shortname.toLowerCase().indexOf(keyword) > -1);
             })
+        },
+        discounts() {
+            return this.order.discounts
         }
     },
+    watch: {
+        selected_items: function (val) {
+            
+        },
+    },
     methods: {
+        processItemCalculations: function (item) {
+            var scope = this
+
+            var discounts = scope.calculateTotalDiscounts()
+            var gross_amount = scope.calculateItemGrossAmount(item)
+
+            var discount_amount = gross_amount * discounts
+            var net_sales = gross_amount - discount_amount
+
+            var vat_amount = net_sales * 0.12
+            var ewt_amount = 0
+            var total_amount = (net_sales + vat_amount) - ewt_amount;
+            
+            return { 
+                discounts : discounts.toFixed(2),
+                gross_amount : gross_amount,
+                discount_amount : discount_amount.toFixed(2),
+                net_sales : net_sales.toFixed(2),
+                vat_amount : vat_amount.toFixed(2),
+                ewt_amount : ewt_amount.toFixed(2),
+                total_amount : total_amount.toFixed(2),
+            }
+        },
+        calculateTotalDiscounts: function() {
+            var scope = this
+            var discounts = scope.discounts
+            var total_discount_rate = 0;
+            for (let i = 0; i< discounts.length; i++) {
+                var current = discounts[i]
+                total_discount_rate += parseFloat(current.discount_rate)
+                if (i == (discounts.length - 1)) {
+                    return total_discount_rate / 100
+                }
+            }
+            return total_discount_rate / 100
+        },
+        calculateItemGrossAmount: function (item) {
+            var scope = this
+            var rate = item.purchase_price
+            var qty = item.quantity
+            var uom = item.uom
+            var packing = scope.getItemUOMPacking(item.uoms, item.uom)
+
+            var total = (qty * packing) * rate
+            total = total / 1.12
+
+            return total.toFixed(2)
+        },
+        calculateTotals: function () {
+            var scope = this
+            var items = scope.selected_items
+
+            var total_gross = 0
+            var total_po_amount = 0
+            var total_discount_amount = 0
+            var total_vat_amount = 0
+
+            for (let i = 0; i< items.length; i++) {
+                var current = items[i]
+                var gross_amount = scope.processItemCalculations(current).gross_amount
+                var total_amount = scope.processItemCalculations(current).total_amount
+                var discount_amount = scope.processItemCalculations(current).discount_amount
+                var vat_amount = scope.processItemCalculations(current).vat_amount
+             
+                total_gross += parseFloat(gross_amount)
+                total_po_amount += parseFloat(total_amount)
+                total_discount_amount += parseFloat(discount_amount)
+                total_vat_amount += parseFloat(vat_amount)
+                
+                if (i == (items.length - 1)) {
+                    
+                    return { 
+                        total_po_amount : total_po_amount.toFixed(2),
+                        total_gross_amount : total_gross.toFixed(2),
+                        total_discount_amount : total_discount_amount.toFixed(2),
+                        total_vat_amount : total_vat_amount.toFixed(2) 
+                    }
+                }
+            }
+            
+
+            return { 
+                total_po_amount : total_po_amount.toFixed(2),
+                total_gross_amount : total_gross.toFixed(2),
+                total_discount_amount : total_discount_amount.toFixed(2),
+                total_vat_amount : total_vat_amount.toFixed(2) 
+            }
+        },
+        calculateDiscountAmount: function(discount) {
+            var scope = this
+            var total_gross_amount = scope.calculateTotals().total_gross_amount
+            var discount_rate = discount.discount_rate
+            discount_rate = discount_rate / 100
+
+            var discount_amount = total_gross_amount * discount_rate
+            return discount_amount.toFixed(2)
+        },
         getSuppliers: function () {
            var scope = this
             scope.GET('suppliers/supplier-list').then(res => {
@@ -186,13 +416,15 @@ export default {
                 scope.order = res.data
                 var supplier_uuid = scope.order.supplier_uuid
                 scope.getSupplierItems(supplier_uuid)
+                scope.is_ready = true
             })
         },
         getSupplierItems: function(supplier_uuid) {
             var scope = this
 
             scope.selected_items = []
-            scope.GET('suppliers/supplier-list/' + supplier_uuid + '/items?is_purchase_item=yes&with_uoms=yes').then(res => {
+            var item_discount_group_uuid = scope.order.item_discount_group_uuid
+            scope.GET('suppliers/supplier-list/' + supplier_uuid + '/items?is_purchase_item=yes&with_uoms=yes&discount_group_uuid=' + item_discount_group_uuid).then(res => {
                 scope.items = res.rows
             })
         },
@@ -234,6 +466,17 @@ export default {
             return (count > 0) ? true : false
         },
         getItemUOMName: function (uoms, uuid) {
+            var data = uoms.filter((uom) => {
+                return uom.uuid.indexOf(uuid) > -1;
+            })
+            
+            if (data.length < 1) {
+                return ''
+            }
+
+            return data[0].uom
+        },
+        getItemUOMPacking: function (uoms, uuid) {
             var data = uoms.filter((uom) => {
                 return uom.uuid.indexOf(uuid) > -1;
             })

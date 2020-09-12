@@ -75,9 +75,9 @@ $(document).ready(function(){
         THIS.closest('.editable').addClass('focused');
 
         // make sure to place caret at the end
-        var tmpStr = THIS.val();
-        THIS.val('');
-        THIS.val(tmpStr);
+        //var tmpStr = THIS.val();
+        //THIS.val('');
+        //THIS.val(tmpStr);
     });
 
     $(document).on('blur','.editable-control',function(){
