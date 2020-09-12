@@ -40,7 +40,7 @@
                 <!-- Tab panes -->
                 <div class="tab-content p-3 text-muted">
                     <div class="tab-pane active" id="item-list" role="tabpanel">
-                         <item-list ></item-list>
+                         <item-list></item-list>
                     </div>
                     <div class="tab-pane" id="item-group" role="tabpanel">
                         <item-group></item-group> 
