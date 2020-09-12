@@ -14,7 +14,7 @@
             
         <div class="container-fluid">
             <div class="row">
-                <div class="col-12">
+                <div class="col-md-5 col-12">
                     <div class="card card-bordered card-preview">
                         <table class="table table-tranx jd-sm-table">
                             <thead>
