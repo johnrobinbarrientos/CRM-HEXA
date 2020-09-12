@@ -176,7 +176,41 @@
                                     <th>{{ discount.discount_name }}</th>
                                     <th class="text-right">{{ calculateTotals().total_gross_amount }}</th>
                                     <th class="text-right">{{ discount.discount_rate }}%</th>
-                                    <th class="text-right">{{ calculatePriceRuleDiscountAmount(discount) }}</th>
+                                    <th class="text-right">{{ calculateAdditionalDiscountAmount(discount) }}</th>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                        <br/>
+                        <br/>
+
+                        <h3>Additional Discounts</h3>
+                        <table class="table mb-0 table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Discount Name</th>
+                                    <th>Gross Amount</th>
+                                    <th>Discount Rate</th>
+                                    <th>Discount Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(discount, index) in additional_discounts" :key="index">
+                                    
+                                    <td class="editable text-right">
+                                        <span>{{ discount.discount_name }}</span>
+                                        <input v-model="discount.discount_name" type="text" class="editable-control">
+                                    </td>
+                                    <th class="text-right">{{ calculateTotals().total_gross_amount }}</th>
+                                    <td class="editable text-right">
+                                        <span>{{ discount.discount_rate }}%</span>
+                                        <input v-model="discount.discount_rate" type="text" class="editable-control">
+                                    </td>
+                                    <th class="text-right">{{ calculateAdditionalDiscountAmount(discount) }}</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" @click="addNewDiscount()" style="cursor:pointer; background:#efefef; text-align:center; font-weight:600;">ADD DISCOUNT</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -290,6 +324,7 @@ export default {
             selected_items: [],
             item_list_keyword: '',
             added_item_list_keyword: '',
+            additional_discounts: [],
         }
     },
     computed: {
@@ -324,6 +359,14 @@ export default {
         },
     },
     methods: {
+        addNewDiscount: function () {
+            var scope = this 
+            scope.additional_discounts.push({
+                discount_name : '',
+                discount_rate : 0.00,
+                discount_fixed : 0.00
+            })
+        },
         processItemCalculations: function (item) {
             var scope = this
 
@@ -357,8 +400,12 @@ export default {
                 total_discount_rate += parseFloat(current.discount_rate)
 
                 if (i == (discounts.length - 1)) {
+
                     var price_rules = scope.calculateTotalPriceRuleDiscounts() * 100
+                    var additional_discounts = scope.calculateTotalAdditionalDiscounts() * 100
+
                     total_discount_rate += price_rules
+                    total_discount_rate += additional_discounts
                     return total_discount_rate / 100
                 }
             }
@@ -371,6 +418,19 @@ export default {
         calculateTotalPriceRuleDiscounts: function() {
             var scope = this
             var discounts = scope.price_rules
+            var total_discount_rate = 0;
+            for (let i = 0; i< discounts.length; i++) {
+                var current = discounts[i]
+                total_discount_rate += parseFloat(current.discount_rate)
+                if (i == (discounts.length - 1)) {
+                    return total_discount_rate / 100
+                }
+            }
+            return total_discount_rate / 100
+        },
+        calculateTotalAdditionalDiscounts: function() {
+            var scope = this
+            var discounts = scope.additional_discounts
             var total_discount_rate = 0;
             for (let i = 0; i< discounts.length; i++) {
                 var current = discounts[i]
@@ -443,6 +503,15 @@ export default {
             return discount_amount.toFixed(2)
         },
         calculatePriceRuleDiscountAmount: function(discount) {
+            var scope = this
+            var total_gross_amount = scope.calculateTotals().total_gross_amount
+            var discount_rate = discount.discount_rate
+            discount_rate = discount_rate / 100
+
+            var discount_amount = total_gross_amount * discount_rate
+            return discount_amount.toFixed(2)
+        },
+        calculateAdditionalDiscountAmount: function(discount) {
             var scope = this
             var total_gross_amount = scope.calculateTotals().total_gross_amount
             var discount_rate = discount.discount_rate
