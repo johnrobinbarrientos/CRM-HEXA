@@ -249,8 +249,7 @@
                         </div>
 
                         <div class="tab-pane" id="discounts">
-
-
+                            <SupplierDiscounts v-if="formdata.uuid" :supplier_uuid="formdata.uuid"></SupplierDiscounts>
            
                         </div>
 
@@ -331,6 +330,8 @@
 
 import Swal from 'sweetalert2'
 
+import SupplierDiscounts from './supplier-discounts'
+
 export default {
     name: 'supplier-list',
     props: ['properties'],
@@ -402,6 +403,9 @@ export default {
         //             console.log('diri')
         //         }
         // },
+    },
+    components: {
+        SupplierDiscounts
     },
     methods: {
         toggleForm() {

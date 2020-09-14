@@ -4,29 +4,54 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller; 
 
+use App\Models\SupplierList; 
 use App\Models\SupplierBaseDiscountGroup; 
+use App\Models\SupplierBaseDiscountGroupDetail; 
 use Illuminate\Support\Facades\Auth; 
 
 class SupplierBaseDiscountGroupController extends Controller
 {
-    public function getSupplierBaseDiscountGroup()
+    public function getSupplierBaseDiscountGroups($supplierUUID)
     {
-        $discountGroup = SupplierBaseDiscountGroup::whereNull('deleted_at')->get();
-        return response()->json(['success' => 1, 'rows' => $discountGroup], 200);
+        $discount_groups = SupplierBaseDiscountGroup::where('supplier_uuid','=',$supplierUUID)->get();
+        return response()->json(['success' => 1, 'rows' => $discount_groups], 200);
     }
 
-    public function save()
+    public function getSupplierBaseDiscountGroupsMultiple()
+    {
+        $supplier_ids = (is_array(request()->supplier_ids)) ? request()->supplier_ids : [];
+        $auth = \Auth::user();
+
+        $suppliers = SupplierList::where('company_id','=',$auth->company_id)->whereIn('uuid',$supplier_ids)->get();
+
+        foreach ($suppliers as $supplier) {
+
+            $discount_groups = SupplierBaseDiscountGroup::where('supplier_uuid','=',$supplier->uuid)->get();
+
+            foreach ($discount_groups as $discount_group) {
+                $discounts = SupplierBaseDiscountGroupDetail::where('supplier_base_discount_group_uuid','=',$discount_group->uuid)->get();
+                $discount_group->discounts = $discounts;
+            }
+
+            $supplier->discount_groups = $discount_groups;
+        }
+        
+
+        return response()->json(['success' => 1, 'rows' => $suppliers], 200);
+    }
+
+    public function save($supplierUUID)
     {
         $discountGroup = request()->uuid ? SupplierBaseDiscountGroup::find(request()->uuid) : new SupplierBaseDiscountGroup();
         $auth = \Auth::user();
         $discountGroup->company_id = $auth->company_id;
-        $discountGroup->supplier_uuid = request()->supplier_uuid;
+        $discountGroup->supplier_uuid = $supplierUUID;
         $discountGroup->group_name = request()->group_name;
         $discountGroup->save();
 
         $discountGroup = SupplierBaseDiscountGroup::find($discountGroup->uuid);
 
-        return response()->json(['success' => 1, 'rows' => $discountGroup], 200);
+        return response()->json(['success' => 1, 'data' => $discountGroup], 200);
     }
 
     public function delete()

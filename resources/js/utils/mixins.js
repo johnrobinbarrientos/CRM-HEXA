@@ -76,11 +76,12 @@ export default {
                 return {success: 0, data: data, code: code }
             })
         },
-        GET: function (name) {
+        GET: function (name,payload = {}) {
             var scope = this
             // scope.credentials.error = null
             return scope.axios
             .get(window.API_URL + '/' + name,{
+                params: payload,
                 'headers': {
                     'X-Requested-With': 'XMLHttpRequest',
                     'Authorization': 'Bearer ' + localStorage.getItem(window.TOKEN_KEY)

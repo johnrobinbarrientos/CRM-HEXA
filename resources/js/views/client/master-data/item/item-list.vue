@@ -218,7 +218,10 @@
                             <a class="nav-link" data-toggle="tab" href="#pricing">Pricing</a>           
                         </li>
                         <li class="nav-item" v-show="show_asset_group">        
-                            <a class="nav-link" data-toggle="tab" href="#asset">Asset</a>    
+                            <a class="nav-link" data-toggle="tab" href="#asset">Asset 2</a>    
+                        </li> 
+                        <li class="nav-item">        
+                            <a class="nav-link" data-toggle="tab" href="#supplier-discounts">Discounts</a>    
                         </li>   
                     </ul>
 
@@ -441,6 +444,11 @@
                                 </div>
                             </div>   
       
+                        </div> 
+
+
+                        <div class="tab-pane" id="supplier-discounts">
+                            <item-discounts ref="itemDiscounts"></item-discounts>
                         </div>   
                     </div>
             </form>
@@ -452,6 +460,7 @@
 <script>
 
 import Swal from 'sweetalert2'
+import ItemDiscounts from './item-discounts'
 
 export default {
     name: 'item-list',
@@ -498,6 +507,7 @@ export default {
             compute_selection: 'manual',
 
             show_asset_group: false,
+            show_discounts: false,
 
             show_form: false,
 
@@ -574,7 +584,9 @@ export default {
         })
       }
     },
-
+    components: {
+        'item-discounts' : ItemDiscounts
+    },
     methods: {
         toggleForm() {
             var scope = this
@@ -1098,6 +1110,9 @@ export default {
         computePrice: function () {
             var scope = this
             scope.formdata.sales_price = (scope.input_markup_rate/100) * scope.formdata.purchase_price
+        },
+        setSupplierIDs: function (supplier_ids) {
+            this.$refs.itemDiscounts.getSupplierDiscounts(supplier_ids);
         }
     },
     mounted() {
@@ -1128,6 +1143,7 @@ export default {
 
         $('.form-select-suppliers').on("change", function(e) { 
             scope.selected_suppliers = $('.form-select-suppliers').val();
+            scope.setSupplierIDs(scope.selected_suppliers)
         })
 
         $('.form-select-income-account').on("change", function(e) { 
