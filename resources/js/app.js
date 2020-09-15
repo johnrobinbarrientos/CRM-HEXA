@@ -33,12 +33,7 @@ import mixins from './utils/mixins'
 import App from './views/App'
 
 window.TOKEN_KEY = 'KX-HEXA'
-
 window.API_URL = '//'+ window.location.host +'/api'
-
-if (window.location.host === 'suite.hexa.ph') {
-    window.API_URL = 'https://'+ window.location.host +'/api'
-}
 
 Vue.use(datePicker)
 Vue.use(Vuex) 
