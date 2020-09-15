@@ -76,11 +76,11 @@ export default {
            var scope = this
             scope.suppliers  = []
 
-            scope.DELETE('/items/item-supplier-discounts-batch/',{ supplier_ids: supplier_ids, item_uuid: scope.item.uuid }).then(res => {
+            scope.DELETE('items/item-supplier-discounts-batch/',{ supplier_ids: supplier_ids, item_uuid: scope.item.uuid }).then(res => {
                
             })
-            
-            scope.GET('/suppliers/multiple/supplier-base-discount-group/',{supplier_ids: supplier_ids, item_uuid: scope.item.uuid }).then(res => {
+
+            scope.GET('suppliers/multiple/supplier-base-discount-group/',{supplier_ids: supplier_ids, item_uuid: scope.item.uuid }).then(res => {
                scope.suppliers = res.rows
             })
         },
