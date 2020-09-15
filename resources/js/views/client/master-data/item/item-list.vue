@@ -448,7 +448,7 @@
 
 
                         <div class="tab-pane" id="supplier-discounts">
-                            <item-discounts ref="itemDiscounts"></item-discounts>
+                            <item-discounts :properties="formdata" ref="itemDiscounts"></item-discounts>
                         </div>   
                     </div>
             </form>

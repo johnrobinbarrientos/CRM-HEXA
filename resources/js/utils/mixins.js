@@ -99,11 +99,12 @@ export default {
                 return {rows: [], data: data, code: code }
             })
         },
-        DELETE: function (name) {
+        DELETE: function (name,payload = {}) {
             var scope = this
             // scope.credentials.error = null
             return scope.axios
             .delete(window.API_URL + '/' + name,{
+                params: payload,
                 'headers': {
                     'X-Requested-With': 'XMLHttpRequest',
                     'Authorization': 'Bearer ' + localStorage.getItem(window.TOKEN_KEY)
