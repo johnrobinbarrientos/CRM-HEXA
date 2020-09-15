@@ -87,7 +87,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/supplier-group', 'API\SupplierGroupController@save');
         Route::post('/supplier-group/delete', 'API\SupplierGroupController@delete');
 
-        Route::get('/multiple/supplier-base-discount-group/', 'API\SupplierBaseDiscountGroupController@getSupplierBaseDiscountGroupsMultiple');
+        Route::get('/multiple/supplier-base-discount-group', 'API\SupplierBaseDiscountGroupController@getSupplierBaseDiscountGroupsMultiple');
         Route::get('/{supplierUUID}/supplier-base-discount-group', 'API\SupplierBaseDiscountGroupController@getSupplierBaseDiscountGroups');
         
         Route::post('/{supplierUUID}/supplier-base-discount-group', 'API\SupplierBaseDiscountGroupController@save');
