@@ -70,7 +70,7 @@ class ItemSupplierDiscountController extends Controller
 
         $item_supplier_discounts = ItemSupplierDiscount::whereNotIn('supplier_uuid',$supplier_ids)->where('item_uuid','=',$item_uuid)->forceDelete();
 
-        return response()->json(['success' => 1, 'count' => $item_supplier_discounts->count()], 200);
+        return response()->json(['success' => 1, 'message' => 'Deleted removed supplier discounts!'], 200);
         
     }
 }
