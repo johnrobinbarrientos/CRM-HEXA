@@ -148,7 +148,7 @@ class MenuController extends Controller
                 [ 'text' => 'Fulfillment', 'route' => 'supplier-main'],
                 [ 'text' => 'Invoicing', 'route' => 'customer-main'],
                 [ 'text' => 'Reversal', 'route' => 'employee-main'],
-                [ 'text' => 'Collection', 'route' => 'project-main'],
+                [ 'text' => 'Collection', 'route' => 'project-main']
             ]
         ];
 
@@ -158,7 +158,7 @@ class MenuController extends Controller
             'icon' => 'bx bx-package',
             'submenus' => [
                 [ 'text' => 'Inventory Movement', 'route' => 'item-main'],
-                [ 'text' => 'Price Rule', 'route' => 'supplier-main']
+                [ 'text' => 'Price Rule', 'route' => 'price-rule-main']
             ]
         ];
 

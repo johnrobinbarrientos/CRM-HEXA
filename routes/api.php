@@ -214,23 +214,39 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
     Route::group(['prefix' => 'buy-and-pay'], function(){
 
-        Route::get('/orders', 'API\BuyAndPayOrdersController@getOrders');
-        Route::get('/orders/{order_uuid}', 'API\BuyAndPayOrdersController@getOrderDetails');
-        Route::post('/order', 'API\BuyAndPayOrdersController@saveOrder');
-        Route::post('/order/delete', 'API\BuyAndPayOrdersController@deleteOrder');
+        Route::get('/orders', 'API\BuyAndPayOrderController@getOrders');
+        Route::get('/orders/{order_uuid}', 'API\BuyAndPayOrderController@getOrderDetails');
+        Route::post('/order', 'API\BuyAndPayOrderController@saveOrder');
+        Route::post('/order/delete', 'API\BuyAndPayOrderController@deleteOrder');
 
-        Route::get('/order-details', 'API\BuyAndPayOrderDetailsController@getOrderDetails');
-        Route::post('/order-details', 'API\BuyAndPayOrderDetailsController@saveOrderDetails');
-        Route::post('/order-detail/delete', 'API\BuyAndPayOrderDetailsController@deleteOrderDetail');
+        Route::get('/order-details', 'API\BuyAndPayOrderDetailController@getOrderDetails');
+        Route::post('/order-details', 'API\BuyAndPayOrderDetailController@saveOrderDetails');
+        Route::post('/order-detail/delete', 'API\BuyAndPayOrderDetailController@deleteOrderDetail');
 
-        Route::get('/order-reason-code', 'API\BuyAndPayOrderReasonCodesController@getReasonCode');
-        Route::post('/order-reason-code', 'API\BuyAndPayOrderReasonCodesController@saveReasonCode');
-        Route::post('/order-reason-code/delete', 'API\BuyAndPayOrderReasonCodesController@deleteReasonCode');
+        Route::get('/order-reason-code', 'API\BuyAndPayOrderReasonCodeController@getReasonCode');
+        Route::post('/order-reason-code', 'API\BuyAndPayOrderReasonCodeController@saveReasonCode');
+        Route::post('/order-reason-code/delete', 'API\BuyAndPayOrderReasonCodeController@deleteReasonCode');
     });
 
     Route::group(['prefix' => 'users'], function(){
         Route::get('/get-branch', 'API\UserController@getBranch');
         Route::get('/get-branch-locations', 'API\UserController@getBranchLocations');
+    });
+
+
+    Route::group(['prefix' => 'inventory'], function(){
+
+
+    });
+
+    Route::group(['prefix' => 'price-rule'], function(){
+        Route::get('/supplier', 'API\PriceRuleSupplierController@getPriceRuleSupplier');
+        Route::post('/supplier', 'API\PriceRuleSupplierController@save');
+        Route::post('/supplier/delete', 'API\PriceRuleSupplierController@delete');
+
+        Route::get('/customer', 'API\PriceRuleCustomerController@getPriceRuleCustomer');
+        Route::post('/customer', 'API\PriceRuleCustomerController@save');
+        Route::post('/customer/delete', 'API\PriceRuleCustomerController@delete');
     });
 
 
