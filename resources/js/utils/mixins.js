@@ -81,6 +81,7 @@ export default {
             // scope.credentials.error = null
             return scope.axios
             .get(window.API_URL + '/' + name,{
+                params: payload,
                 'headers': {
                     'X-Requested-With': 'XMLHttpRequest',
                     'Authorization': 'Bearer ' + localStorage.getItem(window.TOKEN_KEY)
@@ -103,6 +104,7 @@ export default {
             // scope.credentials.error = null
             return scope.axios
             .delete(window.API_URL + '/' + name,{
+                params: payload,
                 'headers': {
                     'X-Requested-With': 'XMLHttpRequest',
                     'Authorization': 'Bearer ' + localStorage.getItem(window.TOKEN_KEY)
