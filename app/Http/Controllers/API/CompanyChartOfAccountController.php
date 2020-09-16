@@ -43,7 +43,7 @@ class CompanyChartOfAccountController extends Controller
 
         $payables = CompanyChartOfAccount::select('company_chart_of_accounts.uuid','account_name')
         ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
-        ->where('account_group','Payable')
+        ->where('account_group','Accounts Payable')
         ->get();
 
         return response()->json(['success' => 1, 'rows' => $payables], 200);
@@ -54,7 +54,7 @@ class CompanyChartOfAccountController extends Controller
 
         $income = CompanyChartOfAccount::select('company_chart_of_accounts.uuid','account_name')
         ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
-        ->where('account_group','income')
+        ->where('account_group','Income')
         ->get();
 
         return response()->json(['success' => 1, 'rows' => $income], 200);
@@ -64,7 +64,7 @@ class CompanyChartOfAccountController extends Controller
     {
         $cos = CompanyChartOfAccount::select('company_chart_of_accounts.uuid','account_name')
         ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
-        ->where('account_group','Cost of sales')
+        ->where('account_group','Cost of Sales')
         ->get();
 
         return response()->json(['success' => 1, 'rows' => $cos], 200);
