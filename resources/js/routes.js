@@ -39,6 +39,8 @@ import AdminCostCenter from './views/admin/admin-globals/admin-cost-center'
 import PurchaseOrder from './views/client/buy-and-pay/purchase-order/main-purchase-order'
 import PurchaseOrderDetails from './views/client/buy-and-pay/purchase-order/purchase-order-details'
 
+import PriceRuleMain from './views/client/inventory/price-rule/price-rule-main'
+
 
 
 Vue.use(VueRouter)
@@ -234,6 +236,13 @@ export default new VueRouter({
           path: '/purchase-order/:order_uuid',
           name: 'purchase-order-details',
           component: PurchaseOrderDetails,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/price-rule-main',
+          name: 'price-rule-main',
+          component: PriceRuleMain,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
