@@ -437,19 +437,19 @@ export default {
         getSupplierGroup: function () {
            var scope = this
             scope.GET('suppliers/supplier-group').then(res => {
-                
-                res.rows.forEach(function (data) {
 
+                res.rows.forEach(function (data) {
                     scope.options_supplier_group.push({
                         id: data.uuid,
                         text: data.group_name
                     })
-                
                 })
 
-                $(".form-select-supplier-group").select2({data: scope.options_supplier_group});
                 
+                $(".form-select-supplier-group").select2({data: scope.options_supplier_group});
                 scope.selected_supplier_group = scope.options_supplier_group[0].id
+                $('.form-select-supplier-group').trigger('change');
+                
             })
 
         },

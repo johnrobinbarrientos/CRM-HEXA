@@ -14,10 +14,10 @@
 
                 <div class="tab-content p-3">    
                     <div class="tab-pane active" id="supplier-list">        
-                        <supplier-list></supplier-list>   
+                        <supplier-list ref="supplierList"></supplier-list>   
                     </div>    
                     <div class="tab-pane" id="supplier-group">        
-                        <supplier-group></supplier-group>    
+                        <supplier-group ref="supplierGroup"></supplier-group>    
                     </div>    
                 </div>
             </div>
@@ -33,6 +33,11 @@ export default {
     components: {
         'supplier-list': SupplierList,
         'supplier-group': SupplierGroup
+    },
+    methods: {
+        refreshSupplierGroup: function () {
+            this.$refs.supplierList.getSupplierGroup();
+        }
     }
 }
 </script>

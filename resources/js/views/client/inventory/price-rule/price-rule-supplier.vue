@@ -169,7 +169,7 @@
                     <div class="tab-content">    
                         
                         <div class="tab-pane active" id="supplier">
-                            <price-rule-supplier-details v-if="formdata.uuid" :properties="formdata.uuid"></price-rule-supplier-details>
+                            <price-rule-supplier-details ref="supplierDetails" v-if="formdata.uuid" :properties="formdata.uuid"></price-rule-supplier-details>
                         </div>
 
                     </div>
@@ -213,7 +213,9 @@ export default {
                 mechanics: '',
                 minimum_amount: '',
                 maximum_amount: ''
-            }
+            },
+
+            priceRuleSuppliers: []
 
         }
     },
@@ -278,6 +280,11 @@ export default {
             scope.formdata.minimum_amount = data.minimum_amount
             scope.formdata.maximum_amount = data.maximum_amount
         },
+        getPriceRuleSuppliers: function () {
+            var scope = this
+            scope.priceRuleSuppliers = scope.$refs.supplierDetails.getPriceRuleSuppliers()
+            return scope.priceRuleSuppliers
+        },
         save: function () {
             var scope = this
             scope.POST('price-rule/supplier', scope.formdata).then(res => {
@@ -302,6 +309,11 @@ export default {
         },
         update: function () {
             var scope = this
+            
+            // get the selected suppliers from child component
+            scope.getPriceRuleSuppliers()
+            scope.formdata.suppliers =  scope.priceRuleSuppliers
+
             window.swal.fire({
                 title: 'Update Record?',
                 icon: 'warning',
