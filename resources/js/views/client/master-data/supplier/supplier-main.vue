@@ -35,9 +35,7 @@ export default {
         'supplier-group': SupplierGroup
     },
     methods: {
-        refreshSupplierGroup: function () {
-            this.$refs.supplierList.getSupplierGroup();
-        }
+
     }
 }
 </script>

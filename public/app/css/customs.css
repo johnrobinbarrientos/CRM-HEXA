@@ -11,6 +11,7 @@
 .nav-tabs .nav-link { font-weight: 600;}
 .text-primary { color: #0033a0!important; }
 
+.text-loader { color: #0033a0!important; }
 
 
 .modal-open .modal.show { background:rgba(0,0,0,0.5); }

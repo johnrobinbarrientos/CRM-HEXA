@@ -16,13 +16,73 @@ class SupplierListController extends Controller
 {
     public function getSupplierList()
     {
-        $list = SupplierList::whereNull('deleted_at')->with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable')->get();
-        return response()->json(['success' => 1, 'rows' => $list], 200);
+    
+        $list = SupplierList::where('is_draft','=',false)->whereNull('deleted_at')->with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable');
+
+        if (!empty(request()->keyword)) {
+            $keyword = request()->keyword;
+            $list = $list->where(function($query) use ($keyword) {
+                $query->where('business_name','LIKE','%'.$keyword.'%')
+                    ->orWhere('business_shortname','LIKE','%'.$keyword.'%')
+                    ->orWhere('tax_identification_no','LIKE','%'.$keyword.'%');
+            });
+        }
+
+        $count = $list->count();
+
+        // pagination
+        $take = (is_numeric(request()->take) && request()->take <= 50) ? request()->take: 20;
+        $page = (is_numeric(request()->page)) ? request()->page : 1;
+        $offset = (($page - 1 ) * $take);
+
+        $list = $list->take($take);
+        $list = $list->offset($offset);
+        $list = $list->get();
+
+        return response()->json(['success' => 1, 'rows' => $list, 'count' => $count], 200);
     }
 
-    public function save()
+    public function store()
     {
-        $supplier = request()->uuid ? SupplierList::find(request()->uuid) : new SupplierList();
+    
+        $supplier =  SupplierList::where('is_draft','=',true)->first();
+
+        if (!$supplier) {
+            $auth = \Auth::user();
+
+            $supplier = new SupplierList();
+            $supplier->company_id = $auth->company_id;
+            $supplier->business_name = '';
+            $supplier->business_shortname = '';
+            $supplier->check_payee = '';
+            $supplier->tax_identification_no = '';
+            $supplier->vat_uuid ='';
+            $supplier->ewt_uuid = '';
+            $supplier->supplier_group_uuid = '';
+            $supplier->lead_time = '';
+            $supplier->is_transporter = false;
+            $supplier->payment_term_uuid = '';
+            $supplier->coa_payable_account_uuid ='';
+            $supplier->email = '';
+            $supplier->contact_no = '';
+            $supplier->global_address_uuid = '';
+            $supplier->address1 = '';
+            $supplier->save();
+        }
+
+        $supplier = SupplierList::find($supplier->uuid);
+    
+        return response()->json(['success' => 1, 'data' => $supplier], 200);
+    }
+
+    public function update()
+    {
+        $supplier =  SupplierList::find(request()->uuid);
+        
+        if (!$supplier) {
+            return response()->json(['success' => 0, 'data' => null, 'Supplier not found'], 500);
+        }
+
         $auth = \Auth::user();
         $supplier->company_id = $auth->company_id;
         $supplier->business_name = request()->business_name;
@@ -40,10 +100,21 @@ class SupplierListController extends Controller
         $supplier->contact_no = request()->contact_no;
         $supplier->global_address_uuid = request()->global_address_uuid;
         $supplier->address1 = request()->address1;
+        $supplier->is_draft = false;
         $supplier->save();
 
         $supplier = SupplierList::find($supplier->uuid);
         return response()->json(['success' => 1, 'rows' => $supplier], 200);
+    }
+
+    public function show($supplierUUID)
+    {
+        $supplier = SupplierList::with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable')->find($supplierUUID);
+
+        if (!$supplier) {
+            return response()->json(['success' => 0, 'data' => null, 'Supplier not found'], 500);
+        }
+        return response()->json(['success' => 1, 'data' => $supplier], 200);
     }
 
 

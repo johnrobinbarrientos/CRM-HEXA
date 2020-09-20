@@ -126,7 +126,6 @@ export default {
                         timer: 1500
                     }).then(() => {
                         scope.getSupplierGroup()
-                        scope.$parent.refreshSupplierGroup()
                         scope.CLOSE_MODAL('#modalSupplierGroup')
                     })
                 } else {

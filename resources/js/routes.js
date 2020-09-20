@@ -12,6 +12,7 @@ import Users from './views/Users'
 import ItemMain from './views/client/master-data/item/item-main'
 
 import SupplierMain from './views/client/master-data/supplier/supplier-main'
+import SupplierForm from './views/client/master-data/supplier/supplier-form'
 
 import CustomerMain from './views/client/master-data/customer/customer-main'
 
@@ -131,6 +132,13 @@ export default new VueRouter({
           path: '/supplier-main',
           name: 'supplier-main',
           component: SupplierMain,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/suppliers/:supplierUUID',
+          name: 'supplier-form',
+          component: SupplierForm,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },

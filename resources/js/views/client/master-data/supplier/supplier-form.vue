@@ -1,0 +1,611 @@
+<template>
+    <div>
+        <div class="card">
+            <div class="card-body">
+
+                <div class="actions-bar">
+                    <div class="w-100">
+                        <h1 class="title">New Supplier Details</h1>
+                    </div>
+                    <div class="bar-right">
+                        <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
+                        <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
+                        <a href="javascript:void(0)"  @click="ROUTE({path: '/supplier-main/' })" class="hx-btn hx-btn-danger">Cancel</a> 
+                    </div>
+                </div>
+
+                <form action="#" class="form-validate is-alter">
+
+                    <div class="row">
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="business-name">Business Name</label>
+                                <div class="form-control-wrap">
+                                    <input v-model="formdata.business_name" type="text" class="form-control" id="business-name" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="business-shortname">Business Shortname</label>
+                                <div class="form-control-wrap">
+                                    <input v-model="formdata.business_shortname" type="text" class="form-control" id="business-shortname" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="check-payee">Check Payee</label>
+                                <div class="form-control-wrap">
+                                    <input v-model="formdata.check_payee" type="text" class="form-control" id="check-payee" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <div class="form-control-wrap">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" v-model="formdata.is_transporter" true-value="1" false-value="0" class="custom-control-input" id="is-transporter">
+                                        <label class="custom-control-label" for="is-transporter">Is Transporter?</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="lead-time">Lead Time (Days)</label>
+                                <div class="form-control-wrap">
+                                    <input v-model="formdata.lead_time" type="text" class="form-control" id="lead-time" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="group-name">Group Name</label>
+                                <select class="form-select-supplier-group" v-model="selected_supplier_group" :options="options_supplier_group" name="supplier-group">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="email">Email</label>
+                                <div class="form-control-wrap">
+                                    <input v-model="formdata.email" type="text" class="form-control" id="email" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="contact-no">Contact No</label>
+                                <div class="form-control-wrap">
+                                    <input v-model="formdata.contact_no" type="text" class="form-control" id="contact-no" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="tax-identification-no">Tax Identification No</label>
+                                <div class="form-control-wrap">
+                                    <input v-model="formdata.tax_identification_no" type="text" class="form-control" id="tax-identification-no" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                                
+                    </div>
+
+                    <br/>
+                    <ul class="nav nav-tabs">    
+                            <li class="nav-item">        
+                                <a class="nav-link active" data-toggle="tab" href="#account">Financial Account</a>    
+                            </li>    
+                            <li class="nav-item">        
+                                <a v-if="formdata.uuid === null" class="nav-link disabled" data-toggle="tab" href="#discounts">Discounts</a> 
+                                <a v-else class="nav-link" data-toggle="tab" href="#discounts">Discounts</a>   
+                            </li>
+                            <li class="nav-item">        
+                                <a class="nav-link" data-toggle="tab" href="#address">Address</a>    
+                            </li>     
+                        </ul>
+
+                        <div class="tab-content">    
+                            <div class="tab-pane active" id="account">
+                        
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="payables">Default Account Payable</label>
+                                        <select class="form-select-payables" v-model="selected_payables" :options="options_payables" name="payables">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="payment-term">Payment Term</label>
+                                        <select class="form-select-payment-term" v-model="selected_payment_term" :options="options_payment_term" name="payment-term">
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" v-model="with_vat" class="custom-control-input" id="with-vat">
+                                                    <label class="custom-control-label" for="with-vat">With VAT?</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div v-show="with_vat" class="row">
+                                            <div class="col-md-4 col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="vat">VAT</label>
+                                                    <select class="form-select-vat" v-model="selected_vat" :options="options_vat" name="vat">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" v-model="with_ewt" value="1" class="custom-control-input" id="with-ewt">
+                                                    <label class="custom-control-label" for="with-ewt">With EWT?</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div v-show="with_ewt" class="row">
+                                            <div class="col-md-4 col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="ewt">EWT</label>
+                                                    <select class="form-select-ewt" v-model="selected_ewt" :options="options_ewt" name="ewt">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="tab-pane" id="discounts">
+                                <SupplierDiscounts v-if="formdata.uuid" :supplier_uuid="formdata.uuid"></SupplierDiscounts>
+                            </div>
+
+                            <div class="tab-pane" id="address"> 
+                
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="address1">Purok/Street/Zone</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.address1" type="text" class="form-control" id="address1" required>
+                                        </div>
+                                    </div>
+                                </div>
+                
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="barangay">Barangay</label>
+                                        <div class="form-control-wrap">
+                                            <label class="form-label" for="barangay">{{barangay}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="city-municipality">City/Municipality</label>
+                                        <div class="form-control-wrap">
+                                            <label class="form-label" for="city-municipality">{{city_municipality}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="province">Province</label>
+                                        <div class="form-control-wrap">
+                                            <label class="form-label" for="province">{{province}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="region">Region</label>
+                                        <div class="form-control-wrap">
+                                            <label class="form-label" for="region">{{region}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="postal-code">Postal Code</label>
+                                        <div class="form-control-wrap">
+                                            <label class="form-label" for="postal-code">{{postal_code}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                            </div>     
+                        </div>
+                    
+                </form>     
+                </div>
+            </div>
+    </div>
+</template>
+
+<script>
+
+
+import Swal from 'sweetalert2'
+
+import SupplierDiscounts from './supplier-discounts'
+
+export default {
+    name: 'supplier-list',
+    props: ['properties'],
+
+    data: function () {
+        return {
+            selected_payables: null,
+            options_payables: [],
+
+            selected_supplier_group: null,
+            options_supplier_group: [],
+
+            selected_payment_term: null,
+            options_payment_term: [],
+
+            selected_vat: null,
+            options_vat: [],
+
+            selected_ewt: null,
+            options_ewt: [],
+
+            selected_global_address: null,
+            options_global_address: [],
+
+            show_form: false,
+
+            with_vat: 0,
+            with_ewt: 0,
+            barangay: '',
+            city_municipality: '',
+            province: '',
+            region: '',
+            postal_code: '',
+
+            supplierList: [],
+
+            formdata: { 
+                uuid: null, 
+                business_name: '', 
+                business_shortname: '', 
+                check_payee: '',
+                tax_identification_no: '',
+                supplier_group_uuid: '',
+                lead_time: '',
+                is_transporter: '',
+                vat_uuid: '',
+                ewt_uuid: '',
+                payment_term_uuid: '',
+                coa_payable_account_uuid: '',
+                email: '',
+                contact_no: '',
+                global_address_uuid: '',
+                address1: ''
+            }
+
+        }
+    },
+    watch: {
+
+    },
+    components: {
+        SupplierDiscounts
+    },
+    methods: {
+        toggleForm() {
+            var scope = this
+            scope.show_form = !scope.show_form
+        },
+        getPayables: function () {
+           var scope = this
+            scope.GET('company/chart-of-accounts-payables').then(res => {
+                res.rows.forEach(function (data) {
+                    scope.options_payables.push({
+                        id: data.uuid,
+                        text: data.account_name
+                    })
+                })
+
+                $(".form-select-payables").select2({data: scope.options_payables});
+                
+                scope.selected_payables = scope.options_payables[0].id
+            })
+
+        },
+        getSupplierGroup: function () {
+           var scope = this
+            scope.GET('suppliers/supplier-group').then(res => {
+
+                res.rows.forEach(function (data) {
+                    scope.options_supplier_group.push({
+                        id: data.uuid,
+                        text: data.group_name
+                    })
+                })
+
+                
+                $(".form-select-supplier-group").select2({data: scope.options_supplier_group});
+                scope.selected_supplier_group = scope.options_supplier_group[0].id
+                $('.form-select-supplier-group').trigger('change');
+                
+            })
+
+        },
+        getPaymentTerm: function () {
+           var scope = this
+            scope.GET('company/payment-term').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_payment_term.push({
+                        id: data.uuid,
+                        text: data.term
+                    })
+                
+                })
+
+                $(".form-select-payment-term").select2({data: scope.options_payment_term});
+                
+                scope.selected_payment_term = scope.options_payment_term[0].id
+            })
+
+        },
+        getVat: function () {
+           var scope = this
+
+           scope.options_vat.push({
+               id: '',
+               text: 'None'
+           });
+
+            scope.GET('company/taxation-vat').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_vat.push({
+                        id: data.uuid,
+                        text: data.tax_name
+                    })
+                
+                })
+
+                $(".form-select-vat").select2({data: scope.options_vat});
+                
+                scope.selected_vat = scope.options_vat[0].id
+            })
+
+        },
+
+        getEwt: function () {
+           var scope = this
+
+           scope.options_ewt.push({
+               id: '',
+               text: 'None'
+           });
+
+            scope.GET('company/taxation-ewt').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_ewt.push({
+                        id: data.uuid,
+                        text: data.tax_name
+                    })
+                
+                })
+
+                $(".form-select-ewt").select2({data: scope.options_ewt});
+                
+                scope.selected_ewt = scope.options_ewt[0].id
+            })
+
+        },
+
+        getAddressList: function () {
+            var scope = this
+            scope.GET('globals/address-list').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_global_address.push({
+                        id: data.uuid,
+                        text: data.barangay + ' ' + data.city_municipality + ' ' + data.province + ' ' + data.region + ' ' + data.postal_code,
+                        barangay: data.barangay,
+                        city_municipality: data.city_municipality,
+                        province: data.province,
+                        region: data.region,
+                        postal_code: data.postal_code
+                    })
+                
+                })
+
+                $(".form-select-address-list").select2({data: scope.options_global_address});
+                scope.selected_global_address = scope.options_global_address[0].id
+                scope.fillAddress()
+            })
+
+        },
+        fillAddress: function () {
+           var scope = this
+            for (var i = 0; i < scope.options_global_address.length; i++) {
+                if(scope.options_global_address[i].id==scope.selected_global_address){
+                    scope.barangay = scope.options_global_address[i].barangay
+                    scope.city_municipality = scope.options_global_address[i].city_municipality
+                    scope.province = scope.options_global_address[i].province
+                    scope.region = scope.options_global_address[i].region
+                    scope.postal_code = scope.options_global_address[i].postal_code
+                }
+            }
+        },
+        setData: function (data) {
+            var scope = this
+            scope.$set(scope.formdata,data)
+
+
+            if (data.vat_uuid!=null){
+                scope.with_vat = 1
+            }else{
+                scope.with_vat = 0
+            }
+
+            if (data.ewt_uuid!=null){
+                scope.with_ewt = 1
+            }else{
+                scope.with_ewt = 0
+            }
+            
+
+           
+
+            $('.form-select-supplier-group').val(scope.formdata.supplier_group_uuid);
+            $('.form-select-supplier-group').trigger('change');
+
+            $('.form-select-vat').val(scope.formdata.vat_uuid);
+            $('.form-select-vat').trigger('change');
+
+            $('.form-select-ewt').val(scope.formdata.ewt_uuid);
+            $('.form-select-ewt').trigger('change');
+
+            $('.form-select-payment-term').val(scope.formdata.payment_term_uuid);
+            $('.form-select-payment-term').trigger('change');
+
+            $('.form-select-payables').val(scope.formdata.coa_payable_account_uuid);
+            $('.form-select-payables').trigger('change');
+
+    
+            $('.form-select-address-list').val(scope.formdata.global_address_uuid);
+            $('.form-select-address-list').trigger('change');
+
+
+           
+        },
+        update: function () {
+            var scope = this
+
+            scope.formdata.supplier_group_uuid = scope.selected_supplier_group
+            scope.formdata.payment_term_uuid = scope.selected_payment_term
+            scope.formdata.vat_uuid = scope.selected_vat
+            scope.formdata.ewt_uuid = scope.selected_ewt
+            scope.formdata.coa_payable_account_uuid = scope.selected_payables
+            scope.formdata.global_address_uuid = scope.selected_global_address
+            window.swal.fire({
+                title: 'Update Record?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Update it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.PUT('suppliers/supplier-list', scope.formdata).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Supplier Successfuly Updated',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.getSupplierList()
+                                scope.toggleForm()
+                            })
+                        } else {
+                            alert('ERROR:' + res.code)
+                        }
+                    })
+                }                              
+            })
+        },
+        getSupplierDetails: function (supplierUUID) {
+            var scope = this
+            scope.GET('suppliers/supplier-list/' + supplierUUID).then(res => {
+                scope.formdata = res.data
+
+                scope.setData(scope.formdata )
+                
+            })
+        }
+    },
+    mounted() {
+        var scope = this
+        
+        scope.getPayables()
+        scope.getSupplierGroup()
+        scope.getPaymentTerm()
+        scope.getVat()
+        scope.getEwt()
+        scope.getAddressList()
+
+        var supplierUUID = scope.$route.params.supplierUUID
+        scope.getSupplierDetails(supplierUUID)
+
+        $('.form-select-payables').on("change", function(e) { 
+            scope.selected_payables = $('.form-select-payables').val();
+        })
+
+        $('.form-select-supplier-group').on("change", function(e) { 
+            scope.selected_supplier_group = $('.form-select-supplier-group').val();
+        })
+
+        $('.form-select-payment-term').on("change", function(e) { 
+            scope.selected_payment_term = $('.form-select-payment-term').val();
+        })
+
+        $('.form-select-vat').on("change", function(e) { 
+            scope.selected_vat = $('.form-select-vat').val();
+        })
+
+        $('.form-select-ewt').on("change", function(e) { 
+            scope.selected_ewt = $('.form-select-ewt').val();
+        })
+
+        $('.form-select-address-list').on("change", function(e) { 
+            scope.selected_global_address = $('.form-select-address-list').val();
+            scope.fillAddress()
+        })
+    },
+}
+</script>
+
+<style scoped>
+.table-tranx { table-layout: auto; }
+/*.table-items tr th { min-width:200px; width:auto; padding-left:10px; padding-right:10px; }*/
+.table-fixed-column { position:absolute; }
+.form-group { margin-top:10px !important; }
+</style>
