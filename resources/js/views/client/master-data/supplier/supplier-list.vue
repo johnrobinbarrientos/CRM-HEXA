@@ -8,66 +8,54 @@
                 <div class="bar-right">
                     <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Supplier">
                     <a @click="toggleForm();resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
-                        <i class="las la-plus"></i> <span>New Supplier</span>
+                        <i class="las la-plus"></i> New Supplier
                     </a>
                 </div>
             </div>
         </div>
         
-        <div v-show="!show_form">          
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-bordered card-preview">
-                        <div style="overflow-x:auto;"> 
-                        <table class="table table-tranx table-items">
-                            <thead>
-                                <tr class="tb-tnx-head">
-                                    <!-- <th class="table-fixed-column" style="left:0px; width:150px; background: #f5f6fa;"><span class="">Actions</span></th>
-                                    <th class="table-fixed-column" style="left:150px; width:100px; background: #f5f6fa;"><span class="">#</span></th>
-                                    <th class="table-fixed-column" style="left:250px; width:200px; background: #f5f6fa; border-right:1px solid #dbdfea;"><span class="">Shortname</span></th> -->
-                                    <th><span class="">Actions</span></th>
-                                    <th><span class="">#</span></th>
-                                    <th><span class="">Business Name</span></th>
-                                    <th><span class="">Business Shortname</span></th>
-                                    <th><span class="">Check Payee</span></th>
-                                    <th><span class="">Is Transporter?</span></th>
-                                    <th><span class="">Lead Time (Days)</span></th>
-                                    <th><span class="">Group Name</span></th>
-                                    <th><span class="">Contact No</span></th>
-                                    <th><span class="">Payment Term</span></th>
-                                    <th><span class="">Tax Identification No</span></th>
-                                    <th><span class="">Account Payable</span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(supplier, index) in supplierList" :key="supplier.uuid" class="tb-tnx-supplier">
-                                    <!-- <th class="table-fixed-column" style="border-top:1px solid #dbdfea; left:0px; width:150px; background:#fff;"><span class="">Actions</span></th>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:150px; width:100px; background:#fff;"><span class="">#</span></td>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:250px; width:200px; background:#fff; border-right:1px solid #dbdfea;"><span class="">Shortname Tide</span></td> -->
-                                    <td>
-                                    <span class="">
-                                        <a href="javascript:void(0)"  @click="setData(supplier); toggleForm() " class="btn btn-sm btn-light"><i class="mdi mdi-pencil"></i></a>
-                                        <a href="javascript:void(0)"  @click="remove(supplier)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
-                                    </span>
-                                    </td>
-                                    <td><span class="">{{ (index + 1) }}</span></td>
-                                    <td><span class="">{{supplier.business_name}}</span></td>
-                                    <td><span class="">{{supplier.business_shortname}}</span></td>
-                                    <td><span class="">{{supplier.check_payee}}</span></td>
-                                    <td v-if="supplier.is_transporter === 1">Yes</td>
-                                    <td v-else>No</td>
-                                    <td><span class="">{{supplier.lead_time}}</span></td>
-                                    <td><span class="">{{supplier.supplier_group.group_name}}</span></td>
-                                    <td><span class="">{{supplier.contact_no}}</span></td>
-                                    <td><span class="">{{supplier.payment_term.term}}</span></td>
-                                    <td><span class="">{{supplier.tax_identification_no}}</span></td>
-                                    <td><span class="">{{supplier.account_payable.account_name}}</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        </div>
-                    </div>
-                </div>
+        <div v-show="!show_form">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Actions</th>
+                            <th>#</th>
+                            <th>Business Name</th>
+                            <th>Business Shortname</th>
+                            <th>Check Payee</th>
+                            <th>Is Transporter?</th>
+                            <th>Lead Time (Days)</th>
+                            <th>Group Name</th>
+                            <th>Contact No</th>
+                            <th>Payment Term</th>
+                            <th>Tax Identification No</th>
+                            <th>Account Payable</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(supplier, index) in supplierList" :key="supplier.uuid">
+                            <td>
+                                <span class="w-65px d-block mx-auto">
+                                    <a @click="setData(supplier); toggleForm() " class="btn btn-sm btn-light" href="javascript:void(0)"><i class="mdi mdi-pencil"></i></a>
+                                    <a @click="remove(supplier)" class="btn btn-sm btn-danger" href="javascript:void(0)"><i class="mdi mdi-trash-can"></i></a>
+                                </span>                 
+                            </td>
+                            <td>{{ (index + 1) }}</td>
+                            <td>{{supplier.business_name}}</td>
+                            <td>{{supplier.business_shortname}}</td>
+                            <td>{{supplier.check_payee}}</td>
+                            <td v-if="supplier.is_transporter === 1">Yes</td>
+                            <td v-else>No</td>
+                            <td class="text-right">{{supplier.lead_time}}</td>
+                            <td>{{supplier.supplier_group.group_name}}</td>
+                            <td class="text-right">{{supplier.contact_no}}</td>
+                            <td>{{supplier.payment_term.term}}</td>
+                            <td class="text-right">{{supplier.tax_identification_no}}</td>
+                            <td>{{supplier.account_payable.account_name}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>  
 

@@ -1,28 +1,27 @@
 <template>
     <header id="page-topbar">
         <div class="navbar-header">
-            <div class="d-flex">
+            <div class="d-flex justify-content-between w-100">
                 <div class="navbar-brand-box">
-                    <a href="javascript:void(0);" style="font-size:20px; font-weight:600; color:#fff;">
+                    <button @click="$store.commit('toggleSideNav')" type="button" class="btn btn-sm p-0  font-size-16 header-item waves-effect" id="vertical-menu-btn"><i class="mdi mdi-menu"></i></button>
+                    <a href="javascript:void(0);">
                         <!-- <img :src="logo" style="height:50px;"> -->
                         PINOY GROCERY
                     </a>
-                    <button @click="$store.commit('toggleSideNav')" type="button" class="btn btn-sm p-0  font-size-16 header-item waves-effect" id="vertical-menu-btn"><i class="mdi mdi-menu"></i></button>
                 </div>
-                <div style="padding-left: 1.5rem; padding-right: 1.5rem;">
+                <div class="d-flex align-items-center">
                     <form class="app-search d-none d-lg-block">
-                        <div class="position-relative"><input type="text" class="form-control" placeholder="Search..."><span class="bx bx-search-alt"></span></div>
+                        <div class="position-relative"><input type="text" class="form-control" placeholder="Global Search..."><span class="bx bx-search-alt"></span></div>
                     </form>
                 </div>
-            </div>
-            <div class="d-flex">
+                <div>
                 <div class="dropdown d-inline-block d-lg-none ml-2">
                     <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-search-dropdown"><i class="mdi mdi-magnify"></i></button>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0" aria-labelledby="page-header-search-dropdown">
                         <form class="p-3">
                             <div class="form-group m-0">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient&#39;s username">
+                                    <input type="text" class="form-control" placeholder="Global Search ..." aria-label="Recipient&#39;s username">
                                     <div class="input-group-append"><button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button></div>
                                 </div>
                             </div>
@@ -31,7 +30,7 @@
                 </div>
 
                 <li class="dropdown d-inline-block dropdown">
-                    <button id="page-header-notifications-dropdown" aria-haspopup="true" class="btn header-item noti-icon waves-effect" aria-expanded="false"><i class="bx bx-bell bx-tada"></i><span class="badge badge-danger badge-pill">3</span></button>
+                    <button id="page-header-notifications-dropdown" aria-haspopup="true" class="btn header-item noti-icon waves-effect pr-18" aria-expanded="false"><i class="bx bx-bell bx-tada"></i><span class="badge badge-danger badge-pill">3</span></button>
                     <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-lg p-0 dropdown-menu dropdown-menu-right">
                         <div class="p-3">
                             <div class="align-items-center row">
@@ -136,6 +135,7 @@
                                 <i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i><span>Logout</span>
                             </a>
                     </div>
+                </div>
                 </div>
             </div>
         </div>

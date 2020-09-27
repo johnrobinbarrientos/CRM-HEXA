@@ -13,9 +13,11 @@
             <footer class="footer">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-sm-6">2020 © HEXA SUITE</div>
                         <div class="col-sm-6">
-                            <div class="text-sm-right d-none d-sm-block">Powered by <img height="25" :src="logo"></div>
+                            <div class="d-flex h-100 align-items-center"><span>2020 © HEXA SUITE</span></div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-right d-none d-sm-block">Powered by <img class="pl-1" height="25" :src="logo"></div>
                         </div>
                     </div>
                 </div>
@@ -30,7 +32,7 @@
 <script>
     import SideBar from './components/SideBar'
     import Header from './components/Header'
-    import logo from '../assets/themes/images/hexa-logo.png';
+    import logo from '../assets/themes/images/hexa-text.png';
 
     export default {
     name: 'home',

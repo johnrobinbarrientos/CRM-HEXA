@@ -2,7 +2,7 @@
     <div>
         <div class="actions-bar">
             <div class="w-100">
-                <h1 class="title"><i class="las la-list-ul"></i> Employment Type</h1>
+                <h1 class="title"><!--<i class="las la-list-ul"></i>-->Employment Type</h1>
             </div>
             <div class="bar-right">
                 <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Employee">
@@ -18,7 +18,7 @@
                     <div class="card card-bordered card-preview">
                         <table class="table table-tranx">
                             <thead>
-                                <tr class="tb-tnx-head">
+                                <tr>
                                     <th><span class="">#</span></th>
                                     <th><span class="">Employment Type</span></th>
                                     <th><span class="">Actions</span></th>

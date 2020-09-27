@@ -8,68 +8,62 @@
                 <div class="bar-right">
                     <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Employee">
                     <a @click="toggleForm();resetData();" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
-                        <i class="las la-plus"></i> <span>New Customer</span>
+                        <i class="las la-plus"></i> New Customer
                     </a>
                 </div>
             </div>
         </div>
         
-        <div v-show="!show_form">          
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-bordered card-preview">
-                        <div style="overflow-x:auto;"> 
-                        <table class="table table-tranx table-items">
-                            <thead>
-                                <tr class="tb-tnx-head">
-                                    <!-- <th class="table-fixed-column" style="left:0px; width:150px; background: #f5f6fa;"><span class="">Actions</span></th>
-                                    <th class="table-fixed-column" style="left:150px; width:100px; background: #f5f6fa;"><span class="">#</span></th>
-                                    <th class="table-fixed-column" style="left:250px; width:200px; background: #f5f6fa; border-right:1px solid #dbdfea;"><span class="">Shortname</span></th> -->
-                                    <th><span class="">Actions</span></th>
-                                    <th><span class="">#</span></th>
-                                    <th><span class="">Sold To Name</span></th>
-                                    <th><span class="">Business Group Name</span></th>
-                                    <th><span class="">Business Shortname</span></th>
-                                    <th><span class="">Chain</span></th>
-                                    <th><span class="">Group Name</span></th>
-                                    <th><span class="">Contact Person</span></th>
-                                    <th><span class="">Contact No</span></th>
-                                    <th><span class="">Applied VAT?</span></th>
-                                    <th><span class="">Payment Term</span></th>
-                                    <th><span class="">Channel</span></th>
-                                    <th><span class="">Customer Type</span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(customer, index) in customerList" :key="customer.uuid" class="tb-tnx-customer">
-                                    <!-- <th class="table-fixed-column" style="border-top:1px solid #dbdfea; left:0px; width:150px; background:#fff;"><span class="">Actions</span></th>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:150px; width:100px; background:#fff;"><span class="">#</span></td>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:250px; width:200px; background:#fff; border-right:1px solid #dbdfea;"><span class="">Shortname Tide</span></td> -->
-                                    <td>
-                                    <span class="">
-                                        <a href="javascript:void(0)"  @click="setData(customer); toggleForm() " class="btn btn-sm btn-light"><i class="mdi mdi-pencil"></i></a>
-                                        <a href="javascript:void(0)"  @click="remove(customer)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
-                                    </span>
-                                    </td>
-                                    <td><span class="">{{ (index + 1) }}</span></td>
-                                    <td><span class="">{{customer.sold_to_name}}</span></td>
-                                    <td><span class="">{{customer.business_group_name}}</span></td>
-                                    <td><span class="">{{customer.business_shortname}}</span></td>
-                                    <td><span class="">{{customer.customer_chain.chain}}</span></td>
-                                    <td><span class="">{{customer.customer_group.group_name}}</span></td>
-                                    <td><span class="">{{customer.contact_person}}</span></td>
-                                    <td><span class="">{{customer.contact_no}}</span></td>
-                                    <td v-if="customer.is_applied_vat === 1">Yes</td>
-                                    <td v-else>No</td>
-                                    <td><span class="">{{customer.payment_term.term}}</span></td>
-                                    <td><span class="">{{customer.customer_channel.channel}}</span></td>
-                                    <td><span class="">{{customer.customer_type.customer_type}}</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        </div>
-                    </div>
-                </div>
+        <div v-show="!show_form">
+            <div class="table-responsive"> 
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <!-- <th class="table-fixed-column" style="left:0px; width:150px; background: #f5f6fa;">Actions</th>
+                            <th class="table-fixed-column" style="left:150px; width:100px; background: #f5f6fa;">#</th>
+                            <th class="table-fixed-column" style="left:250px; width:200px; background: #f5f6fa; border-right:1px solid #dbdfea;">Shortname</th> -->
+                            <th>Actions</th>
+                            <th>#</th>
+                            <th>Sold To Name</th>
+                            <th>Business Group Name</th>
+                            <th>Business Shortname</th>
+                            <th>Chain</th>
+                            <th>Group Name</th>
+                            <th>Contact Person</th>
+                            <th>Contact No</th>
+                            <th>Applied VAT?</th>
+                            <th>Payment Term</th>
+                            <th>Channel</th>
+                            <th>Customer Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(customer, index) in customerList" :key="customer.uuid">
+                            <!-- <th class="table-fixed-column" style="border-top:1px solid #dbdfea; left:0px; width:150px; background:#fff;">Actions</th>
+                            <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:150px; width:100px; background:#fff;">#</td>
+                            <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:250px; width:200px; background:#fff; border-right:1px solid #dbdfea;">Shortname Tide</td> -->
+                            <td>
+                                <span class="w-65px d-block mx-auto">
+                                    <a @click="setData(customer); toggleForm() " class="btn btn-sm btn-light" href="javascript:void(0)" ><i class="mdi mdi-pencil"></i></a>
+                                    <a @click="remove(customer)" class="btn btn-sm btn-danger" href="javascript:void(0)"><i class="mdi mdi-trash-can"></i></a>
+                                </span>
+                            </td>
+                            <td>{{ (index + 1) }}</td>
+                            <td>{{customer.sold_to_name}}</td>
+                            <td>{{customer.business_group_name}}</td>
+                            <td>{{customer.business_shortname}}</td>
+                            <td>{{customer.customer_chain.chain}}</td>
+                            <td>{{customer.customer_group.group_name}}</td>
+                            <td>{{customer.contact_person}}</td>
+                            <td class="text-right">{{customer.contact_no}}</td>
+                            <td v-if="customer.is_applied_vat === 1">Yes</td>
+                            <td v-else>No</td>
+                            <td>{{customer.payment_term.term}}</td>
+                            <td>{{customer.customer_channel.channel}}</td>
+                            <td>{{customer.customer_type.customer_type}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>  
 
@@ -279,23 +273,23 @@
                                         <table class="table table-items">
                                             <thead>
                                                 <tr class="tb-tnx-head">
-                                                    <th><span class="">Discount Name</span></th>
-                                                    <th><span class="">Discount Rate</span></th>
-                                                    <th><span>Actions</span></th>
+                                                    <th>Discount Name</th>
+                                                    <th>Discount Rate</th>
+                                                    <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr v-for="(tempCustomerDiscount, index) in tempCustomerDiscounts" :key="index">
-                                                    <td><span class="">{{ tempCustomerDiscount.discount_name }}</span></td>
-                                                    <td><span class="">{{ tempCustomerDiscount.discount_rate }}</span></td>
+                                                    <td>{{ tempCustomerDiscount.discount_name }}</td>
+                                                    <td>{{ tempCustomerDiscount.discount_rate }}</td>
                                                     <td>
                                                         <a href="javascript:void(0);" @click="editTempCustomerDiscount(index)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
                                                         <a href="javascript:void(0);" @click="removeTempCustomerDiscount(index)" class="btn btn-sm btn-danger"><em class="icon ni ni-cross"></em></a>
                                                     </td>
                                                 </tr>
                                                 <tr v-for="(customerDiscount, index) in customerDiscounts" :key="index">
-                                                    <td><span class="">{{ customerDiscount.discount_name }}</span></td>
-                                                    <td><span class="">{{ customerDiscount.discount_rate }}</span></td>
+                                                    <td>{{ customerDiscount.discount_name }}</td>
+                                                    <td>{{ customerDiscount.discount_rate }}</td>
                                                     <td>
                                                         <a href="javascript:void(0);" @click="editCustomerDiscount(customerDiscount, index)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
                                                         <a href="javascript:void(0);" @click="removeCustomerDiscount(customerDiscount, index)" class="btn btn-sm btn-danger"><em class="icon ni ni-cross"></em></a>

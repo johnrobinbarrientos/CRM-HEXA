@@ -16,23 +16,19 @@
          <table class="table table-striped table-bordered responsiveTable">
                 <thead>
                     <tr class="tb-tnx-head">
-                        <th width="100">Actions</th>
                         <th width="100">#</th>
                         <th>Item Asset Group</th>
-                        
+                        <th width="100">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(asset, index) in assetGroups" :key="asset.uuid" class="tb-tnx-item">
-                        <td>
-                            <span class="">
-                                <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemAssetGroup');setData(asset)" class="btn btn-sm btn-light"><i class="bx bx-pencil"></i></a>
-                                <a href="javascript:void(0)"  @click="remove(asset)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
-                            </span>
-                        </td>
                         <td><span class="">{{ (index + 1) }}</span></td>
                         <td><span class="">{{ asset.asset_group }}</span></td>
-                        
+                        <td>
+                            <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemAssetGroup');setData(asset)" class="btn btn-sm btn-light"><i class="bx bx-pencil"></i></a>
+                            <a href="javascript:void(0)"  @click="remove(asset)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
+                        </td>
                     </tr>
                 </tbody>
             </table>

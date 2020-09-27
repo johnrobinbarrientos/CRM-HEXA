@@ -1,84 +1,102 @@
 <template>
     <div>
+        <div v-show="show_preloader">
+            <Spinner />
+        </div>
         <div v-show="!show_form">
             <div class="actions-bar">
                 <div class="w-100">
-                    <h1 class="title"><i class="las la-list-ul"></i> Employee List</h1>
+                    <h1 class="title"><!--<i class="las la-users"></i>--><i class="las la-list-ul"></i> Employee List</h1>
                 </div>
                 <div class="bar-right">
                     <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Employee">
                     <a @click="toggleForm();resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
-                        <i class="las la-plus"></i> <span>New Employee</span>
+                        <i class="las la-plus"></i> New Employee
                     </a>
                 </div>
             </div>
-        </div>
-
-        <div v-show="!show_form">          
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-bordered card-preview">
-                        <div style="overflow-x:auto;"> 
-                        <table class="table table-tranx table-employee">
-                            <thead>
-                                <tr class="tb-tnx-head">
-                                    <!-- <th class="table-fixed-column" style="left:0px; width:150px; background: #f5f6fa;"><span class="">Actions</span></th>
-                                    <th class="table-fixed-column" style="left:150px; width:100px; background: #f5f6fa;"><span class="">#</span></th>
-                                    <th class="table-fixed-column" style="left:250px; width:200px; background: #f5f6fa; border-right:1px solid #dbdfea;"><span class="">Shortname</span></th> -->
-                                    <th><span class="">Actions</span></th>
-                                    <th><span class="">#</span></th>
-                                    <th><span class="">Employee ID</span></th>
-                                    <th><span class="">First Name</span></th>
-                                    <th><span class="">Middle Name</span></th>
-                                    <th><span class="">Last Name</span></th>
-                                    <th><span class="">Ext</span></th>
-                                    <th><span class="">Is Custodian?</span></th>
-                                    <th><span class="">Is Driver?</span></th>
-                                    <th><span class="">Is System User?</span></th>
-                                    <th><span class="">Is Active</span></th>
-                                    <th><span class="">Contact No</span></th>
-                                    <th><span class="">Emergency Contact</span></th>
-                                    <th><span class="">Contact Relation</span></th>
-                                    <th><span class="">Relation Contact No</span></th>
-                                    <th><span class="">Location</span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(employee, index) in employeeList" :key="employee.uuid" class="tb-tnx-employee">
-                                    <!-- <th class="table-fixed-column" style="border-top:1px solid #dbdfea; left:0px; width:150px; background:#fff;"><span class="">Actions</span></th>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:150px; width:100px; background:#fff;"><span class="">#</span></td>
-                                    <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:250px; width:200px; background:#fff; border-right:1px solid #dbdfea;"><span class="">Shortname Tide</span></td> -->
-                                    <td>
-                                    <span class="">
-                                        <a href="javascript:void(0)"  @click="setData(employee); toggleForm() " class="btn btn-sm btn-light"><i class="mdi mdi-pencil"></i></a>
-                                        <a href="javascript:void(0)"  @click="remove(employee)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
-                                    </span>
-                                    </td>
-                                    <td><span class="">{{ (index + 1) }}</span></td>
-                                    <td><span class="">{{employee.emp_id}}</span></td>
-                                    <td><span class="">{{employee.first_name}}</span></td>
-                                    <td><span class="">{{employee.middle_name}}</span></td>
-                                    <td><span class="">{{employee.last_name}}</span></td>
-                                    <td><span class="">{{employee.ext}}</span></td>
-                                    <td v-if="employee.is_custodian === 1">Yes</td>
-                                    <td v-else>No</td>
-                                    <td v-if="employee.is_driver === 1">Yes</td>
-                                    <td v-else>No</td>
-                                    <td v-if="employee.is_system_user === 1">Yes</td>
-                                    <td v-else>No</td>
-                                    <td v-if="employee.is_active === 1">Yes</td>
-                                    <td v-else>No</td>
-                                    <td><span class="">{{employee.contact_no}}</span></td>
-                                    <td><span class="">{{employee.emergeny_contact}}</span></td>
-                                    <td><span class="">{{employee.emergeny_contact_relation}}</span></td>
-                                    <td><span class="">{{employee.relation_contact_no}}</span></td>
-                                    <td><span class="">{{employee.branch_location.location_name}}</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        </div>
-                    </div>
-                </div>
+            <div class="table-responsive"> 
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <!-- <th class="table-fixed-column" style="left:0px; width:150px; background: #f5f6fa;">Actions</th>
+                            <th class="table-fixed-column" style="left:150px; width:100px; background: #f5f6fa;">#</th>
+                            <th class="table-fixed-column" style="left:250px; width:200px; background: #f5f6fa; border-right:1px solid #dbdfea;">Shortname</th> -->
+                            <th>Actions</th>
+                            <th>#</th>
+                            <th>Employee ID</th>
+                            <th>First Name</th>
+                            <th>Middle Name</th>
+                            <th>Last Name</th>
+                            <th>Ext</th>
+                            <th>Is Custodian?</th>
+                            <th>Is Driver?</th>
+                            <th>Is System User?</th>
+                            <th>Is Active</th>
+                            <th>Contact No</th>
+                            <th>Emergency Contact</th>
+                            <th>Contact Relation</th>
+                            <th>Relation Contact No</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(employee, index) in employeeList" :key="employee.uuid">
+                            <!-- <th class="table-fixed-column" style="border-top:1px solid #dbdfea; left:0px; width:150px; background:#fff;">Actions</th>
+                            <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:150px; width:100px; background:#fff;">#</td>
+                            <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:250px; width:200px; background:#fff; border-right:1px solid #dbdfea;">Shortname Tide</td> -->
+                            <td>
+                                <span class="d-block w-65px mx-auto">
+                                    <a @click="setData(employee); toggleForm() " class="btn btn-sm btn-light" href="javascript:void(0)"><i class="mdi mdi-pencil"></i></a>
+                                    <a @click="remove(employee)" class="btn btn-sm btn-danger" href="javascript:void(0)"><i class="mdi mdi-trash-can"></i></a>
+                                </span>
+                            </td>
+                            <td class="text-right">{{ (index + 1) }}</td>
+                            <td class="text-right">{{employee.emp_id}}</td>
+                            <td>
+                                <span class="d-block w-100px">
+                                    {{employee.first_name}}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="d-block w-100px">
+                                    {{employee.middle_name}}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="d-block w-100px">
+                                    {{employee.last_name}}
+                                </span>
+                            </td>
+                            <td class="text-right">{{employee.ext}}</td>
+                            <td v-if="employee.is_custodian === 1">Yes</td>
+                            <td v-else>No</td>
+                            <td v-if="employee.is_driver === 1">Yes</td>
+                            <td v-else>No</td>
+                            <td v-if="employee.is_system_user === 1">Yes</td>
+                            <td v-else>No</td>
+                            <td v-if="employee.is_active === 1">Yes</td>
+                            <td v-else>No</td>
+                            <td class="text-right">{{employee.contact_no}}</td>
+                            <td>
+                                <span class="d-block w-120px">
+                                    {{employee.emergeny_contact}}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="d-block w-100px">
+                                    {{employee.emergeny_contact_relation}}
+                                </span>
+                            </td>
+                            <td class="text-right">{{employee.relation_contact_no}}</td>
+                            <td>
+                                <span class="d-block w-200px">
+                                    {{employee.branch_location.location_name}}
+                                </span>        
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>  
 
@@ -450,11 +468,6 @@
                         </div>     
                  </div>
             </form>
-            <div style="margin-top:30px; text-align:right;">
-                <button @click="toggleForm()" type="submit" class="btn btn-lg btn-primary">Back</button>
-                <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
-                <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
-            </div>
         </div>        
              
     </div>
@@ -463,13 +476,14 @@
 <script>
 
 import Swal from 'sweetalert2'
+import Spinner from '../../../components/Spinner'
 
 export default {
     name: 'employee-list',
     props: ['properties'],
     data: function () {
         return {
-
+            show_preloader: true,
             selected_branch_location: null,
             options_branch_location: [],
 
@@ -531,6 +545,7 @@ export default {
 
         }
     },
+    components: { Spinner },
     methods: {
         toggleForm() {
             var scope = this
@@ -869,14 +884,12 @@ export default {
             scope.selected_global_address = $('.form-select-address-list').val();
             scope.fillAddress()
         })
-        
+
+        setTimeout(function(){ scope.show_preloader = false },2000)
     },
 }
 </script>
 
 <style scoped>
-.table-tranx { table-layout: auto; }
-.table-items tr th { min-width:300px; width:auto; padding-left:10px; padding-right:10px; }
-.table-fixed-column { position:absolute; }
 .form-group { margin-top:10px !important; }
 </style>

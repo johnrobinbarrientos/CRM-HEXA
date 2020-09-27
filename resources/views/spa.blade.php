@@ -8,7 +8,7 @@
         <title>HEXA SUITE</title>
         
 
-
+        <link rel="icon" type="image/png" href="/images/icon.png">
         <link href="/app/vendors/select2/css/select2.min.css?ver=1.6.0" rel="stylesheet" />
 		
 		<!-- Bootstrap Css -->
