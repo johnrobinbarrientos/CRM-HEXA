@@ -1,90 +1,86 @@
 <template>
-    <div>
-        
+    <div>    
         <div v-show="!show_form">
             <div class="actions-bar">
                 <div class="w-100">
                     <h1 class="title"><i class="las la-list-ul"></i> Item List</h1>
                 </div>
                 <div class="bar-right">
-                    <input type="text" class="form-control" placeholder="Search">
-                    <a @click="toggleForm();resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                    <input type="text" class="form-control" placeholder="Search Item">
+                    <a @click="toggleForm();resetData();$parent.toggleNavTabs();" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                         <i class="las la-plus"></i> <span>New</span>
                     </a>
                 </div>
             </div>
 
-            
-            <div class="table-rep-plugin">
-                <div class="table-responsive mb-0" data-pattern="priority-columns">
-                    <table id="tech-companies-1" class="table table-striped table-bordered responsiveTable">
-                        <thead>
-                            <tr>
-                                <th>Actions</th>
-                                <th data-priority="1">#</th>
-                                <th data-priority="3">Item Description</th>
-                                <th data-priority="1">Item Code</th>
-                                <th data-priority="3">Item Barcode</th>
-                                <th data-priority="3">Case/Box Barcode</th>
-                                <th data-priority="6">Item Group</th>
-                                <th data-priority="6">Re-order Qty / ICO</th>
-                                <th data-priority="6">Supplier</th>
-                                <th data-priority="6">Is Expiry?</th>
-                                <th data-priority="6">Purchase Cost</th>
-                                <th data-priority="6">Sales Cost</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(item, index) in itemList" :key="item.uuid">
-                                <td>
-                                    <a href="javascript:void(0)"  @click="setData(item); toggleForm() " class="btn btn-light btn-sm waves-effect"><i class="mdi mdi-pencil"></i></a>
-                                    <a href="javascript:void(0)"  @click="remove(item)" class="btn btn-sm btn-danger waves-effect"><i class="mdi mdi-trash-can"></i></a>
-                                </td>
-                                <td>{{ (index + 1) }}</td>
-                                <td>
-                                    {{ item.item_description }}
-                                </td>
-                                <td>
-                                    {{ item.item_code }}
-                                </td>
-                                <td>
-                                    {{ item.item_barcode }}
-                                </td>
-                                <td>
-                                    {{ item.cs_barcode }}
-                                </td>
-                                <td>
-                                    {{ item.item_group.item_group }}
-                                </td>
-                                <td>
-                                    {{ item.reorder_qty }}
-                                </td>
-                                <td>
-                                    <span v-if="item.suppliers.length > 0">
-                                        <span v-for="item_supplier in item.suppliers" :key="item_supplier.uuid">
-                                            <span  class="badge badge-dim badge-outline-secondary">{{ item_supplier.supplier.business_shortname }}</span> &nbsp;
-                                        </span>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Actions</th>
+                            <th>#</th>
+                            <th>Item Description</th>
+                            <th>Item Code</th>
+                            <th>Item Barcode</th>
+                            <th>Case/Box Barcode</th>
+                            <th>Item Group</th>
+                            <th>Re-order Qty / ICO</th>
+                            <th>Supplier</th>
+                            <th>Is Expiry?</th>
+                            <th>Purchase Cost</th>
+                            <th>Sales Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in itemList" :key="item.uuid">
+                            <td>
+                                <span class="w-65px d-block mx-auto">
+                                    <a @click="setData(item);toggleForm()" class="btn btn-light btn-sm waves-effect" href="javascript:void(0)" ><i class="mdi mdi-pencil"></i></a>
+                                    <a @click="remove(item)" class="btn btn-sm btn-danger waves-effect" href="javascript:void(0)"><i class="mdi mdi-trash-can"></i></a>
+                                </span>
+                            </td>
+                            <td>{{ (index + 1) }}</td>
+                            <td>
+                                {{ item.item_description }}
+                            </td>
+                            <td class="text-right">
+                                {{ item.item_code }}
+                            </td>
+                            <td class="text-right">
+                                {{ item.item_barcode }}
+                            </td>
+                            <td class="text-right">
+                                {{ item.cs_barcode }}
+                            </td>
+                            <td>
+                                {{ item.item_group.item_group }}
+                            </td>
+                            <td class="text-right">
+                                {{ item.reorder_qty }}
+                            </td>
+                            <td>
+                                <span v-if="item.suppliers.length > 0">
+                                    <span v-for="item_supplier in item.suppliers" :key="item_supplier.uuid">
+                                        <span  class="badge badge-dim badge-outline-secondary">{{ item_supplier.supplier.business_shortname }}</span> &nbsp;
                                     </span>
-                                    <span v-else>
-                                        NOT SPECIFIED
-                                    </span>
-                                </td>
-                                <td>
-                                    <span v-if="item.is_expiry === 1">Yes</span>
-                                    <span v-else>No</span>
-                                </td>
-                                <td>
-                                    {{ item.purchase_price }}
-                                </td>
-                                <td>
-                                    {{ item.sales_price }}
-                                </td>
-                                
-                            </tr>
-                            
-                        </tbody>
-                    </table>         
-                </div>         
+                                </span>
+                                <span v-else>
+                                    NOT SPECIFIED
+                                </span>
+                            </td>
+                            <td>
+                                <span v-if="item.is_expiry === 1">Yes</span>
+                                <span v-else>No</span>
+                            </td>
+                            <td class="text-right">
+                                {{ item.purchase_price }}
+                            </td>
+                            <td class="text-right">
+                                {{ item.sales_price }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>         
             </div>
            
         </div>  
@@ -97,7 +93,7 @@
                 <div class="bar-right">
                     <a v-if="formdata.uuid === null" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
                     <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save Changes</a>
-                    <a @click="toggleForm()" type="submit" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>
+                    <a @click="toggleForm();$parent.toggleNavTabs();" type="submit" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>
                 </div>
             </div>
 

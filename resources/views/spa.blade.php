@@ -15,6 +15,8 @@
         <link href="assets/libs/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css">
         <link href="assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="assets/libs/@chenfengyuan/datepicker/datepicker.min.css">
+        <link rel="icon" type="image/png" href="/images/icon.png">
+        <link href="/app/vendors/select2/css/select2.min.css?ver=1.6.0" rel="stylesheet" />
 		
 		<!-- Bootstrap Css -->
         <link href="/themes/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />

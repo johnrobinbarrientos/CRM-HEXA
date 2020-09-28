@@ -11,7 +11,7 @@
                     </li>   
                 </ul>
 
-                <div class="tab-content p-3">    
+                <div class="tab-content">    
                     <div class="tab-pane active" id="customer-list">        
                         <customer-list></customer-list>   
                     </div>    
