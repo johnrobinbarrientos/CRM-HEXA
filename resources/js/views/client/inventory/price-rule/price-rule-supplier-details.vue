@@ -19,6 +19,11 @@
                 <h4 class="card-title">Selected Suppliers</h4>
                 <p>Below are the list of suppliers included on this price rule</p>
 
+                <select class="form-control">
+                    <option value="0">Select a Supplier</option>
+                    <option v-if="!isSupplierAdded(supplier.uuid) || priceRule.supplier_uuid == supplier.uuid" v-for="(supplier, index2) in suppliers" :key="'opt-' + supplier.id + '-' + index2" :value="supplier.uuid">{{ supplier.business_name }}</option>
+                </select>
+
                 <table class="table table-striped table-bordered responsiveTable">
                     <thead>
                         <tr class="tb-tnx-head">
@@ -31,11 +36,7 @@
                         <tr v-for="(priceRule, index) in priceRuleSuppliers" :key="index">
                             <th width="20">{{ index + 1 }}</th>
                             <td>
-                                <strong v-if="priceRule.edit !== true">{{ group.group_name }}</strong>
-                                <select @change="selectePriceRule(priceRule)" v-else v-model="priceRule.supplier_uuid" class="form-control">
-                                    <option value="0">Select a Supplier</option>
-                                    <option v-if="!isSupplierAdded(supplier.uuid) || priceRule.supplier_uuid == supplier.uuid" v-for="(supplier, index2) in suppliers" :key="'opt-' + supplier.id + '-' + index2" :value="supplier.uuid">{{ supplier.business_name }}</option>
-                                </select>
+                                <strong>{{ group.group_name }}</strong>
                             </td>
                             <td>
                                 <strong v-if="priceRule.edit !== true">{{ group.group_name }}</strong>
