@@ -12,7 +12,7 @@
                             <div class="simplebar-content" style="padding: 0px;">
                                 <div id="sidebar-menu">
                                     <ul class="metismenu list-unstyled mm-active" id="side-menu">
-                                        <li class="menu-title">Menu</li>
+                                        <!-- <li class="menu-title">Menu</li> -->
                                         <li v-for="(menu, index) in menus" :key="'menu-' + index">
                                              <template v-if="menu.route !== '#has-submenu'">
                                                 <a href="javascript:void(0);" @click="link(menu.route)" class="waves-effect is-page">

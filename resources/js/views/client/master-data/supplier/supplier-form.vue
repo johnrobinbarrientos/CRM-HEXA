@@ -5,7 +5,7 @@
 
                 <div class="actions-bar">
                     <div class="w-100">
-                        <h1 class="title">New Supplier Details</h1>
+                        <h1 class="title">Supplier Details</h1>
                     </div>
                     <div class="bar-right">
                         <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
@@ -103,10 +103,9 @@
                                 <a class="nav-link active" data-toggle="tab" href="#account">Financial Account</a>    
                             </li>    
                             <li class="nav-item">        
-                                <a v-if="formdata.uuid === null" class="nav-link disabled" data-toggle="tab" href="#discounts">Discounts</a> 
-                                <a v-else class="nav-link" data-toggle="tab" href="#discounts">Discounts</a>   
+                                <a class="nav-link" data-toggle="tab" href="#discounts">Discounts</a> 
                             </li>
-                            <li class="nav-item">        
+                            <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#address">Address</a>    
                             </li>     
                         </ul>
@@ -299,7 +298,8 @@ export default {
             supplierList: [],
 
             formdata: { 
-                uuid: null, 
+                uuid: null,
+                is_draft: 1,
                 business_name: '', 
                 business_shortname: '', 
                 check_payee: '',
@@ -326,10 +326,6 @@ export default {
         SupplierDiscounts
     },
     methods: {
-        toggleForm() {
-            var scope = this
-            scope.show_form = !scope.show_form
-        },
         getPayables: function () {
            var scope = this
             scope.GET('company/chart-of-accounts-payables').then(res => {
@@ -472,47 +468,32 @@ export default {
                 }
             }
         },
-        setData: function (data) {
+        save: function () {
             var scope = this
-            scope.$set(scope.formdata,data)
 
-
-            if (data.vat_uuid!=null){
-                scope.with_vat = 1
-            }else{
-                scope.with_vat = 0
-            }
-
-            if (data.ewt_uuid!=null){
-                scope.with_ewt = 1
-            }else{
-                scope.with_ewt = 0
-            }
+            scope.formdata.supplier_group_uuid = scope.selected_supplier_group
+            scope.formdata.payment_term_uuid = scope.selected_payment_term
+            scope.formdata.vat_uuid = scope.selected_vat
+            scope.formdata.ewt_uuid = scope.selected_ewt
+            scope.formdata.coa_payable_account_uuid = scope.selected_payables
+            scope.formdata.global_address_uuid = scope.selected_global_address
             
-
-           
-
-            $('.form-select-supplier-group').val(scope.formdata.supplier_group_uuid);
-            $('.form-select-supplier-group').trigger('change');
-
-            $('.form-select-vat').val(scope.formdata.vat_uuid);
-            $('.form-select-vat').trigger('change');
-
-            $('.form-select-ewt').val(scope.formdata.ewt_uuid);
-            $('.form-select-ewt').trigger('change');
-
-            $('.form-select-payment-term').val(scope.formdata.payment_term_uuid);
-            $('.form-select-payment-term').trigger('change');
-
-            $('.form-select-payables').val(scope.formdata.coa_payable_account_uuid);
-            $('.form-select-payables').trigger('change');
-
-    
-            $('.form-select-address-list').val(scope.formdata.global_address_uuid);
-            $('.form-select-address-list').trigger('change');
-
-
-           
+            scope.PUT('suppliers/supplier-list', scope.formdata).then(res => {
+                if (res.success) {
+                    window.swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Supplier Successfuly Save',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        scope.ROUTE({path: '/supplier-main/'})
+                    })
+                } else {
+                    alert('ERROR:' + res.code)
+                }
+                                             
+            })
         },
         update: function () {
             var scope = this
@@ -542,8 +523,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                                scope.getSupplierList()
-                                scope.toggleForm()
+                                scope.ROUTE({path: '/supplier-main/'})
                             })
                         } else {
                             alert('ERROR:' + res.code)
@@ -555,9 +535,55 @@ export default {
         getSupplierDetails: function (supplierUUID) {
             var scope = this
             scope.GET('suppliers/supplier-list/' + supplierUUID).then(res => {
-                scope.formdata = res.data
+                let data = res.data
 
-                scope.setData(scope.formdata )
+                scope.formdata.uuid = supplierUUID
+
+                if (data.is_draft===0) {
+
+                    scope.formdata.is_draft = data.is_draft
+                    scope.formdata.business_name = data.business_name 
+                    scope.formdata.business_shortname = data.business_shortname 
+                    scope.formdata.check_payee = data.check_payee
+                    scope.formdata.tax_identification_no = data.tax_identification_no
+                    scope.formdata.lead_time = data.lead_time
+                    scope.formdata.is_transporter = data.is_transporter
+                    scope.formdata.email = data.email
+                    scope.formdata.contact_no = data.contact_no
+                    scope.formdata.address1 = data.address1
+                    
+                    if (data.vat_uuid!=null){
+                        scope.with_vat = 1
+                    }else{
+                        scope.with_vat = 0
+                    }
+
+                    if (data.ewt_uuid!=null){
+                        scope.with_ewt = 1
+                    }else{
+                        scope.with_ewt = 0
+                    }
+
+                    $('.form-select-supplier-group').val(data.supplier_group_uuid);
+                    $('.form-select-supplier-group').trigger('change');
+
+                    $('.form-select-vat').val(data.vat_uuid);
+                    $('.form-select-vat').trigger('change');
+
+                    $('.form-select-ewt').val(data.ewt_uuid);
+                    $('.form-select-ewt').trigger('change');
+
+                    $('.form-select-payment-term').val(data.payment_term_uuid);
+                    $('.form-select-payment-term').trigger('change');
+
+                    $('.form-select-payables').val(data.coa_payable_account_uuid);
+                    $('.form-select-payables').trigger('change');
+
+            
+                    $('.form-select-address-list').val(data.global_address_uuid);
+                    $('.form-select-address-list').trigger('change');
+
+                }
                 
             })
         }

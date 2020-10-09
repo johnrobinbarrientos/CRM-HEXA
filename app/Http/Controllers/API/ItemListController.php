@@ -15,20 +15,65 @@ class ItemListController extends Controller
 {
     public function getItemList()
     {
-        $list = ItemList::whereNull('deleted_at')
+        $list = ItemList::where('is_draft','=', 0)->whereNull('deleted_at')
         ->with('ItemGroup')->with('Suppliers')
         ->with('IncomeAccount')->with('CosAccount')
         ->with('Category1')
         ->with('Category2')->with('Category3')
         ->with('Category4')->with('Category5')
-        ->with('AssetGroup')
-        ->get();
-        return response()->json(['success' => 1, 'rows' => $list], 200);
+        ->with('AssetGroup');
+
+        if (!empty(request()->keyword)) {
+            $keyword = request()->keyword;
+            $list = $list->where(function($query) use ($keyword) {
+                $query->where('item_code','LIKE','%'.$keyword.'%')
+                    ->orWhere('item_barcode','LIKE','%'.$keyword.'%')
+                    ->orWhere('cs_barcode','LIKE','%'.$keyword.'%')
+                    ->orWhere('item_description','LIKE','%'.$keyword.'%')
+                    ->orWhere('item_shortname','LIKE','%'.$keyword.'%');
+            });
+        }
+
+        $count = $list->count();
+
+        // pagination
+        $take = (is_numeric(request()->take) && request()->take <= 50) ? request()->take: 20;
+        $page = (is_numeric(request()->page)) ? request()->page : 1;
+        $offset = (($page - 1 ) * $take);
+
+        $list = $list->take($take);
+        $list = $list->offset($offset);
+        $list = $list->get();
+
+        return response()->json(['success' => 1, 'rows' => $list, 'count' => $count], 200);
     }
 
-    public function save()
+    public function store() // initialize draft
     {
-        $item = request()->uuid ? ItemList::find(request()->uuid) : new ItemList();
+        $item =  ItemList::where('is_draft','=', 1)->first();
+
+        if (!$item) {
+            $auth = \Auth::user();
+
+            $item = new ItemList();
+            $item->company_id = $auth->company_id;
+
+            $item->save();
+        }
+
+
+        $item = ItemList::find($item->uuid);
+        return response()->json(['success' => 1, 'data' => $item], 200);
+    }
+
+    public function update()
+    {
+        $item =  ItemList::find(request()->uuid);
+        
+        if (!$item) {
+            return response()->json(['success' => 0, 'data' => null, 'Item not found'], 500);
+        }
+
         $auth = \Auth::user();
         $item->company_id = $auth->company_id;
         $item->item_group_uuid = request()->item_group_uuid;
@@ -57,6 +102,7 @@ class ItemListController extends Controller
         $item->category3_uuid = request()->category3_uuid;
         $item->category4_uuid = request()->category4_uuid;
         $item->category5_uuid = request()->category5_uuid;
+        $item->is_draft = 0;
         $item->save();
         
 
@@ -111,7 +157,22 @@ class ItemListController extends Controller
             
         }
         $item = ItemList::find($item->uuid);
-        return response()->json(['success' => 1, 'data' => $item, 'message' => 'Item Added!'], 200); 
+        return response()->json(['success' => 1, 'rows' => $item], 200);
+    }
+
+    public function show($itemUUID) // set update records
+    {
+        $item = ItemList::with('ItemGroup')->with('Suppliers')
+        ->with('IncomeAccount')->with('CosAccount')
+        ->with('Category1')
+        ->with('Category2')->with('Category3')
+        ->with('Category4')->with('Category5')
+        ->with('AssetGroup')->find($itemUUID);
+
+        if (!$item) {
+            return response()->json(['success' => 0, 'data' => null, 'Item not found'], 500);
+        }
+        return response()->json(['success' => 1, 'data' => $item], 200);
     }
 
     public function delete($itemUUID)

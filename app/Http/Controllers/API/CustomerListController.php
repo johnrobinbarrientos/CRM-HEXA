@@ -12,17 +12,61 @@ class CustomerListController extends Controller
 {
     public function getCustomerList()
     {
-        $list = CustomerList::whereNull('deleted_at')->with('discounts')
+        $list = CustomerList::where('is_draft','=', 0)->whereNull('deleted_at')->with('discounts')
         ->with('CustomerGroup')->with('CustomerChain')
         ->with('CustomerChannel')->with('CustomerType')
-        ->with('PaymentTerm')
-        ->get();
-        return response()->json(['success' => 1, 'rows' => $list], 200);
+        ->with('PaymentTerm');
+
+        if (!empty(request()->keyword)) {
+            $keyword = request()->keyword;
+            $list = $list->where(function($query) use ($keyword) {
+                $query->where('sold_to_name','LIKE','%'.$keyword.'%')
+                    ->orWhere('business_group_name','LIKE','%'.$keyword.'%')
+                    ->orWhere('business_shortname','LIKE','%'.$keyword.'%');
+            });
+        }
+
+        $count = $list->count();
+
+        // pagination
+        $take = (is_numeric(request()->take) && request()->take <= 50) ? request()->take: 20;
+        $page = (is_numeric(request()->page)) ? request()->page : 1;
+        $offset = (($page - 1 ) * $take);
+
+        $list = $list->take($take);
+        $list = $list->offset($offset);
+        $list = $list->get();
+
+        return response()->json(['success' => 1, 'rows' => $list, 'count' => $count], 200);
     }
 
-    public function save()
+    public function store() // initialize draft
     {
-        $customer = request()->uuid ? CustomerList::find(request()->uuid) : new CustomerList();
+        $customer =  CustomerList::where('is_draft','=', 1)->first();
+
+        if (!$customer) {
+            $auth = \Auth::user();
+
+            $customer = new CustomerList();
+            $customer->company_id = $auth->company_id;
+
+            $customer->save();
+        }
+
+
+        $customer = CustomerList::find($customer->uuid);
+        return response()->json(['success' => 1, 'data' => $customer], 200);
+    }
+
+    public function update()
+    {
+        $customer =  CustomerList::find(request()->uuid);
+        
+        if (!$customer) {
+            return response()->json(['success' => 0, 'data' => null, 'Not found'], 500);
+        }
+
+
         $auth = \Auth::user();
         $customer->company_id = $auth->company_id;
         $customer->sold_to_name = request()->sold_to_name;
@@ -42,6 +86,7 @@ class CustomerListController extends Controller
         $customer->contact_no = request()->contact_no;
         $customer->global_address_uuid = request()->global_address_uuid;
         $customer->address1 = request()->address1;
+        $customer->is_draft = 0;
         $customer->save();
 
         
@@ -63,6 +108,19 @@ class CustomerListController extends Controller
 
         $customer = CustomerList::find($customer->uuid);
         return response()->json(['success' => 1, 'rows' => $customer], 200);
+    }
+
+    public function show($customerUUID) // set update records
+    {
+        $customer = CustomerList::with('discounts')
+        ->with('CustomerGroup')->with('CustomerChain')
+        ->with('CustomerChannel')->with('CustomerType')
+        ->with('PaymentTerm')->find($customerUUID);
+
+        if (!$customer) {
+            return response()->json(['success' => 0, 'data' => null, 'Not found'], 500);
+        }
+        return response()->json(['success' => 1, 'data' => $customer], 200);
     }
 
 

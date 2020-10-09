@@ -10,13 +10,16 @@ import Dashboard from './views/Dashboard'
 import Users from './views/Users'
 
 import ItemMain from './views/client/master-data/item/item-main'
+import ItemForm from './views/client/master-data/item/item-form'
 
 import SupplierMain from './views/client/master-data/supplier/supplier-main'
 import SupplierForm from './views/client/master-data/supplier/supplier-form'
 
 import CustomerMain from './views/client/master-data/customer/customer-main'
+import CustomerForm from './views/client/master-data/customer/customer-form'
 
 import EmployeeMain from './views/client/master-data/employee/employee-main'
+import EmployeeForm from './views/client/master-data/employee/employee-form'
 
 import CompanyMain from './views/client/master-data/company/company-main'
 
@@ -129,6 +132,13 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
+          path: '/items/:itemUUID',
+          name: 'item-form',
+          component: ItemForm,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
           path: '/supplier-main',
           name: 'supplier-main',
           component: SupplierMain,
@@ -150,9 +160,23 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
+          path: '/customers/:customerUUID',
+          name: 'customer-form',
+          component: CustomerForm,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
           path: '/employee-main',
           name: 'employee-main',
           component: EmployeeMain,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/employees/:employeeUUID',
+          name: 'employee-form',
+          component: EmployeeForm,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },

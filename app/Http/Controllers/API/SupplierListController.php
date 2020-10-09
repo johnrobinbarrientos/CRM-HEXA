@@ -17,7 +17,7 @@ class SupplierListController extends Controller
     public function getSupplierList()
     {
     
-        $list = SupplierList::where('is_draft','=',false)->whereNull('deleted_at')->with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable');
+        $list = SupplierList::where('is_draft','=', 0)->whereNull('deleted_at')->with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable');
 
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;
@@ -42,31 +42,18 @@ class SupplierListController extends Controller
         return response()->json(['success' => 1, 'rows' => $list, 'count' => $count], 200);
     }
 
-    public function store()
+
+    public function store() // initialize draft
     {
     
-        $supplier =  SupplierList::where('is_draft','=',true)->first();
+        $supplier =  SupplierList::where('is_draft','=', 1)->first();
 
         if (!$supplier) {
             $auth = \Auth::user();
 
             $supplier = new SupplierList();
             $supplier->company_id = $auth->company_id;
-            $supplier->business_name = '';
-            $supplier->business_shortname = '';
-            $supplier->check_payee = '';
-            $supplier->tax_identification_no = '';
-            $supplier->vat_uuid ='';
-            $supplier->ewt_uuid = '';
-            $supplier->supplier_group_uuid = '';
-            $supplier->lead_time = '';
-            $supplier->is_transporter = false;
-            $supplier->payment_term_uuid = '';
-            $supplier->coa_payable_account_uuid ='';
-            $supplier->email = '';
-            $supplier->contact_no = '';
-            $supplier->global_address_uuid = '';
-            $supplier->address1 = '';
+
             $supplier->save();
         }
 
@@ -100,14 +87,14 @@ class SupplierListController extends Controller
         $supplier->contact_no = request()->contact_no;
         $supplier->global_address_uuid = request()->global_address_uuid;
         $supplier->address1 = request()->address1;
-        $supplier->is_draft = false;
+        $supplier->is_draft = 0;
         $supplier->save();
 
         $supplier = SupplierList::find($supplier->uuid);
         return response()->json(['success' => 1, 'rows' => $supplier], 200);
     }
 
-    public function show($supplierUUID)
+    public function show($supplierUUID) // set update records
     {
         $supplier = SupplierList::with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable')->find($supplierUUID);
 
