@@ -11,8 +11,27 @@ class GlobalUomController extends Controller
 {
     public function getUoms()
     {
-        $Uoms = GlobalUom::whereNull('deleted_at')->get();
-        return response()->json(['success' => 1, 'rows' => $Uoms], 200);
+        $list = GlobalUom::whereNull('deleted_at');
+
+        if (!empty(request()->keyword)) {
+            $keyword = request()->keyword;
+            $list = $list->where(function($query) use ($keyword) {
+                $query->where('uom','LIKE','%'.$keyword.'%');
+            });
+        }
+
+        $count = $list->count();
+
+        // pagination
+        $take = (is_numeric(request()->take) && request()->take <= 50) ? request()->take: 20;
+        $page = (is_numeric(request()->page)) ? request()->page : 1;
+        $offset = (($page - 1 ) * $take);
+
+        $list = $list->take($take);
+        $list = $list->offset($offset);
+        $list = $list->get();
+
+        return response()->json(['success' => 1, 'rows' => $list, 'count' => $count], 200);
     }
 
     public function getBaseUom()
