@@ -139,8 +139,8 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
 .collapsed-sidebar .actions-bar   { left: 0; transition: .3s; width: 100%; }
 
 /* main */
-.page-content { padding: calc(70px + 24px) 6px 60px 6px }
-.page-content { padding-top: calc(110px + 18px); }
+.page-content { padding: calc(70px + 24px) 4px 60px 4px }
+.page-content { padding-top: calc(110px + 15px); }
 .page-content.no-actions-bar { padding-top: calc(50px + 24px); }
 
 /* actions bar */
@@ -176,6 +176,8 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
 /* footer */
 .footer { background: #eee !important; height: unset; padding: 5px; }
 
-
+/* accordion */
+#accordion .card { border: 1px solid #ddd; margin-bottom: 10px; }
+#accordion .card-body { border-top: 1px solid #ddd; }
 
 /** === jepyoo styles end === **/

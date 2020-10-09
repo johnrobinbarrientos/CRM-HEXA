@@ -50,64 +50,17 @@
                     <item-discount-group></item-discount-group>
                 </div>
                 <div class="tab-pane" id="categories" role="tabpanel">
-                    <category-1></category-1> 
-
-                    <div class="card mb-1 shadow-none">
-                        <div class="card-header" id="headingTwo">
-                            <h6 class="m-0">
-                                <a href="#collapseTwo" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
-                                    Category2
-                                </a>
-                            </h6>
+                    <div class="actions-bar">
+                        <div class="w-100">
+                            <h1 class="title h-36"><i class="las la-layer-group"></i> Categories</h1>
                         </div>
-                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                            <div class="card-body">
-                                <category-2></category-2>
-                            </div>
-                        </div>
+                        <div class="bar-right"></div>
                     </div>
-                    <div class="card mb-0 shadow-none">
-                        <div class="card-header" id="headingThree">
-                            <h6 class="m-0">
-                                <a href="#collapseThree" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseThree">
-                                    Category 3
-                                </a>
-                            </h6>
-                        </div>
-                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                            <div class="card-body">
-                                <category-3></category-3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card mb-0 shadow-none">
-                        <div class="card-header" id="headingFour">
-                            <h6 class="m-0">
-                                <a href="#collapseFour" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseThree">
-                                    Category 4
-                                </a>
-                            </h6>
-                        </div>
-                        <div id="collapseFour" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                            <div class="card-body">
-                                <category-4></category-4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card mb-0 shadow-none">
-                        <div class="card-header" id="headingFive">
-                            <h6 class="m-0">
-                                <a href="#collapseFive" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseThree">
-                                    Category 5
-                                </a>
-                            </h6>
-                        </div>
-                        <div id="collapseFive" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                            <div class="card-body">
-                                <category-5></category-5>
-                            </div>
-                        </div>
-                    </div>
+                    <category-1></category-1>
+                    <category-2></category-2>
+                    <category-3></category-3>
+                    <category-4></category-4>
+                    <category-5></category-5>
                 </div>
             </div>
         </div> 

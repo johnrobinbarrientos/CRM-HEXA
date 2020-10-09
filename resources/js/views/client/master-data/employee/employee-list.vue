@@ -47,7 +47,7 @@
                             <td class="table-fixed-column" style="border-top:1px solid #dbdfea; left:250px; width:200px; background:#fff; border-right:1px solid #dbdfea;">Shortname Tide</td> -->
                             <td>
                                 <span class="d-block w-65px mx-auto">
-                                    <a @click="setData(employee); toggleForm() " class="btn btn-sm btn-light" href="javascript:void(0)"><i class="mdi mdi-pencil"></i></a>
+                                    <a @click="setData(employee); toggleForm()" class="btn btn-sm btn-light" href="javascript:void(0)" data-toggle="tooltip" title="Hooray!"><i class="mdi mdi-pencil" ></i></a>
                                     <a @click="remove(employee)" class="btn btn-sm btn-danger" href="javascript:void(0)"><i class="mdi mdi-trash-can"></i></a>
                                 </span>
                             </td>
@@ -854,6 +854,9 @@ export default {
 
     },
     mounted() {
+        // Tooltips
+        $('[data-toggle="tooltip"]').tooltip()
+        
         var scope = this
         scope.getEmployeeList()
 
@@ -884,6 +887,7 @@ export default {
             scope.selected_global_address = $('.form-select-address-list').val();
             scope.fillAddress()
         })
+
 
         setTimeout(function(){ scope.show_preloader = false },2000)
     },

@@ -48,7 +48,9 @@
         <script src="/themes/libs/jquery/jquery.min.js"></script>
 		 <script src="/app/vendors/select2/js/select2.full.min.js?ver=1.6.0'"></script>
 		 
-        <script src="/themes/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/themes/js/bootstrap.min.js"></script>
+        <script src="/themes/js/bootstrap.bundle.min.js"></script>
+
         <script src="/themes/libs/metismenu/metisMenu.min.js"></script>
         <script src="/themes/libs/simplebar/simplebar.min.js"></script>
         <script src="/themes/libs/node-waves/waves.min.js"></script>

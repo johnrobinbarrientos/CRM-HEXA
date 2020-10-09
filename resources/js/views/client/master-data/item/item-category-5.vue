@@ -1,50 +1,52 @@
 <template>
-    <div>
-        <div style="margin-bottom:10px;">
-            <div class="row">
-                <div class="col-12 col-md-3">
-                    <input type="text" class="form-control" placeholder="Search Item">
-                </div>
-                <div class="col-12 col-md-1 offset-md-8">
-                    <a href="javascript:void(0)" @click="toggleForm();resetData()" class="btn btn-block btn-primary" data-toggle="modal">
-                        <em class="icon ni ni-plus"></em> <span>New Item</span>
-                    </a>
-                </div>
+<div id="accordion">
+    <div class="card shadow-none">
+        <a href="#collapseFive" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseFive">
+            <div class="card-header" id="collapseFive">
+                <h5 class="m-0">Category 5</h5>
             </div>
-        </div>
-        
-        <div class="nk-content nk-content-fluid">          
-            <div class="container-fluid">
-                <div class="nk-content-body">
+        </a>
 
-                    <div class="row">
-                        <div class="col-md-12 col-12">
-                            <div class="card card-bordered card-preview">
-                                <table class="table table-tranx jd-sm-table">
-                                    <thead>
-                                        <tr class="tb-tnx-head">
-                                            <th><span class="">#</span></th>
-                                            <th><span class="">Item Category 5</span></th>
-                                            <th><span class="">Actions</span></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(category, index) in categories" :key="category.uuid" class="tb-tnx-item">
-                                            <td><span class="">{{ (index + 1) }}</span></td>
-                                            <td><span class="">{{ category.category5 }}</span></td>
-                                            <td>
-                                                <span class="">
-                                                    <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalCategory5');setData(category)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
-                                                    <a href="javascript:void(0)"  @click="remove(category)" class="btn btn-sm btn-danger"><em class="icon ni ni-trash"></em></a>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+            <div class="card-body">
+
+                <div class="container-fluid">
+                    <div class="d-none d-lg-flex justify-content-between" style="margin-bottom: 20px;">
+                        <div>
+                            <em class="icon ni ni-search"></em>
+                            <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Category 1">
+                        </div>
+                        <div>
+                            <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCategory5');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                                <i class="las la-plus"></i> <span>New Item Category 5</span>
+                            </a>
                         </div>
                     </div>
-                    
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th><span class="">Actions</span></th>
+                                    <th><span class="">#</span></th>
+                                    <th><span class="">Item Category 5</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(category, index) in categories" :key="category.uuid" class="tb-tnx-item">
+                                    <td width="100">
+                                        <span class="w-65px d-block mx-auto">
+                                            <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCategory5');setData(category)" class="btn btn-sm btn-light"><i class="mdi mdi-pencil"></i></a>
+                                            <a href="javascript:void(0)" @click="remove(category)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
+                                        </span>
+                                    </td>
+                                    <td width="100"><span class="">{{ (index + 1) }}</span></td>
+                                    <td><span class="">{{ category.category5 }}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                
 
 
                     <!-- Modal Category1 Form -->
@@ -82,11 +84,11 @@
                         </div>
                     </div>
 
-
-                </div>
+                </div> 
             </div>
-        </div>        
-    </div>
+        </div> 
+    </div>  
+</div>
 </template>
 
 <script>
