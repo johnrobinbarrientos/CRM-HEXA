@@ -176,7 +176,6 @@
                     <thead>
                         <tr>
                             <th>Discount Name</th>
-                            <th>Discount Type</th>
                             <th>Gross Amount</th>
                             <th>Discount Rate</th>
                             <th>Discount Amount</th>
@@ -187,13 +186,8 @@
                             
                             <td class="editable text-right">
                                 <span>{{ discount.discount_name }}</span>
-                                <input v-model="discount.discount_name" type="text" class="editable-control">
-                            </td>
-                            <td class="editable">
-                                <span>{{ discount.discount_type }}</span>
-                                <select v-model="discount.discount_type" type="text" class="editable-control">
-                                    <option value="rate">rate</option>
-                                    <option value="fixed">fixed</option>
+                                <select @change="changeAdditionalDiscountName(discount)" v-model="discount.discount_name" type="text" class="editable-control">
+                                    <option :value="additional_discount.name " v-for="(additional_discount,index) in additional_discount_options" :key="index">{{ additional_discount.name }}</option>
                                 </select>
                             </td>
                             <th class="text-right">{{ calculateTotalGrossAmount() }}</th>
@@ -210,11 +204,11 @@
                             
                         </tr>
                         <tr>
-                            <td colspan="4" class="text-right"><strong>Total</strong></td>
+                            <td colspan="3" class="text-right"><strong>Total</strong></td>
                             <td class="text-right"><strong style="padding-right:12px;">{{ calculateTotalAdditionalDiscountAmount().toFixed(2) }}</strong></td>
                         </tr>
                         <tr>
-                            <td colspan="5" @click="addAdditionalDiscount()" style="cursor:pointer; background:#efefef; text-align:center; font-weight:600;">ADD DISCOUNT</td>
+                            <td colspan="4" @click="addAdditionalDiscount()" style="cursor:pointer; background:#efefef; text-align:center; font-weight:600;">ADD DISCOUNT</td>
                         </tr>
                     </tbody>
                 </table>
@@ -315,10 +309,8 @@
                                 <tbody>
                                     <tr v-for="(item, index) in itemList" :key="index" v-bind:class="{'table-success' : isTempSelected(item) }">
                                         <th scope="row">
-        
                                             <i @click="addTempItem(item)" v-if="!isTempSelected(item)" class="kx-checkbox bx bx-checkbox"></i>
                                             <i @click="removeTempItem(item)" v-else class="kx-checkbox checked bx bx-checkbox-checked"></i>
-       
                                         </th>
                                         <td>{{ item.item_code }}</td>
                                         <td>{{ item.item_description }}</td>
@@ -356,7 +348,14 @@ export default {
             temp_selected_items: [],
             item_list_keyword: '',
             selected_item_list_keyword: '',
-            additional_discounts: []
+            additional_discounts: [],
+            additional_discount_options: [
+                { name: 'Price Off Discount', type: 'rate' },
+                { name: 'Volume Discount', type: 'rate' },
+                { name: 'Move-out Discount', type: 'rate' },
+                { name: 'Seasonal Discount ', type: 'rate' },
+                { name: 'Other Peso Discount', type: 'fixed' },
+            ]
         }
     },
     computed: {
@@ -385,10 +384,31 @@ export default {
             scope.additional_discounts.push({
                 uuid: null,
                 discount_type: 'rate',
-                discount_name : '',
+                discount_name : 'Price Off Discount',
                 discount_rate : 0.00,
                 discount_fixed : 0.00
             })
+        },
+        getAdditonalDiscountOptionDetail: function(name = '', detail = 'all') {
+            var scope = this
+            var pointed = null;
+
+            for (let i = 0; i < scope.additional_discount_options.length; i++) 
+            {
+                var current = scope.additional_discount_options[i]
+
+                if (name == current.name) {
+                    pointed = current
+                    break 
+                }
+            }
+
+            pointed = (!pointed) ? {name: 'Unknown', type: 'rate'} : pointed ;
+            return (detail == 'all') ? pointed : pointed[detail]
+        },
+        changeAdditionalDiscountName: function (discount) {
+            var scope = this
+            discount.discount_type = scope.getAdditonalDiscountOptionDetail(discount.discount_name,'type')
         },
         calculateAdditionalDiscountAmount: function(discount, gross) {
             var scope = this
