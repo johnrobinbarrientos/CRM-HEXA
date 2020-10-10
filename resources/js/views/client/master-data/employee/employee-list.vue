@@ -223,8 +223,40 @@ export default {
 
     },
     mounted() {
+        // Tooltips
+        $('[data-toggle="tooltip"]').tooltip()
+        
         var scope = this
         scope.getEmployeeList()
+
+        scope.getBranchLocation()
+        scope.getEmploymentType()
+        scope.getCostCenter()
+        scope.getEwt()
+        scope.getAddressList()
+
+
+        $('.form-select-branch-location').on("change", function(e) { 
+            scope.selected_branch_location = $('.form-select-branch-location').val();
+        })
+        
+        $('.form-select-employment-type').on("change", function(e) { 
+            scope.selected_employment_type = $('.form-select-employment-type').val();
+        })
+
+        $('.form-select-cost-center').on("change", function(e) { 
+            scope.selected_cost_center = $('.form-select-cost-center').val();
+        })
+
+        $('.form-select-ewt').on("change", function(e) { 
+            scope.selected_ewt = $('.form-select-ewt').val();
+        })
+
+        $('.form-select-address-list').on("change", function(e) { 
+            scope.selected_global_address = $('.form-select-address-list').val();
+            scope.fillAddress()
+        })
+
 
         setTimeout(function(){ scope.show_preloader = false },2000)
 

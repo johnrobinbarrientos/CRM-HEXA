@@ -1,86 +1,64 @@
 <template>
-    <div>
-        <div style="margin-bottom:40px;" class="nk-fmg-body-head d-none d-lg-flex">
-            <div class="nk-fmg-search">
-                <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
-                <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
-                    <option value="1">1</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="30">30</option>
-                    <option value="40">40</option>
-                    <option value="50">50</option>
-                </select>
+<div id="accordion">
+    <div class="card shadow-none">
+        <a href="#collapseFive" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseFive">
+            <div class="card-header" id="headingFive">
+                <h5 class="m-0">Category 5</h5>
+                <i class="las la-plus-circle fs-30"></i>
             </div>
-            <div class="nk-fmg-actions">
-                <ul class="nk-block-tools g-3">
-                    <li>
-                        <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCategory5');resetData()" class="btn btn-primary" data-toggle="modal">
-                            <em class="icon ni ni-plus"></em> <span>New</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="nk-content nk-content-fluid">          
-            <div class="container-fluid">
-                <div class="nk-content-body">
+        </a>
 
-                    <div class="row">
-                        <div class="col-md-12 col-12">
-                            <div class="card card-bordered card-preview">
+        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+            <div class="card-body">
 
-                                <div v-if="listLoading" class="text-center my-3 text-loader">
-                                    <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
-                                </div>
-                                
-                                <table class="table table-tranx jd-sm-table">
-                                    <thead>
-                                        <tr class="tb-tnx-head">
-                                            <th><span class="">#</span></th>
-                                            <th><span class="">Item Category 5</span></th>
-                                            <th><span class="">Actions</span></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(category, index) in categories" :key="category.uuid" class="tb-tnx-item">
-                                            <td><span class="">{{ (index + 1) }}</span></td>
-                                            <td><span class="">{{ category.category5 }}</span></td>
-                                            <td>
-                                                <span class="">
-                                                    <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalCategory5');setData(category)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
-                                                    <a href="javascript:void(0)"  @click="remove(category)" class="btn btn-sm btn-danger"><em class="icon ni ni-trash"></em></a>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                                <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
-                                    <ul class="pagination">
-                                        <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
-                                            <a href="javascript:void(0)" class="page-link" aria-label="Previous">
-                                                <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
-                                            </a>
-                                        </li>
-
-                                        
-                                        <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
-                                            <a href="javascript:void(0)" class="page-link">
-                                                {{ page }}
-                                            </a>
-                                        </li>
-                                        
-                                        <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
-                                            <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
+                <div class="container-fluid">
+                    <div class="d-none d-lg-flex justify-content-between" style="margin-bottom: 20px;">
+                        <div>
+                            <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
+                            <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
+                                <option value="1">1</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div>
+                        <div>
+                            <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCategory5');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                                <i class="las la-plus"></i> <span>New Item Category 5</span>
+                            </a>
                         </div>
                     </div>
-                    
+
+                    <div v-if="listLoading" class="text-center my-3 text-loader">
+                        <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th><span class="">Actions</span></th>
+                                    <th><span class="">#</span></th>
+                                    <th><span class="">Item Category 5</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(category, index) in categories" :key="category.uuid" class="tb-tnx-item">
+                                    <td width="100">
+                                        <span class="w-65px d-block mx-auto">
+                                            <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCategory5');setData(category)" class="btn btn-sm btn-shineblue"><i class="mdi mdi-pencil"></i></a>
+                                            <a href="javascript:void(0)" @click="remove(category)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
+                                        </span>
+                                    </td>
+                                    <td width="100"><span class="">{{ (index + 1) }}</span></td>
+                                    <td><span class="">{{ category.category5 }}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                
 
 
                     <!-- Modal Category1 Form -->
@@ -118,11 +96,11 @@
                         </div>
                     </div>
 
-
-                </div>
+                </div> 
             </div>
-        </div>        
-    </div>
+        </div> 
+    </div>  
+</div>
 </template>
 
 <script>

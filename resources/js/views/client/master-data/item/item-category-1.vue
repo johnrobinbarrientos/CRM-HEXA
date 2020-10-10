@@ -1,97 +1,62 @@
 <template>
     <div>
-        <div class="actions-bar">
-            <div class="w-100">
-                <h1 class="title h-36"><i class="las la-layer-group"></i> Categories</h1>
-            </div>
-            <div class="bar-right"></div>
-        </div>
-
         <div id="accordion">
-            <div class="card mb-1 shadow-none">
+            <div class="card shadow-none">
                 <a href="#collapseOne" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">
                     <div class="card-header" id="headingOne">
                         <h5 class="m-0">Category 1</h5>
+                        <i class="las la-plus-circle fs-30"></i>
                     </div>
                 </a>
-
-                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion" style="">
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                     <div class="card-body">
 
                         <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div style="margin-bottom: 20px;" class="d-none d-lg-flex justify-content-between">
-                                        <div>
-                                            <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
-                                            <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
-                                                <option value="1">1</option>
-                                                <option value="10">10</option>
-                                                <option value="20">20</option>
-                                                <option value="30">30</option>
-                                                <option value="40">40</option>
-                                                <option value="50">50</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCategory1');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
-                                                <i class="las la-plus"></i> <span>New</span>
-                                            </a>
-                                        </div>
-                                    </div>
+                            <div class="d-none d-lg-flex justify-content-between" style="margin-bottom: 20px;">
+                                <div>
+                                    <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
+                                    <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
+                                        <option value="1">1</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCategory1');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                                        <i class="las la-plus"></i> <span>New Item Category 1</span>
+                                    </a>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12 col-12">
-                                    <div class="card card-bordered card-preview">
-                                        
-                                        <div v-if="listLoading" class="text-center my-3 text-loader">
-                                            <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
-                                        </div>
 
-                                        <table class="table table-tranx jd-sm-table">
-                                            <thead>
-                                                <tr class="tb-tnx-head">
-                                                    <th><span class="">#</span></th>
-                                                    <th><span class="">Item Category 1</span></th>
-                                                    <th><span class="">Actions</span></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="(category, index) in categories" :key="category.uuid" class="tb-tnx-item">
-                                                    <td><span class="">{{ (index + 1) }}</span></td>
-                                                    <td><span class="">{{ category.category1 }}</span></td>
-                                                    <td>
-                                                        <span class="">
-                                                            <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalCategory1');setData(category)" class="btn btn-sm btn-light"><i class="mdi mdi-pencil"></i></a>
-                                                            <a href="javascript:void(0)"  @click="remove(category)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                            <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
-                                                <ul class="pagination">
-                                                    <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
-                                                        <a href="javascript:void(0)" class="page-link" aria-label="Previous">
-                                                            <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
-                                                        </a>
-                                                    </li>
-
-                                                    
-                                                    <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
-                                                        <a href="javascript:void(0)" class="page-link">
-                                                            {{ page }}
-                                                        </a>
-                                                    </li>
-                                                    
-                                                    <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
-                                                        <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                    </div>
-                                </div>
+                            <div v-if="listLoading" class="text-center my-3 text-loader">
+                                <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
+                            </div>
+       
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Actions</th>
+                                            <th>#</th>
+                                            <th>Item Category 1</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(category, index) in categories" :key="category.uuid">
+                                            <td width="100">
+                                                <span class="w-65px d-block mx-auto">
+                                                    <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCategory1');setData(category)" class="btn btn-sm btn-shineblue "><i class="mdi mdi-pencil"></i></a>
+                                                    <a href="javascript:void(0)" @click="remove(category)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
+                                                </span>
+                                            </td>
+                                            <td width="100"><span class="">{{ (index + 1) }}</span></td>
+                                            <td><span class="">{{ category.category1 }}</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                                     
                             <!-- Modal Category1 Form -->
