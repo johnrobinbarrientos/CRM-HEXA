@@ -557,7 +557,7 @@ export default {
             scope.GET('suppliers/supplier-list/' + supplierUUID).then(res => {
                 scope.formdata = res.data
 
-                scope.setData(scope.formdata )
+                scope.setData(scope.formdata)
                 
             })
         }

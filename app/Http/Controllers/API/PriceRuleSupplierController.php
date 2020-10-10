@@ -11,10 +11,16 @@ use Illuminate\Support\Facades\Auth;
 
 class PriceRuleSupplierController extends Controller
 {
-    public function getPriceRuleSupplier()
+    public function getPriceRuleSuppliers()
     {
-        $supplierRule = PriceRuleSupplier::whereNull('deleted_at')->get();
-        return response()->json(['success' => 1, 'rows' => $supplierRule], 200);
+        $supplierRules = PriceRuleSupplier::whereNull('deleted_at')->get();
+        return response()->json(['success' => 1, 'rows' => $supplierRules], 200);
+    }
+
+    public function getPriceRuleSupplierDetails($uuid)
+    {
+        $supplierRule = PriceRuleSupplier::find($uuid);
+        return response()->json(['success' => 1, 'data' => $supplierRule], 200);
     }
 
     public function save()
@@ -23,23 +29,21 @@ class PriceRuleSupplierController extends Controller
         $auth = \Auth::user();
         $supplierRule->company_id = $auth->company_id;
         $supplierRule->rule_name = request()->rule_name;
-        $supplierRule->type = request()->type;
         $supplierRule->rate = request()->rate;
-        $supplierRule->fixed = request()->fixed;
         $supplierRule->date_start = request()->date_start;
         $supplierRule->date_end = request()->date_end;
         $supplierRule->mechanics = request()->mechanics;
-        $supplierRule->minimum_amount = request()->minimum_amount;
-        $supplierRule->maximum_amount = request()->maximum_amount;
+        $supplierRule->target_amount = request()->target_amount;
         $supplierRule->save();
 
         $supplierRule = PriceRuleSupplier::find($supplierRule->uuid);
-
+        
+        /*
         $suppliers = request()->suppliers;
         $suppliers = (is_array($suppliers)) ? $suppliers : [];
 
         $remove = PriceRuleSupplierDetail::where('price_rule_supplier_uuid','=',$supplierRule->uuid)->delete();
-
+        
         foreach ($suppliers as $supplier) {
             $rule = PriceRuleSupplierDetail::where('price_rule_supplier_uuid','=',$supplierRule->uuid)
                 ->where('supplier_uuid','=',$supplier['supplier_uuid'])
@@ -75,10 +79,8 @@ class PriceRuleSupplierController extends Controller
 
                 }   
             }
-          
-            
-
         }
+        */
 
         return response()->json(['success' => 1, 'rows' => $supplierRule], 200);
     }

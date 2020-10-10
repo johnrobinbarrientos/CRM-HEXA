@@ -21,14 +21,11 @@ class PriceRuleCustomerController extends Controller
         $auth = \Auth::user();
         $customerRule->company_id = $auth->company_id;
         $customerRule->rule_name = request()->rule_name;
-        $customerRule->type = request()->type;
         $customerRule->rate = request()->rate;
-        $customerRule->fixed = request()->fixed;
         $customerRule->date_start = request()->date_start;
         $customerRule->date_end = request()->date_end;
         $customerRule->mechanics = request()->mechanics;
-        $customerRule->minimum_amount = request()->minimum_amount;
-        $customerRule->maximum_amount = request()->maximum_amount;
+        $customerRule->target_amount = request()->target_amount;
         $customerRule->save();
 
         $customerRule = PriceRuleCustomer::find($customerRule->uuid);

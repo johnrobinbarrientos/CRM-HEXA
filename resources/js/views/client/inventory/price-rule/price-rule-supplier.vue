@@ -7,7 +7,7 @@
                 </div>
                 <div class="bar-right">
                     <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
-                    <a @click="toggleForm();resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                    <a @click="ROUTE({path: '/price-rules/suppliers/create' });" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                         <i class="las la-plus"></i> <span>New</span>
                     </a>
                 </div>
@@ -19,38 +19,32 @@
                 <div class="col-12">
                     <div class="card card-bordered card-preview">
                         <div style="overflow-x:auto;"> 
-                        <table class="table table-tranx table-items">
+                        <table class="table table-striped table-bordered table-items">
                             <thead>
                                 <tr class="tb-tnx-head">
-                                    <th><span class="">Actions</span></th>
-                                    <th><span class="">#</span></th>
-                                    <th><span class="">Rule Name</span></th>
-                                    <th><span class="">Date Start</span></th>
-                                    <th><span class="">Date End</span></th>
-                                    <th><span class="">Rate</span></th>
-                                    <th><span class="">Fixed</span></th>
-                                    <th><span class="">Mechanics</span></th>
-                                    <th><span class="">Minimum Amount</span></th>
-                                    <th><span class="">Maximum Amount</span></th>
+                                    <th width="100">Actions</th>
+                                    <th>#</th>
+                                    <th>Rule Name</th>
+                                    <th>Date Start</th>
+                                    <th>Date End</th>
+                                    <th>Rate</th>
+                                    <th>Mechanics</th>
+                                    <th>Target Amount</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(price_rule, index) in priceRules" :key="price_rule.uuid" class="tb-tnx-price-rule">
                                     <td>
-                                    <span class="">
-                                        <a href="javascript:void(0)"  @click="setData(price_rule); toggleForm() " class="btn btn-sm btn-light"><i class="mdi mdi-pencil"></i></a>
+                                        <a href="javascript:void(0)"  @click="ROUTE({path: '/price-rules/suppliers/' +  price_rule.uuid }); " class="btn btn-sm btn-light"><i class="mdi mdi-pencil"></i></a>
                                         <a href="javascript:void(0)"  @click="remove(price_rule)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
-                                    </span>
                                     </td>
-                                    <td><span class="">{{ (index + 1) }}</span></td>
-                                    <td><span class="">{{price_rule.rule_name}}</span></td>
-                                    <td><span class="">{{price_rule.date_start}}</span></td>
-                                    <td><span class="">{{price_rule.date_end}}</span></td>
-                                    <td><span class="">{{price_rule.rate}}</span></td>
-                                    <td><span class="">{{price_rule.fixed}}</span></td>
-                                    <td><span class="">{{price_rule.mechanics}}</span></td>
-                                    <td><span class="">{{price_rule.minimum_amount}}</span></td>
-                                    <td><span class="">{{price_rule.maximum_amount}}</span></td>
+                                    <td>{{ (index + 1) }}</td>
+                                    <td>{{ price_rule.rule_name }}</td>
+                                    <td>{{ price_rule.date_start }}</td>
+                                    <td>{{ price_rule.date_end }}</td>
+                                    <td class="text-right">{{ price_rule.rate }}</td>
+                                    <td>{{ price_rule.mechanics }}</td>
+                                    <td class="text-right">{{ price_rule.target_amount }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -194,7 +188,6 @@ export default {
     components: {
         'price-rule-supplier-details': PriceRuleSupplierDetails,
     },
-
     data: function () {
         return {
 

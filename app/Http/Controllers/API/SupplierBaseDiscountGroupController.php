@@ -53,6 +53,7 @@ class SupplierBaseDiscountGroupController extends Controller
     {
         $discountGroup = request()->uuid ? SupplierBaseDiscountGroup::find(request()->uuid) : new SupplierBaseDiscountGroup();
         $auth = \Auth::user();
+        
         $discountGroup->company_id = $auth->company_id;
         $discountGroup->supplier_uuid = $supplierUUID;
         $discountGroup->group_name = request()->group_name;

@@ -44,7 +44,7 @@ class BuyAndPayOrder extends Model
     }
 
     public function OrderReasonCode(){
-        return $this->belongsTo('App\Models\BuyAndPayOrderReasonCodes','orders_reason_code_uuid','uuid');
+        return $this->belongsTo('App\Models\BuyAndPayOrderReasonCode','orders_reason_code_uuid','uuid');
     }
    
 }

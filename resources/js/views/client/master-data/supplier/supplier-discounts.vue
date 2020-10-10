@@ -9,21 +9,15 @@
                     <table class="table  table-striped table-bordered table-hover mb-0 table">
                         <thead>
                             <tr>
+                                <th width="90">Actions</th>
                                 <th width="40">#</th>
                                 <th>Name</th>
-                                <th width="100">Actions</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
                             <template v-if="groups.length > 0">
                             <tr @click="selectGroup(group)" v-bind:class="{'table-success' : (selected_group && selected_group.uuid === group.uuid) }" style="cursor:pointer;" v-for="(group,index) in groups" :key="index" >
-                                <th scope="row" >
-                                   {{ (index + 1) }}
-                                </th>
-                                <td>
-                                    <strong v-if="group.edit !== true">{{ group.group_name }}</strong>
-                                    <input v-else v-model="group.group_name" class="form-control" type="text" placeholder="Default input">
-                                </td>
                                 <td>
                                     <template v-if="group.edit !== true">
                                         <a @click="editGroup(group)" class="btn btn-sm btn-light" role="button" href="javascript:void(0);"><i class="bx bx-pencil"></i></a>
@@ -34,6 +28,14 @@
                                         <a class="btn btn-sm btn-danger" role="button" href="javascript:void(0);"><i class="bx bx-trash-alt"></i></a>
                                     </template>
                                 </td>
+                                <th scope="row" >
+                                   {{ (index + 1) }}
+                                </th>
+                                <td>
+                                    <strong v-if="group.edit !== true">{{ group.group_name }}</strong>
+                                    <input v-else v-model="group.group_name" class="form-control" type="text" placeholder="Enter group name">
+                                </td>
+                                
                             </tr>
                             </template>
                             <template v-else>
@@ -54,29 +56,15 @@
                     <table class="table  table-striped table-bordered table-hover mb-0 table">
                         <thead>
                             <tr>
+                                <th width="90">Actions</th>
                                 <th width="40">#</th>
                                 <th>Name</th>
                                 <th>Rate</th>
-                                <th width="100">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <template v-if="discounts.length > 0">
                             <tr style="cursor:pointer;" v-for="(discount,index) in discounts" :key="index" >
-                                <th scope="row">
-                                   {{ (index + 1) }}
-                                </th>
-                                <td>
-                                    <strong v-if="discount.edit !== true">{{ discount.discount_name }}</strong>
-                                    <input v-else v-model="discount.discount_name" class="form-control" type="text" placeholder="Default input">
-                                </td>
-
-                                <td>
-                                    <strong v-if="discount.edit !== true">{{ discount.discount_rate }}%</strong>
-                                    <input v-else v-model="discount.discount_rate" class="form-control" type="text" placeholder="Default input">
-                                </td>
-
-
                                 <td>
                                     <template v-if="discount.edit !== true">
                                         <a @click="editDiscount(discount)" class="btn btn-sm btn-light" role="button" href="javascript:void(0);"><i class="bx bx-pencil"></i></a>
@@ -87,6 +75,22 @@
                                         <a class="btn btn-sm btn-danger" role="button" href="javascript:void(0);"><i class="bx bx-trash-alt"></i></a>
                                     </template>
                                 </td>
+                                <th scope="row">
+                                   {{ (index + 1) }}
+                                </th>
+                                <td>
+                                    <strong v-if="discount.edit !== true">{{ discount.discount_name }}</strong>
+                                    <input v-else v-model="discount.discount_name" class="form-control" type="text" placeholder="Enter discount name">
+                                </td>
+
+                                <td class="text-right">
+                                    <strong v-if="discount.edit !== true">{{ discount.discount_rate }}%</strong>
+                                    <input v-else v-model="discount.discount_rate" class="form-control" type="text" placeholder="Enter discount rate">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-right"><strong>Total</strong></td>
+                                <td class="text-right"><strong>{{ totalDiscountGroup(discounts) }}%</strong></td>
                             </tr>
                             </template>
                             <template v-else>
@@ -120,6 +124,21 @@ export default {
         }
     },
     methods: {
+        totalDiscountGroup: function (discounts) {
+            var total = 0
+            for (let i = 0; i < discounts.length; i++) {
+                var current = discounts[i]
+
+                if (current.discount_rate == '' || isNaN(current.discount_rate)) {
+                    continue;
+                }
+                
+                var rate = parseFloat(current.discount_rate)
+                total += rate
+            }
+
+            return total.toFixed(2)
+        },
         getDiscounts: function () {
             var scope = this
             var supplier_discount_group_uuid = scope.selected_group.uuid;
@@ -130,6 +149,20 @@ export default {
        },
         addNewDiscount: function () {
            var scope = this
+
+           var allow_add = true
+            for (let i = 0; i < scope.discounts.length; i++) {
+               var current = scope.discounts[i]
+               if (!current.id) {
+                   allow_add = false
+                   break;
+               }
+            }
+
+            if (!allow_add) {
+                return
+            }
+
            scope.discounts.push({
                 id: null,
                 uuid: null,
@@ -172,6 +205,20 @@ export default {
 
         addNewGroup: function () {
            var scope = this
+
+            var allow_add = true
+            for (let i = 0; i < scope.groups.length; i++) {
+               var current = scope.groups[i]
+               if (!current.id) {
+                   allow_add = false
+                   break;
+               }
+            }
+
+            if (!allow_add) {
+                return
+            }
+
            scope.groups.push({
                 id: null,
                 uuid: null,

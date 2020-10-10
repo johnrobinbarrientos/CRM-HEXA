@@ -5,35 +5,49 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
 
 use App\Models\PriceRuleSupplierDetail; 
+use App\Models\PriceRuleSupplierItem; 
 use Illuminate\Support\Facades\Auth; 
 
 class PriceRuleSupplierDetailController extends Controller
 {
-    public function getSupplierDetail()
+    public function index($priceRuleSupplierUUID)
     {
-        $detailRule = PriceRuleSupplierDetail::whereNull('deleted_at')->get();
-        return response()->json(['success' => 1, 'rows' => $detailRule], 200);
+        $priceRuleSupplierDetails = PriceRuleSupplierDetail::where('price_rule_supplier_uuid','=',$priceRuleSupplierUUID)->get();
+        
+        foreach ($priceRuleSupplierDetails as $priceRuleSupplierDetail) {
+            $priceRuleSupplierItems = PriceRuleSupplierItem::where('price_rule_supplier_detail_uuid','=',$priceRuleSupplierDetail->uuid)->pluck('item_uuid')->toArray();
+            $priceRuleSupplierDetail->items = $priceRuleSupplierItems;
+        }
+
+        return response()->json(['success' => 1, 'rows' => $priceRuleSupplierDetails], 200);
     }
 
-    public function save()
+    public function save($priceRuleSupplierUUID)
     {
-        $detailRule = request()->uuid ? PriceRuleSupplierDetail::find(request()->uuid) : new PriceRuleSupplierDetail();
         $auth = \Auth::user();
-        $detailRule->company_id = $auth->company_id;
-        $detailRule->price_rule_supplier_uuid = request()->price_rule_supplier_uuid;
-        $detailRule->supplier_uuid = request()->supplier_uuid;
-        $detailRule->applied_to = request()->applied_to;
-        $detailRule->save();
+        $priceRuleSupplierDetail = PriceRuleSupplierDetail::where('price_rule_supplier_uuid','=',$priceRuleSupplierUUID)->where('supplier_uuid','=',request()->supplier_uuid)->first();
+        $priceRuleSupplierDetail = ($priceRuleSupplierDetail) ? $priceRuleSupplierDetail : new PriceRuleSupplierDetail;
 
-        $detailRule = PriceRuleSupplierDetail::find($detailRule->uuid);
+        $priceRuleSupplierDetail->company_id = $auth->company_id;
+        $priceRuleSupplierDetail->price_rule_supplier_uuid = $priceRuleSupplierUUID;
+        $priceRuleSupplierDetail->supplier_uuid = request()->supplier_uuid;
+        $priceRuleSupplierDetail->applied_to = request()->applied_to;
+        $priceRuleSupplierDetail->save();
 
-        return response()->json(['success' => 1, 'rows' => $detailRule], 200);
+        $priceRuleSupplierDetail = PriceRuleSupplierDetail::find($priceRuleSupplierDetail->uuid);
+
+        return response()->json(['success' => 1, 'data' => $priceRuleSupplierDetail], 200);
     }
 
 
-    public function delete()
+    public function delete($priceRuleSupplierUUID, $priceRuleSupplierDetailUUID)
     {
-        $detailRule = PriceRuleSupplierDetail::find(request()->uuid)->delete();
+        $priceRuleSupplierDetail = PriceRuleSupplierDetail::find($priceRuleSupplierDetailUUID);
+
+        if ($priceRuleSupplierDetail) {
+            $priceRuleSupplierItems = PriceRuleSupplierItem::where('price_rule_supplier_detail_uuid','=',$priceRuleSupplierDetail->uuid)->forceDelete();
+            $priceRuleSupplierDetail->forceDelete();
+        }
 
         return response()->json(['success' => 1, 'message' => 'Deleted!'], 200);
     }

@@ -227,15 +227,16 @@ Route::group(['middleware' => ['auth:api'] ], function(){
     });
 
     Route::group(['prefix' => 'buy-and-pay'], function(){
-
+        
         Route::get('/orders', 'API\BuyAndPayOrderController@getOrders');
         Route::get('/orders/{order_uuid}', 'API\BuyAndPayOrderController@getOrderDetails');
+        Route::get('/orders/{order_uuid}/supplier-items', 'API\BuyAndPayOrderController@getOrderSupplierItems');
+
         Route::post('/order', 'API\BuyAndPayOrderController@saveOrder');
         Route::post('/order/delete', 'API\BuyAndPayOrderController@deleteOrder');
 
-        Route::get('/order-details', 'API\BuyAndPayOrderDetailController@getOrderDetails');
-        Route::post('/order-details', 'API\BuyAndPayOrderDetailController@saveOrderDetails');
-        Route::post('/order-detail/delete', 'API\BuyAndPayOrderDetailController@deleteOrderDetail');
+        Route::post('/orders/{order_uuid}/details', 'API\BuyAndPayOrderDetailController@save');
+        Route::post('/orders/{order_uuid}/additional-discounts', 'API\BuyAndPayOrderDetailController@saveAdditionalDiscount');
 
         Route::get('/order-reason-code', 'API\BuyAndPayOrderReasonCodeController@getReasonCode');
         Route::post('/order-reason-code', 'API\BuyAndPayOrderReasonCodeController@saveReasonCode');
@@ -254,9 +255,18 @@ Route::group(['middleware' => ['auth:api'] ], function(){
     });
 
     Route::group(['prefix' => 'price-rule'], function(){
-        Route::get('/supplier', 'API\PriceRuleSupplierController@getPriceRuleSupplier');
+        Route::get('/supplier', 'API\PriceRuleSupplierController@getPriceRuleSuppliers');
+        Route::get('/supplier/{uuid}', 'API\PriceRuleSupplierController@getPriceRuleSupplierDetails');
         Route::post('/supplier', 'API\PriceRuleSupplierController@save');
         Route::post('/supplier/delete', 'API\PriceRuleSupplierController@delete');
+        
+        Route::get('/supplier/{uuid}/details', 'API\PriceRuleSupplierDetailController@index');
+        Route::post('/supplier/{uuid}/details', 'API\PriceRuleSupplierDetailController@save');
+        Route::delete('/supplier/{uuid}/details/{price_rule_supplier_detail_uuid}', 'API\PriceRuleSupplierDetailController@delete');
+
+        Route::post('/supplier/details/{price_rule_supplier_detail_uuid}/items', 'API\PriceRuleSupplierItemController@save');
+        Route::delete('/supplier/details/{price_rule_supplier_item_uuid}/items/{item_uuid}', 'API\PriceRuleSupplierItemController@delete');
+        
 
         Route::get('/customer', 'API\PriceRuleCustomerController@getPriceRuleCustomer');
         Route::post('/customer', 'API\PriceRuleCustomerController@save');

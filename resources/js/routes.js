@@ -37,10 +37,12 @@ import AdminChartofAccounts from './views/admin/admin-globals/admin-chart-of-acc
 
 import AdminCostCenter from './views/admin/admin-globals/admin-cost-center'
 
-import PurchaseOrder from './views/client/buy-and-pay/purchase-order/main-purchase-order'
+import PurchaseOrderList from './views/client/buy-and-pay/purchase-order/purchase-order-list'
+import PurchaseOrderForm from './views/client/buy-and-pay/purchase-order/purchase-order-form'
 import PurchaseOrderDetails from './views/client/buy-and-pay/purchase-order/purchase-order-details'
 
 import PriceRuleMain from './views/client/inventory/price-rule/price-rule-main'
+import PriceRuleSupplierForm from './views/client/inventory/price-rule/price-rule-supplier-form'
 
 
 
@@ -234,26 +236,46 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
-          path: '/main-purchase-order',
-          name: 'main-purchase-order',
-          component: PurchaseOrder,
+          path: '/purchase-orders',
+          name: 'purchase-order-list',
+          component: PurchaseOrderList,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
         {
-          path: '/purchase-order/:order_uuid',
+          path: '/purchase-orders/create',
+          name: 'purchase-order-form',
+          component: PurchaseOrderForm,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/purchase-orders/:order_uuid',
           name: 'purchase-order-details',
           component: PurchaseOrderDetails,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
         {
-          path: '/price-rule-main',
-          name: 'price-rule-main',
+          path: '/price-rules',
+          name: 'price-rules',
           component: PriceRuleMain,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
-
+        {
+            path: '/price-rules/suppliers/create',
+            name: 'price-rule-supplier-form',
+            component: PriceRuleSupplierForm,
+            beforeEnter: checkAuth,
+            meta: { protected: true }
+        },
+        {
+            path: '/price-rules/suppliers/:priceRuleSupplierUUID',
+            name: 'price-rule-supplier-form',
+            component: PriceRuleSupplierForm,
+            beforeEnter: checkAuth,
+            meta: { protected: true }
+        },
     ],
 });

@@ -15,25 +15,29 @@ class PriceRuleSupplierItemController extends Controller
         return response()->json(['success' => 1, 'rows' => $supplierItem], 200);
     }
 
-    public function save()
+    public function save($priceRuleSupplierDetailUUID)
     {
-        $supplierItem = request()->uuid ? PriceRuleSupplierItem::find(request()->uuid) : new PriceRuleSupplierItem();
+        $priceRuleItem = PriceRuleSupplierItem::where('price_rule_supplier_detail_uuid','=',$priceRuleSupplierDetailUUID)->where('item_uuid','=',request()->item_uuid)->first();
+        $priceRuleItem = ($priceRuleItem) ? $priceRuleItem : new PriceRuleSupplierItem;
+
+        if (!$priceRuleSupplierDetailUUID || is_null($priceRuleSupplierDetailUUID)) {
+            return response()->json(['success' => 0, 'message' => 'An error occur while saving..'], 500);
+        }
+
         $auth = \Auth::user();
-        $supplierItem->company_id = $auth->company_id;
-        $supplierItem->price_rule_supplier_uuid = request()->price_rule_supplier_uuid;
-        $supplierItem->item_uuid = request()->item_uuid;
-        $supplierItem->save();
+        $priceRuleItem->company_id = $auth->company_id;
+        $priceRuleItem->price_rule_supplier_detail_uuid = $priceRuleSupplierDetailUUID;
+        $priceRuleItem->item_uuid = request()->item_uuid;
+        $priceRuleItem->save();
 
-        $supplierItem = PriceRuleSupplierItem::find($supplierItem->uuid);
-
-        return response()->json(['success' => 1, 'rows' => $supplierItem], 200);
+        $priceRuleItem = PriceRuleSupplierItem::find($priceRuleItem->uuid);
+        return response()->json(['success' => 1, 'rows' => $priceRuleItem], 200);
     }
 
 
-    public function delete()
+    public function delete($priceRuleSupplierDetailUUID, $itemUUID)
     {
-        $supplierItem = PriceRuleSupplierItem::find(request()->uuid)->delete();
-
+        $priceRuleItem = PriceRuleSupplierItem::where('price_rule_supplier_detail_uuid','=',$priceRuleSupplierDetailUUID)->where('item_uuid','=',$itemUUID)->forceDelete();
         return response()->json(['success' => 1, 'message' => 'Deleted!'], 200);
     }
 }

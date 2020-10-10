@@ -9,12 +9,12 @@ class PriceRuleSupplier extends Model
 {
     use SoftDeletes;
     
-    protected $table = 'price_rule_supplier';
+    protected $table = 'price_rule_suppliers';
 
     protected $fillable = [
-        'uuid', 'company_id', 'rule_name', 'type', 
-        'rate','fixed','date_start','date_end',
-        'mechanics','minimum_amount','maximum_amount',
+        'uuid', 'company_id', 'rule_name', 
+        'rate','date_start','date_end',
+        'mechanics','target_amount',
     ];
 
     protected $primaryKey = 'uuid';

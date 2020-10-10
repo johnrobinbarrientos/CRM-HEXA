@@ -130,7 +130,7 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bx-money',
             'submenus' => [
-                [ 'text' => 'Ordering', 'route' => 'main-purchase-order'],
+                [ 'text' => 'Ordering', 'route' => 'purchase-order-list'],
                 [ 'text' => 'Receiving', 'route' => 'supplier-main'],
                 [ 'text' => 'Returns', 'route' => 'customer-main'],
                 [ 'text' => 'Billing', 'route' => 'employee-main'],
@@ -158,7 +158,7 @@ class MenuController extends Controller
             'icon' => 'bx bx-package',
             'submenus' => [
                 [ 'text' => 'Inventory Movement', 'route' => 'item-main'],
-                [ 'text' => 'Price Rule', 'route' => 'price-rule-main']
+                [ 'text' => 'Price Rule', 'route' => 'price-rules']
             ]
         ];
 

@@ -34,8 +34,10 @@
                         <template v-for="supplier in suppliers" v-if="hasSelected(supplier)">
                             <tr class="table-info" :key="'supplier' + supplier.id"><th  colspan="2" >{{ supplier.business_name }}</th></tr>
                             <template v-for="discount_group in supplier.discount_groups" v-if="discount_group.selected">
-                                <tr  class="table-success" :key="'group' + discount_group.id"><th   style="padding-left:50px;" colspan="2" >{{ discount_group.group_name }}</th></tr>
-                                <tr   :key="'discount' + discount.id" v-for="(discount,index2) in discount_group.discounts" >
+                                <tr  class="table-success" :key="'group' + discount_group.id">
+                                    <th style="padding-left:50px;" colspan="2" >{{ discount_group.group_name }}</th>
+                                </tr>
+                                <tr :key="'discount' + discount.id" v-for="(discount,index2) in discount_group.discounts" >
                                     <th style="padding-left:60px;"><i class="mdi mdi-arrow-right"></i> &nbsp; {{ discount.discount_name }}</th>
                                     <th class="text-right">{{ parseFloat(discount.discount_rate).toFixed(2) }}%</th>
                                 </tr>
@@ -43,9 +45,12 @@
                                     <th class="text-right">Total:</th>
                                     <th class="text-right">{{ totalRate(discount_group) }}%</th>
                                 </tr>
-
                             </template>
                         </template>
+                        <tr>
+                            <th class="text-right">Grand Total:</th>
+                            <th class="text-right">{{ grand_total || '0.00' }}%</th>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -63,22 +68,42 @@ export default {
     data: function () {
         return {
             suppliers: [],
-            
         }
     },
     computed: {
         item: function() {
             return this.properties
-        }
+        },
+        grand_total: function () {
+            var scope = this
+            
+            var total = 0.00
+            for (let x = 0; x < scope.suppliers.length; x++) {
+                var supplier = scope.suppliers[x]
+                
+                var groups = supplier.discount_groups
+                for (let i = 0; i < groups.length; i++) {
+                    var group = groups[i]
+                    
+                    if(!group.selected) {
+                        continue;
+                    }
+
+                    var discounts = group.discounts
+                    for (let y = 0; y < discounts.length; y++) {
+                        var discount = discounts[y]
+                        total += parseFloat(discount.discount_rate)
+                    }
+                }
+                
+            }
+            return total.toFixed(2)
+        },
     },
     methods: {
         getSupplierDiscounts: function (supplier_ids) {
            var scope = this
             scope.suppliers  = []
-
-            scope.DELETE('items/item-supplier-discounts-batch',{ supplier_ids: supplier_ids, item_uuid: scope.item.uuid }).then(res => {
-               
-            })
 
             scope.GET('suppliers/multiple/supplier-base-discount-group',{supplier_ids: supplier_ids, item_uuid: scope.item.uuid }).then(res => {
                scope.suppliers = res.rows

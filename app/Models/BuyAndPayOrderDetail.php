@@ -11,11 +11,6 @@ class BuyAndPayOrderDetail extends Model
     
     protected $table = 'buy_and_pay_order_details';
 
-    protected $fillable = [
-        'uuid', 'company_id', 'bp_order_uuid','item_uuid',
-        'location_uuid','order_qty','order_accepted',
-        'uom','item_rate',
-    ];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';
