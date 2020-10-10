@@ -14,7 +14,7 @@
             </div>
         </div>
 
-         <table class="table table-striped table-bordered responsiveTable">
+         <table class="table table-striped table-bordered">
                 <thead>
                     <tr class="tb-tnx-head">
                         <th width="100">Actions</th>

@@ -7,7 +7,7 @@
                 </div>
                 <div class="bar-right">
                     <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
-                    <select style="max-width:80px;" @change="changeSupplierListItemPerPage()" v-model="supplierListItemPerPage" class="form-control border-transparent form-focus-none">
+                    <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
                         <option value="1">1</option>
                         <option value="10">10</option>
                         <option value="20">20</option>
@@ -27,7 +27,7 @@
                 <div class="col-12">
                     <div class="card card-bordered card-preview">
                         
-                        <div v-if="supplierListLoading" class="text-center my-3 text-loader">
+                        <div v-if="listLoading" class="text-center my-3 text-loader">
                             <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
                         </div>
                         <div v-else style="overflow-x:auto;"> 
@@ -83,22 +83,22 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <nav v-if="supplierListTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
+                            <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
                                 <ul class="pagination">
-                                    <li @click="supplierListPaginate('prev')"  v-bind:class="{'disabled' : supplierListCurrentPage <= 1}"  class="page-item" >
+                                    <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
                                         <a href="javascript:void(0)" class="page-link" aria-label="Previous">
                                             <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
                                         </a>
                                     </li>
 
                                     
-                                    <li @click="supplierListPaginate(page)" v-for="page in supplierListTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === supplierListCurrentPage}">
+                                    <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
                                         <a href="javascript:void(0)" class="page-link">
                                             {{ page }}
                                         </a>
                                     </li>
                                     
-                                    <li @click="supplierListPaginate('next')" v-bind:class="{'disabled' : supplierListCurrentPage >= supplierListTotalPages}" class="page-item">
+                                    <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
                                         <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
                                     </li>
                                 </ul>
@@ -120,40 +120,37 @@ export default {
 
     data: function () {
         return {
-            supplierListLoading: true,
             supplierList: [],
-            supplierListCurrentPage: 1,
-            supplierListItemPerPage: 20,
-            supplierListCount: 0,
+            listLoading: true,
+            listCurrentPage: 1,
+            listItemPerPage: 20,
+            listCount: 0,
             searchKeyword: '',
             timer: null
         }
     },
     computed: {
-        supplierListTotalPages: function () {
+        listTotalPages: function () {
             var scope = this
-            var pages = Math.ceil(scope.supplierListCount / scope.supplierListItemPerPage)
+            var pages = Math.ceil(scope.listCount / scope.listItemPerPage)
             return pages
         }
-    },
-    watch: {
-
     },
     methods: {
         getSupplierList: function () {
             var scope = this
-            scope.supplierListLoading = true
+            scope.listLoading = true
             scope.supplierList = []
-            scope.GET('suppliers/supplier-list?keyword=' + scope.searchKeyword + '&page=' + scope.supplierListCurrentPage + '&take=' + scope.supplierListItemPerPage).then(res => {
+            scope.GET('suppliers/supplier-list?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.supplierList = res.rows
-                scope.supplierListLoading = false
-                scope.supplierListCount = res.count
+                scope.listLoading = false
+                scope.listCount = res.count
             })
         },
         create: function () {
             var scope = this
 
-            scope.POST('suppliers/supplier-list', scope.formdata).then(res => {
+            scope.POST('suppliers/supplier-list').then(res => {
                 if (res.success) {
                    scope.ROUTE({path: '/suppliers/' + res.data.uuid })
                 }
@@ -169,33 +166,32 @@ export default {
             scope.timer = setTimeout(() => {
                 scope.getSupplierList()
             }, 800);
-            
         },
-        supplierListPaginate: function(page) {
+        listPaginate: function(page) {
             var scope = this
         
             if (page === 'prev') {
-                scope.supplierListCurrentPage = scope.supplierListCurrentPage - 1
+                scope.listCurrentPage = scope.listCurrentPage - 1
             } else if (page === 'next') {
-                scope.supplierListCurrentPage = scope.supplierListCurrentPage + 1
+                scope.listCurrentPage = scope.listCurrentPage + 1
             } else {
-                scope.supplierListCurrentPage = page
+                scope.listCurrentPage = page
             }
 
-            if (scope.supplierListCurrentPage < 1) {
-                scope.supplierListCurrentPage = 1
+            if (scope.listCurrentPage < 1) {
+                scope.listCurrentPage = 1
                 return
-            } else  if (scope.supplierListCurrentPage > scope.supplierListTotalPages) {
-                scope.supplierListCurrentPage =  scope.supplierListTotalPages
+            } else  if (scope.listCurrentPage > scope.listTotalPages) {
+                scope.listCurrentPage =  scope.listTotalPages
                 return
             }
 
             scope.getSupplierList()
         },
-        changeSupplierListItemPerPage: function () 
+        changeListItemPerPage: function () 
         {
             var scope = this
-            scope.supplierListCurrentPage = 1
+            scope.listCurrentPage = 1
             scope.getSupplierList()
         }
     },

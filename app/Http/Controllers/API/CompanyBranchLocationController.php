@@ -11,8 +11,28 @@ class CompanyBranchLocationController extends Controller
 {
     public function getBranchLocation()
     {
-        $branchLocation = CompanyBranchLocation::whereNull('deleted_at')->with('branch')->get();
-        return response()->json(['success' => 1, 'rows' => $branchLocation], 200);
+        $list = CompanyBranchLocation::whereNull('deleted_at')->with('branch');
+
+        if (!empty(request()->keyword)) {
+            $keyword = request()->keyword;
+            $list = $list->where(function($query) use ($keyword) {
+                $query->where('location_name','LIKE','%'.$keyword.'%')
+                ->orWhere('location_shortname','LIKE','%'.$keyword.'%');
+            });
+        }
+
+        $count = $list->count();
+
+        // pagination
+        $take = (is_numeric(request()->take) && request()->take <= 50) ? request()->take: 20;
+        $page = (is_numeric(request()->page)) ? request()->page : 1;
+        $offset = (($page - 1 ) * $take);
+
+        $list = $list->take($take);
+        $list = $list->offset($offset);
+        $list = $list->get();
+
+        return response()->json(['success' => 1, 'rows' => $list, 'count' => $count], 200);
     }
 
     public function save()

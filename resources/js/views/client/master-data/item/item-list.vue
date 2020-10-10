@@ -1,454 +1,124 @@
 <template>
     <div>    
-        <div v-show="!show_form">
+        <div>
             <div class="actions-bar">
                 <div class="w-100">
                     <h1 class="title"><i class="las la-list-ul"></i> Item List</h1>
                 </div>
                 <div class="bar-right">
-                    <input type="text" class="form-control" placeholder="Search Item">
-                    <a @click="toggleForm();resetData();$parent.toggleNavTabs();" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                    <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
+                    <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
+                        <option value="1">1</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="40">40</option>
+                        <option value="50">50</option>
+                    </select>
+                    <a @click="create()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                         <i class="las la-plus"></i> <span>New</span>
                     </a>
                 </div>
             </div>
+        </div>
 
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Actions</th>
-                            <th>#</th>
-                            <th>Item Description</th>
-                            <th>Item Code</th>
-                            <th>Item Barcode</th>
-                            <th>Case/Box Barcode</th>
-                            <th>Item Group</th>
-                            <th>Re-order Qty / ICO</th>
-                            <th>Supplier</th>
-                            <th>Is Expiry?</th>
-                            <th>Purchase Cost</th>
-                            <th>Sales Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(item, index) in itemList" :key="item.uuid">
-                            <td>
-                                <span class="w-65px d-block mx-auto">
-                                    <a @click="setData(item);toggleForm()" class="btn btn-light btn-sm waves-effect" href="javascript:void(0)" ><i class="mdi mdi-pencil"></i></a>
-                                    <a @click="remove(item)" class="btn btn-sm btn-danger waves-effect" href="javascript:void(0)"><i class="mdi mdi-trash-can"></i></a>
-                                </span>
-                            </td>
-                            <td>{{ (index + 1) }}</td>
-                            <td>
-                                {{ item.item_description }}
-                            </td>
-                            <td class="text-right">
-                                {{ item.item_code }}
-                            </td>
-                            <td class="text-right">
-                                {{ item.item_barcode }}
-                            </td>
-                            <td class="text-right">
-                                {{ item.cs_barcode }}
-                            </td>
-                            <td>
-                                {{ item.item_group.item_group }}
-                            </td>
-                            <td class="text-right">
-                                {{ item.reorder_qty }}
-                            </td>
-                            <td>
-                                <span v-if="item.suppliers.length > 0">
-                                    <span v-for="item_supplier in item.suppliers" :key="item_supplier.uuid">
-                                        <span  class="badge badge-dim badge-outline-secondary">{{ item_supplier.supplier.business_shortname }}</span> &nbsp;
-                                    </span>
-                                </span>
-                                <span v-else>
-                                    NOT SPECIFIED
-                                </span>
-                            </td>
-                            <td>
-                                <span v-if="item.is_expiry === 1">Yes</span>
-                                <span v-else>No</span>
-                            </td>
-                            <td class="text-right">
-                                {{ item.purchase_price }}
-                            </td>
-                            <td class="text-right">
-                                {{ item.sales_price }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>         
-            </div>
-           
-        </div>  
-
-        <div v-show="show_form">
-            <div class="actions-bar">
-                <div class="w-100">
-                    <h1 class="title">New Item Details</h1>
-                </div>
-                <div class="bar-right">
-                    <a v-if="formdata.uuid === null" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
-                    <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save Changes</a>
-                    <a @click="toggleForm();$parent.toggleNavTabs();" type="submit" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>
-                </div>
-            </div>
-
-            <form action="#" class="form-validate is-alter">
-
+            <div>          
                 <div class="row">
-                    <div class="col-md-3 col-12">
-                        <div class="form-group">
-                            <label class="form-label" for="item-group">Item Group</label>
-                            <select class="form-select-item-group" v-model="selected_item_group" :options="options_item_group" name="item-group">
-                            </select>
-                        </div>
-                    </div>
+                    <div class="col-12">
 
-                    <div class="col-md-3 col-12">
-                        <div class="form-group">
-                            <label class="form-label" for="item-code">Item Code</label>
-                            <div class="form-control-wrap">
-                                <input v-model="formdata.item_code" type="text" class="form-control" id="item-code" required>
-                            </div>
+                        <div v-if="listLoading" class="text-center my-3 text-loader">
+                            <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
                         </div>
-                    </div>
-                    <div class="col-md-3 col-12">
-                        <div class="form-group">
-                            <label class="form-label" for="item-description">Item Description</label>
-                            <div class="form-control-wrap">
-                                <input v-model="formdata.item_description" type="text" class="form-control" id="item-description" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-12">
-                        <div class="form-group">
-                            <label class="form-label" for="item-shortname">Shortname</label>
-                            <div class="form-control-wrap">
-                                <input v-model="formdata.item_shortname" type="text" class="form-control" id="item-shortname" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-12">
-                        <div class="form-group">
-                            <label class="form-label" for="item-barcode">Item Barcode</label>
-                            <div class="form-control-wrap">
-                                <input v-model="formdata.item_barcode" type="text" class="form-control" id="item-barcode" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-12">
-                        <div class="form-group">
-                            <label class="form-label" for="item-cs-barcode-code">Case/Box Barcode</label>
-                            <div class="form-control-wrap">
-                                <input v-model="formdata.cs_barcode" type="text" class="form-control" id="item-cs-barcode-code" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-12">
-                        <div class="form-group">
-                            <label class="form-label" for="supplier">Supplier Name</label>
-                            <select class="form-select-suppliers" v-model="selected_suppliers" :options="options_supplier" name="supplier"  multiple="multiple">
-                            </select>
-                        </div>
-                    </div>
-                   
-                    <div class="col-md-3 col-12">
-                        <div class="form-group">
-                            <label class="form-label" for="reorder-qty">Re-Order Qty</label>
-                            <div class="form-control-wrap">
-                                <input v-model="formdata.reorder_qty" type="text" class="form-control" id="reorder-qty" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-12">
-                        <div class="form-group">
-                            <div class="form-control-wrap">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" v-model="formdata.is_expiry" value="1" class="custom-control-input" id="is-expiry">
-                                    <label class="custom-control-label" for="is-expiry">Is Expiry?</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <div v-else style="overflow-x:auto;"> 
+                            <table class="table table-tranx table-items">
+                                <thead>
+                                    <tr class="tb-tnx-head">
+                                        <th>Actions</th>
+                                        <th>#</th>
+                                        <th>Item Description</th>
+                                        <th>Item Code</th>
+                                        <th>Item Barcode</th>
+                                        <th>Case/Box Barcode</th>
+                                        <th>Item Group</th>
+                                        <th>Re-order Qty / ICO</th>
+                                        <th>Supplier</th>
+                                        <th>Is Expiry?</th>
+                                        <th>Purchase Cost</th>
+                                        <th>Sales Cost</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in itemList" :key="item.uuid" class="tb-tnx-item">
+                                        <td>
+                                            <a href="javascript:void(0)"  @click="ROUTE({path: '/items/' + item.uuid })" class="btn btn-sm btn-light"><i class="mdi mdi-pencil"></i></a>
+                                            <a href="javascript:void(0)"  @click="remove(item)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
+                                        </td>
+                                        <td>{{ (index + 1) }}</td>
+                                        <td>
+                                            {{ item.item_description }}
+                                        </td>
+                                        <td class="">
+                                            {{ item.item_code }}
+                                        </td>
+                                        <td class="">
+                                            {{ item.item_barcode }}
+                                        </td>
+                                        <td class="">
+                                            {{ item.cs_barcode }}
+                                        </td>
+                                        <td>
+                                            {{ item.item_group.item_group }}
+                                        </td>
+                                        <td class="">
+                                            {{ item.reorder_qty }}
+                                        </td>
+                                        <td>
+                                            <span v-if="item.suppliers.length > 0">
+                                                <span v-for="item_supplier in item.suppliers" :key="item_supplier.uuid">
+                                                    <span  class="badge badge-dim badge-outline-secondary">{{ item_supplier.supplier.business_shortname }}</span> &nbsp;
+                                                </span>
+                                            </span>
+                                            <span v-else>
+                                                Not Specified
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span v-if="item.is_expiry === 1">Yes</span>
+                                            <span v-else>No</span>
+                                        </td>
+                                        <td class="">
+                                            {{ item.purchase_price }}
+                                        </td>
+                                        <td class="">
+                                            {{ item.sales_price }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
+                                <ul class="pagination">
+                                    <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
+                                        <a href="javascript:void(0)" class="page-link" aria-label="Previous">
+                                            <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
 
-                    <div class="col-md-3 col-12">
-                        <div class="form-group">
-                            <div class="form-control-wrap">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" v-model="formdata.is_maintain_stock" value="1" class="custom-control-input" id="is-maintain-stock">
-                                    <label class="custom-control-label" for="is-maintain-stock">Maintain Stock?</label>
-                                </div>
-                            </div>
+                                    
+                                    <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
+                                        <a href="javascript:void(0)" class="page-link">
+                                            {{ page }}
+                                        </a>
+                                    </li>
+                                    
+                                    <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
+                                        <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
+                                    </li>
+                                </ul>
+                            </nav>         
                         </div>
                     </div>
-
-                    <div class="col-md-3 col-12">
-                        <div class="form-group">
-                            <div class="form-control-wrap">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" v-model="formdata.is_active" value="1" class="custom-control-input" id="is-active">
-                                    <label class="custom-control-label" for="is-active">Is Active?</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                          
                 </div>
-
-                <br/>
-                <ul class="nav nav-tabs nav-tabs-custom">    
-                        <li class="nav-item">        
-                            <a class="nav-link active" data-toggle="tab" href="#account">Financial Account</a>    
-                        </li>    
-                        <li class="nav-item">        
-                            <a class="nav-link" data-toggle="tab" href="#category">Category</a>    
-                        </li>
-                        <li class="nav-item">        
-                            <a class="nav-link" data-toggle="tab" href="#unit-of-measure">Unit of Measure</a>    
-                        </li>
-                        <li class="nav-item"> 
-                            <a class="nav-link" data-toggle="tab" href="#pricing">Pricing</a>           
-                        </li>
-                        <li class="nav-item" v-show="show_asset_group">        
-                            <a class="nav-link" data-toggle="tab" href="#asset">Asset 2</a>    
-                        </li> 
-                        <li class="nav-item">        
-                            <a class="nav-link" data-toggle="tab" href="#supplier-discounts">Discounts</a>    
-                        </li>   
-                    </ul>
-
-                    <div class="tab-content">    
-                        <div class="tab-pane active" id="account">
-                    
-                            <div class="col-md-4 col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="income-account">Income Account</label>
-                                    <select class="form-select-income-account" v-model="selected_income_account" :options="options_income_account" name="income-account">
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="cost-of-sales">Cost Of Sales</label>
-                                    <select class="form-select-cost-of-sales" v-model="selected_cost_of_sales" :options="options_cost_of_sales" name="cost-of-sales">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <div class="form-control-wrap">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" v-model="formdata.without_vat" value="1" class="custom-control-input" id="without-vat">
-                                                    <label class="custom-control-label" for="without-vat">Without VAT</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                            </div>
-                        </div>
-
-                        <div class="tab-pane" id="category">
-                            <div class="col-md-4 col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="category-1">Category 1</label>
-                                    <select class="form-select-category-1" v-model="selected_category1" :options="options_category1" name="category-1">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="category-2">Category 2</label>
-                                    <select class="form-select-category-2" v-model="selected_category2" :options="options_category2" name="category-2">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="category-3">Category 3</label>
-                                    <select class="form-select-category-3" v-model="selected_category3" :options="options_category3" name="category-3">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="category-4">Category 4</label>
-                                    <select class="form-select-category-4" v-model="selected_category4" :options="options_category4" name="category-4">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="category-5">Category 5</label>
-                                    <select class="form-select-category-5" v-model="selected_category5" :options="options_category5" name="category-5">
-                                    </select>
-                                </div>
-                            </div>        
-      
-                        </div>
-
-                        <div class="tab-pane" id="unit-of-measure">
-                            <div class="row">
-                                <div class="col-md-4 col-12">
-                                    <div style="padding:20px 0px;">
-                                        <table class="table mb-0 table-striped table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>UOM</th>
-                                                    <th width="100">Packing</th>
-                                                    <th width="50">Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="(item_uom, index) in item_uoms" :key="item_uom.uuid" v-bind:class="{'table-success' : index == 0}">
-                                                    <td class="editable">
-                                                        <span>{{ getGlobalUOMName(item_uom.uuid) }}</span>
-                                                        <select v-if="index === 0" v-model="item_uom.uuid" class="editable-control">
-                                                            <option v-for="uom in globalBaseUOM" :key="'base-' + uom.uuid" :value="uom.uuid">{{ uom.uom}}</option>
-                                                        </select>
-                                                        <select v-else v-model="item_uom.uuid" class="editable-control">
-                                                            <option value="PACK">Select a UOM</option>
-                                                            <option v-for="uom in globalNonBaseUOM" v-if="!itemUomExists(uom.uuid) || uom.uuid == item_uom.uuid" :key="'pack-' + uom.uuid" :value="uom.uuid">{{ uom.uom}}</option>
-                                                        </select>
-                                                    </td>
-
-                                                    <td  v-if="index !== 0" class="editable text-right">
-                                                        <input v-model="item_uom.packing" type="text" class="editable-control">
-                                                        <span>{{ item_uom.packing }}</span>
-                                                    </td>
-                                                    <td v-else class="text-right">
-                                                        <span>{{ item_uom.packing }}</span>
-                                                    </td>
-
-                                                    <td v-if="index !== 0">
-                                                        <a @click="removeItemUom(index)" href="javascript:void(0)" class="btn btn-sm btn-danger waves-effect"><i class="mdi mdi-trash-can"></i></a>
-                                                    </td>
-                                                    <td v-else>
-                                                        <span>N/A</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td @click="addItemUom()" style="text-align:center; cursor:pointer; font-weight:600;" colspan="3">NEW UOM</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>   
-
-                        <div class="tab-pane" id="pricing"> 
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <div class="form-control-wrap">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" v-model="formdata.is_purchase_item" value="1" class="custom-control-input" id="is-purchase-item">
-                                                <label class="custom-control-label" for="is-purchase-item">Is Purchase Item?</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div v-show="formdata.is_purchase_item" class="row">
-
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="purchase-price">Purchase Price</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.purchase_price" type="text" class="form-control" id="purchase-price" required>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <div class="form-control-wrap">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" v-model="formdata.is_sales_item" value="1" class="custom-control-input" id="is-sales-item">
-                                                            <label class="custom-control-label" for="is-sales-item">Is Sales Item?</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div v-show="formdata.is_sales_item" class="row">
-
-                                                    <div class="col-md-3 col-12">
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="sales-price">Sales Price</label>
-                                                            <div class="form-control-wrap">
-                                                                <input v-model="formdata.sales_price" type="text" class="form-control" id="sales-price" required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-3 col-12">
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="transfer-price">Transfer Price:</label>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="col-md-4 col-12">
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="mark-up-rate">Markup Rate</label>
-                                                            <div class="custom-control custom-radio">    
-                                                                <input v-model="compute_selection" value = "manual" type="radio" id="manual-compute" class="custom-control-input">    
-                                                                <label class="custom-control-label" for="manual-compute">Manual</label>
-                                                            </div>  
-                                                            <div class="form-control-wrap">
-                                                                <input v-model="input_markup_rate" :disabled="isDisabledManual" type="text" class="form-control" id="mark-up-rate" required>
-                                                                <button @click="computePrice()" :disabled="isDisabledManual" type="button" class="btn btn-lg btn-primary">Apply</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-3 col-12">
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="customer-group">Customer Group</label>
-                                                            <div class="custom-control custom-radio">    
-                                                                <input v-model="compute_selection" value="auto" type="radio" id="auto-compute" class="custom-control-input">    
-                                                                <label class="custom-control-label" for="auto-compute">Auto</label>
-                                                            </div>  
-                                                            <select class="form-select-customer-group" :disabled="isDisabledAuto" v-model="selected_customer_group" :options="options_customer_group" name="customer-group">
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>   
-
-
-                        <div class="tab-pane" id="asset" v-show="show_asset_group">
-                            <div class="col-md-3 col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="asset-group">Asset Group</label>
-                                    <select class="form-select-asset-group" v-model="selected_asset_group" :options="options_asset_group" name="asset-group">
-                                    </select>
-                                </div>
-                            </div>   
-      
-                        </div> 
-
-
-                        <div class="tab-pane" id="supplier-discounts">
-                            <item-discounts :properties="formdata" ref="itemDiscounts"></item-discounts>
-                        </div>   
-                    </div>
-            </form>
-        </div>        
+            </div>                   
              
     </div>
 </template>
@@ -456,741 +126,96 @@
 <script>
 
 import Swal from 'sweetalert2'
-import ItemDiscounts from './item-discounts'
 
 export default {
     name: 'item-list',
     props: ['properties'],
     data: function () {
         return {
-            selected_item_group: null,
-            options_item_group: [],
-
-            selected_suppliers: [],
-            options_supplier: [],
-
-            selected_income_account: null,
-            options_income_account: [],
-
-            selected_cost_of_sales: null,
-            options_cost_of_sales: [],
-
-            selected_category1: null,
-            options_category1: [],
-
-            selected_category2: null,
-            options_category2: [],
-
-            selected_category3: null,
-            options_category3: [],
-
-            selected_category4: null,
-            options_category4: [],
-
-            selected_category5: null,
-            options_category5: [],
-
-            selected_asset_group: null,
-            options_asset_group: [],
-
-            selected_customer_group: null,
-            options_customer_group: [],
-
-            input_markup_rate: '',
-            customer_markup_rate: '',
-
-            
-            compute_selection: 'manual',
-
-            show_asset_group: false,
-            show_discounts: false,
-
-            show_form: false,
-
             itemList: [],
-
-            global_uoms: [],
-            item_uoms: [],
-
-            formdata: { 
-                uuid: null, 
-                item_group_uuid: '', 
-                item_code: '', 
-                item_barcode: '',
-                cs_barcode: '',
-                item_description: '',
-                item_shortname: '',
-
-                without_vat: 1,
-
-                supplier_uuid: '',
-                is_purchase_item: 0,
-                purchase_price: '',
-                is_sales_item: 0,
-                sales_price: '',
-
-                manual_rate: '',
-                customer_group_uuid: '',
-                option_rate: '',
-
-                is_expiry: 0,
-                is_maintain_stock: 0,
-                is_active: 1,
-                coa_income_account_uuid: '',
-                coa_cos_account_uuid: '',
-                reorder_qty: '',
-                item_asset_group_uuid: '',
-                category1_uuid: '',
-                category2_uuid: '',
-                category3_uuid: '',
-                category4_uuid: '',
-                category5_uuid: ''
-            }
-
+            listLoading: true,
+            listCurrentPage: 1,
+            listItemPerPage: 20,
+            listCount: 0,
+            searchKeyword: '',
+            timer: null
         }
     },
     computed: {
-      isDisabledManual() {
-        var scope = this
-        if (scope.compute_selection=='manual'){
-            return false
+        listTotalPages: function () {
+            var scope = this
+            var pages = Math.ceil(scope.listCount / scope.listItemPerPage)
+            return pages
         }
-        else{
-            scope.input_markup_rate = ''
-            return true
-        }  
-      },
-      isDisabledAuto() {
-        var scope = this
-        if (scope.compute_selection=='auto'){
-            return false
-        }
-        else{
-            return true
-        }  
-      },
-      globalBaseUOM() {
-        return this.global_uoms.filter((uom) => {
-            return uom.type.toLowerCase().indexOf("base") > -1;
-        })
-      },
-      globalNonBaseUOM() {
-        return this.global_uoms.filter((uom) => {
-            return uom.type.toLowerCase().indexOf("pack") > -1;
-        })
-      }
-    },
-    components: {
-        'item-discounts' : ItemDiscounts
     },
     methods: {
-        toggleForm() {
-            var scope = this
-            scope.show_form = !scope.show_form
-        },
         getItemList: function () {
-           var scope = this
-            scope.GET('items/item-list').then(res => {
-                scope.itemList = res.rows
-            })
-        },
-
-        getItemGroup: function () {
-           var scope = this
-            scope.GET('items/item-group').then(res => {
-                res.rows.forEach(function (data) {
-
-                    scope.options_item_group.push({
-                        id: data.uuid,
-                        text: data.item_group
-                    })
-                
-                })
-
-                $(".form-select-item-group").select2({data: scope.options_item_group});
-                scope.selected_item_group = scope.options_item_group[0].id
-                
-            })
-        },
-
-        getSupplier: function () {
-           var scope = this
-            scope.GET('suppliers/supplier-list').then(res => {
-                res.rows.forEach(function (data) {
-
-                    scope.options_supplier.push({
-                        id: data.uuid,
-                        text: data.business_shortname
-                    })
-                
-                })
-
-                $(".form-select-suppliers").select2({data: scope.options_supplier});
-            })
-        },
-
-        getIncomeAccount: function () {
-           var scope = this
-            scope.GET('company/chart-of-accounts-income').then(res => {
-                res.rows.forEach(function (data) {
-
-                    scope.options_income_account.push({
-                        id: data.uuid,
-                        text: data.account_name
-                    })
-                
-                })
-
-                $(".form-select-income-account").select2({data: scope.options_income_account});
-                scope.selected_income_account = scope.options_income_account[0].id
-                
-            })
-        },
-
-        getCostofSales: function () {
-           var scope = this
-            scope.GET('company/chart-of-accounts-cost-of-sales').then(res => {
-                res.rows.forEach(function (data) {
-
-                    scope.options_cost_of_sales.push({
-                        id: data.uuid,
-                        text: data.account_name
-                    })
-                
-                })
-
-                $(".form-select-cost-of-sales").select2({data: scope.options_cost_of_sales});
-                scope.selected_cost_of_sales = scope.options_cost_of_sales[0].id
-            })
-        },
-
-
-        getCategory1: function () {
-           var scope = this
-            scope.GET('items/category1').then(res => {
-                
-                res.rows.forEach(function (data) {
-
-                    scope.options_category1.push({
-                        id: data.uuid,
-                        text: data.category1
-                    })
-                
-                })
-
-                $(".form-select-category-1").select2({data: scope.options_category1});
-                scope.selected_category1 = scope.options_category1[0].id
-                
-            })
-
-        },
-
-
-        getCategory2: function () {
-           var scope = this
-            scope.GET('items/category2').then(res => {
-                
-                res.rows.forEach(function (data) {
-
-                    scope.options_category2.push({
-                        id: data.uuid,
-                        text: data.category2
-                    })
-                
-                })
-
-                $(".form-select-category-2").select2({data: scope.options_category2});
-                scope.selected_category2 = scope.options_category2[0].id
-            })
-
-        },
-
-        getCategory3: function () {
-           var scope = this
-            scope.GET('items/category3').then(res => {
-                
-                res.rows.forEach(function (data) {
-
-                    scope.options_category3.push({
-                        id: data.uuid,
-                        text: data.category3
-                    })
-                
-                })
-
-                $(".form-select-category-3").select2({data: scope.options_category3});
-                scope.selected_category3 = scope.options_category3[0].id
-            })
-
-        },
-
-        getCategory4: function () {
-           var scope = this
-            scope.GET('items/category4').then(res => {
-                
-                res.rows.forEach(function (data) {
-
-                    scope.options_category4.push({
-                        id: data.uuid,
-                        text: data.category4
-                    })
-                
-                })
-
-                $(".form-select-category-4").select2({data: scope.options_category4});
-                scope.selected_category4 = scope.options_category4[0].id
-            })
-
-        },
-
-        getCategory5: function () {
-           var scope = this
-            scope.GET('items/category5').then(res => {
-                
-                res.rows.forEach(function (data) {
-
-                    scope.options_category5.push({
-                        id: data.uuid,
-                        text: data.category5
-                    })
-                
-                })
-
-                $(".form-select-category-5").select2({data: scope.options_category5});
-                scope.selected_category5 = scope.options_category5[0].id
-                
-            })
-
-        },
-
-        getAssetGroup: function () {
-           var scope = this
-           
-           scope.options_asset_group.push({
-               id: '',
-               text: 'None'
-           });
-
-            scope.GET('items/item-asset-group').then(res => {
-                
-                res.rows.forEach(function (data) {
-                    scope.options_asset_group.push({
-                        id: data.uuid,
-                        text: data.asset_group
-                    })
-                })
-
-                $(".form-select-asset-group").select2({data: scope.options_asset_group});
-            })
-
-        },
-
-
-        getCustomerGroup: function () {
-           var scope = this
-            scope.GET('customers/customer-group').then(res => {
-                res.rows.forEach(function (data) {
-
-                    scope.options_customer_group.push({
-                        id: data.uuid,
-                        text: data.group_name + ' with ' + parseFloat(data.markup_rate).toFixed(0) + '%' + ' markup rate',
-                        markup_rate: data.markup_rate
-                    })
-                
-                })
-
-                $(".form-select-customer-group").select2({data: scope.options_customer_group});
-
-                $('.form-select-customer-group').val(null);
-                $('.form-select-customer-group').trigger('change');
-            })
-        },
-
-        itemUomExists: function(uuid) {
             var scope = this
-            var data = this.item_uoms.filter((uom) => {
-                return uom.uuid.indexOf(uuid) > -1;
+            scope.listLoading = true
+            scope.itemList = []
+            scope.GET('items/item-list?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+                scope.itemList = res.rows
+                scope.listLoading = false
+                scope.listCount = res.count
             })
-            
-            if (data.length < 1) {
-                return false
+        },
+        create: function () {
+            var scope = this
+
+            scope.POST('items/item-list').then(res => {
+                if (res.success) {
+                   scope.ROUTE({path: '/items/' + res.data.uuid })
+                }
+            })
+        },
+        search: function () {
+            var scope = this
+            if (scope.timer) {
+                clearTimeout(scope.timer);
+                scope.timer = null;
             }
 
-            return true
+            scope.timer = setTimeout(() => {
+                scope.getItemList()
+            }, 800);
         },
-        addItemUom: function(uuid) {
+        listPaginate: function(page) {
             var scope = this
-            scope.item_uoms.push({uuid: 'PACK', uom: '', packing: 1});
-        },
-        removeItemUom: function(index) {
-            var scope = this
-            scope.item_uoms.splice(index,1)
-        },
+        
+            if (page === 'prev') {
+                scope.listCurrentPage = scope.listCurrentPage - 1
+            } else if (page === 'next') {
+                scope.listCurrentPage = scope.listCurrentPage + 1
+            } else {
+                scope.listCurrentPage = page
+            }
 
-        getGlobalUoms: function () {
-           var scope = this
-            scope.GET('globals/uom').then(res => {
-                scope.global_uoms = res.rows 
-            })
-        },
-
-        getItemUoms: function () {
-           var scope = this
-             scope.item_uoms = [];
-            if (!scope.formdata.uuid) {
-                scope.item_uoms.push({uuid: 'BASE', uom: '', packing: 1});
+            if (scope.listCurrentPage < 1) {
+                scope.listCurrentPage = 1
+                return
+            } else  if (scope.listCurrentPage > scope.listTotalPages) {
+                scope.listCurrentPage =  scope.listTotalPages
                 return
             }
-            
-            scope.GET('items/'+ scope.formdata.uuid +'/uoms').then(res => {
-                // we use global UOM UUID as uuid instead
-                res.rows.forEach(function (data) {
-                    scope.item_uoms.push({uuid: data.global_uom_uuid, uom: data.global_uom_uuid, packing: data.packing_qtty})
-                })
-            })
+
+            scope.getItemList()
         },
-
-
-        getGlobalUOMName: function (uuid) {
-            var data = this.global_uoms.filter((uom) => {
-                return uom.uuid.indexOf(uuid) > -1;
-            })
-            
-            if (data.length < 1) {
-                return ''
-            }
-
-            return data[0].uom
-        },
-
-        checkAsset: function () {
-           var scope = this
-           for (var i = 0; i < scope.options_item_group.length; i++) {
-                if(scope.options_item_group[i].id==scope.selected_item_group){
-                    if (scope.options_item_group[i].text === 'Asset'){
-                        scope.show_asset_group = true
-                    }
-                    else{
-                        scope.show_asset_group = false
-                        scope.selected_asset_group = ''
-                        $('.form-select-asset-group').val(null);
-                        $('.form-select-asset-group').trigger('change');
-                    }
-
-                }
-            }
-        },
-
-        resetData: function () {
+        changeListItemPerPage: function () 
+        {
             var scope = this
-            scope.formdata.uuid = null
-            scope.formdata.item_group_uuid = ''
-            scope.formdata.item_code = ''
-            scope.formdata.item_barcode = ''
-            scope.formdata.cs_barcode = ''
-            scope.formdata.item_description = ''
-            scope.formdata.item_shortname = ''
-
-            scope.formdata.supplier_uuid = ''
-            scope.formdata.is_purchase_item = 0
-            scope.formdata.purchase_price = ''
-            scope.formdata.is_sales_item = 0
-            scope.formdata.sales_price = ''
-
-            scope.formdata.manual_rate = ''
-            scope.formdata.customer_group_uuid = ''
-            scope.formdata.option_rate = ''
-
-            scope.formdata.is_expiry = 0
-            scope.formdata.without_vat = 1
-            scope.formdata.is_maintain_stock = 0
-            scope.formdata.is_active = 1
-            scope.formdata.coa_income_account_uuid = ''
-            scope.formdata.coa_cos_account_uuid = ''
-            scope.formdata.reorder_qty = ''
-            scope.formdata.item_asset_group_uuid = ''
-            scope.formdata.category1_uuid = ''
-            scope.formdata.category2_uuid = ''
-            scope.formdata.category3_uuid = ''
-            scope.formdata.category4_uuid = ''
-            scope.formdata.category5_uuid = ''
-
-            scope.input_markup_rate = ''
-            scope.customer_markup_rate = ''
-            
-            scope.compute_selection = 'manual'
-
-            scope.show_asset_group = false
-
-        },
-        setData: function (data) {
-            var scope = this
-            scope.formdata.uuid = data.uuid
-            scope.formdata.item_code = data.item_code
-            scope.formdata.item_barcode = data.item_barcode
-            scope.formdata.cs_barcode = data.cs_barcode
-            scope.formdata.item_description = data.item_description
-            scope.formdata.item_shortname = data.item_shortname
-            scope.formdata.is_purchase_item = data.is_purchase_item
-
-            scope.formdata.without_vat = data.without_vat
-
-            scope.formdata.purchase_price = data.purchase_price
-            scope.formdata.is_sales_item = data.is_sales_item
-
-            scope.formdata.sales_price = data.sales_price
-            scope.formdata.is_expiry = data.is_expiry
-            scope.formdata.reorder_qty = data.reorder_qty
-
-            scope.formdata.is_maintain_stock = data.is_maintain_stock
-            scope.formdata.is_active = data.is_active
-
-            scope.getItemUoms()
-
-            var suppliers = [];
-            
-
-            for(var i = 0; i < data.suppliers.length; i++) {
-                suppliers.push(data.suppliers[i].supplier_uuid)
-            }
-            
-
-            $('.form-select-item-group').val(data.item_group_uuid);
-            $('.form-select-item-group').trigger('change');
-
-            $('.form-select-suppliers').val(suppliers);
-            $('.form-select-suppliers').trigger('change');
-
-            $('.form-select-income-account').val(data.coa_income_account_uuid);
-            $('.form-select-income-account').trigger('change');
-            
-            $('.form-select-cost-of-sales').val(data.coa_cos_account_uuid);
-            $('.form-select-cost-of-sales').trigger('change');
-
-            $('.form-select-category-1').val(data.category1_uuid);
-            $('.form-select-category-1').trigger('change');
-
-            $('.form-select-category-2').val(data.category2_uuid);
-            $('.form-select-category-2').trigger('change');
-
-            $('.form-select-category-3').val(data.category3_uuid);
-            $('.form-select-category-3').trigger('change');
-
-            $('.form-select-category-4').val(data.category4_uuid);
-            $('.form-select-category-4').trigger('change');
-
-            $('.form-select-category-5').val(data.category5_uuid);
-            $('.form-select-category-5').trigger('change');
-
-            $('.form-select-asset-group').val(data.item_asset_group_uuid);
-            $('.form-select-asset-group').trigger('change');
-
-        },
-        save: function () {
-            var scope = this
-            scope.formdata.item_group_uuid = scope.selected_item_group
-            scope.formdata.supplier_uuids = scope.selected_suppliers
-            scope.formdata.coa_income_account_uuid = scope.selected_income_account
-            scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
-            scope.formdata.item_asset_group_uuid = scope.selected_asset_group
-
-            scope.formdata.category1_uuid = scope.selected_category1
-            scope.formdata.category2_uuid = scope.selected_category2
-            scope.formdata.category3_uuid = scope.selected_category3
-            scope.formdata.category4_uuid = scope.selected_category4
-            scope.formdata.category5_uuid = scope.selected_category5
-
-            scope.formdata.item_uoms = scope.item_uoms
-
-
-            scope.POST('items/item-list', scope.formdata).then(res => {
-                if (res.success) {
-                    window.swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Item Successfuly Saved',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        scope.getItemList()
-                        scope.toggleForm()
-                        scope.tempItemUOMs = []
-                        scope.formdata.uoms = []
-                    })
-                } else {
-                    alert('ERROR:' + res.code)
-                }
-                
-            })
-        },
-        update: function () {
-            var scope = this
-            scope.formdata.item_group_uuid = scope.selected_item_group
-            scope.formdata.supplier_uuids = scope.selected_suppliers
-            scope.formdata.coa_income_account_uuid = scope.selected_income_account
-            scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
-            scope.formdata.item_asset_group_uuid = scope.selected_asset_group
-
-            scope.formdata.category1_uuid = scope.selected_category1
-            scope.formdata.category2_uuid = scope.selected_category2
-            scope.formdata.category3_uuid = scope.selected_category3
-            scope.formdata.category4_uuid = scope.selected_category4
-            scope.formdata.category5_uuid = scope.selected_category5
-
-            scope.formdata.item_uoms = scope.item_uoms
-
-            window.swal.fire({
-                title: 'Update Record?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Update it!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.value) {
-                    scope.POST('items/item-list', scope.formdata).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Item Successfuly Updated',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.getItemList()
-                                scope.toggleForm()
-                            })
-                        }
-                        else{
-                            alert('ERROR:' + res.code)
-                        }
-                    })            
-                }                              
-            })
-            
-        },
-        remove: function (data) {
-            var scope = this
-
-            window.swal.fire({
-                title: 'Are you sure?',
-                text: 'You won\'t be able to revert this',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.value) {
-                    scope.DELETE('items/item-list/' + data.uuid).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Item Deleted',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                            scope.getItemList()
-                            })
-                        }
-                        else{
-                            alert('ERROR:' + res.code)
-                        }
-                    })            
-                }                              
-            })
-        },
-        computePrice: function () {
-            var scope = this
-            scope.formdata.sales_price = (scope.input_markup_rate/100) * scope.formdata.purchase_price
-        },
-        setSupplierIDs: function (supplier_ids) {
-            this.$refs.itemDiscounts.getSupplierDiscounts(supplier_ids);
+            scope.listCurrentPage = 1
+            scope.getItemList()
         }
     },
     mounted() {
         var scope = this
         scope.getItemList()
-
-        scope.getItemGroup()
-        scope.getSupplier()
-        scope.getIncomeAccount()
-        scope.getCostofSales()
-        scope.getCategory1()
-        scope.getCategory2()
-        scope.getCategory3()
-        scope.getCategory4()
-        scope.getCategory5()
-        scope.getAssetGroup()
-
-        scope.getGlobalUoms()
-        
-        scope.getCustomerGroup()
-
-
-
-        $('.form-select-item-group').on("change", function(e) { 
-            scope.selected_item_group = $('.form-select-item-group').val();
-            scope.checkAsset()
-        })
-
-        $('.form-select-suppliers').on("change", function(e) { 
-            scope.selected_suppliers = $('.form-select-suppliers').val();
-            scope.setSupplierIDs(scope.selected_suppliers)
-        })
-
-        $('.form-select-income-account').on("change", function(e) { 
-            scope.selected_income_account = $('.form-select-income-account').val();
-        })
-
-        $('.form-select-cost-of-sales').on("change", function(e) { 
-            scope.selected_cost_of_sales = $('.form-select-cost-of-sales').val();
-        })
-
-        $('.form-select-category-1').on("change", function(e) { 
-            scope.selected_category1 = $('.form-select-category-1').val();
-        })
-
-        $('.form-select-category-2').on("change", function(e) { 
-            scope.selected_category2 = $('.form-select-category-2').val();
-        })
-
-        $('.form-select-category-3').on("change", function(e) { 
-            scope.selected_category3 = $('.form-select-category-3').val();
-        })
-
-        $('.form-select-category-4').on("change", function(e) { 
-            scope.selected_category4 = $('.form-select-category-4').val();
-        })
-
-        $('.form-select-category-5').on("change", function(e) { 
-            scope.selected_category5 = $('.form-select-category-5').val();
-        })
-
-        $('.form-select-asset-group').on("change", function(e) { 
-            scope.selected_asset_group = $('.form-select-asset-group').val();
-        })
-
-
-
-        $('.form-select-customer-group').on("change", function(e) { 
-            scope.selected_customer_group = $('.form-select-customer-group').val();
-
-            for (var i = 0; i < scope.options_customer_group.length; i++) {
-                if(scope.options_customer_group[i].id==scope.selected_customer_group){
-                    scope.customer_markup_rate = scope.options_customer_group[i].markup_rate
-                    scope.formdata.sales_price = (scope.customer_markup_rate/100) * scope.formdata.purchase_price
-                }
-            }
-
-        })
     },
 }
 </script>
 
 <style scoped>
+.table-tranx { table-layout: auto; }
+.table-fixed-column { position:absolute; }
 .form-group { margin-top:10px !important; }
 </style>

@@ -12,13 +12,59 @@ class EmployeeListController extends Controller
 {
     public function getEmployeeList()
     {
-        $list = EmployeeList::whereNull('deleted_at')->with('BranchLocation')->get();
-        return response()->json(['success' => 1, 'rows' => $list], 200);
+        $list = EmployeeList::where('is_draft','=', 0)->whereNull('deleted_at')->with('BranchLocation');
+
+        if (!empty(request()->keyword)) {
+            $keyword = request()->keyword;
+            $list = $list->where(function($query) use ($keyword) {
+                $query->where('emp_id','LIKE','%'.$keyword.'%')
+                    ->orWhere('first_name','LIKE','%'.$keyword.'%')
+                    ->orWhere('middle_name','LIKE','%'.$keyword.'%')
+                    ->orWhere('last_name','LIKE','%'.$keyword.'%');
+            });
+        }
+
+        $count = $list->count();
+
+        // pagination
+        $take = (is_numeric(request()->take) && request()->take <= 50) ? request()->take: 20;
+        $page = (is_numeric(request()->page)) ? request()->page : 1;
+        $offset = (($page - 1 ) * $take);
+
+        $list = $list->take($take);
+        $list = $list->offset($offset);
+        $list = $list->get();
+
+        return response()->json(['success' => 1, 'rows' => $list, 'count' => $count], 200);
     }
 
-    public function save()
+    public function store() // initialize draft
     {
-        $employee = request()->uuid ? EmployeeList::find(request()->uuid) : new EmployeeList();
+        $employee =  EmployeeList::where('is_draft','=', 1)->first();
+
+        if (!$employee) {
+            $auth = \Auth::user();
+
+            $employee = new EmployeeList();
+            $employee->company_id = $auth->company_id;
+
+            $employee->save();
+        }
+
+
+        $employee = EmployeeList::find($employee->uuid);
+        return response()->json(['success' => 1, 'data' => $employee], 200);
+    }
+
+    public function update()
+    {
+
+        $employee =  EmployeeList::find(request()->uuid);
+        
+        if (!$employee) {
+            return response()->json(['success' => 0, 'data' => null, 'Not found'], 500);
+        }
+
         $auth = \Auth::user();
         $employee->company_id = $auth->company_id;
         $employee->emp_id = request()->emp_id;
@@ -51,6 +97,7 @@ class EmployeeListController extends Controller
         $employee->hdmf_id = request()->hdmf_id;
         $employee->global_address_uuid = request()->global_address_uuid;
         $employee->address1 = request()->address1;
+        $employee->is_draft = 0;
 
         $employee->save();
 
@@ -58,6 +105,17 @@ class EmployeeListController extends Controller
 
         return response()->json(['success' => 1, 'rows' => $employee], 200);
     }
+
+    public function show($employeeUUID) // set update records
+    {
+        $employee = EmployeeList::with('BranchLocation')->find($employeeUUID);
+
+        if (!$employee) {
+            return response()->json(['success' => 0, 'data' => null, 'Not found'], 500);
+        }
+        return response()->json(['success' => 1, 'data' => $employee], 200);
+    }
+
     public function delete()
     {
         $employee = EmployeeList::find(request()->uuid)->delete();

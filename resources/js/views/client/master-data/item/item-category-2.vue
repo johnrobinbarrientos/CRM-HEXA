@@ -1,54 +1,87 @@
 <template>
     <div>
-        <div style="margin-bottom:40px;" class="nk-fmg-body-head d-none d-lg-flex">
-            <div class="nk-fmg-search">
-                <em class="icon ni ni-search"></em>
-                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
-            </div>
-            <div class="nk-fmg-actions">
-                <ul class="nk-block-tools g-3">
-                    <li>
-                        <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCategory2');resetData()" class="btn btn-primary" data-toggle="modal">
-                            <em class="icon ni ni-plus"></em> <span>New</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="nk-content nk-content-fluid">          
-            <div class="container-fluid">
-                <div class="nk-content-body">
+        <div id="accordion">
+            <div class="card shadow-none">
+                <a href="#collapseTwo" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                    <div class="card-header" id="headingTwo">
+                        <h5 class="m-0">Category 2</h5>
+                        <i class="las la-plus-circle fs-30"></i>
+                    </div>
+                </a>
 
-                    <div class="row">
-                        <div class="col-md-12 col-12">
-                            <div class="card card-bordered card-preview">
-                                <table class="table table-tranx jd-sm-table">
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+
+                        <div class="container-fluid">
+                            <div class="d-none d-lg-flex justify-content-between" style="margin-bottom: 20px;">
+                                <div>
+                                <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
+                                    <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
+                                        <option value="1">1</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCategory2');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                                        <i class="las la-plus"></i> <span>New Item Category 2</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div v-if="listLoading" class="text-center my-3 text-loader">
+                                <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered">
                                     <thead>
-                                        <tr class="tb-tnx-head">
+                                        <tr>
+                                            <th><span class="">Actions</span></th>
                                             <th><span class="">#</span></th>
                                             <th><span class="">Item Category 2</span></th>
-                                            <th><span class="">Actions</span></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(category, index) in categories" :key="category.uuid" class="tb-tnx-item">
-                                            <td><span class="">{{ (index + 1) }}</span></td>
-                                            <td><span class="">{{ category.category2 }}</span></td>
-                                            <td>
-                                                <span class="">
-                                                    <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalCategory2');setData(category)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
-                                                    <a href="javascript:void(0)"  @click="remove(category)" class="btn btn-sm btn-danger"><em class="icon ni ni-trash"></em></a>
+                                        <tr v-for="(category, index) in categories" :key="category.uuid">
+                                            <td width="100">
+                                                <span class="w-65px d-block mx-auto">
+                                                    <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCategory2');setData(category)" class="btn btn-sm btn-shineblue"><i class="mdi mdi-pencil"></i></a>
+                                                    <a href="javascript:void(0)" @click="remove(category)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
                                                 </span>
                                             </td>
+                                            <td width="100">{{ (index + 1) }}</td>
+                                            <td><span class="">{{ category.category2 }}</span></td>
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
-                    </div>
-                    
 
+                                <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
+                                    <ul class="pagination">
+                                        <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
+                                            <a href="javascript:void(0)" class="page-link" aria-label="Previous">
+                                                <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+
+                                        
+                                        <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
+                                            <a href="javascript:void(0)" class="page-link">
+                                                {{ page }}
+                                            </a>
+                                        </li>
+                                        
+                                        <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
+                                            <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+
+                            </div>
+                            
 
                     <!-- Modal Category1 Form -->
                     <div class="modal fade" tabindex="-1" id="modalCategory2">
@@ -63,32 +96,35 @@
                                 <div class="modal-body">
                                     <form action="#" class="form-validate is-alter">
 
-                                        <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="category2">Category 2</label>
-                                                    <div class="form-control-wrap">
-                                                        <input v-model="formdata.category2" type="text" class="form-control" id="category2" required>
+                                                <div class="row">
+                                                    <div class="col-md-6 col-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="category2">Category 2</label>
+                                                            <div class="form-control-wrap">
+                                                                <input v-model="formdata.category2" type="text" class="form-control" id="category2" required>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>                                    
-                                        
-                                    </form>
-                                </div>
-                                <div class="modal-footer bg-light">
-                                    <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
-                                    <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
+                                                    
+                                                </div>                                    
+                                                
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer bg-light">
+                                            <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
+                                            <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
-
-
                 </div>
+
             </div>
-        </div>        
+        </div>     
     </div>
 </template>
 
@@ -102,17 +138,34 @@ export default {
     data: function () {
         return {
             categories: [],
+            listLoading: true,
+            listCurrentPage: 1,
+            listItemPerPage: 20,
+            listCount: 0,
+            searchKeyword: '',
+            timer: null,
             formdata: { 
                 uuid: null, 
                 category2: ''
             }
         }
     },
+    computed: {
+        listTotalPages: function () {
+            var scope = this
+            var pages = Math.ceil(scope.listCount / scope.listItemPerPage)
+            return pages
+        }
+    },
     methods: {
         getCategory2: function () {
-           var scope = this
-            scope.GET('items/category2').then(res => {
+            var scope = this
+            scope.listLoading = true
+            scope.categories = []
+            scope.GET('items/category2?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.categories = res.rows
+                scope.listLoading = false
+                scope.listCount = res.count
             })
         },
         resetData: function () {
@@ -210,6 +263,44 @@ export default {
                     })            
                 }                              
             })
+        },
+        search: function () {
+            var scope = this
+            if (scope.timer) {
+                clearTimeout(scope.timer);
+                scope.timer = null;
+            }
+
+            scope.timer = setTimeout(() => {
+                scope.getCategory2()
+            }, 800);
+        },
+        listPaginate: function(page) {
+            var scope = this
+        
+            if (page === 'prev') {
+                scope.listCurrentPage = scope.listCurrentPage - 1
+            } else if (page === 'next') {
+                scope.listCurrentPage = scope.listCurrentPage + 1
+            } else {
+                scope.listCurrentPage = page
+            }
+
+            if (scope.listCurrentPage < 1) {
+                scope.listCurrentPage = 1
+                return
+            } else  if (scope.listCurrentPage > scope.listTotalPages) {
+                scope.listCurrentPage =  scope.listTotalPages
+                return
+            }
+
+            scope.getCategory2()
+        },
+        changeListItemPerPage: function () 
+        {
+            var scope = this
+            scope.listCurrentPage = 1
+            scope.getCategory2()
         }
     },
     mounted() {

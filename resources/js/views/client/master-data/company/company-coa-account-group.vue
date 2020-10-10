@@ -2,8 +2,15 @@
     <div >
         <div style="margin-bottom:40px;" class="nk-fmg-body-head d-none d-lg-flex">
             <div class="nk-fmg-search">
-                <em class="icon ni ni-search"></em>
-                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
+                <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
+                <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
+                    <option value="1">1</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                </select>
             </div>
             <div class="nk-fmg-actions">
                 <ul class="nk-block-tools g-3">
@@ -23,6 +30,11 @@
                     <div class="row">
                         <div class="col-md-8 col-12">
                             <div class="card card-bordered card-preview">
+
+                                <div v-if="listLoading" class="text-center my-3 text-loader">
+                                    <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
+                                </div>
+
                                 <table class="table table-tranx">
                                     <thead>
                                         <tr class="tb-tnx-head">
@@ -47,6 +59,28 @@
                                         </tr>
                                     </tbody>
                                 </table>
+
+                                <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
+                                    <ul class="pagination">
+                                        <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
+                                            <a href="javascript:void(0)" class="page-link" aria-label="Previous">
+                                                <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+
+                                        
+                                        <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
+                                            <a href="javascript:void(0)" class="page-link">
+                                                {{ page }}
+                                            </a>
+                                        </li>
+                                        
+                                        <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
+                                            <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+
                             </div>
                         </div>
                     </div>
@@ -109,6 +143,12 @@ export default {
     data: function () {
         return {
             accountGroups: [],
+            listLoading: true,
+            listCurrentPage: 1,
+            listItemPerPage: 20,
+            listCount: 0,
+            searchKeyword: '',
+            timer: null,
             formdata: { 
                 uuid: null,
                 coa_report_uuid: '', 
@@ -119,8 +159,12 @@ export default {
 
         }
     },
-    watch: {
-
+    computed: {
+        listTotalPages: function () {
+            var scope = this
+            var pages = Math.ceil(scope.listCount / scope.listItemPerPage)
+            return pages
+        }
     },
     methods: {
         getReportGroups: function () {
@@ -143,9 +187,13 @@ export default {
 
         },
         getAccountGroups: function () {
-           var scope = this
-            scope.GET('company/coa-account-group').then(res => {
+            var scope = this
+            scope.listLoading = true
+            scope.accountGroups = []
+            scope.GET('company/coa-account-group?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.accountGroups = res.rows
+                scope.listLoading = false
+                scope.listCount = res.count
             })
         },
 
@@ -253,6 +301,45 @@ export default {
                     })            
                 }                              
             })
+        },
+
+        search: function () {
+            var scope = this
+            if (scope.timer) {
+                clearTimeout(scope.timer);
+                scope.timer = null;
+            }
+
+            scope.timer = setTimeout(() => {
+                scope.getAccountGroups()
+            }, 800);
+        },
+        listPaginate: function(page) {
+            var scope = this
+        
+            if (page === 'prev') {
+                scope.listCurrentPage = scope.listCurrentPage - 1
+            } else if (page === 'next') {
+                scope.listCurrentPage = scope.listCurrentPage + 1
+            } else {
+                scope.listCurrentPage = page
+            }
+
+            if (scope.listCurrentPage < 1) {
+                scope.listCurrentPage = 1
+                return
+            } else  if (scope.listCurrentPage > scope.listTotalPages) {
+                scope.listCurrentPage =  scope.listTotalPages
+                return
+            }
+
+            scope.getAccountGroups()
+        },
+        changeListItemPerPage: function () 
+        {
+            var scope = this
+            scope.listCurrentPage = 1
+            scope.getAccountGroups()
         }
     },
 

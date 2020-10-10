@@ -34,7 +34,10 @@ Route::group(['middleware' => ['auth:api'] ], function(){
     Route::group(['prefix' => 'items'], function(){
 
         Route::get('/item-list', 'API\ItemListController@getItemList');
-        Route::post('/item-list', 'API\ItemListController@save');
+        Route::post('/item-list', 'API\ItemListController@store');
+        Route::put('/item-list', 'API\ItemListController@update');
+        Route::get('/item-list/{item_uuid}','API\ItemListController@show');
+
         Route::delete('/item-list/{itemUUID}', 'API\ItemListController@delete');
         Route::get('/{itemUUID}/uoms', 'API\ItemListController@uoms');
 
@@ -103,7 +106,10 @@ Route::group(['middleware' => ['auth:api'] ], function(){
     Route::group(['prefix' => 'customers'], function(){
 
         Route::get('/customer-list', 'API\CustomerListController@getCustomerList');
-        Route::post('/customer-list', 'API\CustomerListController@save');
+        Route::post('/customer-list', 'API\CustomerListController@store');
+        Route::put('/customer-list', 'API\CustomerListController@update');
+        Route::get('/customer-list/{customer_uuid}','API\CustomerListController@show');
+
         Route::post('/customer-list/delete', 'API\CustomerListController@delete');
 
         Route::get('/customer-group', 'API\CustomerGroupController@getCustomerGroup');
@@ -118,7 +124,10 @@ Route::group(['middleware' => ['auth:api'] ], function(){
     Route::group(['prefix' => 'employees'], function(){
 
         Route::get('/employee-list', 'API\EmployeeListController@getEmployeeList');
-        Route::post('/employee-list', 'API\EmployeeListController@save');
+        Route::post('/employee-list', 'API\EmployeeListController@store');
+        Route::put('/employee-list', 'API\EmployeeListController@update');
+        Route::get('/employee-list/{employee_uuid}','API\EmployeeListController@show');
+
         Route::post('/employee-list/delete', 'API\EmployeeListController@delete');
 
         Route::get('/employment-type', 'API\EmployeeEmploymentTypeController@getEmploymentType');

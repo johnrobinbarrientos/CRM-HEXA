@@ -1,44 +1,56 @@
 <template>
     <div>
-
         <div class="actions-bar">
             <div class="w-100">
                 <h1 class="title"><i class="las la-th-list"></i> Item Group</h1>
             </div>
             <div class="bar-right">
-                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search"> 
+                <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
+                <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
+                    <option value="1">1</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                </select>
                 <a href="javascript:void(0)" @click="OPEN_MODAL('#modalItemGroup');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
                     <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
         </div>
 
-        <div class="table-rep-plugin">
-            <div class="table-responsive mb-0" data-pattern="priority-columns">
-                <table id="tech-companies-1" class="table table-striped table-bordered responsiveTable">
-                    <thead>
-                        <tr>
-                            <th width="100">#</th>
-                            <th data-priority="3">Item Group</th>
-                            <th width="100">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(item, index) in Groups" :key="item.uuid">
-                            <td>
-                                {{ (index + 1) }}
-                            </td>
-                            <td>
-                               {{ item.item_group }}
-                            </td>
-                           <td>
-                                <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemGroup');setData(item)" class="btn btn-sm btn-light"><i class="bx bx-pencil"></i></a>
+        <div v-if="listLoading" class="text-center my-3 text-loader">
+            <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Actions</th>
+                        <th>#</th>
+                        <th data-priority="3">Item Group</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in Groups" :key="item.uuid">
+                        <td width="100">
+                            <span class="w-65px d-block mx-auto">
+                                <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemGroup');setData(item)" class="btn btn-sm btn-shineblue"><i class="bx bx-pencil"></i></a>
                                 <a href="javascript:void(0)"  @click="remove(item)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>         
-            </div>         
+                            </span>
+                        </td>
+                        <td width="100">
+                            {{ (index + 1) }}
+                        </td>
+                        <td>
+                            {{ item.item_group }}
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>         
         </div>
 
 
@@ -93,17 +105,34 @@ export default {
     data: function () {
         return {
             Groups: [],
+            listLoading: true,
+            listCurrentPage: 1,
+            listItemPerPage: 20,
+            listCount: 0,
+            searchKeyword: '',
+            timer: null,
             formdata: { 
                 uuid: null, 
                 item_group: ''
             }
         }
     },
+    computed: {
+        listTotalPages: function () {
+            var scope = this
+            var pages = Math.ceil(scope.listCount / scope.listItemPerPage)
+            return pages
+        }
+    },
     methods: {
         getItemGroup: function () {
-           var scope = this
-            scope.GET('items/item-group').then(res => {
+            var scope = this
+            scope.listLoading = true
+            scope.Groups = []
+            scope.GET('items/item-group?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.Groups = res.rows
+                scope.listLoading = false
+                scope.listCount = res.count
             })
         },
         resetData: function () {
@@ -201,6 +230,44 @@ export default {
                     })            
                 }                              
             })
+        },
+        search: function () {
+            var scope = this
+            if (scope.timer) {
+                clearTimeout(scope.timer);
+                scope.timer = null;
+            }
+
+            scope.timer = setTimeout(() => {
+                scope.getItemGroup()
+            }, 800);
+        },
+        listPaginate: function(page) {
+            var scope = this
+        
+            if (page === 'prev') {
+                scope.listCurrentPage = scope.listCurrentPage - 1
+            } else if (page === 'next') {
+                scope.listCurrentPage = scope.listCurrentPage + 1
+            } else {
+                scope.listCurrentPage = page
+            }
+
+            if (scope.listCurrentPage < 1) {
+                scope.listCurrentPage = 1
+                return
+            } else  if (scope.listCurrentPage > scope.listTotalPages) {
+                scope.listCurrentPage =  scope.listTotalPages
+                return
+            }
+
+            scope.getItemGroup()
+        },
+        changeListItemPerPage: function () 
+        {
+            var scope = this
+            scope.listCurrentPage = 1
+            scope.getItemGroup()
         }
     },
     mounted() {
