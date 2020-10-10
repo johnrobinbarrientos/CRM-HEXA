@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <div class="actions-bar">
             <div class="w-100">
                 <h1 class="title"><i class="las la-th-list"></i> Item Group</h1>
@@ -13,32 +12,33 @@
             </div>
         </div>
 
-        <div class="table-rep-plugin">
-            <div class="table-responsive mb-0" data-pattern="priority-columns">
-                <table id="tech-companies-1" class="table table-striped table-bordered responsiveTable">
-                    <thead>
-                        <tr>
-                            <th width="100">#</th>
-                            <th data-priority="3">Item Group</th>
-                            <th width="100">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(item, index) in Groups" :key="item.uuid">
-                            <td>
-                                {{ (index + 1) }}
-                            </td>
-                            <td>
-                               {{ item.item_group }}
-                            </td>
-                           <td>
-                                <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemGroup');setData(item)" class="btn btn-sm btn-light"><i class="bx bx-pencil"></i></a>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Actions</th>
+                        <th>#</th>
+                        <th data-priority="3">Item Group</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in Groups" :key="item.uuid">
+                        <td width="100">
+                            <span class="w-65px d-block mx-auto">
+                                <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemGroup');setData(item)" class="btn btn-sm btn-shineblue"><i class="bx bx-pencil"></i></a>
                                 <a href="javascript:void(0)"  @click="remove(item)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>         
-            </div>         
+                            </span>
+                        </td>
+                        <td width="100">
+                            {{ (index + 1) }}
+                        </td>
+                        <td>
+                            {{ item.item_group }}
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>         
         </div>
 
 

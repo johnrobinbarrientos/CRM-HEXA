@@ -3,19 +3,20 @@
         <div id="accordion">
             <div class="card shadow-none">
                 <a href="#collapseTwo" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
-                    <div class="card-header" id="headingOne">
+                    <div class="card-header" id="headingTwo">
                         <h5 class="m-0">Category 2</h5>
+                        <i class="las la-plus-circle fs-30"></i>
                     </div>
                 </a>
 
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion" style="">
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                     <div class="card-body">
 
                         <div class="container-fluid">
                             <div class="d-none d-lg-flex justify-content-between" style="margin-bottom: 20px;">
                                 <div>
                                     <em class="icon ni ni-search"></em>
-                                    <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search Category 1">
+                                    <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search in Category 2">
                                 </div>
                                 <div>
                                     <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCategory2');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
@@ -37,7 +38,7 @@
                                         <tr v-for="(category, index) in categories" :key="category.uuid">
                                             <td width="100">
                                                 <span class="w-65px d-block mx-auto">
-                                                    <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCategory2');setData(category)" class="btn btn-sm btn-light"><i class="mdi mdi-pencil"></i></a>
+                                                    <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCategory2');setData(category)" class="btn btn-sm btn-shineblue"><i class="mdi mdi-pencil"></i></a>
                                                     <a href="javascript:void(0)" @click="remove(category)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
                                                 </span>
                                             </td>

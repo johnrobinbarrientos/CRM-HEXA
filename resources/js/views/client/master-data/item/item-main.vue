@@ -49,7 +49,7 @@
                 <div class="tab-pane" id="item-discount-group" role="tabpanel">
                     <item-discount-group></item-discount-group>
                 </div>
-                <div class="tab-pane" id="categories" role="tabpanel">
+                <div class="tab-pane container" id="categories" role="tabpanel">
                     <div class="actions-bar">
                         <div class="w-100">
                             <h1 class="title h-36"><i class="las la-layer-group"></i> Categories</h1>
