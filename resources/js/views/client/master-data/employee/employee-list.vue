@@ -52,9 +52,11 @@
                     </thead>
                     <tbody>
                         <tr v-for="(employee, index) in employeeList" :key="employee.uuid">
-                            <td>
-                                <a href="javascript:void(0)"  @click="ROUTE({path: '/employees/' + employee.uuid })" class="btn btn-sm btn-light"><i class="mdi mdi-pencil"></i></a>
-                                <a href="javascript:void(0)"  @click="remove(employee)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
+                            <td width="100">
+                                <span class="w-65px d-block mx-auto">
+                                    <a href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid })" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
+                                    <a href="javascript:void(0)" @click="remove(employee)" class="btn btn-sm btn-danger" title="Trash"><i class="mdi mdi-trash-can"></i></a>
+                                </span>
                             </td>
                             <td class="text-right">{{ (index + 1) }}</td>
                             <td class="text-right">{{employee.emp_id}}</td>

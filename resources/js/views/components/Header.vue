@@ -11,9 +11,12 @@
                     </a>
                     <a @click="$store.commit('toggleSideNav')" href="javascript:void(0);">
                         <!-- <img :src="logo" style="height:50px;"> -->
-                        HEXA Corp.
+                        <span style="font-weight: 700; font-family: Nunito; letter-spacing: 1px;">HEXA<i style="font-weight: 400; font-family: Roboto;">suite</i>
+                        </span>
+                        
                     </a>
-                    <span class="client-name">Pinoy Grocery</span>
+
+                    <span class="client-name">Pinoy Grocery Incorporated</span>
                 </div>
                 <div class="d-flex align-items-center">
                     <form class="app-search d-none d-lg-block">

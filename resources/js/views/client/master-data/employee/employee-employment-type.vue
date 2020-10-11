@@ -22,32 +22,31 @@
                 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-5 col-12">
-                    <div class="card card-bordered card-preview">
+                <div class="col-md-5">
 
-                        <div v-if="listLoading" class="text-center my-3 text-loader">
-                            <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
-                        </div>
+                    <div v-if="listLoading" class="text-center my-3 text-loader">
+                        <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
+                    </div>
 
-
-                        <table class="table table-tranx">
+                    <div class="table-responsive"> 
+                        <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
+                                    <th><span class="">Actions</span></th>
                                     <th><span class="">#</span></th>
                                     <th><span class="">Employment Type</span></th>
-                                    <th><span class="">Actions</span></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(type, index) in employmentTypes" :key="type.uuid" class="tb-tnx-item">
-                                    <td><span class="">{{ (index + 1) }}</span></td>
-                                    <td><span class="">{{ type.employment_type }}</span></td>
-                                    <td>
-                                        <span class="">
-                                            <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalEmploymentType');setData(type)" class="btn btn-sm btn-light"><i class="mdi mdi-pencil"></i></a>
-                                            <a href="javascript:void(0)"  @click="remove(type)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
+                                    <td width="100">
+                                        <span class="w-65px d-block mx-auto">
+                                            <a href="javascript:void(0)" @click="OPEN_MODAL('#modalEmploymentType');setData(type)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
+                                            <a href="javascript:void(0)" @click="remove(type)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
                                         </span>
                                     </td>
+                                    <td width="100"><span class="">{{ (index + 1) }}</span></td>
+                                    <td><span class="">{{ type.employment_type }}</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -72,7 +71,6 @@
                                 </li>
                             </ul>
                         </nav>
-
                     </div>
                 </div>
             </div>
