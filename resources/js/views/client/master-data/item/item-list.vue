@@ -1,5 +1,4 @@
 <template>
-    <div>    
         <div>
             <div class="actions-bar">
                 <div class="w-100">
@@ -20,105 +19,97 @@
                     </a>
                 </div>
             </div>
-        </div>
 
-            <div>          
-                <div class="row">
-                    <div class="col-12">
+            <div v-if="listLoading" class="text-center my-3 text-loader">
+                <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
+            </div>
+            <div v-else class="table-responsive"> 
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Actions</th>
+                            <th>#</th>
+                            <th>Item Description</th>
+                            <th>Item Code</th>
+                            <th>Item Barcode</th>
+                            <th>Case/Box Barcode</th>
+                            <th>Item Group</th>
+                            <th>Re-order Qty / ICO</th>
+                            <th>Supplier</th>
+                            <th>Is Expiry?</th>
+                            <th>Purchase Cost</th>
+                            <th>Sales Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in itemList" :key="item.uuid">
+                            <td width="100">
+                                <span class="w-65px d-block mx-auto">
+                                    <a href="javascript:void(0)" @click="ROUTE({path: '/items/' + item.uuid })" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
+                                    <a href="javascript:void(0)" @click="remove(item)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
+                                </span>
+                            </td>
+                            <td>{{ (index + 1) }}</td>
+                            <td>
+                                {{ item.item_description }}
+                            </td>
+                            <td class="text-right">{{ item.item_code }}</td>
+                            <td class="text-right">
+                                {{ item.item_barcode }}
+                            </td>
+                            <td class="text-right">
+                                {{ item.cs_barcode }}
+                            </td>
+                            <td>
+                                {{ item.item_group.item_group }}
+                            </td>
+                            <td class="text-right">
+                                {{ item.reorder_qty }}
+                            </td>
+                            <td>
+                                <span v-if="item.suppliers.length > 0">
+                                    <span v-for="item_supplier in item.suppliers" :key="item_supplier.uuid">
+                                        <span  class="badge badge-dim badge-outline-secondary">{{ item_supplier.supplier.business_shortname }}</span> &nbsp;
+                                    </span>
+                                </span>
+                                <span v-else>
+                                    Not Specified
+                                </span>
+                            </td>
+                            <td>
+                                <span v-if="item.is_expiry === 1">Yes</span>
+                                <span v-else>No</span>
+                            </td>
+                            <td class="text-right">
+                                {{ item.purchase_price }}
+                            </td>
+                            <td class="text-right">
+                                {{ item.sales_price }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
+                    <ul class="pagination">
+                        <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
+                            <a href="javascript:void(0)" class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
+                            </a>
+                        </li>
 
-                        <div v-if="listLoading" class="text-center my-3 text-loader">
-                            <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
-                        </div>
-                        <div v-else style="overflow-x:auto;"> 
-                            <table class="table table-tranx table-items">
-                                <thead>
-                                    <tr class="tb-tnx-head">
-                                        <th>Actions</th>
-                                        <th>#</th>
-                                        <th>Item Description</th>
-                                        <th>Item Code</th>
-                                        <th>Item Barcode</th>
-                                        <th>Case/Box Barcode</th>
-                                        <th>Item Group</th>
-                                        <th>Re-order Qty / ICO</th>
-                                        <th>Supplier</th>
-                                        <th>Is Expiry?</th>
-                                        <th>Purchase Cost</th>
-                                        <th>Sales Cost</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="(item, index) in itemList" :key="item.uuid" class="tb-tnx-item">
-                                        <td>
-                                            <a href="javascript:void(0)"  @click="ROUTE({path: '/items/' + item.uuid })" class="btn btn-sm btn-light"><i class="mdi mdi-pencil"></i></a>
-                                            <a href="javascript:void(0)"  @click="remove(item)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
-                                        </td>
-                                        <td>{{ (index + 1) }}</td>
-                                        <td>
-                                            {{ item.item_description }}
-                                        </td>
-                                        <td class="">
-                                            {{ item.item_code }}
-                                        </td>
-                                        <td class="">
-                                            {{ item.item_barcode }}
-                                        </td>
-                                        <td class="">
-                                            {{ item.cs_barcode }}
-                                        </td>
-                                        <td>
-                                            {{ item.item_group.item_group }}
-                                        </td>
-                                        <td class="">
-                                            {{ item.reorder_qty }}
-                                        </td>
-                                        <td>
-                                            <span v-if="item.suppliers.length > 0">
-                                                <span v-for="item_supplier in item.suppliers" :key="item_supplier.uuid">
-                                                    <span  class="badge badge-dim badge-outline-secondary">{{ item_supplier.supplier.business_shortname }}</span> &nbsp;
-                                                </span>
-                                            </span>
-                                            <span v-else>
-                                                Not Specified
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span v-if="item.is_expiry === 1">Yes</span>
-                                            <span v-else>No</span>
-                                        </td>
-                                        <td class="">
-                                            {{ item.purchase_price }}
-                                        </td>
-                                        <td class="">
-                                            {{ item.sales_price }}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
-                                <ul class="pagination">
-                                    <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
-                                        <a href="javascript:void(0)" class="page-link" aria-label="Previous">
-                                            <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
-                                        </a>
-                                    </li>
-
-                                    
-                                    <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
-                                        <a href="javascript:void(0)" class="page-link">
-                                            {{ page }}
-                                        </a>
-                                    </li>
-                                    
-                                    <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
-                                        <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
-                                    </li>
-                                </ul>
-                            </nav>         
-                        </div>
-                    </div>
-                </div>
-            </div>                   
+                        
+                        <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
+                            <a href="javascript:void(0)" class="page-link">
+                                {{ page }}
+                            </a>
+                        </li>
+                        
+                        <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
+                            <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
+                        </li>
+                    </ul>
+                </nav>         
+            </div>
              
     </div>
 </template>

@@ -22,28 +22,34 @@
              
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-5 col-12">
-                    <div class="card card-bordered card-preview">
-                        <table class="table table-tranx">
+                <div class="col-md-5">
+
+                    <div v-if="listLoading" class="text-center my-3 text-loader">
+                        <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
                             <thead>
-                                <tr class="tb-tnx-head">
+                                <tr>
+                                    <th><span class="">Actions</span></th>
                                     <th><span class="">#</span></th>
                                     <th><span class="">Group Name</span></th>
                                     <th><span class="">Markup Rate</span></th>
-                                    <th><span class="">Actions</span></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(group, index) in Groups" :key="group.uuid" class="tb-tnx-item">
+                                <tr v-for="(group, index) in Groups" :key="group.uuid">
+                                    <td width="100">
+                                        <span class="w-65px d-block mx-auto">
+                                            <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalCustomerGroup');setData(group)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
+                                            <a href="javascript:void(0)"  @click="remove(group)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
+                                        </span>
+                                    </td>
                                     <td><span class="">{{ (index + 1) }}</span></td>
                                     <td><span class="">{{ group.group_name }}</span></td>
                                     <td><span class="">{{ group.markup_rate }}</span></td>
-                                    <td>
-                                        <span class="">
-                                            <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalCustomerGroup');setData(group)" class="btn btn-sm btn-light"><i class="mdi mdi-pencil"></i></a>
-                                            <a href="javascript:void(0)"  @click="remove(group)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
-                                        </span>
-                                    </td>
+
                                 </tr>
                             </tbody>
                         </table>

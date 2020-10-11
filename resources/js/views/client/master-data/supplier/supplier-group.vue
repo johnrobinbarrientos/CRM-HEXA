@@ -22,56 +22,55 @@
             
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-5 col-12">
-                    <div class="card card-bordered card-preview">
+                <div class="col-md-5">
                         
-                        <div v-if="listLoading" class="text-center my-3 text-loader">
-                            <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
-                        </div>
+                    <div v-if="listLoading" class="text-center my-3 text-loader">
+                        <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
+                    </div>
 
-                        <table class="table table-tranx jd-sm-table">
+                    <div class="table-responsive"> 
+                        <table class="table table-striped table-bordered">
                             <thead>
-                                <tr class="tb-tnx-head">
+                                <tr>
+                                    <th><span class="">Actions</span></th>
                                     <th><span class="">#</span></th>
                                     <th><span class="">Group Name</span></th>
-                                    <th><span class="">Actions</span></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(group, index) in groups" :key="group.uuid" class="tb-tnx-item">
-                                    <td><span class="">{{ (index + 1) }}</span></td>
-                                    <td><span class="">{{ group.group_name }}</span></td>
-                                    <td>
-                                        <span class="">
-                                            <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalSupplierGroup');setData(group)" class="btn btn-sm btn-light"><i class="mdi mdi-pencil"></i></a>
-                                            <a href="javascript:void(0)"  @click="remove(group)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
+                                    <td width="100">
+                                        <span class="w-65px d-block mx-auto">
+                                            <a href="javascript:void(0)" @click="OPEN_MODAL('#modalSupplierGroup');setData(group)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
+                                            <a href="javascript:void(0)" @click="remove(group)" class="btn btn-sm btn-danger" title="Trash"><i class="mdi mdi-trash-can"></i></a>
                                         </span>
                                     </td>
+                                    <td width="100">{{ (index + 1) }}</td>
+                                    <td><span class="">{{ group.group_name }}</span></td>
                                 </tr>
                             </tbody>
                         </table>
 
-                            <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
-                                <ul class="pagination">
-                                    <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
-                                        <a href="javascript:void(0)" class="page-link" aria-label="Previous">
-                                            <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
-                                        </a>
-                                    </li>
+                        <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
+                            <ul class="pagination">
+                                <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
+                                    <a href="javascript:void(0)" class="page-link" aria-label="Previous">
+                                        <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
 
-                                    
-                                    <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
-                                        <a href="javascript:void(0)" class="page-link">
-                                            {{ page }}
-                                        </a>
-                                    </li>
-                                    
-                                    <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
-                                        <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
-                                    </li>
-                                </ul>
-                            </nav>
-
+                                
+                                <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
+                                    <a href="javascript:void(0)" class="page-link">
+                                        {{ page }}
+                                    </a>
+                                </li>
+                                
+                                <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
+                                    <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
