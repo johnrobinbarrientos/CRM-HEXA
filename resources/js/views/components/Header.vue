@@ -16,7 +16,7 @@
                         
                     </a>
 
-                    <span class="client-name">Pinoy Grocery Incorporated</span>
+                    <span class="client-name">{{company_name}}</span>
                 </div>
                 <div class="d-flex align-items-center">
                     <form class="app-search d-none d-lg-block">
@@ -164,6 +164,7 @@
         return {
             logo,
             avatar,
+            company_name: ''
         }
     },
     computed: {
@@ -181,10 +182,17 @@
         },
         logout: function () {
             this.$store.dispatch('revoke',{ token: '' })
+        },
+        getCompanyDetails: function () {
+            var scope = this
+            scope.GET('company/details').then(res => {
+                scope.company_name = res.rows.company_name
+            })
         }
     },
     mounted() {
-        //console.log(this.user)
+        var scope = this
+        scope.getCompanyDetails()
     }
 }
 </script>

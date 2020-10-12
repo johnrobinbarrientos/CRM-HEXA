@@ -46,7 +46,7 @@
                             <td width="100">
                                 <span class="w-65px d-block mx-auto">
                                     <a href="javascript:void(0)" @click="ROUTE({path: '/items/' + item.uuid })" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                    <a href="javascript:void(0)" @click="remove(item)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
+                                    <a href="javascript:void(0)" @click="OPEN_MODAL('#modalViewItem'); passItem(item)" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
                                 </span>
                             </td>
                             <td>{{ (index + 1) }}</td>
@@ -110,12 +110,30 @@
                     </ul>
                 </nav>         
             </div>
-             
+
+
+            <!-- Modal View Item -->
+            <div class="modal fade" tabindex="-1" id="modalViewItem">
+                <div class="modal-dialog modal-lg " role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Item Details</h5>
+                            <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalViewItem'); closeView()" class="close" data-dismiss="modal" aria-label="Close">
+                                <i class="bx bx-x"></i>
+                            </a>
+                        </div>
+                        <div class="modal-body">
+                            <item-view v-if="show_view" :properties="item_data"></item-view>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
     </div>
 </template>
 
 <script>
-
+import ItemView from './item-view'
 import Swal from 'sweetalert2'
 
 export default {
@@ -124,6 +142,8 @@ export default {
     data: function () {
         return {
             itemList: [],
+            item_data: [],
+            show_view: false,
             listLoading: true,
             listCurrentPage: 1,
             listItemPerPage: 20,
@@ -131,6 +151,9 @@ export default {
             searchKeyword: '',
             timer: null
         }
+    },
+    components: {
+        'item-view': ItemView
     },
     computed: {
         listTotalPages: function () {
@@ -140,6 +163,15 @@ export default {
         }
     },
     methods: {
+        passItem: function (item) {
+            var scope = this
+            scope.item_data = item
+            scope.show_view = true
+        },
+        closeView: function () {
+            var scope = this
+            scope.show_view = false
+        },
         getItemList: function () {
             var scope = this
             scope.listLoading = true

@@ -40,9 +40,6 @@
                 <div class="tab-pane" id="asset-group" role="tabpanel">
                     <asset-group></asset-group>
                 </div>
-                <div class="tab-pane" id="item-discount-group" role="tabpanel">
-                    <item-discount-group></item-discount-group>
-                </div>
                 <div class="tab-pane container" id="categories" role="tabpanel">
                     <div class="actions-bar">
                         <div class="w-100">

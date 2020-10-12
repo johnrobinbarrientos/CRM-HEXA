@@ -14,7 +14,7 @@
                                     <tr :key="discount_group.id" v-bind:class="{'table-success' : discount_group.selected}">
                                         <th width="40" colspan="1">
                                             <div class="form-check mb-3">
-                                                <input @change="selectGroup(discount_group)" v-model="discount_group.selected" class="form-check-input" type="checkbox" :id="'check-' + discount_group.id" value="">
+                                                <input @change="selectGroup(discount_group)" v-model="discount_group.selected" class="form-check-input" type="checkbox" :id="'check-' + discount_group.id" value="" :disabled="show_view">
                                             </div>
                                         </th>
                                         <th colspan="2">{{ discount_group.group_name }}</th>
@@ -68,11 +68,12 @@ export default {
     data: function () {
         return {
             suppliers: [],
+            show_view: false
         }
     },
     computed: {
         item: function() {
-            return this.properties
+            return this.properties.data
         },
         grand_total: function () {
             var scope = this
@@ -171,6 +172,8 @@ export default {
     },
     mounted() {
         var scope = this
+        scope.show_view = scope.properties.view
+        
     },
 }
 </script>

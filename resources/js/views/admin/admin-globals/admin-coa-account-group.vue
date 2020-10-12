@@ -87,7 +87,7 @@
                     <div class="modal-header">
                         <h5 class="modal-title">Account Group Details</h5>
                         <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalAccountGroup');" class="close" data-dismiss="modal" aria-label="Close">
-                            <em class="icon ni ni-cross"></em>
+                            <i class="bx bx-x"></i>
                         </a>
                     </div>
                     <div class="modal-body">

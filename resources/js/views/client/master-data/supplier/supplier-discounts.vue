@@ -20,12 +20,14 @@
                             <tr @click="selectGroup(group)" v-bind:class="{'table-success' : (selected_group && selected_group.uuid === group.uuid) }" style="cursor:pointer;" v-for="(group,index) in groups" :key="index" >
                                 <td>
                                     <template v-if="group.edit !== true">
-                                        <a @click="editGroup(group)" class="btn btn-sm btn-light" role="button" href="javascript:void(0);"><i class="bx bx-pencil"></i></a>
-                                        <a class="btn btn-sm btn-danger" role="button" href="javascript:void(0);"><i class="bx bx-trash-alt"></i></a>
+                                        <button @click="editGroup(group)" class="btn btn-sm btn-light" role="button" :disabled="show_view"><i class="bx bx-pencil"></i></button>
+                                        <button class="btn btn-sm btn-danger" role="button"><i class="bx bx-trash-alt" :disabled="show_view"></i></button>
                                     </template>
                                     <template v-else>
-                                        <a @click="saveGroup(group)" class="btn btn-sm btn-primary" role="button" href="javascript:void(0);"><i class="bx bx-save"></i></a>
-                                        <a class="btn btn-sm btn-danger" role="button" href="javascript:void(0);"><i class="bx bx-trash-alt"></i></a>
+                                        <button @click="saveGroup(group)" class="btn btn-sm btn-primary" role="button" :disabled="show_view"><i class="bx bx-save"></i></button>
+                                        <!-- <a @click="saveGroup(group)" class="btn btn-sm btn-primary" role="button" href="javascript:void(0);"><i class="bx bx-save"></i></a> -->
+                                        <button class="btn btn-sm btn-danger" role="button" :disabled="show_view"><i class="bx bx-trash-alt"></i></button>
+                                        <!-- <a class="btn btn-sm btn-danger" role="button" href="javascript:void(0);"><i class="bx bx-trash-alt"></i></a> -->
                                     </template>
                                 </td>
                                 <th scope="row" >
@@ -121,6 +123,7 @@ export default {
             selected_group: null,
             discounts: [],
             groups: [],
+            show_view: false
         }
     },
     methods: {
@@ -284,11 +287,16 @@ export default {
     mounted() {
         var scope = this
         scope.getGroups()
+        scope.show_view = scope.properties.view
     },
 }
 </script>
 
 <style scoped>
 /* .table-tranx { table-layout: auto; width: 200%;} */
+a.disabled {
+    pointer-events: none;
+    color: #ccc;
+}
 
 </style>

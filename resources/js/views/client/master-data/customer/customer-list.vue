@@ -49,7 +49,7 @@
                         <td width="100">
                             <span class="w-65px d-block mx-auto">
                                 <a href="javascript:void(0)" @click="ROUTE({path: '/customers/' + customer.uuid })" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                <a href="javascript:void(0)" @click="remove(customer)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
+                                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalViewCustomer'); passCustomer(customer)" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
                             </span>
                         </td>
                         <td>{{ (index + 1) }}</td>
@@ -89,13 +89,31 @@
                     </li>
                 </ul>
             </nav>    
-        </div>       
+        </div>
+
+
+        <!-- Modal View Customer -->
+        <div class="modal fade" tabindex="-1" id="modalViewCustomer">
+            <div class="modal-dialog modal-lg " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Customer Details</h5>
+                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalViewCustomer'); closeView()" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="bx bx-x"></i>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <customer-view v-if="show_view" :properties="customer_data"></customer-view>
+                    </div>
+                </div>
+            </div>
+        </div>      
              
     </div>
 </template>
 
 <script>
-
+import CustomerView from './customer-view'
 import Swal from 'sweetalert2'
 
 export default {
@@ -104,6 +122,8 @@ export default {
     data: function () {
         return {
             customerList: [],
+            customer_data: [],
+            show_view: false,
             listLoading: true,
             listCurrentPage: 1,
             listItemPerPage: 20,
@@ -111,6 +131,9 @@ export default {
             searchKeyword: '',
             timer: null,
         }
+    },
+    components: {
+        'customer-view': CustomerView
     },
     computed: {
         listTotalPages: function () {
@@ -120,6 +143,15 @@ export default {
         }
     },
     methods: {
+        passCustomer: function (customer) {
+            var scope = this
+            scope.customer_data = customer
+            scope.show_view = true
+        },
+        closeView: function () {
+            var scope = this
+            scope.show_view = false
+        },
         getCustomerList: function () {
             var scope = this
             scope.listLoading = true

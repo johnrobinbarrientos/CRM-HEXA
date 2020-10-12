@@ -180,7 +180,7 @@
                             </div>
 
                             <div class="tab-pane" id="discounts">
-                                <SupplierDiscounts v-if="formdata.uuid" :supplier_uuid="formdata.uuid"></SupplierDiscounts>
+                                <SupplierDiscounts v-if="formdata.uuid" :supplier_uuid="formdata.uuid" :properties="{view:false}" ></SupplierDiscounts>
                             </div>
 
                             <div class="tab-pane" id="address"> 

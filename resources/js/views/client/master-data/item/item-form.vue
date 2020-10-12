@@ -360,7 +360,7 @@
 
 
                             <div class="tab-pane" id="supplier-discounts">
-                                <item-discounts :properties="formdata" ref="itemDiscounts"></item-discounts>
+                                <item-discounts :properties="{data:formdata, view:false}" ref="itemDiscounts"></item-discounts>
                             </div>   
                         </div>
                 </form>
@@ -1005,8 +1005,6 @@ export default {
 
         var itemUUID = scope.$route.params.itemUUID
         scope.getItemDetails(itemUUID)
-
-
 
         $('.form-select-item-group').on("change", function(e) { 
             scope.selected_item_group = $('.form-select-item-group').val();
