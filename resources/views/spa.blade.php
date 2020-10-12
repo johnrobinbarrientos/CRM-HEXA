@@ -4,8 +4,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <meta name="theme-color" content="#000000">
-        <meta name="description" content="Web site created using create-react-app">
-        <title>HEXA SUITE</title>
+        <meta name="description" content="Elevating OME's. Empowering Entrepreneurs">
+        <title>HEXAsuite</title>
         
         <!-- <link href="/app/vendors/select2/css/select2.min.css?ver=1.6.0" rel="stylesheet" /> -->
 

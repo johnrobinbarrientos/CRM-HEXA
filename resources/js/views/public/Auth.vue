@@ -11,7 +11,7 @@
                                 <div class="col-7 col">
                                     <div class="text-primary p-4">
                                         <h4 class="text-primary"><strong>Sign In</strong></h4>
-                                        <p>Sign in to continue to <strong>Suite</strong>.</p>
+                                        <p>Sign in to continue to <strong>HEXAsuite</strong>.</p>
                                     </div>
                                 </div>
                                 <div class="col-5 align-self-end col">
@@ -94,7 +94,8 @@
             .then(response => {
                 var data = response.data
                 if (data.success) {
-                    scope.$store.dispatch('authenticate',{ token: data.token })
+                    scope.$store.dispatch('authenticate',{ token: data.token, user: data.user })
+                    scope.$store.dispatch('getMenus',{})
                 }
             })
             .catch(function (error) {

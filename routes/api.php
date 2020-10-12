@@ -100,6 +100,10 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
         Route::get('/{supplierDiscountUUID}/supplier-base-discount-group-details', 'API\SupplierBaseDiscountGroupDetailController@getSupplierBaseDiscountGroupDetails');
         Route::post('/{supplierDiscountUUID}/supplier-base-discount-group-details', 'API\SupplierBaseDiscountGroupDetailController@save');
+
+
+        Route::get('/{supplierUUID}/check-payee', 'API\SupplierCheckPayeeController@getCheckPayee');
+        Route::post('/{supplierUUID}/check-payee', 'API\SupplierCheckPayeeController@save');
     
     });
 

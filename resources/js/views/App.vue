@@ -14,7 +14,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
-                            <div class="d-flex h-100 align-items-center"><span>2020 © HEXA SUITE</span></div>
+                            <div class="d-flex h-100 align-items-center"><span>Elevating OME's. Empowering Entrepreneurs.</span></div>
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-right d-none d-sm-block">Powered by <img class="pl-1" height="25" :src="logo"></div>

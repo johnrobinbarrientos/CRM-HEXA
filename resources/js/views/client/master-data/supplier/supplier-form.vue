@@ -107,6 +107,9 @@
                                 <a v-else class="nav-link" data-toggle="tab" href="#discounts">Discounts</a>   
                             </li>
                             <li class="nav-item">        
+                                <a class="nav-link" data-toggle="tab" href="#check-payees">Check Payees</a>    
+                            </li>
+                            <li class="nav-item">        
                                 <a class="nav-link" data-toggle="tab" href="#address">Address</a>    
                             </li>     
                         </ul>
@@ -180,7 +183,11 @@
                             </div>
 
                             <div class="tab-pane" id="discounts">
-                                <SupplierDiscounts v-if="formdata.uuid" :supplier_uuid="formdata.uuid" :properties="{view:false}" ></SupplierDiscounts>
+                                <SupplierDiscounts v-if="formdata.uuid" :supplier_uuid="formdata.uuid" :properties="{view:false}"></SupplierDiscounts>
+                            </div>
+
+                            <div class="tab-pane" id="check-payees">
+                                <supplier-check-payees :supplier_uuid="formdata.uuid" :properties="{view:false}"></supplier-check-payees>
                             </div>
 
                             <div class="tab-pane" id="address"> 
@@ -261,6 +268,7 @@
 import Swal from 'sweetalert2'
 
 import SupplierDiscounts from './supplier-discounts'
+import SupplierCheckPayees from './supplier-check-payees'
 
 export default {
     name: 'supplier-list',
@@ -299,7 +307,8 @@ export default {
             supplierList: [],
 
             formdata: { 
-                uuid: null, 
+                uuid: null,
+                is_draft: 1,
                 business_name: '', 
                 business_shortname: '', 
                 check_payee: '',
@@ -323,7 +332,8 @@ export default {
 
     },
     components: {
-        SupplierDiscounts
+        SupplierDiscounts,
+        'supplier-check-payees': SupplierCheckPayees
     },
     methods: {
         toggleForm() {
@@ -555,9 +565,57 @@ export default {
         getSupplierDetails: function (supplierUUID) {
             var scope = this
             scope.GET('suppliers/supplier-list/' + supplierUUID).then(res => {
-                scope.formdata = res.data
+            
+                let data = res.data
 
-                scope.setData(scope.formdata)
+                scope.formdata.uuid = supplierUUID
+
+                if (data.is_draft=== 0) {
+
+                    scope.formdata.is_draft = data.is_draft
+                    scope.formdata.business_name = data.business_name
+                    scope.formdata.business_shortname = data.business_shortname
+                    scope.formdata.check_payee = data.check_payee
+                    scope.formdata.tax_identification_no = data.tax_identification_no
+                    scope.formdata.lead_time = data.lead_time
+                    scope.formdata.is_transporter = data.is_transporter
+                    scope.formdata.email = data.email
+                    scope.formdata.contact_no = data.contact_no
+                    scope.formdata.address1 = data.address1
+
+                    if (data.vat_uuid!=null){
+                        scope.with_vat = 1
+                    }else{
+                        scope.with_vat = 0
+                    }
+
+                    if (data.ewt_uuid!=null){
+                        scope.with_ewt = 1
+                    }else{
+                        scope.with_ewt = 0
+                    }
+
+                    $('.form-select-supplier-group').val(data.supplier_group_uuid);
+                    $('.form-select-supplier-group').trigger('change');
+
+                    $('.form-select-vat').val(data.vat_uuid);
+                    $('.form-select-vat').trigger('change');
+
+                    $('.form-select-ewt').val(data.ewt_uuid);
+                    $('.form-select-ewt').trigger('change');
+
+                    $('.form-select-payment-term').val(data.payment_term_uuid);
+                    $('.form-select-payment-term').trigger('change');
+
+                    $('.form-select-payables').val(data.coa_payable_account_uuid);
+                    $('.form-select-payables').trigger('change');
+
+            
+                    $('.form-select-address-list').val(data.global_address_uuid);
+                    $('.form-select-address-list').trigger('change');
+                
+                
+                }
                 
             })
         }
