@@ -18,9 +18,11 @@ class ItemListController extends Controller
         $list = ItemList::where('is_draft','=', 0)->whereNull('deleted_at')
         ->with('ItemGroup')->with('Suppliers')
         ->with('IncomeAccount')->with('CosAccount')
-        ->with('Category1')
-        ->with('Category2')->with('Category3')
-        ->with('Category4')->with('Category5')
+        ->with('CatDepartment')
+        ->with('CatSection')->with('CatCategory')
+        ->with('CatManufacturer')->with('CatItemType')
+        ->with('CatBrand')->with('CatForm')
+        ->with('CatPackingType')->with('CatSizes')
         ->with('AssetGroup');
 
         if (!empty(request()->keyword)) {
@@ -97,11 +99,15 @@ class ItemListController extends Controller
         $item->coa_cos_account_uuid = request()->coa_cos_account_uuid;
         $item->reorder_qty = request()->reorder_qty;
         $item->item_asset_group_uuid = request()->item_asset_group_uuid;
-        $item->category1_uuid = request()->category1_uuid;
-        $item->category2_uuid = request()->category2_uuid;
-        $item->category3_uuid = request()->category3_uuid;
-        $item->category4_uuid = request()->category4_uuid;
-        $item->category5_uuid = request()->category5_uuid;
+        $item->cat_department_uuid = request()->cat_department_uuid;
+        $item->cat_section_uuid = request()->cat_section_uuid;
+        $item->cat_category_uuid = request()->cat_category_uuid;
+        $item->cat_manufacturer_uuid = request()->cat_manufacturer_uuid;
+        $item->cat_item_type_uuid = request()->cat_item_type_uuid;
+        $item->cat_brand_uuid = request()->cat_brand_uuid;
+        $item->cat_form_uuid = request()->cat_form_uuid;
+        $item->cat_packing_type_uuid = request()->cat_packing_type_uuid;
+        $item->cat_sizes_uuid = request()->cat_sizes_uuid;
         $item->is_draft = 0;
         $item->save();
         
@@ -164,9 +170,11 @@ class ItemListController extends Controller
     {
         $item = ItemList::with('ItemGroup')->with('Suppliers')
         ->with('IncomeAccount')->with('CosAccount')
-        ->with('Category1')
-        ->with('Category2')->with('Category3')
-        ->with('Category4')->with('Category5')
+        ->with('CatDepartment')
+        ->with('CatSection')->with('CatCategory')
+        ->with('CatManufacturer')->with('CatItemType')
+        ->with('CatBrand')->with('CatForm')
+        ->with('CatPackingType')->with('CatSizes')
         ->with('AssetGroup')->find($itemUUID);
 
         if (!$item) {

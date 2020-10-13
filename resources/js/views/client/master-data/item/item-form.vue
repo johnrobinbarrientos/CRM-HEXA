@@ -172,39 +172,67 @@
                             <div class="tab-pane" id="category">
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="category-1">Category 1</label>
-                                        <select class="form-select-category-1" v-model="selected_category1" :options="options_category1" name="category-1">
+                                        <label class="form-label" for="cat-department">Department</label>
+                                        <select class="form-select-cat-department" v-model="selected_cat_department" :options="options_cat_department" name="cat-department">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="category-2">Category 2</label>
-                                        <select class="form-select-category-2" v-model="selected_category2" :options="options_category2" name="category-2">
+                                        <label class="form-label" for="cat-section">Section</label>
+                                        <select class="form-select-cat-section" v-model="selected_cat_section" :options="options_cat_section" name="cat-section">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="category-3">Category 3</label>
-                                        <select class="form-select-category-3" v-model="selected_category3" :options="options_category3" name="category-3">
+                                        <label class="form-label" for="cat-category">Category</label>
+                                        <select class="form-select-cat-category" v-model="selected_cat_category" :options="options_cat_category" name="cat-category">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="category-4">Category 4</label>
-                                        <select class="form-select-category-4" v-model="selected_category4" :options="options_category4" name="category-4">
+                                        <label class="form-label" for="cat-manufacturer">Manufacturer</label>
+                                        <select class="form-select-cat-manufacturer" v-model="selected_cat_manufacturer" :options="options_cat_manufacturer" name="cat-manufacturer">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="category-5">Category 5</label>
-                                        <select class="form-select-category-5" v-model="selected_category5" :options="options_category5" name="category-5">
+                                        <label class="form-label" for="cat-item-type">Item Type</label>
+                                        <select class="form-select-cat-item-type" v-model="selected_cat_item_type" :options="options_cat_item_type" name="cat-item-type">
                                         </select>
                                     </div>
-                                </div>        
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="cat-brand">Brand</label>
+                                        <select class="form-select-cat-brand" v-model="selected_cat_brand" :options="options_cat_brand" name="cat-brand">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="cat-form">Form</label>
+                                        <select class="form-select-cat-form" v-model="selected_cat_form" :options="options_cat_form" name="cat-form">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="cat-packing-type">Packing Type</label>
+                                        <select class="form-select-cat-packing-type" v-model="selected_cat_packing_type" :options="options_cat_packing_type" name="cat-packing-type">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="cat-sizes">Sizes</label>
+                                        <select class="form-select-cat-sizes" v-model="selected_cat_sizes" :options="options_cat_sizes" name="cat-sizes">
+                                        </select>
+                                    </div>
+                                </div>    
 
                             </div>
 
@@ -391,20 +419,33 @@ export default {
             selected_cost_of_sales: null,
             options_cost_of_sales: [],
 
-            selected_category1: null,
-            options_category1: [],
+            selected_cat_department: null,
+            options_cat_department: [],
 
-            selected_category2: null,
-            options_category2: [],
+            selected_cat_section: null,
+            options_cat_section: [],
 
-            selected_category3: null,
-            options_category3: [],
+            selected_cat_category: null,
+            options_cat_category: [],
 
-            selected_category4: null,
-            options_category4: [],
+            selected_cat_manufacturer: null,
+            options_cat_manufacturer: [],
 
-            selected_category5: null,
-            options_category5: [],
+            selected_cat_item_type: null,
+            options_cat_item_type: [],
+
+            selected_cat_brand: null,
+            options_cat_brand: [],
+
+            selected_cat_form: null,
+            options_cat_form: [],
+
+            selected_cat_packing_type: null,
+            options_cat_packing_type: [],
+
+            selected_cat_sizes: null,
+            options_cat_sizes: [],
+
 
             selected_asset_group: null,
             options_asset_group: [],
@@ -457,11 +498,15 @@ export default {
                 coa_cos_account_uuid: '',
                 reorder_qty: '',
                 item_asset_group_uuid: '',
-                category1_uuid: '',
-                category2_uuid: '',
-                category3_uuid: '',
-                category4_uuid: '',
-                category5_uuid: ''
+                cat_department_uuid: '',
+                cat_section_uuid: '',
+                cat_category_uuid: '',
+                cat_manufacturer_uuid: '',
+                cat_item_type_uuid: '',
+                cat_brand_uuid: '',
+                cat_form_uuid: '',
+                cat_packing_type_uuid: '',
+                cat_sizes_uuid: ''
             }
 
         }
@@ -572,99 +617,179 @@ export default {
         },
 
 
-        getCategory1: function () {
+        getCatDepartment: function () {
            var scope = this
-            scope.GET('items/category1').then(res => {
+            scope.GET('items/cat-department').then(res => {
                 
                 res.rows.forEach(function (data) {
 
-                    scope.options_category1.push({
+                    scope.options_cat_department.push({
                         id: data.uuid,
-                        text: data.category1
+                        text: data.department
                     })
                 
                 })
 
-                $(".form-select-category-1").select2({data: scope.options_category1});
-                scope.selected_category1 = scope.options_category1[0].id
+                $(".form-select-cat-department").select2({data: scope.options_cat_department});
+                scope.selected_cat_department = scope.options_cat_department[0].id
                 
             })
 
         },
 
 
-        getCategory2: function () {
+        getCatSection: function () {
            var scope = this
-            scope.GET('items/category2').then(res => {
+            scope.GET('items/cat-section').then(res => {
                 
                 res.rows.forEach(function (data) {
 
-                    scope.options_category2.push({
+                    scope.options_cat_section.push({
                         id: data.uuid,
-                        text: data.category2
+                        text: data.section
                     })
                 
                 })
 
-                $(".form-select-category-2").select2({data: scope.options_category2});
-                scope.selected_category2 = scope.options_category2[0].id
+                $(".form-select-cat-section").select2({data: scope.options_cat_section});
+                scope.selected_cat_section = scope.options_cat_section[0].id
             })
 
         },
 
-        getCategory3: function () {
+        getCatCategory: function () {
            var scope = this
-            scope.GET('items/category3').then(res => {
+            scope.GET('items/cat-category').then(res => {
                 
                 res.rows.forEach(function (data) {
 
-                    scope.options_category3.push({
+                    scope.options_cat_category.push({
                         id: data.uuid,
-                        text: data.category3
+                        text: data.category
                     })
                 
                 })
 
-                $(".form-select-category-3").select2({data: scope.options_category3});
-                scope.selected_category3 = scope.options_category3[0].id
+                $(".form-select-cat-category").select2({data: scope.options_cat_category});
+                scope.selected_cat_category = scope.options_cat_category[0].id
             })
 
         },
 
-        getCategory4: function () {
+        getCatManufacturer: function () {
            var scope = this
-            scope.GET('items/category4').then(res => {
+            scope.GET('items/cat-manufacturer').then(res => {
                 
                 res.rows.forEach(function (data) {
 
-                    scope.options_category4.push({
+                    scope.options_cat_manufacturer.push({
                         id: data.uuid,
-                        text: data.category4
+                        text: data.manufacturer
                     })
                 
                 })
 
-                $(".form-select-category-4").select2({data: scope.options_category4});
-                scope.selected_category4 = scope.options_category4[0].id
+                $(".form-select-cat-manufacturer").select2({data: scope.options_cat_manufacturer});
+                scope.selected_cat_manufacturer = scope.options_cat_manufacturer[0].id
             })
 
         },
 
-        getCategory5: function () {
+        getCatItemType: function () {
            var scope = this
-            scope.GET('items/category5').then(res => {
+            scope.GET('items/cat-item-type').then(res => {
                 
                 res.rows.forEach(function (data) {
 
-                    scope.options_category5.push({
+                    scope.options_cat_item_type.push({
                         id: data.uuid,
-                        text: data.category5
+                        text: data.item_type
                     })
                 
                 })
 
-                $(".form-select-category-5").select2({data: scope.options_category5});
-                scope.selected_category5 = scope.options_category5[0].id
+                $(".form-select-cat-item-type").select2({data: scope.options_cat_item_type});
+                scope.selected_cat_item_type = scope.options_cat_item_type[0].id
+                
+            })
+
+        },
+
+        getCatBrand: function () {
+           var scope = this
+            scope.GET('items/cat-brand').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_cat_brand.push({
+                        id: data.uuid,
+                        text: data.brand
+                    })
+                
+                })
+
+                $(".form-select-cat-brand").select2({data: scope.options_cat_brand});
+                scope.selected_cat_brand = scope.options_cat_brand[0].id
+                
+            })
+
+        },
+
+        getCatForm: function () {
+           var scope = this
+            scope.GET('items/cat-form').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_cat_form.push({
+                        id: data.uuid,
+                        text: data.form
+                    })
+                
+                })
+
+                $(".form-select-cat-form").select2({data: scope.options_cat_form});
+                scope.selected_cat_form = scope.options_cat_form[0].id
+                
+            })
+
+        },
+
+        getCatPackingType: function () {
+           var scope = this
+            scope.GET('items/cat-packing-type').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_cat_packing_type.push({
+                        id: data.uuid,
+                        text: data.packing_type
+                    })
+                
+                })
+
+                $(".form-select-cat-packing-type").select2({data: scope.options_cat_packing_type});
+                scope.selected_cat_packing_type = scope.options_cat_packing_type[0].id
+                
+            })
+
+        },
+
+        getCatSizes: function () {
+           var scope = this
+            scope.GET('items/cat-sizes').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_cat_sizes.push({
+                        id: data.uuid,
+                        text: data.sizes
+                    })
+                
+                })
+
+                $(".form-select-cat-sizes").select2({data: scope.options_cat_sizes});
+                scope.selected_cat_sizes = scope.options_cat_sizes[0].id
                 
             })
 
@@ -796,11 +921,15 @@ export default {
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
             scope.formdata.item_asset_group_uuid = scope.selected_asset_group
 
-            scope.formdata.category1_uuid = scope.selected_category1
-            scope.formdata.category2_uuid = scope.selected_category2
-            scope.formdata.category3_uuid = scope.selected_category3
-            scope.formdata.category4_uuid = scope.selected_category4
-            scope.formdata.category5_uuid = scope.selected_category5
+            scope.formdata.cat_department_uuid = scope.selected_cat_department
+            scope.formdata.cat_section_uuid = scope.selected_cat_section
+            scope.formdata.cat_category_uuid = scope.selected_cat_category
+            scope.formdata.cat_manufacturer_uuid = scope.selected_cat_manufacturer
+            scope.formdata.cat_item_type_uuid = scope.selected_cat_item_type
+            scope.formdata.cat_brand_uuid = scope.selected_cat_brand
+            scope.formdata.cat_form_uuid = scope.selected_cat_form
+            scope.formdata.cat_packing_type_uuid = scope.selected_cat_packing_type
+            scope.formdata.cat_sizes_uuid = scope.selected_cat_sizes
 
             scope.formdata.item_uoms = scope.item_uoms
 
@@ -832,11 +961,15 @@ export default {
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
             scope.formdata.item_asset_group_uuid = scope.selected_asset_group
 
-            scope.formdata.category1_uuid = scope.selected_category1
-            scope.formdata.category2_uuid = scope.selected_category2
-            scope.formdata.category3_uuid = scope.selected_category3
-            scope.formdata.category4_uuid = scope.selected_category4
-            scope.formdata.category5_uuid = scope.selected_category5
+            scope.formdata.cat_department_uuid = scope.selected_cat_department
+            scope.formdata.cat_section_uuid = scope.selected_cat_section
+            scope.formdata.cat_category_uuid = scope.selected_cat_category
+            scope.formdata.cat_manufacturer_uuid = scope.selected_cat_manufacturer
+            scope.formdata.cat_item_type_uuid = scope.selected_cat_item_type
+            scope.formdata.cat_brand_uuid = scope.selected_cat_brand
+            scope.formdata.cat_form_uuid = scope.selected_cat_form
+            scope.formdata.cat_packing_type_uuid = scope.selected_cat_packing_type
+            scope.formdata.cat_sizes_uuid = scope.selected_cat_sizes
 
             scope.formdata.item_uoms = scope.item_uoms
 
@@ -961,20 +1094,32 @@ export default {
                     $('.form-select-cost-of-sales').val(data.coa_cos_account_uuid);
                     $('.form-select-cost-of-sales').trigger('change');
 
-                    $('.form-select-category-1').val(data.category1_uuid);
-                    $('.form-select-category-1').trigger('change');
+                    $('.form-select-cat-department').val(data.cat_department_uuid);
+                    $('.form-select-cat-department').trigger('change');
 
-                    $('.form-select-category-2').val(data.category2_uuid);
-                    $('.form-select-category-2').trigger('change');
+                    $('.form-select-cat-section').val(data.cat_section_uuid);
+                    $('.form-select-cat-section').trigger('change');
 
-                    $('.form-select-category-3').val(data.category3_uuid);
-                    $('.form-select-category-3').trigger('change');
+                    $('.form-select-cat-category').val(data.cat_category_uuid);
+                    $('.form-select-cat-category').trigger('change');
 
-                    $('.form-select-category-4').val(data.category4_uuid);
-                    $('.form-select-category-4').trigger('change');
+                    $('.form-select-cat-manufacturer').val(data.cat_manufacturer_uuid);
+                    $('.form-select-cat-manufacturer').trigger('change');
 
-                    $('.form-select-category-5').val(data.category5_uuid);
-                    $('.form-select-category-5').trigger('change');
+                    $('.form-select-cat-item-type').val(data.cat_item_type_uuid);
+                    $('.form-select-cat-item-type').trigger('change');
+
+                    $('.form-select-cat-brand').val(data.cat_brand_uuid);
+                    $('.form-select-cat-brand').trigger('change');
+
+                    $('.form-select-cat-form').val(data.cat_form_uuid);
+                    $('.form-select-cat-form').trigger('change');
+
+                    $('.form-select-cat-packing-type').val(data.cat_packing_type_uuid);
+                    $('.form-select-cat-packing-type').trigger('change');
+
+                     $('.form-select-cat-sizes').val(data.cat_sizes_uuid);
+                    $('.form-select-cat-sizes').trigger('change');
 
                     $('.form-select-asset-group').val(data.item_asset_group_uuid);
                     $('.form-select-asset-group').trigger('change');
@@ -991,11 +1136,17 @@ export default {
         scope.getSupplier()
         scope.getIncomeAccount()
         scope.getCostofSales()
-        scope.getCategory1()
-        scope.getCategory2()
-        scope.getCategory3()
-        scope.getCategory4()
-        scope.getCategory5()
+
+        scope.getCatDepartment()
+        scope.getCatSection()
+        scope.getCatCategory()
+        scope.getCatManufacturer()
+        scope.getCatItemType()
+        scope.getCatBrand()
+        scope.getCatForm()
+        scope.getCatPackingType()
+        scope.getCatSizes()
+
         scope.getAssetGroup()
 
         scope.getGlobalUoms()
@@ -1024,30 +1175,45 @@ export default {
             scope.selected_cost_of_sales = $('.form-select-cost-of-sales').val();
         })
 
-        $('.form-select-category-1').on("change", function(e) { 
-            scope.selected_category1 = $('.form-select-category-1').val();
+        $('.form-select-cat-department').on("change", function(e) { 
+            scope.selected_cat_department = $('.form-select-cat-department').val();
         })
 
-        $('.form-select-category-2').on("change", function(e) { 
-            scope.selected_category2 = $('.form-select-category-2').val();
+        $('.form-select-cat-section').on("change", function(e) { 
+            scope.selected_cat_section = $('.form-select-cat-section').val();
         })
 
-        $('.form-select-category-3').on("change", function(e) { 
-            scope.selected_category3 = $('.form-select-category-3').val();
+        $('.form-select-cat-category').on("change", function(e) { 
+            scope.selected_cat_category = $('.form-select-cat-category').val();
         })
 
-        $('.form-select-category-4').on("change", function(e) { 
-            scope.selected_category4 = $('.form-select-category-4').val();
+        $('.form-select-cat-manufacturer').on("change", function(e) { 
+            scope.selected_cat_manufacturer = $('.form-select-cat-manufacturer').val();
         })
 
-        $('.form-select-category-5').on("change", function(e) { 
-            scope.selected_category5 = $('.form-select-category-5').val();
+        $('.form-select-cat-item-type').on("change", function(e) { 
+            scope.selected_cat_item_type = $('.form-select-cat-item-type').val();
+        })
+
+        $('.form-select-cat-brand').on("change", function(e) { 
+            scope.selected_cat_brand = $('.form-select-cat-brand').val();
+        })
+
+        $('.form-select-cat-form').on("change", function(e) { 
+            scope.selected_cat_form = $('.form-select-cat-form').val();
+        })
+
+        $('.form-select-cat-packing-type').on("change", function(e) { 
+            scope.selected_cat_packing_type = $('.form-select-cat-packing-type').val();
+        })
+
+        $('.form-select-cat-sizes').on("change", function(e) { 
+            scope.selected_cat_sizes = $('.form-select-cat-sizes').val();
         })
 
         $('.form-select-asset-group').on("change", function(e) { 
             scope.selected_asset_group = $('.form-select-asset-group').val();
         })
-
 
 
         $('.form-select-customer-group').on("change", function(e) { 
