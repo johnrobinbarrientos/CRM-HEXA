@@ -194,7 +194,7 @@
                             </div>
 
                             <div class="tab-pane" id="check-payees">
-                                <supplier-check-payees :supplier_uuid="formdata.uuid" :properties="{view:false}"></supplier-check-payees>
+                                <supplier-check-payees :supplier_uuid="formdata.uuid" :view_mode="view_mode"></supplier-check-payees>
                             </div>
 
                             <div class="tab-pane" id="address"> 

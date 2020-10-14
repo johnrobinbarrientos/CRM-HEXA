@@ -1,5 +1,8 @@
 <template>
     <div>
+        <div v-show="show_preloader">
+            <Spinner />
+        </div>
         <div class="actions-bar">
             <div class="w-100">
                 <h1 class="title"><i class="las la-list-ul"></i> Supplier List</h1>
@@ -107,6 +110,8 @@ export default {
 
     data: function () {
         return {
+            show_preloader: true,
+
             supplierList: [],
             supplier_data: [],
             show_view: false,
@@ -186,7 +191,9 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getSupplierList() 
+        scope.getSupplierList()
+
+        setTimeout(function(){ scope.show_preloader = false },2000)
     },
 }
 </script>

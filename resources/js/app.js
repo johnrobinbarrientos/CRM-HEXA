@@ -32,8 +32,13 @@ import mixins from './utils/mixins'
 // components
 import App from './views/App'
 
+import Spinner from './views/components/Spinner'
+
 window.TOKEN_KEY = 'KX-HEXA'
 window.API_URL = '//'+ window.location.host +'/api'
+
+
+Vue.component('Spinner', Spinner)
 
 Vue.use(datePicker)
 Vue.use(Vuex) 

@@ -101,7 +101,6 @@
                                 </tr>
                             </template>
                             <tr>
-                                <!-- <td @click="addNewDiscount()" colspan="4" style="background:#efefef; text-align:center; cursor:pointer; font-weight:600;"><i class="bx bx-plus"></i> NEW DISCOUNT</td> -->
                                 <td style="text-align:center; cursor:pointer; font-weight:600; background:#efefef;" colspan="4" >
                                     <button @click="addNewDiscount()"  type="button" style="font-weight:600; background:transparent; border:none;" :disabled="view_mode"><i class="bx bx-plus"></i> New Discount</button>
                                 </td>

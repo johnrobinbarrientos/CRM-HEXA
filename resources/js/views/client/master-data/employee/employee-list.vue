@@ -134,7 +134,6 @@
 
 <script>
 import Swal from 'sweetalert2'
-import Spinner from '../../../components/Spinner'
 
 export default {
     name: 'employee-list',
@@ -152,9 +151,6 @@ export default {
             timer: null,
 
         }
-    },
-    components: { 
-        Spinner
     },
     computed: {
         listTotalPages: function () {

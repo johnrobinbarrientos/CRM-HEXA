@@ -20,12 +20,12 @@
                             <tr @click="selectPayee(payee)" v-bind:class="{'table-success' : (selected_payee && selected_payee.uuid === payee.uuid) }" style="cursor:pointer;" v-for="(payee,index) in payees" :key="index" >
                                 <td>
                                     <template v-if="payee.edit !== true">
-                                        <button @click="editPayee(payee)" class="btn btn-sm btn-light" role="button" :disabled="show_view"><i class="bx bx-pencil"></i></button>
-                                        <button class="btn btn-sm btn-danger" role="button"><i class="bx bx-trash-alt" :disabled="show_view"></i></button>
+                                        <button @click="editPayee(payee)" type="button" class="btn btn-sm btn-light" :disabled="view_mode"><i class="bx bx-pencil"></i></button>
+                                        <button type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
                                     </template>
                                     <template v-else>
-                                        <button type="button" @click="savePayee(payee)" class="btn btn-sm btn-primary" role="button" :disabled="show_view"><i class="bx bx-save"></i></button>
-                                        <button class="btn btn-sm btn-danger" role="button" :disabled="show_view"><i class="bx bx-trash-alt"></i></button>
+                                        <button  @click="savePayee(payee)" type="button" class="btn btn-sm btn-primary" :disabled="view_mode"><i class="bx bx-save"></i></button>
+                                        <button  type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
                                     </template>
                                 </td>
                                 <th scope="row" >
@@ -33,7 +33,7 @@
                                 </th>
                                 <td>
                                     <strong v-if="payee.edit !== true">{{ payee.check_payee }}</strong>
-                                    <input v-else v-model="payee.check_payee" class="form-control" type="text" placeholder="Enter check payee">
+                                    <input v-else v-model="payee.check_payee" class="form-control" type="text" placeholder="Enter check payee" :readonly="view_mode">
                                 </td>
                                 
                             </tr>
@@ -44,7 +44,10 @@
                                 </tr>
                             </template>
                             <tr>
-                                <td @click="addNewPayee()" colspan="3" style="background:#efefef; text-align:center; cursor:pointer; font-weight:600;"><i class="bx bx-plus"></i> New Payee</td>
+                                <!-- <td @click="addNewPayee()" colspan="3" style="background:#efefef; text-align:center; cursor:pointer; font-weight:600;"><i class="bx bx-plus"></i> New Payee</td> -->
+                                <td style="text-align:center; cursor:pointer; font-weight:600; background:#efefef;" colspan="3" >
+                                    <button @click="addNewPayee()"  type="button" style="font-weight:600; background:transparent; border:none;" :disabled="view_mode"><i class="bx bx-plus"></i>New Payee</button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -60,12 +63,11 @@ import Swal from 'sweetalert2'
 
 export default {
     name: 'supplier-check-payee',
-    props: ['properties','supplier_uuid'],
+    props: ['properties','supplier_uuid','view_mode'],
     data: function () {
         return {
             selected_payee: null,
-            payees: [],
-            show_view: false
+            payees: []
         }
     },
     methods: {
@@ -150,7 +152,6 @@ export default {
     mounted() {
         var scope = this
         scope.getPayees()
-        scope.show_view = scope.properties.view
     },
 }
 </script>

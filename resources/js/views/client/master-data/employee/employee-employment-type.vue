@@ -20,94 +20,85 @@
             </div>
         </div>
                 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-5">
 
-                    <div v-if="listLoading" class="text-center my-3 text-loader">
-                        <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
-                    </div>
+        <div v-if="listLoading" class="text-center my-3 text-loader">
+            <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
+        </div>
 
-                    <div class="table-responsive"> 
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th><span class="">Actions</span></th>
-                                    <th><span class="">#</span></th>
-                                    <th><span class="">Employment Type</span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(type, index) in employmentTypes" :key="type.uuid" class="tb-tnx-item">
-                                    <td width="100">
-                                        <span class="w-65px d-block mx-auto">
-                                            <a href="javascript:void(0)" @click="OPEN_MODAL('#modalEmploymentType');setData(type)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                            <a href="javascript:void(0)" @click="remove(type)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
-                                        </span>
-                                    </td>
-                                    <td width="100"><span class="">{{ (index + 1) }}</span></td>
-                                    <td><span class="">{{ type.employment_type }}</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th><span class="">Actions</span></th>
+                    <th><span class="">#</span></th>
+                    <th><span class="">Employment Type</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(type, index) in employmentTypes" :key="type.uuid" class="tb-tnx-item">
+                    <td width="100">
+                        <span class="w-65px d-block mx-auto">
+                            <a href="javascript:void(0)" @click="OPEN_MODAL('#modalEmploymentType');setData(type)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
+                            <a href="javascript:void(0)" @click="remove(type)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
+                        </span>
+                    </td>
+                    <td width="100"><span class="">{{ (index + 1) }}</span></td>
+                    <td><span class="">{{ type.employment_type }}</span></td>
+                </tr>
+            </tbody>
+        </table>
 
-                        <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
-                            <ul class="pagination">
-                                <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
-                                    <a href="javascript:void(0)" class="page-link" aria-label="Previous">
-                                        <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
-                                    </a>
-                                </li>
+        <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
+            <ul class="pagination">
+                <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
+                    <a href="javascript:void(0)" class="page-link" aria-label="Previous">
+                        <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
+                    </a>
+                </li>
 
-                                
-                                <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
-                                    <a href="javascript:void(0)" class="page-link">
-                                        {{ page }}
-                                    </a>
-                                </li>
-                                
-                                <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
-                                    <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
+                
+                <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
+                    <a href="javascript:void(0)" class="page-link">
+                        {{ page }}
+                    </a>
+                </li>
+                
+                <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
+                    <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
+                </li>
+            </ul>
+        </nav>
             
 
+        <!-- Modal Group Form -->
+        <div class="modal fade" tabindex="-1" id="modalEmploymentType">
+            <div class="modal-dialog modal-lg " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Employment Type Details</h5>
+                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalEmploymentType');" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="bx bx-x"></i>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <form action="#" class="form-validate is-alter">
 
-            <!-- Modal Group Form -->
-            <div class="modal fade" tabindex="-1" id="modalEmploymentType">
-                <div class="modal-dialog modal-lg " role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Employment Type Details</h5>
-                            <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalEmploymentType');" class="close" data-dismiss="modal" aria-label="Close">
-                                <i class="bx bx-x"></i>
-                            </a>
-                        </div>
-                        <div class="modal-body">
-                            <form action="#" class="form-validate is-alter">
-
-                                <div class="row">
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group">
-                                            <label class="form-label" for="employment-type">Employment Type</label>
-                                            <div class="form-control-wrap">
-                                                <input v-model="formdata.employment_type" type="text" class="form-control" id="employment-type" required>
-                                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="employment-type">Employment Type</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.employment_type" type="text" class="form-control" id="employment-type" required>
                                         </div>
                                     </div>
-                                    
-                                </div>                                    
+                                </div>
                                 
-                            </form>
-                        </div>
-                        <div class="modal-footer bg-light">
-                            <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
-                            <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
-                        </div>
+                            </div>                                    
+                            
+                        </form>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
+                        <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
                     </div>
                 </div>
             </div>
