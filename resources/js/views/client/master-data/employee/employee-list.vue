@@ -55,8 +55,7 @@
                             <td width="100">
                                 <span class="w-65px d-block mx-auto">
                                     <a href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid })" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                    <!-- <a href="javascript:void(0)" @click="remove(employee)" class="btn btn-sm btn-danger" title="Trash"><i class="mdi mdi-trash-can"></i></a> -->
-                                    <a href="javascript:void(0)" @click="OPEN_MODAL('#modalViewEmployee'); passEmployee(employee)" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
+                                    <a href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
                                 </span>
                             </td>
                             <td class="text-right">{{ (index + 1) }}</td>
@@ -129,30 +128,11 @@
 
             </div>
         </div>
-
-
-        <!-- Modal View Item -->
-        <div class="modal fade" tabindex="-1" id="modalViewEmployee">
-            <div class="modal-dialog modal-lg " role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Employee Details</h5>
-                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalViewEmployee'); closeView()" class="close" data-dismiss="modal" aria-label="Close">
-                            <i class="bx bx-x"></i>
-                        </a>
-                    </div>
-                    <div class="modal-body">
-                        <employee-view v-if="show_view" :properties="employee_data"></employee-view>
-                    </div>
-                </div>
-            </div>
-        </div>  
              
     </div>
 </template>
 
 <script>
-import EmployeeView from './employee-view'
 import Swal from 'sweetalert2'
 import Spinner from '../../../components/Spinner'
 
@@ -164,8 +144,6 @@ export default {
             show_preloader: true,
             
             employeeList: [],
-            employee_data: [],
-            show_view: false,
             listLoading: true,
             listCurrentPage: 1,
             listItemPerPage: 20,
@@ -176,8 +154,7 @@ export default {
         }
     },
     components: { 
-        Spinner,
-        'employee-view': EmployeeView     
+        Spinner
     },
     computed: {
         listTotalPages: function () {
@@ -187,16 +164,6 @@ export default {
         }
     },
     methods: {
-        passEmployee: function (employee) {
-            var scope = this
-            scope.employee_data = employee
-            scope.show_view = true
-        },
-        closeView: function () {
-            var scope = this
-            scope.show_view = false
-        },
-        
         getEmployeeList: function () {
             var scope = this
             scope.listLoading = true

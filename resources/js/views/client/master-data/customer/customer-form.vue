@@ -4,12 +4,19 @@
             <div class="card-body">
                     <div class="actions-bar">
                         <div class="w-100">
-                            <h1 class="title"><i class="las la-list-ul"></i> New Customer Details</h1>
+                            <h1 class="title"><i class="las la-list-ul"></i>Customer Details</h1>
                         </div>
                         <div class="bar-right">
-                            <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
-                            <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
-                            <a href="javascript:void(0)"  @click="ROUTE({path: '/customer-main/' })" class="hx-btn hx-btn-danger">Cancel</a> 
+                            <span v-if ="view_mode">
+                                <a @click="ROUTE({path: '/customers/' + formdata.uuid })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Edit</a>
+                                <a @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Delete</a>
+                                <a @click="ROUTE({path: '/customer-main/' })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Close</a>
+                            </span>
+                            <span v-else>
+                                <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
+                                <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
+                                <a @click="ROUTE({path: '/customer-main/' })" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>
+                            </span>
                         </div>
                     </div>
 
@@ -19,7 +26,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="sold-to-name">Sold To Name</label>
                                     <div class="form-control-wrap">
-                                        <input v-model="formdata.sold_to_name" type="text" class="form-control" id="sold-to-name" required>
+                                        <input v-model="formdata.sold_to_name" type="text" class="form-control" id="sold-to-name" :readonly="view_mode">
                                     </div>
                                 </div>
                             </div>
@@ -28,7 +35,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="business-group-name">Business Group Name</label>
                                     <div class="form-control-wrap">
-                                        <input v-model="formdata.business_group_name" type="text" class="form-control" id="business-group-name" required>
+                                        <input v-model="formdata.business_group_name" type="text" class="form-control" id="business-group-name" :readonly="view_mode">
                                     </div>
                                 </div>
                             </div>
@@ -37,7 +44,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="business-shortname">Business Shortname</label>
                                     <div class="form-control-wrap">
-                                        <input v-model="formdata.business_shortname" type="text" class="form-control" id="business-shortname" required>
+                                        <input v-model="formdata.business_shortname" type="text" class="form-control" id="business-shortname" :readonly="view_mode">
                                     </div>
                                 </div>
                             </div>
@@ -46,7 +53,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="tax_id">Tax ID</label>
                                     <div class="form-control-wrap">
-                                        <input v-model="formdata.tax_id_no" type="text" class="form-control" id="tax_id" required>
+                                        <input v-model="formdata.tax_id_no" type="text" class="form-control" id="tax_id" :readonly="view_mode">
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +61,7 @@
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
                                     <label class="form-label" for="customer-group">Customer Group</label>
-                                    <select class="form-select-customer-group" v-model="selected_customer_group" :options="options_customer_group" name="customer-group">
+                                    <select class="form-select-customer-group" v-model="selected_customer_group" :options="options_customer_group" name="customer-group" :disabled="view_mode">
                                     </select>
                                 </div>
                             </div>
@@ -63,7 +70,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="email">Email</label>
                                     <div class="form-control-wrap">
-                                        <input v-model="formdata.email" type="text" class="form-control" id="email" required>
+                                        <input v-model="formdata.email" type="text" class="form-control" id="email" :readonly="view_mode">
                                     </div>
                                 </div>
                             </div>
@@ -72,7 +79,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="contact-person">Contact Person</label>
                                     <div class="form-control-wrap">
-                                        <input v-model="formdata.contact_person" type="text" class="form-control" id="contact-person" required>
+                                        <input v-model="formdata.contact_person" type="text" class="form-control" id="contact-person" :readonly="view_mode">
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +88,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="contact-no">Contact No</label>
                                     <div class="form-control-wrap">
-                                        <input v-model="formdata.contact_no" type="text" class="form-control" id="contact-no" required>
+                                        <input v-model="formdata.contact_no" type="text" class="form-control" id="contact-no" :readonly="view_mode">
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +96,7 @@
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
                                     <label class="form-label" for="customer-chain">Customer Chain</label>
-                                    <select class="form-select-customer-chain" v-model="selected_customer_chain" :options="options_customer_chain" name="customer-chain">
+                                    <select class="form-select-customer-chain" v-model="selected_customer_chain" :options="options_customer_chain" name="customer-chain" :disabled="view_mode">
                                     </select>
                                 </div>
                             </div>
@@ -119,7 +126,7 @@
                                     <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <label class="form-label" for="recievables">Default Account Receivable</label>
-                                            <select class="form-select-recievables" v-model="selected_coa_recievable" :options="options_coa_recievable" name="recievables">
+                                            <select class="form-select-recievables" v-model="selected_coa_recievable" :options="options_coa_recievable" name="recievables" :disabled="view_mode">
                                             </select>
                                         </div>
                                     </div>
@@ -127,7 +134,7 @@
                                     <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" v-model="formdata.is_applied_vat" true-value="1" false-value="0" class="custom-control-input" id="is-applied-vat">
+                                                <input type="checkbox" v-model="formdata.is_applied_vat" true-value="1" false-value="0" class="custom-control-input" id="is-applied-vat" :disabled="view_mode">
                                                 <label class="custom-control-label" for="is-applied-vat">Applied VAT?</label>
                                             </div>
                                         </div>
@@ -136,7 +143,7 @@
                                     <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <label class="form-label" for="payment-term">Payment Term</label>
-                                            <select class="form-select-payment-term" v-model="selected_payment_term" :options="options_payment_term" name="payment-term">
+                                            <select class="form-select-payment-term" v-model="selected_payment_term" :options="options_payment_term" name="payment-term" :disabled="view_mode">
                                             </select>
                                         </div>
                                     </div>
@@ -146,7 +153,7 @@
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" v-model="is_vat" value="1" class="custom-control-input" id="is-vat">
+                                                        <input type="checkbox" v-model="is_vat" value="1" class="custom-control-input" id="is-vat" :disabled="view_mode">
                                                         <label class="custom-control-label" for="is-vat">Is Vat?</label>
                                                     </div>
                                                 </div>
@@ -156,7 +163,7 @@
                                                 <div class="col-md-4 col-12">
                                                     <div class="form-group">
                                                         <label class="form-label" for="vat">Tax</label>
-                                                        <select class="form-select-vat" v-model="selected_vat" :options="options_vat" name="vat">
+                                                        <select class="form-select-vat" v-model="selected_vat" :options="options_vat" name="vat" :disabled="view_mode">
                                                         </select>
                                                     </div>
                                                 </div>
@@ -179,7 +186,7 @@
                                                     <div class="form-group">
                                                         <label class="form-label" for="discount-name">Discount Name</label>
                                                         <div class="form-control-wrap">
-                                                            <input v-model="customerDiscountFormData.discount_name" type="text" class="form-control" id="discount-name" required>
+                                                            <input v-model="customerDiscountFormData.discount_name" type="text" class="form-control" id="discount-name" :readonly="view_mode">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -188,15 +195,15 @@
                                                     <div class="form-group">
                                                         <label class="form-label" for="discount-rate">Discount Rate</label>
                                                         <div class="form-control-wrap">
-                                                            <input v-model="customerDiscountFormData.discount_rate" type="text" class="form-control" id="discount-rate" required>
+                                                            <input v-model="customerDiscountFormData.discount_rate" type="text" class="form-control" id="discount-rate" :readonly="view_mode">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 col-12">
                                                     <div style="padding:10px 0px; text-align:right;">
-                                                        <button v-if="customerDiscountFormData.uuid !== null" @click="updateCustomerDiscount()" type="button" class="btn btn-lg btn-primary">Update</button>
-                                                        <button v-if="customerDiscountFormData.uuid === null && customerDiscountFormData.index !== null "  @click="saveTempCustomerDiscount()" type="button" class="btn btn-lg btn-primary">Update</button>
-                                                        <button v-if="customerDiscountFormData.uuid === null && customerDiscountFormData.index === null " @click="saveTempCustomerDiscount()" type="button" class="btn btn-lg btn-primary">Add</button>
+                                                        <button v-if="customerDiscountFormData.uuid !== null" @click="updateCustomerDiscount()" type="button" class="btn btn-lg btn-primary" :disabled="view_mode">Update</button>
+                                                        <button v-if="customerDiscountFormData.uuid === null && customerDiscountFormData.index !== null "  @click="saveTempCustomerDiscount()" type="button" class="btn btn-lg btn-primary" :disabled="view_mode">Update</button>
+                                                        <button v-if="customerDiscountFormData.uuid === null && customerDiscountFormData.index === null " @click="saveTempCustomerDiscount()" type="button" class="btn btn-lg btn-primary" :disabled="view_mode">Add</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -217,16 +224,16 @@
                                                             <td>{{ tempCustomerDiscount.discount_name }}</td>
                                                             <td>{{ tempCustomerDiscount.discount_rate }}</td>
                                                             <td>
-                                                                <a href="javascript:void(0);" @click="editTempCustomerDiscount(index)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
-                                                                <a href="javascript:void(0);" @click="removeTempCustomerDiscount(index)" class="btn btn-sm btn-danger"><em class="icon ni ni-cross"></em></a>
+                                                                <button @click="editTempCustomerDiscount(index)" type="button" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></button>
+                                                                <button @click="removeTempCustomerDiscount(index)" type="button" class="btn btn-sm btn-danger"><em class="icon ni ni-cross"></em></button>
                                                             </td>
                                                         </tr>
                                                         <tr v-for="(customerDiscount, index) in customerDiscounts" :key="index">
                                                             <td>{{ customerDiscount.discount_name }}</td>
                                                             <td>{{ customerDiscount.discount_rate }}</td>
                                                             <td>
-                                                                <a href="javascript:void(0);" @click="editCustomerDiscount(customerDiscount, index)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></a>
-                                                                <a href="javascript:void(0);" @click="removeCustomerDiscount(customerDiscount, index)" class="btn btn-sm btn-danger"><em class="icon ni ni-cross"></em></a>
+                                                                <button @click="editCustomerDiscount(customerDiscount, index)" class="btn btn-sm btn-light"><em class="icon ni ni-pen2"></em></button>
+                                                                <button @click="removeCustomerDiscount(customerDiscount, index)" class="btn btn-sm btn-danger"><em class="icon ni ni-cross"></em></button>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -241,7 +248,7 @@
                                     <div class="col-md-3 col-12">
                                         <div class="form-group">
                                             <label class="form-label" for="customer-channel">Customer Channel</label>
-                                            <select class="form-select-customer-channel" v-model="selected_customer_channel" :options="options_customer_channel" name="customer-channel">
+                                            <select class="form-select-customer-channel" v-model="selected_customer_channel" :options="options_customer_channel" name="customer-channel" :disabled="view_mode">
                                             </select>
                                         </div>
                                     </div>
@@ -249,7 +256,7 @@
                                     <div class="col-md-3 col-12">
                                         <div class="form-group">
                                             <label class="form-label" for="customer-type">Customer Type</label>
-                                            <select class="form-select-customer-type" v-model="selected_customer_type" :options="options_customer_type" name="customer-type">
+                                            <select class="form-select-customer-type" v-model="selected_customer_type" :options="options_customer_type" name="customer-type" :disabled="view_mode">
                                             </select>
                                         </div>
                                     </div>
@@ -263,14 +270,14 @@
                                         <div class="form-group">
                                             <label class="form-label" for="address1">Purok/Street/Zone</label>
                                             <div class="form-control-wrap">
-                                                <input v-model="formdata.address1" type="text" class="form-control" id="address1" required>
+                                                <input v-model="formdata.address1" type="text" class="form-control" id="address1" :readonly="view_mode">
                                             </div>
                                         </div>
                                     </div>
                 
                                     <div class="col-md-3 col-12">
                                         <div class="form-group">
-                                            <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list">
+                                            <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list" :disabled="view_mode">
                                             </select>
                                         </div>
                                     </div>
@@ -334,7 +341,7 @@ import Swal from 'sweetalert2'
 
 export default {
     name: 'customer-list',
-    props: ['properties'],
+    props: ['properties','view_mode'],
     data: function () {
         return {
             selected_customer_group: null,

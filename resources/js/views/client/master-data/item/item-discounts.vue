@@ -14,7 +14,7 @@
                                     <tr :key="discount_group.id" v-bind:class="{'table-success' : discount_group.selected}">
                                         <th width="40" colspan="1">
                                             <div class="form-check mb-3">
-                                                <input @change="selectGroup(discount_group)" v-model="discount_group.selected" class="form-check-input" type="checkbox" :id="'check-' + discount_group.id" value="" :disabled="show_view">
+                                                <input @change="selectGroup(discount_group)" v-model="discount_group.selected" class="form-check-input" type="checkbox" :id="'check-' + discount_group.id" value="" :disabled="view_mode">
                                             </div>
                                         </th>
                                         <th colspan="2">{{ discount_group.group_name }}</th>
@@ -33,19 +33,19 @@
                     <tbody>
                         <template v-for="supplier in suppliers" v-if="hasSelected(supplier)">
                             <tr class="table-info" :key="'supplier' + supplier.id"><th  colspan="2" >{{ supplier.business_name }}</th></tr>
-                            <template v-for="discount_group in supplier.discount_groups" v-if="discount_group.selected">
-                                <tr  class="table-success" :key="'group' + discount_group.id">
-                                    <th style="padding-left:50px;" colspan="2" >{{ discount_group.group_name }}</th>
-                                </tr>
-                                <tr :key="'discount' + discount.id" v-for="(discount,index2) in discount_group.discounts" >
-                                    <th style="padding-left:60px;"><i class="mdi mdi-arrow-right"></i> &nbsp; {{ discount.discount_name }}</th>
-                                    <th class="text-right">{{ parseFloat(discount.discount_rate).toFixed(2) }}%</th>
-                                </tr>
-                                <tr>
-                                    <th class="text-right">Total:</th>
-                                    <th class="text-right">{{ totalRate(discount_group) }}%</th>
-                                </tr>
-                            </template>
+                                <template v-for="discount_group in supplier.discount_groups" v-if="discount_group.selected">
+                                    <tr  class="table-success" :key="'group' + discount_group.id">
+                                        <th style="padding-left:50px;" colspan="2" >{{ discount_group.group_name }}</th>
+                                    </tr>
+                                    <tr :key="'discount' + discount.id" v-for="(discount,index2) in discount_group.discounts" >
+                                        <th style="padding-left:60px;"><i class="mdi mdi-arrow-right"></i> &nbsp; {{ discount.discount_name }}</th>
+                                        <th class="text-right">{{ parseFloat(discount.discount_rate).toFixed(2) }}%</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-right">Total:</th>
+                                        <th class="text-right">{{ totalRate(discount_group) }}%</th>
+                                    </tr>
+                                </template>
                         </template>
                         <tr>
                             <th class="text-right">Grand Total:</th>
@@ -64,11 +64,10 @@ import Swal from 'sweetalert2'
 
 export default {
     name: 'item-discounts',
-    props: ['properties'],
+    props: ['properties', 'view_mode'],
     data: function () {
         return {
-            suppliers: [],
-            show_view: false
+            suppliers: []
         }
     },
     computed: {
@@ -172,8 +171,6 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.show_view = scope.properties.view
-        
     },
 }
 </script>

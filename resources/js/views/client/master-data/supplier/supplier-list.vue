@@ -46,7 +46,7 @@
                         <td width="100">
                             <span class="w-65px d-block mx-auto">
                                 <a href="javascript:void(0)" @click="ROUTE({path: '/suppliers/' + supplier.uuid })" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalViewSupplier'); passSupplier(supplier)" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
+                                <a href="javascript:void(0)" @click="ROUTE({path: '/suppliers/' + supplier.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
                             </span>
                         </td>
                         <td><span class="">{{ (index + 1) }}</span></td>
@@ -95,28 +95,10 @@
             </nav>
         </div>
 
-        <!-- Modal View Item -->
-            <div class="modal fade" tabindex="-1" id="modalViewSupplier">
-                <div class="modal-dialog modal-lg " role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Supplier Details</h5>
-                            <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalViewSupplier'); closeView()" class="close" data-dismiss="modal" aria-label="Close">
-                                <i class="bx bx-x"></i>
-                            </a>
-                        </div>
-                        <div class="modal-body">
-                            <supplier-view v-if="show_view" :properties="supplier_data"></supplier-view>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
     </div>
 </template>
 
 <script>
-import SupplierView from './supplier-view'
 import Swal from 'sweetalert2'
 
 export default {
@@ -136,9 +118,6 @@ export default {
             timer: null
         }
     },
-    components: {
-        'supplier-view': SupplierView
-    },
     computed: {
         listTotalPages: function () {
             var scope = this
@@ -147,15 +126,6 @@ export default {
         }
     },
     methods: {
-        passSupplier: function (supplier) {
-            var scope = this
-            scope.supplier_data = supplier
-            scope.show_view = true
-        },
-        closeView: function () {
-            var scope = this
-            scope.show_view = false
-        },
         getSupplierList: function () {
             var scope = this
             scope.listLoading = true

@@ -194,6 +194,7 @@ img.header-profile-user { background: #fff; }
 .actions-bar h1.title   { font-size: 20px; display: flex; align-items: center; margin-bottom: 0; }
 .actions-bar h1.title i { font-size: 24px; margin-right: 5px; }
 .actions-bar .bar-right { display: flex; gap: 5px; justify-content: flex-end; width: 100%; }
+.actions-bar .bar-right span { display: flex; gap: 5px; justify-content: flex-end; width: 100%; }
 .actions-bar .bar-right input { width: 220px; }
 
 /* utilities */

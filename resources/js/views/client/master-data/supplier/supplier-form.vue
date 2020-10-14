@@ -5,12 +5,19 @@
 
                 <div class="actions-bar">
                     <div class="w-100">
-                        <h1 class="title">New Supplier Details</h1>
+                        <h1 class="title">Supplier Details</h1>
                     </div>
                     <div class="bar-right">
-                        <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
-                        <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
-                        <a href="javascript:void(0)"  @click="ROUTE({path: '/supplier-main/' })" class="hx-btn hx-btn-danger">Cancel</a> 
+                        <span v-if ="view_mode">
+                            <a @click="ROUTE({path: '/suppliers/' + formdata.uuid })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Edit</a>
+                            <a @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Delete</a>
+                            <a @click="ROUTE({path: '/supplier-main/' })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Close</a>
+                        </span>
+                        <span v-else>
+                            <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
+                            <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
+                            <a @click="ROUTE({path: '/supplier-main/' })" class="hx-btn hx-btn-danger" href="javascript:void(0)" >Cancel</a>
+                        </span> 
                     </div>
                 </div>
 
@@ -21,7 +28,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="business-name">Business Name</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.business_name" type="text" class="form-control" id="business-name" required>
+                                    <input v-model="formdata.business_name" type="text" class="form-control" id="business-name" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
@@ -30,7 +37,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="business-shortname">Business Shortname</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.business_shortname" type="text" class="form-control" id="business-shortname" required>
+                                    <input v-model="formdata.business_shortname" type="text" class="form-control" id="business-shortname" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
@@ -39,7 +46,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="check-payee">Check Payee</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.check_payee" type="text" class="form-control" id="check-payee" required>
+                                    <input v-model="formdata.check_payee" type="text" class="form-control" id="check-payee" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
@@ -47,7 +54,7 @@
                             <div class="form-group">
                                 <div class="form-control-wrap">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" v-model="formdata.is_transporter" true-value="1" false-value="0" class="custom-control-input" id="is-transporter">
+                                        <input type="checkbox" v-model="formdata.is_transporter" true-value="1" false-value="0" class="custom-control-input" id="is-transporter" :disabled="view_mode">
                                         <label class="custom-control-label" for="is-transporter">Is Transporter?</label>
                                     </div>
                                 </div>
@@ -57,14 +64,14 @@
                             <div class="form-group">
                                 <label class="form-label" for="lead-time">Lead Time (Days)</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.lead_time" type="text" class="form-control" id="lead-time" required>
+                                    <input v-model="formdata.lead_time" type="text" class="form-control" id="lead-time" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="group-name">Group Name</label>
-                                <select class="form-select-supplier-group" v-model="selected_supplier_group" :options="options_supplier_group" name="supplier-group">
+                                <select class="form-select-supplier-group" v-model="selected_supplier_group" :options="options_supplier_group" name="supplier-group" :disabled="view_mode">
                                 </select>
                             </div>
                         </div>
@@ -72,7 +79,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="email">Email</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.email" type="text" class="form-control" id="email" required>
+                                    <input v-model="formdata.email" type="text" class="form-control" id="email" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
@@ -80,7 +87,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="contact-no">Contact No</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.contact_no" type="text" class="form-control" id="contact-no" required>
+                                    <input v-model="formdata.contact_no" type="text" class="form-control" id="contact-no" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
@@ -89,7 +96,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="tax-identification-no">Tax Identification No</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.tax_identification_no" type="text" class="form-control" id="tax-identification-no" required>
+                                    <input v-model="formdata.tax_identification_no" type="text" class="form-control" id="tax-identification-no" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
@@ -120,7 +127,7 @@
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="payables">Default Account Payable</label>
-                                        <select class="form-select-payables" v-model="selected_payables" :options="options_payables" name="payables">
+                                        <select class="form-select-payables" v-model="selected_payables" :options="options_payables" name="payables" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
@@ -128,7 +135,7 @@
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="payment-term">Payment Term</label>
-                                        <select class="form-select-payment-term" v-model="selected_payment_term" :options="options_payment_term" name="payment-term">
+                                        <select class="form-select-payment-term" v-model="selected_payment_term" :options="options_payment_term" name="payment-term" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
@@ -139,7 +146,7 @@
                                         <div class="form-group">
                                             <div class="form-control-wrap">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" v-model="with_vat" class="custom-control-input" id="with-vat">
+                                                    <input type="checkbox" v-model="with_vat" class="custom-control-input" id="with-vat" :disabled="view_mode">
                                                     <label class="custom-control-label" for="with-vat">With VAT?</label>
                                                 </div>
                                             </div>
@@ -149,7 +156,7 @@
                                             <div class="col-md-4 col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="vat">VAT</label>
-                                                    <select class="form-select-vat" v-model="selected_vat" :options="options_vat" name="vat">
+                                                    <select class="form-select-vat" v-model="selected_vat" :options="options_vat" name="vat" :disabled="view_mode">
                                                     </select>
                                                 </div>
                                             </div>
@@ -162,7 +169,7 @@
                                         <div class="form-group">
                                             <div class="form-control-wrap">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" v-model="with_ewt" value="1" class="custom-control-input" id="with-ewt">
+                                                    <input type="checkbox" v-model="with_ewt" value="1" class="custom-control-input" id="with-ewt" :disabled="view_mode">
                                                     <label class="custom-control-label" for="with-ewt">With EWT?</label>
                                                 </div>
                                             </div>
@@ -172,7 +179,7 @@
                                             <div class="col-md-4 col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="ewt">EWT</label>
-                                                    <select class="form-select-ewt" v-model="selected_ewt" :options="options_ewt" name="ewt">
+                                                    <select class="form-select-ewt" v-model="selected_ewt" :options="options_ewt" name="ewt" :disabled="view_mode">
                                                     </select>
                                                 </div>
                                             </div>
@@ -183,7 +190,7 @@
                             </div>
 
                             <div class="tab-pane" id="discounts">
-                                <SupplierDiscounts v-if="formdata.uuid" :supplier_uuid="formdata.uuid" :properties="{view:false}"></SupplierDiscounts>
+                                <SupplierDiscounts v-if="formdata.uuid" :supplier_uuid="formdata.uuid" :view_mode="view_mode"></SupplierDiscounts>
                             </div>
 
                             <div class="tab-pane" id="check-payees">
@@ -196,14 +203,14 @@
                                     <div class="form-group">
                                         <label class="form-label" for="address1">Purok/Street/Zone</label>
                                         <div class="form-control-wrap">
-                                            <input v-model="formdata.address1" type="text" class="form-control" id="address1" required>
+                                            <input v-model="formdata.address1" type="text" class="form-control" id="address1" :readonly="view_mode">
                                         </div>
                                     </div>
                                 </div>
                 
                                 <div class="col-md-3 col-12">
                                     <div class="form-group">
-                                        <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list">
+                                        <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
@@ -272,7 +279,7 @@ import SupplierCheckPayees from './supplier-check-payees'
 
 export default {
     name: 'supplier-list',
-    props: ['properties'],
+    props: ['properties','view_mode'],
 
     data: function () {
         return {

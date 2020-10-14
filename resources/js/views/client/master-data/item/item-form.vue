@@ -7,9 +7,16 @@
                         <h1 class="title">Item Details</h1>
                     </div>
                     <div class="bar-right">
-                        <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
-                        <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
-                        <a href="javascript:void(0)"  @click="ROUTE({path: '/item-main/' })" class="hx-btn hx-btn-danger">Cancel</a> 
+                        <span v-if ="view_mode">
+                            <a @click="ROUTE({path: '/items/' + formdata.uuid })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Edit</a>
+                            <a @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Delete</a>
+                            <a @click="ROUTE({path: '/item-main/' })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Close</a>
+                        </span>
+                        <span v-else>
+                            <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
+                            <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
+                            <a @click="ROUTE({path: '/item-main/' })" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>
+                        </span>
                     </div>
                 </div>
 
@@ -19,7 +26,7 @@
                         <div class="col-md-3 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="item-group">Item Group</label>
-                                <select class="form-select-item-group" v-model="selected_item_group" :options="options_item_group" name="item-group">
+                                <select class="form-select-item-group" v-model="selected_item_group" :options="options_item_group" name="item-group" :disabled="view_mode">
                                 </select>
                             </div>
                         </div>
@@ -28,7 +35,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="item-code">Item Code</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.item_code" type="text" class="form-control" id="item-code" required>
+                                    <input v-model="formdata.item_code" type="text" class="form-control" id="item-code" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
@@ -36,7 +43,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="item-description">Item Description</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.item_description" type="text" class="form-control" id="item-description" required>
+                                    <input v-model="formdata.item_description" type="text" class="form-control" id="item-description" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
@@ -44,7 +51,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="item-shortname">Shortname</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.item_shortname" type="text" class="form-control" id="item-shortname" required>
+                                    <input v-model="formdata.item_shortname" type="text" class="form-control" id="item-shortname" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
@@ -52,7 +59,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="item-barcode">Item Barcode</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.item_barcode" type="text" class="form-control" id="item-barcode" required>
+                                    <input v-model="formdata.item_barcode" type="text" class="form-control" id="item-barcode" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
@@ -60,14 +67,14 @@
                             <div class="form-group">
                                 <label class="form-label" for="item-cs-barcode-code">Case/Box Barcode</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.cs_barcode" type="text" class="form-control" id="item-cs-barcode-code" required>
+                                    <input v-model="formdata.cs_barcode" type="text" class="form-control" id="item-cs-barcode-code" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="supplier">Supplier Name</label>
-                                <select class="form-select-suppliers" v-model="selected_suppliers" :options="options_supplier" name="supplier"  multiple="multiple">
+                                <select class="form-select-suppliers" v-model="selected_suppliers" :options="options_supplier" name="supplier"  multiple="multiple" :disabled="view_mode">
                                 </select>
                             </div>
                         </div>
@@ -76,7 +83,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="reorder-qty">Re-Order Qty</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.reorder_qty" type="text" class="form-control" id="reorder-qty" required>
+                                    <input v-model="formdata.reorder_qty" type="text" class="form-control" id="reorder-qty" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
@@ -84,7 +91,7 @@
                             <div class="form-group">
                                 <div class="form-control-wrap">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" v-model="formdata.is_expiry" value="1" class="custom-control-input" id="is-expiry">
+                                        <input type="checkbox" v-model="formdata.is_expiry" value="1" class="custom-control-input" id="is-expiry" :disabled="view_mode">
                                         <label class="custom-control-label" for="is-expiry">Is Expiry?</label>
                                     </div>
                                 </div>
@@ -95,7 +102,7 @@
                             <div class="form-group">
                                 <div class="form-control-wrap">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" v-model="formdata.is_maintain_stock" value="1" class="custom-control-input" id="is-maintain-stock">
+                                        <input type="checkbox" v-model="formdata.is_maintain_stock" value="1" class="custom-control-input" id="is-maintain-stock" :disabled="view_mode">
                                         <label class="custom-control-label" for="is-maintain-stock">Maintain Stock?</label>
                                     </div>
                                 </div>
@@ -106,7 +113,7 @@
                             <div class="form-group">
                                 <div class="form-control-wrap">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" v-model="formdata.is_active" value="1" class="custom-control-input" id="is-active">
+                                        <input type="checkbox" v-model="formdata.is_active" value="1" class="custom-control-input" id="is-active" :disabled="view_mode">
                                         <label class="custom-control-label" for="is-active">Is Active?</label>
                                     </div>
                                 </div>
@@ -143,7 +150,7 @@
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="income-account">Income Account</label>
-                                        <select class="form-select-income-account" v-model="selected_income_account" :options="options_income_account" name="income-account">
+                                        <select class="form-select-income-account" v-model="selected_income_account" :options="options_income_account" name="income-account" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
@@ -151,7 +158,7 @@
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="cost-of-sales">Cost Of Sales</label>
-                                        <select class="form-select-cost-of-sales" v-model="selected_cost_of_sales" :options="options_cost_of_sales" name="cost-of-sales">
+                                        <select class="form-select-cost-of-sales" v-model="selected_cost_of_sales" :options="options_cost_of_sales" name="cost-of-sales" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
@@ -160,7 +167,7 @@
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" v-model="formdata.without_vat" value="1" class="custom-control-input" id="without-vat">
+                                                        <input type="checkbox" v-model="formdata.without_vat" value="1" class="custom-control-input" id="without-vat" :disabled="view_mode">
                                                         <label class="custom-control-label" for="without-vat">Without VAT</label>
                                                     </div>
                                                 </div>
@@ -173,63 +180,63 @@
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="cat-department">Department</label>
-                                        <select class="form-select-cat-department" v-model="selected_cat_department" :options="options_cat_department" name="cat-department">
+                                        <select class="form-select-cat-department" v-model="selected_cat_department" :options="options_cat_department" name="cat-department" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="cat-section">Section</label>
-                                        <select class="form-select-cat-section" v-model="selected_cat_section" :options="options_cat_section" name="cat-section">
+                                        <select class="form-select-cat-section" v-model="selected_cat_section" :options="options_cat_section" name="cat-section" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="cat-category">Category</label>
-                                        <select class="form-select-cat-category" v-model="selected_cat_category" :options="options_cat_category" name="cat-category">
+                                        <select class="form-select-cat-category" v-model="selected_cat_category" :options="options_cat_category" name="cat-category" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="cat-manufacturer">Manufacturer</label>
-                                        <select class="form-select-cat-manufacturer" v-model="selected_cat_manufacturer" :options="options_cat_manufacturer" name="cat-manufacturer">
+                                        <select class="form-select-cat-manufacturer" v-model="selected_cat_manufacturer" :options="options_cat_manufacturer" name="cat-manufacturer" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="cat-item-type">Item Type</label>
-                                        <select class="form-select-cat-item-type" v-model="selected_cat_item_type" :options="options_cat_item_type" name="cat-item-type">
+                                        <select class="form-select-cat-item-type" v-model="selected_cat_item_type" :options="options_cat_item_type" name="cat-item-type" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="cat-brand">Brand</label>
-                                        <select class="form-select-cat-brand" v-model="selected_cat_brand" :options="options_cat_brand" name="cat-brand">
+                                        <select class="form-select-cat-brand" v-model="selected_cat_brand" :options="options_cat_brand" name="cat-brand" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="cat-form">Form</label>
-                                        <select class="form-select-cat-form" v-model="selected_cat_form" :options="options_cat_form" name="cat-form">
+                                        <select class="form-select-cat-form" v-model="selected_cat_form" :options="options_cat_form" name="cat-form" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="cat-packing-type">Packing Type</label>
-                                        <select class="form-select-cat-packing-type" v-model="selected_cat_packing_type" :options="options_cat_packing_type" name="cat-packing-type">
+                                        <select class="form-select-cat-packing-type" v-model="selected_cat_packing_type" :options="options_cat_packing_type" name="cat-packing-type" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="cat-sizes">Sizes</label>
-                                        <select class="form-select-cat-sizes" v-model="selected_cat_sizes" :options="options_cat_sizes" name="cat-sizes">
+                                        <select class="form-select-cat-sizes" v-model="selected_cat_sizes" :options="options_cat_sizes" name="cat-sizes" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>    
@@ -252,17 +259,17 @@
                                                     <tr v-for="(item_uom, index) in item_uoms" :key="item_uom.uuid" v-bind:class="{'table-success' : index == 0}">
                                                         <td class="editable">
                                                             <span>{{ getGlobalUOMName(item_uom.uuid) }}</span>
-                                                            <select v-if="index === 0" v-model="item_uom.uuid" class="editable-control">
+                                                            <select v-if="index === 0" v-model="item_uom.uuid" class="editable-control" :disabled="view_mode">
                                                                 <option v-for="uom in globalBaseUOM" :key="'base-' + uom.uuid" :value="uom.uuid">{{ uom.uom}}</option>
                                                             </select>
-                                                            <select v-else v-model="item_uom.uuid" class="editable-control">
+                                                            <select v-else v-model="item_uom.uuid" class="editable-control" :disabled="view_mode">
                                                                 <option value="PACK">Select a UOM</option>
                                                                 <option v-for="uom in globalNonBaseUOM" v-if="!itemUomExists(uom.uuid) || uom.uuid == item_uom.uuid" :key="'pack-' + uom.uuid" :value="uom.uuid">{{ uom.uom}}</option>
                                                             </select>
                                                         </td>
 
                                                         <td  v-if="index !== 0" class="editable text-right">
-                                                            <input v-model="item_uom.packing" type="text" class="editable-control">
+                                                            <input v-model="item_uom.packing" type="text" class="editable-control" :readonly="view_mode">
                                                             <span>{{ item_uom.packing }}</span>
                                                         </td>
                                                         <td v-else class="text-right">
@@ -270,14 +277,16 @@
                                                         </td>
 
                                                         <td v-if="index !== 0">
-                                                            <a @click="removeItemUom(index)" href="javascript:void(0)" class="btn btn-sm btn-danger waves-effect"><i class="mdi mdi-trash-can"></i></a>
+                                                            <button @click="removeItemUom(index)" type="button" class="btn btn-sm btn-danger waves-effect" :disabled="view_mode"><i class="mdi mdi-trash-can"></i></button>
                                                         </td>
                                                         <td v-else>
                                                             <span>N/A</span>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td @click="addItemUom()" style="text-align:center; cursor:pointer; font-weight:600;" colspan="3">NEW UOM</td>
+                                                        <td style="text-align:center; cursor:pointer; font-weight:600;" colspan="3">
+                                                            <button @click="addItemUom()"  type="button" style="font-weight:600; background:transparent; border:none;" :disabled="view_mode">New UOM</button>
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -292,7 +301,7 @@
                                         <div class="form-group">
                                             <div class="form-control-wrap">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" v-model="formdata.is_purchase_item" value="1" class="custom-control-input" id="is-purchase-item">
+                                                    <input type="checkbox" v-model="formdata.is_purchase_item" value="1" class="custom-control-input" id="is-purchase-item" :disabled="view_mode">
                                                     <label class="custom-control-label" for="is-purchase-item">Is Purchase Item?</label>
                                                 </div>
                                             </div>
@@ -303,7 +312,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label" for="purchase-price">Purchase Price</label>
                                                     <div class="form-control-wrap">
-                                                        <input v-model="formdata.purchase_price" type="text" class="form-control" id="purchase-price" required>
+                                                        <input v-model="formdata.purchase_price" type="text" class="form-control" id="purchase-price" :readonly="view_mode">
                                                     </div>
                                                 </div>
                                             </div>
@@ -313,7 +322,7 @@
                                                     <div class="form-group">
                                                         <div class="form-control-wrap">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" v-model="formdata.is_sales_item" value="1" class="custom-control-input" id="is-sales-item">
+                                                                <input type="checkbox" v-model="formdata.is_sales_item" value="1" class="custom-control-input" id="is-sales-item" :disabled="view_mode">
                                                                 <label class="custom-control-label" for="is-sales-item">Is Sales Item?</label>
                                                             </div>
                                                         </div>
@@ -325,7 +334,7 @@
                                                             <div class="form-group">
                                                                 <label class="form-label" for="sales-price">Sales Price</label>
                                                                 <div class="form-control-wrap">
-                                                                    <input v-model="formdata.sales_price" type="text" class="form-control" id="sales-price" required>
+                                                                    <input v-model="formdata.sales_price" type="text" class="form-control" id="sales-price" :readonly="view_mode">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -345,7 +354,7 @@
                                                                     <label class="custom-control-label" for="manual-compute">Manual</label>
                                                                 </div>  
                                                                 <div class="form-control-wrap">
-                                                                    <input v-model="input_markup_rate" :disabled="isDisabledManual" type="text" class="form-control" id="mark-up-rate" required>
+                                                                    <input v-model="input_markup_rate" :disabled="isDisabledManual" type="text" class="form-control" id="mark-up-rate" :readonly="view_mode">
                                                                     <button @click="computePrice()" :disabled="isDisabledManual" type="button" class="btn btn-lg btn-primary">Apply</button>
                                                                 </div>
                                                             </div>
@@ -379,7 +388,7 @@
                                 <div class="col-md-3 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="asset-group">Asset Group</label>
-                                        <select class="form-select-asset-group" v-model="selected_asset_group" :options="options_asset_group" name="asset-group">
+                                        <select class="form-select-asset-group" v-model="selected_asset_group" :options="options_asset_group" name="asset-group" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>   
@@ -388,7 +397,7 @@
 
 
                             <div class="tab-pane" id="supplier-discounts">
-                                <item-discounts :properties="{data:formdata, view:false}" ref="itemDiscounts"></item-discounts>
+                                <item-discounts :properties="{data:formdata}" :view_mode="view_mode" ref="itemDiscounts"></item-discounts>
                             </div>   
                         </div>
                 </form>
@@ -404,7 +413,7 @@ import ItemDiscounts from './item-discounts'
 
 export default {
     name: 'item-list',
-    props: ['properties'],
+    props: ['properties','view_mode'],
     data: function () {
         return {
             selected_item_group: null,
