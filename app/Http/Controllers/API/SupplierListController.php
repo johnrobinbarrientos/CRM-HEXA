@@ -22,8 +22,8 @@ class SupplierListController extends Controller
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;
             $list = $list->where(function($query) use ($keyword) {
-                $query->where('business_name','LIKE','%'.$keyword.'%')
-                    ->orWhere('business_shortname','LIKE','%'.$keyword.'%')
+                $query->where('supplier_name','LIKE','%'.$keyword.'%')
+                    ->orWhere('supplier_shortname','LIKE','%'.$keyword.'%')
                     ->orWhere('tax_identification_no','LIKE','%'.$keyword.'%');
             });
         }

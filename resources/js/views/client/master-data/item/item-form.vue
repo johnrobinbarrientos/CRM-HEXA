@@ -591,7 +591,7 @@ export default {
 
                     scope.options_supplier.push({
                         id: data.uuid,
-                        text: data.business_shortname
+                        text: data.supplier_shortname
                     })
                 
                 })
