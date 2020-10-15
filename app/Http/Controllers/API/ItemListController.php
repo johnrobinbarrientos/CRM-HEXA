@@ -30,7 +30,6 @@ class ItemListController extends Controller
             $list = $list->where(function($query) use ($keyword) {
                 $query->where('item_code','LIKE','%'.$keyword.'%')
                     ->orWhere('item_barcode','LIKE','%'.$keyword.'%')
-                    ->orWhere('cs_barcode','LIKE','%'.$keyword.'%')
                     ->orWhere('item_description','LIKE','%'.$keyword.'%')
                     ->orWhere('item_shortname','LIKE','%'.$keyword.'%');
             });
@@ -81,7 +80,7 @@ class ItemListController extends Controller
         $item->item_group_uuid = request()->item_group_uuid;
         $item->item_code = request()->item_code;
         $item->item_barcode = request()->item_barcode;
-        $item->cs_barcode = request()->cs_barcode;
+        $item->global_base_uom_uuid = request()->global_base_uom_uuid;
         $item->item_description = request()->item_description;
         $item->item_shortname = request()->item_shortname;
         $item->is_purchase_item = request()->is_purchase_item;

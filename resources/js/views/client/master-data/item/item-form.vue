@@ -49,6 +49,23 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="item-barcode">Item Barcode</label>
+                                <div class="form-control-wrap">
+                                    <input v-model="formdata.item_barcode" type="text" class="form-control" id="item-barcode" :readonly="view_mode">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="base-uom">Base UOM</label>
+                                <select class="form-select-base-uom" v-model="selected_base_uom" :options="options_base_uom" name="base-uom" :disabled="view_mode">
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-md-3 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="item-description">Item Description</label>
@@ -62,22 +79,6 @@
                                 <label class="form-label" for="item-shortname">Shortname</label>
                                 <div class="form-control-wrap">
                                     <input v-model="formdata.item_shortname" type="text" class="form-control" id="item-shortname" :readonly="view_mode">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="item-barcode">Item Barcode</label>
-                                <div class="form-control-wrap">
-                                    <input v-model="formdata.item_barcode" type="text" class="form-control" id="item-barcode" :readonly="view_mode">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="item-cs-barcode-code">Case/Box Barcode</label>
-                                <div class="form-control-wrap">
-                                    <input v-model="formdata.cs_barcode" type="text" class="form-control" id="item-cs-barcode-code" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
@@ -254,6 +255,7 @@
                             </div>
 
                             <div class="tab-pane" id="unit-of-measure">
+
                                 <div class="row">
                                     <div class="col-md-4 col-12">
                                         <div style="padding:20px 0px;">
@@ -472,6 +474,9 @@ export default {
             selected_customer_group: null,
             options_customer_group: [],
 
+            selected_base_uom: null,
+            options_base_uom: [],
+
             input_markup_rate: '',
             customer_markup_rate: '',
 
@@ -494,7 +499,7 @@ export default {
                 item_group_uuid: '', 
                 item_code: '', 
                 item_barcode: '',
-                cs_barcode: '',
+                global_base_uom_uuid: '',
                 item_description: '',
                 item_shortname: '',
 
@@ -814,6 +819,26 @@ export default {
 
         },
 
+        getGlobalBaseUOM: function () {
+           var scope = this
+            scope.GET('globals/base-uom').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_base_uom.push({
+                        id: data.uuid,
+                        text: data.uom
+                    })
+                
+                })
+
+                $(".form-select-base-uom").select2({data: scope.options_base_uom});
+                scope.selected_base_uom = scope.options_base_uom[0].id
+                
+            })
+
+        },
+
         getAssetGroup: function () {
            var scope = this
            
@@ -940,6 +965,8 @@ export default {
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
             scope.formdata.item_asset_group_uuid = scope.selected_asset_group
 
+            scope.formdata.global_base_uom_uuid = scope.selected_base_uom
+
             scope.formdata.cat_department_uuid = scope.selected_cat_department
             scope.formdata.cat_section_uuid = scope.selected_cat_section
             scope.formdata.cat_category_uuid = scope.selected_cat_category
@@ -979,6 +1006,8 @@ export default {
             scope.formdata.coa_income_account_uuid = scope.selected_income_account
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
             scope.formdata.item_asset_group_uuid = scope.selected_asset_group
+
+            scope.formdata.global_base_uom_uuid = scope.selected_base_uom
 
             scope.formdata.cat_department_uuid = scope.selected_cat_department
             scope.formdata.cat_section_uuid = scope.selected_cat_section
@@ -1074,7 +1103,6 @@ export default {
                     scope.formdata.is_draft = data.is_draft
                     scope.formdata.item_code = data.item_code
                     scope.formdata.item_barcode = data.item_barcode
-                    scope.formdata.cs_barcode = data.cs_barcode
                     scope.formdata.item_description = data.item_description
                     scope.formdata.item_shortname = data.item_shortname
                     scope.formdata.is_purchase_item = data.is_purchase_item
@@ -1143,6 +1171,9 @@ export default {
                     $('.form-select-asset-group').val(data.item_asset_group_uuid);
                     $('.form-select-asset-group').trigger('change');
 
+                    $('.form-select-base-uom').val(data.global_base_uom_uuid);
+                    $('.form-select-base-uom').trigger('change');
+
                 }
                 
             })
@@ -1169,6 +1200,8 @@ export default {
         scope.getAssetGroup()
 
         scope.getGlobalUoms()
+
+        scope.getGlobalBaseUOM()
         
         scope.getCustomerGroup()
 
@@ -1232,6 +1265,10 @@ export default {
 
         $('.form-select-asset-group').on("change", function(e) { 
             scope.selected_asset_group = $('.form-select-asset-group').val();
+        })
+
+        $('.form-select-base-uom').on("change", function(e) { 
+            scope.selected_base_uom = $('.form-select-base-uom').val();
         })
 
 

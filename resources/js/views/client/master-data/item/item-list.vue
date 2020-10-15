@@ -72,7 +72,7 @@
                             <td>
                                 <span v-if="item.suppliers.length > 0">
                                     <span v-for="item_supplier in item.suppliers" :key="item_supplier.uuid">
-                                        <span  class="badge badge-dim badge-outline-secondary">{{ item_supplier.supplier.business_shortname }}</span> &nbsp;
+                                        <span  class="badge badge-dim badge-outline-secondary">{{ item_supplier.supplier.supplier_shortname }}</span> &nbsp;
                                     </span>
                                 </span>
                                 <span v-else>

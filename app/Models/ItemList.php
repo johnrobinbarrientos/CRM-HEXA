@@ -12,7 +12,7 @@ class ItemList extends Model
     protected $table = 'item_list';
 
     protected $fillable = [
-        'uuid','company_id','item_group_uuid','item_code','item_barcode','cs_barcode','item_description','item_shortname',
+        'uuid','company_id','item_group_uuid','item_code','item_barcode','global_base_uom_uuid','item_description','item_shortname',
         'is_purchase_item','purchase_price','is_sales_item','sales_price','manual_rate','customer_group_uuid',
         'option_rate','is_expiry','without_vat','is_maintain_stock','is_active','coa_income_account_uuid','coa_cos_account_uuid',
         'reorder_qty','item_asset_group_uuid','cat_department_uuid','cat_section_uuid','cat_category_uuid','cat_manufacturer_uuid','cat_item_type_uuid',
