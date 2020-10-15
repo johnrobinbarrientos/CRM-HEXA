@@ -107,164 +107,168 @@
                     </div>
 
                     <br/>
-                    <ul class="nav nav-tabs">    
-                            <li class="nav-item">        
-                                <a class="nav-link active" data-toggle="tab" href="#account">Financial Account</a>    
-                            </li>    
-                            <li class="nav-item">        
-                                <a v-if="formdata.uuid === null" class="nav-link disabled" data-toggle="tab" href="#discounts">Discounts</a> 
-                                <a v-else class="nav-link" data-toggle="tab" href="#discounts">Discounts</a>   
-                            </li>
-                            <li class="nav-item">        
-                                <a class="nav-link" data-toggle="tab" href="#check-payees">Check Payees</a>    
-                            </li>
-                            <li class="nav-item">        
-                                <a class="nav-link" data-toggle="tab" href="#address">Address</a>    
-                            </li>     
-                        </ul>
+                    <div style="border: 1px solid #ced4da; border-radius: .25rem;">
+                        <ul class="nav nav-tabs nav-tabs-custom" style="border-color: #eee;">   
+                                <li class="nav-item">        
+                                    <a class="nav-link active" data-toggle="tab" href="#account">Financial Account</a>    
+                                </li>    
+                                <li class="nav-item">        
+                                    <a v-if="formdata.uuid === null" class="nav-link disabled" data-toggle="tab" href="#discounts">Discounts</a> 
+                                    <a v-else class="nav-link" data-toggle="tab" href="#discounts">Discounts</a>   
+                                </li>
+                                <li class="nav-item">        
+                                    <a class="nav-link" data-toggle="tab" href="#check-payees">Check Payees</a>    
+                                </li>
+                                <li class="nav-item">        
+                                    <a class="nav-link" data-toggle="tab" href="#address">Address</a>    
+                                </li>     
+                            </ul>
 
-                        <div class="tab-content">    
-                            <div class="tab-pane active" id="account">
+                            <div class="tab-content">    
+                                <div class="tab-pane active" id="account">
+                            
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="payables">Default Account Payable</label>
+                                            <select class="form-select-payables" v-model="selected_payables" :options="options_payables" name="payables" :disabled="view_mode">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="payment-term">Payment Term</label>
+                                            <select class="form-select-payment-term" v-model="selected_payment_term" :options="options_payment_term" name="payment-term" :disabled="view_mode">
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-12" style="margin-left: 12px;">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" v-model="with_vat" class="custom-control-input" id="with-vat" :disabled="view_mode">
+                                                        <label class="custom-control-label" for="with-vat">With VAT?</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div v-show="with_vat" class="row">
+                                                <div class="col-md-4 col-12" style="margin-left: 12px;">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="vat">VAT</label>
+                                                        <select class="form-select-vat" v-model="selected_vat" :options="options_vat" name="vat" :disabled="view_mode">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12" style="margin-left: 12px;">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" v-model="with_ewt" value="1" class="custom-control-input" id="with-ewt" :disabled="view_mode">
+                                                        <label class="custom-control-label" for="with-ewt">With EWT?</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div v-show="with_ewt" class="row">
+                                                <div class="col-md-4 col-12" style="margin-left: 12px;">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="ewt">EWT</label>
+                                                        <select class="form-select-ewt" v-model="selected_ewt" :options="options_ewt" name="ewt" :disabled="view_mode">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="tab-pane" id="discounts">
+                                    <SupplierDiscounts v-if="formdata.uuid" :supplier_uuid="formdata.uuid" :view_mode="view_mode"></SupplierDiscounts>
+                                </div>
+
+                                <div class="tab-pane" id="check-payees">
+                                    <supplier-check-payees :supplier_uuid="formdata.uuid" :view_mode="view_mode"></supplier-check-payees>
+                                </div>
+
+                                <div class="tab-pane" id="address"> 
+                    
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="address1"><strong>Purok/Street/Zone</strong></label>
+                                            <div class="form-control-wrap">
+                                                <input v-model="formdata.address1" type="text" class="form-control" id="address1" :readonly="view_mode">
+                                            </div>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="address-list"><strong>Select Address</strong></label>
+                                            <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list" :disabled="view_mode">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <br/>
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="barangay"><strong>Barangay:</strong><small style="color: #999; font-style: italic">(Auto Fill)</small></label>
+                                            <div class="form-control-wrap">
+                                                <input v-model="barangay" type="text" class="form-control" id="barangay" readonly="true">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="city-municipality"><strong>City/Municipality:</strong><small style="color: #999; font-style: italic">(Auto Fill)</small></label>
+                                            <div class="form-control-wrap">
+                                                <input v-model="city_municipality" type="text" class="form-control" id="city-municipality" readonly="true">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="province"><strong>Province:</strong><small style="color: #999; font-style: italic">(Auto Fill)</small></label>
+                                            <div class="form-control-wrap">
+                                                <input v-model="province" type="text" class="form-control" id="province" readonly="true">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="region"><strong>Region:</strong><small style="color: #999; font-style: italic">(Auto Fill)</small></label>
+                                            <div class="form-control-wrap">
+                                                <input v-model="region" type="text" class="form-control" id="region" readonly="true">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="postal-code"><strong>Postal Code:</strong><small style="color: #999; font-style: italic">(Auto Fill)</small></label>
+                                            <div class="form-control-wrap">
+                                                <input v-model="postal_code" type="text" class="form-control" id="postal-code" readonly="true">
+                                            </div>
+                                        </div>
+                                    </div>
                         
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="payables">Default Account Payable</label>
-                                        <select class="form-select-payables" v-model="selected_payables" :options="options_payables" name="payables" :disabled="view_mode">
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="payment-term">Payment Term</label>
-                                        <select class="form-select-payment-term" v-model="selected_payment_term" :options="options_payment_term" name="payment-term" :disabled="view_mode">
-                                        </select>
-                                    </div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <div class="form-control-wrap">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" v-model="with_vat" class="custom-control-input" id="with-vat" :disabled="view_mode">
-                                                    <label class="custom-control-label" for="with-vat">With VAT?</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div v-show="with_vat" class="row">
-                                            <div class="col-md-4 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="vat">VAT</label>
-                                                    <select class="form-select-vat" v-model="selected_vat" :options="options_vat" name="vat" :disabled="view_mode">
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <div class="form-control-wrap">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" v-model="with_ewt" value="1" class="custom-control-input" id="with-ewt" :disabled="view_mode">
-                                                    <label class="custom-control-label" for="with-ewt">With EWT?</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div v-show="with_ewt" class="row">
-                                            <div class="col-md-4 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="ewt">EWT</label>
-                                                    <select class="form-select-ewt" v-model="selected_ewt" :options="options_ewt" name="ewt" :disabled="view_mode">
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
+                                </div>     
                             </div>
-
-                            <div class="tab-pane" id="discounts">
-                                <SupplierDiscounts v-if="formdata.uuid" :supplier_uuid="formdata.uuid" :view_mode="view_mode"></SupplierDiscounts>
-                            </div>
-
-                            <div class="tab-pane" id="check-payees">
-                                <supplier-check-payees :supplier_uuid="formdata.uuid" :view_mode="view_mode"></supplier-check-payees>
-                            </div>
-
-                            <div class="tab-pane" id="address"> 
-                
-                                <div class="col-md-3 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="address1">Purok/Street/Zone</label>
-                                        <div class="form-control-wrap">
-                                            <input v-model="formdata.address1" type="text" class="form-control" id="address1" :readonly="view_mode">
-                                        </div>
-                                    </div>
-                                </div>
-                
-                                <div class="col-md-3 col-12">
-                                    <div class="form-group">
-                                        <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list" :disabled="view_mode">
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="barangay">Barangay</label>
-                                        <div class="form-control-wrap">
-                                            <label class="form-label" for="barangay">{{barangay}}</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="city-municipality">City/Municipality</label>
-                                        <div class="form-control-wrap">
-                                            <label class="form-label" for="city-municipality">{{city_municipality}}</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="province">Province</label>
-                                        <div class="form-control-wrap">
-                                            <label class="form-label" for="province">{{province}}</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="region">Region</label>
-                                        <div class="form-control-wrap">
-                                            <label class="form-label" for="region">{{region}}</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="postal-code">Postal Code</label>
-                                        <div class="form-control-wrap">
-                                            <label class="form-label" for="postal-code">{{postal_code}}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                    
-                            </div>     
                         </div>
-                    
                 </form>     
                 </div>
             </div>

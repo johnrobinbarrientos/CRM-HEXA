@@ -1,9 +1,7 @@
 <template>
     <div>
         <br/>
-        <br/>
-
-        <div class="row">
+        <div class="row" style="margin-left: 12px;">
             <div class="col-md-5 col-12">
                 <div v-for="supplier in suppliers" :key="supplier.id" >
                     <div style="background:#cee6fb; color:#404040; padding:8px 12px;">{{ supplier.business_name }}</div>

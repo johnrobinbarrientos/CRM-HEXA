@@ -175,7 +175,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                        <div class="col-12">
+                                        <div class="col-12" style="margin-left: 12px;">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
                                                     <div class="custom-control custom-checkbox">
@@ -258,9 +258,9 @@
                             <div class="tab-pane" id="unit-of-measure">
 
                                 <div class="row">
-                                    <div class="col-md-4 col-12">
+                                    <div class="col-md-4 col-12" style="margin-left: 12px;">
                                         <div style="padding:20px 0px;">
-                                            <table class="table mb-0 table-striped table-bordered">
+                                            <table class="table mb-0 table-striped table-bordered" style="margin-left: 12px;">
                                                 <thead>
                                                     <tr>
                                                         <th>UOM</th>
@@ -878,7 +878,7 @@ export default {
 
                     scope.options_customer_group.push({
                         id: data.uuid,
-                        text: data.group_name + ' with ' + parseFloat(data.markup_rate).toFixed(0) + '%' + ' markup rate',
+                        text: parseFloat(data.markup_rate).toFixed(0) + '%' + ' - ' + data.group_name ,
                         markup_rate: data.markup_rate
                     })
                 

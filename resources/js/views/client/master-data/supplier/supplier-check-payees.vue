@@ -1,12 +1,11 @@
 <template>
     <div>
         <br/>
-        <br/>
         <div class="row">
             <div class="col-md-4 col-12">
-                <div class="card-title">Check Payees</div>
+                <div class="card-title" style="margin-left: 12px;">Check Payees</div>
                 <div class="table-responsive">
-                    <table class="table  table-striped table-bordered table-hover mb-0 table">
+                    <table class="table  table-striped table-bordered table-hover mb-0 table" style="margin-left: 12px;">
                         <thead>
                             <tr>
                                 <th width="90">Actions</th>
@@ -44,7 +43,6 @@
                                 </tr>
                             </template>
                             <tr>
-                                <!-- <td @click="addNewPayee()" colspan="3" style="background:#efefef; text-align:center; cursor:pointer; font-weight:600;"><i class="bx bx-plus"></i> New Payee</td> -->
                                 <td style="text-align:center; cursor:pointer; font-weight:600; background:#efefef;" colspan="3" >
                                     <button @click="addNewPayee()"  type="button" style="font-weight:600; background:transparent; border:none;" :disabled="view_mode"><i class="bx bx-plus"></i>New Payee</button>
                                 </td>

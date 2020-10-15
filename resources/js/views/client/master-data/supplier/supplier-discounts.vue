@@ -1,12 +1,11 @@
 <template>
     <div>
         <br/>
-        <br/>
         <div class="row">
-            <div class="col-md-4 col-12">
-                <div class="card-title">Discount Groups</div>
+            <div class="col-md-4 col-12" >
+                <div class="card-title" style="margin-left: 12px;">Discount Groups</div>
                 <div class="table-responsive">
-                    <table class="table  table-striped table-bordered table-hover mb-0 table">
+                    <table class="table  table-striped table-bordered table-hover mb-0 table" style="margin-left: 12px;">
                         <thead>
                             <tr>
                                 <th width="90">Actions</th>
