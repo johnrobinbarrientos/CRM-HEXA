@@ -16,7 +16,6 @@
                                 <div class="d-flex align-items-center">
                                     <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none mr-1" placeholder="Search">
                                     <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
-                                        <option value="1">1</option>
                                         <option value="10">10</option>
                                         <option value="20">20</option>
                                         <option value="30">30</option>

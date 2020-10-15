@@ -10,7 +10,6 @@
             <div class="bar-right">
                 <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
                 <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
-                    <option value="1">1</option>
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
@@ -32,9 +31,8 @@
                     <tr>
                         <th>Actions</th>
                         <th>#</th>
-                        <th>Business Name</th>
-                        <th>Business Shortname</th>
-                        <th>Check Payee</th>
+                        <th>Supplier Name</th>
+                        <th>Supplier Shortname</th>
                         <th>Is Transporter?</th>
                         <th>Lead Time (Days)</th>
                         <th>Group Name</th>
@@ -53,9 +51,8 @@
                             </span>
                         </td>
                         <td><span class="">{{ (index + 1) }}</span></td>
-                        <td><span class="">{{supplier.business_name}}</span></td>
-                        <td><span class="">{{supplier.business_shortname}}</span></td>
-                        <td><span class="">{{supplier.check_payee}}</span></td>
+                        <td><span class="">{{supplier.supplier_name}}</span></td>
+                        <td><span class="">{{supplier.supplier_shortname}}</span></td>
                         <td v-if="supplier.is_transporter === 1">Yes</td>
                         <td v-else>No</td>
                         <td class="text-right">{{supplier.lead_time}}</td>

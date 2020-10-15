@@ -35,40 +35,22 @@
                     <div class="row">
                         <div class="col-md-3 col-12">
                             <div class="form-group">
-                                <label class="form-label" for="business-name">Business Name</label>
+                                <label class="form-label" for="supplier-name">Supplier Name</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.business_name" type="text" class="form-control" id="business-name" :readonly="view_mode">
+                                    <input v-model="formdata.supplier_name" type="text" class="form-control" id="supplier-name" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
                         
                         <div class="col-md-3 col-12">
                             <div class="form-group">
-                                <label class="form-label" for="business-shortname">Business Shortname</label>
+                                <label class="form-label" for="supplier-shortname">Supplier Shortname</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.business_shortname" type="text" class="form-control" id="business-shortname" :readonly="view_mode">
+                                    <input v-model="formdata.supplier_shortname" type="text" class="form-control" id="supplier-shortname" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="check-payee">Check Payee</label>
-                                <div class="form-control-wrap">
-                                    <input v-model="formdata.check_payee" type="text" class="form-control" id="check-payee" :readonly="view_mode">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <div class="form-control-wrap">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" v-model="formdata.is_transporter" true-value="1" false-value="0" class="custom-control-input" id="is-transporter" :disabled="view_mode">
-                                        <label class="custom-control-label" for="is-transporter">Is Transporter?</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="col-md-3 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="lead-time">Lead Time (Days)</label>
@@ -79,17 +61,17 @@
                         </div>
                         <div class="col-md-3 col-12">
                             <div class="form-group">
-                                <label class="form-label" for="group-name">Group Name</label>
-                                <select class="form-select-supplier-group" v-model="selected_supplier_group" :options="options_supplier_group" name="supplier-group" :disabled="view_mode">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
                                 <label class="form-label" for="email">Email</label>
                                 <div class="form-control-wrap">
                                     <input v-model="formdata.email" type="text" class="form-control" id="email" :readonly="view_mode">
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="group-name">Group Name</label>
+                                <select class="form-select-supplier-group" v-model="selected_supplier_group" :options="options_supplier_group" name="supplier-group" :disabled="view_mode">
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-3 col-12">
@@ -106,6 +88,17 @@
                                 <label class="form-label" for="tax-identification-no">Tax Identification No</label>
                                 <div class="form-control-wrap">
                                     <input v-model="formdata.tax_identification_no" type="text" class="form-control" id="tax-identification-no" :readonly="view_mode">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <div class="form-control-wrap">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" v-model="formdata.is_transporter" true-value="1" false-value="0" class="custom-control-input" id="is-transporter" :disabled="view_mode">
+                                        <label class="custom-control-label" for="is-transporter">Is Transporter?</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -310,8 +303,6 @@ export default {
             selected_global_address: null,
             options_global_address: [],
 
-            show_form: false,
-
             with_vat: 0,
             with_ewt: 0,
             barangay: '',
@@ -325,9 +316,8 @@ export default {
             formdata: { 
                 uuid: null,
                 is_draft: 1,
-                business_name: '', 
-                business_shortname: '', 
-                check_payee: '',
+                supplier_name: '', 
+                supplier_shortname: '', 
                 tax_identification_no: '',
                 supplier_group_uuid: '',
                 lead_time: '',
@@ -352,10 +342,6 @@ export default {
         'supplier-check-payees': SupplierCheckPayees
     },
     methods: {
-        toggleForm() {
-            var scope = this
-            scope.show_form = !scope.show_form
-        },
         getPayables: function () {
            var scope = this
             scope.GET('company/chart-of-accounts-payables').then(res => {
@@ -498,47 +484,32 @@ export default {
                 }
             }
         },
-        setData: function (data) {
+
+        save: function () {
             var scope = this
-            scope.$set(scope.formdata,data)
 
+            scope.formdata.supplier_group_uuid = scope.selected_supplier_group
+            scope.formdata.payment_term_uuid = scope.selected_payment_term
+            scope.formdata.vat_uuid = scope.selected_vat
+            scope.formdata.ewt_uuid = scope.selected_ewt
+            scope.formdata.coa_payable_account_uuid = scope.selected_payables
+            scope.formdata.global_address_uuid = scope.selected_global_address
 
-            if (data.vat_uuid!=null){
-                scope.with_vat = 1
-            }else{
-                scope.with_vat = 0
-            }
-
-            if (data.ewt_uuid!=null){
-                scope.with_ewt = 1
-            }else{
-                scope.with_ewt = 0
-            }
-            
-
-           
-
-            $('.form-select-supplier-group').val(scope.formdata.supplier_group_uuid);
-            $('.form-select-supplier-group').trigger('change');
-
-            $('.form-select-vat').val(scope.formdata.vat_uuid);
-            $('.form-select-vat').trigger('change');
-
-            $('.form-select-ewt').val(scope.formdata.ewt_uuid);
-            $('.form-select-ewt').trigger('change');
-
-            $('.form-select-payment-term').val(scope.formdata.payment_term_uuid);
-            $('.form-select-payment-term').trigger('change');
-
-            $('.form-select-payables').val(scope.formdata.coa_payable_account_uuid);
-            $('.form-select-payables').trigger('change');
-
-    
-            $('.form-select-address-list').val(scope.formdata.global_address_uuid);
-            $('.form-select-address-list').trigger('change');
-
-
-           
+            scope.PUT('suppliers/supplier-list', scope.formdata).then(res => {
+                if (res.success) {
+                    window.swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Supplier Successfuly Saved',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        scope.ROUTE({path: '/supplier-main/'})
+                    })
+                } else {
+                    alert('ERROR:' + res.code)
+                }
+            })
         },
         update: function () {
             var scope = this
@@ -568,8 +539,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                                scope.getSupplierList()
-                                scope.toggleForm()
+                                scope.ROUTE({path: '/supplier-main/'})
                             })
                         } else {
                             alert('ERROR:' + res.code)
@@ -589,9 +559,8 @@ export default {
                 if (data.is_draft=== 0) {
 
                     scope.formdata.is_draft = data.is_draft
-                    scope.formdata.business_name = data.business_name
-                    scope.formdata.business_shortname = data.business_shortname
-                    scope.formdata.check_payee = data.check_payee
+                    scope.formdata.supplier_name = data.supplier_name
+                    scope.formdata.supplier_shortname = data.supplier_shortname
                     scope.formdata.tax_identification_no = data.tax_identification_no
                     scope.formdata.lead_time = data.lead_time
                     scope.formdata.is_transporter = data.is_transporter

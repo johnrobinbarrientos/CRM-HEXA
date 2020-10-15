@@ -72,9 +72,8 @@ class SupplierListController extends Controller
 
         $auth = \Auth::user();
         $supplier->company_id = $auth->company_id;
-        $supplier->business_name = request()->business_name;
-        $supplier->business_shortname = request()->business_shortname;
-        $supplier->check_payee = request()->check_payee;
+        $supplier->supplier_name = request()->supplier_name;
+        $supplier->supplier_shortname = request()->supplier_shortname;
         $supplier->tax_identification_no = request()->tax_identification_no;
         $supplier->vat_uuid = request()->vat_uuid;
         $supplier->ewt_uuid = request()->ewt_uuid;
