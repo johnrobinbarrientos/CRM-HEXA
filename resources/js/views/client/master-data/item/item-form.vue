@@ -123,7 +123,8 @@
                     </div>
 
                     <br/>
-                    <ul class="nav nav-tabs nav-tabs-custom">    
+                    <div style="border: 1px solid #ced4da; border-radius: .25rem;">
+                        <ul class="nav nav-tabs nav-tabs-custom" style="border-color: #eee;">    
                             <li class="nav-item">        
                                 <a class="nav-link active" data-toggle="tab" href="#account">Financial Account</a>    
                             </li>    
@@ -295,93 +296,100 @@
                                 </div>
                             </div>   
 
-                            <div class="tab-pane" id="pricing"> 
+                            <div class="tab-pane" id="pricing" style="padding: 0 15px 15px;"> 
                                 <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <div class="form-control-wrap">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" v-model="formdata.is_purchase_item" value="1" class="custom-control-input" id="is-purchase-item" :disabled="view_mode">
-                                                    <label class="custom-control-label" for="is-purchase-item">Is Purchase Item?</label>
+                                    <div class="col-md-12">
+                                        
+                                        <div class="d-flex">
+                                            <div>
+                                                <div class="form-group" style="height: 100%; margin: 0 !important; display: flex; align-items: center;">
+                                                    <div class="form-control-wrap">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" v-model="formdata.is_purchase_item" value="1" class="custom-control-input" id="is-purchase-item" :disabled="view_mode">
+                                                            <label class="custom-control-label" for="is-purchase-item">Is Purchase Item?</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div v-show="formdata.is_purchase_item">
+                                                <div class="d-flex">
+                                                    <div class="d-flex align-items-center ml-3 mr-3">
+                                                        <i class="fas fa-long-arrow-alt-right" style="font-size: 24px; color: var(--warning);"></i>
+                                                    </div>
+                                                    <div class="form-group" style="display: flex; align-items: center; margin:0 !important;">
+                                                        <label class="form-label m-0 mr-2" for="purchase-price">Price <small style="color: red; font-style: italic">(*required):</small></label>
+                                                        <div class="form-control-wrap">
+                                                            <input v-model="formdata.purchase_price" type="text" class="form-control" id="purchase-price" :readonly="view_mode" required>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div v-show="formdata.is_purchase_item" class="row">
 
-                                            <div class="col-md-3 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="purchase-price">Purchase Price</label>
+                                        <div v-show="formdata.is_purchase_item">
+                                            <hr>
+                                            <div class="d-flex">
+                                                <div class="form-group" style="display: flex; align-items: center; margin: 0 !important;">
                                                     <div class="form-control-wrap">
-                                                        <input v-model="formdata.purchase_price" type="text" class="form-control" id="purchase-price" :readonly="view_mode">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" v-model="formdata.is_sales_item" value="1" class="custom-control-input" id="is-sales-item" :disabled="view_mode">
+                                                            <label class="custom-control-label" for="is-sales-item">Is Sales Item?</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div v-show="formdata.is_sales_item">
+                                                    <div class="d-flex">
+                                                        <div class="d-flex align-items-center" style="margin: 0 11px;">
+                                                            <i class="fas fa-long-arrow-alt-right" style="font-size: 24px; color: var(--warning);"></i>
+                                                        </div>
+                                                        <div class="form-group" style="display: flex; align-items: center; margin: 0 !important;">
+                                                            <label class="form-label m-0 mr-2" for="sales-price">Sales Price <small style="color: #999; font-style: italic">(optional)</small>:</label>
+                                                            <div class="form-control-wrap">
+                                                                <input v-model="formdata.sales_price" type="text" class="form-control" id="sales-price" :readonly="view_mode">
+                                                            </div>
+                                                        </div>
+                                                   
+                                                        <div class="form-group pl-3" style="margin: 0 !important; display: flex; align-items: center;">
+                                                            <label class="form-label m-0" for="transfer-price">Transfer Price:</label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col-12">
+                                            <hr>
+
+                                            <div v-show="formdata.is_sales_item">
+                                                <div class="d-flex">
                                                     <div class="form-group">
-                                                        <div class="form-control-wrap">
-                                                            <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" v-model="formdata.is_sales_item" value="1" class="custom-control-input" id="is-sales-item" :disabled="view_mode">
-                                                                <label class="custom-control-label" for="is-sales-item">Is Sales Item?</label>
-                                                            </div>
+                                                        <label class="form-label" for="mark-up-rate">Markup Rate</label>
+                                                        <div class="custom-control custom-radio">
+                                                            <input v-model="compute_selection" value = "manual" type="radio" id="manual-compute" class="custom-control-input">    
+                                                            <label class="custom-control-label mb-2" for="manual-compute">Manual</label>
+                                                        </div>  
+                                                        <div class="form-control-wrap d-flex">
+                                                            <input v-model="input_markup_rate" :disabled="isDisabledManual" type="text" class="form-control" id="mark-up-rate" :readonly="view_mode" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                                            <button @click="computePrice()" :disabled="isDisabledManual" type="button" class="btn btn-sm btn-primary" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">Apply</button>
                                                         </div>
                                                     </div>
 
-                                                    <div v-show="formdata.is_sales_item" class="row">
-
-                                                        <div class="col-md-3 col-12">
-                                                            <div class="form-group">
-                                                                <label class="form-label" for="sales-price">Sales Price</label>
-                                                                <div class="form-control-wrap">
-                                                                    <input v-model="formdata.sales_price" type="text" class="form-control" id="sales-price" :readonly="view_mode">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-3 col-12">
-                                                            <div class="form-group">
-                                                                <label class="form-label" for="transfer-price">Transfer Price:</label>
-                                                            </div>
-                                                        </div>
-
-
-                                                        <div class="col-md-4 col-12">
-                                                            <div class="form-group">
-                                                                <label class="form-label" for="mark-up-rate">Markup Rate</label>
-                                                                <div class="custom-control custom-radio">    
-                                                                    <input v-model="compute_selection" value = "manual" type="radio" id="manual-compute" class="custom-control-input">    
-                                                                    <label class="custom-control-label" for="manual-compute">Manual</label>
-                                                                </div>  
-                                                                <div class="form-control-wrap">
-                                                                    <input v-model="input_markup_rate" :disabled="isDisabledManual" type="text" class="form-control" id="mark-up-rate" :readonly="view_mode">
-                                                                    <button @click="computePrice()" :disabled="isDisabledManual" type="button" class="btn btn-lg btn-primary">Apply</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-3 col-12">
-                                                            <div class="form-group">
-                                                                <label class="form-label" for="customer-group">Customer Group</label>
-                                                                <div class="custom-control custom-radio">    
-                                                                    <input v-model="compute_selection" value="auto" type="radio" id="auto-compute" class="custom-control-input">    
-                                                                    <label class="custom-control-label" for="auto-compute">Auto</label>
-                                                                </div>  
-                                                                <select class="form-select-customer-group" :disabled="isDisabledAuto" v-model="selected_customer_group" :options="options_customer_group" name="customer-group">
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
+                                                    <div class="form-group ml-4">
+                                                        <label class="form-label" for="customer-group">Customer Group</label>
+                                                        <div class="custom-control custom-radio mb-2">    
+                                                            <input v-model="compute_selection" value="auto" type="radio" id="auto-compute" class="custom-control-input">    
+                                                            <label class="custom-control-label" for="auto-compute">Auto</label>
+                                                        </div>  
+                                                        <select class="form-select-customer-group" :disabled="isDisabledAuto" v-model="selected_customer_group" :options="options_customer_group" name="customer-group">
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
-
                                             
                                         </div>
                                     </div>
                                 </div>
 
-                            </div>   
+                            </div>    
 
 
                             <div class="tab-pane" id="asset" v-show="show_asset_group">
@@ -400,6 +408,7 @@
                                 <item-discounts :properties="{data:formdata}" :view_mode="view_mode" ref="itemDiscounts"></item-discounts>
                             </div>   
                         </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -1140,7 +1149,7 @@ export default {
     },
     mounted() {
         var scope = this
-
+        console.log('jp', scope.view_mode)
         scope.getItemGroup()
         scope.getSupplier()
         scope.getIncomeAccount()
