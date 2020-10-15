@@ -4,7 +4,17 @@
             <div class="card-body">
                 <div class="actions-bar">
                     <div class="w-100">
-                        <h1 class="title">Employee Details</h1>
+                        <span v-if ="view_mode">
+                            <h1 class="title">View Employee Details</h1>
+                        </span>
+                        <span v-else>
+                            <span v-if ="formdata.is_draft">
+                                <h1 class="title">New Employee Details</h1>
+                            </span>
+                            <span v-else>
+                                <h1 class="title">Edit Employee Details</h1>
+                            </span>
+                        </span>
                     </div>
                     <div class="bar-right">
                         <span v-if ="view_mode">
