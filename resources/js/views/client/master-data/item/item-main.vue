@@ -40,9 +40,6 @@
                 <div class="tab-pane" id="asset-group" role="tabpanel">
                     <asset-group></asset-group>
                 </div>
-                <div class="tab-pane" id="item-discount-group" role="tabpanel">
-                    <item-discount-group></item-discount-group>
-                </div>
                 <div class="tab-pane container" id="categories" role="tabpanel">
                     <div class="actions-bar">
                         <div class="w-100">
@@ -50,11 +47,15 @@
                         </div>
                         <div class="bar-right"></div>
                     </div>
-                    <category-1></category-1>
-                    <category-2></category-2>
-                    <category-3></category-3>
-                    <category-4></category-4>
-                    <category-5></category-5>
+                    <item-cat-department></item-cat-department>
+                    <item-cat-section></item-cat-section>
+                    <item-cat-category></item-cat-category>
+                    <item-cat-manufacturer></item-cat-manufacturer>
+                    <item-cat-item-type></item-cat-item-type>
+                    <item-cat-brand></item-cat-brand>
+                    <item-cat-form></item-cat-form>
+                    <item-cat-packing-type></item-cat-packing-type>
+                    <item-cat-sizes></item-cat-sizes>
                 </div>
             </div>
         </div> 
@@ -65,11 +66,17 @@
 import ItemList from './item-list'
 import ItemGroup from './item-group'
 import ItemAssetGroup from './item-asset-group'
-import ItemCategory1 from './item-category-1'
-import ItemCategory2 from './item-category-2'
-import ItemCategory3 from './item-category-3'
-import ItemCategory4 from './item-category-4'
-import ItemCategory5 from './item-category-5'
+
+import ItemCatBrand from './item-cat-brand'
+import ItemCatCategory from './item-cat-category'
+import ItemCatDepartment from './item-cat-department'
+import ItemCatForm from './item-cat-form'
+import ItemCatItemType from './item-cat-item-type'
+import ItemCatManufacturer from './item-cat-manufacturer'
+import ItemCatPackingType from './item-cat-packing-type'
+import ItemCatSection from './item-cat-section'
+import ItemCatSizes from './item-cat-sizes'
+
 
 export default {
     name: 'item-main',
@@ -82,11 +89,15 @@ export default {
         'item-list': ItemList,
         'item-group': ItemGroup,
         'asset-group': ItemAssetGroup,
-        'category-1': ItemCategory1,
-        'category-2': ItemCategory2,
-        'category-3': ItemCategory3,
-        'category-4': ItemCategory4,
-        'category-5': ItemCategory5
+        'item-cat-brand': ItemCatBrand,
+        'item-cat-category': ItemCatCategory,
+        'item-cat-department': ItemCatDepartment,
+        'item-cat-form': ItemCatForm,
+        'item-cat-item-type': ItemCatItemType,
+        'item-cat-manufacturer': ItemCatManufacturer,
+        'item-cat-packing-type': ItemCatPackingType,
+        'item-cat-section': ItemCatSection,
+        'item-cat-sizes': ItemCatSizes
     },
     methods: {
 

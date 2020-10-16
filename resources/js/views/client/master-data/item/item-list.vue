@@ -1,5 +1,9 @@
 <template>
         <div>
+            <div v-show="show_preloader">
+                <Spinner />
+            </div>
+
             <div class="actions-bar">
                 <div class="w-100">
                     <h1 class="title"><i class="las la-list-ul"></i> Item List</h1>
@@ -7,7 +11,6 @@
                 <div class="bar-right">
                     <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
                     <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
-                        <option value="1">1</option>
                         <option value="10">10</option>
                         <option value="20">20</option>
                         <option value="30">30</option>
@@ -46,7 +49,7 @@
                             <td width="100">
                                 <span class="w-65px d-block mx-auto">
                                     <a href="javascript:void(0)" @click="ROUTE({path: '/items/' + item.uuid })" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                    <a href="javascript:void(0)" @click="remove(item)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
+                                    <a href="javascript:void(0)" @click="ROUTE({path: '/items/' + item.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
                                 </span>
                             </td>
                             <td>{{ (index + 1) }}</td>
@@ -69,7 +72,7 @@
                             <td>
                                 <span v-if="item.suppliers.length > 0">
                                     <span v-for="item_supplier in item.suppliers" :key="item_supplier.uuid">
-                                        <span  class="badge badge-dim badge-outline-secondary">{{ item_supplier.supplier.business_shortname }}</span> &nbsp;
+                                        <span  class="badge badge-dim badge-outline-secondary">{{ item_supplier.supplier.supplier_shortname }}</span> &nbsp;
                                     </span>
                                 </span>
                                 <span v-else>
@@ -109,13 +112,12 @@
                         </li>
                     </ul>
                 </nav>         
-            </div>
-             
+            </div>      
+    
     </div>
 </template>
 
 <script>
-
 import Swal from 'sweetalert2'
 
 export default {
@@ -123,6 +125,8 @@ export default {
     props: ['properties'],
     data: function () {
         return {
+            show_preloader: true,
+
             itemList: [],
             listLoading: true,
             listCurrentPage: 1,
@@ -201,6 +205,8 @@ export default {
     mounted() {
         var scope = this
         scope.getItemList()
+
+        setTimeout(function(){ scope.show_preloader = false },2000)
     },
 }
 </script>

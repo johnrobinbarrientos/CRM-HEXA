@@ -11,7 +11,6 @@
                 <div class="bar-right">
                     <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
                     <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
-                        <option value="1">1</option>
                         <option value="10">10</option>
                         <option value="20">20</option>
                         <option value="30">30</option>
@@ -55,7 +54,7 @@
                             <td width="100">
                                 <span class="w-65px d-block mx-auto">
                                     <a href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid })" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                    <a href="javascript:void(0)" @click="remove(employee)" class="btn btn-sm btn-danger" title="Trash"><i class="mdi mdi-trash-can"></i></a>
+                                    <a href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
                                 </span>
                             </td>
                             <td class="text-right">{{ (index + 1) }}</td>
@@ -127,15 +126,13 @@
                     </nav>
 
             </div>
-        </div>  
+        </div>
              
     </div>
 </template>
 
 <script>
-
 import Swal from 'sweetalert2'
-import Spinner from '../../../components/Spinner'
 
 export default {
     name: 'employee-list',
@@ -154,7 +151,6 @@ export default {
 
         }
     },
-    components: { Spinner },
     computed: {
         listTotalPages: function () {
             var scope = this
@@ -163,7 +159,6 @@ export default {
         }
     },
     methods: {
-        
         getEmployeeList: function () {
             var scope = this
             scope.listLoading = true

@@ -14,6 +14,7 @@ class AuthController extends Controller
     public function check()
     {
         $user = Auth::user();
+        $user->company = CompanyList::find($user->company_id);
         return response()->json(['success' => 1, 'user' => $user, 'authenticated' => true], 200);
     }
 
@@ -56,6 +57,7 @@ class AuthController extends Controller
         $user->save();
 
         $token = $user->createToken('authToken')->accessToken;
+        $user->company = CompanyList::find($user->company_id);
 
         return response()->json(['success' => 1, 'token' => $token, 'user' => $user, 'message' => 'Authenticated!'], 200); 
     }
@@ -85,6 +87,7 @@ class AuthController extends Controller
         $user->company_id = $company->id;
         $user->save(); 
        
+        $user->company = CompanyList::find($user->company_id);
 
         $accessToken = $user->createToken('authToken')->accessToken;
 
@@ -102,6 +105,8 @@ class AuthController extends Controller
         {
             if(Auth::attempt($loginData)) { 
                 $user = Auth::user(); 
+                $user->company = CompanyList::find($user->company_id);
+                
                 $token =  $user->createToken('authToken')->accessToken; 
                 return response()->json(['success' => 1, 'token' => $token, 'user' => $user, 'message' => 'Authenticated!'], 200); 
             } else { 

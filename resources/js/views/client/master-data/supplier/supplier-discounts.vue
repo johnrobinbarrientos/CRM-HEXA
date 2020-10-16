@@ -1,12 +1,11 @@
 <template>
     <div>
         <br/>
-        <br/>
         <div class="row">
-            <div class="col-md-4 col-12">
-                <div class="card-title">Discount Groups</div>
+            <div class="col-md-4 col-12" >
+                <div class="card-title" style="margin-left: 12px;">Discount Groups</div>
                 <div class="table-responsive">
-                    <table class="table  table-striped table-bordered table-hover mb-0 table">
+                    <table class="table  table-striped table-bordered table-hover mb-0 table" style="margin-left: 12px;">
                         <thead>
                             <tr>
                                 <th width="90">Actions</th>
@@ -20,12 +19,12 @@
                             <tr @click="selectGroup(group)" v-bind:class="{'table-success' : (selected_group && selected_group.uuid === group.uuid) }" style="cursor:pointer;" v-for="(group,index) in groups" :key="index" >
                                 <td>
                                     <template v-if="group.edit !== true">
-                                        <a @click="editGroup(group)" class="btn btn-sm btn-light" role="button" href="javascript:void(0);"><i class="bx bx-pencil"></i></a>
-                                        <a class="btn btn-sm btn-danger" role="button" href="javascript:void(0);"><i class="bx bx-trash-alt"></i></a>
+                                        <button @click="editGroup(group)" class="btn btn-sm btn-light" role="button" :disabled="view_mode"><i class="bx bx-pencil"></i></button>
+                                        <button class="btn btn-sm btn-danger" role="button" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
                                     </template>
                                     <template v-else>
-                                        <a @click="saveGroup(group)" class="btn btn-sm btn-primary" role="button" href="javascript:void(0);"><i class="bx bx-save"></i></a>
-                                        <a class="btn btn-sm btn-danger" role="button" href="javascript:void(0);"><i class="bx bx-trash-alt"></i></a>
+                                        <button @click="saveGroup(group)" class="btn btn-sm btn-primary" role="button" :disabled="view_mode"><i class="bx bx-save"></i></button>
+                                        <button class="btn btn-sm btn-danger" role="button" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
                                     </template>
                                 </td>
                                 <th scope="row" >
@@ -44,7 +43,9 @@
                                 </tr>
                             </template>
                             <tr>
-                                <td @click="addNewGroup()" colspan="3" style="background:#efefef; text-align:center; cursor:pointer; font-weight:600;"><i class="bx bx-plus"></i> NEW GROUP</td>
+                                <td style="text-align:center; cursor:pointer; font-weight:600; background:#efefef;" colspan="3" >
+                                    <button @click="addNewGroup()"  type="button" style="font-weight:600; background:transparent; border:none;" :disabled="view_mode"><i class="bx bx-plus"></i> New Group</button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -67,12 +68,12 @@
                             <tr style="cursor:pointer;" v-for="(discount,index) in discounts" :key="index" >
                                 <td>
                                     <template v-if="discount.edit !== true">
-                                        <a @click="editDiscount(discount)" class="btn btn-sm btn-light" role="button" href="javascript:void(0);"><i class="bx bx-pencil"></i></a>
-                                        <a class="btn btn-sm btn-danger" role="button" href="javascript:void(0);"><i class="bx bx-trash-alt"></i></a>
+                                        <button @click="editDiscount(discount)" type="button" class="btn btn-sm btn-light" :disabled="view_mode"><i class="bx bx-pencil"></i></button>
+                                        <button class="btn btn-sm btn-danger" type="button" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
                                     </template>
                                     <template v-else>
-                                        <a @click="saveDiscount(discount)" class="btn btn-sm btn-primary" role="button" href="javascript:void(0);"><i class="bx bx-save"></i></a>
-                                        <a class="btn btn-sm btn-danger" role="button" href="javascript:void(0);"><i class="bx bx-trash-alt"></i></a>
+                                        <button @click="saveDiscount(discount)" type="button" class="btn btn-sm btn-primary" :disabled="view_mode"><i class="bx bx-save"></i></button>
+                                        <button class="btn btn-sm btn-danger" type="button" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
                                     </template>
                                 </td>
                                 <th scope="row">
@@ -99,7 +100,9 @@
                                 </tr>
                             </template>
                             <tr>
-                                <td @click="addNewDiscount()" colspan="4" style="background:#efefef; text-align:center; cursor:pointer; font-weight:600;"><i class="bx bx-plus"></i> NEW DISCOUNT</td>
+                                <td style="text-align:center; cursor:pointer; font-weight:600; background:#efefef;" colspan="4" >
+                                    <button @click="addNewDiscount()"  type="button" style="font-weight:600; background:transparent; border:none;" :disabled="view_mode"><i class="bx bx-plus"></i> New Discount</button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -115,12 +118,12 @@ import Swal from 'sweetalert2'
 
 export default {
     name: 'supplier-group',
-    props: ['properties','supplier_uuid'],
+    props: ['properties','supplier_uuid','view_mode'],
     data: function () {
         return {
             selected_group: null,
             discounts: [],
-            groups: [],
+            groups: []
         }
     },
     methods: {
@@ -290,5 +293,9 @@ export default {
 
 <style scoped>
 /* .table-tranx { table-layout: auto; width: 200%;} */
+a.disabled {
+    pointer-events: none;
+    color: #ccc;
+}
 
 </style>

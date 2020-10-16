@@ -6,6 +6,7 @@
 #sidebar-menu .link-active { background: #fff;  }
 #sidebar-menu .link-active > a { color: var(--hexa-blue) !important; font-weight: 600; }
 #sidebar-menu .link-active > a i { color: var(--hexa-blue) !important;  }
+#sidebar-menu ul li ul.sub-menu li a { padding: .5rem 1.5rem .5rem 3.5rem; }
 
 .select2-container { display:block; width:100% !important; }
 .nav-tabs .nav-link { font-weight: 500;}
@@ -194,6 +195,7 @@ img.header-profile-user { background: #fff; }
 .actions-bar h1.title   { font-size: 20px; display: flex; align-items: center; margin-bottom: 0; }
 .actions-bar h1.title i { font-size: 24px; margin-right: 5px; }
 .actions-bar .bar-right { display: flex; gap: 5px; justify-content: flex-end; width: 100%; }
+.actions-bar .bar-right span { display: flex; gap: 5px; justify-content: flex-end; width: 100%; }
 .actions-bar .bar-right input { width: 220px; }
 
 /* utilities */

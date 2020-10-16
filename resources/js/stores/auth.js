@@ -22,10 +22,10 @@ export default {
         localStorage.setItem(window.TOKEN_KEY, payload.token);
         state.isAuthenticated = true
         state.user = payload.user
-        this.dispatch('getMenus',{})
-        console.log(state.user)
+        document.title = state.user.company.company_name + ' - HEXAsuite'
+       
         setTimeout(function(){
-            router.push({name: 'home'})
+            router.push({name: 'dashboard'})
         },300);
         
         
@@ -46,6 +46,7 @@ export default {
           if (response.data.success) {
             state.isAuthenticated = false
             state.user = null
+            document.title = 'HEXAsuite'
             localStorage.removeItem(window.TOKEN_KEY);
             router.push({name: 'auth'})
           }
@@ -73,6 +74,7 @@ export default {
           if (response.data.success) {
             state.isAuthenticated = true
             state.user = response.data.user
+            document.title = state.user.company.company_name  + ' - HEXAsuite'
           } else {
             state.isAuthenticated = false
             state.user = null

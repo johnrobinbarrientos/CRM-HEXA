@@ -138,6 +138,15 @@ export default new VueRouter({
           name: 'item-form',
           component: ItemForm,
           beforeEnter: checkAuth,
+          props: { view_mode: false },
+          meta: { protected: true }
+        },
+        {
+          path: '/items/:itemUUID/view',
+          name: 'item-form',
+          component: ItemForm,
+          beforeEnter: checkAuth,
+          props: { view_mode: true },
           meta: { protected: true }
         },
         {
@@ -155,6 +164,14 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
+          path: '/suppliers/:supplierUUID/view',
+          name: 'supplier-form',
+          component: SupplierForm,
+          beforeEnter: checkAuth,
+          props: { view_mode: true },
+          meta: { protected: true }
+        },
+        {
           path: '/customer-main',
           name: 'customer-main',
           component: CustomerMain,
@@ -169,6 +186,14 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
+          path: '/customers/:customerUUID/view',
+          name: 'customer-form',
+          component: CustomerForm,
+          beforeEnter: checkAuth,
+          props: { view_mode: true },
+          meta: { protected: true }
+        },
+        {
           path: '/employee-main',
           name: 'employee-main',
           component: EmployeeMain,
@@ -180,6 +205,14 @@ export default new VueRouter({
           name: 'employee-form',
           component: EmployeeForm,
           beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/employees/:employeeUUID/view',
+          name: 'employee-form',
+          component: EmployeeForm,
+          beforeEnter: checkAuth,
+          props: { view_mode: true },
           meta: { protected: true }
         },
         {

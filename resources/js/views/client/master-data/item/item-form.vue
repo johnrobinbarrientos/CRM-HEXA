@@ -4,12 +4,29 @@
             <div class="card-body">
                 <div class="actions-bar">
                     <div class="w-100">
-                        <h1 class="title">Item Details</h1>
+                        <span v-if ="view_mode">
+                            <h1 class="title">View Item Details</h1>
+                        </span>
+                        <span v-else>
+                            <span v-if ="formdata.is_draft">
+                                <h1 class="title">New Item Details</h1>
+                            </span>
+                            <span v-else>
+                                <h1 class="title">Edit Item Details</h1>
+                            </span>
+                        </span>
                     </div>
                     <div class="bar-right">
-                        <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
-                        <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
-                        <a href="javascript:void(0)"  @click="ROUTE({path: '/item-main/' })" class="hx-btn hx-btn-danger">Cancel</a> 
+                        <span v-if ="view_mode">
+                            <a @click="ROUTE({path: '/items/' + formdata.uuid })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Edit</a>
+                            <a @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Delete</a>
+                            <a @click="ROUTE({path: '/item-main/' })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Close</a>
+                        </span>
+                        <span v-else>
+                            <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
+                            <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
+                            <a @click="ROUTE({path: '/item-main/' })" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>
+                        </span>
                     </div>
                 </div>
 
@@ -19,7 +36,7 @@
                         <div class="col-md-3 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="item-group">Item Group</label>
-                                <select class="form-select-item-group" v-model="selected_item_group" :options="options_item_group" name="item-group">
+                                <select class="form-select-item-group" v-model="selected_item_group" :options="options_item_group" name="item-group" :disabled="view_mode">
                                 </select>
                             </div>
                         </div>
@@ -28,15 +45,32 @@
                             <div class="form-group">
                                 <label class="form-label" for="item-code">Item Code</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.item_code" type="text" class="form-control" id="item-code" required>
+                                    <input v-model="formdata.item_code" type="text" class="form-control" id="item-code" :readonly="view_mode">
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="item-barcode">Item Barcode</label>
+                                <div class="form-control-wrap">
+                                    <input v-model="formdata.item_barcode" type="text" class="form-control" id="item-barcode" :readonly="view_mode">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="base-uom">Base UOM</label>
+                                <select class="form-select-base-uom" v-model="selected_base_uom" :options="options_base_uom" name="base-uom" :disabled="view_mode">
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-3 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="item-description">Item Description</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.item_description" type="text" class="form-control" id="item-description" required>
+                                    <input v-model="formdata.item_description" type="text" class="form-control" id="item-description" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
@@ -44,30 +78,14 @@
                             <div class="form-group">
                                 <label class="form-label" for="item-shortname">Shortname</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.item_shortname" type="text" class="form-control" id="item-shortname" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="item-barcode">Item Barcode</label>
-                                <div class="form-control-wrap">
-                                    <input v-model="formdata.item_barcode" type="text" class="form-control" id="item-barcode" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="item-cs-barcode-code">Case/Box Barcode</label>
-                                <div class="form-control-wrap">
-                                    <input v-model="formdata.cs_barcode" type="text" class="form-control" id="item-cs-barcode-code" required>
+                                    <input v-model="formdata.item_shortname" type="text" class="form-control" id="item-shortname" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="supplier">Supplier Name</label>
-                                <select class="form-select-suppliers" v-model="selected_suppliers" :options="options_supplier" name="supplier"  multiple="multiple">
+                                <select class="form-select-suppliers" v-model="selected_suppliers" :options="options_supplier" name="supplier"  multiple="multiple" :disabled="view_mode">
                                 </select>
                             </div>
                         </div>
@@ -76,7 +94,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="reorder-qty">Re-Order Qty</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.reorder_qty" type="text" class="form-control" id="reorder-qty" required>
+                                    <input v-model="formdata.reorder_qty" type="text" class="form-control" id="reorder-qty" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
@@ -84,7 +102,7 @@
                             <div class="form-group">
                                 <div class="form-control-wrap">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" v-model="formdata.is_expiry" value="1" class="custom-control-input" id="is-expiry">
+                                        <input type="checkbox" v-model="formdata.is_expiry" value="1" class="custom-control-input" id="is-expiry" :disabled="view_mode">
                                         <label class="custom-control-label" for="is-expiry">Is Expiry?</label>
                                     </div>
                                 </div>
@@ -95,7 +113,7 @@
                             <div class="form-group">
                                 <div class="form-control-wrap">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" v-model="formdata.is_maintain_stock" value="1" class="custom-control-input" id="is-maintain-stock">
+                                        <input type="checkbox" v-model="formdata.is_maintain_stock" value="1" class="custom-control-input" id="is-maintain-stock" :disabled="view_mode">
                                         <label class="custom-control-label" for="is-maintain-stock">Maintain Stock?</label>
                                     </div>
                                 </div>
@@ -106,7 +124,7 @@
                             <div class="form-group">
                                 <div class="form-control-wrap">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" v-model="formdata.is_active" value="1" class="custom-control-input" id="is-active">
+                                        <input type="checkbox" v-model="formdata.is_active" value="1" class="custom-control-input" id="is-active" :disabled="view_mode">
                                         <label class="custom-control-label" for="is-active">Is Active?</label>
                                     </div>
                                 </div>
@@ -116,7 +134,8 @@
                     </div>
 
                     <br/>
-                    <ul class="nav nav-tabs nav-tabs-custom">    
+                    <div style="border: 1px solid #ced4da; border-radius: .25rem;">
+                        <ul class="nav nav-tabs nav-tabs-custom" style="border-color: #eee;">    
                             <li class="nav-item">        
                                 <a class="nav-link active" data-toggle="tab" href="#account">Financial Account</a>    
                             </li>    
@@ -143,7 +162,7 @@
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="income-account">Income Account</label>
-                                        <select class="form-select-income-account" v-model="selected_income_account" :options="options_income_account" name="income-account">
+                                        <select class="form-select-income-account" v-model="selected_income_account" :options="options_income_account" name="income-account" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
@@ -151,16 +170,16 @@
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="cost-of-sales">Cost Of Sales</label>
-                                        <select class="form-select-cost-of-sales" v-model="selected_cost_of_sales" :options="options_cost_of_sales" name="cost-of-sales">
+                                        <select class="form-select-cost-of-sales" v-model="selected_cost_of_sales" :options="options_cost_of_sales" name="cost-of-sales" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row">
-                                        <div class="col-12">
+                                        <div class="col-12" style="margin-left: 12px;">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" v-model="formdata.without_vat" value="1" class="custom-control-input" id="without-vat">
+                                                        <input type="checkbox" v-model="formdata.without_vat" value="1" class="custom-control-input" id="without-vat" :disabled="view_mode">
                                                         <label class="custom-control-label" for="without-vat">Without VAT</label>
                                                     </div>
                                                 </div>
@@ -172,47 +191,76 @@
                             <div class="tab-pane" id="category">
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="category-1">Category 1</label>
-                                        <select class="form-select-category-1" v-model="selected_category1" :options="options_category1" name="category-1">
+                                        <label class="form-label" for="cat-department">Department</label>
+                                        <select class="form-select-cat-department" v-model="selected_cat_department" :options="options_cat_department" name="cat-department" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="category-2">Category 2</label>
-                                        <select class="form-select-category-2" v-model="selected_category2" :options="options_category2" name="category-2">
+                                        <label class="form-label" for="cat-section">Section</label>
+                                        <select class="form-select-cat-section" v-model="selected_cat_section" :options="options_cat_section" name="cat-section" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="category-3">Category 3</label>
-                                        <select class="form-select-category-3" v-model="selected_category3" :options="options_category3" name="category-3">
+                                        <label class="form-label" for="cat-category">Category</label>
+                                        <select class="form-select-cat-category" v-model="selected_cat_category" :options="options_cat_category" name="cat-category" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="category-4">Category 4</label>
-                                        <select class="form-select-category-4" v-model="selected_category4" :options="options_category4" name="category-4">
+                                        <label class="form-label" for="cat-manufacturer">Manufacturer</label>
+                                        <select class="form-select-cat-manufacturer" v-model="selected_cat_manufacturer" :options="options_cat_manufacturer" name="cat-manufacturer" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="category-5">Category 5</label>
-                                        <select class="form-select-category-5" v-model="selected_category5" :options="options_category5" name="category-5">
+                                        <label class="form-label" for="cat-item-type">Item Type</label>
+                                        <select class="form-select-cat-item-type" v-model="selected_cat_item_type" :options="options_cat_item_type" name="cat-item-type" :disabled="view_mode">
                                         </select>
                                     </div>
-                                </div>        
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="cat-brand">Brand</label>
+                                        <select class="form-select-cat-brand" v-model="selected_cat_brand" :options="options_cat_brand" name="cat-brand" :disabled="view_mode">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="cat-form">Form</label>
+                                        <select class="form-select-cat-form" v-model="selected_cat_form" :options="options_cat_form" name="cat-form" :disabled="view_mode">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="cat-packing-type">Packing Type</label>
+                                        <select class="form-select-cat-packing-type" v-model="selected_cat_packing_type" :options="options_cat_packing_type" name="cat-packing-type" :disabled="view_mode">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="cat-sizes">Sizes</label>
+                                        <select class="form-select-cat-sizes" v-model="selected_cat_sizes" :options="options_cat_sizes" name="cat-sizes" :disabled="view_mode">
+                                        </select>
+                                    </div>
+                                </div>    
 
                             </div>
 
                             <div class="tab-pane" id="unit-of-measure">
+
                                 <div class="row">
-                                    <div class="col-md-4 col-12">
+                                    <div class="col-md-4 col-12" style="margin-left: 12px;">
                                         <div style="padding:20px 0px;">
-                                            <table class="table mb-0 table-striped table-bordered">
+                                            <table class="table mb-0 table-striped table-bordered" style="margin-left: 12px;">
                                                 <thead>
                                                     <tr>
                                                         <th>UOM</th>
@@ -224,17 +272,17 @@
                                                     <tr v-for="(item_uom, index) in item_uoms" :key="item_uom.uuid" v-bind:class="{'table-success' : index == 0}">
                                                         <td class="editable">
                                                             <span>{{ getGlobalUOMName(item_uom.uuid) }}</span>
-                                                            <select v-if="index === 0" v-model="item_uom.uuid" class="editable-control">
+                                                            <select v-if="index === 0" v-model="item_uom.uuid" class="editable-control" :disabled="view_mode">
                                                                 <option v-for="uom in globalBaseUOM" :key="'base-' + uom.uuid" :value="uom.uuid">{{ uom.uom}}</option>
                                                             </select>
-                                                            <select v-else v-model="item_uom.uuid" class="editable-control">
+                                                            <select v-else v-model="item_uom.uuid" class="editable-control" :disabled="view_mode">
                                                                 <option value="PACK">Select a UOM</option>
                                                                 <option v-for="uom in globalNonBaseUOM" v-if="!itemUomExists(uom.uuid) || uom.uuid == item_uom.uuid" :key="'pack-' + uom.uuid" :value="uom.uuid">{{ uom.uom}}</option>
                                                             </select>
                                                         </td>
 
                                                         <td  v-if="index !== 0" class="editable text-right">
-                                                            <input v-model="item_uom.packing" type="text" class="editable-control">
+                                                            <input v-model="item_uom.packing" type="text" class="editable-control" :readonly="view_mode">
                                                             <span>{{ item_uom.packing }}</span>
                                                         </td>
                                                         <td v-else class="text-right">
@@ -242,14 +290,16 @@
                                                         </td>
 
                                                         <td v-if="index !== 0">
-                                                            <a @click="removeItemUom(index)" href="javascript:void(0)" class="btn btn-sm btn-danger waves-effect"><i class="mdi mdi-trash-can"></i></a>
+                                                            <button @click="removeItemUom(index)" type="button" class="btn btn-sm btn-danger waves-effect" :disabled="view_mode"><i class="mdi mdi-trash-can"></i></button>
                                                         </td>
                                                         <td v-else>
                                                             <span>N/A</span>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td @click="addItemUom()" style="text-align:center; cursor:pointer; font-weight:600;" colspan="3">NEW UOM</td>
+                                                        <td style="text-align:center; cursor:pointer; font-weight:600;" colspan="3">
+                                                            <button @click="addItemUom()"  type="button" style="font-weight:600; background:transparent; border:none;" :disabled="view_mode">New UOM</button>
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -258,100 +308,107 @@
                                 </div>
                             </div>   
 
-                            <div class="tab-pane" id="pricing"> 
+                            <div class="tab-pane" id="pricing" style="padding: 0 15px 15px;"> 
                                 <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <div class="form-control-wrap">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" v-model="formdata.is_purchase_item" value="1" class="custom-control-input" id="is-purchase-item">
-                                                    <label class="custom-control-label" for="is-purchase-item">Is Purchase Item?</label>
+                                    <div class="col-md-12">
+                                        
+                                        <div class="d-flex">
+                                            <div>
+                                                <div class="form-group" style="height: 100%; margin: 0 !important; display: flex; align-items: center;">
+                                                    <div class="form-control-wrap">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" v-model="formdata.is_purchase_item" value="1" class="custom-control-input" id="is-purchase-item" :disabled="view_mode">
+                                                            <label class="custom-control-label" for="is-purchase-item">Is Purchase Item?</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div v-show="formdata.is_purchase_item">
+                                                <div class="d-flex">
+                                                    <div class="d-flex align-items-center ml-3 mr-3">
+                                                        <i class="fas fa-long-arrow-alt-right" style="font-size: 24px; color: var(--warning);"></i>
+                                                    </div>
+                                                    <div class="form-group" style="display: flex; align-items: center; margin:0 !important;">
+                                                        <label class="form-label m-0 mr-2" for="purchase-price">Price <small style="color: red; font-style: italic">(*required):</small></label>
+                                                        <div class="form-control-wrap">
+                                                            <input v-model="formdata.purchase_price" type="text" class="form-control" id="purchase-price" :readonly="view_mode" required>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div v-show="formdata.is_purchase_item" class="row">
 
-                                            <div class="col-md-3 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="purchase-price">Purchase Price</label>
+                                        <div v-show="formdata.is_purchase_item">
+                                            <hr>
+                                            <div class="d-flex">
+                                                <div class="form-group" style="display: flex; align-items: center; margin: 0 !important;">
                                                     <div class="form-control-wrap">
-                                                        <input v-model="formdata.purchase_price" type="text" class="form-control" id="purchase-price" required>
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" v-model="formdata.is_sales_item" value="1" class="custom-control-input" id="is-sales-item" :disabled="view_mode">
+                                                            <label class="custom-control-label" for="is-sales-item">Is Sales Item?</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div v-show="formdata.is_sales_item">
+                                                    <div class="d-flex">
+                                                        <div class="d-flex align-items-center" style="margin: 0 11px;">
+                                                            <i class="fas fa-long-arrow-alt-right" style="font-size: 24px; color: var(--warning);"></i>
+                                                        </div>
+                                                        <div class="form-group" style="display: flex; align-items: center; margin: 0 !important;">
+                                                            <label class="form-label m-0 mr-2" for="sales-price">Sales Price <small style="color: #999; font-style: italic">(optional)</small>:</label>
+                                                            <div class="form-control-wrap">
+                                                                <input v-model="formdata.sales_price" type="text" class="form-control" id="sales-price" :readonly="view_mode">
+                                                            </div>
+                                                        </div>
+                                                   
+                                                        <div class="form-group pl-3" style="margin: 0 !important; display: flex; align-items: center;">
+                                                            <label class="form-label m-0" for="transfer-price">Transfer Price:</label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col-12">
+                                            <hr>
+
+                                            <div v-show="formdata.is_sales_item">
+                                                <div class="d-flex">
                                                     <div class="form-group">
-                                                        <div class="form-control-wrap">
-                                                            <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" v-model="formdata.is_sales_item" value="1" class="custom-control-input" id="is-sales-item">
-                                                                <label class="custom-control-label" for="is-sales-item">Is Sales Item?</label>
-                                                            </div>
+                                                        <label class="form-label" for="mark-up-rate">Markup Rate</label>
+                                                        <div class="custom-control custom-radio">
+                                                            <input v-model="compute_selection" value = "manual" type="radio" id="manual-compute" class="custom-control-input">    
+                                                            <label class="custom-control-label mb-2" for="manual-compute">Manual</label>
+                                                        </div>  
+                                                        <div class="form-control-wrap d-flex">
+                                                            <input v-model="input_markup_rate" :disabled="isDisabledManual" type="text" class="form-control" id="mark-up-rate" :readonly="view_mode" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                                            <button @click="computePrice()" :disabled="isDisabledManual" type="button" class="btn btn-sm btn-primary" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">Apply</button>
                                                         </div>
                                                     </div>
 
-                                                    <div v-show="formdata.is_sales_item" class="row">
-
-                                                        <div class="col-md-3 col-12">
-                                                            <div class="form-group">
-                                                                <label class="form-label" for="sales-price">Sales Price</label>
-                                                                <div class="form-control-wrap">
-                                                                    <input v-model="formdata.sales_price" type="text" class="form-control" id="sales-price" required>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-3 col-12">
-                                                            <div class="form-group">
-                                                                <label class="form-label" for="transfer-price">Transfer Price:</label>
-                                                            </div>
-                                                        </div>
-
-
-                                                        <div class="col-md-4 col-12">
-                                                            <div class="form-group">
-                                                                <label class="form-label" for="mark-up-rate">Markup Rate</label>
-                                                                <div class="custom-control custom-radio">    
-                                                                    <input v-model="compute_selection" value = "manual" type="radio" id="manual-compute" class="custom-control-input">    
-                                                                    <label class="custom-control-label" for="manual-compute">Manual</label>
-                                                                </div>  
-                                                                <div class="form-control-wrap">
-                                                                    <input v-model="input_markup_rate" :disabled="isDisabledManual" type="text" class="form-control" id="mark-up-rate" required>
-                                                                    <button @click="computePrice()" :disabled="isDisabledManual" type="button" class="btn btn-lg btn-primary">Apply</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-3 col-12">
-                                                            <div class="form-group">
-                                                                <label class="form-label" for="customer-group">Customer Group</label>
-                                                                <div class="custom-control custom-radio">    
-                                                                    <input v-model="compute_selection" value="auto" type="radio" id="auto-compute" class="custom-control-input">    
-                                                                    <label class="custom-control-label" for="auto-compute">Auto</label>
-                                                                </div>  
-                                                                <select class="form-select-customer-group" :disabled="isDisabledAuto" v-model="selected_customer_group" :options="options_customer_group" name="customer-group">
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
+                                                    <div class="form-group ml-4">
+                                                        <label class="form-label" for="customer-group">Customer Group</label>
+                                                        <div class="custom-control custom-radio mb-2">    
+                                                            <input v-model="compute_selection" value="auto" type="radio" id="auto-compute" class="custom-control-input">    
+                                                            <label class="custom-control-label" for="auto-compute">Auto</label>
+                                                        </div>  
+                                                        <select class="form-select-customer-group" :disabled="isDisabledAuto" v-model="selected_customer_group" :options="options_customer_group" name="customer-group">
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
-
                                             
                                         </div>
                                     </div>
                                 </div>
 
-                            </div>   
+                            </div>    
 
 
                             <div class="tab-pane" id="asset" v-show="show_asset_group">
                                 <div class="col-md-3 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="asset-group">Asset Group</label>
-                                        <select class="form-select-asset-group" v-model="selected_asset_group" :options="options_asset_group" name="asset-group">
+                                        <select class="form-select-asset-group" v-model="selected_asset_group" :options="options_asset_group" name="asset-group" :disabled="view_mode">
                                         </select>
                                     </div>
                                 </div>   
@@ -360,9 +417,10 @@
 
 
                             <div class="tab-pane" id="supplier-discounts">
-                                <item-discounts :properties="formdata" ref="itemDiscounts"></item-discounts>
+                                <item-discounts :properties="{data:formdata}" :view_mode="view_mode" ref="itemDiscounts"></item-discounts>
                             </div>   
                         </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -376,7 +434,7 @@ import ItemDiscounts from './item-discounts'
 
 export default {
     name: 'item-list',
-    props: ['properties'],
+    props: ['properties','view_mode'],
     data: function () {
         return {
             selected_item_group: null,
@@ -391,26 +449,42 @@ export default {
             selected_cost_of_sales: null,
             options_cost_of_sales: [],
 
-            selected_category1: null,
-            options_category1: [],
+            selected_cat_department: null,
+            options_cat_department: [],
 
-            selected_category2: null,
-            options_category2: [],
+            selected_cat_section: null,
+            options_cat_section: [],
 
-            selected_category3: null,
-            options_category3: [],
+            selected_cat_category: null,
+            options_cat_category: [],
 
-            selected_category4: null,
-            options_category4: [],
+            selected_cat_manufacturer: null,
+            options_cat_manufacturer: [],
 
-            selected_category5: null,
-            options_category5: [],
+            selected_cat_item_type: null,
+            options_cat_item_type: [],
+
+            selected_cat_brand: null,
+            options_cat_brand: [],
+
+            selected_cat_form: null,
+            options_cat_form: [],
+
+            selected_cat_packing_type: null,
+            options_cat_packing_type: [],
+
+            selected_cat_sizes: null,
+            options_cat_sizes: [],
+
 
             selected_asset_group: null,
             options_asset_group: [],
 
             selected_customer_group: null,
             options_customer_group: [],
+
+            selected_base_uom: null,
+            options_base_uom: [],
 
             input_markup_rate: '',
             customer_markup_rate: '',
@@ -434,7 +508,7 @@ export default {
                 item_group_uuid: '', 
                 item_code: '', 
                 item_barcode: '',
-                cs_barcode: '',
+                global_base_uom_uuid: '',
                 item_description: '',
                 item_shortname: '',
 
@@ -457,11 +531,15 @@ export default {
                 coa_cos_account_uuid: '',
                 reorder_qty: '',
                 item_asset_group_uuid: '',
-                category1_uuid: '',
-                category2_uuid: '',
-                category3_uuid: '',
-                category4_uuid: '',
-                category5_uuid: ''
+                cat_department_uuid: '',
+                cat_section_uuid: '',
+                cat_category_uuid: '',
+                cat_manufacturer_uuid: '',
+                cat_item_type_uuid: '',
+                cat_brand_uuid: '',
+                cat_form_uuid: '',
+                cat_packing_type_uuid: '',
+                cat_sizes_uuid: ''
             }
 
         }
@@ -527,7 +605,7 @@ export default {
 
                     scope.options_supplier.push({
                         id: data.uuid,
-                        text: data.business_shortname
+                        text: data.supplier_shortname
                     })
                 
                 })
@@ -572,99 +650,199 @@ export default {
         },
 
 
-        getCategory1: function () {
+        getCatDepartment: function () {
            var scope = this
-            scope.GET('items/category1').then(res => {
+            scope.GET('items/cat-department').then(res => {
                 
                 res.rows.forEach(function (data) {
 
-                    scope.options_category1.push({
+                    scope.options_cat_department.push({
                         id: data.uuid,
-                        text: data.category1
+                        text: data.department
                     })
                 
                 })
 
-                $(".form-select-category-1").select2({data: scope.options_category1});
-                scope.selected_category1 = scope.options_category1[0].id
+                $(".form-select-cat-department").select2({data: scope.options_cat_department});
+                scope.selected_cat_department = scope.options_cat_department[0].id
                 
             })
 
         },
 
 
-        getCategory2: function () {
+        getCatSection: function () {
            var scope = this
-            scope.GET('items/category2').then(res => {
+            scope.GET('items/cat-section').then(res => {
                 
                 res.rows.forEach(function (data) {
 
-                    scope.options_category2.push({
+                    scope.options_cat_section.push({
                         id: data.uuid,
-                        text: data.category2
+                        text: data.section
                     })
                 
                 })
 
-                $(".form-select-category-2").select2({data: scope.options_category2});
-                scope.selected_category2 = scope.options_category2[0].id
+                $(".form-select-cat-section").select2({data: scope.options_cat_section});
+                scope.selected_cat_section = scope.options_cat_section[0].id
             })
 
         },
 
-        getCategory3: function () {
+        getCatCategory: function () {
            var scope = this
-            scope.GET('items/category3').then(res => {
+            scope.GET('items/cat-category').then(res => {
                 
                 res.rows.forEach(function (data) {
 
-                    scope.options_category3.push({
+                    scope.options_cat_category.push({
                         id: data.uuid,
-                        text: data.category3
+                        text: data.category
                     })
                 
                 })
 
-                $(".form-select-category-3").select2({data: scope.options_category3});
-                scope.selected_category3 = scope.options_category3[0].id
+                $(".form-select-cat-category").select2({data: scope.options_cat_category});
+                scope.selected_cat_category = scope.options_cat_category[0].id
             })
 
         },
 
-        getCategory4: function () {
+        getCatManufacturer: function () {
            var scope = this
-            scope.GET('items/category4').then(res => {
+            scope.GET('items/cat-manufacturer').then(res => {
                 
                 res.rows.forEach(function (data) {
 
-                    scope.options_category4.push({
+                    scope.options_cat_manufacturer.push({
                         id: data.uuid,
-                        text: data.category4
+                        text: data.manufacturer
                     })
                 
                 })
 
-                $(".form-select-category-4").select2({data: scope.options_category4});
-                scope.selected_category4 = scope.options_category4[0].id
+                $(".form-select-cat-manufacturer").select2({data: scope.options_cat_manufacturer});
+                scope.selected_cat_manufacturer = scope.options_cat_manufacturer[0].id
             })
 
         },
 
-        getCategory5: function () {
+        getCatItemType: function () {
            var scope = this
-            scope.GET('items/category5').then(res => {
+            scope.GET('items/cat-item-type').then(res => {
                 
                 res.rows.forEach(function (data) {
 
-                    scope.options_category5.push({
+                    scope.options_cat_item_type.push({
                         id: data.uuid,
-                        text: data.category5
+                        text: data.item_type
                     })
                 
                 })
 
-                $(".form-select-category-5").select2({data: scope.options_category5});
-                scope.selected_category5 = scope.options_category5[0].id
+                $(".form-select-cat-item-type").select2({data: scope.options_cat_item_type});
+                scope.selected_cat_item_type = scope.options_cat_item_type[0].id
+                
+            })
+
+        },
+
+        getCatBrand: function () {
+           var scope = this
+            scope.GET('items/cat-brand').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_cat_brand.push({
+                        id: data.uuid,
+                        text: data.brand
+                    })
+                
+                })
+
+                $(".form-select-cat-brand").select2({data: scope.options_cat_brand});
+                scope.selected_cat_brand = scope.options_cat_brand[0].id
+                
+            })
+
+        },
+
+        getCatForm: function () {
+           var scope = this
+            scope.GET('items/cat-form').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_cat_form.push({
+                        id: data.uuid,
+                        text: data.form
+                    })
+                
+                })
+
+                $(".form-select-cat-form").select2({data: scope.options_cat_form});
+                scope.selected_cat_form = scope.options_cat_form[0].id
+                
+            })
+
+        },
+
+        getCatPackingType: function () {
+           var scope = this
+            scope.GET('items/cat-packing-type').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_cat_packing_type.push({
+                        id: data.uuid,
+                        text: data.packing_type
+                    })
+                
+                })
+
+                $(".form-select-cat-packing-type").select2({data: scope.options_cat_packing_type});
+                scope.selected_cat_packing_type = scope.options_cat_packing_type[0].id
+                
+            })
+
+        },
+
+        getCatSizes: function () {
+           var scope = this
+            scope.GET('items/cat-sizes').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_cat_sizes.push({
+                        id: data.uuid,
+                        text: data.sizes
+                    })
+                
+                })
+
+                $(".form-select-cat-sizes").select2({data: scope.options_cat_sizes});
+                scope.selected_cat_sizes = scope.options_cat_sizes[0].id
+                
+            })
+
+        },
+
+        getGlobalBaseUOM: function () {
+           var scope = this
+            scope.GET('globals/base-uom').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_base_uom.push({
+                        id: data.uuid,
+                        text: data.uom
+                    })
+                
+                })
+
+                $(".form-select-base-uom").select2({data: scope.options_base_uom});
+                scope.selected_base_uom = scope.options_base_uom[0].id
                 
             })
 
@@ -700,7 +878,7 @@ export default {
 
                     scope.options_customer_group.push({
                         id: data.uuid,
-                        text: data.group_name + ' with ' + parseFloat(data.markup_rate).toFixed(0) + '%' + ' markup rate',
+                        text: parseFloat(data.markup_rate).toFixed(0) + '%' + ' - ' + data.group_name ,
                         markup_rate: data.markup_rate
                     })
                 
@@ -795,11 +973,17 @@ export default {
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
             scope.formdata.item_asset_group_uuid = scope.selected_asset_group
 
-            scope.formdata.category1_uuid = scope.selected_category1
-            scope.formdata.category2_uuid = scope.selected_category2
-            scope.formdata.category3_uuid = scope.selected_category3
-            scope.formdata.category4_uuid = scope.selected_category4
-            scope.formdata.category5_uuid = scope.selected_category5
+            scope.formdata.global_base_uom_uuid = scope.selected_base_uom
+
+            scope.formdata.cat_department_uuid = scope.selected_cat_department
+            scope.formdata.cat_section_uuid = scope.selected_cat_section
+            scope.formdata.cat_category_uuid = scope.selected_cat_category
+            scope.formdata.cat_manufacturer_uuid = scope.selected_cat_manufacturer
+            scope.formdata.cat_item_type_uuid = scope.selected_cat_item_type
+            scope.formdata.cat_brand_uuid = scope.selected_cat_brand
+            scope.formdata.cat_form_uuid = scope.selected_cat_form
+            scope.formdata.cat_packing_type_uuid = scope.selected_cat_packing_type
+            scope.formdata.cat_sizes_uuid = scope.selected_cat_sizes
 
             scope.formdata.item_uoms = scope.item_uoms
 
@@ -831,11 +1015,17 @@ export default {
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
             scope.formdata.item_asset_group_uuid = scope.selected_asset_group
 
-            scope.formdata.category1_uuid = scope.selected_category1
-            scope.formdata.category2_uuid = scope.selected_category2
-            scope.formdata.category3_uuid = scope.selected_category3
-            scope.formdata.category4_uuid = scope.selected_category4
-            scope.formdata.category5_uuid = scope.selected_category5
+            scope.formdata.global_base_uom_uuid = scope.selected_base_uom
+
+            scope.formdata.cat_department_uuid = scope.selected_cat_department
+            scope.formdata.cat_section_uuid = scope.selected_cat_section
+            scope.formdata.cat_category_uuid = scope.selected_cat_category
+            scope.formdata.cat_manufacturer_uuid = scope.selected_cat_manufacturer
+            scope.formdata.cat_item_type_uuid = scope.selected_cat_item_type
+            scope.formdata.cat_brand_uuid = scope.selected_cat_brand
+            scope.formdata.cat_form_uuid = scope.selected_cat_form
+            scope.formdata.cat_packing_type_uuid = scope.selected_cat_packing_type
+            scope.formdata.cat_sizes_uuid = scope.selected_cat_sizes
 
             scope.formdata.item_uoms = scope.item_uoms
 
@@ -921,7 +1111,6 @@ export default {
                     scope.formdata.is_draft = data.is_draft
                     scope.formdata.item_code = data.item_code
                     scope.formdata.item_barcode = data.item_barcode
-                    scope.formdata.cs_barcode = data.cs_barcode
                     scope.formdata.item_description = data.item_description
                     scope.formdata.item_shortname = data.item_shortname
                     scope.formdata.is_purchase_item = data.is_purchase_item
@@ -960,23 +1149,38 @@ export default {
                     $('.form-select-cost-of-sales').val(data.coa_cos_account_uuid);
                     $('.form-select-cost-of-sales').trigger('change');
 
-                    $('.form-select-category-1').val(data.category1_uuid);
-                    $('.form-select-category-1').trigger('change');
+                    $('.form-select-cat-department').val(data.cat_department_uuid);
+                    $('.form-select-cat-department').trigger('change');
 
-                    $('.form-select-category-2').val(data.category2_uuid);
-                    $('.form-select-category-2').trigger('change');
+                    $('.form-select-cat-section').val(data.cat_section_uuid);
+                    $('.form-select-cat-section').trigger('change');
 
-                    $('.form-select-category-3').val(data.category3_uuid);
-                    $('.form-select-category-3').trigger('change');
+                    $('.form-select-cat-category').val(data.cat_category_uuid);
+                    $('.form-select-cat-category').trigger('change');
 
-                    $('.form-select-category-4').val(data.category4_uuid);
-                    $('.form-select-category-4').trigger('change');
+                    $('.form-select-cat-manufacturer').val(data.cat_manufacturer_uuid);
+                    $('.form-select-cat-manufacturer').trigger('change');
 
-                    $('.form-select-category-5').val(data.category5_uuid);
-                    $('.form-select-category-5').trigger('change');
+                    $('.form-select-cat-item-type').val(data.cat_item_type_uuid);
+                    $('.form-select-cat-item-type').trigger('change');
+
+                    $('.form-select-cat-brand').val(data.cat_brand_uuid);
+                    $('.form-select-cat-brand').trigger('change');
+
+                    $('.form-select-cat-form').val(data.cat_form_uuid);
+                    $('.form-select-cat-form').trigger('change');
+
+                    $('.form-select-cat-packing-type').val(data.cat_packing_type_uuid);
+                    $('.form-select-cat-packing-type').trigger('change');
+
+                     $('.form-select-cat-sizes').val(data.cat_sizes_uuid);
+                    $('.form-select-cat-sizes').trigger('change');
 
                     $('.form-select-asset-group').val(data.item_asset_group_uuid);
                     $('.form-select-asset-group').trigger('change');
+
+                    $('.form-select-base-uom').val(data.global_base_uom_uuid);
+                    $('.form-select-base-uom').trigger('change');
 
                 }
                 
@@ -985,27 +1189,33 @@ export default {
     },
     mounted() {
         var scope = this
-
+        console.log('jp', scope.view_mode)
         scope.getItemGroup()
         scope.getSupplier()
         scope.getIncomeAccount()
         scope.getCostofSales()
-        scope.getCategory1()
-        scope.getCategory2()
-        scope.getCategory3()
-        scope.getCategory4()
-        scope.getCategory5()
+
+        scope.getCatDepartment()
+        scope.getCatSection()
+        scope.getCatCategory()
+        scope.getCatManufacturer()
+        scope.getCatItemType()
+        scope.getCatBrand()
+        scope.getCatForm()
+        scope.getCatPackingType()
+        scope.getCatSizes()
+
         scope.getAssetGroup()
 
         scope.getGlobalUoms()
+
+        scope.getGlobalBaseUOM()
         
         scope.getCustomerGroup()
 
 
         var itemUUID = scope.$route.params.itemUUID
         scope.getItemDetails(itemUUID)
-
-
 
         $('.form-select-item-group').on("change", function(e) { 
             scope.selected_item_group = $('.form-select-item-group').val();
@@ -1025,30 +1235,49 @@ export default {
             scope.selected_cost_of_sales = $('.form-select-cost-of-sales').val();
         })
 
-        $('.form-select-category-1').on("change", function(e) { 
-            scope.selected_category1 = $('.form-select-category-1').val();
+        $('.form-select-cat-department').on("change", function(e) { 
+            scope.selected_cat_department = $('.form-select-cat-department').val();
         })
 
-        $('.form-select-category-2').on("change", function(e) { 
-            scope.selected_category2 = $('.form-select-category-2').val();
+        $('.form-select-cat-section').on("change", function(e) { 
+            scope.selected_cat_section = $('.form-select-cat-section').val();
         })
 
-        $('.form-select-category-3').on("change", function(e) { 
-            scope.selected_category3 = $('.form-select-category-3').val();
+        $('.form-select-cat-category').on("change", function(e) { 
+            scope.selected_cat_category = $('.form-select-cat-category').val();
         })
 
-        $('.form-select-category-4').on("change", function(e) { 
-            scope.selected_category4 = $('.form-select-category-4').val();
+        $('.form-select-cat-manufacturer').on("change", function(e) { 
+            scope.selected_cat_manufacturer = $('.form-select-cat-manufacturer').val();
         })
 
-        $('.form-select-category-5').on("change", function(e) { 
-            scope.selected_category5 = $('.form-select-category-5').val();
+        $('.form-select-cat-item-type').on("change", function(e) { 
+            scope.selected_cat_item_type = $('.form-select-cat-item-type').val();
+        })
+
+        $('.form-select-cat-brand').on("change", function(e) { 
+            scope.selected_cat_brand = $('.form-select-cat-brand').val();
+        })
+
+        $('.form-select-cat-form').on("change", function(e) { 
+            scope.selected_cat_form = $('.form-select-cat-form').val();
+        })
+
+        $('.form-select-cat-packing-type').on("change", function(e) { 
+            scope.selected_cat_packing_type = $('.form-select-cat-packing-type').val();
+        })
+
+        $('.form-select-cat-sizes').on("change", function(e) { 
+            scope.selected_cat_sizes = $('.form-select-cat-sizes').val();
         })
 
         $('.form-select-asset-group').on("change", function(e) { 
             scope.selected_asset_group = $('.form-select-asset-group').val();
         })
 
+        $('.form-select-base-uom').on("change", function(e) { 
+            scope.selected_base_uom = $('.form-select-base-uom').val();
+        })
 
 
         $('.form-select-customer-group').on("change", function(e) { 

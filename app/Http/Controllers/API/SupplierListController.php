@@ -22,8 +22,8 @@ class SupplierListController extends Controller
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;
             $list = $list->where(function($query) use ($keyword) {
-                $query->where('business_name','LIKE','%'.$keyword.'%')
-                    ->orWhere('business_shortname','LIKE','%'.$keyword.'%')
+                $query->where('supplier_name','LIKE','%'.$keyword.'%')
+                    ->orWhere('supplier_shortname','LIKE','%'.$keyword.'%')
                     ->orWhere('tax_identification_no','LIKE','%'.$keyword.'%');
             });
         }
@@ -72,9 +72,8 @@ class SupplierListController extends Controller
 
         $auth = \Auth::user();
         $supplier->company_id = $auth->company_id;
-        $supplier->business_name = request()->business_name;
-        $supplier->business_shortname = request()->business_shortname;
-        $supplier->check_payee = request()->check_payee;
+        $supplier->supplier_name = request()->supplier_name;
+        $supplier->supplier_shortname = request()->supplier_shortname;
         $supplier->tax_identification_no = request()->tax_identification_no;
         $supplier->vat_uuid = request()->vat_uuid;
         $supplier->ewt_uuid = request()->ewt_uuid;

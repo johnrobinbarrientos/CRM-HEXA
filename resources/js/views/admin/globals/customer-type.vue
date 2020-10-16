@@ -13,7 +13,6 @@
                         <div class="col-12 col-md-3">
                             <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
                             <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
-                                <option value="1">1</option>
                                 <option value="10">10</option>
                                 <option value="20">20</option>
                                 <option value="30">30</option>
@@ -87,7 +86,7 @@
                     <div class="modal-header">
                         <h5 class="modal-title">Customer Type Details</h5>
                         <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalCustomerType');" class="close" data-dismiss="modal" aria-label="Close">
-                            <em class="icon ni ni-cross"></em>
+                            <i class="bx bx-x"></i>
                         </a>
                     </div>
                     <div class="modal-body">

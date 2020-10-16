@@ -54,28 +54,43 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
         Route::delete('/item-supplier-discounts', 'API\ItemSupplierDiscountController@delete');
         Route::delete('/item-supplier-discounts-batch', 'API\ItemSupplierDiscountController@deleteBatch');
-        
-        Route::get('/category1', 'API\ItemCategory1Controller@getCategories');
-        Route::post('/category1', 'API\ItemCategory1Controller@save');
-        Route::post('/category1/delete', 'API\ItemCategory1Controller@delete');
 
-        Route::get('/category2', 'API\ItemCategory2Controller@getCategories');
-        Route::post('/category2', 'API\ItemCategory2Controller@save');
-        Route::post('/category2/delete', 'API\ItemCategory2Controller@delete');
 
-        Route::get('/category3', 'API\ItemCategory3Controller@getCategories');
-        Route::post('/category3', 'API\ItemCategory3Controller@save');
-        Route::post('/category3/delete', 'API\ItemCategory3Controller@delete');
+        Route::get('/cat-brand', 'API\ItemCatBrandController@getCatBrand');
+        Route::post('/cat-brand', 'API\ItemCatBrandController@save');
+        Route::post('/cat-brand/delete', 'API\ItemCatBrandController@delete');
 
-        Route::get('/category4', 'API\ItemCategory4Controller@getCategories');
-        Route::post('/category4', 'API\ItemCategory4Controller@save');
-        Route::post('/category4/delete', 'API\ItemCategory4Controller@delete');
+        Route::get('/cat-category', 'API\ItemCatCategoryController@getCatCategory');
+        Route::post('/cat-category', 'API\ItemCatCategoryController@save');
+        Route::post('/cat-category/delete', 'API\ItemCatCategoryController@delete');
 
-        Route::get('/category5', 'API\ItemCategory5Controller@getCategories');
-        Route::post('/category5', 'API\ItemCategory5Controller@save');
-        Route::post('/category5/delete', 'API\ItemCategory5Controller@delete');
+        Route::get('/cat-department', 'API\ItemCatDepartmentController@getCatDepartment');
+        Route::post('/cat-department', 'API\ItemCatDepartmentController@save');
+        Route::post('/cat-department/delete', 'API\ItemCatDepartmentController@delete');
 
-        
+        Route::get('/cat-form', 'API\ItemCatFormController@getCatForm');
+        Route::post('/cat-form', 'API\ItemCatFormController@save');
+        Route::post('/cat-form/delete', 'API\ItemCatFormController@delete');
+
+        Route::get('/cat-item-type', 'API\ItemCatItemTypeController@getCatItemType');
+        Route::post('/cat-item-type', 'API\ItemCatItemTypeController@save');
+        Route::post('/cat-item-type/delete', 'API\ItemCatItemTypeController@delete');
+
+        Route::get('/cat-manufacturer', 'API\ItemCatManufacturerController@getCatManufacturer');
+        Route::post('/cat-manufacturer', 'API\ItemCatManufacturerController@save');
+        Route::post('/cat-manufacturer/delete', 'API\ItemCatManufacturerController@delete');
+
+        Route::get('/cat-packing-type', 'API\ItemCatPackingTypeController@getCatPackingType');
+        Route::post('/cat-packing-type', 'API\ItemCatPackingTypeController@save');
+        Route::post('/cat-packing-type/delete', 'API\ItemCatPackingTypeController@delete');
+
+        Route::get('/cat-section', 'API\ItemCatSectionController@getCatSection');
+        Route::post('/cat-section', 'API\ItemCatSectionController@save');
+        Route::post('/cat-section/delete', 'API\ItemCatSectionController@delete');
+
+        Route::get('/cat-sizes', 'API\ItemCatSizesController@getCatSizes');
+        Route::post('/cat-sizes', 'API\ItemCatSizesController@save');
+        Route::post('/cat-sizes/delete', 'API\ItemCatSizesController@delete');
 
     });
 
@@ -100,6 +115,10 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
         Route::get('/{supplierDiscountUUID}/supplier-base-discount-group-details', 'API\SupplierBaseDiscountGroupDetailController@getSupplierBaseDiscountGroupDetails');
         Route::post('/{supplierDiscountUUID}/supplier-base-discount-group-details', 'API\SupplierBaseDiscountGroupDetailController@save');
+
+
+        Route::get('/{supplierUUID}/check-payee', 'API\SupplierCheckPayeeController@getCheckPayee');
+        Route::post('/{supplierUUID}/check-payee', 'API\SupplierCheckPayeeController@save');
     
     });
 

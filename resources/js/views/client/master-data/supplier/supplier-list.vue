@@ -1,5 +1,8 @@
 <template>
     <div>
+        <div v-show="show_preloader">
+            <Spinner />
+        </div>
         <div class="actions-bar">
             <div class="w-100">
                 <h1 class="title"><i class="las la-list-ul"></i> Supplier List</h1>
@@ -7,7 +10,6 @@
             <div class="bar-right">
                 <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
                 <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
-                    <option value="1">1</option>
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
@@ -29,9 +31,8 @@
                     <tr>
                         <th>Actions</th>
                         <th>#</th>
-                        <th>Business Name</th>
-                        <th>Business Shortname</th>
-                        <th>Check Payee</th>
+                        <th>Supplier Name</th>
+                        <th>Supplier Shortname</th>
                         <th>Is Transporter?</th>
                         <th>Lead Time (Days)</th>
                         <th>Group Name</th>
@@ -46,13 +47,12 @@
                         <td width="100">
                             <span class="w-65px d-block mx-auto">
                                 <a href="javascript:void(0)" @click="ROUTE({path: '/suppliers/' + supplier.uuid })" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                <a href="javascript:void(0)" @click="remove(supplier)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
+                                <a href="javascript:void(0)" @click="ROUTE({path: '/suppliers/' + supplier.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
                             </span>
                         </td>
                         <td><span class="">{{ (index + 1) }}</span></td>
-                        <td><span class="">{{supplier.business_name}}</span></td>
-                        <td><span class="">{{supplier.business_shortname}}</span></td>
-                        <td><span class="">{{supplier.check_payee}}</span></td>
+                        <td><span class="">{{supplier.supplier_name}}</span></td>
+                        <td><span class="">{{supplier.supplier_shortname}}</span></td>
                         <td v-if="supplier.is_transporter === 1">Yes</td>
                         <td v-else>No</td>
                         <td class="text-right">{{supplier.lead_time}}</td>
@@ -94,6 +94,7 @@
                 </ul>
             </nav>
         </div>
+
     </div>
 </template>
 
@@ -106,7 +107,11 @@ export default {
 
     data: function () {
         return {
+            show_preloader: true,
+
             supplierList: [],
+            supplier_data: [],
+            show_view: false,
             listLoading: true,
             listCurrentPage: 1,
             listItemPerPage: 20,
@@ -183,7 +188,9 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getSupplierList() 
+        scope.getSupplierList()
+
+        setTimeout(function(){ scope.show_preloader = false },2000)
     },
 }
 </script>

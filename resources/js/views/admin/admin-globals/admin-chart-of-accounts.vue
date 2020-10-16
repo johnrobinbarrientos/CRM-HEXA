@@ -12,7 +12,6 @@
                         <div class="col-12 col-md-3">
                             <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
                             <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
-                                <option value="1">1</option>
                                 <option value="10">10</option>
                                 <option value="20">20</option>
                                 <option value="30">30</option>
@@ -89,7 +88,7 @@
                     <div class="modal-header">
                         <h5 class="modal-title">Chart of Accounts Details</h5>
                         <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalCOA');" class="close" data-dismiss="modal" aria-label="Close">
-                            <em class="icon ni ni-cross"></em>
+                            <i class="bx bx-x"></i>
                         </a>
                     </div>
                     <div class="modal-body">
@@ -153,6 +152,13 @@ export default {
             selected_account_group: null,
             options_account_group: []
 
+        }
+    },
+    computed: {
+        listTotalPages: function () {
+            var scope = this
+            var pages = Math.ceil(scope.listCount / scope.listItemPerPage)
+            return pages
         }
     },
     methods: {

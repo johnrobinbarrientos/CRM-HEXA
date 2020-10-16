@@ -16,11 +16,11 @@
                         
                     </a>
 
-                    <span class="client-name">Pinoy Grocery Incorporated</span>
+                    <span class="client-name">{{company_name}}</span>
                 </div>
                 <div class="d-flex align-items-center">
                     <form class="app-search d-none d-lg-block">
-                        <div class="position-relative"><input type="text" class="form-control" placeholder="Global Search..."><span class="bx bx-search-alt"></span></div>
+                        <div class="position-relative"><input type="text" class="form-control" placeholder="HEXA Search..."><span class="bx bx-search-alt"></span></div>
                     </form>
                 </div>
                 <div>
@@ -30,7 +30,7 @@
                         <form class="p-3">
                             <div class="form-group m-0">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Global Search ..." aria-label="Recipient&#39;s username">
+                                    <input type="text" class="form-control" placeholder="HEXA Search ..." aria-label="Recipient&#39;s username">
                                     <div class="input-group-append"><button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button></div>
                                 </div>
                             </div>
@@ -164,6 +164,7 @@
         return {
             logo,
             avatar,
+            company_name: ''
         }
     },
     computed: {
@@ -181,10 +182,17 @@
         },
         logout: function () {
             this.$store.dispatch('revoke',{ token: '' })
+        },
+        getCompanyDetails: function () {
+            var scope = this
+            scope.GET('company/details').then(res => {
+                scope.company_name = res.rows.company_name
+            })
         }
     },
     mounted() {
-        //console.log(this.user)
+        var scope = this
+        scope.getCompanyDetails()
     }
 }
 </script>
