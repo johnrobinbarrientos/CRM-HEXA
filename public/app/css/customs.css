@@ -67,7 +67,7 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
 }
 
 /*form fields*/
-.form-control, .select2-container, .select2-selection, .select2-container .select2-selection--single, .select2-container .select2-selection--multiple { min-height:34px !important; height: 34px !important; }
+.form-control, .select2-container, .select2-selection, .select2-container .select2-selection--single, .select2-container .select2-selection--multiple { min-height:34px !important;  }
 
 .form-control.disabled { opacity:0.7; }
 /*navtabs*/

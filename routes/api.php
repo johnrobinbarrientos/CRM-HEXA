@@ -240,6 +240,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/orders', 'API\BuyAndPayOrderController@getOrders');
         Route::get('/orders/{order_uuid}', 'API\BuyAndPayOrderController@getOrderDetails');
         Route::get('/orders/{order_uuid}/supplier-items', 'API\BuyAndPayOrderController@getOrderSupplierItems');
+        Route::get('/orders/{order_uuid}/suppliers/{supplier_uuid}/discounts', 'API\BuyAndPayOrderController@getSupplierDiscounts');
 
         Route::post('/order', 'API\BuyAndPayOrderController@saveOrder');
         Route::post('/order/delete', 'API\BuyAndPayOrderController@deleteOrder');

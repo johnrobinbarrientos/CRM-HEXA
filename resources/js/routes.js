@@ -41,7 +41,7 @@ import AdminChartofAccounts from './views/admin/admin-globals/admin-chart-of-acc
 import AdminCostCenter from './views/admin/admin-globals/admin-cost-center'
 
 import PurchaseOrderList from './views/client/buy-and-pay/purchase-order/purchase-order-list'
-import PurchaseOrderForm from './views/client/buy-and-pay/purchase-order/purchase-order-form'
+import PurchaseOrderCreate from './views/client/buy-and-pay/purchase-order/purchase-order-create'
 import PurchaseOrderDetails from './views/client/buy-and-pay/purchase-order/purchase-order-details'
 
 import PriceRuleMain from './views/client/inventory/price-rule/price-rule-main'
@@ -268,8 +268,8 @@ export default new VueRouter({
         },
         {
           path: '/purchase-orders/create',
-          name: 'purchase-order-form',
-          component: PurchaseOrderForm,
+          name: 'purchase-order-create',
+          component: PurchaseOrderCreate,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },

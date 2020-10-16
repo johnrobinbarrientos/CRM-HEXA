@@ -25,6 +25,7 @@ use App\Models\PriceRuleSupplierItem;
 
 use App\Models\BuyAndPayOrder;
 use App\Models\BuyAndPayOrderDetail;
+use App\Models\BuyAndPayOrderSupplierBaseDiscountGroup;
 
 use App\Models\BuyAndPayOrderAdditionalDiscount; 
 use App\Models\BuyAndPayOrderBaseDiscountGroup; 
@@ -47,11 +48,15 @@ class BuyAndPayOrderController extends Controller
 
     public function saveOrder()
     {
-        $order = request()->uuid ? BuyAndPayOrder::find(request()->uuid) : new BuyAndPayOrder();
         $auth = \Auth::user();
+        
+        $order = BuyAndPayOrder::find(request()->uuid);
+        $is_new =  ($order) ? false : true ;
+        $order = ($order) ? $order: new BuyAndPayOrder();
+
         $order->company_id = $auth->company_id;
 
-        if (request()->uuid === null){
+        if ($is_new){
             $prefix = $this->getCompanyPrefix();
             $type = 'PO';
             $no_of_transactions = $this->getNumberOfTransactions(request()->uuid) + 1;
@@ -63,8 +68,6 @@ class BuyAndPayOrderController extends Controller
             $order->po_no = $id;
         }
 
-
-        $order->item_group_uuid = request()->item_group_uuid;
         $order->asset_group_uuid = request()->asset_group_uuid;
         $order->term = request()->term;
         $order->date_purchased = request()->date_purchased;
@@ -79,94 +82,10 @@ class BuyAndPayOrderController extends Controller
 
         $order = BuyAndPayOrder::find($order->uuid);
 
-        // DISCOUNTS
-        // BuyAndPayOrderBaseDiscount
-
-        $supplier_base_discount_group_uuids = request()->selected_supplier_discount_groups;
-        $supplier_base_discount_groups = SupplierBaseDiscountGroup::whereIn('uuid',$supplier_base_discount_group_uuids)->get();
-        
-        foreach ($supplier_base_discount_groups as $supplier_base_discount_group) {
-
-            $buy_and_pay_order_base_discount_group = new BuyAndPayOrderBaseDiscountGroup;
-            $buy_and_pay_order_base_discount_group->bp_order_uuid = $order->uuid;
-            $buy_and_pay_order_base_discount_group->company_id = $auth->company_id;
-            $buy_and_pay_order_base_discount_group->supplier_uuid = $supplier_base_discount_group->supplier_uuid;
-            $buy_and_pay_order_base_discount_group->group_name = $supplier_base_discount_group->group_name;
-            $buy_and_pay_order_base_discount_group->save();
-
-            $supplier_base_discount_group_details = SupplierBaseDiscountGroupDetail::where('supplier_base_discount_group_uuid','=',$supplier_base_discount_group->uuid)->get();
-
-            foreach ($supplier_base_discount_group_details as $supplier_base_discount_group_detail) {
-                $buy_and_pay_order_base_discount_group_detail = new BuyAndPayOrderBaseDiscountGroupDetail;
-                $buy_and_pay_order_base_discount_group_detail->company_id = $auth->company_id;
-                $buy_and_pay_order_base_discount_group_detail->bp_order_base_discount_group_uuid = $buy_and_pay_order_base_discount_group->uuid;
-                
-                $buy_and_pay_order_base_discount_group_detail->bp_order_uuid = $order->uuid;
-                $buy_and_pay_order_base_discount_group_detail->discount_name = $supplier_base_discount_group_detail->discount_name;
-                $buy_and_pay_order_base_discount_group_detail->discount_rate = $supplier_base_discount_group_detail->discount_rate;
-                $buy_and_pay_order_base_discount_group_detail->save();
-
-                // ItemSupplierDiscount to be changed to BuyAndPayOrderBaseDiscountGroupItem and "supplier_base_discount_group_uuid" to "supplier_base_discount_group_detail_uuid"
-                $supplier_base_discount_group_items = ItemSupplierDiscount::where('supplier_base_discount_group_uuid','=',$supplier_base_discount_group_detail->supplier_base_discount_group_uuid)->get();
-
-                foreach ($supplier_base_discount_group_items as $supplier_base_discount_group_item) {
-                    $buy_and_pay_order_base_discount_group_item = new BuyAndPayOrderBaseDiscountGroupItem;
-                    $buy_and_pay_order_base_discount_group_item->company_id = $auth->company_id;
-                    $buy_and_pay_order_base_discount_group_item->bp_order_uuid = $order->uuid;
-                    $buy_and_pay_order_base_discount_group_item->item_uuid = $supplier_base_discount_group_item->item_uuid;
-                    $buy_and_pay_order_base_discount_group_item->supplier_uuid = $supplier_base_discount_group_item->supplier_uuid;
-                    $buy_and_pay_order_base_discount_group_item->bp_order_base_discount_group_detail_uuid = $buy_and_pay_order_base_discount_group_detail->uuid;
-                    $buy_and_pay_order_base_discount_group_item->save();
-
-                }
-            }
-
-        }
+        $this->saveBaseDiscounts($order, $is_new);
+        $this->savePriceRuleDiscounts($order, $is_new);
 
         $po_date = date('Y-m-d',strtotime(request()->date_purchased));
-
-        $price_rule_suppliers = PriceRuleSupplier::where('company_id','=',$auth->company_id)
-            ->where('date_start','<=',$po_date)
-            ->where('date_end','>=',$po_date)
-            ->get();
-    
-        foreach ($price_rule_suppliers as $price_rule_supplier) {
-            
-            $buy_and_pay_price_rule = new BuyAndPayPriceRule;
-            $buy_and_pay_price_rule->company_id     = $auth->company_id;
-            $buy_and_pay_price_rule->bp_order_uuid  = $order->uuid;
-            $buy_and_pay_price_rule->rule_name      = $price_rule_supplier->rule_name;
-            $buy_and_pay_price_rule->rate           = $price_rule_supplier->rate;
-            $buy_and_pay_price_rule->date_start     = $price_rule_supplier->date_start;
-            $buy_and_pay_price_rule->date_end       = $price_rule_supplier->date_end;
-            $buy_and_pay_price_rule->mechanics      = $price_rule_supplier->mechanics;
-            $buy_and_pay_price_rule->target_amount  = $price_rule_supplier->target_amount;
-            $buy_and_pay_price_rule->save();
-
-            $price_rule_supplier_details = PriceRuleSupplierDetail::where('price_rule_supplier_uuid','=',$price_rule_supplier->uuid)->get();
-
-            foreach ($price_rule_supplier_details as $price_rule_supplier_detail) {
-                
-                $buy_and_pay_price_rule_detail = new BuyAndPayPriceRuleDetail;
-                $buy_and_pay_price_rule_detail->company_id                  = $auth->company_id;
-                $buy_and_pay_price_rule_detail->bp_order_uuid               = $order->uuid;
-                $buy_and_pay_price_rule_detail->bp_price_rule_uuid          = $buy_and_pay_price_rule->uuid;
-                $buy_and_pay_price_rule_detail->supplier_uuid               = $price_rule_supplier_detail->supplier_uuid;
-                $buy_and_pay_price_rule_detail->applied_to                  = $price_rule_supplier_detail->applied_to;
-                $buy_and_pay_price_rule_detail->save();
-
-                $price_rule_supplier_items = PriceRuleSupplierItem::where('price_rule_supplier_detail_uuid','=',$price_rule_supplier_detail->uuid)->get();
-                
-                foreach ($price_rule_supplier_items as $price_rule_supplier_item) {
-                    $buy_and_pay_price_rule_item = new BuyAndPayPriceRuleItem;
-                    $buy_and_pay_price_rule_item->company_id                    = $auth->company_id;
-                    $buy_and_pay_price_rule_item->bp_order_uuid                 = $order->uuid;
-                    $buy_and_pay_price_rule_item->bp_price_rule_detail_uuid     = $buy_and_pay_price_rule_detail->uuid;
-                    $buy_and_pay_price_rule_item->item_uuid                     = $price_rule_supplier_item->item_uuid;
-                    $buy_and_pay_price_rule_item->save();
-                }
-            }
-        }
 
         return response()->json(['success' => 1, 'data' => $order, 'po_date' => $po_date], 200);
     }
@@ -187,6 +106,152 @@ class BuyAndPayOrderController extends Controller
         return $prefix;
     }
 
+    public function saveBaseDiscounts($order, $is_new)
+    {
+        $auth = \Auth::user();
+        
+        // delete all existing discounts for reset
+        if (!$is_new) {
+            $supplier_base_discount_group_uuids = request()->selected_supplier_discount_groups;
+            
+            // get list of discount group that are no longer included on update
+            $buy_and_pay_order_base_discount_group_uuids = BuyAndPayOrderBaseDiscountGroup::where('bp_order_uuid','=',$order->uuid)
+                ->whereNotIn('supplier_base_discount_group_uuid',$supplier_base_discount_group_uuids)
+                ->pluck('uuid')->toArray();
+
+            $buy_and_pay_order_base_discount_group_detail_uuids = BuyAndPayOrderBaseDiscountGroupDetail::where('bp_order_uuid','=',$order->uuid)
+                ->whereNotIn('bp_order_base_discount_group_uuid',$buy_and_pay_order_base_discount_group_uuids)
+                ->pluck('uuid')->toArray();
+
+            $buy_and_pay_order_base_discount_group_item_uuids = BuyAndPayOrderBaseDiscountGroupItem::where('bp_order_uuid','=',$order->uuid)
+                ->whereNotIn('bp_order_base_discount_group_detail_uuid',$buy_and_pay_order_base_discount_group_detail_uuids)
+                ->pluck('uuid')->toArray();
+                
+
+            $delete = BuyAndPayOrderBaseDiscountGroup::whereIn('uuid',$buy_and_pay_order_base_discount_group_uuids)
+                ->where('bp_order_uuid','=',$order->uuid)
+                ->forceDelete();
+
+            $delete = BuyAndPayOrderBaseDiscountGroupDetail::whereIn('uuid',$buy_and_pay_order_base_discount_group_detail_uuids)
+                ->where('bp_order_uuid','=',$order->uuid)
+                ->forceDelete();
+
+            $delete = BuyAndPayOrderBaseDiscountGroupItem::whereIn('uuid',$buy_and_pay_order_base_discount_group_item_uuids)
+                ->where('bp_order_uuid','=',$order->uuid)
+                ->forceDelete();
+        }
+
+        $supplier_base_discount_group_uuids = request()->selected_supplier_discount_groups;
+        $supplier_base_discount_groups = SupplierBaseDiscountGroup::whereIn('uuid',$supplier_base_discount_group_uuids)->get();
+
+        foreach ($supplier_base_discount_groups as $supplier_base_discount_group) {
+            
+            $buy_and_pay_order_base_discount_group = BuyAndPayOrderBaseDiscountGroup::where('bp_order_uuid','=',$order->uuid)
+                ->where('supplier_base_discount_group_uuid','=',$supplier_base_discount_group->uuid)
+                ->first();
+
+            $buy_and_pay_order_base_discount_group = ($buy_and_pay_order_base_discount_group) ? $buy_and_pay_order_base_discount_group : new BuyAndPayOrderBaseDiscountGroup;
+            $buy_and_pay_order_base_discount_group->bp_order_uuid = $order->uuid;
+            $buy_and_pay_order_base_discount_group->company_id = $auth->company_id;
+            $buy_and_pay_order_base_discount_group->supplier_uuid = $supplier_base_discount_group->supplier_uuid;
+            $buy_and_pay_order_base_discount_group->supplier_base_discount_group_uuid = $supplier_base_discount_group->uuid;
+            $buy_and_pay_order_base_discount_group->group_name = $supplier_base_discount_group->group_name;
+            $buy_and_pay_order_base_discount_group->save();
+
+            $supplier_base_discount_group_details = SupplierBaseDiscountGroupDetail::where('supplier_base_discount_group_uuid','=',$supplier_base_discount_group->uuid)->get();
+            
+            foreach ($supplier_base_discount_group_details as $supplier_base_discount_group_detail) {
+
+                $buy_and_pay_order_base_discount_group_detail = BuyAndPayOrderBaseDiscountGroupDetail::where('bp_order_uuid','=', $order->uuid)
+                    ->where('bp_order_base_discount_group_uuid','=', $buy_and_pay_order_base_discount_group->uuid)
+                    ->first();
+
+                $buy_and_pay_order_base_discount_group_detail = ($buy_and_pay_order_base_discount_group_detail) ? $buy_and_pay_order_base_discount_group_detail : new BuyAndPayOrderBaseDiscountGroupDetail;
+
+                $buy_and_pay_order_base_discount_group_detail->company_id = $auth->company_id;
+                $buy_and_pay_order_base_discount_group_detail->bp_order_base_discount_group_uuid = $buy_and_pay_order_base_discount_group->uuid;
+                $buy_and_pay_order_base_discount_group_detail->bp_order_uuid = $order->uuid;
+                $buy_and_pay_order_base_discount_group_detail->discount_name = $supplier_base_discount_group_detail->discount_name;
+                $buy_and_pay_order_base_discount_group_detail->discount_rate = $supplier_base_discount_group_detail->discount_rate;
+                $buy_and_pay_order_base_discount_group_detail->save();
+                
+                // ItemSupplierDiscount to be changed to SupplierBaseDiscountGroupItem 
+                $supplier_base_discount_group_items = ItemSupplierDiscount::where('supplier_base_discount_group_uuid','=',$supplier_base_discount_group_detail->supplier_base_discount_group_uuid)->get();
+
+                foreach ($supplier_base_discount_group_items as $supplier_base_discount_group_item) {
+
+                    $buy_and_pay_order_base_discount_group_item = BuyAndPayOrderBaseDiscountGroupItem::where('bp_order_uuid','=', $order->uuid)
+                        ->where('bp_order_base_discount_group_detail_uuid','=',$buy_and_pay_order_base_discount_group_detail->uuid)
+                        ->first();
+
+                    $buy_and_pay_order_base_discount_group_item = new BuyAndPayOrderBaseDiscountGroupItem;
+
+                    $buy_and_pay_order_base_discount_group_item->company_id = $auth->company_id;
+                    $buy_and_pay_order_base_discount_group_item->bp_order_uuid = $order->uuid;
+                    $buy_and_pay_order_base_discount_group_item->item_uuid = $supplier_base_discount_group_item->item_uuid;
+                    $buy_and_pay_order_base_discount_group_item->supplier_uuid = $supplier_base_discount_group_item->supplier_uuid;
+                    $buy_and_pay_order_base_discount_group_item->bp_order_base_discount_group_detail_uuid = $buy_and_pay_order_base_discount_group_detail->uuid;
+                    $buy_and_pay_order_base_discount_group_item->save();
+                }
+            }
+        }
+    }
+
+    public function savePriceRuleDiscounts($order, $is_new)
+    {
+        $auth = \Auth::user();
+        
+
+        $po_date = date('Y-m-d',strtotime(request()->date_purchased));
+
+        $price_rule_suppliers = PriceRuleSupplier::where('company_id','=',$auth->company_id)
+            ->where('date_start','<=',$po_date)
+            ->where('date_end','>=',$po_date)
+            ->get();
+
+        $delete = BuyAndPayPriceRule::where('company_id','=', $auth->company_id)->where('bp_order_uuid','=',$order->uuid)->forceDelete();
+        $delete = BuyAndPayPriceRuleDetail::where('company_id','=', $auth->company_id)->where('bp_order_uuid','=',$order->uuid)->forceDelete();
+        $delete = BuyAndPayPriceRuleItem::where('company_id','=', $auth->company_id)->where('bp_order_uuid','=',$order->uuid)->forceDelete();
+    
+        foreach ($price_rule_suppliers as $price_rule_supplier) {
+            
+            $buy_and_pay_price_rule = new BuyAndPayPriceRule;
+            $buy_and_pay_price_rule->company_id     = $auth->company_id;
+            $buy_and_pay_price_rule->price_rule_supplier_uuid   = $price_rule_supplier->uuid;
+            $buy_and_pay_price_rule->bp_order_uuid              = $order->uuid;
+            $buy_and_pay_price_rule->rule_name                  = $price_rule_supplier->rule_name;
+            $buy_and_pay_price_rule->rate                       = $price_rule_supplier->rate;
+            $buy_and_pay_price_rule->date_start                 = $price_rule_supplier->date_start;
+            $buy_and_pay_price_rule->date_end                   = $price_rule_supplier->date_end;
+            $buy_and_pay_price_rule->mechanics                  = $price_rule_supplier->mechanics;
+            $buy_and_pay_price_rule->target_amount              = $price_rule_supplier->target_amount;
+            $buy_and_pay_price_rule->save();
+
+            $price_rule_supplier_details = PriceRuleSupplierDetail::where('price_rule_supplier_uuid','=',$price_rule_supplier->uuid)->get();
+
+            foreach ($price_rule_supplier_details as $price_rule_supplier_detail) {
+                
+                $buy_and_pay_price_rule_detail = new BuyAndPayPriceRuleDetail;
+                $buy_and_pay_price_rule_detail->company_id                  = $auth->company_id;
+                $buy_and_pay_price_rule_detail->bp_order_uuid               = $order->uuid;
+                $buy_and_pay_price_rule_detail->bp_price_rule_uuid          = $buy_and_pay_price_rule->uuid;
+                $buy_and_pay_price_rule_detail->supplier_uuid               = $price_rule_supplier_detail->supplier_uuid;
+                $buy_and_pay_price_rule_detail->applied_to                  = $price_rule_supplier_detail->applied_to;
+                $buy_and_pay_price_rule_detail->save();
+                
+                $price_rule_supplier_items = PriceRuleSupplierItem::where('price_rule_supplier_detail_uuid','=',$price_rule_supplier_detail->uuid)->get();
+                
+                foreach ($price_rule_supplier_items as $price_rule_supplier_item) {
+                    $buy_and_pay_price_rule_item = new BuyAndPayPriceRuleItem;
+                    $buy_and_pay_price_rule_item->company_id                    = $auth->company_id;
+                    $buy_and_pay_price_rule_item->bp_order_uuid                 = $order->uuid;
+                    $buy_and_pay_price_rule_item->bp_price_rule_detail_uuid     = $buy_and_pay_price_rule_detail->uuid;
+                    $buy_and_pay_price_rule_item->item_uuid                     = $price_rule_supplier_item->item_uuid;
+                    $buy_and_pay_price_rule_item->save();
+                }
+            }
+        }
+    }
 
     public function deleteOrder()
     {
@@ -207,6 +272,9 @@ class BuyAndPayOrderController extends Controller
         $branch_location = CompanyBranchLocation::find($order->branch_locations_uuid);
         $order->branch_location = $branch_location;
 
+        $discount_groups = BuyAndPayOrderBaseDiscountGroup::where('bp_order_uuid','=',$orderUUID)->get();
+        $order->discount_groups = $discount_groups;
+
         $additional_discounts = BuyAndPayOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->get();
         $order->additional_discounts = $additional_discounts;
 
@@ -216,14 +284,21 @@ class BuyAndPayOrderController extends Controller
     public function getOrderSupplierItems($orderUUID)
     {
         $order = BuyAndPayOrder::find($orderUUID);
-        $supplier = SupplierList::find($order->supplier_uuid);
+        
+        $buy_and_pay_order_base_discount_group_count = BuyAndPayOrderBaseDiscountGroup::where('bp_order_uuid','=',$orderUUID)->count();
 
-        $item_ids = ItemSupplier::where('supplier_uuid','=',$order->supplier_uuid)->pluck('item_uuid')->toArray();
-        $items = ItemList::whereIn('uuid',$item_ids)->get();
-
+        if ($buy_and_pay_order_base_discount_group_count > 0) {
+            // only get items on selected supplier discount groups table
+            $buy_and_pay_order_base_discount_group_item_uuids = BuyAndPayOrderBaseDiscountGroupItem::where('bp_order_uuid',$order->uuid)->pluck('item_uuid')->toArray();
+            $items = ItemList::whereIn('uuid',$buy_and_pay_order_base_discount_group_item_uuids)->get();
+        } else {
+            $item_ids = ItemSupplier::where('supplier_uuid','=',$order->supplier_uuid)->pluck('item_uuid')->toArray();
+            $items = ItemList::whereIn('uuid',$item_ids)->get();
+        }
         
 
         foreach ($items as $item) {
+
             // get all item base discounts
             $buy_and_pay_order_base_discount_group_item_uuids = BuyAndPayOrderBaseDiscountGroupItem::where('bp_order_uuid','=',$orderUUID)
                 ->where('item_uuid','=',$item->uuid)
@@ -262,8 +337,8 @@ class BuyAndPayOrderController extends Controller
             $order_detail = BuyAndPayOrderDetail::where('bp_order_uuid','=',$orderUUID)->where('item_uuid','=',$item->uuid)->first();
             
             if ($order_detail) {
-                $item->selected = true;  
-                $item->quantity = $order_detail->order_qty;
+                $item->selected         = true;  
+                $item->quantity         = $order_detail->order_qty;
                 $item->uom              = $order_detail->uom;
                 $item->purchase_price   = $order_detail->purchase_price;
                 $item->gross_amount     = $order_detail->gross_amount;

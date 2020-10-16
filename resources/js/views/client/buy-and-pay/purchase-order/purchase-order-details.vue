@@ -17,63 +17,7 @@
 
             <div class="row">
                 <div class="col-md-8 col-12">
-                    <div style="margin-bottom:30px; padding:10px; background:#fafafa; border:1px solid #efefef;" class="po-details">
-                        <h4 style="margin-bottom:20px;">Information</h4>
-                        <div class="row">
-                            <div class="col-md-3 col-12">
-                                <div>
-                                    <strong>Transaction Type:</strong>
-                                    <p>Purchase Order</p>
-                                </div>
-
-                                <div>
-                                    <strong>Reference #:</strong>
-                                    <p>{{ order.po_no }}</p>
-                                </div>
-                                
-                                <div>
-                                    <strong>Supplier:</strong>
-                                    <p>{{ order.supplier.business_name }}</p>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3 col-12">
-                                <div>
-                                    <strong>Term:</strong>
-                                    <p>{{ order.term || '-' }}</p>
-                                </div>
-                                <div>
-                                    <strong>Branch:</strong>
-                                    <p>{{ order.branch.branch_name }}</p>
-                                </div>
-                                <div>
-                                    <strong>Branch Location:</strong>
-                                    <p>{{ order.branch_location.location_name }}</p>
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-3 col-12">
-                                <div>
-                                    <strong>Date Purchased:</strong>
-                                    <p>{{ order.date_purchased }}</p>
-                                </div>
-                                <div>
-                                    <strong>Date Expected:</strong>
-                                    <p>{{ order.date_expected }}</p>
-                                </div>
-                                
-                            </div>
-
-                            <div class="col-md-3 col-12">
-                                <div>
-                                    <strong>Status:</strong>
-                                    <p>{{ order.status }}</p>
-                                </div>
-                            </div>
-                        </div>
-                            
-                    </div>
+                     <purchase-order-form :form="'inline'" :order="order"></purchase-order-form>
                 </div>
 
                 <div class="col-md-4 col-12">
@@ -162,6 +106,11 @@
                         <td class="text-right">{{ parseFloat(item.vat_amount).toFixed(2) }}</td>
                         <td class="text-right">{{ parseFloat(item.total_amount).toFixed(2) }}</td>
                         <td>{{ (item.price_rule_discounts.length > 0) ? 'Yes' : 'No'}}</td>
+                    </tr> 
+                    <tr>
+                        <td colspan="14"> 
+                            <select class="search-items" v-model="option_items_selected" :options="options_items" name="item-group"></select>
+                        </td>
                     </tr> 
                 </tbody>
             </table>
@@ -335,6 +284,7 @@
 
 import Swal from 'sweetalert2'
 import moment from 'moment'
+import PurchaseOrderCreate from './purchase-order-form'
 
 export default {
     name: 'purchase-order',
@@ -344,6 +294,8 @@ export default {
             is_ready: false,
             order: null,
             items: [],
+            options_items: [],
+            option_items_selected: null,
             selectedItem: null,
             temp_selected_items: [],
             item_list_keyword: '',
@@ -357,6 +309,9 @@ export default {
                 { name: 'Other Peso Discount', type: 'fixed' },
             ]
         }
+    },
+    components: {
+        'purchase-order-form': PurchaseOrderCreate
     },
     computed: {
         itemList() {
@@ -666,7 +621,24 @@ export default {
             var scope = this
             scope.GET('buy-and-pay/orders/' + order_uuid + '/supplier-items').then(res => {
                 scope.items = res.rows
-                 scope.is_ready = true
+
+                res.rows.forEach(function (data) {
+                    data.id = data.uuid
+                    data.text = data.item_description
+                    scope.options_items.push(data)
+                })
+
+                scope.is_ready = true
+
+                setTimeout(function(){ 
+                    $(".search-items").select2({allowClear: true, placeholder: "Select an Item", data: scope.options_items, matcher: matchCustom}); 
+                    $('.search-items').on('select2:select', function (e) {
+                        var data = e.params.data;
+                        console.log(data);
+                    });
+                },100);
+                
+
             })
         },
         getItemUOMName: function (uoms, uuid) {
@@ -734,13 +706,44 @@ export default {
                 } 
             })
         },
+        loadData: function () {
+            var scope = this
+            var order_uuid = scope.$route.params.order_uuid;
+            scope.getOrderDetails(order_uuid)
+            scope.getOrderSupplierItems(order_uuid)
+        }
     },
     mounted() {
         var scope = this
-        var order_uuid = scope.$route.params.order_uuid;
-        scope.getOrderDetails(order_uuid)
-        scope.getOrderSupplierItems(order_uuid)
+        scope.loadData()
     },
+}
+
+
+function matchCustom(params, data) {
+    // If there are no search terms, return all of the data
+    if ($.trim(params.term) === '') {
+      return data;
+    }
+
+    // Do not display the item if there is no 'text' property
+    if (typeof data.text === 'undefined') {
+      return null;
+    }
+
+    // `params.term` should be the term that is used for searching
+    // `data.text` is the text that is displayed for the data object
+    if (data.text.toLowerCase().indexOf(params.term.toLowerCase()) > -1 || data.item_code.indexOf(params.term.toLowerCase()) > -1) {
+      var modifiedData = $.extend({}, data, true);
+      modifiedData.text += ' (matched)';
+
+      // You can return modified objects from here
+      // This includes matching the `children` how you want in nested data sets
+      return modifiedData;
+    }
+
+    // Return `null` if the term should not be displayed
+    return null;
 }
 </script>
 

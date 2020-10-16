@@ -787,7 +787,6 @@ export default {
                 }
             }
         },
-
         save: function () {
             var scope = this
             scope.formdata.item_group_uuid = scope.selected_item_group
