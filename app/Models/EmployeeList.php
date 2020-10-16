@@ -16,8 +16,9 @@ class EmployeeList extends Model
         'ext', 'branch_location_uuid', 'is_custodian', 'is_driver', 'is_system_user',
         'is_active', 'email', 'contact_no', 'emergeny_contact', 'emergeny_contact_relation',
         'relation_contact_no', 'employment_type_uuid', 'date_hired', 'date_regularized',
-        'date_terminated', 'is_min_wage', 'daily_wage', 'cost_center_uuid', 'is_applied_tax',
-        'wt_uuid', 'tax_id', 'sss_id', 'phic_id', 'hdmf_id', 'global_address_uuid', 'address1',
+        'date_terminated', 'is_min_wage', 'daily_wage', 'global_cost_center_uuid', 'is_applied_tax',
+        'wt_uuid', 'tax_id', 'sss_id', 'phic_id', 'hdmf_id', 'global_address_uuid', 'address1','job_title',
+        'is_supervisor','employment_status_uuid','date_of_birth','department_uuid',
     ];
 
     protected $primaryKey = 'uuid';

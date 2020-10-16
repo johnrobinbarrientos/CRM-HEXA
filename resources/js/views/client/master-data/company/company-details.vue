@@ -1,5 +1,12 @@
 <template>
     <div>
+
+        <div class="actions-bar">
+            <div class="w-100">
+                <h1 class="title"><i class="las la-list-ul"></i> Company Details</h1>
+            </div>
+        </div>
+
        <div class="nk-content nk-content-fluid">          
             <div class="container-fluid">
                 <div class="nk-content-body"> 
@@ -108,6 +115,7 @@ export default {
     props: ['properties'],
     data: function () {
         return {
+
             locations: [],
             location_groups: [],
             formdata: { 
@@ -216,9 +224,9 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getLocations()
-        scope.getLocationGroups()
-         $(".form-select").select2();
+        // scope.getLocations()
+        // scope.getLocationGroups()
+
     },
 }
 </script>

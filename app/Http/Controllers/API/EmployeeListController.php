@@ -38,6 +38,15 @@ class EmployeeListController extends Controller
         return response()->json(['success' => 1, 'rows' => $list, 'count' => $count], 200);
     }
 
+    public function getSupervisors()
+    {
+
+        $list = EmployeeList::where('is_draft','=', 0)->whereNull('deleted_at')->where('is_supervisor', 1)->where('uuid','!=', request()->emp_uuid)
+        ->get();
+
+        return response()->json(['success' => 1, 'rows' => $list], 200);
+    }
+
     public function store() // initialize draft
     {
         $employee =  EmployeeList::where('is_draft','=', 1)->first();
@@ -83,12 +92,13 @@ class EmployeeListController extends Controller
         $employee->emergeny_contact_relation = request()->emergeny_contact_relation;
         $employee->relation_contact_no = request()->relation_contact_no;
         $employee->employment_type_uuid = request()->employment_type_uuid;
+        $employee->employment_status_uuid = request()->employment_status_uuid;
         $employee->date_hired = request()->date_hired;
         $employee->date_regularized = request()->date_regularized;
         $employee->date_terminated = request()->date_terminated;
         $employee->is_min_wage = request()->is_min_wage;
         $employee->daily_wage = request()->daily_wage;
-        $employee->cost_center_uuid = request()->cost_center_uuid;
+        $employee->global_cost_center_uuid = request()->global_cost_center_uuid;
         $employee->is_applied_tax = request()->is_applied_tax;
         $employee->wt_uuid = request()->wt_uuid;
         $employee->tax_id = request()->tax_id;
@@ -97,6 +107,11 @@ class EmployeeListController extends Controller
         $employee->hdmf_id = request()->hdmf_id;
         $employee->global_address_uuid = request()->global_address_uuid;
         $employee->address1 = request()->address1;
+        $employee->job_title = request()->job_title;
+        $employee->is_supervisor = request()->is_supervisor;
+        $employee->date_of_birth = request()->date_of_birth;
+        $employee->department_uuid = request()->department_uuid;
+        $employee->supervisor_emp_uuid = request()->supervisor_emp_uuid;
         $employee->is_draft = 0;
 
         $employee->save();

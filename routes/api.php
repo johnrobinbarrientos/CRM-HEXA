@@ -153,11 +153,21 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/employment-type', 'API\EmployeeEmploymentTypeController@save');
         Route::post('/employment-type/delete', 'API\EmployeeEmploymentTypeController@delete');
 
+        Route::get('/employment-status', 'API\EmployeeEmploymentStatusController@getEmploymentStatus');
+        Route::post('/employment-status', 'API\EmployeeEmploymentStatusController@save');
+        Route::post('/employment-status/delete', 'API\EmployeeEmploymentStatusController@delete');
+
+        Route::get('/supervisors-list', 'API\EmployeeListController@getSupervisors');
+
     });
 
     Route::group(['prefix' => 'company'], function(){
 
         Route::get('/details', 'API\CompanyDetailsController@getCompanyDetails');
+
+        Route::get('/department', 'API\CompanyDepartmentController@getDepartment');
+        Route::post('/department', 'API\CompanyDepartmentController@save');
+        Route::post('/department/delete', 'API\CompanyDepartmentController@delete');
 
         Route::get('/branch', 'API\CompanyBranchController@getBranch');
         Route::post('/branch', 'API\CompanyBranchController@save');
@@ -178,10 +188,6 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/taxation-vat', 'API\CompanyTaxationController@getVAT');
         Route::get('/taxation-ewt', 'API\CompanyTaxationController@getEWT');
         Route::get('/taxation-wt', 'API\CompanyTaxationController@getWT');
-
-        Route::get('/cost-center', 'API\CompanyCostCenterController@getCostCenter');
-        Route::post('/cost-center', 'API\CompanyCostCenterController@save');
-        Route::post('/cost-center/delete', 'API\CompanyCostCenterController@delete');
 
         Route::get('/chart-of-accounts', 'API\CompanyChartOfAccountController@getChartOfAccounts');
         Route::post('/chart-of-accounts', 'API\CompanyChartOfAccountController@save');
@@ -213,6 +219,10 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/customer-chain', 'API\GlobalCustomerChainController@getCustomerChains');
         Route::post('/customer-chain', 'API\GlobalCustomerChainController@save');
         Route::post('/customer-chain/delete', 'API\GlobalCustomerChainController@delete');
+
+        Route::get('/cost-center', 'API\GlobalCostCenterController@getCostCenter');
+        Route::post('/cost-center', 'API\GlobalCostCenterController@save');
+        Route::post('/cost-center/delete', 'API\GlobalCostCenterController@delete');
 
         Route::get('/customer-channel', 'API\GlobalCustomerChannelController@getCustomerChannels');
         Route::post('/customer-channel', 'API\GlobalCustomerChannelController@save');
