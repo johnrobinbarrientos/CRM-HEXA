@@ -87,12 +87,12 @@
                             <td v-if="employee.is_system_user === 1">Yes</td>
                             <td v-else>No</td>
                             <td>
-                                <span class="d-block w-200px">
+                                <span style="text-transform: uppercase" class="d-block w-200px">
                                     {{employee.employment_type.employment_type}}
                                 </span>        
                             </td>
                             <td>
-                                <span class="d-block w-200px">
+                                <span style="text-transform: uppercase" class="d-block w-200px">
                                     {{employee.employment_status.employment_status}}
                                 </span>        
                             </td>
