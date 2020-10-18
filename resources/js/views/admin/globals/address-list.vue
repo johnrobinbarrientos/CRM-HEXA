@@ -11,11 +11,12 @@
             <div class="bar-right">
                 <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
                 <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
-                    <option value="10">10</option>
+                    <option value="15">15</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option value="40">40</option>
                     <option value="50">50</option>
+                    <option value="100">100</option>
                 </select>
                 <a href="javascript:void(0)" @click="OPEN_MODAL('#modalAddressList');resetData()" class="btn btn-primary" data-toggle="modal">
                     <em class="icon ni ni-plus"></em> <span>New</span>

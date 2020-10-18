@@ -23,9 +23,9 @@
                             <a @click="ROUTE({path: '/employee-main/' })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Close</a>
                         </span>
                         <span v-else>
+                            <a @click="ROUTE({path: '/employee-main/' })" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>  
                             <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
                             <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
-                            <a @click="ROUTE({path: '/employee-main/' })" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>  
                         </span>
     
                     </div>
@@ -39,101 +39,20 @@
                             <div class="form-group">
                                 <label class="form-label" for="employee-id">Employee ID</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.emp_id" type="text" class="form-control" id="employee-id" :readonly="view_mode">
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="first-name">First Name</label>
-                                <div class="form-control-wrap">
-                                    <input v-model="formdata.first_name" type="text" class="form-control" id="first-name" :readonly="view_mode">
+                                    <input v-model="formdata.emp_id" style= "font-weight: bold;" type="text" class="form-control" id="employee-id" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-3 col-12">
+                        <div class="col-md-3 col-12" style="margin-left: 100px">
                             <div class="form-group">
-                                <label class="form-label" for="middle-name">Middle Name</label>
-                                <div class="form-control-wrap">
-                                    <input v-model="formdata.middle_name" type="text" class="form-control" id="middle-name" :readonly="view_mode">
-                                </div>
+                                <label class="form-label" for="location">Assign Branch</label>
+                                <strong><select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="location" :disabled="view_mode">
+                                </select></strong>
                             </div>
                         </div>
 
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="last-name">Last Name</label>
-                                <div class="form-control-wrap">
-                                    <input v-model="formdata.last_name" type="text" class="form-control" id="last-name" :readonly="view_mode">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="ext">Ext</label>
-                                <div class="form-control-wrap">
-                                    <input v-model="formdata.ext" type="text" class="form-control" id="ext" :readonly="view_mode">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="location">Location</label>
-                                <select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="location" :disabled="view_mode">
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="department">Department</label>
-                                <select class="form-select-department" v-model="selected_department" :options="options_department" name="department" :disabled="view_mode">
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="job-title">Job Title/Position</label>
-                                <div class="form-control-wrap">
-                                    <input v-model="formdata.job_title" type="text" class="form-control" id="job-title" :readonly="view_mode">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="date-of-birth">Date of Birth</label>
-                                <div class="form-control-wrap">
-                                    <date-picker v-model="formdata.date_of_birth" :config="{format: 'YYYY-MM-DD'}" :disabled="view_mode"></date-picker>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="supervisor">Supervisor</label>
-                                <select class="form-select-supervisor" v-model="selected_supervisor" :options="options_supervisor" name="supervisor" :disabled="view_mode">
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <div class="form-control-wrap">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" v-model="formdata.is_supervisor" true-value="1" false-value="0" class="custom-control-input" id="is-supervisor" :disabled="view_mode">
-                                        <label class="custom-control-label" for="is-supervisor">Is Supervisor?</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-12">
+                        <div class="col-md-3 col-12" style="margin-top: 30px; margin-left: 100px">
                             <div class="form-group">
                                 <div class="form-control-wrap">
                                     <div class="custom-control custom-checkbox">
@@ -144,7 +63,29 @@
                             </div>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="first-name">First Name</label>
+                                <div class="form-control-wrap">
+                                    <input v-model="formdata.first_name" type="text" style="text-transform: uppercase; font-weight: bold;" class="form-control" id="first-name" :readonly="view_mode">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12" style="margin-left: 100px">
+                            <div class="form-group">
+                                <label class="form-label" for="job-title">Job Title</label>
+                                <div class="form-control-wrap">
+                                    <input v-model="formdata.job_title" style="text-transform: uppercase; font-weight: bold;" type="text" class="form-control" id="job-title" :readonly="view_mode">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12" style="margin-top: 30px; margin-left: 100px">
                             <div class="form-group">
                                 <div class="form-control-wrap">
                                     <div class="custom-control custom-checkbox">
@@ -155,7 +96,28 @@
                             </div>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="middle-name">Middle Name</label>
+                                <div class="form-control-wrap">
+                                    <input v-model="formdata.middle_name" type="text" style="text-transform: uppercase; font-weight: bold;" class="form-control" id="middle-name" :readonly="view_mode">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12" style="margin-left: 100px">
+                            <div class="form-group">
+                                <label class="form-label" for="department">Department</label>
+                                <strong><select class="form-select-department" v-model="selected_department" :options="options_department" name="department" :disabled="view_mode">
+                                </select></strong>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12" style="margin-top: 30px; margin-left: 100px">
                             <div class="form-group">
                                 <div class="form-control-wrap">
                                     <div class="custom-control custom-checkbox">
@@ -166,7 +128,61 @@
                             </div>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+                        
                         <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="last-name">Last Name</label>
+                                <div class="form-control-wrap">
+                                    <input v-model="formdata.last_name" type="text" style="text-transform: uppercase; font-weight: bold;" class="form-control" id="last-name" :readonly="view_mode">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12" style="margin-left: 100px">
+                            <div class="form-group">
+                                <label class="form-label" for="supervisor">Supervisor Name</label>
+                                <strong><select class="form-select-supervisor" v-model="selected_supervisor" :options="options_supervisor" name="supervisor" :disabled="view_mode">
+                                </select></strong>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12" style="margin-top: 30px; margin-left: 100px">
+                            <div class="form-group">
+                                <div class="form-control-wrap">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" v-model="formdata.is_supervisor" true-value="1" false-value="0" class="custom-control-input" id="is-supervisor" :disabled="view_mode">
+                                        <label class="custom-control-label" for="is-supervisor">Is Supervisor?</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="ext">Ext Name</label>
+                                <div class="form-control-wrap">
+                                    <input v-model="formdata.ext" type="text" style="text-transform: uppercase; font-weight: bold;" class="form-control" id="ext" :readonly="view_mode">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12" style="margin-left: 100px">
+                            <div class="form-group">
+                                <label class="form-label" for="birth-date">Birth Date</label>
+                                <div class="form-control-wrap">
+                                    <date-picker style="font-weight: bold;" v-model="formdata.birth_date" :config="{format: 'YYYY-MM-DD'}" :disabled="view_mode"></date-picker>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12" style="margin-top: 30px; margin-left: 100px">
                             <div class="form-group">
                                 <div class="form-control-wrap">
                                     <div class="custom-control custom-checkbox">
@@ -177,17 +193,31 @@
                             </div>
                         </div>
 
-                        
+                    </div>
 
-                        
-                            
+                    <div class="row">
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="gender">Gender</label>
+                                <strong><select class="form-select-gender" v-model="selected_gender" :options="options_gender" name="gender" :disabled="view_mode">
+                                </select></strong>
+                            </div>
+                        </div>
+
                     </div>
 
                     <br/>
+                    <br/>
                     <div style="border: 1px solid #ced4da; border-radius: .25rem;">
-                        <ul class="nav nav-tabs nav-tabs-custom" style="border-color: #eee;">    
+                        <ul class="nav nav-tabs nav-tabs-custom" style="border-color: #eee;">
                                 <li class="nav-item">        
-                                    <a class="nav-link active" data-toggle="tab" href="#employement">Employment</a>    
+                                    <a class="nav-link active" data-toggle="tab" href="#address">Contact and Address</a>    
+                                </li>
+                                <li class="nav-item">        
+                                    <a class="nav-link" data-toggle="tab" href="#emergency-contact">Emergency Contact</a>    
+                                </li>
+                                <li class="nav-item">        
+                                    <a class="nav-link" data-toggle="tab" href="#employement">Employment</a>    
                                 </li>    
                                 <li class="nav-item">        
                                     <a class="nav-link" data-toggle="tab" href="#financial">Financial</a>    
@@ -195,47 +225,186 @@
                                 <li class="nav-item">        
                                     <a class="nav-link" data-toggle="tab" href="#government">Government</a>    
                                 </li>
-                                <li class="nav-item">        
-                                    <a class="nav-link" data-toggle="tab" href="#address">Contact and Address</a>    
-                                </li>
-                                <li class="nav-item">        
-                                    <a class="nav-link" data-toggle="tab" href="#emergency-contact">Emergency Contact</a>    
-                                </li>
                             </ul>
 
-                            <div class="tab-content">    
-                                <div class="tab-pane active" id="employement">
+                            <div class="tab-content">
+
+                                <div class="tab-pane active" id="address">
                                     
                                     <div class="row" style="margin-left: 12px;">
-
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
-                                                <label class="form-label" for="employment-type">Employment Type</label>
-                                                <select class="form-select-employment-type" v-model="selected_employment_type" :options="options_employment_type" name="employment-type" :disabled="view_mode">
-                                                </select>
+                                                <label class="form-label" for="email">Email</label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="formdata.email" style="font-weight: bold;" type="text" class="form-control" id="email" :readonly="view_mode">
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3 col-12">
+                                        <div class="col-md-7 col-12" style="margin-left: 100px;">
                                             <div class="form-group">
-                                                <label class="form-label" for="employment-status">Employment Status</label>
-                                                <select class="form-select-employment-status" v-model="selected_employment_status" :options="options_employment_status" name="employment-status" :disabled="view_mode">
-                                                </select>
+                                                <label class="form-label" for="address-list">Search Address</label>
+                                                <strong><select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list" :disabled="view_mode">
+                                                </select></strong>
                                             </div>
                                         </div>
-
-
-                                        
                                     </div>
 
                                     <div class="row" style="margin-left: 12px;">
 
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
+                                                <label class="form-label" for="contact-no">Contact No</label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="formdata.contact_no " style="font-weight: bold;" type="text" class="form-control" id="contact-no" :readonly="view_mode">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col-12" style="margin-left: 100px;">
+                                            <div class="form-group">
+                                                <label class="form-label" for="address1">Purok/Street/Zone</label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="formdata.address1" style="text-transform: uppercase; font-weight: bold;" type="text" class="form-control" id="address1" :readonly="view_mode">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col-12" style="margin-left: 113px;">
+                                            <div class="form-group">
+                                                <label class="form-label" for="province">Province:<small style="color: #999; font-style: italic">(Auto Fill)</small></label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="province" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="province" readonly="true">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row" style="margin-left: 12px;">
+
+                                        <div class="col-md-3 col-12" style="margin-left: 443px;">
+                                            <div class="form-group">
+                                                <label class="form-label" for="barangay">Barangay:<small style="color: #999; font-style: italic">(Auto Fill)</small></label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="barangay" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="barangay" readonly="true">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col-12" style="margin-left: 113px;">
+                                            <div class="form-group">
+                                                <label class="form-label" for="region">Region:<small style="color: #999; font-style: italic">(Auto Fill)</small></label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="region" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="region" readonly="true">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                    </div> 
+
+
+                                    <div class="row" style="margin-left: 12px;">
+
+                                        <div class="col-md-3 col-12" style="margin-left: 443px;">
+                                            <div class="form-group">
+                                                <label class="form-label" for="city-municipality">City/Municipality:<small style="color: #999; font-style: italic">(Auto Fill)</small></label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="city_municipality" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="city-municipality" readonly="true">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col-12" style="margin-left: 113px;">
+                                            <div class="form-group">
+                                                <label class="form-label" for="postal-code">Postal Code:<small style="color: #999; font-style: italic">(Auto Fill)</small></label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="postal_code" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="postal-code" readonly="true">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                                <div class="tab-pane" id="emergency-contact">
+
+                                    <div class="row" style="margin-left: 12px;">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="emergency-contact">Emergency Contact</label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="formdata.emergency_contact" style="text-transform: uppercase;  font-weight: bold; " type="text" class="form-control" id="emergency-contact" :readonly="view_mode">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="contact-relation">Contact Relation</label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="formdata.contact_relation" style="text-transform: uppercase; font-weight: bold;" type="text" class="form-control" id="contact-relation" :readonly="view_mode">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row" style="margin-left: 12px;">
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="emergency-contact-no">Emergency Contact No</label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="formdata.emergency_contact_no" style="text-transform: uppercase;  font-weight: bold; " type="text" class="form-control" id="emergency-contact-no" :readonly="view_mode">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="tab-pane" id="employement">
+                                    
+                                    <div class="row" style="margin-left: 12px;">
+
+                                        <div class="col-md-3 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="employment-type">Employment Type</label>
+                                                <strong><select class="form-select-employment-type" v-model="selected_employment_type" :options="options_employment_type" name="employment-type" :disabled="view_mode">
+                                                </select></strong>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col-12">
+                                            <div class="form-group">
                                                 <label class="form-label" for="date-hired">Date Hired</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker v-model="formdata.date_hired" :config="{format: 'YYYY-MM-DD'}" :disabled="view_mode"></date-picker>
+                                                    <date-picker v-model="formdata.date_hired" style="font-weight: bold;" :config="{format: 'YYYY-MM-DD'}" :disabled="view_mode"></date-picker>
                                                 </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="date-separated">Date Separated</label>
+                                                <div class="form-control-wrap">
+                                                    <date-picker v-model="formdata.date_separated" style="font-weight: bold;" :config="{format: 'YYYY-MM-DD'}" :disabled="view_mode"></date-picker>
+                                                </div>
+                                            </div>
+                                        </div>
+  
+                                    </div>
+
+                                    <div class="row" style="margin-left: 12px;">
+
+                                        <div class="col-md-3 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="employment-status">Employment Status</label>
+                                                <strong><select class="form-select-employment-status" v-model="selected_employment_status" :options="options_employment_status" name="employment-status" :disabled="view_mode">
+                                                </select></strong>
                                             </div>
                                         </div>
 
@@ -243,19 +412,11 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="date-regularized">Date Regularized</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker v-model="formdata.date_regularized" :config="{format: 'YYYY-MM-DD'}" :disabled="view_mode"></date-picker>
+                                                    <date-picker v-model="formdata.date_regularized" style="font-weight: bold;" :config="{format: 'YYYY-MM-DD'}" :disabled="view_mode"></date-picker>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="date-terminated">Date Terminated</label>
-                                                <div class="form-control-wrap">
-                                                    <date-picker v-model="formdata.date_terminated" :config="{format: 'YYYY-MM-DD'}" :disabled="view_mode"></date-picker>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                     
         
@@ -264,7 +425,8 @@
                                 <div class="tab-pane" id="financial">
                                     
                                     <div class="row" style="margin-left: 12px;">
-                                        <div class="col-md-3 col-12">
+
+                                        <div class="col-md-3 col-12" style="margin-top: 20px">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
                                                     <div class="custom-control custom-checkbox">
@@ -274,24 +436,21 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="row" style="margin-left: 12px;">
 
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="daily-wage">Daily Wage</label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="formdata.daily_wage" type="text" class="form-control" id="daily-wage" :readonly="view_mode">
+                                                    <input v-model="formdata.daily_wage" style="font-weight: bold;" type="text" class="form-control" id="daily-wage" :readonly="view_mode">
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3 col-12">
+                                        <div class="col-md-3 col-12" style="margin-left: 100px">
                                             <div class="form-group">
                                                 <label class="form-label" for="cost-center">Cost Center</label>
-                                                <select class="form-select-cost-center" v-model="selected_cost_center" :options="options_cost_center" name="cost-center" :disabled="view_mode">
-                                                </select>
+                                                <strong><select class="form-select-cost-center" v-model="selected_cost_center" :options="options_cost_center" name="cost-center" :disabled="view_mode">
+                                                </select></strong>
                                             </div>
                                         </div>
                                     </div>
@@ -301,63 +460,62 @@
                                 <div class="tab-pane" id="government">
                                     
                                     <div class="row" style="margin-left: 12px;">
-                                        <div class="col-md-3 col-12">
+                                        <div class="col-md-3 col-12" style="margin-top: 20px;">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
                                                     <div class="custom-control custom-checkbox">
                                                         <input type="checkbox" v-model="formdata.is_applied_tax" true-value="1" false-value="0" class="custom-control-input" id="is-applied-tax" :disabled="view_mode">
-                                                        <label class="custom-control-label" for="is-applied-tax">Is Applied WTax?</label>
+                                                        <label class="custom-control-label" for="is-applied-tax">Is Applied Tax?</label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
+                                        <div class="col-md-3 col-12" style="margin-left: 100px;">
+                                            <div class="form-group">
+                                                <label class="form-label" for="tax-id">TIN</label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="formdata.tax_id" style="text-transform: uppercase;  font-weight: bold;" type="text" class="form-control" id="tax-id" :readonly="view_mode">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col-12" style="margin-left: 100px;">
+                                            <div class="form-group">
+                                                <label class="form-label" for="phic-id">PHIC No</label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="formdata.phic_id" style="text-transform: uppercase;  font-weight: bold;" type="text" class="form-control" id="phic-id" :readonly="view_mode">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+
+
+                                    <div class="row" style="margin-left: 12px;">
+
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
-                                                <label class="form-label" for="vat">Tax</label>
+                                                <label class="form-label" for="vat">Withholding Tax</label>
                                                 <select class="form-select-ewt" v-model="selected_ewt" :options="options_ewt" name="vat" :disabled="view_mode">
                                                 </select>
                                             </div>
                                         </div>
-                                    
-
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="tax-id">TIN</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.tax_id" type="text" class="form-control" id="tax-id" :readonly="view_mode">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row" style="margin-left: 12px;">
                                         
-                                        <div class="col-md-3 col-12">
+                                        <div class="col-md-3 col-12" style="margin-left: 100px;">
                                             <div class="form-group">
                                                 <label class="form-label" for="sss-id">SSS/UMID No</label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="formdata.sss_id" type="text" class="form-control" id="sss-id" :readonly="view_mode">
-                                                </div>
-                                            </div>
-                                        </div>
-                                
-
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="phic-id">PHIC No</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.phic_id" type="text" class="form-control" id="phic-id" :readonly="view_mode">
+                                                    <input v-model="formdata.sss_id" style="text-transform: uppercase;  font-weight: bold;" type="text" class="form-control" id="sss-id" :readonly="view_mode">
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3 col-12">
+                                        <div class="col-md-3 col-12" style="margin-left: 100px;">
                                             <div class="form-group">
                                                 <label class="form-label" for="hdmf-id">HDMF No</label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="formdata.hdmf_id" type="text" class="form-control" id="hdmf-id" :readonly="view_mode">
+                                                    <input v-model="formdata.hdmf_id" style="text-transform: uppercase;  font-weight: bold;" type="text" class="form-control" id="hdmf-id" :readonly="view_mode">
                                                 </div>
                                             </div>
                                         </div>
@@ -365,130 +523,7 @@
 
                                 </div>
 
-                                <div class="tab-pane" id="address">
-                                    
-                                    <div class="row" style="margin-left: 12px;">
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="email">Email</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.email" type="text" class="form-control" id="email" :readonly="view_mode">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="contact-no">Contact No</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.contact_no " type="text" class="form-control" id="contact-no" :readonly="view_mode">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-md-6 col-12" style="margin-left: 12px;">
-                                        <div class="form-group">
-                                            <label class="form-label" for="address1"><strong>Purok/Street/Zone</strong></label>
-                                            <div class="form-control-wrap">
-                                                <input v-model="formdata.address1" type="text" class="form-control" id="address1" :readonly="view_mode">
-                                            </div>
-                                        </div>
-                                    </div>
-                
-                                    <div class="col-md-6 col-12" style="margin-left: 12px;">
-                                        <div class="form-group">
-                                            <label class="form-label" for="address-list"><strong>Select Address</strong></label>
-                                            <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list" :disabled="view_mode">
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <br/>
-
-                                    <div class="row" style="margin-left: 12px;">
-                                        
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="barangay"><strong>Barangay:</strong><small style="color: #999; font-style: italic">(Auto Fill)</small></label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="barangay" type="text" class="form-control" id="barangay" readonly="true">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="city-municipality"><strong>City/Municipality:</strong><small style="color: #999; font-style: italic">(Auto Fill)</small></label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="city_municipality" type="text" class="form-control" id="city-municipality" readonly="true">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="province"><strong>Province:</strong><small style="color: #999; font-style: italic">(Auto Fill)</small></label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="province" type="text" class="form-control" id="province" readonly="true">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row" style="margin-left: 12px;">
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="region"><strong>Region:</strong><small style="color: #999; font-style: italic">(Auto Fill)</small></label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="region" type="text" class="form-control" id="region" readonly="true">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="postal-code"><strong>Postal Code:</strong><small style="color: #999; font-style: italic">(Auto Fill)</small></label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="postal_code" type="text" class="form-control" id="postal-code" readonly="true">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="tab-pane" id="emergency-contact">
-
-                                    <div class="col-md-4 col-12">
-                                        <div class="form-group">
-                                            <label class="form-label" for="emergency-contact">Emergency Contact</label>
-                                            <div class="form-control-wrap">
-                                                <input v-model="formdata.emergeny_contact" type="text" class="form-control" id="emergency-contact" :readonly="view_mode">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4 col-12">
-                                        <div class="form-group">
-                                            <label class="form-label" for="contact-relation">Contact Relation</label>
-                                            <div class="form-control-wrap">
-                                                <input v-model="formdata.emergeny_contact_relation" type="text" class="form-control" id="contact-relation" :readonly="view_mode">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4 col-12">
-                                        <div class="form-group">
-                                            <label class="form-label" for="relation-contact-no">Relation Contact No</label>
-                                            <div class="form-control-wrap">
-                                                <input v-model="formdata.relation_contact_no" type="text" class="form-control" id="relation-contact-no" :readonly="view_mode">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
+                                
                                   
                             </div>
                         </div>
@@ -527,6 +562,12 @@ export default {
             selected_ewt: null,
             options_ewt: [],
 
+            selected_gender: null,
+            options_gender: [
+            {id: 'MALE', text: 'MALE'},
+            {id: 'FEMALE', text: 'FEMALE'}
+            ],
+
             selected_global_address: null,
             options_global_address: [],
 
@@ -550,14 +591,14 @@ export default {
                 is_active: '',
                 email: '',
                 contact_no: '',
-                emergeny_contact: '',
-                emergeny_contact_relation: '',
-                relation_contact_no: '',
+                emergency_contact: '',
+                contact_relation: '',
+                emergency_contact_no: '',
                 employment_type_uuid: '',
                 employment_status_uuid: '',
                 date_hired: '',
                 date_regularized: '',
-                date_terminated: '',
+                date_separated: '',
                 is_min_wage: '',
                 daily_wage: '',
                 global_cost_center_uuid: '',
@@ -571,9 +612,10 @@ export default {
                 address1: '',
                 job_title: '',
                 is_supervisor: '',
-                date_of_birth: '',
+                birth_date: '',
                 department_uuid: '',
-                supervisor_emp_uuid: ''
+                supervisor_emp_uuid: '',
+                gender: ''
             },
 
             barangay: '',
@@ -599,7 +641,7 @@ export default {
                 res.rows.forEach(function (data) {
                     scope.options_branch_location.push({
                         id: data.uuid,
-                        text: data.location_name
+                        text: data.location_name.toUpperCase()
                     })
                 })
 
@@ -616,7 +658,7 @@ export default {
                 res.rows.forEach(function (data) {
                     scope.options_department.push({
                         id: data.uuid,
-                        text: data.department
+                        text: data.department.toUpperCase()
                     })
                 })
 
@@ -633,7 +675,7 @@ export default {
                 res.rows.forEach(function (data) {
                     scope.options_employment_type.push({
                         id: data.uuid,
-                        text: data.employment_type
+                        text: data.employment_type.toUpperCase()
                     })
                 })
 
@@ -650,7 +692,7 @@ export default {
                 res.rows.forEach(function (data) {
                     scope.options_employment_status.push({
                         id: data.uuid,
-                        text: data.employment_status
+                        text: data.employment_status.toUpperCase()
                     })
                 })
 
@@ -667,7 +709,7 @@ export default {
                 res.rows.forEach(function (data) {
                     scope.options_cost_center.push({
                         id: data.uuid,
-                        text: data.cost_center_name
+                        text: data.cost_center_name.toUpperCase()
                     })
                 })
 
@@ -686,7 +728,7 @@ export default {
 
                     scope.options_ewt.push({
                         id: data.uuid,
-                        text: data.tax_name
+                        text: data.tax_name.toUpperCase()
                     })
                 
                 })
@@ -706,7 +748,7 @@ export default {
 
                     scope.options_global_address.push({
                         id: data.uuid,
-                        text: data.barangay + ' ' + data.city_municipality + ' ' + data.province + ' ' + data.region + ' ' + data.postal_code,
+                        text: data.barangay.toUpperCase() + ', ' + data.city_municipality.toUpperCase() + ', ' + data.province.toUpperCase() + ' ' + data.postal_code.toUpperCase() + ' - ' + data.region.toUpperCase(),
                         barangay: data.barangay,
                         city_municipality: data.city_municipality,
                         province: data.province,
@@ -731,7 +773,7 @@ export default {
 
            scope.options_supervisor.push({
                id: '',
-               text: 'None'
+               text: 'NONE'
            });
 
             scope.GET('employees/supervisors-list', {emp_uuid: scope.$route.params.employeeUUID}).then(res => {
@@ -744,7 +786,7 @@ export default {
                     scope.options_supervisor.push({
                         id: data.uuid,
 
-                        text: first_name + ' ' + middle_name + ' ' + last_name
+                        text: first_name.toUpperCase() + ' ' + middle_name.toUpperCase() + ' ' + last_name.toUpperCase()
                     })
                 
                 })
@@ -779,6 +821,8 @@ export default {
             scope.formdata.wt_uuid = scope.selected_ewt
             scope.formdata.global_address_uuid = scope.selected_global_address
             scope.formdata.supervisor_emp_uuid = scope.selected_supervisor
+            scope.formdata.gender = scope.selected_gender
+
 
             scope.PUT('employees/employee-list', scope.formdata).then(res => {
                 if (res.success) {
@@ -807,6 +851,7 @@ export default {
             scope.formdata.wt_uuid = scope.selected_ewt
             scope.formdata.global_address_uuid = scope.selected_global_address
             scope.formdata.supervisor_emp_uuid = scope.selected_supervisor
+            scope.formdata.gender = scope.selected_gender
             
             window.swal.fire({
                 title: 'Update Record?',
@@ -894,13 +939,13 @@ export default {
                     scope.formdata.is_active = data.is_active
                     scope.formdata.email = data.email
                     scope.formdata.contact_no = data.contact_no
-                    scope.formdata.emergeny_contact = data.emergeny_contact
-                    scope.formdata.emergeny_contact_relation = data.emergeny_contact_relation
-                    scope.formdata.relation_contact_no = data.relation_contact_no
+                    scope.formdata.emergency_contact = data.emergency_contact
+                    scope.formdata.contact_relation = data.contact_relation
+                    scope.formdata.emergency_contact_no = data.emergency_contact_no
                     scope.formdata.employment_type_uuid = data.employment_type_uuid
                     scope.formdata.date_hired = data.date_hired
                     scope.formdata.date_regularized = data.date_regularized
-                    scope.formdata.date_terminated = data.date_terminated
+                    scope.formdata.date_separated = data.date_separated
                     scope.formdata.is_min_wage = data.is_min_wage
                     scope.formdata.daily_wage = data.daily_wage
                     scope.formdata.is_applied_tax = data.is_applied_tax
@@ -912,7 +957,7 @@ export default {
                     scope.formdata.address1 = data.address1
                     scope.formdata.job_title = data.job_title
                     scope.formdata.is_supervisor = data.is_supervisor
-                    scope.formdata.date_of_birth = data.date_of_birth
+                    scope.formdata.birth_date = data.birth_date
 
                     $('.form-select-branch-location').val(data.branch_location_uuid);
                     $('.form-select-branch-location').trigger('change');
@@ -939,6 +984,9 @@ export default {
                     $('.form-select-supervisor').val(data.supervisor_emp_uuid);
                     $('.form-select-supervisor').trigger('change');
 
+                    $('.form-select-gender').val(data.gender);
+                    $('.form-select-gender').trigger('change');
+
                 }
                 
             })
@@ -959,6 +1007,14 @@ export default {
 
         var employeeUUID = scope.$route.params.employeeUUID
         scope.getEmployeeDetails(employeeUUID)
+
+        $(".form-select-gender").select2({data: scope.options_gender});
+        scope.selected_gender = scope.options_gender[0].id
+
+
+        $('.form-select-gender').on("change", function(e) { 
+            scope.selected_gender = $('.form-select-gender').val();
+        })
 
 
         $('.form-select-supervisor').on("change", function(e) { 
@@ -1003,4 +1059,5 @@ export default {
 .table-items tr th { min-width:300px; width:auto; padding-left:10px; padding-right:10px; }
 .table-fixed-column { position:absolute; }
 .form-group { margin-top:10px !important; }
+
 </style>
