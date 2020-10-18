@@ -131,7 +131,7 @@
                     </div>
                     <div class="modal-footer bg-light">
                         <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
-                        <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
+                        <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Update</button>
                     </div>
                 </div>
             </div>

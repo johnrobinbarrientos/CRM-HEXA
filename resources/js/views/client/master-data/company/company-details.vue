@@ -7,101 +7,93 @@
             </div>
         </div>
 
-       <div class="nk-content nk-content-fluid">          
-            <div class="container-fluid">
-                <div class="nk-content-body"> 
-                    <div class="card card-bordered">
-                    <div class="card-inner">
-                        <div class="card-head">
-                            <h5 class="card-title">Company Details</h5>
-                        </div>
-                        <form action="#">
-                            <div class="row g-4">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="company-name">Company Name</label>
-                                        <div class="form-control-wrap">
-                                            <input type="text" class="form-control" id="company-name">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="shortname">Shortname</label>
-                                        <div class="form-control-wrap">
-                                            <input type="text" class="form-control" id="shortname">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="phone-no-1">Tagline</label>
-                                        <div class="form-control-wrap">
-                                            <input type="text" class="form-control" id="phone-no-1">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="pay-amount-1">Website</label>
-                                        <div class="form-control-wrap">
-                                            <input type="text" class="form-control" id="pay-amount-1">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="pay-amount-1">Email</label>
-                                        <div class="form-control-wrap">
-                                            <input type="text" class="form-control" id="pay-amount-1">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="pay-amount-1">Contact Number</label>
-                                        <div class="form-control-wrap">
-                                            <input type="text" class="form-control" id="pay-amount-1">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="pay-amount-1">TIN</label>
-                                        <div class="form-control-wrap">
-                                            <input type="text" class="form-control" id="pay-amount-1">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="pay-amount-1">Prefix</label>
-                                        <div class="form-control-wrap">
-                                            <input type="text" class="form-control" id="pay-amount-1">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="pay-amount-1">Address</label>
-                                        <div class="form-control-wrap">
-                                            <input type="text" class="form-control" id="pay-amount-1">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-lg btn-primary">Save Informations</button>
-                                    </div>
+        <div class="card">
+            <div class="card-body">
+   
+                <form action="#">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="company-name">Company Name</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="company-name">
                                 </div>
                             </div>
-                        </form>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="shortname">Shortname</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="shortname">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="phone-no-1">Tagline</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="phone-no-1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="pay-amount-1">Website</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="pay-amount-1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="pay-amount-1">Email</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="pay-amount-1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="pay-amount-1">Contact Number</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="pay-amount-1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="pay-amount-1">TIN</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="pay-amount-1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="pay-amount-1">Prefix</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="pay-amount-1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="pay-amount-1">Address</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="pay-amount-1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-lg btn-primary">Save Informations</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
-    </div>
         
     </div>
 </template>

@@ -729,6 +729,11 @@ export default {
         getSupervisors: function () {
            var scope = this
 
+           scope.options_supervisor.push({
+               id: '',
+               text: 'None'
+           });
+
             scope.GET('employees/supervisors-list', {emp_uuid: scope.$route.params.employeeUUID}).then(res => {
                 
                 res.rows.forEach(function (data) {
