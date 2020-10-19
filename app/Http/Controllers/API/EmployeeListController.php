@@ -68,7 +68,6 @@ class EmployeeListController extends Controller
 
     public function update()
     {
-
         $employee =  EmployeeList::find(request()->uuid);
         
         if (!$employee) {
@@ -115,6 +114,18 @@ class EmployeeListController extends Controller
         $employee->supervisor_emp_uuid = request()->supervisor_emp_uuid;
         $employee->gender = strtoupper(request()->gender);
         $employee->is_draft = 0;
+
+
+        if (request()->hasfile('picture_file')) {
+
+            $file = request()->file('picture_file');
+            $extension = $file->getClientOriginalExtension();
+            //$filename = time() . '.' . $extension;
+            $filename = request()->uuid . '.' . $extension;
+            $file->move('images/employees/', $filename);
+
+            $employee->profile_pic = $filename;
+        }
 
         $employee->save();
 

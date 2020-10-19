@@ -144,7 +144,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
         Route::get('/employee-list', 'API\EmployeeListController@getEmployeeList');
         Route::post('/employee-list', 'API\EmployeeListController@store');
-        Route::put('/employee-list', 'API\EmployeeListController@update');
+        Route::post('/employee-list/update', 'API\EmployeeListController@update');
         Route::get('/employee-list/{employee_uuid}','API\EmployeeListController@show');
 
         Route::post('/employee-list/delete', 'API\EmployeeListController@delete');

@@ -18,7 +18,7 @@ class EmployeeList extends Model
         'emergency_contact_no', 'employment_type_uuid', 'date_hired', 'date_regularized',
         'date_separated', 'is_min_wage', 'daily_wage', 'global_cost_center_uuid', 'is_applied_tax',
         'wt_uuid', 'tax_id', 'sss_id', 'phic_id', 'hdmf_id', 'global_address_uuid', 'address1','job_title',
-        'is_supervisor','employment_status_uuid','birth_date','department_uuid','gender',
+        'is_supervisor','employment_status_uuid','birth_date','department_uuid','gender','profile_pic',
     ];
 
     protected $primaryKey = 'uuid';

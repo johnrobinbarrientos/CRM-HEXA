@@ -206,6 +206,16 @@
 
                     </div>
 
+
+                    <div width="100px" height="100px">
+                        <input v-on:change="displayImage" ref="fileInput" type="file" class="employee-profile-pic" name="employee-profile-pic" accept=".png, .jpg, .jpeg">
+                        <div @click="$refs.fileInput.click()">
+                            <div v-if="fileImage"><img :src="fileImage"></div>
+                            <div v-else><img src='/images/default_pic.png'></div>
+                        </div>
+                    </div>
+
+
                     <br/>
                     <br/>
                     <div style="border: 1px solid #ced4da; border-radius: .25rem;">
@@ -538,6 +548,7 @@
 
 import Swal from 'sweetalert2'
 
+
 export default {
     name: 'employee-list',
     props: ['properties','view_mode'],
@@ -575,6 +586,9 @@ export default {
             options_supervisor: [],
 
             employeeList: [],
+
+            picture_file: null,
+            fileImage: null,
 
             formdata: { 
                 uuid: null,
@@ -615,7 +629,8 @@ export default {
                 birth_date: '',
                 department_uuid: '',
                 supervisor_emp_uuid: '',
-                gender: ''
+                gender: '',
+                profile_pic: ''
             },
 
             barangay: '',
@@ -627,6 +642,23 @@ export default {
         }
     },
     methods: {
+
+        displayImage: function () {
+            let scope = this
+            let reader = new FileReader()
+            scope.picture_file = this.$refs.fileInput.files[0]
+
+            console.log('asdfsfdsfgdsgsg')
+            console.log(scope.picture_file)
+
+            reader.onload = function () {
+            const image = new Image()
+            image.src = reader.result.toString()
+            scope.fileImage = image.src
+            }
+
+            reader.readAsDataURL(scope.picture_file)
+        },
         
         getEmployeeList: function () {
            var scope = this
@@ -823,6 +855,13 @@ export default {
             scope.formdata.supervisor_emp_uuid = scope.selected_supervisor
             scope.formdata.gender = scope.selected_gender
 
+            if (scope.picture_file) {
+                // formdata.append('picture_file', scope.picture_file)
+                scope.formdata['picture_file'] = scope.picture_file
+            }
+            console.log('naa ko save')
+            console.log(scope.formdata)
+
 
             scope.PUT('employees/employee-list', scope.formdata).then(res => {
                 if (res.success) {
@@ -852,7 +891,18 @@ export default {
             scope.formdata.global_address_uuid = scope.selected_global_address
             scope.formdata.supervisor_emp_uuid = scope.selected_supervisor
             scope.formdata.gender = scope.selected_gender
-            
+
+            let formData = new FormData()
+
+            $.each(scope.formdata, function(index, value) {
+                formData.append(index,value)
+            })
+
+            if (scope.picture_file) {
+                formData.append('picture_file', scope.picture_file)
+                //scope.formdata['picture_file'] = scope.picture_file
+            }
+
             window.swal.fire({
                 title: 'Update Record?',
                 icon: 'warning',
@@ -863,8 +913,15 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.PUT('employees/employee-list', scope.formdata).then(res => {
-                        if (res.success) {
+                    scope.axios.post(window.API_URL + '/' + 'employees/employee-list/update' , formData, {
+                        'headers': {
+                        'Content-Type': 'multipart/form-data',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Authorization': 'Bearer ' + localStorage.getItem(window.TOKEN_KEY)
+                        }
+                    })
+                    .then(response => {
+                        if (response.data.success) {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
@@ -876,7 +933,7 @@ export default {
                             })
                         }
                         else{
-                            alert('ERROR:' + res.code)
+                            alert('ERROR:' + response.code)
                         }
                     })            
                 }                              
@@ -958,6 +1015,12 @@ export default {
                     scope.formdata.job_title = data.job_title
                     scope.formdata.is_supervisor = data.is_supervisor
                     scope.formdata.birth_date = data.birth_date
+
+                    scope.formdata.profile_pic = data.profile_pic
+
+                    if (data.profile_pic) {
+                        scope.fileImage = '/images/employees/' + data.profile_pic
+                    }
 
                     $('.form-select-branch-location').val(data.branch_location_uuid);
                     $('.form-select-branch-location').trigger('change');
