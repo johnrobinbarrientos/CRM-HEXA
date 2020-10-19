@@ -30,7 +30,7 @@
 
             <div class="table-responsive"> 
                 <table class="table table-striped table-bordered">
-                    <thead>
+                    <thead class="th-nowrap">
                         <tr>
                             <th>Actions</th>
                             <th>#</th>
@@ -59,22 +59,22 @@
                             <td class="text-right">{{ (index + 1) }}</td>
                             <td class="text-right">{{employee.emp_id}}</td>
                             <td>
-                                <span class="d-block w-200px">
+                                <span class="text-nowrap">
                                     {{employee.first_name}} {{employee.last_name}}
                                 </span>
                             </td>
                             <td>
-                                <span style="text-transform: uppercase" class="d-block w-200px">
+                                <span style="text-transform: uppercase" class="text-nowrap">
                                     {{employee.branch_location.location_name}}
                                 </span>        
                             </td>
                             <td>
-                                <span style="text-transform: uppercase" class="d-block w-200px">
+                                <span style="text-transform: uppercase" class="text-nowrap">
                                     {{employee.department.department}}
                                 </span>        
                             </td>
                             <td>
-                                <span style="text-transform: uppercase" class="d-block w-200px">
+                                <span style="text-transform: uppercase" class="text-nowrap">
                                     {{employee.job_title}}
                                 </span>        
                             </td>
@@ -87,17 +87,17 @@
                             <td v-if="employee.is_system_user === 1">Yes</td>
                             <td v-else>No</td>
                             <td>
-                                <span style="text-transform: uppercase" class="d-block w-200px">
+                                <span style="text-transform: uppercase" class="text-nowrap">
                                     {{employee.employment_type.employment_type}}
                                 </span>        
                             </td>
                             <td>
-                                <span style="text-transform: uppercase" class="d-block w-200px">
+                                <span style="text-transform: uppercase" class="text-nowrap">
                                     {{employee.employment_status.employment_status}}
                                 </span>        
                             </td>
                             <td>
-                                <span class="d-block w-200px">
+                                <span class="text-nowrap">
                                     {{moment(employee.date_hired)}}
                                 </span>        
                             </td>
