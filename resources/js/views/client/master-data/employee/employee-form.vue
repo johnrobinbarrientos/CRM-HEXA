@@ -1,6 +1,9 @@
 <template>
     <div>
         <div class="card">
+            <div style="padding: 10px 15px; background-color: var(--hexa-blue);">
+                <h5 class="mb-0" style="color: #fff;">General Information</h5>
+            </div>
             <div class="card-body">
                 <div class="actions-bar">
                     <div class="w-100">
@@ -32,188 +35,145 @@
                 </div>
 
                 <form action="#" class="form-validate is-alter">
-
                     <div class="row">
 
                         <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="employee-id">Employee ID</label>
-                                <div class="form-control-wrap">
-                                    <input v-model="formdata.emp_id" style= "font-weight: bold;" type="text" class="form-control" id="employee-id" :readonly="view_mode">
+                            <div style="padding-right: 50px;">
+                                <div class="form-group">
+                                    <label class="form-label" for="employee-id">Employee ID</label>
+                                    <div class="form-control-wrap">
+                                        <input v-model="formdata.emp_id" style= "font-weight: bold;" type="text" class="form-control" id="employee-id" :readonly="view_mode">
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="col-md-3 col-12" style="margin-left: 100px">
-                            <div class="form-group">
-                                <label class="form-label" for="location">Assign Branch</label>
-                                <strong><select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="location" :disabled="view_mode">
-                                </select></strong>
-                            </div>
-                        </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="first-name">First Name</label>
+                                    <div class="form-control-wrap">
+                                        <input v-model="formdata.first_name" type="text" style="text-transform: uppercase; font-weight: bold;" class="form-control" id="first-name" :readonly="view_mode">
+                                    </div>
+                                </div>
 
-                        <div class="col-md-3 col-12" style="margin-top: 30px; margin-left: 100px">
-                            <div class="form-group">
-                                <div class="form-control-wrap">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" v-model="formdata.is_custodian" true-value="1" false-value="0" class="custom-control-input" id="is-custodian" :disabled="view_mode">
-                                        <label class="custom-control-label" for="is-custodian">Is Custodian?</label>
+                                <div class="form-group">
+                                    <label class="form-label" for="middle-name">Middle Name</label>
+                                    <div class="form-control-wrap">
+                                        <input v-model="formdata.middle_name" type="text" style="text-transform: uppercase; font-weight: bold;" class="form-control" id="middle-name" :readonly="view_mode">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="last-name">Last Name</label>
+                                    <div class="form-control-wrap">
+                                        <input v-model="formdata.last_name" type="text" style="text-transform: uppercase; font-weight: bold;" class="form-control" id="last-name" :readonly="view_mode">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="ext">Ext Name</label>
+                                    <div class="form-control-wrap">
+                                        <input v-model="formdata.ext" type="text" style="text-transform: uppercase; font-weight: bold;" class="form-control" id="ext" :readonly="view_mode">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                    </div>
+                        <div class="col-md-3 col-12">
+                            <div style="padding-right: 50px;">
+                                <div class="form-group">
+                                    <label class="form-label" for="gender">Gender</label>
+                                    <strong><select class="form-select-gender" v-model="selected_gender" :options="options_gender" name="gender" :disabled="view_mode">
+                                    </select></strong>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="birth-date">Birth Date</label>
+                                    <div class="form-control-wrap">
+                                        <date-picker style="font-weight: bold;" v-model="formdata.birth_date" :config="{format: 'YYYY-MM-DD'}" :disabled="view_mode"></date-picker>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="location">Assign Branch</label>
+                                    <strong><select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="location" :disabled="view_mode">
+                                    </select></strong>
+                                </div>
 
-                    <div class="row">
+                                <div class="form-group">
+                                    <label class="form-label" for="job-title">Job Title</label>
+                                    <div class="form-control-wrap">
+                                        <input v-model="formdata.job_title" style="text-transform: uppercase; font-weight: bold;" type="text" class="form-control" id="job-title" :readonly="view_mode">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="department">Department</label>
+                                    <strong><select class="form-select-department" v-model="selected_department" :options="options_department" name="department" :disabled="view_mode">
+                                    </select></strong>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="first-name">First Name</label>
-                                <div class="form-control-wrap">
-                                    <input v-model="formdata.first_name" type="text" style="text-transform: uppercase; font-weight: bold;" class="form-control" id="first-name" :readonly="view_mode">
+                            <div style="padding-right: 50px;">
+                                <div class="form-group" style="margin-bottom: 40px;">
+                                    <label class="form-label" for="supervisor">Supervisor Name</label>
+                                    <strong><select class="form-select-supervisor" v-model="selected_supervisor" :options="options_supervisor" name="supervisor" :disabled="view_mode">
+                                    </select></strong>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-12" style="margin-left: 100px">
-                            <div class="form-group">
-                                <label class="form-label" for="job-title">Job Title</label>
-                                <div class="form-control-wrap">
-                                    <input v-model="formdata.job_title" style="text-transform: uppercase; font-weight: bold;" type="text" class="form-control" id="job-title" :readonly="view_mode">
+                                <div class="form-group" style="margin-top: 30px;">
+                                    <div class="form-control-wrap">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" v-model="formdata.is_custodian" true-value="1" false-value="0" class="custom-control-input" id="is-custodian" :disabled="view_mode">
+                                            <label class="custom-control-label" for="is-custodian">Is Custodian?</label>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-12" style="margin-top: 30px; margin-left: 100px">
-                            <div class="form-group">
-                                <div class="form-control-wrap">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" v-model="formdata.is_driver " true-value="1" false-value="0" class="custom-control-input" id="is-driver" :disabled="view_mode">
-                                        <label class="custom-control-label" for="is-driver">Is Driver?</label>
+                                <div class="form-group" style="margin-top: 30px;">
+                                    <div class="form-control-wrap">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" v-model="formdata.is_driver " true-value="1" false-value="0" class="custom-control-input" id="is-driver" :disabled="view_mode">
+                                            <label class="custom-control-label" for="is-driver">Is Driver?</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-top: 30px;">
+                                    <div class="form-control-wrap">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" v-model="formdata.is_system_user" true-value="1" false-value="0" class="custom-control-input" id="is-system-user" :disabled="view_mode">
+                                            <label class="custom-control-label" for="is-system-user">Is System User?</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-top: 30px">
+                                    <div class="form-control-wrap">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" v-model="formdata.is_supervisor" true-value="1" false-value="0" class="custom-control-input" id="is-supervisor" :disabled="view_mode">
+                                            <label class="custom-control-label" for="is-supervisor">Is Supervisor?</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-top: 30px;">
+                                    <div class="form-control-wrap">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" v-model="formdata.is_active" true-value="1" false-value="0" class="custom-control-input" id="is-active" :disabled="view_mode">
+                                            <label class="custom-control-label" for="is-active">Is Active?</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="middle-name">Middle Name</label>
-                                <div class="form-control-wrap">
-                                    <input v-model="formdata.middle_name" type="text" style="text-transform: uppercase; font-weight: bold;" class="form-control" id="middle-name" :readonly="view_mode">
+                        <div class="col-md-3">
+                            <div style="padding-right: 50px;">
+                                <div @click="$refs.fileInput.click()" class="mb-3 text-center">
+                                    <div v-if="fileImage"><img :src="fileImage"></div>
+                                    <div v-else><img src='/images/default_pic.png'></div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-12" style="margin-left: 100px">
-                            <div class="form-group">
-                                <label class="form-label" for="department">Department</label>
-                                <strong><select class="form-select-department" v-model="selected_department" :options="options_department" name="department" :disabled="view_mode">
-                                </select></strong>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-12" style="margin-top: 30px; margin-left: 100px">
-                            <div class="form-group">
-                                <div class="form-control-wrap">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" v-model="formdata.is_system_user" true-value="1" false-value="0" class="custom-control-input" id="is-system-user" :disabled="view_mode">
-                                        <label class="custom-control-label" for="is-system-user">Is System User?</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="last-name">Last Name</label>
-                                <div class="form-control-wrap">
-                                    <input v-model="formdata.last_name" type="text" style="text-transform: uppercase; font-weight: bold;" class="form-control" id="last-name" :readonly="view_mode">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-12" style="margin-left: 100px">
-                            <div class="form-group">
-                                <label class="form-label" for="supervisor">Supervisor Name</label>
-                                <strong><select class="form-select-supervisor" v-model="selected_supervisor" :options="options_supervisor" name="supervisor" :disabled="view_mode">
-                                </select></strong>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-12" style="margin-top: 30px; margin-left: 100px">
-                            <div class="form-group">
-                                <div class="form-control-wrap">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" v-model="formdata.is_supervisor" true-value="1" false-value="0" class="custom-control-input" id="is-supervisor" :disabled="view_mode">
-                                        <label class="custom-control-label" for="is-supervisor">Is Supervisor?</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="ext">Ext Name</label>
-                                <div class="form-control-wrap">
-                                    <input v-model="formdata.ext" type="text" style="text-transform: uppercase; font-weight: bold;" class="form-control" id="ext" :readonly="view_mode">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-12" style="margin-left: 100px">
-                            <div class="form-group">
-                                <label class="form-label" for="birth-date">Birth Date</label>
-                                <div class="form-control-wrap">
-                                    <date-picker style="font-weight: bold;" v-model="formdata.birth_date" :config="{format: 'YYYY-MM-DD'}" :disabled="view_mode"></date-picker>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-12" style="margin-top: 30px; margin-left: 100px">
-                            <div class="form-group">
-                                <div class="form-control-wrap">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" v-model="formdata.is_active" true-value="1" false-value="0" class="custom-control-input" id="is-active" :disabled="view_mode">
-                                        <label class="custom-control-label" for="is-active">Is Active?</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="gender">Gender</label>
-                                <strong><select class="form-select-gender" v-model="selected_gender" :options="options_gender" name="gender" :disabled="view_mode">
-                                </select></strong>
+                                <input v-on:change="displayImage" ref="fileInput" type="file" class="employee-profile-pic hx-btn-upload" name="employee-profile-pic" accept=".png, .jpg, .jpeg">
                             </div>
                         </div>
 
                     </div>
 
 
-                    <div width="100px" height="100px">
-                        <input v-on:change="displayImage" ref="fileInput" type="file" class="employee-profile-pic" name="employee-profile-pic" accept=".png, .jpg, .jpeg">
-                        <div @click="$refs.fileInput.click()">
-                            <div v-if="fileImage"><img :src="fileImage"></div>
-                            <div v-else><img src='/images/default_pic.png'></div>
-                        </div>
-                    </div>
+
+
 
 
                     <br/>

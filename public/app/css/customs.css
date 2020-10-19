@@ -125,6 +125,13 @@ thead.th-nowrap th { white-space: nowrap !important; }
 	font-size: 18px;
 }
 
+.hx-btn-upload {
+	border: 1px solid #eeee;
+    border-radius: 2px;
+    width: 100%;
+    padding: 10px;
+}
+
 /** SIDEBAR AND TOPBAR **/
 
 /* page-topbar (header) */
