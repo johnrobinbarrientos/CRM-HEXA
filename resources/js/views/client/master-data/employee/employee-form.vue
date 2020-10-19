@@ -855,30 +855,40 @@ export default {
             scope.formdata.supervisor_emp_uuid = scope.selected_supervisor
             scope.formdata.gender = scope.selected_gender
 
+            let formData = new FormData()
+
+            $.each(scope.formdata, function(index, value) {
+                formData.append(index,value)
+            })
+
             if (scope.picture_file) {
-                // formdata.append('picture_file', scope.picture_file)
-                scope.formdata['picture_file'] = scope.picture_file
+                formData.append('picture_file', scope.picture_file)
             }
-            console.log('naa ko save')
-            console.log(scope.formdata)
 
-
-            scope.PUT('employees/employee-list', scope.formdata).then(res => {
-                if (res.success) {
+            scope.axios.post(window.API_URL + '/' + 'employees/employee-list/update' , formData, {
+                'headers': {
+                'Content-Type': 'multipart/form-data',
+                'X-Requested-With': 'XMLHttpRequest',
+                'Authorization': 'Bearer ' + localStorage.getItem(window.TOKEN_KEY)
+                }
+            })
+            .then(response => {
+                if (response.data.success) {
                     window.swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Employee Successfuly Saved',
+                        title: 'Employee Save',
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                         scope.ROUTE({path: '/employee-main/'})
+                        scope.ROUTE({path: '/employee-main/'})
                     })
-                } else {
-                    alert('ERROR:' + res.code)
                 }
-                
-            })
+                else{
+                    alert('ERROR:' + response.code)
+                }
+            })    
+
         },
         update: function () {
             var scope = this
@@ -900,7 +910,6 @@ export default {
 
             if (scope.picture_file) {
                 formData.append('picture_file', scope.picture_file)
-                //scope.formdata['picture_file'] = scope.picture_file
             }
 
             window.swal.fire({
