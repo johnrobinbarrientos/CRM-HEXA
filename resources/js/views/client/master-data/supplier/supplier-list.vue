@@ -28,7 +28,7 @@
         </div>
         <div v-else class="table-responsive"> 
             <table class="table table-striped table-bordered">
-                <thead>
+                <thead class="th-nowrap">
                     <tr>
                         <th>Actions</th>
                         <th>#</th>
