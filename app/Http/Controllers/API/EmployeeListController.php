@@ -133,12 +133,14 @@ class EmployeeListController extends Controller
 
             $file->move('images/employees/', $filename);
 
-            $employee->profile_pic = $filename + '?v=' + strtotime($employee->updated_at);
+            $employee->profile_pic = $filename ;
         }
 
         $employee->save();
 
         $employee = EmployeeList::find($employee->uuid);
+
+        $employee->profile_pic = $employee->profile_pic   + '?v=' + strtotime($employee->updated_at);
 
         return response()->json(['success' => 1, 'rows' => $employee], 200);
     }
