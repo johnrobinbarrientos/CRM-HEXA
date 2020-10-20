@@ -54,9 +54,11 @@ const store = new Vuex.Store({
     modules : stores
 })
 
+
 const app = new Vue({
     el: '#app',
     components: { App },
     router,
     store
 });
+
