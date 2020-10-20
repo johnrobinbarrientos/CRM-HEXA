@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\EmployeeList; 
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon; 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class EmployeeListController extends Controller
 {
@@ -120,8 +122,15 @@ class EmployeeListController extends Controller
 
             $file = request()->file('picture_file');
             $extension = $file->getClientOriginalExtension();
-            //$filename = time() . '.' . $extension;
             $filename = request()->uuid . '.' . $extension;
+
+            if(File::exists(public_path('images/employees/' . $filename)))
+            {
+                // var_dump('images/employees/' . $filename);
+                // die();
+                Storage::disk('public_employees')->delete($filename);
+            }
+
             $file->move('images/employees/', $filename);
 
             $employee->profile_pic = $filename;
