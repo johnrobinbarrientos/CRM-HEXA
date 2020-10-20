@@ -133,7 +133,7 @@ class EmployeeListController extends Controller
 
             $file->move('images/employees/', $filename);
 
-            $employee->profile_pic = $filename;
+            $employee->profile_pic = $filename + '?v=' + strtotime($employee->updated_at);
         }
 
         $employee->save();
