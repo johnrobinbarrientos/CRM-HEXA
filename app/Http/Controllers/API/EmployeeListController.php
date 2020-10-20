@@ -124,13 +124,6 @@ class EmployeeListController extends Controller
             $extension = $file->getClientOriginalExtension();
             $filename = request()->uuid . '.' . $extension;
 
-            // if(File::exists(public_path('images/employees/' . $filename)))
-            // {
-            //     // var_dump('images/employees/' . $filename);
-            //     // die();
-            //     Storage::disk('public_employees')->delete($filename);
-            // }
-
             $file->move('images/employees/', $filename);
 
             $employee->profile_pic = $filename ;
@@ -140,8 +133,6 @@ class EmployeeListController extends Controller
 
         $employee = EmployeeList::find($employee->uuid);
 
-        $employee->profile_pic = $employee->profile_pic  . '?v=' . strtotime($employee->updated_at);
-
         return response()->json(['success' => 1, 'rows' => $employee], 200);
     }
 
@@ -150,6 +141,8 @@ class EmployeeListController extends Controller
         $employee = EmployeeList::with('BranchLocation')->with('Department')
         ->with('EmploymentType')->with('EmploymentStatus')
         ->find($employeeUUID);
+
+        $employee->profile_pic .= '?v='.strtotime($employee->updated_at);
 
         if (!$employee) {
             return response()->json(['success' => 0, 'data' => null, 'Not found'], 500);
