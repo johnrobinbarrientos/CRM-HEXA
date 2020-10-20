@@ -151,6 +151,9 @@ export default {
                 data.code = code
                 return data
             })
+        },
+        DATEPICKER_CONFIG: function () {
+            return {format: 'YYYY-MM-DD', useCurrent: false, showClear: true, icons: { clear: 'bx bxs-eraser'}}
         }
     }
 }

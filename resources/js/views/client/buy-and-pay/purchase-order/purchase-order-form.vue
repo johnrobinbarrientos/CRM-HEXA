@@ -67,7 +67,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="date-terminated">PO Date</label>
                                 <div class="form-control-wrap">
-                                    <date-picker v-model="formdata.date_purchased" :config="{format: 'YYYY-MM-DD'}"></date-picker>
+                                    <date-picker v-model="formdata.date_purchased" :config="DATEPICKER_CONFIG()"></date-picker>
                                 </div>
                             </div>
 
@@ -277,6 +277,9 @@ export default {
         }
     },
     methods: {
+        test: function() {
+            alert(this.formdata.date_purchased)
+        },
         toggleEdit: function () {
             var scope = this
             scope.edit = !scope.edit

@@ -101,6 +101,8 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
 
 .hx-contained { max-width:1200px; margin:0px auto; }
 
+.bootstrap-datetimepicker-widget .bx.bxs-eraser:after { content: ' CLEAR' !important; font-style: normal;}
+
 /*tables*/
 thead.th-nowrap th { white-space: nowrap !important; }
 
