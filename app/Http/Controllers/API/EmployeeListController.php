@@ -142,7 +142,7 @@ class EmployeeListController extends Controller
         ->with('EmploymentType')->with('EmploymentStatus')
         ->find($employeeUUID);
 
-        $employee->profile_pic .= '?v='.strtotime($employee->updated_at);
+        $employee->profile_pic .= '?v='. time();
 
         if (!$employee) {
             return response()->json(['success' => 0, 'data' => null, 'Not found'], 500);
