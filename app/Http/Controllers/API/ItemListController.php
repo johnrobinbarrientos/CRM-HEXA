@@ -75,6 +75,27 @@ class ItemListController extends Controller
             return response()->json(['success' => 0, 'data' => null, 'Item not found'], 500);
         }
 
+        $uoms = request()->item_uoms;
+        $existing_barcodes = [];
+        //dd($uoms);
+
+        foreach ($uoms as $uom) {
+            $barcode = $uom['barcode'];
+            $global_uom_uuid = $uom['uom']; // global_uom_uuid
+            $exists = ItemUom::where('barcode','=',$barcode)->first();
+
+            if ($exists && $exists->global_uom_uuid != $global_uom_uuid) {
+                $existing_barcodes[] = $barcode;
+            }
+        }
+
+
+        if (count($existing_barcodes) >= 1) {
+            $barcodes = implode(',',$existing_barcodes);
+            $message = (count($existing_barcodes) > 1) ? 'The following barcodes '.$barcodes.' already exists!' : 'The barcode "'.$barcodes.'" already exists!';
+            return response()->json(['success' => 0, 'message' => $message], 500);
+        }
+        
         $auth = \Auth::user();
         $item->company_id = $auth->company_id;
         $item->item_group_uuid = request()->item_group_uuid;
@@ -130,7 +151,7 @@ class ItemListController extends Controller
             $item_supplier->save();
         }
 
-        $uoms = request()->item_uoms;
+       
         // mark all current item uom as deleted
         $item_uom = ItemUom::where('item_uuid','=',$item->uuid)->delete();
 
@@ -138,6 +159,9 @@ class ItemListController extends Controller
 
             $packing = $uom['packing'];
             $global_uom_uuid = $uom['uuid'];
+            $barcode = $uom['barcode'];
+            $sales_description = $uom['sales_description'];
+            $remarks = $uom['remarks'];
 
             if (!is_numeric($packing) || $packing < 1) {
                 continue;
@@ -150,12 +174,15 @@ class ItemListController extends Controller
                 continue;
             }
             
-            $item_uom = ItemUom::where('item_uuid','=',$item->uuid)->where('global_uom_uuid','=',$global_uom_uuid)->withTrashed()->first();
+            $item_uom = ItemUom::where('item_uuid','=',$item->uuid)->where('global_uom_uuid','=',$global_uom_uuid)->where('barcode','=',$barcode)->withTrashed()->first();
             $item_uom = ($item_uom) ? $item_uom :  new ItemUom;
 
             $item_uom->item_uuid = $item->uuid;
             $item_uom->global_uom_uuid = $global_uom_uuid;
             $item_uom->packing_qtty = $packing;
+            $item_uom->barcode = $barcode;
+            $item_uom->sales_description =  $sales_description;
+            $item_uom->remarks =  $remarks;
 
             $item_uom->deleted_at = null;
             $item_uom->save();

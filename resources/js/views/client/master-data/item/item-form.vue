@@ -258,46 +258,53 @@
                             <div class="tab-pane" id="unit-of-measure">
 
                                 <div class="row">
-                                    <div class="col-md-4 col-12" style="margin-left: 12px;">
+                                    <div class="col-md-6 col-12" style="margin-left: 12px;">
                                         <div style="padding:20px 0px;">
                                             <table class="table mb-0 table-striped table-bordered" style="margin-left: 12px;">
                                                 <thead>
                                                     <tr>
                                                         <th>UOM</th>
+                                                        <th width="100">Barcode</th>
                                                         <th width="100">Packing</th>
+                                                        <th>Sales Description</th>
+                                                        <th>Remarks</th>
                                                         <th width="50">Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr v-for="(item_uom, index) in item_uoms" :key="item_uom.uuid" v-bind:class="{'table-success' : index == 0}">
+                                                    <tr v-for="(item_uom, index) in item_uoms" :key="item_uom.uuid + '-' + index">
                                                         <td class="editable">
                                                             <span>{{ getGlobalUOMName(item_uom.uuid) }}</span>
-                                                            <select v-if="index === 0" v-model="item_uom.uuid" class="editable-control" :disabled="view_mode">
-                                                                <option v-for="uom in globalBaseUOM" :key="'base-' + uom.uuid" :value="uom.uuid">{{ uom.uom}}</option>
-                                                            </select>
-                                                            <select v-else v-model="item_uom.uuid" class="editable-control" :disabled="view_mode">
-                                                                <option value="PACK">Select a UOM</option>
-                                                                <option v-for="uom in globalNonBaseUOM" v-if="!itemUomExists(uom.uuid) || uom.uuid == item_uom.uuid" :key="'pack-' + uom.uuid" :value="uom.uuid">{{ uom.uom}}</option>
+                                                            <select  v-model="item_uom.uuid" class="editable-control" :disabled="view_mode">
+                                                                <option v-for="(uom,index_uom) in globalUOMs" :key="'base-' + uom.uuid + '-' + index_uom" :value="uom.uuid">{{ uom.uom}}</option>
                                                             </select>
                                                         </td>
 
-                                                        <td  v-if="index !== 0" class="editable text-right">
+                                                        <td class="editable text-right">
+                                                            <input v-model="item_uom.barcode" type="text" class="editable-control" :readonly="view_mode">
+                                                            <span>{{ item_uom.barcode }}</span>
+                                                        </td>
+                                                        <td class="editable text-right">
                                                             <input v-model="item_uom.packing" type="text" class="editable-control" :readonly="view_mode">
                                                             <span>{{ item_uom.packing }}</span>
                                                         </td>
-                                                        <td v-else class="text-right">
-                                                            <span>{{ item_uom.packing }}</span>
+                                                        <td class="editable text-right">
+                                                            <input v-model="item_uom.sales_description" type="text" class="editable-control" :readonly="view_mode">
+                                                            <span>{{ item_uom.sales_description }}</span>
                                                         </td>
+                                                        <td class="editable text-right">
+                                                            <input v-model="item_uom.remarks" type="text" class="editable-control" :readonly="view_mode">
+                                                            <span>{{ item_uom.remarks }}</span>
+                                                        </td>
+                                                   
 
-                                                        <td v-if="index !== 0">
+                                                        <td>
                                                             <button @click="removeItemUom(index)" type="button" class="btn btn-sm btn-danger waves-effect" :disabled="view_mode"><i class="mdi mdi-trash-can"></i></button>
                                                         </td>
-                                                        <td v-else>
-                                                            <span>N/A</span>
-                                                        </td>
+                                                       
                                                     </tr>
                                                     <tr>
-                                                        <td style="text-align:center; cursor:pointer; font-weight:600;" colspan="3">
+                                                        <td style="text-align:center; cursor:pointer; font-weight:600;" colspan="6">
                                                             <button @click="addItemUom()"  type="button" style="font-weight:600; background:transparent; border:none;" :disabled="view_mode">New UOM</button>
                                                         </td>
                                                     </tr>
@@ -564,15 +571,8 @@ export default {
             return true
         }  
       },
-      globalBaseUOM() {
-        return this.global_uoms.filter((uom) => {
-            return uom.type.toLowerCase().indexOf("base") > -1;
-        })
-      },
-      globalNonBaseUOM() {
-        return this.global_uoms.filter((uom) => {
-            return uom.type.toLowerCase().indexOf("pack") > -1;
-        })
+      globalUOMs() {
+        return this.global_uoms
       }
     },
     components: {
@@ -905,7 +905,7 @@ export default {
         },
         addItemUom: function(uuid) {
             var scope = this
-            scope.item_uoms.push({uuid: 'PACK', uom: '', packing: 1});
+            scope.item_uoms.push({uuid: 'PACK', uom: '', barcode: '', sales_description: '', remarks: '', packing: 1});
         },
         removeItemUom: function(index) {
             var scope = this
@@ -922,15 +922,18 @@ export default {
         getItemUoms: function () {
            var scope = this
              scope.item_uoms = [];
-            if (!scope.formdata.uuid) {
-                scope.item_uoms.push({uuid: 'BASE', uom: '', packing: 1});
-                return
-            }
-            
+
             scope.GET('items/'+ scope.formdata.uuid +'/uoms').then(res => {
                 // we use global UOM UUID as uuid instead
                 res.rows.forEach(function (data) {
-                    scope.item_uoms.push({uuid: data.global_uom_uuid, uom: data.global_uom_uuid, packing: data.packing_qtty})
+                    scope.item_uoms.push({
+                        uuid: data.global_uom_uuid,
+                        uom: data.global_uom_uuid, 
+                        barcode: data.barcode, 
+                        packing: data.packing_qtty, 
+                        sales_description:  data.sales_description, 
+                        remarks: data.remarks, 
+                    })
                 })
             })
         },
@@ -1002,7 +1005,11 @@ export default {
                         scope.formdata.uoms = []
                     })
                 } else {
-                    alert('ERROR:' + res.code)
+                    //alert('ERROR:' + res.code)
+                    window.swal.fire({
+                        icon: "error",
+                        message: res.message
+                    })
                 }
                 
             })
@@ -1050,9 +1057,12 @@ export default {
                             }).then(() => {
                                 scope.ROUTE({path: '/item-main/'})
                             })
-                        }
-                        else{
-                            alert('ERROR:' + res.code)
+                        } else{
+                            console.log(res)
+                            window.swal.fire({
+                                icon: "error",
+                                text: res.message
+                            })
                         }
                     })            
                 }                              

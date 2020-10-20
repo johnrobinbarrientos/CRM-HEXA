@@ -318,7 +318,7 @@ class BuyAndPayOrderController extends Controller
             $uoms = ItemUom::leftJoin('global_uom','global_uom_uuid','=','global_uom.uuid')
                 ->where('item_uuid','=',$item->uuid)
                 ->orderBy('packing_qtty')
-                ->select('global_uom.uuid as uuid','global_uom.uom as uom','packing_qtty')
+                ->select('global_uom.uuid as uuid','global_uom.uom as uom','packing_qtty','barcode')
                 ->get();
                 
             $item->uoms = $uoms;
@@ -337,7 +337,6 @@ class BuyAndPayOrderController extends Controller
             $order_detail = BuyAndPayOrderDetail::where('bp_order_uuid','=',$orderUUID)->where('item_uuid','=',$item->uuid)->first();
             
             if ($order_detail) {
-                $item->selected         = true;  
                 $item->quantity         = $order_detail->order_qty;
                 $item->uom              = $order_detail->uom;
                 $item->purchase_price   = $order_detail->purchase_price;
@@ -349,11 +348,11 @@ class BuyAndPayOrderController extends Controller
                 $item->total_amount     = $order_detail->total_amount;
                 $item->item_rate        = $order_detail->total_amount;
             }
-
-    
         }
 
-        return response()->json(['success' => 1, 'rows' => $items], 200);
+        $selected_items = $order_detail = BuyAndPayOrderDetail::where('bp_order_uuid','=',$orderUUID)->get();
+
+        return response()->json(['success' => 1, 'rows' => $items, 'selected_items' => $selected_items], 200);
     }
 }
 

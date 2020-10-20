@@ -417,7 +417,7 @@ export default {
 
                     scope.options_supplier.push({
                         id: data.uuid,
-                        text: data.business_shortname,
+                        text: data.supplier_shortname,
                         lead_time: data.lead_time,
                         vat_uuid: data.vat_uuid
                     })

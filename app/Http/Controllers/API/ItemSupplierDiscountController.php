@@ -24,6 +24,7 @@ class ItemSupplierDiscountController extends Controller
             return response()->json(['success' => 0, 'message' => 'An error occur while saving...'], 500);
         }
 
+        $delete = ItemSupplierDiscount::where('item_uuid','=',$item_uuid)->where('supplier_uuid','=',$supplier_uuid)->delete();
         $item_supplier_discount = ItemSupplierDiscount::where('item_uuid','=',$item_uuid)->where('supplier_base_discount_group_uuid','=',$supplier_base_discount_group->uuid)->first();
         $item_supplier_discount = ($item_supplier_discount) ? $item_supplier_discount : new ItemSupplierDiscount;
         

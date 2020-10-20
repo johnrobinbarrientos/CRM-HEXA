@@ -30,12 +30,13 @@ class BuyAndPayOrderDetailController extends Controller
         foreach ($items as $item) {
             $item = (object) $item;
 
-            $order_detail = BuyAndPayOrderDetail::where('bp_order_uuid','=',$orderUUID)->where('item_uuid','=',$item->uuid)->withTrashed()->first();
+            $order_detail = BuyAndPayOrderDetail::where('bp_order_uuid','=',$orderUUID)->where('item_uuid','=',$item->uuid)->where('barcode','=',$item->barcode)->withTrashed()->first();
             $order_detail = ($order_detail) ? $order_detail : new BuyAndPayOrderDetail;
 
             $order_detail->company_id               = $auth->company_id;
             $order_detail->bp_order_uuid            = $order->uuid;
             $order_detail->item_uuid                = $item->uuid;
+            $order_detail->barcode                  = $item->barcode;
             $order_detail->branch_location_uuid     = $order->branch_locations_uuid;
             $order_detail->order_qty                = $item->quantity;
             $order_detail->uom                      = $item->uom;

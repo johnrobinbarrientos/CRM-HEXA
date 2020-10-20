@@ -73,7 +73,9 @@ export default {
             .catch(function (error) {
                 var data = error.response.data
                 var code = error.response.status
-                return {success: 0, data: data, code: code }
+                data.success = 0
+                data.code = code
+                return data
             })
         },
         GET: function (name,payload = {}) {
@@ -96,7 +98,9 @@ export default {
             .catch(function (error) {
                 var data = error.response.data
                 var code = error.response.status
-                return {rows: [], data: data, code: code }
+                data.success = 0
+                data.code = code
+                return data
             })
         },
         DELETE: function (name,payload = {}) {
@@ -119,7 +123,9 @@ export default {
             .catch(function (error) {
                 var data = error.response.data
                 var code = error.response.status
-                return {rows: [], data: data, code: code }
+                data.success = 0
+                data.code = code
+                return data
             })
         },
         PUT: function (name,payload) {
@@ -141,7 +147,9 @@ export default {
             .catch(function (error) {
                 var data = error.response.data
                 var code = error.response.status
-                return {success: 0, data: data, code: code }
+                data.success = 0
+                data.code = code
+                return data
             })
         }
     }

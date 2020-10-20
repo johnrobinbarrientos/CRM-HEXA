@@ -35,13 +35,19 @@ class SupplierBaseDiscountGroupController extends Controller
             foreach ($discount_groups as $discount_group) {
                 $discounts = SupplierBaseDiscountGroupDetail::where('supplier_base_discount_group_uuid','=',$discount_group->uuid)->get();
                 $discount_group->discounts = $discounts;
-                
-                $selected = ItemSupplierDiscount::where('item_uuid','=',$item_uuid)->where('supplier_base_discount_group_uuid','=',$discount_group->uuid)->first();
-
-                $discount_group->selected = ($selected) ? true : false;
-
             }
 
+            $selected = ItemSupplierDiscount::where('item_uuid','=',$item_uuid)->where('supplier_uuid','=',$supplier->uuid)->first();
+            $supplier->selected_discount_group_uuid = ($selected) ? $selected->supplier_base_discount_group_uuid : '0';
+            $supplier->selected_discount_group  = null;
+
+            if ($selected) {
+                $selected_discount_group = SupplierBaseDiscountGroup::find($supplier->selected_discount_group_uuid );
+                $selected_discount_group->discounts = SupplierBaseDiscountGroupDetail::where('supplier_base_discount_group_uuid','=',$selected_discount_group->uuid)->get();
+                $supplier->selected_discount_group  = $selected_discount_group;
+            }
+            
+            
             $supplier->discount_groups = $discount_groups;
         }
         
@@ -58,7 +64,7 @@ class SupplierBaseDiscountGroupController extends Controller
         $discountGroup->supplier_uuid = $supplierUUID;
         $discountGroup->group_name = request()->group_name;
         $discountGroup->save();
-
+        
         $discountGroup = SupplierBaseDiscountGroup::find($discountGroup->uuid);
 
         return response()->json(['success' => 1, 'data' => $discountGroup], 200);

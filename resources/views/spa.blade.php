@@ -78,6 +78,7 @@
 		
         <script src="{{ mix('js/app.js') }}?v={{ time() }}"></script>
         <script src="/app/js/customs.js?v={{ time() }}"></script>
+        <script src="/app/js/jquery.autocomplete.min.js?v={{ time() }}"></script>
 
     </body>
 </html>

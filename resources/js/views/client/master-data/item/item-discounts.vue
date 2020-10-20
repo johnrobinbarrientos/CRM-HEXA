@@ -2,55 +2,47 @@
     <div>
         <br/>
         <div class="row" style="margin-left: 12px;">
-            <div class="col-md-5 col-12">
-                <div v-for="supplier in suppliers" :key="supplier.id" >
-                    <div style="background:#cee6fb; color:#404040; padding:8px 12px;">{{ supplier.business_name }}</div>
-                    <div v-if="supplier.discount_groups.length > 0" class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover mb-0 table">
-                            <tbody>
-                                <template v-for="discount_group in supplier.discount_groups">
-                                    <tr :key="discount_group.id" v-bind:class="{'table-success' : discount_group.selected}">
-                                        <th width="40" colspan="1">
-                                            <div class="form-check mb-3">
-                                                <input @change="selectGroup(discount_group)" v-model="discount_group.selected" class="form-check-input" type="checkbox" :id="'check-' + discount_group.id" value="" :disabled="view_mode">
-                                            </div>
-                                        </th>
-                                        <th colspan="2">{{ discount_group.group_name }}</th>
-                                    </tr>
-                                </template>
-                            </tbody>
-                        </table>
+            <div class="col-md-4 col-12">
+                <div v-for="supplier in suppliers" :key="supplier.id" style="margin-bottom:5px;">
+                    <div style="font-weight:900;">{{ supplier.supplier_name }}</div>
+                    <div  style="padding:10px 0px;">
+                        <select @change="changeSelectedSupplierDiscountGroup(supplier)" v-model="supplier.selected_discount_group_uuid" class="form-control">
+                            <option value="0">None</option>
+                            <option v-for="discount_group in supplier.discount_groups" :key="discount_group.uuid" :value="discount_group.uuid">{{ discount_group.group_name }}</option>
+                        </select>
                     </div>
-                    <div v-else style="padding:20px; text-align:center; color:#404040; background:#f8f9fa; font-weight:600;">
-                        No Discount Added on <strong>{{ supplier.business_name }}</strong>
-                    </div>
+
                 </div>
             </div>
             <div class="col-md-6 col-12 offset-md-1">
                 <table class="table table-striped table-bordered table-hover mb-0 table">
                     <tbody>
-                        <template v-for="supplier in suppliers" v-if="hasSelected(supplier)">
-                            <tr class="table-info" :key="'supplier' + supplier.id"><th  colspan="2" >{{ supplier.business_name }}</th></tr>
-                                <template v-for="discount_group in supplier.discount_groups" v-if="discount_group.selected">
-                                    <tr  class="table-success" :key="'group' + discount_group.id">
-                                        <th style="padding-left:50px;" colspan="2" >{{ discount_group.group_name }}</th>
-                                    </tr>
-                                    <tr :key="'discount' + discount.id" v-for="(discount,index2) in discount_group.discounts" >
-                                        <th style="padding-left:60px;"><i class="mdi mdi-arrow-right"></i> &nbsp; {{ discount.discount_name }}</th>
-                                        <th class="text-right">{{ parseFloat(discount.discount_rate).toFixed(2) }}%</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-right">Total:</th>
-                                        <th class="text-right">{{ totalRate(discount_group) }}%</th>
-                                    </tr>
-                                </template>
+                        <template v-for="supplier in suppliers">
+                            <tr class="table-info" :key="'supplier' + supplier.id">
+                                <th  colspan="2" >{{ supplier.supplier_name }}</th>
+                            </tr>
+                            <template v-if="supplier.selected_discount_group">
+                                <tr class="table-success" :key="'supplier-selected-group-' + supplier.id">
+                                    <th style="padding-left:50px;" colspan="2" >{{ supplier.selected_discount_group.group_name }}</th>
+                                </tr>
+                                <tr  v-for="(discount,index2) in supplier.selected_discount_group.discounts" :key="'discount' + index2" >
+                                    <th style="padding-left:60px;"><i class="mdi mdi-arrow-right"></i> &nbsp; {{ discount.discount_name }}</th>
+                                    <th class="text-right">{{ parseFloat(discount.discount_rate).toFixed(2) }}%</th>
+                                </tr>
+                                <tr :key="'supplier-selected-group-total-' + supplier.id">
+                                    <th class="text-right">Total:</th>
+                                    <th class="text-right">{{ calclateTotalSupplierDiscount(supplier) }}%</th>
+                                </tr> 
+                            </template>
+                            <template v-else>
+                                <tr>
+                                    <th style="text-align:center;" colspan="2">No Discount as of this moment</th>
+                                </tr>
+                            </template>
                         </template>
-                        <tr>
-                            <th class="text-right">Grand Total:</th>
-                            <th class="text-right">{{ grand_total || '0.00' }}%</th>
-                        </tr>
                     </tbody>
                 </table>
+                <br/>
             </div>
         </div>
     </div>
@@ -99,6 +91,44 @@ export default {
         },
     },
     methods: {
+        changeSelectedSupplierDiscountGroup: function (supplier) {
+            var scope = this
+
+            for (let i = 0; i < scope.suppliers.length; i++) {
+                var current = scope.suppliers[i]
+
+                if (current.uuid != supplier.uuid) {
+                    continue;
+                }
+
+                for (let x = 0; x < current.discount_groups.length; x++) {
+                    var group = current.discount_groups[x]
+                    if (group.uuid != supplier.selected_discount_group_uuid) {
+                        continue;
+                    }
+
+                    supplier.selected_discount_group = group
+                    scope.saveItemDiscountGroup(group)
+                    return
+                }
+            } 
+
+            supplier.selected_discount_group = null
+        },
+        calclateTotalSupplierDiscount: function(supplier) {
+            var scope = this
+            var total = 0.00
+            if (!supplier.selected_discount_group) {
+                return total;
+            }
+
+            for (let x = 0; x < supplier.selected_discount_group.discounts.length; x++) {
+                var discount = supplier.selected_discount_group.discounts[x]
+                total += parseFloat(discount.discount_rate);
+            }
+
+            return total.toFixed(2);
+        },
         getSupplierDiscounts: function (supplier_ids) {
            var scope = this
             scope.suppliers  = []
@@ -106,21 +136,6 @@ export default {
             scope.GET('suppliers/multiple/supplier-base-discount-group',{supplier_ids: supplier_ids, item_uuid: scope.item.uuid }).then(res => {
                scope.suppliers = res.rows
             })
-        },
-        hasSelected: function (supplier) {
-            for (let x = 0; x < supplier.discount_groups.length; x++) {
-                var discount_group = supplier.discount_groups[x]
-
-                if (discount_group.selected) { 
-                    return true; 
-                }
-                
-                if (x == (supplier.discount_groups - 1) )  {
-                    return false
-                }
-            }
-
-            return false
         },
         selectGroup: function (group) {
            var scope = this
