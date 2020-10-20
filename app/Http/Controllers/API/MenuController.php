@@ -57,9 +57,9 @@ class MenuController extends Controller
             'icon' => 'bx bx-money',
             'submenus' => [
                 [ 'text' => 'Ordering', 'route' => 'purchase-order-list'],
-                [ 'text' => 'Receiving', 'route' => 'supplier-main'],
-                [ 'text' => 'Returns', 'route' => 'customer-main'],
-                [ 'text' => 'Billing', 'route' => 'employee-main'],
+                [ 'text' => 'Receiving', 'route' => 'project-main'],
+                [ 'text' => 'Returns', 'route' => 'project-main'],
+                [ 'text' => 'Billing', 'route' => 'project-main'],
                 [ 'text' => 'Payment', 'route' => 'project-main']
             ]
         ];
@@ -70,10 +70,10 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bx-purchase-tag',
             'submenus' => [
-                [ 'text' => 'Ordering', 'route' => 'item-main'],
-                [ 'text' => 'Fulfillment', 'route' => 'supplier-main'],
-                [ 'text' => 'Invoicing', 'route' => 'customer-main'],
-                [ 'text' => 'Reversal', 'route' => 'employee-main'],
+                [ 'text' => 'Ordering', 'route' => 'project-main'],
+                [ 'text' => 'Fulfillment', 'route' => 'project-main'],
+                [ 'text' => 'Invoicing', 'route' => 'project-main'],
+                [ 'text' => 'Reversal', 'route' => 'project-main'],
                 [ 'text' => 'Collection', 'route' => 'project-main']
             ]
         ];
@@ -83,7 +83,7 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bx-package',
             'submenus' => [
-                [ 'text' => 'Inventory Movement', 'route' => 'item-main'],
+                [ 'text' => 'Inventory Movement', 'route' => 'project-main'],
                 [ 'text' => 'Price Rule', 'route' => 'price-rule-main']
             ]
         ];
@@ -93,10 +93,10 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bxs-report',
             'submenus' => [
-                [ 'text' => 'Reconcile Bank', 'route' => 'item-main'],
-                [ 'text' => 'Reconcile Cash Fund', 'route' => 'supplier-main'],
-                [ 'text' => 'Maintain Fixed Asset', 'route' => 'customer-main'],
-                [ 'text' => 'Make Payroll', 'route' => 'employee-main'],
+                [ 'text' => 'Reconcile Bank', 'route' => 'project-main'],
+                [ 'text' => 'Reconcile Cash Fund', 'route' => 'project-main'],
+                [ 'text' => 'Maintain Fixed Asset', 'route' => 'project-main'],
+                [ 'text' => 'Make Payroll', 'route' => 'project-main'],
                 [ 'text' => 'Make Adjustment', 'route' => 'project-main']
             ]
         ];
@@ -106,50 +106,51 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bx-bar-chart-square',
             'submenus' => [
-                [ 'text' => 'Bank Reconciliation', 'route' => 'item-main'],
-                [ 'text' => 'Funds Reconciliation', 'route' => 'supplier-main'],
-                [ 'text' => 'Lapsing Schedule', 'route' => 'customer-main'],
-                [ 'text' => 'Payroll Summary', 'route' => 'employee-main'],
+                [ 'text' => 'Bank Reconciliation', 'route' => 'project-main'],
+                [ 'text' => 'Funds Reconciliation', 'route' => 'project-main'],
+                [ 'text' => 'Lapsing Schedule', 'route' => 'project-main'],
+                [ 'text' => 'Payroll Summary', 'route' => 'project-main'],
                 [ 'text' => 'Journal and Ledger', 'route' => 'project-main'],
-                [ 'text' => 'Profit & Loss', 'route' => 'company-main'],
-                [ 'text' => 'Balance Sheet', 'route' => 'address-list'],
+                [ 'text' => 'Profit & Loss', 'route' => 'project-main'],
+                [ 'text' => 'Balance Sheet', 'route' => 'project-main'],
             ]
         ];
 
-        $menus[] = [
-            'text' => 'Users',
-            'route' => 'users',
-            'icon' => 'bx bxs-user'
-        ];
 
         $menus[] = [
-            'text' => 'Companies',
-            'route' => 'company-list',
-            'icon' => 'bx bxs-building'
+            'text' => 'Settings',
+            'route' => '#has-submenu',
+            'icon' => 'bx bx-cog',
+            'submenus' => [
+                [ 'text' => 'Company', 'route' => 'company-main'],
+            ]
         ];
 
         $menus[] = [
             'text' => 'Globals',
             'route' => '#has-submenu',
-            'icon' => 'bx bxs-cog',
+            'icon' => 'bx bx-globe',
             'submenus' => [
-                [ 'text' => 'Address List', 'route' => 'address-list'],
-                [ 'text' => 'Customer Chain', 'route' => 'customer-chain'],
-                [ 'text' => 'Customer Channel', 'route' => 'customer-channel'],
-                [ 'text' => 'Customer Type', 'route' => 'customer-type'],
+                [ 'text' => 'Address List', 'route' => 'global-address-list'],
+                [ 'text' => 'Customer Chain', 'route' => 'global-customer-chain'],
+                [ 'text' => 'Customer Channel', 'route' => 'global-customer-channel'],
+                [ 'text' => 'Customer Type', 'route' => 'global-customer-type'],
+                [ 'text' => 'Cost Center', 'route' => 'global-cost-center'],
                 [ 'text' => 'UOM', 'route' => 'global-uom'],
             ]
         ];
 
         $menus[] = [
-            'text' => 'Admin Globals',
+            'text' => 'Super Admin Settings',
             'route' => '#has-submenu',
-            'icon' => 'bx bx-globe',
+            'icon' => 'bx bxs-cog',
             'submenus' => [
-                [ 'text' => 'Admin Chart of Accounts', 'route' => 'admin-chart-of-accounts'],
-                [ 'text' => 'Admin Account Group', 'route' => 'admin-coa-account-group'],
-                [ 'text' => 'Admin Report Group', 'route' => 'admin-coa-report-group'],
-                [ 'text' => 'Admin Cost Center', 'route' => 'admin-cost-center'],
+                [ 'text' => 'Chart of Accounts', 'route' => 'admin-chart-of-accounts'],
+                [ 'text' => 'Account Group', 'route' => 'admin-coa-account-group'],
+                [ 'text' => 'Report Group', 'route' => 'admin-coa-report-group'],
+                [ 'text' => 'Cost Center', 'route' => 'admin-cost-center'],
+                [ 'text' => 'Company List', 'route' => 'company-list'],
+                [ 'text' => 'Users', 'route' => 'users'],
             ]
         ];
 
@@ -180,9 +181,9 @@ class MenuController extends Controller
             'icon' => 'bx bx-money',
             'submenus' => [
                 [ 'text' => 'Ordering', 'route' => 'purchase-order-list'],
-                [ 'text' => 'Receiving', 'route' => 'supplier-main'],
-                [ 'text' => 'Returns', 'route' => 'customer-main'],
-                [ 'text' => 'Billing', 'route' => 'employee-main'],
+                [ 'text' => 'Receiving', 'route' => 'project-main'],
+                [ 'text' => 'Returns', 'route' => 'project-main'],
+                [ 'text' => 'Billing', 'route' => 'project-main'],
                 [ 'text' => 'Payment', 'route' => 'project-main']
             ]
         ];
@@ -193,10 +194,10 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bx-purchase-tag',
             'submenus' => [
-                [ 'text' => 'Ordering', 'route' => 'item-main'],
-                [ 'text' => 'Fulfillment', 'route' => 'supplier-main'],
-                [ 'text' => 'Invoicing', 'route' => 'customer-main'],
-                [ 'text' => 'Reversal', 'route' => 'employee-main'],
+                [ 'text' => 'Ordering', 'route' => 'project-main'],
+                [ 'text' => 'Fulfillment', 'route' => 'project-main'],
+                [ 'text' => 'Invoicing', 'route' => 'project-main'],
+                [ 'text' => 'Reversal', 'route' => 'project-main'],
                 [ 'text' => 'Collection', 'route' => 'project-main']
             ]
         ];
@@ -206,7 +207,7 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bx-package',
             'submenus' => [
-                [ 'text' => 'Inventory Movement', 'route' => 'item-main'],
+                [ 'text' => 'Inventory Movement', 'route' => 'project-main'],
                 [ 'text' => 'Price Rule', 'route' => 'price-rule-main']
             ]
         ];
@@ -216,10 +217,10 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bxs-report',
             'submenus' => [
-                [ 'text' => 'Reconcile Bank', 'route' => 'item-main'],
-                [ 'text' => 'Reconcile Cash Fund', 'route' => 'supplier-main'],
-                [ 'text' => 'Maintain Fixed Asset', 'route' => 'customer-main'],
-                [ 'text' => 'Make Payroll', 'route' => 'employee-main'],
+                [ 'text' => 'Reconcile Bank', 'route' => 'project-main'],
+                [ 'text' => 'Reconcile Cash Fund', 'route' => 'project-main'],
+                [ 'text' => 'Maintain Fixed Asset', 'route' => 'project-main'],
+                [ 'text' => 'Make Payroll', 'route' => 'project-main'],
                 [ 'text' => 'Make Adjustment', 'route' => 'project-main']
             ]
         ];
@@ -229,21 +230,21 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bx-bar-chart-square',
             'submenus' => [
-                [ 'text' => 'Bank Reconciliation', 'route' => 'item-main'],
-                [ 'text' => 'Funds Reconciliation', 'route' => 'supplier-main'],
-                [ 'text' => 'Lapsing Schedule', 'route' => 'customer-main'],
-                [ 'text' => 'Payroll Summary', 'route' => 'employee-main'],
+                [ 'text' => 'Bank Reconciliation', 'route' => 'project-main'],
+                [ 'text' => 'Funds Reconciliation', 'route' => 'project-main'],
+                [ 'text' => 'Lapsing Schedule', 'route' => 'project-main'],
+                [ 'text' => 'Payroll Summary', 'route' => 'project-main'],
                 [ 'text' => 'Journal and Ledger', 'route' => 'project-main'],
-                [ 'text' => 'Profit & Loss', 'route' => 'company-main'],
-                [ 'text' => 'Balance Sheet', 'route' => 'address-list'],
+                [ 'text' => 'Profit & Loss', 'route' => 'project-main'],
+                [ 'text' => 'Balance Sheet', 'route' => 'project-main'],
             ]
         ];
 
-        $menus[] = [
-            'text' => 'Users',
-            'route' => 'users',
-            'icon' => 'bx bxs-user'
-        ];
+        // $menus[] = [
+        //     'text' => 'Users',
+        //     'route' => 'users',
+        //     'icon' => 'bx bxs-user'
+        // ];
 
         $menus[] = [
             'text' => 'Settings',
@@ -280,8 +281,8 @@ class MenuController extends Controller
             'icon' => 'bx bx-money',
             'submenus' => [
                 [ 'text' => 'Ordering', 'route' => 'purchase-order-list'],
-                [ 'text' => 'Receiving', 'route' => 'supplier-main'],
-                [ 'text' => 'Returns', 'route' => 'customer-main'],
+                [ 'text' => 'Receiving', 'route' => 'project-main'],
+                [ 'text' => 'Returns', 'route' => 'project-main'],
                 [ 'text' => 'Billing', 'route' => 'employee-main'],
                 [ 'text' => 'Payment', 'route' => 'project-main']
             ]
@@ -293,10 +294,10 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bx-purchase-tag',
             'submenus' => [
-                [ 'text' => 'Ordering', 'route' => 'item-main'],
-                [ 'text' => 'Fulfillment', 'route' => 'supplier-main'],
-                [ 'text' => 'Invoicing', 'route' => 'customer-main'],
-                [ 'text' => 'Reversal', 'route' => 'employee-main'],
+                [ 'text' => 'Ordering', 'route' => 'project-main'],
+                [ 'text' => 'Fulfillment', 'route' => 'project-main'],
+                [ 'text' => 'Invoicing', 'route' => 'project-main'],
+                [ 'text' => 'Reversal', 'route' => 'project-main'],
                 [ 'text' => 'Collection', 'route' => 'project-main']
             ]
         ];
@@ -307,7 +308,7 @@ class MenuController extends Controller
             'icon' => 'bx bx-package',
             'submenus' => [
                 [ 'text' => 'Inventory Movement', 'route' => 'item-main'],
-                [ 'text' => 'Price Rule', 'route' => 'price-rules']
+                [ 'text' => 'Price Rule', 'route' => 'price-rule-main']
             ]
         ];
 
@@ -316,10 +317,10 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bxs-report',
             'submenus' => [
-                [ 'text' => 'Reconcile Bank', 'route' => 'item-main'],
-                [ 'text' => 'Reconcile Cash Fund', 'route' => 'supplier-main'],
-                [ 'text' => 'Maintain Fixed Asset', 'route' => 'customer-main'],
-                [ 'text' => 'Make Payroll', 'route' => 'employee-main'],
+                [ 'text' => 'Reconcile Bank', 'route' => 'project-main'],
+                [ 'text' => 'Reconcile Cash Fund', 'route' => 'project-main'],
+                [ 'text' => 'Maintain Fixed Asset', 'route' => 'project-main'],
+                [ 'text' => 'Make Payroll', 'route' => 'project-main'],
                 [ 'text' => 'Make Adjustment', 'route' => 'project-main']
             ]
         ];
@@ -329,13 +330,13 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bx-bar-chart-square',
             'submenus' => [
-                [ 'text' => 'Bank Reconciliation', 'route' => 'item-main'],
-                [ 'text' => 'Funds Reconciliation', 'route' => 'supplier-main'],
-                [ 'text' => 'Lapsing Schedule', 'route' => 'customer-main'],
-                [ 'text' => 'Payroll Summary', 'route' => 'employee-main'],
+                [ 'text' => 'Bank Reconciliation', 'route' => 'project-main'],
+                [ 'text' => 'Funds Reconciliation', 'route' => 'project-main'],
+                [ 'text' => 'Lapsing Schedule', 'route' => 'project-main'],
+                [ 'text' => 'Payroll Summary', 'route' => 'project-main'],
                 [ 'text' => 'Journal and Ledger', 'route' => 'project-main'],
-                [ 'text' => 'Profit & Loss', 'route' => 'company-main'],
-                [ 'text' => 'Balance Sheet', 'route' => 'address-list'],
+                [ 'text' => 'Profit & Loss', 'route' => 'project-main'],
+                [ 'text' => 'Balance Sheet', 'route' => 'project-main'],
             ]
         ];
 

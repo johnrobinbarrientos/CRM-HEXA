@@ -23,22 +23,22 @@ import EmployeeForm from './views/client/master-data/employee/employee-form'
 
 import CompanyMain from './views/client/master-data/company/company-main'
 
-import AddressList from './views/admin/globals/address-list'
-import CustomerChain from './views/admin/globals/customer-chain'
-import CustomerChannel from './views/admin/globals/customer-channel'
-import CustomerType from './views/admin/globals/customer-type'
+import GlobalAddressList from './views/admin/globals/address-list'
+import GlobalCustomerChain from './views/admin/globals/customer-chain'
+import GlobalCustomerChannel from './views/admin/globals/customer-channel'
+import GlobalCustomerType from './views/admin/globals/customer-type'
+import GlobalCostCenter from './views/admin/globals/cost-center'
 
 import GlobalUom from './views/admin/globals/global-uom'
 
 
-import CompanyList from './views/admin/companies/list'
-import CompanyForm from './views/admin/companies/form'
+import CompanyList from './views/admin/settings/company-list'
+import CompanyForm from './views/admin/settings/company-form'
 
-import AdminCoaReportGroup from './views/admin/admin-globals/admin-coa-report-group'
-import AdminCoaAccountGroup from './views/admin/admin-globals/admin-coa-account-group'
-import AdminChartofAccounts from './views/admin/admin-globals/admin-chart-of-accounts'
-
-import AdminCostCenter from './views/admin/admin-globals/admin-cost-center'
+import AdminCoaReportGroup from './views/admin/settings/admin-coa-report-group'
+import AdminCoaAccountGroup from './views/admin/settings/admin-coa-account-group'
+import AdminChartofAccounts from './views/admin/settings/admin-chart-of-accounts'
+import AdminCostCenter from './views/admin/settings/admin-cost-center'
 
 import PurchaseOrderList from './views/client/buy-and-pay/purchase-order/purchase-order-list'
 import PurchaseOrderCreate from './views/client/buy-and-pay/purchase-order/purchase-order-create'
@@ -116,13 +116,6 @@ export default new VueRouter({
           path: '/users',
           name: 'users',
           component: Users,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/address-list',
-          name: 'address-list',
-          component: AddressList,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
@@ -223,23 +216,44 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
-          path: '/customer-chain',
-          name: 'customer-chain',
-          component: CustomerChain,
+          path: '/global-address-list',
+          name: 'global-address-list',
+          component: GlobalAddressList,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
         {
-          path: '/customer-channel',
-          name: 'customer-channel',
-          component: CustomerChannel,
+          path: '/global-customer-chain',
+          name: 'global-customer-chain',
+          component: GlobalCustomerChain,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
         {
-          path: '/customer-type',
-          name: 'customer-type',
-          component: CustomerType,
+          path: '/global-customer-channel',
+          name: 'global-customer-channel',
+          component: GlobalCustomerChannel,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/global-customer-type',
+          name: 'global-customer-type',
+          component: GlobalCustomerType,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/global-cost-center',
+          name: 'global-cost-center',
+          component: GlobalCostCenter,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/global-uom',
+          name: 'global-uom',
+          component: GlobalUom,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
@@ -286,13 +300,6 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
-          path: '/global-uom',
-          name: 'global-uom',
-          component: GlobalUom,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
           path: '/purchase-orders',
           name: 'purchase-order-list',
           component: PurchaseOrderList,
@@ -314,8 +321,8 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
-          path: '/price-rules',
-          name: 'price-rules',
+          path: '/price-rule-main',
+          name: 'price-rule-main',
           component: PriceRuleMain,
           beforeEnter: checkAuth,
           meta: { protected: true }

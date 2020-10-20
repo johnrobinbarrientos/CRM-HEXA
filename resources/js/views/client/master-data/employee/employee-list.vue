@@ -11,11 +11,12 @@
                 <div class="bar-right">
                     <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
                     <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
-                        <option value="10">10</option>
+                        <option value="15">15</option>
                         <option value="20">20</option>
                         <option value="30">30</option>
                         <option value="40">40</option>
                         <option value="50">50</option>
+                        <option value="100">100</option>
                     </select>
                     <a @click="create()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                         <i class="las la-plus"></i> <span>New</span>
@@ -29,24 +30,22 @@
 
             <div class="table-responsive"> 
                 <table class="table table-striped table-bordered">
-                    <thead>
+                    <thead class="th-nowrap">
                         <tr>
                             <th>Actions</th>
                             <th>#</th>
                             <th>Employee ID</th>
-                            <th>First Name</th>
-                            <th>Middle Name</th>
-                            <th>Last Name</th>
-                            <th>Ext</th>
+                            <th>Employee Name</th>
+                            <th>Assign Branch</th>
+                            <th>Department</th>
+                            <th>Job Title</th>
                             <th>Is Custodian?</th>
                             <th>Is Driver?</th>
-                            <th>Is System User?</th>
                             <th>Is Active</th>
-                            <th>Contact No</th>
-                            <th>Emergency Contact</th>
-                            <th>Contact Relation</th>
-                            <th>Relation Contact No</th>
-                            <th>Location</th>
+                            <th>Is System User?</th>
+                            <th>Employment Type</th>
+                            <th>Employment Status</th>
+                            <th>Date Hired</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,44 +59,46 @@
                             <td class="text-right">{{ (index + 1) }}</td>
                             <td class="text-right">{{employee.emp_id}}</td>
                             <td>
-                                <span class="d-block w-100px">
-                                    {{employee.first_name}}
+                                <span class="text-nowrap">
+                                    {{employee.first_name}} {{employee.last_name}}
                                 </span>
                             </td>
                             <td>
-                                <span class="d-block w-100px">
-                                    {{employee.middle_name}}
-                                </span>
+                                <span style="text-transform: uppercase" class="text-nowrap">
+                                    {{employee.branch_location.location_name}}
+                                </span>        
                             </td>
                             <td>
-                                <span class="d-block w-100px">
-                                    {{employee.last_name}}
-                                </span>
+                                <span style="text-transform: uppercase" class="text-nowrap">
+                                    {{employee.department.department}}
+                                </span>        
                             </td>
-                            <td class="text-right">{{employee.ext}}</td>
+                            <td>
+                                <span style="text-transform: uppercase" class="text-nowrap">
+                                    {{employee.job_title}}
+                                </span>        
+                            </td>
                             <td v-if="employee.is_custodian === 1">Yes</td>
                             <td v-else>No</td>
                             <td v-if="employee.is_driver === 1">Yes</td>
                             <td v-else>No</td>
-                            <td v-if="employee.is_system_user === 1">Yes</td>
-                            <td v-else>No</td>
                             <td v-if="employee.is_active === 1">Yes</td>
                             <td v-else>No</td>
-                            <td class="text-right">{{employee.contact_no}}</td>
+                            <td v-if="employee.is_system_user === 1">Yes</td>
+                            <td v-else>No</td>
                             <td>
-                                <span class="d-block w-120px">
-                                    {{employee.emergeny_contact}}
-                                </span>
+                                <span style="text-transform: uppercase" class="text-nowrap">
+                                    {{employee.employment_type.employment_type}}
+                                </span>        
                             </td>
                             <td>
-                                <span class="d-block w-100px">
-                                    {{employee.emergeny_contact_relation}}
-                                </span>
+                                <span style="text-transform: uppercase" class="text-nowrap">
+                                    {{employee.employment_status.employment_status}}
+                                </span>        
                             </td>
-                            <td class="text-right">{{employee.relation_contact_no}}</td>
                             <td>
-                                <span class="d-block w-200px">
-                                    {{employee.branch_location.location_name}}
+                                <span class="text-nowrap">
+                                    {{moment(employee.date_hired)}}
                                 </span>        
                             </td>
                         </tr>
@@ -133,6 +134,7 @@
 
 <script>
 import Swal from 'sweetalert2'
+import moment from 'moment'
 
 export default {
     name: 'employee-list',
@@ -168,6 +170,9 @@ export default {
                 scope.listLoading = false
                 scope.listCount = res.count
             })
+        },
+        moment: function (date_hired) {
+            return moment(date_hired).format('DD-MMM-YYYY')
         },
 
         create: function () {

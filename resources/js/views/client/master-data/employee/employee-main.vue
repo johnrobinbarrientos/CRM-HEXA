@@ -6,7 +6,10 @@
             </li>    
             <li class="nav-item">        
                 <a class="nav-link" data-toggle="tab" href="#employment-type">Employement Type</a>    
-            </li>    
+            </li>
+            <li class="nav-item">        
+                <a class="nav-link" data-toggle="tab" href="#employment-status">Employement Status</a>    
+            </li> 
         </ul>
 
         <div class="tab-content">    
@@ -15,7 +18,10 @@
             </div>    
             <div class="tab-pane" id="employment-type">        
                 <employment-type></employment-type>    
-            </div>    
+            </div>
+            <div class="tab-pane" id="employment-status">        
+                <employment-status></employment-status>    
+            </div> 
         </div>
     </div>
 </template>
@@ -23,11 +29,13 @@
 <script>
 import EmployeeList from './employee-list'
 import EmploymentType from './employee-employment-type'
+import EmploymentStatus from './employee-employment-status'
 
 export default {
     components: {
         'employee-list': EmployeeList,
-        'employment-type': EmploymentType
+        'employment-type': EmploymentType,
+        'employment-status': EmploymentStatus
     }
 }
 </script>

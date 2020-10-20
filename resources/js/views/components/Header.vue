@@ -13,7 +13,6 @@
                         <!-- <img :src="logo" style="height:50px;"> -->
                         <span style="font-weight: 700; font-family: Nunito; letter-spacing: 1px;">HEXA<i style="font-weight: 400; font-family: Roboto;">suite</i>
                         </span>
-                        
                     </a>
 
                     <span class="client-name">{{company_name}}</span>

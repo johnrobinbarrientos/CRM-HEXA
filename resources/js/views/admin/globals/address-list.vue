@@ -1,42 +1,40 @@
 <template>
     <div>
+        <div v-show="show_preloader">
+            <Spinner />
+        </div>
+
+        <div class="actions-bar">
+            <div class="w-100">
+                <h1 class="title"><i class="las la-list-ul"></i>Global Address List</h1>
+            </div>
+            <div class="bar-right">
+                <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
+                <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalAddressList');resetData()" class="btn btn-primary" data-toggle="modal">
+                    <em class="icon ni ni-plus"></em> <span>New</span>
+                </a>
+            </div>
+        </div>
 
         <div class="card">
-            <div class="card-body">
-                <div class="card-title">Address List</div>
-                <div class="mb-3 card-subtitle">
-                    Below are the list of active address list.
-                </div>
-
-                <div style="margin-bottom:10px;">
-                    <div class="row">
-                        <div class="col-12 col-md-3">
-                            <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
-                            <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="30">30</option>
-                                <option value="40">40</option>
-                                <option value="50">50</option>
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-2 offset-md-7 text-right">
-                            <a href="javascript:void(0)" @click="OPEN_MODAL('#modalAddressList');resetData()" class="btn btn-primary" data-toggle="modal">
-                                <em class="icon ni ni-plus"></em> <span>New</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="card-body"> 
                 <div v-if="listLoading" class="text-center my-3 text-loader">
                     <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
                 </div>
 
-                <div class="table-responsive">
-                    <table class="table mb-0 table table-striped">
+                <div v-else class="table-responsive">
+                    <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th width="100">Actions</th>
+                                <th>Actions</th>
                                 <th>#</th>
                                 <th>Barangay</th>
                                 <th>City/Municipality</th>
@@ -47,12 +45,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(address, index) in addressList" :key="address.uuid" class="tb-tnx-item">
-                                <td>
-                                    <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalAddressList');setData(address)" class="btn btn-sm btn-light"><i class="bx bx-pencil"></i></a>
-                                    <a href="javascript:void(0)"  @click="remove(address)" class="btn btn-sm btn-danger"><i  class="bx bx-trash"></i></a>
+                            <tr v-for="(address, index) in addressList" :key="address.uuid">
+                                <td width="100">
+                                    <span class="w-65px d-block mx-auto">
+                                        <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalAddressList');setData(address)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
+                                        <a href="javascript:void(0)"  @click="remove(address)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
+                                    </span>
                                 </td>
-                                <td>{{ (index + 1) }}</td>
+                                <td width="50">{{ (index + 1) }}</td>
                                 <td>{{ address.barangay }}</td>
                                 <td>{{ address.city_municipality }}</td>
                                 <td>{{ address.province }}</td>
@@ -83,11 +83,9 @@
                             </li>
                         </ul>
                     </nav>
-
                 </div>
             </div>
-        </div>
-        
+        </div> 
       
         
         <!-- Modal Group Form -->
@@ -166,7 +164,7 @@
                     </div>
                     <div class="modal-footer bg-light">
                         <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
-                        <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
+                        <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Update</button>
                     </div>
                 </div>
             </div>
@@ -183,6 +181,8 @@ export default {
     props: ['properties'],
     data: function () {
         return {
+            show_preloader: true,
+
             addressList: [],
             listLoading: true,
             listCurrentPage: 1,
@@ -368,6 +368,8 @@ export default {
     mounted() {
         var scope = this
         scope.getAddressList()
+
+        setTimeout(function(){ scope.show_preloader = false },2000)
     },
 }
 </script>

@@ -14,10 +14,11 @@ class EmployeeList extends Model
     protected $fillable = [
         'uuid','user_id','company_id', 'emp_id','first_name','middle_name','last_name',
         'ext', 'branch_location_uuid', 'is_custodian', 'is_driver', 'is_system_user',
-        'is_active', 'email', 'contact_no', 'emergeny_contact', 'emergeny_contact_relation',
-        'relation_contact_no', 'employment_type_uuid', 'date_hired', 'date_regularized',
-        'date_terminated', 'is_min_wage', 'daily_wage', 'cost_center_uuid', 'is_applied_tax',
-        'wt_uuid', 'tax_id', 'sss_id', 'phic_id', 'hdmf_id', 'global_address_uuid', 'address1',
+        'is_active', 'email', 'contact_no', 'emergency_contact', 'contact_relation',
+        'emergency_contact_no', 'employment_type_uuid', 'date_hired', 'date_regularized',
+        'date_separated', 'is_min_wage', 'daily_wage', 'global_cost_center_uuid', 'is_applied_tax',
+        'wt_uuid', 'tax_id', 'sss_id', 'phic_id', 'hdmf_id', 'global_address_uuid', 'address1','job_title',
+        'is_supervisor','employment_status_uuid','birth_date','department_uuid','gender','profile_pic',
     ];
 
     protected $primaryKey = 'uuid';
@@ -36,6 +37,16 @@ class EmployeeList extends Model
 
     public function BranchLocation(){
         return $this->belongsTo('App\Models\CompanyBranchLocation','branch_location_uuid','uuid');
+    }
+
+    public function Department(){
+        return $this->belongsTo('App\Models\CompanyDepartment','department_uuid','uuid');
+    }
+    public function EmploymentType(){
+        return $this->belongsTo('App\Models\EmployeeEmploymentType','employment_type_uuid','uuid');
+    }
+    public function EmploymentStatus(){
+        return $this->belongsTo('App\Models\EmployeeEmploymentStatus','employment_status_uuid','uuid');
     }
    
 }

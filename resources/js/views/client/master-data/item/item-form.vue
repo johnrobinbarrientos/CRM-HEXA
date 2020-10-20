@@ -1199,7 +1199,6 @@ export default {
     },
     mounted() {
         var scope = this
-        console.log('jp', scope.view_mode)
         scope.getItemGroup()
         scope.getSupplier()
         scope.getIncomeAccount()

@@ -92,9 +92,6 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
 
 /** HEXA in-house modules (custom modules) **/
 
-/*btns*/
-
-
 .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
 .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
 .autocomplete-selected { background: #F0F0F0; }
@@ -104,6 +101,10 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
 
 .hx-contained { max-width:1200px; margin:0px auto; }
 
+/*tables*/
+thead.th-nowrap th { white-space: nowrap !important; }
+
+/*btns*/
 .hx-btn { 
     color: #fff; background-color: #eee; border: 1px solid #eee; display: flex;align-items: center; justify-content: center;
 	padding: 8px; padding-left: 12px; padding-right: 12px; border-radius: 4px;transition: .3s;
@@ -129,6 +130,13 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
     left: 50%;
 	transform: translate(-50%, -50%);
 	font-size: 18px;
+}
+
+.hx-btn-upload {
+	border: 1px solid #eeee;
+    border-radius: 2px;
+    width: 100%;
+    padding: 10px;
 }
 
 /** SIDEBAR AND TOPBAR **/
@@ -206,7 +214,7 @@ img.header-profile-user { background: #fff; }
 .actions-bar .bar-right span { display: flex; gap: 5px; justify-content: flex-end; width: 100%; }
 .actions-bar .bar-right input { width: 220px; }
 
-/* utilities */
+/* utilities (helpers) */
 .h-36 { height: 36px; }
 .w-65px { width: 65px; }
 .w-100px { width: 100px; }

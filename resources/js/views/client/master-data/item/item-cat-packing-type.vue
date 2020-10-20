@@ -16,11 +16,12 @@
                                 <div class="d-flex align-items-center">
                                     <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none mr-1" placeholder="Search">
                                     <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
-                                        <option value="10">10</option>
+                                        <option value="15">15</option>
                                         <option value="20">20</option>
                                         <option value="30">30</option>
                                         <option value="40">40</option>
                                         <option value="50">50</option>
+                                        <option value="100">100</option>
                                     </select>
                                 </div>
                                 <div>
@@ -87,7 +88,7 @@
                                         </div>
                                         <div class="modal-footer bg-light">
                                             <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
-                                            <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Save Changes</button>
+                                            <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Update</button>
                                         </div>
                                     </div>
                                 </div>
