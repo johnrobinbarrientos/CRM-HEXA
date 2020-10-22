@@ -27,8 +27,8 @@
                         </span>
                         <span v-else>
                             <a @click="ROUTE({path: '/employee-main/' })" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>  
-                            <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
-                            <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
+                            <a v-if="formdata.is_draft" @click="save()" style= "background-color:#548235" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
+                            <a v-else @click="update()" style= "background-color:#548235" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
                         </span>
     
                     </div>
@@ -172,15 +172,10 @@
 
                     </div>
 
-
-
-
-
-
                     <br/>
                     <br/>
                     <div style="border: 1px solid #ced4da; border-radius: .25rem;">
-                        <ul class="nav nav-tabs nav-tabs-custom" style="border-color: #eee;">
+                            <ul class="nav nav-tabs nav-tabs-custom" style="background-color: var(--hexa-blue);">
                                 <li class="nav-item">        
                                     <a class="nav-link active" data-toggle="tab" href="#address">Contact and Address</a>    
                                 </li>
@@ -1088,6 +1083,15 @@ export default {
 </script>
 
 <style scoped>
+
+.nav-tabs-custom .nav-item .nav-link {
+    color: white;
+}
+.nav-tabs-custom .nav-item .nav-link.active {
+  color: black !important;
+}
+.nav-tabs-custom .nav-item .nav-link::after { content: none; }
+
 .table-tranx { table-layout: auto; }
 .table-items tr th { min-width:300px; width:auto; padding-left:10px; padding-right:10px; }
 .table-fixed-column { position:absolute; }

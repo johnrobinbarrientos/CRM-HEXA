@@ -1,6 +1,9 @@
 <template>
     <div>
         <div class="card">
+            <div style="padding: 10px 15px; background-color: var(--hexa-blue);">
+                <h5 class="mb-0" style="color: #fff;">General Information</h5>
+            </div>
             <div class="card-body">
                     <div class="actions-bar">
                         <div class="w-100">
@@ -23,9 +26,9 @@
                                 <a @click="ROUTE({path: '/customer-main/' })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Close</a>
                             </span>
                             <span v-else>
-                                <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
-                                <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
                                 <a @click="ROUTE({path: '/customer-main/' })" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>
+                                <a v-if="formdata.is_draft" style= "background-color:#548235"  @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
+                                <a v-else @click="update()" style= "background-color:#548235" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
                             </span>
                         </div>
                     </div>
@@ -116,7 +119,7 @@
 
                         <br/>
                         <div style="border: 1px solid #ced4da; border-radius: .25rem;">
-                            <ul class="nav nav-tabs nav-tabs-custom" style="border-color: #eee;">    
+                            <ul class="nav nav-tabs nav-tabs-custom" style="background-color: var(--hexa-blue);">    
                                     <li class="nav-item">        
                                         <a class="nav-link active" data-toggle="tab" href="#account">Financial Account</a>    
                                     </li>    
@@ -931,6 +934,15 @@ export default {
 </script>
 
 <style scoped>
+
+.nav-tabs-custom .nav-item .nav-link {
+    color: white;
+}
+.nav-tabs-custom .nav-item .nav-link.active {
+  color: black !important;
+}
+.nav-tabs-custom .nav-item .nav-link::after { content: none; }
+
 .table-tranx { table-layout: auto; }
 /*.table-items tr th { min-width:200px; width:auto; padding-left:10px; padding-right:10px; }*/
 .table-fixed-column { position:absolute; }
