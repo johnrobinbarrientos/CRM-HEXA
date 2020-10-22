@@ -21,7 +21,7 @@
                     </div>
                     <div class="bar-right">
                         <span v-if ="view_mode">
-                            <a @click="ROUTE({path: '/employees/' + formdata.uuid })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Edit</a>
+                            <a @click="ROUTE({path: '/employees/' + formdata.uuid })" style= "background-color:#548235" class="hx-btn hx-btn-primary" href="javascript:void(0)">Edit</a>
                             <a @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Delete</a>
                             <a @click="ROUTE({path: '/employee-main/' })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Close</a>
                         </span>
@@ -872,7 +872,7 @@ export default {
                 title: 'Update Record?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#548235',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, Update it!',
                 cancelButtonText: 'Cancel'
@@ -913,7 +913,7 @@ export default {
                 text: 'You won\'t be able to revert this',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#548235',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!',
                 cancelButtonText: 'Cancel'
