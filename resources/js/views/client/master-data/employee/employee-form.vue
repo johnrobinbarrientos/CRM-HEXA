@@ -352,7 +352,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="date-hired">Date Hired</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker v-model="formdata.date_hired" style="font-weight: bold;" :config="{format: 'YYYY-MM-DD'}" :disabled="view_mode"></date-picker>
+                                                    <date-picker v-model="formdata.date_hired" style="font-weight: bold;" :config="DATEPICKER_CONFIG()" :disabled="view_mode"></date-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -361,7 +361,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="date-separated">Date Separated</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker v-model="formdata.date_separated" style="font-weight: bold;" :config="{format: 'YYYY-MM-DD'}" :disabled="view_mode"></date-picker>
+                                                    <date-picker v-model="formdata.date_separated" style="font-weight: bold;" :config="DATEPICKER_CONFIG()" :disabled="view_mode"></date-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -382,7 +382,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="date-regularized">Date Regularized</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker v-model="formdata.date_regularized" style="font-weight: bold;" :config="{format: 'YYYY-MM-DD'}" :disabled="view_mode"></date-picker>
+                                                    <date-picker v-model="formdata.date_regularized" style="font-weight: bold;" :config="DATEPICKER_CONFIG()" :disabled="view_mode"></date-picker>
                                                 </div>
                                             </div>
                                         </div>

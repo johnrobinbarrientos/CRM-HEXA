@@ -95,7 +95,9 @@ class EmployeeListController extends Controller
         $employee->emergency_contact_no = strtoupper(request()->emergency_contact_no);
         $employee->employment_type_uuid = request()->employment_type_uuid;
         $employee->employment_status_uuid = request()->employment_status_uuid;
+        
         $employee->date_hired = request()->date_hired;
+
         $employee->date_regularized = request()->date_regularized;
         $employee->date_separated = request()->date_separated;
         $employee->is_min_wage = request()->is_min_wage;
