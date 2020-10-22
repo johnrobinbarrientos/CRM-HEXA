@@ -79,8 +79,24 @@
                         <div class="col-md-3 col-12">
                             <div style="padding-right: 50px;">
                                 <div class="form-group">
-                                    <label class="form-label" for="gender">Gender</label>
-                                    <strong><select class="form-select-gender" v-model="selected_gender" :options="options_gender" name="gender" :disabled="view_mode">
+                                    <label class="form-label" for="location">Assign Branch</label>
+                                    <strong><select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="location" :disabled="view_mode">
+                                    </select></strong>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="job-title">Job Title</label>
+                                    <div class="form-control-wrap">
+                                        <input v-model="formdata.job_title" style="text-transform: uppercase; font-weight: bold;" type="text" class="form-control" id="job-title" :readonly="view_mode">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="department">Department</label>
+                                    <strong><select class="form-select-department" v-model="selected_department" :options="options_department" name="department" :disabled="view_mode">
+                                    </select></strong>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="supervisor">Supervisor Name</label>
+                                    <strong><select class="form-select-supervisor" v-model="selected_supervisor" :options="options_supervisor" name="supervisor" :disabled="view_mode">
                                     </select></strong>
                                 </div>
                                 <div class="form-group">
@@ -89,34 +105,19 @@
                                         <date-picker style="font-weight: bold;" v-model="formdata.birth_date" :config="{format: 'YYYY-MM-DD'}" :disabled="view_mode"></date-picker>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="location">Assign Branch</label>
-                                    <strong><select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="location" :disabled="view_mode">
-                                    </select></strong>
-                                </div>
 
-                                <div class="form-group">
-                                    <label class="form-label" for="job-title">Job Title</label>
-                                    <div class="form-control-wrap">
-                                        <input v-model="formdata.job_title" style="text-transform: uppercase; font-weight: bold;" type="text" class="form-control" id="job-title" :readonly="view_mode">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-label" for="department">Department</label>
-                                    <strong><select class="form-select-department" v-model="selected_department" :options="options_department" name="department" :disabled="view_mode">
-                                    </select></strong>
-                                </div>
                             </div>
                         </div>
 
                         <div class="col-md-3 col-12">
                             <div style="padding-right: 50px;">
+
                                 <div class="form-group" style="margin-bottom: 40px;">
-                                    <label class="form-label" for="supervisor">Supervisor Name</label>
-                                    <strong><select class="form-select-supervisor" v-model="selected_supervisor" :options="options_supervisor" name="supervisor" :disabled="view_mode">
+                                    <label class="form-label" for="gender">Gender</label>
+                                    <strong><select class="form-select-gender" v-model="selected_gender" :options="options_gender" name="gender" :disabled="view_mode">
                                     </select></strong>
                                 </div>
+
                                 <div class="form-group" style="margin-top: 30px;">
                                     <div class="form-control-wrap">
                                         <div class="custom-control custom-checkbox">
