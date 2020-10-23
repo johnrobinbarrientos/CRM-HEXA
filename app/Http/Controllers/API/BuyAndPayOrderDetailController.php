@@ -39,7 +39,6 @@ class BuyAndPayOrderDetailController extends Controller
             $order_detail->barcode                  = $item->barcode;
             $order_detail->branch_location_uuid     = $order->branch_locations_uuid;
             $order_detail->order_qty                = $item->quantity;
-            $order_detail->uom                      = $item->uom;
             $order_detail->purchase_price           = $item->purchase_price;
             $order_detail->gross_amount             = $item->gross_amount;
             $order_detail->discount_rate            = $item->discount_rate;

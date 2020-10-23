@@ -177,6 +177,7 @@ class ItemListController extends Controller
             $item_uom = ItemUom::where('item_uuid','=',$item->uuid)->where('global_uom_uuid','=',$global_uom_uuid)->where('barcode','=',$barcode)->withTrashed()->first();
             $item_uom = ($item_uom) ? $item_uom :  new ItemUom;
 
+            $item_uom->company_id = $auth->company_id;
             $item_uom->item_uuid = $item->uuid;
             $item_uom->global_uom_uuid = $global_uom_uuid;
             $item_uom->packing_qtty = $packing;

@@ -60,9 +60,11 @@
             <table class="table mb-0 table table-striped table-bordered">
                 <thead>
                     <tr>
+                        <th width="40">Action</th>
                         <th width="40">#</th>
                         <th>Barcode</th>
                         <th>Item Description</th>
+                        <th>Item Group</th>
                         <th>Location</th>
                         <th width="100">Quantity</th>
                         <th width="80">UOM</th>
@@ -79,19 +81,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                        <tr v-for="(item, index) in selectedItems" :key="item.uuid + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
+                        <tr v-for="(item, index) in selectedItems" :key="item.barcode + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
+                        <td><button @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger"><i class="bx bx-trash-alt"></i></button></td>
                         <td>{{ (index + 1) }}</td>
                         <td>{{ item.barcode }}</td>
-                        <td><a :href="'/items/' + item.uuid" target="_blank">{{ item.item_description }}</a></td>
+                        <td><a :href="'/items/' + item.uuid + '/view'" target="_blank">{{ item.item_description }}</a></td>
+                        <td>
+                            <span class="badge badge-pill badge-info mr-1" v-for="base_discount in item.base_discounts">{{ base_discount.order_base_discount_group.group_name }}</span>
+                        </td>
                         <td>{{ order.branch_location.location_name }}</td>
                         <td class="editable text-right">
                             <span>{{ item.quantity }}</span>
                             <input @keyup="calculate(item)" v-model="item.quantity" type="text" class="editable-control">
                         </td>
                         <td class="editable">
-                            <span>{{ getItemUOMName(item.uoms, item.uom) }}</span>
-                            <select @change="calculate(item)" v-model="item.uom" type="text" class="editable-control">
-                                <option v-for="uom in item.uoms" :key="uom.uuid" :value="uom.uuid">{{ uom.uom }}</option>
+                            <span>{{ findUOMByBarcode(item.uoms,item.barcode) }}</span>
+                            <select @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="editable-control">
+                                <option v-if="!isItemUOMSelected(uom, item)" v-for="(uom,index) in item.uoms" :key="uom.uuid + '-' + index" :value="uom.barcode" v-bind:selected="uom.barcode == item.barcode">{{ uom.uom }}</option>
                             </select>
                         </td>
                         <td class="text-right">{{ parseFloat(item.item_rate).toFixed(2) }}</td>
@@ -105,10 +111,17 @@
                         <td class="text-right">{{ parseFloat(item.net_amount).toFixed(2) }}</td>
                         <td class="text-right">{{ parseFloat(item.vat_amount).toFixed(2) }}</td>
                         <td class="text-right">{{ parseFloat(item.total_amount).toFixed(2) }}</td>
-                        <td>{{ (item.price_rule_discounts.length > 0) ? 'Yes' : 'No'}}</td>
+                        <td>
+                            <a v-if="item.price_rule_discounts.length > 0" href="javascript:void(0);" @click="showDiscounts(item, 'price-rule')">
+                                Yes
+                            </a>
+                            <a v-else style="color:#495057;" href="javascript:void(0);">
+                                No
+                            </a>
+                        </td>
                     </tr> 
                     <tr>
-                        <td colspan="14"> 
+                        <td colspan="16"> 
                             <!-- <select class="search-items" v-model="option_items_selected" :options="options_items" name="item-group"></select> -->
                             <input type="text" id="autocomplete" class="form-control">
                         </td>
@@ -142,12 +155,12 @@
                             </td>
                             <th class="text-right">{{ TOTAL_GROSS_AMOUNT }}</th>
                             <td v-bind:class="{'editable' : discount.discount_type == 'rate'}" class="text-right">
-                                <span v-if="discount.discount_type == 'rate'">{{ discount.discount_rate }}%</span>
+                                <span v-if="discount.discount_type == 'rate'">{{ discount.discount_rate }}% <i class="bx bx-pencil"></i></span>
                                 <span v-else style="padding-right:11px;">{{ calculateAdditionalDiscountRate(discount, TOTAL_GROSS_AMOUNT).toFixed(2) }}%</span>
                                 <input v-if=" discount.discount_type == 'rate'" v-model="discount.discount_rate" type="text" class="editable-control">
                             </td>
                             <td v-bind:class="{'editable' : discount.discount_type == 'fixed'}" class="text-right">
-                                <span v-if="discount.discount_type == 'fixed'">{{ discount.discount_fixed }}</span>
+                                <span v-if="discount.discount_type == 'fixed'">{{ discount.discount_fixed }} <i class="bx bx-pencil"></i></span>
                                 <span v-else style="padding-right:11px;">{{ calculateAdditionalDiscountAmount(discount, TOTAL_GROSS_AMOUNT).toFixed(2) }}</span>
                                 <input  v-if="discount.discount_type == 'fixed'" v-model="discount.discount_fixed" type="text" class="editable-control">
                             </td>
@@ -179,28 +192,30 @@
                         </div>
                         <div class="modal-body">
                             <div>
-                                <h5><strong>Base Discounts</strong></h5>
-                                <table class="table mb-0 table table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th width="40">#</th>
-                                            <th>Discount Group</th>
-                                            <th>Discount Name</th>
-                                            <th>Discount Rate</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody v-if="selectedItem">
-                                        <tr v-for="(discount, index) in selectedItem.base_discounts" :key="discount.uuid">
-                                            <th width="40">{{ index + 1 }}</th>
-                                            <th>{{ discount.order_base_discount_group.group_name }}</th>
-                                            <th>{{ discount.discount_name }}</th>
-                                            <th class="text-right">{{ discount.discount_rate }}%</th>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div v-if="selectedItemDiscountView == 'all' || selectedItemDiscountView == 'base-discount'">
+                                    <h5><strong>Base Discounts</strong></h5>
+                                    <table class="table mb-0 table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th width="40">#</th>
+                                                <th>Discount Group</th>
+                                                <th>Discount Name</th>
+                                                <th>Discount Rate</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody v-if="selectedItem">
+                                            <tr v-for="(discount, index) in selectedItem.base_discounts" :key="discount.uuid">
+                                                <th width="40">{{ index + 1 }}</th>
+                                                <th>{{ discount.order_base_discount_group.group_name }}</th>
+                                                <th>{{ discount.discount_name }}</th>
+                                                <th class="text-right">{{ discount.discount_rate }}%</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
 
-                                <hr/>
-
+                                <hr  v-if="selectedItemDiscountView == 'all'" />
+                                <div v-if="selectedItemDiscountView == 'all' || selectedItemDiscountView == 'price-rule'">
                                 <h5><strong>Price Rule Discounts</strong></h5>
                                 <table class="table mb-0 table table-striped table-bordered">
                                     <thead>
@@ -218,6 +233,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer bg-light">
@@ -301,6 +317,7 @@ export default {
             options_items: [],
             option_items_selected: null,
             selectedItem: null,
+            selectedItemDiscountView: 'all',
             temp_selected_items: [],
             item_list_keyword: '',
             selected_item_list_keyword: '',
@@ -428,7 +445,7 @@ export default {
             var rate = parseFloat(discount.discount_fixed / gross)
             var total = rate * 100
             
-
+    
             discount.discount_rate = total
             
             return total
@@ -511,6 +528,64 @@ export default {
                 }
             }
         },
+        removeSelectedItem: function (pointed) {
+            var scope = this
+            for (let i = 0; i < scope.selected_items.length; i++) {
+                var current = scope.selected_items[i]
+                if (current.barcode == pointed.barcode) {
+                    scope.selected_items.splice(i, 1);
+                }
+            }
+        },
+        isItemUOMSelected: function (uom, pointed) {
+            var scope = this
+            for (let i = 0; i < scope.selected_items.length; i++) {
+                var current = scope.selected_items[i]
+                if (current.barcode == uom.barcode && uom.barcode != pointed.barcode ) {
+                    return true
+                }
+            }
+
+            return false
+        },
+        changeSelectedItemUOM: function (barcode, item, index) {
+            var scope = this
+             for (let i = 0; i < scope.options_items.length; i++) {
+                var current = scope.options_items[i]
+                var excluded = ['quantity'];
+                if (current.barcode == barcode ) {
+                    for (var key in current) {
+                        if (!excluded.includes(key)) {
+                            item[key] = current[key]
+                        }
+                    }
+
+                    scope.calculate(item)
+
+                }
+            } 
+            
+        },
+        findUOMByBarcode: function (haystack, barcode) {
+           for (let i = 0; i < haystack.length; i++) {
+                var current = haystack[i]
+                if (current.barcode == barcode ) {
+                    return current.uom
+                }
+            } 
+
+            return ''
+        },
+        findItemByBarcode: function (pointed) {
+           for (let i = 0; i < scope.options_items.length; i++) {
+                var current = scope.options_items[i]
+                if (current.barcode == pointed.barcode ) {
+                    return current
+                }
+            } 
+
+            return
+        },
         calculate: function(item) {
             var scope = this
             scope.calculateTotalDiscountRate(item,'non-formatted')
@@ -539,7 +614,7 @@ export default {
             var total = parseFloat(base_discount_total + price_rule_total)
 
             item.discount_rate = total
-
+            console.log('SSSSSSSS', item.discount_rate)
             return (type == 'formatted') ? total.toFixed(2) : total
         },
         calculateItemGrossAmount: function (item, type = 'formatted') {
@@ -638,7 +713,7 @@ export default {
         getOrderSupplierItems: function (order_uuid) {
             var scope = this
             scope.options_items = []
-          
+            scope.selected_items = []
             scope.GET('buy-and-pay/orders/' + order_uuid + '/supplier-items').then(res => {
                 scope.items = res.rows
                 var selected = res.selected_items
@@ -654,7 +729,9 @@ export default {
                         option.barcode = data2.barcode
                         option.uom_label = data2.uom
                         option.uom = data2.uuid
-                        option.quantity = 1
+                        option.uom_packing = data2.packing_qtty
+                        option.quantity = 0
+                        option.base_discounts = data.base_discounts
                         option.value = option.barcode + ' ' + option.item_description
                         scope.options_items.push(option)
 
@@ -662,9 +739,9 @@ export default {
 
                         if (found) {
                             option.quantity = found.order_qty
-
-                            scope.selected_items.push(option);
                             scope.calculate(option)
+                            scope.selected_items.push(JSON.parse(JSON.stringify(option)));
+                            
                         }
                     })
                 })
@@ -691,8 +768,8 @@ export default {
                                     return
                                 }
                             }
-
-                            scope.selected_items.push(suggestion);
+                            suggestion.quantity = 1
+                            scope.selected_items.push(JSON.parse(JSON.stringify(suggestion)));
                             var index = scope.selected_items.length - 1
                             var latest = scope.selected_items[index]
                             scope.selectedItem = latest
@@ -701,13 +778,14 @@ export default {
                         },
                         beforeRender: function (container, suggestions) {
                             container.html('Searching..')
-                            var html = '<table style="width:100%;"><thead style="padding:2px 3px;"><tr style="background:#51a8f8; color:#fff;"><th>Barcode</th><th>Item Description</th><th>UOM</th></tr></thead>'
+                            var html = '<table style="width:100%;"><thead style="padding:2px 3px;"><tr style="background:#51a8f8; color:#fff;"><th>Barcode</th><th>Item Description</th><th>Packing</th><th>UOM</th></tr></thead>'
                             html += '<tbody style="padding:2px 3px;">';
                             for (let i = 0; i < suggestions.length; i++) {
                                 var suggestion = suggestions[i]
                                 html+= '<tr class="autocomplete-suggestion" value="'+ suggestion.value +'">'
                                 html += '<td>'+suggestion.barcode+'</td>'
                                 html += '<td>'+suggestion.item_description+'</td>'
+                                html += '<td>'+suggestion.uom_packing+'</td>'
                                 html += '<td>'+suggestion.uom_label+'</td>'
                                 html += '</tr>'
                             }
@@ -716,7 +794,9 @@ export default {
                             container.html(html)
                         }
                         
-                    })
+                    });
+
+                    
                 },100);
                 
 
@@ -744,10 +824,10 @@ export default {
 
             return data[0].packing_qtty
         },
-        showDiscounts: function (item) {
+        showDiscounts: function (item, view = 'all') {
             var scope = this
-            console.log('HERE>..',item)
             scope.selectedItem = item
+            scope.selectedItemDiscountView = view
             scope.OPEN_MODAL('#modal-discounts');
         },
         save: function() {
@@ -798,6 +878,10 @@ export default {
     mounted() {
         var scope = this
         scope.loadData()
+
+        $(document).on('blur','#autocomplete',function(){
+            $(this).val('')
+        })
     },
 }
 
