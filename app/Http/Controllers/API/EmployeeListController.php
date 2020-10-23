@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
+use Illuminate\Support\Facades\Validator;
+
 class EmployeeListController extends Controller
 {
     public function getEmployeeList()
@@ -30,7 +32,7 @@ class EmployeeListController extends Controller
         $count = $list->count();
 
         // pagination
-        $take = (is_numeric(request()->take) && request()->take <= 50) ? request()->take: 20;
+        $take = (is_numeric(request()->take) && request()->take <= 100) ? request()->take: 20;
         $page = (is_numeric(request()->page)) ? request()->page : 1;
         $offset = (($page - 1 ) * $take);
 
@@ -68,8 +70,25 @@ class EmployeeListController extends Controller
         return response()->json(['success' => 1, 'data' => $employee], 200);
     }
 
+
     public function update()
     {
+        $messages = [
+            'first_name' => 'First Name is required',
+            'last_name' => 'Last Name required',
+        ];
+
+        $rules = [
+            'first_name' => ['required'],
+            'last_name' => ['required']
+        ];
+
+        $validator = Validator::make(request()->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 411);
+        }
+
         $employee =  EmployeeList::find(request()->uuid);
         
         if (!$employee) {
@@ -136,6 +155,8 @@ class EmployeeListController extends Controller
         $employee = EmployeeList::find($employee->uuid);
 
         return response()->json(['success' => 1, 'rows' => $employee], 200);
+
+
     }
 
     public function show($employeeUUID) // set update records
@@ -144,7 +165,9 @@ class EmployeeListController extends Controller
         ->with('EmploymentType')->with('EmploymentStatus')
         ->find($employeeUUID);
 
-        $employee->profile_pic .= '?v='. time();
+        if($employee->profile_pic){
+            $employee->profile_pic .= '?v='. time();
+        }
 
         if (!$employee) {
             return response()->json(['success' => 0, 'data' => null, 'Not found'], 500);

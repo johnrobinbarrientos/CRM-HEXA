@@ -23,7 +23,7 @@ class ItemCatBrandController extends Controller
         $count = $list->count();
 
         // pagination
-        $take = (is_numeric(request()->take) && request()->take <= 50) ? request()->take: 20;
+        $take = (is_numeric(request()->take) && request()->take <= 100) ? request()->take: 20;
         $page = (is_numeric(request()->page)) ? request()->page : 1;
         $offset = (($page - 1 ) * $take);
 
@@ -36,6 +36,7 @@ class ItemCatBrandController extends Controller
 
     public function save()
     {
+
         $cat = request()->uuid ? ItemCatBrand::find(request()->uuid) : new ItemCatBrand();
         $auth = \Auth::user();
         $cat->company_id = $auth->company_id;

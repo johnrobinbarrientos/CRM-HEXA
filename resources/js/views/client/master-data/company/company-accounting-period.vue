@@ -57,31 +57,80 @@
                             </td>
 
                             <td>{{ (index + 1) }}</td>
-                            <td>{{ period.year_name}}</td>
-                            <td v-if="period.jan_is_open === 1">OPEN</td>
-                            <td v-else>CLOSED</td>
-                            <td v-if="period.feb_is_open === 1">OPEN</td>
-                            <td v-else>CLOSED</td>
-                            <td v-if="period.mar_is_open === 1">OPEN</td>
-                            <td v-else>CLOSED</td>
-                            <td v-if="period.apr_is_open === 1">OPEN</td>
-                            <td v-else>CLOSED</td>
-                            <td v-if="period.may_is_open === 1">OPEN</td>
-                            <td v-else>CLOSED</td>
-                            <td v-if="period.jun_is_open === 1">OPEN</td>
-                            <td v-else>CLOSED</td>
-                            <td v-if="period.jul_is_open === 1">OPEN</td>
-                            <td v-else>CLOSED</td>
-                            <td v-if="period.aug_is_open === 1">OPEN</td>
-                            <td v-else>CLOSED</td>
-                            <td v-if="period.sep_is_open === 1">OPEN</td>
-                            <td v-else>CLOSED</td>
-                            <td v-if="period.oct_is_open === 1">OPEN</td>
-                            <td v-else>CLOSED</td>
-                            <td v-if="period.nov_is_open === 1">OPEN</td>
-                            <td v-else>CLOSED</td>
-                            <td v-if="period.dec_is_open === 1">OPEN</td>
-                            <td v-else>CLOSED</td>
+                            <td><strong>{{ period.year_name}}</strong></td>
+                            <td v-if="period.jan_is_open === 1">
+                                <span class="badge badge-pill badge-soft-success font-size-12">OPEN</span>
+                            </td>
+                            <td v-else >
+                                <span class="badge badge-pill badge-soft-danger font-size-12">CLOSED</span>
+                            </td>
+
+                            <td v-if="period.feb_is_open === 1" >
+                                <span class="badge badge-pill badge-soft-success font-size-12">OPEN</span>
+                            </td>
+                            <td v-else>
+                                <span class="badge badge-pill badge-soft-danger font-size-12">CLOSED</span>
+                            </td>
+                            <td v-if="period.mar_is_open === 1">
+                                <span class="badge badge-pill badge-soft-success font-size-12">OPEN</span>
+                            </td>
+                            <td v-else>
+                                <span class="badge badge-pill badge-soft-danger font-size-12">CLOSED</span>
+                            </td>
+                            <td v-if="period.apr_is_open === 1">
+                                <span class="badge badge-pill badge-soft-success font-size-12">OPEN</span>
+                            </td>
+                            <td v-else>
+                                <span class="badge badge-pill badge-soft-danger font-size-12">CLOSED</span>
+                            </td>
+                            <td v-if="period.may_is_open === 1">
+                                <span class="badge badge-pill badge-soft-success font-size-12">OPEN</span>
+                            </td>
+                            <td v-else>
+                                <span class="badge badge-pill badge-soft-danger font-size-12">CLOSED</span>
+                            </td>
+                            <td v-if="period.jun_is_open === 1">
+                                <span class="badge badge-pill badge-soft-success font-size-12">OPEN</span>
+                            </td>
+                            <td v-else>
+                                <span class="badge badge-pill badge-soft-danger font-size-12">CLOSED</span>
+                            </td>
+                            <td v-if="period.jul_is_open === 1">
+                                <span class="badge badge-pill badge-soft-success font-size-12">OPEN</span>
+                            </td>
+                            <td v-else>
+                                <span class="badge badge-pill badge-soft-danger font-size-12">CLOSED</span>
+                            </td>
+                            <td v-if="period.aug_is_open === 1">
+                                <span class="badge badge-pill badge-soft-success font-size-12">OPEN</span>
+                            </td>
+                            <td v-else>
+                                <span class="badge badge-pill badge-soft-danger font-size-12">CLOSED</span>
+                            </td>
+                            <td v-if="period.sep_is_open === 1">
+                                <span class="badge badge-pill badge-soft-success font-size-12">OPEN</span>
+                            </td>
+                            <td v-else>
+                                <span class="badge badge-pill badge-soft-danger font-size-12">CLOSED</span>
+                            </td>
+                            <td v-if="period.oct_is_open === 1">
+                                <span class="badge badge-pill badge-soft-success font-size-12">OPEN</span>
+                            </td>
+                            <td v-else>
+                                <span class="badge badge-pill badge-soft-danger font-size-12">CLOSED</span>
+                            </td>
+                            <td v-if="period.nov_is_open === 1">
+                                <span class="badge badge-pill badge-soft-success font-size-12">OPEN</span>
+                            </td>
+                            <td v-else>
+                                <span class="badge badge-pill badge-soft-danger font-size-12">CLOSED</span>
+                            </td>
+                            <td v-if="period.dec_is_open === 1">
+                                <span class="badge badge-pill badge-soft-success font-size-12">OPEN</span>
+                            </td>
+                            <td v-else>
+                                <span class="badge badge-pill badge-soft-danger font-size-12">CLOSED</span>
+                            </td>
 
                     </tr>
                 </tbody>
@@ -401,6 +450,7 @@ export default {
 </script>
 
 <style scoped>
-/* .table-tranx { table-layout: auto; width: 200%;} */
+.table-bordered td {text-align: center;}
+
 
 </style>

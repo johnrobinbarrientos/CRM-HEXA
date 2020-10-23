@@ -47,9 +47,9 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label" for="first-name">First Name</label>
+                                    <label class="form-label" for="validationCustom03">First Name</label>
                                     <div class="form-control-wrap">
-                                        <input v-model="formdata.first_name" type="text" style="text-transform: uppercase; font-weight: bold;" class="form-control" id="first-name" :readonly="view_mode">
+                                        <input v-model="formdata.first_name" type="text" style="text-transform: uppercase; font-weight: bold;" class="form-control" id="validationCustom03" :readonly="view_mode">
                                     </div>
                                 </div>
 
@@ -833,17 +833,21 @@ export default {
                     window.swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Employee Save',
+                        title: 'Employee Updated',
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
                         scope.ROUTE({path: '/employee-main/'})
                     })
-                }
-                else{
+                } else{
                     alert('ERROR:' + response.code)
                 }
-            })    
+            }).catch(error => {
+                if (error.response.status == 411){
+                    console.log('asdsadasdsdd')
+                    console.log(error.response)
+                }
+            })     
 
         },
         update: function () {
@@ -900,6 +904,11 @@ export default {
                         else{
                             alert('ERROR:' + response.code)
                         }
+                    }).catch(error => {
+                        if (error.response.status == 411){
+                        console.log('asdsadasdsdd')
+                        console.log(error.response)
+                }
                     })            
                 }                              
             })
@@ -986,6 +995,7 @@ export default {
                     if (data.profile_pic) {
                         scope.fileImage = '/images/employees/' + data.profile_pic
                     }
+
 
                     $('.form-select-branch-location').val(data.branch_location_uuid);
                     $('.form-select-branch-location').trigger('change');
