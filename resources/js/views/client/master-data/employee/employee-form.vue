@@ -21,14 +21,14 @@
                     </div>
                     <div class="bar-right">
                         <span v-if ="view_mode">
-                            <a @click="ROUTE({path: '/employees/' + formdata.uuid })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Edit</a>
+                            <a @click="ROUTE({path: '/employees/' + formdata.uuid })" style= "background-color:#548235" class="hx-btn hx-btn-primary" href="javascript:void(0)">Edit</a>
                             <a @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Delete</a>
                             <a @click="ROUTE({path: '/employee-main/' })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Close</a>
                         </span>
                         <span v-else>
                             <a @click="ROUTE({path: '/employee-main/' })" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>  
-                            <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
-                            <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
+                            <a v-if="formdata.is_draft" @click="save()" style= "background-color:#548235" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
+                            <a v-else @click="update()" style= "background-color:#548235" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
                         </span>
     
                     </div>
@@ -79,8 +79,24 @@
                         <div class="col-md-3 col-12">
                             <div style="padding-right: 50px;">
                                 <div class="form-group">
-                                    <label class="form-label" for="gender">Gender</label>
-                                    <strong><select class="form-select-gender" v-model="selected_gender" :options="options_gender" name="gender" :disabled="view_mode">
+                                    <label class="form-label" for="location">Assign Branch</label>
+                                    <strong><select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="location" :disabled="view_mode">
+                                    </select></strong>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="job-title">Job Title</label>
+                                    <div class="form-control-wrap">
+                                        <input v-model="formdata.job_title" style="text-transform: uppercase; font-weight: bold;" type="text" class="form-control" id="job-title" :readonly="view_mode">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="department">Department</label>
+                                    <strong><select class="form-select-department" v-model="selected_department" :options="options_department" name="department" :disabled="view_mode">
+                                    </select></strong>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="supervisor">Supervisor Name</label>
+                                    <strong><select class="form-select-supervisor" v-model="selected_supervisor" :options="options_supervisor" name="supervisor" :disabled="view_mode">
                                     </select></strong>
                                 </div>
                                 <div class="form-group">
@@ -89,34 +105,19 @@
                                         <date-picker style="font-weight: bold;" v-model="formdata.birth_date" :config="{format: 'YYYY-MM-DD'}" :disabled="view_mode"></date-picker>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="location">Assign Branch</label>
-                                    <strong><select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="location" :disabled="view_mode">
-                                    </select></strong>
-                                </div>
 
-                                <div class="form-group">
-                                    <label class="form-label" for="job-title">Job Title</label>
-                                    <div class="form-control-wrap">
-                                        <input v-model="formdata.job_title" style="text-transform: uppercase; font-weight: bold;" type="text" class="form-control" id="job-title" :readonly="view_mode">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-label" for="department">Department</label>
-                                    <strong><select class="form-select-department" v-model="selected_department" :options="options_department" name="department" :disabled="view_mode">
-                                    </select></strong>
-                                </div>
                             </div>
                         </div>
 
                         <div class="col-md-3 col-12">
                             <div style="padding-right: 50px;">
+
                                 <div class="form-group" style="margin-bottom: 40px;">
-                                    <label class="form-label" for="supervisor">Supervisor Name</label>
-                                    <strong><select class="form-select-supervisor" v-model="selected_supervisor" :options="options_supervisor" name="supervisor" :disabled="view_mode">
+                                    <label class="form-label" for="gender">Gender</label>
+                                    <strong><select class="form-select-gender" v-model="selected_gender" :options="options_gender" name="gender" :disabled="view_mode">
                                     </select></strong>
                                 </div>
+
                                 <div class="form-group" style="margin-top: 30px;">
                                     <div class="form-control-wrap">
                                         <div class="custom-control custom-checkbox">
@@ -171,15 +172,10 @@
 
                     </div>
 
-
-
-
-
-
                     <br/>
                     <br/>
                     <div style="border: 1px solid #ced4da; border-radius: .25rem;">
-                        <ul class="nav nav-tabs nav-tabs-custom" style="border-color: #eee;">
+                            <ul class="nav nav-tabs nav-tabs-custom" style="background-color: var(--hexa-blue);">
                                 <li class="nav-item">        
                                     <a class="nav-link active" data-toggle="tab" href="#address">Contact and Address</a>    
                                 </li>
@@ -352,7 +348,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="date-hired">Date Hired</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker v-model="formdata.date_hired" style="font-weight: bold;" :config="{format: 'YYYY-MM-DD'}" :disabled="view_mode"></date-picker>
+                                                    <date-picker v-model="formdata.date_hired" style="font-weight: bold;" :config="DATEPICKER_CONFIG()" :disabled="view_mode"></date-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -361,7 +357,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="date-separated">Date Separated</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker v-model="formdata.date_separated" style="font-weight: bold;" :config="{format: 'YYYY-MM-DD'}" :disabled="view_mode"></date-picker>
+                                                    <date-picker v-model="formdata.date_separated" style="font-weight: bold;" :config="DATEPICKER_CONFIG()" :disabled="view_mode"></date-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -382,7 +378,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="date-regularized">Date Regularized</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker v-model="formdata.date_regularized" style="font-weight: bold;" :config="{format: 'YYYY-MM-DD'}" :disabled="view_mode"></date-picker>
+                                                    <date-picker v-model="formdata.date_regularized" style="font-weight: bold;" :config="DATEPICKER_CONFIG()" :disabled="view_mode"></date-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -876,7 +872,7 @@ export default {
                 title: 'Update Record?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#548235',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, Update it!',
                 cancelButtonText: 'Cancel'
@@ -917,7 +913,7 @@ export default {
                 text: 'You won\'t be able to revert this',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#548235',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!',
                 cancelButtonText: 'Cancel'
@@ -1087,6 +1083,15 @@ export default {
 </script>
 
 <style scoped>
+
+.nav-tabs-custom .nav-item .nav-link {
+    color: white;
+}
+.nav-tabs-custom .nav-item .nav-link.active {
+  color: black !important;
+}
+.nav-tabs-custom .nav-item .nav-link::after { content: none; }
+
 .table-tranx { table-layout: auto; }
 .table-items tr th { min-width:300px; width:auto; padding-left:10px; padding-right:10px; }
 .table-fixed-column { position:absolute; }

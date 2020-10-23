@@ -36,7 +36,6 @@
                             <th>Item Description</th>
                             <th>Item Code</th>
                             <th>Item Barcode</th>
-                            <th>Case/Box Barcode</th>
                             <th>Item Group</th>
                             <th>Re-order Qty / ICO</th>
                             <th>Supplier</th>
@@ -60,9 +59,6 @@
                             <td class="text-right">{{ item.item_code }}</td>
                             <td class="text-right">
                                 {{ item.item_barcode }}
-                            </td>
-                            <td class="text-right">
-                                {{ item.cs_barcode }}
                             </td>
                             <td>
                                 {{ item.item_group.item_group }}

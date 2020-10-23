@@ -1,6 +1,9 @@
 <template>
     <div>
         <div class="card">
+            <div style="padding: 10px 15px; background-color: var(--hexa-blue);">
+                <h5 class="mb-0" style="color: #fff;">General Information</h5>
+            </div>
             <div class="card-body">
                 <div class="actions-bar">
                     <div class="w-100">
@@ -18,14 +21,14 @@
                     </div>
                     <div class="bar-right">
                         <span v-if ="view_mode">
-                            <a @click="ROUTE({path: '/items/' + formdata.uuid })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Edit</a>
+                            <a @click="ROUTE({path: '/items/' + formdata.uuid })" style= "background-color:#548235" class="hx-btn hx-btn-primary" href="javascript:void(0)">Edit</a>
                             <a @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Delete</a>
                             <a @click="ROUTE({path: '/item-main/' })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Close</a>
                         </span>
                         <span v-else>
-                            <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
-                            <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
                             <a @click="ROUTE({path: '/item-main/' })" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>
+                            <a v-if="formdata.is_draft" @click="save()" style= "background-color:#548235" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
+                            <a v-else @click="update()" style= "background-color:#548235" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
                         </span>
                     </div>
                 </div>
@@ -135,7 +138,7 @@
 
                     <br/>
                     <div style="border: 1px solid #ced4da; border-radius: .25rem;">
-                        <ul class="nav nav-tabs nav-tabs-custom" style="border-color: #eee;">    
+                        <ul class="nav nav-tabs nav-tabs-custom" style="background-color: var(--hexa-blue);">    
                             <li class="nav-item">        
                                 <a class="nav-link active" data-toggle="tab" href="#account">Financial Account</a>    
                             </li>    
@@ -189,69 +192,91 @@
                             </div>
 
                             <div class="tab-pane" id="category">
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="cat-department">Department</label>
-                                        <select class="form-select-cat-department" v-model="selected_cat_department" :options="options_cat_department" name="cat-department" :disabled="view_mode">
-                                        </select>
+
+                                <div class="row" style="margin-left: 12px;">
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="cat-department">Department</label>
+                                            <select class="form-select-cat-department" v-model="selected_cat_department" :options="options_cat_department" name="cat-department" :disabled="view_mode">
+                                            </select>
+                                        </div>
                                     </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="cat-manufacturer">Manufacturer</label>
+                                            <select class="form-select-cat-manufacturer" v-model="selected_cat_manufacturer" :options="options_cat_manufacturer" name="cat-manufacturer" :disabled="view_mode">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="cat-form">Form</label>
+                                            <select class="form-select-cat-form" v-model="selected_cat_form" :options="options_cat_form" name="cat-form" :disabled="view_mode">
+                                            </select>
+                                        </div>
+                                    </div>
+
+
                                 </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="cat-section">Section</label>
-                                        <select class="form-select-cat-section" v-model="selected_cat_section" :options="options_cat_section" name="cat-section" :disabled="view_mode">
-                                        </select>
+
+                                <div class="row" style="margin-left: 12px;">
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="cat-section">Section</label>
+                                            <select class="form-select-cat-section" v-model="selected_cat_section" :options="options_cat_section" name="cat-section" :disabled="view_mode">
+                                            </select>
+                                        </div>
                                     </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="cat-item-type">Item Type</label>
+                                            <select class="form-select-cat-item-type" v-model="selected_cat_item_type" :options="options_cat_item_type" name="cat-item-type" :disabled="view_mode">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="cat-packing-type">Packing Type</label>
+                                            <select class="form-select-cat-packing-type" v-model="selected_cat_packing_type" :options="options_cat_packing_type" name="cat-packing-type" :disabled="view_mode">
+                                            </select>
+                                        </div>
+                                    </div>
+
                                 </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="cat-category">Category</label>
-                                        <select class="form-select-cat-category" v-model="selected_cat_category" :options="options_cat_category" name="cat-category" :disabled="view_mode">
-                                        </select>
+
+                                <div class="row" style="margin-left: 12px;">
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="cat-category">Category</label>
+                                            <select class="form-select-cat-category" v-model="selected_cat_category" :options="options_cat_category" name="cat-category" :disabled="view_mode">
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="cat-manufacturer">Manufacturer</label>
-                                        <select class="form-select-cat-manufacturer" v-model="selected_cat_manufacturer" :options="options_cat_manufacturer" name="cat-manufacturer" :disabled="view_mode">
-                                        </select>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="cat-brand">Brand</label>
+                                            <select class="form-select-cat-brand" v-model="selected_cat_brand" :options="options_cat_brand" name="cat-brand" :disabled="view_mode">
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="cat-item-type">Item Type</label>
-                                        <select class="form-select-cat-item-type" v-model="selected_cat_item_type" :options="options_cat_item_type" name="cat-item-type" :disabled="view_mode">
-                                        </select>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="cat-sizes">Sizes</label>
+                                            <select class="form-select-cat-sizes" v-model="selected_cat_sizes" :options="options_cat_sizes" name="cat-sizes" :disabled="view_mode">
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="cat-brand">Brand</label>
-                                        <select class="form-select-cat-brand" v-model="selected_cat_brand" :options="options_cat_brand" name="cat-brand" :disabled="view_mode">
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="cat-form">Form</label>
-                                        <select class="form-select-cat-form" v-model="selected_cat_form" :options="options_cat_form" name="cat-form" :disabled="view_mode">
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="cat-packing-type">Packing Type</label>
-                                        <select class="form-select-cat-packing-type" v-model="selected_cat_packing_type" :options="options_cat_packing_type" name="cat-packing-type" :disabled="view_mode">
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="cat-sizes">Sizes</label>
-                                        <select class="form-select-cat-sizes" v-model="selected_cat_sizes" :options="options_cat_sizes" name="cat-sizes" :disabled="view_mode">
-                                        </select>
-                                    </div>
-                                </div>    
+                                </div> 
 
                             </div>
 
@@ -1040,7 +1065,7 @@ export default {
                 title: 'Update Record?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#548235',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, Update it!',
                 cancelButtonText: 'Cancel'
@@ -1077,7 +1102,7 @@ export default {
                 text: 'You won\'t be able to revert this',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#548235',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!',
                 cancelButtonText: 'Cancel'
@@ -1305,5 +1330,13 @@ export default {
 </script>
 
 <style scoped>
+.nav-tabs-custom .nav-item .nav-link {
+    color: white;
+}
+.nav-tabs-custom .nav-item .nav-link.active {
+  color: black !important;
+}
+.nav-tabs-custom .nav-item .nav-link::after { content: none; }
+
 .form-group { margin-top:10px !important; }
 </style>

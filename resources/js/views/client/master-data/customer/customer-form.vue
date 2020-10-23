@@ -1,6 +1,9 @@
 <template>
     <div>
         <div class="card">
+            <div style="padding: 10px 15px; background-color: var(--hexa-blue);">
+                <h5 class="mb-0" style="color: #fff;">General Information</h5>
+            </div>
             <div class="card-body">
                     <div class="actions-bar">
                         <div class="w-100">
@@ -18,14 +21,14 @@
                         </div>
                         <div class="bar-right">
                             <span v-if ="view_mode">
-                                <a @click="ROUTE({path: '/customers/' + formdata.uuid })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Edit</a>
+                                <a @click="ROUTE({path: '/customers/' + formdata.uuid })" style= "background-color:#548235" class="hx-btn hx-btn-primary" href="javascript:void(0)">Edit</a>
                                 <a @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Delete</a>
                                 <a @click="ROUTE({path: '/customer-main/' })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Close</a>
                             </span>
                             <span v-else>
-                                <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
-                                <a v-else @click="update()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
                                 <a @click="ROUTE({path: '/customer-main/' })" class="hx-btn hx-btn-danger" href="javascript:void(0)">Cancel</a>
+                                <a v-if="formdata.is_draft" style= "background-color:#548235"  @click="save()" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
+                                <a v-else @click="update()" style= "background-color:#548235" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
                             </span>
                         </div>
                     </div>
@@ -116,7 +119,7 @@
 
                         <br/>
                         <div style="border: 1px solid #ced4da; border-radius: .25rem;">
-                            <ul class="nav nav-tabs nav-tabs-custom" style="border-color: #eee;">    
+                            <ul class="nav nav-tabs nav-tabs-custom" style="background-color: var(--hexa-blue);">    
                                     <li class="nav-item">        
                                         <a class="nav-link active" data-toggle="tab" href="#account">Financial Account</a>    
                                     </li>    
@@ -277,16 +280,9 @@
                                     
                                     <div class="tab-pane" id="address">
 
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="address1"><strong>Purok/Street/Zone</strong></label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.address1" type="text" class="form-control" id="address1" :readonly="view_mode">
-                                                </div>
-                                            </div>
-                                        </div>
-                    
-                                        <div class="col-md-3 col-12">
+                                        <div class="row" style="margin-left: 12px;">
+
+                                        <div class="col-md-7 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="address-list"><strong>Select Address</strong></label>
                                                 <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list" :disabled="view_mode">
@@ -294,52 +290,69 @@
                                             </div>
                                         </div>
 
-                                        <br/>
+                                    </div>
 
-                                        <div class="col-md-3 col-12">
+                                    <div class="row" style="margin-left: 12px;">
+                    
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="address1"><strong>Purok/Street/Zone</strong></label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="formdata.address1" style="text-transform: uppercase; font-weight: bold;" type="text" class="form-control" id="address1" :readonly="view_mode">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="barangay"><strong>Barangay:</strong><small style="color: #999; font-style: italic">(Auto Fill)</small></label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="barangay" type="text" class="form-control" id="barangay" readonly="true">
+                                                    <input v-model="barangay" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="barangay" readonly="true">
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group" style="margin-right: 12px;">
                                                 <label class="form-label" for="city-municipality"><strong>City/Municipality:</strong><small style="color: #999; font-style: italic">(Auto Fill)</small></label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="city_municipality" type="text" class="form-control" id="city-municipality" readonly="true">
+                                                    <input v-model="city_municipality" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="city-municipality" readonly="true">
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3 col-12">
+                                    </div>
+
+                                    <div class="row" style="margin-left: 12px;">
+
+                                        <div class="col-md-4 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="province"><strong>Province:</strong><small style="color: #999; font-style: italic">(Auto Fill)</small></label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="province" type="text" class="form-control" id="province" readonly="true">
+                                                    <input v-model="province" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="province" readonly="true">
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3 col-12">
+                                        <div class="col-md-4 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="region"><strong>Region:</strong><small style="color: #999; font-style: italic">(Auto Fill)</small></label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="region" type="text" class="form-control" id="region" readonly="true">
+                                                    <input v-model="region" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="region" readonly="true">
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group" style="margin-right: 12px;">
                                                 <label class="form-label" for="postal-code"><strong>Postal Code:</strong><small style="color: #999; font-style: italic">(Auto Fill)</small></label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="postal_code" type="text" class="form-control" id="postal-code" readonly="true">
+                                                    <input v-model="postal_code" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="postal-code" readonly="true">
                                                 </div>
                                             </div>
                                         </div>
+
+                                    </div>
 
                                     </div>     
                                 </div>
@@ -643,7 +656,7 @@ export default {
                 title: 'Update Record?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#548235',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, Update it!',
                 cancelButtonText: 'Cancel'
@@ -784,7 +797,7 @@ export default {
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#548235',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
@@ -921,6 +934,15 @@ export default {
 </script>
 
 <style scoped>
+
+.nav-tabs-custom .nav-item .nav-link {
+    color: white;
+}
+.nav-tabs-custom .nav-item .nav-link.active {
+  color: black !important;
+}
+.nav-tabs-custom .nav-item .nav-link::after { content: none; }
+
 .table-tranx { table-layout: auto; }
 /*.table-items tr th { min-width:200px; width:auto; padding-left:10px; padding-right:10px; }*/
 .table-fixed-column { position:absolute; }
