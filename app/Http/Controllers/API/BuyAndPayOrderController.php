@@ -113,32 +113,33 @@ class BuyAndPayOrderController extends Controller
         // delete all existing discounts for reset
         if (!$is_new) {
             $supplier_base_discount_group_uuids = request()->selected_supplier_discount_groups;
-            
+           
             // get list of discount group that are no longer included on update
             $buy_and_pay_order_base_discount_group_uuids = BuyAndPayOrderBaseDiscountGroup::where('bp_order_uuid','=',$order->uuid)
                 ->whereNotIn('supplier_base_discount_group_uuid',$supplier_base_discount_group_uuids)
                 ->pluck('uuid')->toArray();
 
             $buy_and_pay_order_base_discount_group_detail_uuids = BuyAndPayOrderBaseDiscountGroupDetail::where('bp_order_uuid','=',$order->uuid)
-                ->whereNotIn('bp_order_base_discount_group_uuid',$buy_and_pay_order_base_discount_group_uuids)
+                ->whereIn('bp_order_base_discount_group_uuid',$buy_and_pay_order_base_discount_group_uuids)
                 ->pluck('uuid')->toArray();
 
+
             $buy_and_pay_order_base_discount_group_item_uuids = BuyAndPayOrderBaseDiscountGroupItem::where('bp_order_uuid','=',$order->uuid)
-                ->whereNotIn('bp_order_base_discount_group_detail_uuid',$buy_and_pay_order_base_discount_group_detail_uuids)
+                ->whereIn('bp_order_base_discount_group_detail_uuid',$buy_and_pay_order_base_discount_group_detail_uuids)
                 ->pluck('uuid')->toArray();
                 
 
             $delete = BuyAndPayOrderBaseDiscountGroup::whereIn('uuid',$buy_and_pay_order_base_discount_group_uuids)
                 ->where('bp_order_uuid','=',$order->uuid)
-                ->forceDelete();
+                ->delete();
 
             $delete = BuyAndPayOrderBaseDiscountGroupDetail::whereIn('uuid',$buy_and_pay_order_base_discount_group_detail_uuids)
                 ->where('bp_order_uuid','=',$order->uuid)
-                ->forceDelete();
+                ->delete();
 
             $delete = BuyAndPayOrderBaseDiscountGroupItem::whereIn('uuid',$buy_and_pay_order_base_discount_group_item_uuids)
                 ->where('bp_order_uuid','=',$order->uuid)
-                ->forceDelete();
+                ->delete();
         }
 
         $supplier_base_discount_group_uuids = request()->selected_supplier_discount_groups;
@@ -148,6 +149,7 @@ class BuyAndPayOrderController extends Controller
             
             $buy_and_pay_order_base_discount_group = BuyAndPayOrderBaseDiscountGroup::where('bp_order_uuid','=',$order->uuid)
                 ->where('supplier_base_discount_group_uuid','=',$supplier_base_discount_group->uuid)
+                ->withTrashed()
                 ->first();
 
             $buy_and_pay_order_base_discount_group = ($buy_and_pay_order_base_discount_group) ? $buy_and_pay_order_base_discount_group : new BuyAndPayOrderBaseDiscountGroup;
@@ -156,6 +158,7 @@ class BuyAndPayOrderController extends Controller
             $buy_and_pay_order_base_discount_group->supplier_uuid = $supplier_base_discount_group->supplier_uuid;
             $buy_and_pay_order_base_discount_group->supplier_base_discount_group_uuid = $supplier_base_discount_group->uuid;
             $buy_and_pay_order_base_discount_group->group_name = $supplier_base_discount_group->group_name;
+            $buy_and_pay_order_base_discount_group->deleted_at = null;
             $buy_and_pay_order_base_discount_group->save();
 
             $supplier_base_discount_group_details = SupplierBaseDiscountGroupDetail::where('supplier_base_discount_group_uuid','=',$supplier_base_discount_group->uuid)->get();
@@ -164,6 +167,7 @@ class BuyAndPayOrderController extends Controller
 
                 $buy_and_pay_order_base_discount_group_detail = BuyAndPayOrderBaseDiscountGroupDetail::where('bp_order_uuid','=', $order->uuid)
                     ->where('bp_order_base_discount_group_uuid','=', $buy_and_pay_order_base_discount_group->uuid)
+                    ->withTrashed()
                     ->first();
 
                 $buy_and_pay_order_base_discount_group_detail = ($buy_and_pay_order_base_discount_group_detail) ? $buy_and_pay_order_base_discount_group_detail : new BuyAndPayOrderBaseDiscountGroupDetail;
@@ -173,6 +177,7 @@ class BuyAndPayOrderController extends Controller
                 $buy_and_pay_order_base_discount_group_detail->bp_order_uuid = $order->uuid;
                 $buy_and_pay_order_base_discount_group_detail->discount_name = $supplier_base_discount_group_detail->discount_name;
                 $buy_and_pay_order_base_discount_group_detail->discount_rate = $supplier_base_discount_group_detail->discount_rate;
+                $buy_and_pay_order_base_discount_group_detail->deleted_at = null;
                 $buy_and_pay_order_base_discount_group_detail->save();
                 
                 // ItemSupplierDiscount to be changed to SupplierBaseDiscountGroupItem 
@@ -182,6 +187,7 @@ class BuyAndPayOrderController extends Controller
 
                     $buy_and_pay_order_base_discount_group_item = BuyAndPayOrderBaseDiscountGroupItem::where('bp_order_uuid','=', $order->uuid)
                         ->where('bp_order_base_discount_group_detail_uuid','=',$buy_and_pay_order_base_discount_group_detail->uuid)
+                        ->withTrashed()
                         ->first();
 
                     $buy_and_pay_order_base_discount_group_item = new BuyAndPayOrderBaseDiscountGroupItem;
@@ -191,6 +197,7 @@ class BuyAndPayOrderController extends Controller
                     $buy_and_pay_order_base_discount_group_item->item_uuid = $supplier_base_discount_group_item->item_uuid;
                     $buy_and_pay_order_base_discount_group_item->supplier_uuid = $supplier_base_discount_group_item->supplier_uuid;
                     $buy_and_pay_order_base_discount_group_item->bp_order_base_discount_group_detail_uuid = $buy_and_pay_order_base_discount_group_detail->uuid;
+                    $buy_and_pay_order_base_discount_group_item->deleted_at = null;
                     $buy_and_pay_order_base_discount_group_item->save();
                 }
             }
@@ -324,7 +331,6 @@ class BuyAndPayOrderController extends Controller
             $item->uoms = $uoms;
             $item->quantity = 0;
             $item->selected = false;
-            $item->uom              = '';
             // $item->purchase_price   = 0.00;
             $item->gross_amount     = 0.00;
             //$item->discount_rate    = 0.00;
@@ -338,7 +344,6 @@ class BuyAndPayOrderController extends Controller
             
             if ($order_detail) {
                 $item->quantity         = $order_detail->order_qty;
-                $item->uom              = $order_detail->uom;
                 $item->purchase_price   = $order_detail->purchase_price;
                 $item->gross_amount     = $order_detail->gross_amount;
                 //$item->discount_rate    = $order_detail->discount_rate;

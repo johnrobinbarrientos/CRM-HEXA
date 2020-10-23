@@ -136,7 +136,7 @@
                         
                         <div>
                             <strong>Supplier:</strong>
-                            <div style="margin-bottom:10px;" v-show="!edit">{{ order.supplier.business_name }}</div>
+                            <div style="margin-bottom:10px;" v-show="!edit">{{ order.supplier.supplier_name }}</div>
                             <div style="margin-bottom:10px; margin-top:5px;" v-show="edit">
                                 <select class="form-select-supplier" v-model="selected_supplier" :options="options_supplier" name="supplier">
                                 </select>
@@ -433,12 +433,17 @@ export default {
                 else{
                     scope.formdata.is_apply_tax = 0
                 }
-
                 //scope.formdata.term = scope.options_supplier[0].lead_time
                 //scope.formdata.date_expected = moment().add(parseInt(scope.options_supplier[0].lead_time) ,'days').format('YYYY-MM-DD')
 
                 $(".form-select-supplier").select2({data: scope.options_supplier});
-                $(".form-select-supplier").trigger('change');
+
+                if (scope.order && scope.order.supplier_uuid) {
+                    $(".form-select-supplier").val(scope.order.supplier_uuid).trigger('change');
+                } else {
+                    $(".form-select-supplier").trigger('change');
+                }
+               
 
                 scope.prerequisite.getSupplier = true
             })
@@ -502,8 +507,13 @@ export default {
                     if (!scope.$props.order) {
                         scope.ROUTE({path: '/purchase-orders/' + res.data.uuid })
                     } else {
+
+                        
                         scope.$parent.loadData()
-                        scope.toggleEdit();``
+                        scope.$parent.getOrderSupplierItems(res.data.uuid )
+                        
+                       
+                        scope.toggleEdit();
                     }
                 })
             } else {
@@ -549,9 +559,10 @@ export default {
             })
         }
 
+      
         $(".form-select-supplier").on('change',function(){
             var suppier_uuid = $(".form-select-supplier").val()
-            scope.formdata.supplier_uuid = suppier_uuid
+            //scope.formdata.supplier_uuid = suppier_uuid
             scope.getSupplierDiscountGroup(suppier_uuid)
         });
         
