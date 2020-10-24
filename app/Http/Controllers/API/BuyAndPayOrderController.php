@@ -36,13 +36,31 @@ use App\Models\BuyAndPayPriceRule;
 use App\Models\BuyAndPayPriceRuleDetail;  
 use App\Models\BuyAndPayPriceRuleItem; 
 
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
+
+use DB;
 
 class BuyAndPayOrderController extends Controller
 {
     public function getOrders()
     {
         $orders = BuyAndPayOrder::whereNull('deleted_at')->with('Supplier')->with('OrderReasonCode')->with('ItemAssetGroup')->get();
+
+        $x = 0;
+        foreach ($orders as $order) {
+
+            $total_discount = BuyAndPayOrderAdditionalDiscount::whereNull('deleted_at')
+            ->where('bp_order_uuid','=',$order->uuid)
+            ->sum('discount_fixed');
+
+            $total_amount = BuyAndPayOrderDetail::whereNull('deleted_at')
+            ->where('bp_order_uuid','=',$order->uuid)
+            ->sum('total_amount');
+            $orders[$x]['po_total_amount'] = $total_amount - $total_discount;
+            $x++;
+        }
+        
+        
         return response()->json(['success' => 1, 'rows' => $orders], 200);
     }
 

@@ -43,12 +43,10 @@
                             <td width="200">{{ purchase.po_no }}</td>
                             <td width="100">{{ purchase.date_purchased }}</td>
                             <td class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
-                            <td class="text-right">0.00</td>
+                            <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
+                            <td v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
                             <td v-if="purchase.status === 'Open'" style="text-align:center;" class="editable">
                                 <span class="badge badge-pill badge-soft-success font-size-12">Open</span>
-                                <!-- <select @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="editable-control"> -->
-                                <!-- <select @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="form-reason-codes">
-                                </select> -->
                             </td>
                             <td v-else style="text-align:center;" class="editable">
                                 <span class="badge badge-pill badge-soft-danger font-size-12">Closed</span>
@@ -101,9 +99,16 @@ export default {
         'reason-codes': ReasonCodes,
     },
     methods: {
+        putSeparator: function(value) {
+            var num_parts = value.toString().split(".");
+            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return num_parts.join(".");
+        },
         getPurchaseOrders: function () {
            var scope = this
             scope.GET('buy-and-pay/orders').then(res => {
+                console.log('naa ko sa list')
+                console.log(res.rows)
                 scope.purchaseOrders = res.rows
             })
         },
