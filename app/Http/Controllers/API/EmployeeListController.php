@@ -73,21 +73,21 @@ class EmployeeListController extends Controller
 
     public function update()
     {
-        $messages = [
-            'first_name' => 'First Name is required',
-            'last_name' => 'Last Name required',
-        ];
+        // $messages = [
+        //     'first_name' => 'First Name is required',
+        //     'last_name' => 'Last Name required',
+        // ];
 
-        $rules = [
-            'first_name' => ['required'],
-            'last_name' => ['required']
-        ];
+        // $rules = [
+        //     'first_name' => ['required'],
+        //     'last_name' => ['required']
+        // ];
 
-        $validator = Validator::make(request()->all(), $rules, $messages);
+        // $validator = Validator::make(request()->all(), $rules, $messages);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 411);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json($validator->errors(), 411);
+        // }
 
         $employee =  EmployeeList::find(request()->uuid);
         

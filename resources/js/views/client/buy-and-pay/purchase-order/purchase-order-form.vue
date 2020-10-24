@@ -258,7 +258,7 @@ export default {
                 date_purchased: '',
                 date_expected: '',
                 supplier_uuid: '',
-                status: 'open',
+                status: 'Open',
                 orders_reason_code_uuid: '',
                 is_apply_tax: 0,
                 branch_uuid: '',
@@ -510,9 +510,7 @@ export default {
 
                         
                         scope.$parent.loadData()
-                        scope.$parent.getOrderSupplierItems(res.data.uuid )
-                        
-                       
+
                         scope.toggleEdit();
                     }
                 })

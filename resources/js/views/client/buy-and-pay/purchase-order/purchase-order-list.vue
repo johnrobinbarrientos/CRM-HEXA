@@ -13,12 +13,17 @@
                 </div>
             </div>
 
-            <div class="table-responsive">
+            <div class="table-responsive;">
+                <div>
+                    <button @click="OPEN_MODAL('#modalReasonCodeMain');" class="hx-btn hx-btn-shineblue"><i class="las la-plus"></i>Reason Codes</button>
+                </div>
+                <br>
+
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th width="90">Actions</th>
-                            <th width="100">#</th>
+                            <th>Actions</th>
+                            <th>#</th>
                             <th>PO No.</th>
                             <th>PO Date</th>
                             <th>Supplier</th>    
@@ -28,31 +33,56 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(purchase, index) in purchaseOrders" :key="purchase.uuid" class="tb-tnx-item">
-                            <td>
-                                <a href="javascript:void(0)"  @click="ROUTE({path: '/purchase-orders/' + purchase.uuid })" class="btn btn-sm hx-btn-shineblue">
-                                    <i class="mdi mdi-eye"></i>
-                                </a>
+                        <tr v-for="(purchase, index) in purchaseOrders" :key="purchase.uuid">
+                            <td width="100" style="text-align:center;">
+                                <span class="w-65px d-block mx-auto">
+                                <a href="javascript:void(0)"  @click="ROUTE({path: '/purchase-orders/' + purchase.uuid })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-pencil"></i></a>
+                                </span>
                             </td>
-                            <td>{{ (index + 1) }}</td>
-                            <td>{{ purchase.po_no }}</td>
-                            <td>{{ purchase.date_purchased }}</td>
-                            <td>{{ purchase.supplier.business_shortname }}</td>
+                            <td width="50">{{ (index + 1) }}</td>
+                            <td width="200">{{ purchase.po_no }}</td>
+                            <td width="100">{{ purchase.date_purchased }}</td>
+                            <td class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
                             <td class="text-right">0.00</td>
-                            <td>{{ purchase.status }}</td>
+                            <td v-if="purchase.status === 'Open'" style="text-align:center;" class="editable">
+                                <span class="badge badge-pill badge-soft-success font-size-12">Open</span>
+                                <!-- <select @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="editable-control"> -->
+                                <!-- <select @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="form-reason-codes">
+                                </select> -->
+                            </td>
+                            <td v-else style="text-align:center;" class="editable">
+                                <span class="badge badge-pill badge-soft-danger font-size-12">Closed</span>
+                            </td>
                             <td>None</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-                
-      
         </div>
+
+                <!-- Modal Group Form -->
+        <div class="modal fade" tabindex="-1" id="modalReasonCodeMain">
+            <div class="modal-dialog modal-lg " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Reason Codes</h5>
+                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalReasonCodeMain');" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="bx bx-x"></i>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <reason-codes></reason-codes>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </template>
 
 <script>
-
+import ReasonCodes from './purchase-order-reason-codes'
 import Swal from 'sweetalert2'
 import moment from 'moment'
 
@@ -61,8 +91,14 @@ export default {
     props: ['properties'],
     data: function () {
         return {
+            selected_reason_code: null,
+            options_reason_code: [],
+
             purchaseOrders: [],
         }
+    },
+    components: {
+        'reason-codes': ReasonCodes,
     },
     methods: {
         getPurchaseOrders: function () {
@@ -71,10 +107,41 @@ export default {
                 scope.purchaseOrders = res.rows
             })
         },
+        getReasonCodes: function () {
+           var scope = this
+
+           scope.options_reason_code.push({
+               id: '',
+               text: 'None'
+           });
+
+            scope.GET('buy-and-pay/order-reason-code').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_reason_code.push({
+                        id: data.uuid,
+                        text: data.reason_code
+                    })
+                
+                })
+
+                $(".form-reason-codes").select2({data: scope.options_reason_code});
+                
+                scope.selected_reason_code = scope.options_reason_code[0].id
+            })
+
+        },
+
     },
     mounted() {
         var scope = this
         scope.getPurchaseOrders()
+        scope.getReasonCodes()
+
+        $('.form-reason-codes').on("change", function(e) { 
+            scope.selected_reason_code = $('.form-reason-codes').val();
+        })
     },
 }
 </script>
