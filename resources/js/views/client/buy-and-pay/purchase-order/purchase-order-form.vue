@@ -6,7 +6,7 @@
                     <h1 class="title"><i class="las la-list-ul"></i> Purchase Orders</h1>
                 </div>
                 <div class="bar-right">
-                    <a @click="ROUTE({path: '/purchase-orders' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
+                    <a @click="ROUTE({path: '/purchase-order-main' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
                         <i class="las la-x"></i> <span>Cancel</span>
                     </a>
                     <a @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
@@ -505,10 +505,9 @@ export default {
                     timer: 1000
                 }).then(() => {
                     if (!scope.$props.order) {
-                        scope.ROUTE({path: '/purchase-orders/' + res.data.uuid })
+                        scope.ROUTE({path: '/purchase-order-main/' + res.data.uuid })
                     } else {
 
-                        
                         scope.$parent.loadData()
 
                         scope.toggleEdit();

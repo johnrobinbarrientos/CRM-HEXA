@@ -40,6 +40,7 @@ import AdminCoaAccountGroup from './views/admin/settings/admin-coa-account-group
 import AdminChartofAccounts from './views/admin/settings/admin-chart-of-accounts'
 import AdminCostCenter from './views/admin/settings/admin-cost-center'
 
+import PurchaseOrderMain from './views/client/buy-and-pay/purchase-order/purchase-order-main'
 import PurchaseOrderList from './views/client/buy-and-pay/purchase-order/purchase-order-list'
 import PurchaseOrderCreate from './views/client/buy-and-pay/purchase-order/purchase-order-create'
 import PurchaseOrderDetails from './views/client/buy-and-pay/purchase-order/purchase-order-details'
@@ -300,9 +301,9 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
-          path: '/purchase-orders',
-          name: 'purchase-order-list',
-          component: PurchaseOrderList,
+          path: '/purchase-order-main',
+          name: 'purchase-order-main',
+          component: PurchaseOrderMain,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },

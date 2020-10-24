@@ -6,7 +6,7 @@
                     <h1 class="title"><i class="las la-list-ul"></i> Purchase Orders</h1>
                 </div>
                 <div class="bar-right">
-                    <a @click="ROUTE({path: '/purchase-orders' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
+                    <a @click="ROUTE({path: '/purchase-order-main' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
                         <i class="las la-x"></i> <span>Back</span>
                     </a>
                     <a @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">

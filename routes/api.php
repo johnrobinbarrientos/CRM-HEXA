@@ -271,11 +271,13 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/orders/{order_uuid}/supplier-items', 'API\BuyAndPayOrderController@getOrderSupplierItems');
         Route::get('/orders/{order_uuid}/suppliers/{supplier_uuid}/discounts', 'API\BuyAndPayOrderController@getSupplierDiscounts');
 
+        Route::post('/order/reason-code', 'API\BuyAndPayOrderController@updateOrderReasonCode');
         Route::post('/order', 'API\BuyAndPayOrderController@saveOrder');
         Route::post('/order/delete', 'API\BuyAndPayOrderController@deleteOrder');
 
         Route::post('/orders/{order_uuid}/details', 'API\BuyAndPayOrderDetailController@save');
         Route::post('/orders/{order_uuid}/additional-discounts', 'API\BuyAndPayOrderDetailController@saveAdditionalDiscount');
+
 
         Route::get('/order-reason-code', 'API\BuyAndPayOrderReasonCodeController@getReasonCode');
         Route::post('/order-reason-code', 'API\BuyAndPayOrderReasonCodeController@saveReasonCode');

@@ -14,11 +14,6 @@
             </div>
 
             <div class="table-responsive;">
-                <div>
-                    <button @click="OPEN_MODAL('#modalReasonCodeMain');" class="hx-btn hx-btn-shineblue"><i class="las la-plus"></i>Reason Codes</button>
-                </div>
-                <br>
-
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -51,30 +46,19 @@
                             <td v-else style="text-align:center;" class="editable">
                                 <span class="badge badge-pill badge-soft-danger font-size-12">Closed</span>
                             </td>
-                            <td>None</td>
+                            <!-- <td>None</td> -->
+                            <td class="editable text-center">
+                                <span v-if="purchase.order_reason_code==null">None <i class="bx bx-pencil"></i></span>
+                                <span v-else>{{ purchase.order_reason_code.reason_code }} <i class="bx bx-pencil"></i></span>
+                                <select @change="changeReasonCode(purchase.uuid)" v-model="selected_reason_code" type="text" class="editable-control">
+                                    <option :value="reasoncode.id " v-for="(reasoncode,index) in options_reason_code" :key="index">{{ reasoncode.text }}</option>
+                                </select>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-
-                <!-- Modal Group Form -->
-        <div class="modal fade" tabindex="-1" id="modalReasonCodeMain">
-            <div class="modal-dialog modal-lg " role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Reason Codes</h5>
-                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalReasonCodeMain');" class="close" data-dismiss="modal" aria-label="Close">
-                            <i class="bx bx-x"></i>
-                        </a>
-                    </div>
-                    <div class="modal-body">
-                        <reason-codes></reason-codes>
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
     </div>
 </template>
@@ -92,7 +76,7 @@ export default {
             selected_reason_code: null,
             options_reason_code: [],
 
-            purchaseOrders: [],
+            purchaseOrders: []
         }
     },
     components: {
@@ -130,13 +114,41 @@ export default {
                     })
                 
                 })
-
-                $(".form-reason-codes").select2({data: scope.options_reason_code});
-                
-                scope.selected_reason_code = scope.options_reason_code[0].id
             })
 
         },
+        changeReasonCode: function (po_uuid) {
+            var scope = this
+
+            window.swal.fire({
+                title: 'Update Record?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#548235',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Update it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.POST('buy-and-pay/order/reason-code', {uuid: po_uuid, orders_reason_code_uuid: scope.selected_reason_code}).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Successfuly Updated',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.getPurchaseOrders()
+                            })
+                        } else {
+                            alert('ERROR:' + res.code)
+                        }
+                    })
+                }                              
+            })
+
+        }
 
     },
     mounted() {

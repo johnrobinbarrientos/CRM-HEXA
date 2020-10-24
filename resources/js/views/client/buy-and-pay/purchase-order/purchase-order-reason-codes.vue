@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!-- <div class="actions-bar">
+        <div class="actions-bar">
             <div class="w-100">
                 <h1 class="title"><i class="las la-list-ul"></i>Reason Codes</h1>
             </div>
@@ -18,46 +18,9 @@
                     <em class="icon ni ni-plus"></em> <span>New</span>
                 </a>
             </div>
-        </div> -->
-
-        <div class="row">
-            <!-- <div class="col-md-3 col-12">
-                <div class="form-control-wrap">
-                    <div class="form-group"> -->
-                        <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
-                    <!-- </div>
-                </div>
-            </div> -->
-
-            <!-- <div class="col-md-3 col-12">
-                <div class="form-control-wrap">
-                    <div class="form-group"> -->
-                        <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">
-                            <option value="15">15</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                            <option value="40">40</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                    <!-- </div>
-                </div>
-            </div> -->
-
-            <!-- <div class="col-md-3 col-12">
-                <div class="form-control-wrap">
-                    <div class="form-group"> -->
-
-                        <a href="javascript:void(0)" @click="OPEN_MODAL('#modalReasonCodes');resetData()" class="btn btn-primary" data-toggle="modal">
-                            <em class="icon ni ni-plus"></em> <span>New</span>
-                        </a>
-                    <!-- </div>
-                </div>
-            </div> -->
- 
         </div>
-                               
 
+               
         <div v-if="listLoading" class="text-center my-3 text-loader">
             <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
         </div>

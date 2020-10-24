@@ -56,7 +56,7 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bx-money',
             'submenus' => [
-                [ 'text' => 'Ordering', 'route' => 'purchase-order-list'],
+                [ 'text' => 'Ordering', 'route' => 'purchase-order-main'],
                 [ 'text' => 'Receiving', 'route' => 'project-main'],
                 [ 'text' => 'Returns', 'route' => 'project-main'],
                 [ 'text' => 'Billing', 'route' => 'project-main'],
@@ -180,7 +180,7 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bx-money',
             'submenus' => [
-                [ 'text' => 'Ordering', 'route' => 'purchase-order-list'],
+                [ 'text' => 'Ordering', 'route' => 'purchase-order-main'],
                 [ 'text' => 'Receiving', 'route' => 'project-main'],
                 [ 'text' => 'Returns', 'route' => 'project-main'],
                 [ 'text' => 'Billing', 'route' => 'project-main'],
@@ -280,7 +280,7 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bx-money',
             'submenus' => [
-                [ 'text' => 'Ordering', 'route' => 'purchase-order-list'],
+                [ 'text' => 'Ordering', 'route' => 'purchase-order-main'],
                 [ 'text' => 'Receiving', 'route' => 'project-main'],
                 [ 'text' => 'Returns', 'route' => 'project-main'],
                 [ 'text' => 'Billing', 'route' => 'employee-main'],

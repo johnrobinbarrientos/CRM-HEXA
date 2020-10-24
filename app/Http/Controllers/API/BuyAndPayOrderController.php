@@ -107,6 +107,23 @@ class BuyAndPayOrderController extends Controller
 
         return response()->json(['success' => 1, 'data' => $order, 'po_date' => $po_date], 200);
     }
+
+    public function updateOrderReasonCode()
+    {
+        $order =  BuyAndPayOrder::find(request()->uuid);
+
+        if (!$order) {
+            return response()->json(['success' => 0, 'data' => null, 'Order not found'], 500);
+        }
+
+        $order->orders_reason_code_uuid = request()->orders_reason_code_uuid;
+        $order->save();
+
+        $order = BuyAndPayOrder::find($order->uuid);
+        return response()->json(['success' => 1, 'rows' => $order], 200);
+
+
+    }
     
 
     public function getNumberOfTransactions($uuid)
