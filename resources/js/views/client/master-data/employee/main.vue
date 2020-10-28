@@ -14,7 +14,7 @@
 
         <div class="tab-content">    
             <div class="tab-pane active" id="employee-list">        
-                <employee-list></employee-list>   
+                <list></list>   
             </div>    
             <div class="tab-pane" id="employment-type">        
                 <employment-type></employment-type>    
@@ -27,13 +27,13 @@
 </template>
 
 <script>
-import EmployeeList from './employee-list'
-import EmploymentType from './employee-employment-type'
-import EmploymentStatus from './employee-employment-status'
+import List from './list'
+import EmploymentType from './employment-type'
+import EmploymentStatus from './employment-status'
 
 export default {
     components: {
-        'employee-list': EmployeeList,
+        'list': List,
         'employment-type': EmploymentType,
         'employment-status': EmploymentStatus
     }

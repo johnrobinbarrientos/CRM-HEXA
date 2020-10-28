@@ -4,17 +4,17 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller; 
 
-use App\Models\BuyAndPayOrder; 
-use App\Models\BuyAndPayOrderDetail; 
-use App\Models\BuyAndPayOrderAdditionalDiscount; 
+use App\Models\PurchaseOrder; 
+use App\Models\PurchaseOrderDetail; 
+use App\Models\PurchaseOrderAdditionalDiscount; 
 
 use Illuminate\Support\Facades\Auth; 
 
-class BuyAndPayOrderDetailController extends Controller
+class PurchaseOrderDetailController extends Controller
 {
     public function getOrderDetails()
     {
-        $orders = BuyAndPayOrderDetail::whereNull('deleted_at')->get();
+        $orders = PurchaseOrderDetail::whereNull('deleted_at')->get();
         return response()->json(['success' => 1, 'rows' => $orders], 200);
     }
 
@@ -23,15 +23,15 @@ class BuyAndPayOrderDetailController extends Controller
         $auth = \Auth::user();
         $items = (is_array(request()->items)) ? request()->items : [];
      
-        $delete = BuyAndPayOrderDetail::where('bp_order_uuid','=',$orderUUID)->delete();
+        $delete = PurchaseOrderDetail::where('bp_order_uuid','=',$orderUUID)->delete();
         
-        $order = BuyAndPayOrder::find($orderUUID);
+        $order = PurchaseOrder::find($orderUUID);
    
         foreach ($items as $item) {
             $item = (object) $item;
 
-            $order_detail = BuyAndPayOrderDetail::where('bp_order_uuid','=',$orderUUID)->where('item_uuid','=',$item->uuid)->where('barcode','=',$item->barcode)->withTrashed()->first();
-            $order_detail = ($order_detail) ? $order_detail : new BuyAndPayOrderDetail;
+            $order_detail = PurchaseOrderDetail::where('bp_order_uuid','=',$orderUUID)->where('item_uuid','=',$item->uuid)->where('barcode','=',$item->barcode)->withTrashed()->first();
+            $order_detail = ($order_detail) ? $order_detail : new PurchaseOrderDetail;
 
             $order_detail->company_id               = $auth->company_id;
             $order_detail->bp_order_uuid            = $order->uuid;
@@ -57,14 +57,14 @@ class BuyAndPayOrderDetailController extends Controller
     {
         $auth = \Auth::user();
         $discounts = (is_array(request()->discounts)) ? request()->discounts : [];
-        $order = BuyAndPayOrder::find($orderUUID);
-        $delete = BuyAndPayOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->delete();
+        $order = PurchaseOrder::find($orderUUID);
+        $delete = PurchaseOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->delete();
 
         foreach ($discounts as $discount) {
             $discount = (object) $discount;
 
-            $additional_discount = BuyAndPayOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->where('uuid','=',$discount->uuid)->first();
-            $additional_discount = ($additional_discount) ? $discount : new  BuyAndPayOrderAdditionalDiscount;
+            $additional_discount = PurchaseOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->where('uuid','=',$discount->uuid)->first();
+            $additional_discount = ($additional_discount) ? $discount : new  PurchaseOrderAdditionalDiscount;
 
             $additional_discount->company_id               = $auth->company_id;
             $additional_discount->bp_order_uuid            = $order->uuid;
@@ -76,14 +76,14 @@ class BuyAndPayOrderDetailController extends Controller
             $additional_discount->save();
         }
 
-        $additional_discounts = BuyAndPayOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->get();
+        $additional_discounts = PurchaseOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->get();
 
         return response()->json(['success' => 1, 'rows' => $additional_discounts], 200);
     }
 
     public function deleteOrderDetail()
     {
-        $orders = BuyAndPayOrderDetail::find(request()->uuid)->delete();
+        $orders = PurchaseOrderDetail::find(request()->uuid)->delete();
 
         return response()->json(['success' => 1, 'message' => 'Deleted!'], 200);
     }

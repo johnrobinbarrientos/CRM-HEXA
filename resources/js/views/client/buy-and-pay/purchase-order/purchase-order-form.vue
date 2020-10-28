@@ -95,7 +95,7 @@
                     </div>
                 </div>
                 <div style="z-index:4500; position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px;" @click="toggleEdit()">
-                    <i v-if="!edit" class="bx bx-pencil"></i>
+                    <button v-if="!edit" class="bx bx-pencil" :disabled="view_mode" type="button"></button>
                     <i v-else class="bx bx-x"></i>
                 </div>
                 <h4 style="margin-bottom:20px;">Information</h4>
@@ -187,7 +187,7 @@
                     <div class="col-md-3 col-12">
                         <div>
                             <strong>Status:</strong>
-                            <div style="margin-bottom:10px; text-transform:capitalize;">{{ order.status }}</div>
+                            <div style="margin-bottom:10px; text-transform:capitalize;">{{ order.po_status }}</div>
                         </div>
                     </div>
                     <div v-if="edit" class="col-md-12 col-12">
@@ -213,7 +213,7 @@ import moment from 'moment'
 
 export default {
     name: 'purchase-order-form',
-    props: ['form','order'],
+    props: ['form','order','view_mode'],
     data: function () {
         return {
             edit: false,
@@ -258,7 +258,7 @@ export default {
                 date_purchased: '',
                 date_expected: '',
                 supplier_uuid: '',
-                status: 'Open',
+                po_status: 'PENDING RECEIPT',
                 orders_reason_code_uuid: '',
                 is_apply_tax: 0,
                 branch_uuid: '',

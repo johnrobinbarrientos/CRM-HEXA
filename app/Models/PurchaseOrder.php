@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class BuyAndPayOrder extends Model
+class PurchaseOrder extends Model
 {
     use SoftDeletes;
     
-    protected $table = 'buy_and_pay_orders';
+    protected $table = 'purchase_orders';
 
     protected $fillable = [
-        'uuid', 'company_id', 'po_no','item_group_uuid','asset_group_uuid','item_discount_group_uuid',
-        'term','date_purchased','date_expected','supplier_uuid','status','orders_reason_code_uuid','is_apply_tax','branch_uuid',
-        'branch_locations_uuid',
+        'uuid', 'company_id', 'po_no','recieving_no','billing_no','item_group_uuid','asset_group_uuid','item_discount_group_uuid',
+        'term','date_purchased','date_expected','date_recieved','date_billed','date_due','memo','supplier_uuid','po_status',
+        'billing_status','orders_reason_code_uuid','recieving_reason_code','is_apply_tax','branch_uuid','branch_locations_uuid',
     ];
 
     protected $primaryKey = 'uuid';
@@ -44,7 +44,7 @@ class BuyAndPayOrder extends Model
     }
 
     public function OrderReasonCode(){
-        return $this->belongsTo('App\Models\BuyAndPayOrderReasonCode','orders_reason_code_uuid','uuid');
+        return $this->belongsTo('App\Models\PurchaseOrderReasonCode','orders_reason_code_uuid','uuid');
     }
    
 }

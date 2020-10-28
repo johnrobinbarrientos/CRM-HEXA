@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class BuyAndPayPriceRuleDetail extends Model
+class PurchaseOrderAdditionalDiscount extends Model
 {
     use SoftDeletes;
     
-    protected $table = 'buy_and_pay_price_rule_details';
+    protected $table = 'purchase_order_additional_discounts';
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';
@@ -22,10 +22,6 @@ class BuyAndPayPriceRuleDetail extends Model
         static::creating(function (Model $model) {
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
-    }
-
-    public function PriceRule(){
-        return $this->belongsTo('App\Models\BuyAndPayPriceRule','bp_price_rule_uuid','uuid');
     }
    
 }

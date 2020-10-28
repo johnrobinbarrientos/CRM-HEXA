@@ -197,11 +197,11 @@
                                 </div>
 
                                 <div class="tab-pane" id="discounts">
-                                    <SupplierDiscounts v-if="formdata.uuid" :supplier_uuid="formdata.uuid" :view_mode="view_mode"></SupplierDiscounts>
+                                    <Discounts v-if="formdata.uuid" :supplier_uuid="formdata.uuid" :view_mode="view_mode"></Discounts>
                                 </div>
 
                                 <div class="tab-pane" id="check-payees">
-                                    <supplier-check-payees :supplier_uuid="formdata.uuid" :view_mode="view_mode"></supplier-check-payees>
+                                    <check-payees :supplier_uuid="formdata.uuid" :view_mode="view_mode"></check-payees>
                                 </div>
 
                                 <div class="tab-pane" id="address">
@@ -294,8 +294,8 @@
 
 import Swal from 'sweetalert2'
 
-import SupplierDiscounts from './supplier-discounts'
-import SupplierCheckPayees from './supplier-check-payees'
+import Discounts from './discounts'
+import CheckPayees from './check-payees'
 
 export default {
     name: 'supplier-list',
@@ -356,8 +356,8 @@ export default {
 
     },
     components: {
-        SupplierDiscounts,
-        'supplier-check-payees': SupplierCheckPayees
+        Discounts,
+        CheckPayees
     },
     methods: {
         getPayables: function () {

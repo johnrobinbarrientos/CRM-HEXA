@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class BuyAndPayOrderAdditionalDiscount extends Model
+class PurchasePriceRuleItem extends Model
 {
     use SoftDeletes;
     
-    protected $table = 'buy_and_pay_order_additional_discounts';
+    protected $table = 'purchase_price_rule_items';
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

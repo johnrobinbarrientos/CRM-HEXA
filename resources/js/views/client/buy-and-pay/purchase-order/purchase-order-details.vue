@@ -6,18 +6,29 @@
                     <h1 class="title"><i class="las la-list-ul"></i> Purchase Orders</h1>
                 </div>
                 <div class="bar-right">
-                    <a @click="ROUTE({path: '/purchase-order-main' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
-                        <i class="las la-x"></i> <span>Back</span>
-                    </a>
-                    <a @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
-                        <i class="las la-pluss"></i> <span>Update</span>
-                    </a>
+                    <span v-if ="view_mode">
+                        <a @click="ROUTE({path: '/purchase-order-main' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
+                            <i class="las la-x"></i> <span>Back</span>
+                        </a>
+                        <a v-if ="order.po_status =='PENDING RECEIPT'" @click="ROUTE({path: '/purchase-orders/' + order.uuid })" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                            <i class="las la-x"></i> <span>Edit</span>
+                        </a>
+                        <a  v-if ="order.po_status =='PENDING RECEIPT'" @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Delete</a>
+                    </span>
+                    <span v-else>
+                        <a @click="ROUTE({path: '/purchase-order-main' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
+                            <i class="las la-x"></i> <span>Back</span>
+                        </a>
+                        <a @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                            <i class="las la-pluss"></i> <span>Update</span>
+                        </a>
+                    </span>    
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-8 col-12">
-                     <purchase-order-form :form="'inline'" :order="order"></purchase-order-form>
+                     <purchase-order-form :form="'inline'" :order="order" :view_mode="view_mode"></purchase-order-form>
                 </div>
 
                 <div class="col-md-4 col-12">
@@ -50,9 +61,9 @@
                 <div class="col-12 col-lg-9">
                     <div style="float:right;">
                         
-                        <button @click="addItems()" class="btn btn-sm hx-btn-shineblue">Add Items</button>
-                        <button @click="addAllItems()" class="btn btn-sm hx-btn-shineblue">Add All Items</button>
-                        <button @click="removeAllZeroAmount()" class="btn btn-sm btn-danger btn btn-secondary">Remove Zero</button>
+                        <button @click="addItems()" class="btn btn-sm hx-btn-shineblue" :disabled="view_mode">Add Items</button>
+                        <button @click="addAllItems()" class="btn btn-sm hx-btn-shineblue" :disabled="view_mode">Add All Items</button>
+                        <button @click="removeAllZeroAmount()" class="btn btn-sm btn-danger btn btn-secondary" :disabled="view_mode">Remove Zero</button>
                     
                     </div>
                 </div>
@@ -82,7 +93,7 @@
                 </thead>
                 <tbody>
                         <tr v-for="(item, index) in selectedItems" :key="item.barcode + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
-                        <td><button @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger"><i class="bx bx-trash-alt"></i></button></td>
+                        <td><button @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button></td>
                         <td>{{ (index + 1) }}</td>
                         <td>{{ item.barcode }}</td>
                         <td><a :href="'/items/' + item.uuid + '/view'" target="_blank">{{ item.item_description }}</a></td>
@@ -92,11 +103,11 @@
                         <td>{{ order.branch_location.location_name }}</td>
                         <td class="editable text-right">
                             <span>{{ item.quantity }}</span>
-                            <input @keyup="calculate(item)" v-model="item.quantity" type="text" class="editable-control">
+                            <input @keyup="calculate(item)" v-model="item.quantity" type="text" class="editable-control" :disabled="view_mode">
                         </td>
                         <td class="editable">
                             <span>{{ findUOMByBarcode(item.uoms,item.barcode) }}</span>
-                            <select @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="editable-control">
+                            <select @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="editable-control" :disabled="view_mode">
                                 <option v-if="!isItemUOMSelected(uom, item)" v-for="(uom,index) in item.uoms" :key="uom.uuid + '-' + index" :value="uom.barcode" v-bind:selected="uom.barcode == item.barcode">{{ uom.uom }}</option>
                             </select>
                         </td>
@@ -123,7 +134,7 @@
                     <tr>
                         <td colspan="16"> 
                             <!-- <select class="search-items" v-model="option_items_selected" :options="options_items" name="item-group"></select> -->
-                            <input type="text" id="autocomplete" class="form-control">
+                            <input type="text" id="autocomplete" class="form-control" :disabled="view_mode">
                         </td>
                     </tr> 
                 </tbody>
@@ -149,7 +160,7 @@
                             
                             <td class="editable text-right">
                                 <span>{{ discount.discount_name }}</span>
-                                <select @change="changeAdditionalDiscountName(discount)" v-model="discount.discount_name" type="text" class="editable-control">
+                                <select @change="changeAdditionalDiscountName(discount)" v-model="discount.discount_name" type="text" class="editable-control" :disabled="view_mode">
                                     <option :value="additional_discount.name " v-for="(additional_discount,index) in additional_discount_options" :key="index">{{ additional_discount.name }}</option>
                                 </select>
                             </td>
@@ -157,12 +168,12 @@
                             <td v-bind:class="{'editable' : discount.discount_type == 'rate'}" class="text-right">
                                 <span v-if="discount.discount_type == 'rate'">{{ discount.discount_rate }}% <i class="bx bx-pencil"></i></span>
                                 <span v-else style="padding-right:11px;">{{ calculateAdditionalDiscountRate(discount, TOTAL_GROSS_AMOUNT).toFixed(2) }}%</span>
-                                <input v-if=" discount.discount_type == 'rate'" v-model="discount.discount_rate" type="text" class="editable-control">
+                                <input v-if=" discount.discount_type == 'rate'" v-model="discount.discount_rate" type="text" class="editable-control" :disabled="view_mode">
                             </td>
                             <td v-bind:class="{'editable' : discount.discount_type == 'fixed'}" class="text-right">
                                 <span v-if="discount.discount_type == 'fixed'">{{ discount.discount_fixed }} <i class="bx bx-pencil"></i></span>
                                 <span v-else style="padding-right:11px;">{{ calculateAdditionalDiscountAmount(discount, TOTAL_GROSS_AMOUNT).toFixed(2) }}</span>
-                                <input  v-if="discount.discount_type == 'fixed'" v-model="discount.discount_fixed" type="text" class="editable-control">
+                                <input  v-if="discount.discount_type == 'fixed'" v-model="discount.discount_fixed" type="text" class="editable-control" :disabled="view_mode">
                             </td>
                             
                         </tr>
@@ -171,7 +182,7 @@
                             <td class="text-right"><strong style="padding-right:12px;">{{ calculateTotalAdditionalDiscountAmount().toFixed(2) }}</strong></td>
                         </tr>
                         <tr>
-                            <td colspan="4" @click="addAdditionalDiscount()" style="cursor:pointer; background:#efefef; text-align:center; font-weight:600;">ADD DISCOUNT</td>
+                            <td colspan="4" style="cursor:pointer; background:#efefef; text-align:center; font-weight:600;"><button  @click="addAdditionalDiscount()" type="button" style="font-weight:600; background:transparent; border:none;" :disabled="view_mode">ADD DISCOUNT</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -307,7 +318,7 @@ import PurchaseOrderCreate from './purchase-order-form'
 
 export default {
     name: 'purchase-order',
-    props: ['properties'],
+    props: ['properties','view_mode'],
     data: function () {
         return {
             is_ready: false,

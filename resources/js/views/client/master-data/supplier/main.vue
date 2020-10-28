@@ -13,10 +13,10 @@
 
             <div class="tab-content">    
                 <div class="tab-pane active" id="supplier-list">        
-                    <supplier-list></supplier-list>   
+                    <list></list>   
                 </div>    
                 <div class="tab-pane" id="supplier-group">        
-                    <supplier-group></supplier-group>    
+                    <group></group>    
                 </div>    
             </div>
         </div>
@@ -24,13 +24,13 @@
 </template>
 
 <script>
-import SupplierList from './supplier-list'
-import SupplierGroup from './supplier-group'
+import List from './list'
+import Group from './group'
 
 export default {
     components: {
-        'supplier-list': SupplierList,
-        'supplier-group': SupplierGroup
+        'list': List,
+        'group': Group
     },
     methods: {
 

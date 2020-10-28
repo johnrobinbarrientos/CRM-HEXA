@@ -32,10 +32,10 @@
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane active" id="item-list" role="tabpanel">
-                    <item-list></item-list>
+                    <list></list>
                 </div>
                 <div class="tab-pane" id="item-group" role="tabpanel">
-                    <item-group></item-group> 
+                    <group></group> 
                 </div>
                 <div class="tab-pane" id="asset-group" role="tabpanel">
                     <asset-group></asset-group>
@@ -47,15 +47,15 @@
                         </div>
                         <div class="bar-right"></div>
                     </div>
-                    <item-cat-department></item-cat-department>
-                    <item-cat-section></item-cat-section>
-                    <item-cat-category></item-cat-category>
-                    <item-cat-manufacturer></item-cat-manufacturer>
-                    <item-cat-item-type></item-cat-item-type>
-                    <item-cat-brand></item-cat-brand>
-                    <item-cat-form></item-cat-form>
-                    <item-cat-packing-type></item-cat-packing-type>
-                    <item-cat-sizes></item-cat-sizes>
+                    <cat-department></cat-department>
+                    <cat-section></cat-section>
+                    <cat-category></cat-category>
+                    <cat-manufacturer></cat-manufacturer>
+                    <cat-item-type></cat-item-type>
+                    <cat-brand></cat-brand>
+                    <cat-form></cat-form>
+                    <cat-packing-type></cat-packing-type>
+                    <cat-sizes></cat-sizes>
                 </div>
             </div>
         </div> 
@@ -63,19 +63,19 @@
 </template>
 
 <script>
-import ItemList from './item-list'
-import ItemGroup from './item-group'
-import ItemAssetGroup from './item-asset-group'
+import List from './list'
+import Group from './group'
+import AssetGroup from './asset-group'
 
-import ItemCatBrand from './item-cat-brand'
-import ItemCatCategory from './item-cat-category'
-import ItemCatDepartment from './item-cat-department'
-import ItemCatForm from './item-cat-form'
-import ItemCatItemType from './item-cat-item-type'
-import ItemCatManufacturer from './item-cat-manufacturer'
-import ItemCatPackingType from './item-cat-packing-type'
-import ItemCatSection from './item-cat-section'
-import ItemCatSizes from './item-cat-sizes'
+import CatBrand from './cat-brand'
+import CatCategory from './cat-category'
+import CatDepartment from './cat-department'
+import CatForm from './cat-form'
+import CatItemType from './cat-item-type'
+import CatManufacturer from './cat-manufacturer'
+import CatPackingType from './cat-packing-type'
+import CatSection from './cat-section'
+import CatSizes from './cat-sizes'
 
 
 export default {
@@ -86,18 +86,18 @@ export default {
         }
     },
     components: {
-        'item-list': ItemList,
-        'item-group': ItemGroup,
-        'asset-group': ItemAssetGroup,
-        'item-cat-brand': ItemCatBrand,
-        'item-cat-category': ItemCatCategory,
-        'item-cat-department': ItemCatDepartment,
-        'item-cat-form': ItemCatForm,
-        'item-cat-item-type': ItemCatItemType,
-        'item-cat-manufacturer': ItemCatManufacturer,
-        'item-cat-packing-type': ItemCatPackingType,
-        'item-cat-section': ItemCatSection,
-        'item-cat-sizes': ItemCatSizes
+        'list': List,
+        'group': Group,
+        'asset-group': AssetGroup,
+        'cat-brand': CatBrand,
+        'cat-category': CatCategory,
+        'cat-department': CatDepartment,
+        'cat-form': CatForm,
+        'cat-item-type': CatItemType,
+        'cat-manufacturer': CatManufacturer,
+        'cat-packing-type': CatPackingType,
+        'cat-section': CatSection,
+        'cat-sizes': CatSizes
     },
     methods: {
 

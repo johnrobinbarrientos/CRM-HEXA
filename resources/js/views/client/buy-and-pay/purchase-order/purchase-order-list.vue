@@ -31,7 +31,8 @@
                         <tr v-for="(purchase, index) in purchaseOrders" :key="purchase.uuid">
                             <td width="100" style="text-align:center;">
                                 <span class="w-65px d-block mx-auto">
-                                <a href="javascript:void(0)"  @click="ROUTE({path: '/purchase-orders/' + purchase.uuid })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-pencil"></i></a>
+                                <a v-if ="purchase.po_status =='PENDING RECEIPT'" href="javascript:void(0)"  @click="ROUTE({path: '/purchase-orders/' + purchase.uuid })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-pencil"></i></a>
+                                <a href="javascript:void(0)" @click="ROUTE({path: '/purchase-orders/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
                                 </span>
                             </td>
                             <td width="50">{{ (index + 1) }}</td>
@@ -40,16 +41,20 @@
                             <td class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
                             <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
                             <td v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
-                            <td v-if="purchase.status === 'Open'" style="text-align:center;" class="editable">
-                                <span class="badge badge-pill badge-soft-success font-size-12">Open</span>
+                            <td v-if="purchase.po_status === 'PENDING RECEIPT'" style="text-align:center;" class="editable">
+                                <i class="mdi mdi-circle text-danger align-middle mr-1"></i><span>PENDING RECEIPT</span>
                             </td>
-                            <td v-else style="text-align:center;" class="editable">
-                                <span class="badge badge-pill badge-soft-danger font-size-12">Closed</span>
+                            <td v-else-if="purchase.po_status === 'PARTIALLY RECIEVED'" style="text-align:center;" class="editable">
+                                <i class="mdi mdi-circle text-warning align-middle mr-1"></i><span>PARTIALLY RECIEVED</span>
                             </td>
+                            <td v-else-if="purchase.po_status === 'COMPLETED'" style="text-align:center;" class="editable">
+                                <i class="mdi mdi-circle text-success align-middle mr-1"></i><span>COMPLETED</span>
+                            </td>
+
                             <!-- <td>None</td> -->
                             <td class="editable text-center">
                                 <span v-if="purchase.order_reason_code==null">None <i class="bx bx-pencil"></i></span>
-                                <span v-else>{{ purchase.order_reason_code.reason_code }} <i class="bx bx-pencil"></i></span>
+                                <span v-else>{{ purchase.order_reason_code.details }} <i class="bx bx-pencil"></i></span>
                                 <select @change="changeReasonCode(purchase.uuid)" v-model="selected_reason_code" type="text" class="editable-control">
                                     <option :value="reasoncode.id " v-for="(reasoncode,index) in options_reason_code" :key="index">{{ reasoncode.text }}</option>
                                 </select>
@@ -91,8 +96,6 @@ export default {
         getPurchaseOrders: function () {
            var scope = this
             scope.GET('buy-and-pay/orders').then(res => {
-                console.log('naa ko sa list')
-                console.log(res.rows)
                 scope.purchaseOrders = res.rows
             })
         },
@@ -110,7 +113,7 @@ export default {
 
                     scope.options_reason_code.push({
                         id: data.uuid,
-                        text: data.reason_code
+                        text: data.details
                     })
                 
                 })

@@ -23,37 +23,37 @@ use App\Models\PriceRuleSupplier;
 use App\Models\PriceRuleSupplierDetail;  
 use App\Models\PriceRuleSupplierItem;  
 
-use App\Models\BuyAndPayOrder;
-use App\Models\BuyAndPayOrderDetail;
-use App\Models\BuyAndPayOrderSupplierBaseDiscountGroup;
+use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrderDetail;
+use App\Models\PurchaseOrderSupplierBaseDiscountGroup;
 
-use App\Models\BuyAndPayOrderAdditionalDiscount; 
-use App\Models\BuyAndPayOrderBaseDiscountGroup; 
-use App\Models\BuyAndPayOrderBaseDiscountGroupDetail; 
-use App\Models\BuyAndPayOrderBaseDiscountGroupItem; 
+use App\Models\PurchaseOrderAdditionalDiscount; 
+use App\Models\PurchaseOrderBaseDiscountGroup; 
+use App\Models\PurchaseOrderBaseDiscountGroupDetail; 
+use App\Models\PurchaseOrderBaseDiscountGroupItem; 
 
-use App\Models\BuyAndPayPriceRule;  
-use App\Models\BuyAndPayPriceRuleDetail;  
-use App\Models\BuyAndPayPriceRuleItem; 
+use App\Models\PurchasePriceRule;  
+use App\Models\PurchasePriceRuleDetail;  
+use App\Models\PurchasePriceRuleItem; 
 
 use Illuminate\Support\Facades\Auth;
 
 use DB;
 
-class BuyAndPayOrderController extends Controller
+class PurchaseOrderController extends Controller
 {
     public function getOrders()
     {
-        $orders = BuyAndPayOrder::whereNull('deleted_at')->with('Supplier')->with('OrderReasonCode')->with('ItemAssetGroup')->get();
+        $orders = PurchaseOrder::whereNull('deleted_at')->with('Supplier')->with('OrderReasonCode')->with('ItemAssetGroup')->get();
 
         $x = 0;
         foreach ($orders as $order) {
 
-            $total_discount = BuyAndPayOrderAdditionalDiscount::whereNull('deleted_at')
+            $total_discount = PurchaseOrderAdditionalDiscount::whereNull('deleted_at')
             ->where('bp_order_uuid','=',$order->uuid)
             ->sum('discount_fixed');
 
-            $total_amount = BuyAndPayOrderDetail::whereNull('deleted_at')
+            $total_amount = PurchaseOrderDetail::whereNull('deleted_at')
             ->where('bp_order_uuid','=',$order->uuid)
             ->sum('total_amount');
             $orders[$x]['po_total_amount'] = $total_amount - $total_discount;
@@ -68,9 +68,9 @@ class BuyAndPayOrderController extends Controller
     {
         $auth = \Auth::user();
         
-        $order = BuyAndPayOrder::find(request()->uuid);
+        $order = PurchaseOrder::find(request()->uuid);
         $is_new =  ($order) ? false : true ;
-        $order = ($order) ? $order: new BuyAndPayOrder();
+        $order = ($order) ? $order: new PurchaseOrder();
 
         $order->company_id = $auth->company_id;
 
@@ -91,14 +91,14 @@ class BuyAndPayOrderController extends Controller
         $order->date_purchased = request()->date_purchased;
         $order->date_expected = request()->date_expected;
         $order->supplier_uuid = request()->supplier_uuid;
-        $order->status = request()->status;
+        $order->po_status = request()->po_status;
         $order->orders_reason_code_uuid = request()->orders_reason_code_uuid;
         $order->is_apply_tax = request()->is_apply_tax;
         $order->branch_uuid = request()->branch_uuid;
         $order->branch_locations_uuid = request()->branch_locations_uuid;
         $order->save();
 
-        $order = BuyAndPayOrder::find($order->uuid);
+        $order = PurchaseOrder::find($order->uuid);
 
         $this->saveBaseDiscounts($order, $is_new);
         $this->savePriceRuleDiscounts($order, $is_new);
@@ -110,7 +110,7 @@ class BuyAndPayOrderController extends Controller
 
     public function updateOrderReasonCode()
     {
-        $order =  BuyAndPayOrder::find(request()->uuid);
+        $order =  PurchaseOrder::find(request()->uuid);
 
         if (!$order) {
             return response()->json(['success' => 0, 'data' => null, 'Order not found'], 500);
@@ -119,7 +119,7 @@ class BuyAndPayOrderController extends Controller
         $order->orders_reason_code_uuid = request()->orders_reason_code_uuid;
         $order->save();
 
-        $order = BuyAndPayOrder::find($order->uuid);
+        $order = PurchaseOrder::find($order->uuid);
         return response()->json(['success' => 1, 'rows' => $order], 200);
 
 
@@ -129,7 +129,7 @@ class BuyAndPayOrderController extends Controller
     public function getNumberOfTransactions($uuid)
     {
         $auth = \Auth::user();
-        $no_of_transactions = BuyAndPayOrder::whereNull('deleted_at')->where('company_id',$auth->company_id)->whereDate('created_at',date('Y-m-d'))->count();
+        $no_of_transactions = PurchaseOrder::whereNull('deleted_at')->where('company_id',$auth->company_id)->whereDate('created_at',date('Y-m-d'))->count();
         return $no_of_transactions;
     }
     
@@ -150,29 +150,29 @@ class BuyAndPayOrderController extends Controller
             $supplier_base_discount_group_uuids = request()->selected_supplier_discount_groups;
            
             // get list of discount group that are no longer included on update
-            $buy_and_pay_order_base_discount_group_uuids = BuyAndPayOrderBaseDiscountGroup::where('bp_order_uuid','=',$order->uuid)
+            $buy_and_pay_order_base_discount_group_uuids = PurchaseOrderBaseDiscountGroup::where('bp_order_uuid','=',$order->uuid)
                 ->whereNotIn('supplier_base_discount_group_uuid',$supplier_base_discount_group_uuids)
                 ->pluck('uuid')->toArray();
 
-            $buy_and_pay_order_base_discount_group_detail_uuids = BuyAndPayOrderBaseDiscountGroupDetail::where('bp_order_uuid','=',$order->uuid)
+            $buy_and_pay_order_base_discount_group_detail_uuids = PurchaseOrderBaseDiscountGroupDetail::where('bp_order_uuid','=',$order->uuid)
                 ->whereIn('bp_order_base_discount_group_uuid',$buy_and_pay_order_base_discount_group_uuids)
                 ->pluck('uuid')->toArray();
 
 
-            $buy_and_pay_order_base_discount_group_item_uuids = BuyAndPayOrderBaseDiscountGroupItem::where('bp_order_uuid','=',$order->uuid)
+            $buy_and_pay_order_base_discount_group_item_uuids = PurchaseOrderBaseDiscountGroupItem::where('bp_order_uuid','=',$order->uuid)
                 ->whereIn('bp_order_base_discount_group_detail_uuid',$buy_and_pay_order_base_discount_group_detail_uuids)
                 ->pluck('uuid')->toArray();
                 
 
-            $delete = BuyAndPayOrderBaseDiscountGroup::whereIn('uuid',$buy_and_pay_order_base_discount_group_uuids)
+            $delete = PurchaseOrderBaseDiscountGroup::whereIn('uuid',$buy_and_pay_order_base_discount_group_uuids)
                 ->where('bp_order_uuid','=',$order->uuid)
                 ->delete();
 
-            $delete = BuyAndPayOrderBaseDiscountGroupDetail::whereIn('uuid',$buy_and_pay_order_base_discount_group_detail_uuids)
+            $delete = PurchaseOrderBaseDiscountGroupDetail::whereIn('uuid',$buy_and_pay_order_base_discount_group_detail_uuids)
                 ->where('bp_order_uuid','=',$order->uuid)
                 ->delete();
 
-            $delete = BuyAndPayOrderBaseDiscountGroupItem::whereIn('uuid',$buy_and_pay_order_base_discount_group_item_uuids)
+            $delete = PurchaseOrderBaseDiscountGroupItem::whereIn('uuid',$buy_and_pay_order_base_discount_group_item_uuids)
                 ->where('bp_order_uuid','=',$order->uuid)
                 ->delete();
         }
@@ -182,12 +182,12 @@ class BuyAndPayOrderController extends Controller
 
         foreach ($supplier_base_discount_groups as $supplier_base_discount_group) {
             
-            $buy_and_pay_order_base_discount_group = BuyAndPayOrderBaseDiscountGroup::where('bp_order_uuid','=',$order->uuid)
+            $buy_and_pay_order_base_discount_group = PurchaseOrderBaseDiscountGroup::where('bp_order_uuid','=',$order->uuid)
                 ->where('supplier_base_discount_group_uuid','=',$supplier_base_discount_group->uuid)
                 ->withTrashed()
                 ->first();
 
-            $buy_and_pay_order_base_discount_group = ($buy_and_pay_order_base_discount_group) ? $buy_and_pay_order_base_discount_group : new BuyAndPayOrderBaseDiscountGroup;
+            $buy_and_pay_order_base_discount_group = ($buy_and_pay_order_base_discount_group) ? $buy_and_pay_order_base_discount_group : new PurchaseOrderBaseDiscountGroup;
             $buy_and_pay_order_base_discount_group->bp_order_uuid = $order->uuid;
             $buy_and_pay_order_base_discount_group->company_id = $auth->company_id;
             $buy_and_pay_order_base_discount_group->supplier_uuid = $supplier_base_discount_group->supplier_uuid;
@@ -200,12 +200,12 @@ class BuyAndPayOrderController extends Controller
             
             foreach ($supplier_base_discount_group_details as $supplier_base_discount_group_detail) {
 
-                $buy_and_pay_order_base_discount_group_detail = BuyAndPayOrderBaseDiscountGroupDetail::where('bp_order_uuid','=', $order->uuid)
+                $buy_and_pay_order_base_discount_group_detail = PurchaseOrderBaseDiscountGroupDetail::where('bp_order_uuid','=', $order->uuid)
                     ->where('bp_order_base_discount_group_uuid','=', $buy_and_pay_order_base_discount_group->uuid)
                     ->withTrashed()
                     ->first();
 
-                $buy_and_pay_order_base_discount_group_detail = ($buy_and_pay_order_base_discount_group_detail) ? $buy_and_pay_order_base_discount_group_detail : new BuyAndPayOrderBaseDiscountGroupDetail;
+                $buy_and_pay_order_base_discount_group_detail = ($buy_and_pay_order_base_discount_group_detail) ? $buy_and_pay_order_base_discount_group_detail : new PurchaseOrderBaseDiscountGroupDetail;
 
                 $buy_and_pay_order_base_discount_group_detail->company_id = $auth->company_id;
                 $buy_and_pay_order_base_discount_group_detail->bp_order_base_discount_group_uuid = $buy_and_pay_order_base_discount_group->uuid;
@@ -220,12 +220,12 @@ class BuyAndPayOrderController extends Controller
 
                 foreach ($supplier_base_discount_group_items as $supplier_base_discount_group_item) {
 
-                    $buy_and_pay_order_base_discount_group_item = BuyAndPayOrderBaseDiscountGroupItem::where('bp_order_uuid','=', $order->uuid)
+                    $buy_and_pay_order_base_discount_group_item = PurchaseOrderBaseDiscountGroupItem::where('bp_order_uuid','=', $order->uuid)
                         ->where('bp_order_base_discount_group_detail_uuid','=',$buy_and_pay_order_base_discount_group_detail->uuid)
                         ->withTrashed()
                         ->first();
 
-                    $buy_and_pay_order_base_discount_group_item = new BuyAndPayOrderBaseDiscountGroupItem;
+                    $buy_and_pay_order_base_discount_group_item = new PurchaseOrderBaseDiscountGroupItem;
 
                     $buy_and_pay_order_base_discount_group_item->company_id = $auth->company_id;
                     $buy_and_pay_order_base_discount_group_item->bp_order_uuid = $order->uuid;
@@ -251,13 +251,13 @@ class BuyAndPayOrderController extends Controller
             ->where('date_end','>=',$po_date)
             ->get();
 
-        $delete = BuyAndPayPriceRule::where('company_id','=', $auth->company_id)->where('bp_order_uuid','=',$order->uuid)->forceDelete();
-        $delete = BuyAndPayPriceRuleDetail::where('company_id','=', $auth->company_id)->where('bp_order_uuid','=',$order->uuid)->forceDelete();
-        $delete = BuyAndPayPriceRuleItem::where('company_id','=', $auth->company_id)->where('bp_order_uuid','=',$order->uuid)->forceDelete();
+        $delete = PurchasePriceRule::where('company_id','=', $auth->company_id)->where('bp_order_uuid','=',$order->uuid)->forceDelete();
+        $delete = PurchasePriceRuleDetail::where('company_id','=', $auth->company_id)->where('bp_order_uuid','=',$order->uuid)->forceDelete();
+        $delete = PurchasePriceRuleItem::where('company_id','=', $auth->company_id)->where('bp_order_uuid','=',$order->uuid)->forceDelete();
     
         foreach ($price_rule_suppliers as $price_rule_supplier) {
             
-            $buy_and_pay_price_rule = new BuyAndPayPriceRule;
+            $buy_and_pay_price_rule = new PurchasePriceRule;
             $buy_and_pay_price_rule->company_id     = $auth->company_id;
             $buy_and_pay_price_rule->price_rule_supplier_uuid   = $price_rule_supplier->uuid;
             $buy_and_pay_price_rule->bp_order_uuid              = $order->uuid;
@@ -273,7 +273,7 @@ class BuyAndPayOrderController extends Controller
 
             foreach ($price_rule_supplier_details as $price_rule_supplier_detail) {
                 
-                $buy_and_pay_price_rule_detail = new BuyAndPayPriceRuleDetail;
+                $buy_and_pay_price_rule_detail = new PurchasePriceRuleDetail;
                 $buy_and_pay_price_rule_detail->company_id                  = $auth->company_id;
                 $buy_and_pay_price_rule_detail->bp_order_uuid               = $order->uuid;
                 $buy_and_pay_price_rule_detail->bp_price_rule_uuid          = $buy_and_pay_price_rule->uuid;
@@ -284,7 +284,7 @@ class BuyAndPayOrderController extends Controller
                 $price_rule_supplier_items = PriceRuleSupplierItem::where('price_rule_supplier_detail_uuid','=',$price_rule_supplier_detail->uuid)->get();
                 
                 foreach ($price_rule_supplier_items as $price_rule_supplier_item) {
-                    $buy_and_pay_price_rule_item = new BuyAndPayPriceRuleItem;
+                    $buy_and_pay_price_rule_item = new PurchasePriceRuleItem;
                     $buy_and_pay_price_rule_item->company_id                    = $auth->company_id;
                     $buy_and_pay_price_rule_item->bp_order_uuid                 = $order->uuid;
                     $buy_and_pay_price_rule_item->bp_price_rule_detail_uuid     = $buy_and_pay_price_rule_detail->uuid;
@@ -297,14 +297,14 @@ class BuyAndPayOrderController extends Controller
 
     public function deleteOrder()
     {
-        $orders = BuyAndPayOrder::find(request()->uuid)->delete();
+        $orders = PurchaseOrder::find(request()->uuid)->delete();
 
         return response()->json(['success' => 1, 'message' => 'Deleted!'], 200);
     }
 
     public function getOrderDetails($orderUUID)
     {
-        $order = BuyAndPayOrder::find($orderUUID);
+        $order = PurchaseOrder::find($orderUUID);
         $supplier = SupplierList::find($order->supplier_uuid);
         $order->supplier = $supplier;
 
@@ -314,10 +314,10 @@ class BuyAndPayOrderController extends Controller
         $branch_location = CompanyBranchLocation::find($order->branch_locations_uuid);
         $order->branch_location = $branch_location;
 
-        $discount_groups = BuyAndPayOrderBaseDiscountGroup::where('bp_order_uuid','=',$orderUUID)->get();
+        $discount_groups = PurchaseOrderBaseDiscountGroup::where('bp_order_uuid','=',$orderUUID)->get();
         $order->discount_groups = $discount_groups;
 
-        $additional_discounts = BuyAndPayOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->get();
+        $additional_discounts = PurchaseOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->get();
         $order->additional_discounts = $additional_discounts;
 
         return response()->json(['success' => 1, 'data' => $order], 200);
@@ -325,13 +325,13 @@ class BuyAndPayOrderController extends Controller
 
     public function getOrderSupplierItems($orderUUID)
     {
-        $order = BuyAndPayOrder::find($orderUUID);
+        $order = PurchaseOrder::find($orderUUID);
         
-        $buy_and_pay_order_base_discount_group_count = BuyAndPayOrderBaseDiscountGroup::where('bp_order_uuid','=',$orderUUID)->count();
+        $buy_and_pay_order_base_discount_group_count = PurchaseOrderBaseDiscountGroup::where('bp_order_uuid','=',$orderUUID)->count();
 
         if ($buy_and_pay_order_base_discount_group_count > 0) {
             // only get items on selected supplier discount groups table
-            $buy_and_pay_order_base_discount_group_item_uuids = BuyAndPayOrderBaseDiscountGroupItem::where('bp_order_uuid',$order->uuid)->pluck('item_uuid')->toArray();
+            $buy_and_pay_order_base_discount_group_item_uuids = PurchaseOrderBaseDiscountGroupItem::where('bp_order_uuid',$order->uuid)->pluck('item_uuid')->toArray();
             $items = ItemList::whereIn('uuid',$buy_and_pay_order_base_discount_group_item_uuids)->get();
         } else {
             $item_ids = ItemSupplier::where('supplier_uuid','=',$order->supplier_uuid)->pluck('item_uuid')->toArray();
@@ -342,19 +342,19 @@ class BuyAndPayOrderController extends Controller
         foreach ($items as $item) {
 
             // get all item base discounts
-            $buy_and_pay_order_base_discount_group_item_uuids = BuyAndPayOrderBaseDiscountGroupItem::where('bp_order_uuid','=',$orderUUID)
+            $buy_and_pay_order_base_discount_group_item_uuids = PurchaseOrderBaseDiscountGroupItem::where('bp_order_uuid','=',$orderUUID)
                 ->where('item_uuid','=',$item->uuid)
                 ->pluck('bp_order_base_discount_group_detail_uuid')
                 ->toArray();
 
-            $item->base_discounts = BuyAndPayOrderBaseDiscountGroupDetail::whereIn('uuid',$buy_and_pay_order_base_discount_group_item_uuids)->with('OrderBaseDiscountGroup')->get();
+            $item->base_discounts = PurchaseOrderBaseDiscountGroupDetail::whereIn('uuid',$buy_and_pay_order_base_discount_group_item_uuids)->with('OrderBaseDiscountGroup')->get();
             
-            $buy_and_pay_price_rule_item_uuids = BuyAndPayPriceRuleItem::where('bp_order_uuid','=',$orderUUID)
+            $buy_and_pay_price_rule_item_uuids = PurchasePriceRuleItem::where('bp_order_uuid','=',$orderUUID)
                 ->where('item_uuid','=',$item->uuid)
                 ->pluck('bp_price_rule_detail_uuid')
                 ->toArray();
             
-            $item->price_rule_discounts = BuyAndPayPriceRuleDetail::whereIn('uuid',$buy_and_pay_price_rule_item_uuids)->orWhere('applied_to','=','all')->with('PriceRule')->get();
+            $item->price_rule_discounts = PurchasePriceRuleDetail::whereIn('uuid',$buy_and_pay_price_rule_item_uuids)->orWhere('applied_to','=','all')->with('PriceRule')->get();
             
 
             $uoms = ItemUom::leftJoin('global_uom','global_uom_uuid','=','global_uom.uuid')
@@ -375,7 +375,7 @@ class BuyAndPayOrderController extends Controller
             $item->total_amount     = 0.00;
             $item->item_rate        = 0.00;
             
-            $order_detail = BuyAndPayOrderDetail::where('bp_order_uuid','=',$orderUUID)->where('item_uuid','=',$item->uuid)->first();
+            $order_detail = PurchaseOrderDetail::where('bp_order_uuid','=',$orderUUID)->where('item_uuid','=',$item->uuid)->first();
             
             if ($order_detail) {
                 $item->quantity         = $order_detail->order_qty;
@@ -390,7 +390,7 @@ class BuyAndPayOrderController extends Controller
             }
         }
 
-        $selected_items = $order_detail = BuyAndPayOrderDetail::where('bp_order_uuid','=',$orderUUID)->get();
+        $selected_items = $order_detail = PurchaseOrderDetail::where('bp_order_uuid','=',$orderUUID)->get();
 
         return response()->json(['success' => 1, 'rows' => $items, 'selected_items' => $selected_items], 200);
     }

@@ -396,6 +396,9 @@
                                                    
                                                         <div class="form-group pl-3" style="margin: 0 !important; display: flex; align-items: center;">
                                                             <label class="form-label m-0" for="transfer-price">Transfer Price:</label>
+                                                            <div class="form-control-wrap">
+                                                                <input v-model="formdata.sales_price" type="text" class="form-control" id="transfer-price" readonly="disabled">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -449,7 +452,7 @@
 
 
                             <div class="tab-pane" id="supplier-discounts">
-                                <item-discounts :properties="{data:formdata}" :view_mode="view_mode" ref="itemDiscounts"></item-discounts>
+                                <discounts :properties="{data:formdata}" :view_mode="view_mode" ref="itemDiscounts"></discounts>
                             </div>   
                         </div>
                     </div>
@@ -462,7 +465,7 @@
 <script>
 
 import Swal from 'sweetalert2'
-import ItemDiscounts from './item-discounts'
+import Discounts from './discounts'
 
 export default {
     name: 'item-list',
@@ -534,6 +537,8 @@ export default {
             global_uoms: [],
             item_uoms: [],
 
+            transfer_price: '',
+
             formdata: { 
                 uuid: null,
                 is_draft: 1,
@@ -601,7 +606,7 @@ export default {
       }
     },
     components: {
-        'item-discounts' : ItemDiscounts
+        'discounts' : Discounts
     },
     methods: {
 

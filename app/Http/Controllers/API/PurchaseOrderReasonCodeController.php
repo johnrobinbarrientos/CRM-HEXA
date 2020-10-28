@@ -4,19 +4,20 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller; 
 
-use App\Models\BuyAndPayOrderReasonCode; 
+use App\Models\PurchaseOrderReasonCode; 
 use Illuminate\Support\Facades\Auth; 
 
-class BuyAndPayOrderReasonCodeController extends Controller
+class PurchaseOrderReasonCodeController extends Controller
 {
     public function getReasonCode()
     {
-        $list = BuyAndPayOrderReasonCode::whereNull('deleted_at');
+        $list = PurchaseOrderReasonCode::whereNull('deleted_at');
 
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;
             $list = $list->where(function($query) use ($keyword) {
-                $query->where('reason_code','LIKE','%'.$keyword.'%');
+                $query->where('short_name','LIKE','%'.$keyword.'%')
+                ->orWhere('details','LIKE','%'.$keyword.'%');
             });
         }
 
@@ -36,20 +37,21 @@ class BuyAndPayOrderReasonCodeController extends Controller
 
     public function saveReasonCode()
     {
-        $reasonCode = request()->uuid ? BuyAndPayOrderReasonCode::find(request()->uuid) : new BuyAndPayOrderReasonCode();
+        $reasonCode = request()->uuid ? PurchaseOrderReasonCode::find(request()->uuid) : new PurchaseOrderReasonCode();
         $auth = \Auth::user();
         $reasonCode->company_id = $auth->company_id;
-        $reasonCode->reason_code = request()->reason_code;
+        $reasonCode->short_name = strtoupper(request()->short_name);
+        $reasonCode->details = request()->details;
         $reasonCode->save();
 
-        $reasonCode = BuyAndPayOrderReasonCode::find($reasonCode->uuid);
+        $reasonCode = PurchaseOrderReasonCode::find($reasonCode->uuid);
 
         return response()->json(['success' => 1, 'rows' => $reasonCode], 200);
     }
 
     public function deleteReasonCode()
     {
-        $reasonCode = BuyAndPayOrderReasonCode::find(request()->uuid)->delete();
+        $reasonCode = PurchaseOrderReasonCode::find(request()->uuid)->delete();
 
         return response()->json(['success' => 1, 'message' => 'Deleted!'], 200);
     }

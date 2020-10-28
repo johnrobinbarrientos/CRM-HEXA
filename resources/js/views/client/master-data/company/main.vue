@@ -45,37 +45,37 @@
 
                 <div class="tab-content">    
                     <div class="tab-pane active" id="company-details">        
-                        <company-details></company-details>   
+                        <details></details>   
                     </div>
                     <div class="tab-pane" id="department">        
-                        <company-department></company-department>    
+                        <department></department>    
                     </div>
                     <div class="tab-pane" id="company-branch">        
-                        <company-branch></company-branch>    
+                        <branch></branch>    
                     </div>
                     <div class="tab-pane" id="company-locations">        
-                        <company-branch-location></company-branch-location>    
+                        <branch-location></branch-location>    
                     </div> 
                     <div class="tab-pane" id="chart-of-accounts">        
-                        <company-coa></company-coa>    
+                        <coa></coa>    
                     </div> 
                     <div class="tab-pane" id="account-group">        
-                        <company-coa-account-group></company-coa-account-group>    
+                        <coa-account-group></coa-account-group>    
                     </div> 
                     <div class="tab-pane" id="report-group">        
-                        <company-coa-report-group></company-coa-report-group>    
+                        <coa-report-group></coa-report-group>    
                     </div>
                     <div class="tab-pane" id="payment-terms">        
-                        <company-payment-terms></company-payment-terms>    
+                        <payment-terms></payment-terms>    
                     </div> 
                     <div class="tab-pane" id="taxation-table">        
-                        <company-taxation></company-taxation>    
+                        <taxation></taxation>    
                     </div> 
                     <div class="tab-pane" id="system-users">
                         <!-- <employment-type></employment-type>     -->          
                     </div>    
                     <div class="tab-pane" id="accounting-period">
-                        <company-accounting-period></company-accounting-period>              
+                        <accounting-period></accounting-period>              
                     </div>
                 </div>
 
@@ -85,16 +85,16 @@
 </template>
 
 <script>
-import CompanyDetails from './company-details'
-import CompanyBranch from './company-branch'
-import CompanyBranchLocation from './company-branch-location'
-import CompanyChartOfAccounts from './company-coa'
-import CompanyAccountGroup from './company-coa-account-group'
-import CompanyReportGroup from './company-coa-report-group'
-import CompanyPaymentTerms from './company-payment-terms'
-import CompanyTaxation from './company-taxation'
-import CompanyDepartment from './company-department'
-import AccountingPeriod from './company-accounting-period'
+import Details from './details'
+import Branch from './branch'
+import BranchLocation from './branch-location'
+import ChartOfAccounts from './coa'
+import AccountGroup from './coa-account-group'
+import ReportGroup from './coa-report-group'
+import PaymentTerms from './payment-terms'
+import Taxation from './taxation'
+import Department from './department'
+import AccountingPeriod from './accounting-period'
 
 
 export default {
@@ -104,16 +104,16 @@ export default {
         }
     },
     components: {
-        'company-details': CompanyDetails,
-        'company-branch': CompanyBranch,
-        'company-branch-location': CompanyBranchLocation,
-        'company-coa': CompanyChartOfAccounts,
-        'company-coa-account-group': CompanyAccountGroup,
-        'company-coa-report-group': CompanyReportGroup,
-        'company-payment-terms': CompanyPaymentTerms,
-        'company-taxation': CompanyTaxation,
-        'company-department': CompanyDepartment,
-        'company-accounting-period': AccountingPeriod
+        'details': Details,
+        'branch': Branch,
+        'branch-location': BranchLocation,
+        'coa': ChartOfAccounts,
+        'coa-account-group': AccountGroup,
+        'coa-report-group': ReportGroup,
+        'payment-terms': PaymentTerms,
+        'taxation': Taxation,
+        'department': Department,
+        'accounting-period': AccountingPeriod
 
     },
         mounted() {

@@ -13,10 +13,10 @@
 
                 <div class="tab-content">    
                     <div class="tab-pane active" id="customer-list">        
-                        <customer-list></customer-list>   
+                        <list></list>   
                     </div>    
                     <div class="tab-pane" id="customer-group">        
-                        <customer-group></customer-group>    
+                        <group></group>    
                     </div>   
                 </div>
             </div>
@@ -25,13 +25,13 @@
 </template>
 
 <script>
-import CustomerList from './customer-list'
-import CustomerGroup from './customer-group'
+import List from './list'
+import Group from './group'
 
 export default {
     components: {
-        'customer-list': CustomerList,
-        'customer-group': CustomerGroup
+        'list': List,
+        'group': Group
     }
 }
 </script>
