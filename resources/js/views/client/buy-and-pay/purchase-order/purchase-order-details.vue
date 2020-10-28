@@ -728,7 +728,6 @@ export default {
             scope.selected_items = []
 
             scope.GET('buy-and-pay/orders/' + order_uuid + '/supplier-items').then(res => {
-                console.log('aaaa',scope.options_items)
                 scope.items = res.rows
                 var selected = res.selected_items
 

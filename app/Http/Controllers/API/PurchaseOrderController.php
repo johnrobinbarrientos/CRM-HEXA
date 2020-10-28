@@ -86,6 +86,7 @@ class PurchaseOrderController extends Controller
             $order->po_no = $id;
         }
 
+        $order->item_group_uuid = request()->item_group_uuid;
         $order->asset_group_uuid = request()->asset_group_uuid;
         $order->term = request()->term;
         $order->date_purchased = request()->date_purchased;

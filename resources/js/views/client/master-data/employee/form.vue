@@ -604,9 +604,6 @@ export default {
             let reader = new FileReader()
             scope.picture_file = this.$refs.fileInput.files[0]
 
-            console.log('asdfsfdsfgdsgsg')
-            console.log(scope.picture_file)
-
             reader.onload = function () {
             const image = new Image()
             image.src = reader.result.toString()
