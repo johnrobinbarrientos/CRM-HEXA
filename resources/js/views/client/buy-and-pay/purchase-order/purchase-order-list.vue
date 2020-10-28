@@ -59,8 +59,8 @@
                             <td v-if="purchase.po_status === 'PENDING RECEIPT'" style="text-align:center;" class="editable">
                                 <i class="mdi mdi-circle text-danger align-middle mr-1"></i><span>PENDING RECEIPT</span>
                             </td>
-                            <td v-else-if="purchase.po_status === 'PARTIALLY RECIEVED'" style="text-align:center;" class="editable">
-                                <i class="mdi mdi-circle text-warning align-middle mr-1"></i><span>PARTIALLY RECIEVED</span>
+                            <td v-else-if="purchase.po_status === 'PARTIALLY RECEIVED'" style="text-align:center;" class="editable">
+                                <i class="mdi mdi-circle text-warning align-middle mr-1"></i><span>PARTIALLY RECEIVED</span>
                             </td>
                             <td v-else-if="purchase.po_status === 'COMPLETED'" style="text-align:center;" class="editable">
                                 <i class="mdi mdi-circle text-success align-middle mr-1"></i><span>COMPLETED</span>

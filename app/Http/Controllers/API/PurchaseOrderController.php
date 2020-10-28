@@ -44,7 +44,8 @@ class PurchaseOrderController extends Controller
 {
     public function getOrders()
     {
-        $lists = PurchaseOrder::whereNull('deleted_at')->with('Supplier')->with('OrderReasonCode')->with('ItemGroup')->with('ItemAssetGroup');
+        $lists = PurchaseOrder::whereNull('deleted_at')->with('Supplier')->with('OrderReasonCode')
+        ->with('ItemGroup')->with('ItemAssetGroup')->with('Branch')->with('BranchLocation');
 
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;

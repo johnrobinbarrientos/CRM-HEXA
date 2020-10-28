@@ -41,7 +41,6 @@ import AdminChartofAccounts from './views/admin/settings/admin-chart-of-accounts
 import AdminCostCenter from './views/admin/settings/admin-cost-center'
 
 import PurchaseOrderMain from './views/client/buy-and-pay/purchase-order/purchase-order-main'
-import PurchaseOrderList from './views/client/buy-and-pay/purchase-order/purchase-order-list'
 import PurchaseOrderCreate from './views/client/buy-and-pay/purchase-order/purchase-order-create'
 import PurchaseOrderDetails from './views/client/buy-and-pay/purchase-order/purchase-order-details'
 

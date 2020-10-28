@@ -12,8 +12,8 @@ class PurchaseOrder extends Model
     protected $table = 'purchase_orders';
 
     protected $fillable = [
-        'uuid', 'company_id', 'po_no','recieving_no','billing_no','item_group_uuid','asset_group_uuid','item_discount_group_uuid',
-        'term','date_purchased','date_expected','date_recieved','date_billed','date_due','memo','supplier_uuid','po_status',
+        'uuid', 'company_id', 'po_no','receiving_no','billing_no','item_group_uuid','asset_group_uuid','item_discount_group_uuid',
+        'term','date_purchased','date_expected','date_received','date_billed','date_due','memo','supplier_uuid','po_status',
         'billing_status','orders_reason_code_uuid','recieving_reason_code','is_apply_tax','branch_uuid','branch_locations_uuid',
     ];
 
@@ -45,6 +45,14 @@ class PurchaseOrder extends Model
 
     public function OrderReasonCode(){
         return $this->belongsTo('App\Models\PurchaseOrderReasonCode','orders_reason_code_uuid','uuid');
+    }
+
+    public function Branch(){
+        return $this->belongsTo('App\Models\CompanyBranch','branch_uuid','uuid');
+    }
+
+    public function BranchLocation(){
+        return $this->belongsTo('App\Models\CompanyBranchLocation','branch_locations_uuid','uuid');
     }
    
 }
