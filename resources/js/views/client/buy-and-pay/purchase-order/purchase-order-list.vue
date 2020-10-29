@@ -76,8 +76,11 @@
                             <td v-else-if="purchase.po_status === 'PARTIALLY RECEIVED'" style="text-align:center;" class="editable">
                                 <i class="mdi mdi-circle text-warning align-middle mr-1"></i><span>PARTIALLY RECEIVED</span>
                             </td>
-                            <td v-else-if="purchase.po_status === 'COMPLETED'" style="text-align:center;" class="editable">
-                                <i class="mdi mdi-circle text-success align-middle mr-1"></i><span>COMPLETED</span>
+                            <td v-else-if="purchase.po_status === 'CANCELLED'" style="text-align:center;" class="editable">
+                                <i class="mdi mdi-circle text-muted align-middle mr-1"></i><span>CANCELLED</span>
+                            </td>
+                            <td v-else-if="purchase.po_status === 'FULLY RECEIVED'" style="text-align:center;" class="editable">
+                                <i class="mdi mdi-circle text-success align-middle mr-1"></i><span>FULLY RECEIVED</span>
                             </td>
 
                             <!-- <td>None</td> -->
