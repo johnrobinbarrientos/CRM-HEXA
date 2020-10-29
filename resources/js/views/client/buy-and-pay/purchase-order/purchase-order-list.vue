@@ -32,11 +32,15 @@
                         <tr>
                             <th>Actions</th>
                             <th>#</th>
-                            <th>PR Type</th>
+                            <th>PO Type</th>
                             <th>PO No.</th>
+                            <th>Supplier Name</th>
+                            <th>Branch</th>
                             <th>PO Date</th>
-                            <th>Supplier</th>    
-                            <th>Amount</th> 
+                            <th>Expected Date</th>
+                            <th>Payment Term</th>
+                            <th>Total Amount</th>
+                            <th>Memo</th> 
                             <th>Status</th> 
                             <th>Reason Code</th> 
                         </tr>
@@ -52,10 +56,20 @@
                             <td width="50">{{ (index + 1) }}</td>
                             <td width="100">{{ purchase.item_group.item_group }}</td>
                             <td width="200">{{ purchase.po_no }}</td>
-                            <td width="100">{{ purchase.date_purchased }}</td>
                             <td class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
+                            <td>{{ purchase.branch.branch_name }}</td>
+                            <td width="100">{{ purchase.date_purchased }}</td>
+                            <td>{{ purchase.date_expected }}</td>
+                            
+                            <td v-if="purchase.term > 1" class="text-center">{{ purchase.term }} Days</td>
+                            <td v-else-if ="purchase.term === 1" class="text-center">{{ purchase.term }} Day</td>
+                            <td v-else></td>
+
                             <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
                             <td v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
+
+                            <td>{{ purchase.memo }}</td>
+
                             <td v-if="purchase.po_status === 'PENDING RECEIPT'" style="text-align:center;" class="editable">
                                 <i class="mdi mdi-circle text-danger align-middle mr-1"></i><span>PENDING RECEIPT</span>
                             </td>
