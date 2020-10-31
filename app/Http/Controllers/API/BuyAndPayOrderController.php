@@ -100,8 +100,8 @@ class BuyAndPayOrderController extends Controller
 
         $order = BuyAndPayOrder::find($order->uuid);
 
-        $this->saveBaseDiscounts($order, $is_new);
-        $this->savePriceRuleDiscounts($order, $is_new);
+        $this->saveBaseDiscounts($order);
+        $this->savePriceRuleDiscounts($order);
 
         $po_date = date('Y-m-d',strtotime(request()->date_purchased));
 
@@ -141,42 +141,10 @@ class BuyAndPayOrderController extends Controller
         return $prefix;
     }
 
-    public function saveBaseDiscounts($order, $is_new)
+    public function saveBaseDiscounts($order)
     {
         $auth = \Auth::user();
         
-        // delete all existing discounts for reset
-        if (!$is_new) {
-            $supplier_base_discount_group_uuids = request()->selected_supplier_discount_groups;
-           
-            // get list of discount group that are no longer included on update
-            $buy_and_pay_order_base_discount_group_uuids = BuyAndPayOrderBaseDiscountGroup::where('bp_order_uuid','=',$order->uuid)
-                ->whereNotIn('supplier_base_discount_group_uuid',$supplier_base_discount_group_uuids)
-                ->pluck('uuid')->toArray();
-
-            $buy_and_pay_order_base_discount_group_detail_uuids = BuyAndPayOrderBaseDiscountGroupDetail::where('bp_order_uuid','=',$order->uuid)
-                ->whereIn('bp_order_base_discount_group_uuid',$buy_and_pay_order_base_discount_group_uuids)
-                ->pluck('uuid')->toArray();
-
-
-            $buy_and_pay_order_base_discount_group_item_uuids = BuyAndPayOrderBaseDiscountGroupItem::where('bp_order_uuid','=',$order->uuid)
-                ->whereIn('bp_order_base_discount_group_detail_uuid',$buy_and_pay_order_base_discount_group_detail_uuids)
-                ->pluck('uuid')->toArray();
-                
-
-            $delete = BuyAndPayOrderBaseDiscountGroup::whereIn('uuid',$buy_and_pay_order_base_discount_group_uuids)
-                ->where('bp_order_uuid','=',$order->uuid)
-                ->delete();
-
-            $delete = BuyAndPayOrderBaseDiscountGroupDetail::whereIn('uuid',$buy_and_pay_order_base_discount_group_detail_uuids)
-                ->where('bp_order_uuid','=',$order->uuid)
-                ->delete();
-
-            $delete = BuyAndPayOrderBaseDiscountGroupItem::whereIn('uuid',$buy_and_pay_order_base_discount_group_item_uuids)
-                ->where('bp_order_uuid','=',$order->uuid)
-                ->delete();
-        }
-
         $supplier_base_discount_group_uuids = request()->selected_supplier_discount_groups;
         $supplier_base_discount_groups = SupplierBaseDiscountGroup::whereIn('uuid',$supplier_base_discount_group_uuids)->get();
 
@@ -239,11 +207,10 @@ class BuyAndPayOrderController extends Controller
         }
     }
 
-    public function savePriceRuleDiscounts($order, $is_new)
+    public function savePriceRuleDiscounts($order)
     {
         $auth = \Auth::user();
         
-
         $po_date = date('Y-m-d',strtotime(request()->date_purchased));
 
         $price_rule_suppliers = PriceRuleSupplier::where('company_id','=',$auth->company_id)
@@ -251,10 +218,6 @@ class BuyAndPayOrderController extends Controller
             ->where('date_end','>=',$po_date)
             ->get();
 
-        $delete = BuyAndPayPriceRule::where('company_id','=', $auth->company_id)->where('bp_order_uuid','=',$order->uuid)->forceDelete();
-        $delete = BuyAndPayPriceRuleDetail::where('company_id','=', $auth->company_id)->where('bp_order_uuid','=',$order->uuid)->forceDelete();
-        $delete = BuyAndPayPriceRuleItem::where('company_id','=', $auth->company_id)->where('bp_order_uuid','=',$order->uuid)->forceDelete();
-    
         foreach ($price_rule_suppliers as $price_rule_supplier) {
             
             $buy_and_pay_price_rule = new BuyAndPayPriceRule;

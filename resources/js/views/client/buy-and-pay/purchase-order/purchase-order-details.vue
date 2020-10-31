@@ -17,7 +17,109 @@
 
             <div class="row">
                 <div class="col-md-8 col-12">
-                     <purchase-order-form :form="'inline'" :order="order"></purchase-order-form>
+                    <h4 style="margin-bottom:20px;">Information</h4>
+                <div class="row">
+                    <div class="col-md-3 col-12">
+                        <div>
+                            <strong>Transaction Type:</strong>
+                            <div style="margin-bottom:10px;">Purchase Order</div>
+                        </div>
+
+                        <div>
+                            <strong>Reference #:</strong>
+                            <div style="margin-bottom:10px;">{{ order.po_no }}</div>
+                        </div>
+
+                        <div>
+                            <strong>Branch:</strong>
+                            <div style="margin-bottom:10px;">{{ order.branch.branch_name }}</div>
+                        </div>
+
+                        
+                        
+
+                    </div>
+
+                    <div class="col-md-3 col-12">
+
+                        <div>
+                            <strong>Branch Location:</strong>
+                            <div style="margin-bottom:10px;" v-show="!edit">{{ order.branch_location.location_name }}</div>
+                            <div style="margin-bottom:10px; margin-top:5px;" v-show="edit">
+                                <select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="branch-location">
+                                </select>
+                            </div>
+                        </div>
+
+                        
+                        
+                        <div>
+                            <strong>Supplier:</strong>
+                            <div style="margin-bottom:10px;" v-show="!edit">{{ order.supplier.supplier_name }}</div>
+                            <div style="margin-bottom:10px; margin-top:5px;" v-show="edit">
+                                <select class="form-select-supplier" v-model="selected_supplier" :options="options_supplier" name="supplier">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <strong>Discount Group:</strong>
+                            <div style="margin-bottom:10px;" v-show="!edit">
+                                <span v-for="(discount_group, index) in order.discount_groups" :key="discount_group.uuid" class="badge badge-pill badge-info mr-1">
+                                    {{ discount_group.group_name }}
+                                </span>
+                            </div>
+                            <div style="margin-bottom:10px; margin-top:5px;" v-show="edit">
+                                <select class="form-select-supplier-discount-group" multiple="multiple" v-model="selected_item_discount_group" :options="options_item_discount_group" name="discount-group">
+                                </select>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+
+
+                    <div class="col-md-3 col-12">
+                        <div>
+                            <strong>Term:</strong>
+                            <div style="margin-bottom:10px;">{{ order.term || '-' }}</div>
+                        </div>
+
+                        <div>
+                            <strong>Date Purchased:</strong>
+                            <div style="margin-bottom:10px;" v-show="!edit">{{ order.date_purchased }}</div>
+                            <div style="margin-bottom:10px; margin-top:5px;" v-show="edit">
+                                <date-picker v-model="formdata.date_purchased" :config="{format: 'YYYY-MM-DD'}"></date-picker>
+                            </div>
+                        </div>
+                        <div>
+                            <strong>Date Expected:</strong>
+                            <div style="margin-bottom:10px;" v-show="!edit">{{ order.date_expected }}</div>
+                            <div style="margin-bottom:10px; margin-top:5px;" v-show="edit">
+                                <date-picker v-model="formdata.date_expected" :config="{format: 'YYYY-MM-DD'}"></date-picker>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+
+                    <div class="col-md-3 col-12">
+                        <div>
+                            <strong>Status:</strong>
+                            <div style="margin-bottom:10px; text-transform:capitalize;">{{ order.status }}</div>
+                        </div>
+                    </div>
+                    <div v-if="edit" class="col-md-12 col-12">
+                        <div style="margin-top:20px; text-align:right;">
+                            <button @click="toggleEdit()" style="display:inline-block; text-align:center;" type="button" class="hx-btn hx-btn-gray">
+                                <span >Cancel</span>
+                            </button>
+                            <button @click="save()" style="display:inline-block; text-align:center;" type="button" class="hx-btn hx-btn-shineblue">
+                                <span >Update</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 </div>
 
                 <div class="col-md-4 col-12">
@@ -767,7 +869,7 @@ export default {
                                 var current = scope.selected_items[i]
                                 if (current.barcode == suggestion.barcode) {
                                     scope.selectedItem = current
-                                    //$('#autocomplete').val('')
+                                    $('#autocomplete').val('')
                                     return
                                 }
                             }
@@ -777,8 +879,7 @@ export default {
                             var latest = scope.selected_items[index]
                             scope.selectedItem = latest
                             scope.calculate(latest)
-                            alert('aaa')
-                            //$('#autocomplete').val('')
+                            $('#autocomplete').val('')
                         },
                         beforeRender: function (container, suggestions) {
                             container.html('Searching..')
@@ -884,10 +985,7 @@ export default {
         scope.loadData()
 
         $(document).on('blur','#autocomplete',function(){
-            //$(this).val('')
-        })
-        $(document).on('click','.autocomplete-suggestion',function(){
-            alert('aaa')
+            $(this).val('')
         })
     },
 }
