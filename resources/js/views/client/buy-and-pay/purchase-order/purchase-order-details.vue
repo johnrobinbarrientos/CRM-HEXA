@@ -762,12 +762,12 @@ export default {
                     $('#autocomplete').autocomplete({
                         lookup: scope.options_items,
                         onSelect: function (suggestion) {
-                            
+                        
                             for (let i = 0; i < scope.selected_items.length; i++) {
                                 var current = scope.selected_items[i]
                                 if (current.barcode == suggestion.barcode) {
                                     scope.selectedItem = current
-                                    $('#autocomplete').val('')
+                                    //$('#autocomplete').val('')
                                     return
                                 }
                             }
@@ -777,7 +777,8 @@ export default {
                             var latest = scope.selected_items[index]
                             scope.selectedItem = latest
                             scope.calculate(latest)
-                            $('#autocomplete').val('')
+                            alert('aaa')
+                            //$('#autocomplete').val('')
                         },
                         beforeRender: function (container, suggestions) {
                             container.html('Searching..')
@@ -883,7 +884,10 @@ export default {
         scope.loadData()
 
         $(document).on('blur','#autocomplete',function(){
-            $(this).val('')
+            //$(this).val('')
+        })
+        $(document).on('click','.autocomplete-suggestion',function(){
+            alert('aaa')
         })
     },
 }
