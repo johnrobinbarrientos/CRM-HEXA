@@ -28,7 +28,7 @@
                 <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
             </div>
             <div v-else class="table-responsive"> 
-                <table class="table table-striped table-bordered">
+                <table class="table table-bordered">
                     <thead class="th-nowrap">
                         <tr>
                             <th>Actions</th>

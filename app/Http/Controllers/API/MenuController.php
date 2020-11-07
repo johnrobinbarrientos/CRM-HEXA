@@ -141,7 +141,7 @@ class MenuController extends Controller
         ];
 
         $menus[] = [
-            'text' => 'Super Admin Settings',
+            'text' => 'Super Admin',
             'route' => '#has-submenu',
             'icon' => 'bx bxs-cog',
             'submenus' => [

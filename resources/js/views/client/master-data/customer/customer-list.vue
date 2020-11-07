@@ -30,7 +30,7 @@
         </div>
 
         <div v-else class="table-responsive"> 
-            <table class="table table-striped table-bordered">
+            <table class="table table-bordered">
                 <thead class="th-nowrap">
                     <tr>
                         <th>Actions</th>
@@ -194,8 +194,5 @@ export default {
 </script>
 
 <style scoped>
-.table-tranx { table-layout: auto; }
-/*.table-items tr th { min-width:200px; width:auto; padding-left:10px; padding-right:10px; }*/
-.table-fixed-column { position:absolute; }
 .form-group { margin-top:10px !important; }
 </style>

@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="col-md-6 col-12 offset-md-1">
-                <table class="table table-striped table-bordered table-hover mb-0 table">
+                <table class="table table-bordered table-hover mb-0 table">
                     <tbody>
                         <template v-for="supplier in suppliers">
                             <tr class="table-info" :key="'supplier' + supplier.id">

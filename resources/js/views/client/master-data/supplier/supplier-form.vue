@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class="card">
-            <div style="padding: 10px 15px; background-color: var(--hexa-blue);">
-                <h5 class="mb-0" style="color: #fff;">General Information</h5>
+        <div class="card hx-card-override">
+            <div class="card-header">
+                <h5 class="mb-0">General Information</h5>
             </div>
             <div class="card-body">
                 <div class="actions-bar">
@@ -21,14 +21,14 @@
                     </div>
                     <div class="bar-right">
                         <span v-if ="view_mode">
-                            <a @click="ROUTE({path: '/suppliers/' + formdata.uuid })" style= "background-color:#548235" class="hx-btn hx-btn-primary" href="javascript:void(0)">Edit</a>
+                            <a @click="ROUTE({path: '/suppliers/' + formdata.uuid })" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Edit</a>
                             <a @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Delete</a>
-                            <a @click="ROUTE({path: '/supplier-main/' })" class="hx-btn hx-btn-primary" href="javascript:void(0)">Close</a>
+                            <a @click="ROUTE({path: '/supplier-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)">Close</a>
                         </span>
                         <span v-else>
-                            <a @click="ROUTE({path: '/supplier-main/' })" class="hx-btn hx-btn-danger" href="javascript:void(0)" >Cancel</a>
-                            <a v-if="formdata.is_draft" @click="save()" style= "background-color:#548235" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Save</a>
-                            <a v-else @click="update()" style= "background-color:#548235" type="submit" class="hx-btn hx-btn-primary" href="javascript:void(0)">Update</a>
+                            <a @click="ROUTE({path: '/supplier-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)"><span>Cancel</span></a>
+                            <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-shineblue" href="javascript:void(0)"><span>Save</span></a>
+                            <a v-else @click="update()" type="submit" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Update</a>
                         </span> 
                     </div>
                 </div>
@@ -110,9 +110,8 @@
                     </div>
 
                     <br/>
-                    <div style="border: 1px solid #ced4da; border-radius: .25rem;">
-                        <!-- <ul class="nav nav-tabs nav-tabs-custom" style="border-color: #eee;">    -->
-                            <ul class="nav nav-tabs nav-tabs-custom" style="background-color: var(--hexa-blue);">  
+                    <div class="hx-nav-tabs-override">
+                            <ul class="nav nav-tabs">  
                                 <li class="nav-item">        
                                     <a class="nav-link active" data-toggle="tab" href="#account">Financial Account</a>    
                                 </li>    
@@ -663,19 +662,3 @@ export default {
     },
 }
 </script>
-
-<style scoped>
-
-.nav-tabs-custom .nav-item .nav-link {
-    color: white;
-}
-.nav-tabs-custom .nav-item .nav-link.active {
-  color: black !important;
-}
-.nav-tabs-custom .nav-item .nav-link::after { content: none; }
-
-.table-tranx { table-layout: auto; }
-/*.table-items tr th { min-width:200px; width:auto; padding-left:10px; padding-right:10px; }*/
-.table-fixed-column { position:absolute; }
-.form-group { margin-top:10px !important; }
-</style>
