@@ -30,17 +30,18 @@
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th>Actions</th>
+                            <th>Action</th>
                             <th>#</th>
-                            <th>PO Type</th>
-                            <th>PO No.</th>
+                            <th>Item Type</th>
+                            <th>Transaction No.</th>
                             <th>Supplier Name</th>
                             <th>Branch</th>
-                            <th>PO Date</th>
+                            <th>Location</th>
+                            <th>Transaction Date</th>
                             <th>Expected Date</th>
+                            <th>Amount</th>
                             <th>Payment Term</th>
-                            <th>Total Amount</th>
-                            <th>Memo</th> 
+
                             <th>Status</th> 
                             <th>Reason Code</th> 
                         </tr>
@@ -49,7 +50,7 @@
                         <tr v-for="(purchase, index) in purchaseOrders" :key="purchase.uuid">
                             <td width="100" style="text-align:center;">
                                 <span class="w-65px d-block mx-auto">
-                                <a v-if ="purchase.po_status =='PENDING RECEIPT'" href="javascript:void(0)"  @click="ROUTE({path: '/purchase-orders/' + purchase.uuid })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-pencil"></i></a>
+                                <a v-if ="purchase.po_status =='To Receive'" href="javascript:void(0)"  @click="ROUTE({path: '/purchase-orders/' + purchase.uuid })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-pencil"></i></a>
                                 <a href="javascript:void(0)" @click="ROUTE({path: '/purchase-orders/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
                                 </span>
                             </td>
@@ -57,40 +58,58 @@
                             <td width="100">{{ purchase.item_group.item_group }}</td>
                             <td width="200">{{ purchase.po_no }}</td>
                             <td class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
-                            <td>{{ purchase.branch.branch_name }}</td>
-                            <td width="100">{{ purchase.date_purchased }}</td>
-                            <td>{{ purchase.date_expected }}</td>
+                            <td>{{ purchase.branch.branch_name.toUpperCase()}}</td>
+                            <td>{{ purchase.branch_location.location_shortname.toUpperCase()}}</td>
+                            <td width="100">{{ moment(purchase.date_purchased) }}</td>
+                            <td>{{ moment(purchase.date_expected) }}</td>
+
+                            <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
+                            <td v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
                             
                             <td v-if="purchase.term > 1" class="text-center">{{ purchase.term }} Days</td>
                             <td v-else-if ="purchase.term === 1" class="text-center">{{ purchase.term }} Day</td>
                             <td v-else></td>
-
-                            <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
-                            <td v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
-
-                            <td>{{ purchase.memo }}</td>
-
-                            <td v-if="purchase.po_status === 'PENDING RECEIPT'" style="text-align:center;" class="editable">
-                                <i class="mdi mdi-circle text-danger align-middle mr-1"></i><span>PENDING RECEIPT</span>
+                            
+                            <td v-if="purchase.po_status === 'To Receive'" style="text-align:center;" class="editable" width="150">
+                                <span class="badge badge-danger font-size-12">To Receive</span>
                             </td>
-                            <td v-else-if="purchase.po_status === 'PARTIALLY RECEIVED'" style="text-align:center;" class="editable">
-                                <i class="mdi mdi-circle text-warning align-middle mr-1"></i><span>PARTIALLY RECEIVED</span>
+                            <td v-else-if="purchase.po_status === 'Partially Received'" style="text-align:center;" class="editable">
+                                <span class="badge badge-warning font-size-12">Partially Received</span>
                             </td>
-                            <td v-else-if="purchase.po_status === 'CANCELLED'" style="text-align:center;" class="editable">
-                                <i class="mdi mdi-circle text-muted align-middle mr-1"></i><span>CANCELLED</span>
+                            <td v-else-if="purchase.po_status === 'Cancelled'" style="text-align:center;" class="editable">
+                                <span class="badge badge-secondary font-size-12">Cancelled</span>
                             </td>
-                            <td v-else-if="purchase.po_status === 'FULLY RECEIVED'" style="text-align:center;" class="editable">
-                                <i class="mdi mdi-circle text-success align-middle mr-1"></i><span>FULLY RECEIVED</span>
+                            <td v-else-if="purchase.po_status === 'Fully Received'" style="text-align:center;" class="editable">
+                                <span class="badge badge-success font-size-12">Fully Received</span>
                             </td>
 
-                            <!-- <td>None</td> -->
                             <td class="editable text-center">
                                 <span v-if="purchase.order_reason_code==null">None <i class="bx bx-pencil"></i></span>
-                                <span v-else>{{ purchase.order_reason_code.details }} <i class="bx bx-pencil"></i></span>
+                                <span v-else>{{ purchase.order_reason_code.short_name }} <i class="bx bx-pencil"></i></span>
                                 <select @change="changeReasonCode(purchase.uuid)" v-model="selected_reason_code" type="text" class="editable-control">
                                     <option :value="reasoncode.id " v-for="(reasoncode,index) in options_reason_code" :key="index">{{ reasoncode.text }}</option>
                                 </select>
                             </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <span><strong>Grand Total:</strong></span>
+                            </td>
+                            <td>
+                                <span v-if="grand_total==0"><strong>0.00</strong></span>
+                                <span v-else><strong>{{putSeparator(grand_total)}}</strong></span>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>
@@ -114,6 +133,7 @@ export default {
             options_reason_code: [],
 
             purchaseOrders: [],
+            grand_total: 0,
             listLoading: true,
             listCurrentPage: 1,
             listItemPerPage: 20,
@@ -133,6 +153,9 @@ export default {
         }
     },
     methods: {
+        moment: function (date) {
+            return moment(date).format('DD-MMM-YYYY')
+        },
         putSeparator: function(value) {
             var num_parts = value.toString().split(".");
             num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -145,6 +168,8 @@ export default {
             scope.purchaseOrders = []
             scope.GET('buy-and-pay/orders?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.purchaseOrders = res.rows
+                scope.grand_total = res.grand_total
+
                 scope.listLoading = false
                 scope.listCount = res.count
             })

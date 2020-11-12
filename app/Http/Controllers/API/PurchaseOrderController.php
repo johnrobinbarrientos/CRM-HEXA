@@ -67,6 +67,8 @@ class PurchaseOrderController extends Controller
 
 
         $x = 0;
+        $grand_total = 0;
+        
         foreach ($lists as $order) {
 
             $total_discount = PurchaseOrderAdditionalDiscount::whereNull('deleted_at')
@@ -77,10 +79,11 @@ class PurchaseOrderController extends Controller
             ->where('bp_order_uuid','=',$order->uuid)
             ->sum('total_amount');
             $lists[$x]['po_total_amount'] = $total_amount - $total_discount;
+            $grand_total = $grand_total + ($total_amount - $total_discount);
             $x++;
         }
         
-        return response()->json(['success' => 1, 'rows' => $lists, 'count' => $count], 200);
+        return response()->json(['success' => 1, 'rows' => $lists, 'count' => $count, 'grand_total' => $grand_total], 200);
     }
 
     public function saveOrder()
@@ -324,6 +327,7 @@ class PurchaseOrderController extends Controller
 
     public function getOrderDetails($orderUUID)
     {
+
         $order = PurchaseOrder::find($orderUUID);
         $supplier = SupplierList::find($order->supplier_uuid);
         $order->supplier = $supplier;

@@ -4,7 +4,7 @@
 
             <div class="actions-bar">
                 <div class="w-100">
-                    <h1 class="title">Purchase Orders</h1>
+                    <h1 class="title">Item Receipts</h1>
                 </div>
                     <div class="bar-right">
                         <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
@@ -16,9 +16,13 @@
                                 <option value="50">50</option>
                                 <option value="100">100</option>
                         </select>
-                        <a @click="ROUTE({path: '/purchase-orders/create' });" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                        <!-- <a @click="ROUTE({path: '/purchase-orders/create' });" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                            <i class="las la-plus"></i> <span>New</span>
+                        </a> -->
+                        <a href="javascript:void(0)" @click="OPEN_MODAL('#modalPurchaseList')" class="hx-btn hx-btn-shineblue" data-toggle="modal">
                             <i class="las la-plus"></i> <span>New</span>
                         </a>
+
                     </div>
             </div>
 
@@ -30,69 +34,80 @@
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th>Actions</th>
+                            <th>Action</th>
                             <th>#</th>
-                            <th>PR Type</th>
-                            <th>Reference No</th>
+                            <th>Item Type</th>
                             <th>Transaction No</th>
                             <th>Supplier Name</th>
                             <th>Branch</th>
-                            <th>PO Date</th>
-                            <th>Expected Date</th>
-                            <th>Received Date</th>
-                                
-                            <th>PO Amount</th>
-                            <th>Memo</th> 
+                            <th>Location</th>
+                            <th>Transaction Date</th>
+                            <th>Amount</th>
                             <th>Status</th> 
                             <th>Reason Code</th> 
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(purchase, index) in purchaseOrders" :key="purchase.uuid">
-                            <td width="100" style="text-align:center;">
-                                <span class="w-65px d-block mx-auto">
-                                <a v-if ="purchase.po_status =='PENDING RECEIPT'" href="javascript:void(0)"  @click="ROUTE({path: '/purchase-orders/' + purchase.uuid })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-pencil"></i></a>
-                                <a href="javascript:void(0)" @click="ROUTE({path: '/purchase-orders/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
-                                </span>
-                            </td>
-                            <td width="50">{{ (index + 1) }}</td>
-                            <td width="100">{{ purchase.item_group.item_group }}</td>
-                            <td width="200">{{ purchase.po_no }}</td>
-                            <td width="200">{{ purchase.receive_no }}</td>
-                            <td class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
-                            <td>{{ purchase.branch.branch_name }}</td>
-                            <td width="100">{{ purchase.date_purchased }}</td>
-                            <td width="100">{{ purchase.date_expected }}</td>
-                            <td width="100">{{ purchase.date_received }}</td>
+                        <tr v-for="(purchase, index) in receivedOrders" :key="purchase.uuid">
+                            <template v-if="purchase.po_status !== 'Cancelled'">
+                                <td width="100" style="text-align:center;">
+                                    <span class="w-65px d-block mx-auto">
+                                    <a v-if="purchase.po_status === 'To Receive'" href="javascript:void(0)"  @click="ROUTE({path: '/purchase-receipt-details/' + purchase.uuid })" class="btn btn-sm hx-btn-shineblue"><i class="las la-cart-plus"></i></a>
+                                    <a href="javascript:void(0)" @click="ROUTE({path: '/purchase-orders/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
+                                    </span>
+                                </td>
+                                <td width="50">{{ (index + 1) }}</td>
+                                <td width="100">{{ purchase.item_group.item_group }}</td>
+                                <td width="150">{{ purchase.receive_no }}</td>
+                                <td width="200" class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
+                                <td width="100">{{ purchase.branch.branch_name.toUpperCase() }}</td>
+                                <td>{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
+                                <td width="100">{{ purchase.date_received }}</td>
 
-                            <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
-                            <td v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
+                                <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
+                                <td v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
 
-                            <td>{{ purchase.memo }}</td>
+                                <td v-if="purchase.po_status === 'To Receive'" style="text-align:center;" class="editable" width="150">
+                                    <span class="badge badge-danger font-size-12">To Receive</span>
+                                </td>
+                                <td v-else-if="purchase.po_status === 'Partially Received'" style="text-align:center;" class="editable">
+                                    <span class="badge badge-warning font-size-12">Partially Received</span>
+                                </td>
+                                <td v-else-if="purchase.po_status === 'Cancelled'" style="text-align:center;" class="editable">
+                                    <span class="badge badge-secondary font-size-12">Cancelled</span>
+                                </td>
+                                <td v-else-if="purchase.po_status === 'Fully Received'" style="text-align:center;" class="editable">
+                                    <span class="badge badge-success font-size-12">Fully Received</span>
+                                </td>
 
-                            <td v-if="purchase.po_status === 'PENDING RECEIPT'" style="text-align:center;" class="editable">
-                                <i class="mdi mdi-circle text-danger align-middle mr-1"></i><span>PENDING RECEIPT</span>
-                            </td>
-                            <td v-else-if="purchase.po_status === 'PARTIALLY RECEIVED'" style="text-align:center;" class="editable">
-                                <i class="mdi mdi-circle text-warning align-middle mr-1"></i><span>PARTIALLY RECEIVED</span>
-                            </td>
-                            <td v-else-if="purchase.po_status === 'CANCELLED'" style="text-align:center;" class="editable">
-                                <i class="mdi mdi-circle text-muted align-middle mr-1"></i><span>CANCELLED</span>
-                            </td>
-                            <td v-else-if="purchase.po_status === 'FULLY RECEIVED'" style="text-align:center;" class="editable">
-                                <i class="mdi mdi-circle text-success align-middle mr-1"></i><span>FULLY RECEIVED</span>
-                            </td>
+                                <td class="editable text-center">
 
-                            
-                            <!-- <td>None</td> -->
-                            <td class="editable text-center">
-
-                            </td>
+                                </td>
+                            </template>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" tabindex="-1" id="modalPurchaseList">
+            <div class="modal-dialog modal-lg " role="document" style="max-width: 1100px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Purchase Orders</h5>
+                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalPurchaseList');" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="bx bx-x"></i>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <search-to-receive></search-to-receive>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 </template>
@@ -100,6 +115,7 @@
 <script>
 import Swal from 'sweetalert2'
 import moment from 'moment'
+import SearchToReceive from './search-to-receive'
 
 export default {
     name: 'purchase-order',
@@ -109,7 +125,7 @@ export default {
             selected_reason_code: null,
             options_reason_code: [],
 
-            purchaseOrders: [],
+            receivedOrders: [],
             listLoading: true,
             listCurrentPage: 1,
             listItemPerPage: 20,
@@ -117,6 +133,9 @@ export default {
             searchKeyword: '',
             timer: null,
         }
+    },
+    components: {
+        'search-to-receive': SearchToReceive
     },
     computed: {
         listTotalPages: function () {
@@ -131,15 +150,14 @@ export default {
             num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             return num_parts.join(".");
         },
-        getPurchaseOrders: function () {
+        getReceivedOrders: function () {
            var scope = this
             scope.listLoading = true
-            scope.purchaseOrders = []
-            scope.GET('buy-and-pay/orders?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
-                scope.purchaseOrders = res.rows
+            scope.receivedOrders = []
+            scope.GET('buy-and-pay/received?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+                scope.receivedOrders = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
-                console.log(scope.purchaseOrders)
             })
         },
         search: function () {
@@ -150,7 +168,7 @@ export default {
             }
 
             scope.timer = setTimeout(() => {
-                scope.getPurchaseOrders()
+                scope.getReceivedOrders()
             }, 800);
         },
         listPaginate: function(page) {
@@ -172,19 +190,19 @@ export default {
                 return
             }
 
-            scope.getPurchaseOrders()
+            scope.getReceivedOrders()
         },
         changeListItemPerPage: function () 
         {
             var scope = this
             scope.listCurrentPage = 1
-            scope.getPurchaseOrders()
+            scope.getReceivedOrders()
         }
 
     },
     mounted() {
         var scope = this
-        scope.getPurchaseOrders()
+        scope.getReceivedOrders()
     },
 }
 </script>

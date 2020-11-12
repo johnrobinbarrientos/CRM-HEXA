@@ -259,7 +259,7 @@ export default {
                 date_purchased: moment(),
                 date_expected: '',
                 supplier_uuid: '',
-                po_status: 'PENDING RECEIPT',
+                po_status: 'To Receive',
                 orders_reason_code_uuid: '',
                 is_apply_tax: 0,
                 branch_uuid: '',

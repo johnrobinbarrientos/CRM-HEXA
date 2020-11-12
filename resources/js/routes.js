@@ -45,6 +45,7 @@ import PurchaseOrderCreate from './views/client/buy-and-pay/purchase-order/purch
 import PurchaseOrderDetails from './views/client/buy-and-pay/purchase-order/purchase-order-details'
 
 import PurchaseReceiptMain from './views/client/buy-and-pay/purchase-receipt/main'
+import PurchaseReceiptDetails from './views/client/buy-and-pay/purchase-receipt/details'
 
 import PriceRuleMain from './views/client/inventory/price-rule/price-rule-main'
 import PriceRuleSupplierForm from './views/client/inventory/price-rule/price-rule-supplier-form'
@@ -335,6 +336,22 @@ export default new VueRouter({
           path: '/purchase-receipt-main',
           name: 'purchase-receipt-main',
           component: PurchaseReceiptMain,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/purchase-receipt-details/:orderUUID',
+          name: 'purchase-receipt-details',
+          props: { view_mode: false },
+          component: PurchaseReceiptDetails,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/purchase-receipt-details/:orderUUID/view',
+          name: 'purchase-receipt-details',
+          props: { view_mode: true },
+          component: PurchaseReceiptDetails,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },

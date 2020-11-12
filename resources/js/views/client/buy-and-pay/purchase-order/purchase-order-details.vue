@@ -10,10 +10,11 @@
                         <a @click="ROUTE({path: '/purchase-order-main' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
                             <i class="las la-x"></i> <span>Back</span>
                         </a>
-                        <a v-if ="order.po_status =='PENDING RECEIPT'" @click="ROUTE({path: '/purchase-orders/' + order.uuid })" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                        <a  v-if ="order.po_status =='To Receive'" @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Cancel</a>
+                        <a v-if ="order.po_status =='To Receive'" @click="ROUTE({path: '/purchase-orders/' + order.uuid })" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                             <i class="las la-x"></i> <span>Edit</span>
                         </a>
-                        <a  v-if ="order.po_status =='PENDING RECEIPT'" @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Delete</a>
+
                     </span>
                     <span v-else>
                         <a @click="ROUTE({path: '/purchase-order-main' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
