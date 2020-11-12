@@ -202,8 +202,7 @@
                         </td>
                     </tr> 
                     <tr>
-                        <td colspan="16"> 
-                            <!-- <select class="search-items" v-model="option_items_selected" :options="options_items" name="item-group"></select> -->
+                        <td colspan="16">
                             <input type="text" id="autocomplete" class="form-control" :disabled="view_mode">
                         </td>
                     </tr> 
@@ -224,50 +223,6 @@
                         </div>
                     </div>
 
-                    <table class="table mb-0 table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Discount Name</th>
-                                <th>Gross Amount</th>
-                                <th>Discount Rate</th>
-                                <th>Discount Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                            <!--
-                            <tr>
-                                
-                                <td class="editable text-right">
-                                    <span>{{ discount.discount_name }}</span>
-                                    <select @change="changeAdditionalDiscountName(discount)" v-model="discount.discount_name" type="text" class="editable-control" :disabled="view_mode">
-                                        <option :value="additional_discount.name " v-for="(additional_discount,index) in additional_discount_options" :key="index">{{ additional_discount.name }}</option>
-                                    </select>
-                                </td>
-                                <th class="text-right">{{ TOTAL_GROSS_AMOUNT }}</th>
-                                <td v-bind:class="{'editable' : discount.discount_type == 'rate'}" class="text-right">
-                                    <span v-if="discount.discount_type == 'rate'">{{ discount.discount_rate }}% <i class="bx bx-pencil"></i></span>
-                                    <span v-else style="padding-right:11px;">{{ calculateAdditionalDiscountRate(discount, TOTAL_GROSS_AMOUNT).toFixed(2) }}%</span>
-                                    <input v-if=" discount.discount_type == 'rate'" v-model="discount.discount_rate" type="text" class="editable-control" :disabled="view_mode">
-                                </td>
-                                <td v-bind:class="{'editable' : discount.discount_type == 'fixed'}" class="text-right">
-                                    <span v-if="discount.discount_type == 'fixed'">{{ discount.discount_fixed }} <i class="bx bx-pencil"></i></span>
-                                    <span v-else style="padding-right:11px;">{{ calculateAdditionalDiscountAmount(discount, TOTAL_GROSS_AMOUNT).toFixed(2) }}</span>
-                                    <input  v-if="discount.discount_type == 'fixed'" v-model="discount.discount_fixed" type="text" class="editable-control" :disabled="view_mode">
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td colspan="3" class="text-right"><strong>Total</strong></td>
-                                <td class="text-right"><strong style="padding-right:12px;">{{ calculateTotalAdditionalDiscountAmount().toFixed(2) }}</strong></td>
-                            </tr>
-                            <tr style="display:none;">
-                                <td colspan="4" style="cursor:pointer; background:#efefef; text-align:center; font-weight:600;"><button  @click="addAdditionalDiscount()" type="button" style="font-weight:600; background:transparent; border:none;" :disabled="view_mode">ADD DISCOUNT</button></td>
-                            </tr>
-
-                            -->
-                        </tbody>
-                    </table>
                 </div>
                 <div class="col-12 col-md-7 offset-md-1">
                     <h4>Discount Summary</h4>
