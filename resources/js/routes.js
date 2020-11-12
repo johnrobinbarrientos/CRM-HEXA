@@ -9,19 +9,19 @@ import Profile from './views/Profile'
 import Dashboard from './views/Dashboard'
 import Users from './views/Users'
 
-import ItemMain from './views/client/master-data/item/item-main'
-import ItemForm from './views/client/master-data/item/item-form'
+import ItemMain from './views/client/master-data/item/main'
+import ItemForm from './views/client/master-data/item/form'
 
-import SupplierMain from './views/client/master-data/supplier/supplier-main'
-import SupplierForm from './views/client/master-data/supplier/supplier-form'
+import SupplierMain from './views/client/master-data/supplier/main'
+import SupplierForm from './views/client/master-data/supplier/form'
 
-import CustomerMain from './views/client/master-data/customer/customer-main'
-import CustomerForm from './views/client/master-data/customer/customer-form'
+import CustomerMain from './views/client/master-data/customer/main'
+import CustomerForm from './views/client/master-data/customer/form'
 
-import EmployeeMain from './views/client/master-data/employee/employee-main'
-import EmployeeForm from './views/client/master-data/employee/employee-form'
+import EmployeeMain from './views/client/master-data/employee/main'
+import EmployeeForm from './views/client/master-data/employee/form'
 
-import CompanyMain from './views/client/master-data/company/company-main'
+import CompanyMain from './views/client/master-data/company/main'
 
 import GlobalAddressList from './views/admin/globals/address-list'
 import GlobalCustomerChain from './views/admin/globals/customer-chain'
@@ -41,9 +41,11 @@ import AdminChartofAccounts from './views/admin/settings/admin-chart-of-accounts
 import AdminCostCenter from './views/admin/settings/admin-cost-center'
 
 import PurchaseOrderMain from './views/client/buy-and-pay/purchase-order/purchase-order-main'
-import PurchaseOrderList from './views/client/buy-and-pay/purchase-order/purchase-order-list'
 import PurchaseOrderCreate from './views/client/buy-and-pay/purchase-order/purchase-order-create'
 import PurchaseOrderDetails from './views/client/buy-and-pay/purchase-order/purchase-order-details'
+
+import PurchaseReceiptMain from './views/client/buy-and-pay/purchase-receipt/main'
+import PurchaseReceiptDetails from './views/client/buy-and-pay/purchase-receipt/details'
 
 import PriceRuleMain from './views/client/inventory/price-rule/price-rule-main'
 import PriceRuleSupplierForm from './views/client/inventory/price-rule/price-rule-supplier-form'
@@ -318,6 +320,38 @@ export default new VueRouter({
           path: '/purchase-orders/:order_uuid',
           name: 'purchase-order-details',
           component: PurchaseOrderDetails,
+          props: { view_mode: false },
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/purchase-orders/:order_uuid/view',
+          name: 'purchase-order-details',
+          component: PurchaseOrderDetails,
+          props: { view_mode: true },
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/purchase-receipt-main',
+          name: 'purchase-receipt-main',
+          component: PurchaseReceiptMain,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/purchase-receipt-details/:orderUUID',
+          name: 'purchase-receipt-details',
+          props: { view_mode: false },
+          component: PurchaseReceiptDetails,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/purchase-receipt-details/:orderUUID/view',
+          name: 'purchase-receipt-details',
+          props: { view_mode: true },
+          component: PurchaseReceiptDetails,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },

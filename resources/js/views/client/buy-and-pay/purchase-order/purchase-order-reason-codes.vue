@@ -32,7 +32,8 @@
                     <tr>
                         <th>Actions</th>
                         <th>#</th>
-                        <th>Reason Codes</th>
+                        <th>Short Name</th>
+                        <th>Details</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,7 +45,8 @@
                             </span>
                         </td>
                         <td width="50">{{ (index + 1) }}</td>
-                        <td>{{ codes.reason_code }}</td>
+                        <td width="100">{{ codes.short_name }}</td>
+                        <td>{{ codes.details }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -90,9 +92,18 @@
                             <div class="row">
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="reason-code">Reason Code</label>
+                                        <label class="form-label" for="po-reason-code-short-name">Short Name</label>
                                         <div class="form-control-wrap">
-                                            <input v-model="formdata.reason_code" type="text" class="form-control" id="reason-code" required>
+                                            <input style="text-transform: uppercase;" v-model="formdata.short_name" type="text" class="form-control" id="po-reason-code-short-name" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="po-reason-code-details">Details</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="formdata.details" type="text" class="form-control" id="po-reason-code-details" required>
                                         </div>
                                     </div>
                                 </div>
@@ -130,7 +141,8 @@ export default {
             timer: null,
             formdata: { 
                 uuid: null, 
-                reason_code: ''
+                short_name: '',
+                details: ''
             }
         }
     },
@@ -155,12 +167,14 @@ export default {
         resetData: function () {
             var scope = this
             scope.formdata.uuid = null
-            scope.formdata.reason_code = ''
+            scope.formdata.short_name = ''
+            scope.formdata.details = ''
         },
         setData: function (data) {
             var scope = this
             scope.formdata.uuid = data.uuid
-            scope.formdata.reason_code = data.reason_code
+            scope.formdata.short_name = data.short_name
+            scope.formdata.details = data.details
         },
         save: function () {
             var scope = this

@@ -7,7 +7,7 @@
                     <a class="nav-link active" data-toggle="tab" href="#purchase-list">Purchase Order</a>    
                 </li>    
                 <li class="nav-item">        
-                    <a class="nav-link" data-toggle="tab" href="#purchase-reason-code">Reason Codes</a>    
+                    <a class="nav-link" data-toggle="tab" href="#purchase-reason-code">Reason Code</a>    
                 </li>    
             </ul>
 
