@@ -11,12 +11,12 @@
 
         <div class="tab-content">    
             <div class="tab-pane active" id="customer-list">        
-                <customer-list></customer-list>   
+                <list></list>   
             </div>    
             <div class="tab-pane" id="customer-group">        
-                <customer-group></customer-group>    
+                <group></group>    
             </div>   
-        </div>   
+        </div>  
     </div>
 </template>
 
