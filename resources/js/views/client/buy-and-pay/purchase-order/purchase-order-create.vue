@@ -18,8 +18,6 @@ export default {
     components: {
         'purchase-order-form': PurchaseOrderForm
     },
-    data: function () {
-    },
     methods: {
        
     },

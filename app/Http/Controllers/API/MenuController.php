@@ -57,7 +57,7 @@ class MenuController extends Controller
             'icon' => 'bx bx-money',
             'submenus' => [
                 [ 'text' => 'Ordering', 'route' => 'purchase-order-main'],
-                [ 'text' => 'Receiving', 'route' => 'project-main'],
+                [ 'text' => 'Receiving', 'route' => 'purchase-receipt-main'],
                 [ 'text' => 'Returns', 'route' => 'project-main'],
                 [ 'text' => 'Billing', 'route' => 'project-main'],
                 [ 'text' => 'Payment', 'route' => 'project-main']
@@ -181,7 +181,7 @@ class MenuController extends Controller
             'icon' => 'bx bx-money',
             'submenus' => [
                 [ 'text' => 'Ordering', 'route' => 'purchase-order-main'],
-                [ 'text' => 'Receiving', 'route' => 'project-main'],
+                [ 'text' => 'Receiving', 'route' => 'purchase-receipt-main'],
                 [ 'text' => 'Returns', 'route' => 'project-main'],
                 [ 'text' => 'Billing', 'route' => 'project-main'],
                 [ 'text' => 'Payment', 'route' => 'project-main']
@@ -281,7 +281,7 @@ class MenuController extends Controller
             'icon' => 'bx bx-money',
             'submenus' => [
                 [ 'text' => 'Ordering', 'route' => 'purchase-order-main'],
-                [ 'text' => 'Receiving', 'route' => 'project-main'],
+                [ 'text' => 'Receiving', 'route' => 'purchase-receipt-main'],
                 [ 'text' => 'Returns', 'route' => 'project-main'],
                 [ 'text' => 'Billing', 'route' => 'employee-main'],
                 [ 'text' => 'Payment', 'route' => 'project-main']

@@ -67,7 +67,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="date-terminated">PO Date</label>
                                 <div class="form-control-wrap">
-                                    <date-picker v-model="formdata.date_purchased" :config="DATEPICKER_CONFIG()"></date-picker>
+                                    <date-picker v-model="formdata.date_purchased" :config="{format: 'YYYY-MM-DD'}"></date-picker>
                                 </div>
                             </div>
 
@@ -95,7 +95,7 @@
                     </div>
                 </div>
                 <div style="z-index:4500; position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px;" @click="toggleEdit()">
-                    <i v-if="!edit" class="bx bx-pencil"></i>
+                    <button v-if="!edit" class="bx bx-pencil" :disabled="view_mode" type="button"></button>
                     <i v-else class="bx bx-x"></i>
                 </div>
                 <h4 style="margin-bottom:20px;">Information</h4>
@@ -187,7 +187,7 @@
                     <div class="col-md-3 col-12">
                         <div>
                             <strong>Status:</strong>
-                            <div style="margin-bottom:10px; text-transform:capitalize;">{{ order.status }}</div>
+                            <div style="margin-bottom:10px; text-transform:capitalize;">{{ order.po_status }}</div>
                         </div>
                     </div>
                     <div v-if="edit" class="col-md-12 col-12">
@@ -213,7 +213,7 @@ import moment from 'moment'
 
 export default {
     name: 'purchase-order-form',
-    props: ['form','order'],
+    props: ['form','order','view_mode'],
     data: function () {
         return {
             edit: false,
@@ -252,13 +252,14 @@ export default {
             formdata: { 
                 uuid: null, 
                 po_no: '',
+                item_group_uuid: '',
                 asset_group_uuid: '',
                 selected_supplier_discount_groups: [],
                 term: '',
-                date_purchased: '',
+                date_purchased: moment(),
                 date_expected: '',
                 supplier_uuid: '',
-                status: 'Open',
+                po_status: 'PENDING RECEIPT',
                 orders_reason_code_uuid: '',
                 is_apply_tax: 0,
                 branch_uuid: '',
@@ -433,8 +434,9 @@ export default {
                 else{
                     scope.formdata.is_apply_tax = 0
                 }
-                //scope.formdata.term = scope.options_supplier[0].lead_time
-                //scope.formdata.date_expected = moment().add(parseInt(scope.options_supplier[0].lead_time) ,'days').format('YYYY-MM-DD')
+                
+                scope.formdata.term = scope.options_supplier[0].lead_time
+                scope.formdata.date_expected = moment().add(parseInt(scope.options_supplier[0].lead_time) ,'days').format('YYYY-MM-DD')
 
                 $(".form-select-supplier").select2({data: scope.options_supplier});
 
@@ -443,6 +445,7 @@ export default {
                 } else {
                     $(".form-select-supplier").trigger('change');
                 }
+                
                
 
                 scope.prerequisite.getSupplier = true
@@ -488,11 +491,15 @@ export default {
 
         save: function () {
             var scope = this
+            scope.formdata.item_group_uuid = scope.selected_item_group
             scope.formdata.asset_group_uuid = scope.selected_asset_group
             scope.formdata.supplier_uuid = scope.selected_supplier
             scope.formdata.orders_reason_code_uuid = scope.selected_reason_code
             scope.formdata.selected_supplier_discount_groups = scope.selected_supplier_discount_groups
             scope.formdata.branch_locations_uuid = scope.selected_branch_location
+
+            console.log('asdsad')
+            console.log(scope.formdata.item_group_uuid )
 
 
             scope.POST('buy-and-pay/order', scope.formdata).then(res => {
@@ -505,7 +512,7 @@ export default {
                     timer: 1000
                 }).then(() => {
                     if (!scope.$props.order) {
-                        scope.ROUTE({path: '/purchase-order-main/' + res.data.uuid })
+                        scope.ROUTE({path: '/purchase-orders/' + res.data.uuid })
                     } else {
 
                         scope.$parent.loadData()
@@ -560,6 +567,7 @@ export default {
         $(".form-select-supplier").on('change',function(){
             var suppier_uuid = $(".form-select-supplier").val()
             //scope.formdata.supplier_uuid = suppier_uuid
+            scope.checkLeadTime()
             scope.getSupplierDiscountGroup(suppier_uuid)
         });
         

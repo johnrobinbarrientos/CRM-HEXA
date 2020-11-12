@@ -266,22 +266,21 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
     Route::group(['prefix' => 'buy-and-pay'], function(){
         
-        Route::get('/orders', 'API\BuyAndPayOrderController@getOrders');
-        Route::get('/orders/{order_uuid}', 'API\BuyAndPayOrderController@getOrderDetails');
-        Route::get('/orders/{order_uuid}/supplier-items', 'API\BuyAndPayOrderController@getOrderSupplierItems');
-        Route::get('/orders/{order_uuid}/suppliers/{supplier_uuid}/discounts', 'API\BuyAndPayOrderController@getSupplierDiscounts');
+        Route::get('/orders', 'API\PurchaseOrderController@getOrders');
+        Route::get('/orders/{order_uuid}', 'API\PurchaseOrderController@getOrderDetails');
+        Route::get('/orders/{order_uuid}/supplier-items', 'API\PurchaseOrderController@getOrderSupplierItems');
+        Route::get('/orders/{order_uuid}/suppliers/{supplier_uuid}/discounts', 'API\PurchaseOrderController@getSupplierDiscounts');
 
-        Route::post('/order/reason-code', 'API\BuyAndPayOrderController@updateOrderReasonCode');
-        Route::post('/order', 'API\BuyAndPayOrderController@saveOrder');
-        Route::post('/order/delete', 'API\BuyAndPayOrderController@deleteOrder');
+        Route::post('/order/reason-code', 'API\PurchaseOrderController@updateOrderReasonCode');
+        Route::post('/order', 'API\PurchaseOrderController@saveOrder');
+        Route::post('/order/delete', 'API\PurchaseOrderController@deleteOrder');
 
-        Route::post('/orders/{order_uuid}/details', 'API\BuyAndPayOrderDetailController@save');
-        Route::post('/orders/{order_uuid}/additional-discounts', 'API\BuyAndPayOrderDetailController@saveAdditionalDiscount');
+        Route::post('/orders/{order_uuid}/details', 'API\PurchaseOrderDetailController@save');
 
 
-        Route::get('/order-reason-code', 'API\BuyAndPayOrderReasonCodeController@getReasonCode');
-        Route::post('/order-reason-code', 'API\BuyAndPayOrderReasonCodeController@saveReasonCode');
-        Route::post('/order-reason-code/delete', 'API\BuyAndPayOrderReasonCodeController@deleteReasonCode');
+        Route::get('/order-reason-code', 'API\PurchaseOrderReasonCodeController@getReasonCode');
+        Route::post('/order-reason-code', 'API\PurchaseOrderReasonCodeController@saveReasonCode');
+        Route::post('/order-reason-code/delete', 'API\PurchaseOrderReasonCodeController@deleteReasonCode');
     });
 
     Route::group(['prefix' => 'users'], function(){
