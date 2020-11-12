@@ -4,7 +4,7 @@
 
             <ul class="nav nav-tabs">    
                 <li class="nav-item">        
-                    <a class="nav-link active" data-toggle="tab" href="#list">Purchase Orders</a>    
+                    <a class="nav-link active" data-toggle="tab" href="#list">Item Receipt</a>    
                 </li>       
             </ul>
 
