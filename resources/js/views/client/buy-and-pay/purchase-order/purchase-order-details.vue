@@ -108,7 +108,7 @@
                         </div>
                         <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
                             <div>Discount</div>
-                            <div>-{{ TOTAL_DISCOUNT_AMOUNT }}</div>
+                            <div>-{{ DISCOUNT_SUMMARY_TOTAL }}</div>
                         </div>
                         <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
                             <div>Tax Amount</div>
@@ -226,9 +226,9 @@
                 </div>
                 <div class="col-12 col-md-7 offset-md-1">
                     <h4>Discount Summary</h4>
-                    <table class="table table-striped table-bordered"> 
+                    <table class="table-discount-summary table table-striped table-bordered"> 
                         <thead>
-                            <tr style="background:#398cdb; color:#fff;">
+                            <tr >
                                 <th width="30">#</th>
                                 <th width="150">Discount Group</th>
                                 <th>Discount Name</th>
@@ -241,37 +241,37 @@
                                 <th style="background:#77ade0;" v-if="index == 0" :rowspan="order.base_discounts.length + 1">1</th>
                                 <th v-if="index == 0" :rowspan="order.base_discounts.length">Base</th>
                                 <th>{{ base_discount.discount_name }}</th>
-                                <th>{{ base_discount.discount_rate }}%</th>
-                                <th>{{ calculateBaseDiscountSummary(base_discount) }}</th>
+                                <th class="text-right">{{ base_discount.discount_rate }}%</th>
+                                <th class="text-right">{{ parseFloat(base_discount.total_amount).toFixed(2) }}</th>
                             </tr>
                             <tr style="background:#abd1f5;">
                                 <th style="background:#abd1f5;" colspan="2">Base Total</th>
-                                <th>2.00%</th>
-                                <th>2.00</th>
+                                <th class="text-right">{{ DISCOUNT_BASE_RATE_TOTAL }}%</th>
+                                <th class="text-right">{{ DISCOUNT_BASE_TOTAL }}</th>
                             </tr>
                             <tr v-for="(discount,index) in order.additional_discounts" :key="'additional-discount-summary' + index">
                                 <th style="background:#77ade0;" v-if="index == 0" :rowspan="order.additional_discounts.length + 1">2</th>
                                 <th v-if="index == 0" :rowspan="order.additional_discounts.length">Additional</th>
                                 <th>{{ discount.discount_name }}</th>
-                                <th>{{ parseFloat(discount.discount_rate).toFixed(2) }}%</th>
-                                <th>{{ parseFloat(discount.discount_fixed).toFixed(2) }}</th>
+                                <th class="text-right">{{ parseFloat(discount.discount_rate).toFixed(2) }}%</th>
+                                <th class="text-right">{{ parseFloat(discount.discount_fixed).toFixed(2) }}</th>
                             </tr>
                             <tr style="background:#abd1f5;">
                                 <th style="background:#abd1f5;"  colspan="2">Additional Total</th>
-                                <th>2.00%</th>
-                                <th>2.00</th>
+                                <th class="text-right">{{ DISCOUNT_ADDITIONAL_RATE_TOTAL }}%</th>
+                                <th class="text-right">{{ DISCOUNT_ADDITIONAL_TOTAL }}</th>
                             </tr>
-                            <tr v-for="(base_discount,index) in order.price_rule_discounts" :key="'price-rule-discount-summary' + index">
+                            <tr v-for="(discount,index) in order.price_rule_discounts" :key="'price-rule-discount-summary' + index">
                                 <th style="background:#77ade0;" v-if="index == 0" :rowspan="order.price_rule_discounts.length + 1">3</th>
                                 <th v-if="index == 0" :rowspan="order.price_rule_discounts.length">Price Rule</th>
-                                <th>{{ base_discount.rule_name }}</th>
-                                <th>{{ base_discount.rate }}%</th>
-                                <th>{{ calculateBaseDiscountSummary(base_discount) }}</th>
+                                <th>{{ discount.rule_name }}</th>
+                                <th class="text-right">{{ discount.rate }}%</th>
+                                <th class="text-right">{{ parseFloat(discount.total_amount).toFixed(2) }}</th>
                             </tr>
                             <tr style="background:#abd1f5;">
                                 <th colspan="2">Price Rule Total</th>
-                                <th>2.00%</th>
-                                <th>2.00</th>
+                                <th class="text-right">{{ DISCOUNT_PRICE_RULE_RATE_TOTAL }}%</th>
+                                <th class="text-right">{{ DISCOUNT_PRICE_RULE_TOTAL }}</th>
                             </tr>
                         </tbody>
                     </table>
@@ -342,9 +342,6 @@
                     </div>
                 </div>
             </div>
-
-
-
             <div class="modal fade" tabindex="-1" id="modal-item-list">
             <div class="modal-dialog modal-lg " role="document">
                 <div class="modal-content">
@@ -420,7 +417,8 @@ export default {
             selectedItemDiscountView: 'all',
             temp_selected_items: [],
             item_list_keyword: '',
-            selected_item_list_keyword: ''
+            selected_item_list_keyword: '',
+            additional_discounts_timeout: null
         }
     },
     components: {
@@ -453,7 +451,6 @@ export default {
                 var current = scope.selectedItems[i]
                 // total_amount += scope.calculateItemGrossAmount(current,'non-formatted')
                 total_amount += parseFloat(current.gross_amount)
-                
             }
             return total_amount.toFixed(2)
         },
@@ -485,35 +482,162 @@ export default {
             for (let i = 0; i < scope.selectedItems.length; i++) {
                 var current = scope.selectedItems[i]
                 total_amount += parseFloat(current.total_amount)
+                
             }
-
-            //total_amount -= scope.calculateTotalAdditionalDiscountAmount()
+       
+            total_amount -= scope.DISCOUNT_ADDITIONAL_TOTAL
             return total_amount.toFixed(2)
         },
-    },
-    methods: {
-        calculateBaseDiscountSummary: function (base_discount ) {
-            return 0.00
-        },
-        calculateAdditionalDiscounSummary: function(discount) {
-            var scope = this
-
-            if (discount.discount_type == 'rate') {
-                var rate = parseFloat(discount.discount_rate) / 100
-                discount.discount_fixed = scope.TOTAL_GROSS_AMOUNT * rate
-            } else {
-                discount.discount_rate = (parseFloat(discount.discount_fixed ) /  scope.TOTAL_GROSS_AMOUNT ) * 100
-            }
-            
-           
-        },
-        calculateTotalAdditionalDiscountAmount: function(discount, gross) {
+        DISCOUNT_ADDITIONAL_TOTAL: function () {
             var scope = this
             var total = 0.00
-            for (let i = 0; i < scope.additional_discounts.length; i++)
+            for (let i = 0; i < scope.order.additional_discounts.length; i++)
             {
-                var current = scope.additional_discounts[i]
-                total += parseFloat(current.discount_fixed)
+                var discount = scope.order.additional_discounts[i]
+                total += parseFloat(discount.discount_fixed)
+            }
+
+             return total.toFixed(2)
+        },
+        DISCOUNT_BASE_TOTAL: function () {
+            var scope = this
+            var total = 0.00
+            for (let i = 0; i < scope.order.base_discounts.length; i++)
+            {
+                var discount = scope.order.base_discounts[i]
+                total += parseFloat(discount.total_amount)
+            }
+
+             return total.toFixed(2)
+        },
+        DISCOUNT_PRICE_RULE_TOTAL: function () {
+            var scope = this
+            var total = 0.00
+            for (let i = 0; i < scope.order.price_rule_discounts.length; i++)
+            {
+                var discount = scope.order.price_rule_discounts[i]
+                total += parseFloat(discount.total_amount)
+            }
+
+             return total.toFixed(2)
+        },
+        DISCOUNT_SUMMARY_TOTAL: function () {
+            var total = parseFloat(this.DISCOUNT_ADDITIONAL_TOTAL) + parseFloat(this.DISCOUNT_BASE_TOTAL) + parseFloat(this.DISCOUNT_PRICE_RULE_TOTAL)
+            return total.toFixed(2)
+        },
+        DISCOUNT_ADDITIONAL_RATE_TOTAL: function () {
+            var scope = this
+            var total = 0.00
+            for (let i = 0; i < scope.order.additional_discounts.length; i++)
+            {
+                var discount = scope.order.additional_discounts[i]
+                total += parseFloat(discount.discount_rate)
+            }
+
+             return total.toFixed(2)
+        },
+        DISCOUNT_BASE_RATE_TOTAL: function () {
+            var scope = this
+            var total = 0.00
+            for (let i = 0; i < scope.order.base_discounts.length; i++)
+            {
+                var discount = scope.order.base_discounts[i]
+                total += parseFloat(discount.discount_rate)
+            }
+
+             return total.toFixed(2)
+        },
+        DISCOUNT_PRICE_RULE_RATE_TOTAL: function () {
+            var scope = this
+            var total = 0.00
+            for (let i = 0; i < scope.order.price_rule_discounts.length; i++)
+            {
+                var discount = scope.order.price_rule_discounts[i]
+                total += parseFloat(discount.rate)
+            }
+
+             return total.toFixed(2)
+        },
+        DISCOUNT_SUMMARY_TOTAL: function () {
+            var total = parseFloat(this.DISCOUNT_ADDITIONAL_TOTAL) + parseFloat(this.DISCOUNT_BASE_TOTAL) + parseFloat(this.DISCOUNT_PRICE_RULE_TOTAL)
+            return total.toFixed(2)
+        }
+    },
+    methods: {
+        calculateAdditionalDiscounSummary: function() {
+            var scope = this
+
+            scope.calculateTotalAdditionalDiscountAmount()
+           
+        },
+        calculateBaseDiscounSummary: function() {
+            var scope = this
+            
+            for (let i = 0; i < scope.order.base_discounts.length; i++)
+            {
+                var discount = scope.order.base_discounts[i]
+                scope.$set(discount,'total_amount',0)
+
+                for (let x = 0; x < scope.selected_items.length; x++) {
+                    var item = scope.selected_items[x]
+                    
+                    for (let y = 0; y < item.base_discounts.length; y++)
+                    {
+                        var item_discount = item.base_discounts[y]
+                       
+                        if (item_discount.id == discount.id) {
+                            var rate = (parseFloat(discount.discount_rate) / 100)
+                            discount.total_amount += (item.gross_amount * rate)
+                        }
+                    }
+                }
+            }
+        },
+        calculatePriceRuleDiscountSummary: function() {
+            var scope = this
+            
+            for (let i = 0; i < scope.order.price_rule_discounts.length; i++)
+            {
+                var discount = scope.order.price_rule_discounts[i]
+                scope.$set(discount,'total_amount',0)
+
+                for (let x = 0; x < scope.selected_items.length; x++) {
+                    var item = scope.selected_items[x]
+                    
+                    if (discount.price_rule_detail.applied_to == 'selected') {
+                        for (let y = 0; y < item.price_rule_discounts.length; y++)
+                        {
+                            var item_discount = item.price_rule_discounts[y]
+                        
+                            if (item_discount.bp_price_rule_uuid == discount.uuid) {
+                                var rate = (parseFloat(discount.rate) / 100)
+                                discount.total_amount += (item.gross_amount * rate)
+                            }
+                        }
+                    } else {
+                        var rate = (parseFloat(discount.rate) / 100)
+                        discount.total_amount += (item.gross_amount * rate)
+                    }
+                    
+                }
+            }
+        },
+        calculateTotalAdditionalDiscountAmount: function() {
+            var scope = this
+            var total = 0.00
+            for (let i = 0; i < scope.order.additional_discounts.length; i++)
+            {
+                var discount = scope.order.additional_discounts[i]
+                if (discount.discount_type == 'rate') {
+                    discount.discount_rate = discount.discount_rate.replace(/[^\d.]/g,'');
+                    var rate = parseFloat(discount.discount_rate) / 100
+                    discount.discount_fixed = scope.TOTAL_GROSS_AMOUNT * rate
+                    discount.discount_fixed = (!isNaN(discount.discount_fixed)) ? discount.discount_fixed : 0.00
+                } else {
+                    discount.discount_fixed = discount.discount_fixed.replace(/[^\d.]/g,'');
+                    discount.discount_rate = (parseFloat(discount.discount_fixed ) /  scope.TOTAL_GROSS_AMOUNT ) * 100
+                    discount.discount_rate = (!isNaN(discount.discount_rate)) ? discount.discount_rate : 0.00
+                }
             }
             
             return total
@@ -584,6 +708,10 @@ export default {
                     scope.selected_items.splice(i, 1);
                 }
             }
+
+            scope.calculateTotalAdditionalDiscountAmount()
+            scope.calculateBaseDiscounSummary();
+            scope.calculatePriceRuleDiscountSummary();
         },
         removeSelectedItem: function (pointed) {
             var scope = this
@@ -593,6 +721,10 @@ export default {
                     scope.selected_items.splice(i, 1);
                 }
             }
+
+            scope.calculateTotalAdditionalDiscountAmount()
+            scope.calculateBaseDiscounSummary();
+            scope.calculatePriceRuleDiscountSummary();
         },
         isItemUOMSelected: function (uom, pointed) {
             var scope = this
@@ -753,6 +885,7 @@ export default {
                 scope.order = res.data
                 //scope.additional_discounts =  res.data.additional_discounts
                 var supplier_uuid = scope.order.supplier_uuid
+               
                 // scope.getSupplierItems(supplier_uuid)
             })
         },
@@ -832,7 +965,12 @@ export default {
                             var latest = scope.selected_items[index]
                             scope.selectedItem = latest
                             scope.calculate(latest)
+                            
                             $('#autocomplete').val('')
+
+                            scope.calculateTotalAdditionalDiscountAmount()
+                            scope.calculateBaseDiscounSummary();
+                            scope.calculatePriceRuleDiscountSummary();
                         },
                         beforeRender: function (container, suggestions) {
                             container.html('Searching..')
@@ -854,7 +992,9 @@ export default {
                         
                     });
 
-                    
+                    scope.calculateTotalAdditionalDiscountAmount()
+                    scope.calculateBaseDiscounSummary();
+                    scope.calculatePriceRuleDiscountSummary();
                 },100);
                 
 
@@ -897,6 +1037,9 @@ export default {
                         scope.calculate(current)
                         scope.selected_items.push(JSON.parse(JSON.stringify(current)));
                         
+                        scope.calculateTotalAdditionalDiscountAmount()
+                        scope.calculateBaseDiscounSummary();
+                        scope.calculatePriceRuleDiscountSummary();
                     }   
                 }
             }
@@ -937,6 +1080,8 @@ export default {
         var scope = this
         scope.loadData()
 
+       
+
         /*
         $(document).on('blur','#autocomplete',function(){
             $(this).val('')
@@ -945,7 +1090,7 @@ export default {
 
        $(document).on('click','.autocomplete-suggestion',function(){
            var barcode = $(this).data('barcode')
-           scope.selectItem(barcode ) 
+           scope.selectItem(barcode) 
         })
     },
 }
@@ -981,4 +1126,6 @@ function matchCustom(params, data) {
 <style scoped>
 .table-tranx { table-layout: auto; width: 200%;}
 .autocomplete-suggestion:hover { cursor:pointer !important; }
+
+.table-discount-summary thead th { background:#398cdb !important; color:#fff;  }
 </style>

@@ -351,7 +351,7 @@ class PurchaseOrderController extends Controller
         $base_discounts =  PurchaseOrderBaseDiscountGroupDetail::where('bp_order_uuid','=',$orderUUID)->get();
         $order->base_discounts = $base_discounts;
 
-        $price_rule_discounts =  PurchasePriceRule::where('bp_order_uuid','=',$orderUUID)->get();
+        $price_rule_discounts =  PurchasePriceRule::where('bp_order_uuid','=',$orderUUID)->with('PriceRuleDetail')->get();
         $order->price_rule_discounts = $price_rule_discounts;
 
        

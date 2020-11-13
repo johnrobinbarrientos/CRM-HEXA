@@ -24,4 +24,7 @@ class PurchasePriceRule extends Model
         });
     }
    
+    public function PriceRuleDetail(){
+        return $this->hasOne('App\Models\PurchasePriceRuleDetail','bp_price_rule_uuid','uuid');
+    }
 }
