@@ -36,17 +36,17 @@ class ItemListController extends Controller
         }
 
         $count = $list->count();
-
+        
         // pagination
         $take = (is_numeric(request()->take) && request()->take <= 100) ? request()->take: 20;
         $page = (is_numeric(request()->page)) ? request()->page : 1;
         $offset = (($page - 1 ) * $take);
-
+        
         $list = $list->take($take);
         $list = $list->offset($offset);
         $list = $list->get();
-
-        return response()->json(['success' => 1, 'rows' => $list, 'count' => $count], 200);
+        
+        return response()->json(['success' => 1, 'rows' => $list, 'count' => $count, 'offset' => $offset, 'results' => count($list)], 200);
     }
 
     public function store() // initialize draft

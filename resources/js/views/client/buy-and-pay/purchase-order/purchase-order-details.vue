@@ -481,8 +481,7 @@ export default {
             var total_amount = 0.00
             for (let i = 0; i < scope.selectedItems.length; i++) {
                 var current = scope.selectedItems[i]
-                total_amount += parseFloat(current.total_amount)
-                
+                total_amount += parseFloat(current.total_amount) 
             }
        
             total_amount -= scope.DISCOUNT_ADDITIONAL_TOTAL

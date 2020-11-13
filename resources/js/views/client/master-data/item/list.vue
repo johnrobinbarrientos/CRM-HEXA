@@ -89,7 +89,9 @@
                         </tr>
                     </tbody>
                 </table>
-                <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
+                
+                <div style="padding:10px; padding-top:20px; padding-bottom:0px; margin-bottom:-50px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
+                <nav style="float:right;" v-if="listTotalPages > 1" class="pagination pagination-rounded mt-4" aria-label="pagination">
                     <ul class="pagination">
                         <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
                             <a href="javascript:void(0)" class="page-link" aria-label="Previous">
@@ -129,6 +131,8 @@ export default {
             listCurrentPage: 1,
             listItemPerPage: 20,
             listCount: 0,
+            listOffset: 0,
+            listResults: 0,
             searchKeyword: '',
             timer: null
         }
@@ -149,6 +153,8 @@ export default {
                 scope.itemList = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
+                scope.listOffset = res.offset
+                scope.listResults = res.results
             })
         },
         create: function () {
