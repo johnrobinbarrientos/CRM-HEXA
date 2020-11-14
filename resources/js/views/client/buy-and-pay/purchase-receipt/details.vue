@@ -199,7 +199,7 @@
                                     <tbody>
                                             <tr v-for="(item, index) in selectedItems" :key="item.barcode + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
                                             <td><button v-if ="item.quantity===0" @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button></td>
-                                            <td><input type="checkbox" v-on:change="fillAcceptedQty(item, $event.target.checked)" name="fill-accepted" value="checked" /></td>
+                                            <td><input :checked="item.quantity == item.accepted_qty" type="checkbox" v-on:change="fillAcceptedQty(item, $event.target.checked)" name="fill-accepted" value="checked" /></td>
                                             <td>{{ (index + 1) }}</td>
                                             <td>{{ item.barcode }}</td>
                                             <td><a :href="'/items/' + item.uuid + '/view'" target="_blank">{{ item.item_description }}</a></td>
@@ -216,13 +216,13 @@
                                                 <input @keyup="calculate(item); reasonCode()" v-model="item.accepted_qty" type="text" class="editable-control" :disabled="view_mode">
                                             </td>
                                             <td>
-                                                <input v-if="(item.quantity > item.accepted_qty)" type="checkbox" name="uom-variance" value="checked" />
+                                                <input @change="addSimilarItem(item)" v-if="(item.quantity > item.accepted_qty)" type="checkbox" name="uom-variance" value="checked" />
                                             </td>
                                             <td class="editable">
                                                 <span>{{ findUOMByBarcode(item.uoms,item.barcode) }}</span>
-                                                <!-- <select @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="editable-control" :disabled="view_mode">
+                                                <select v-if="(item.quantity <= 0)" @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="editable-control" :disabled="view_mode">
                                                     <option v-if="!isItemUOMSelected(uom, item)" v-for="(uom,index) in item.uoms" :key="uom.uuid + '-' + index" :value="uom.barcode" v-bind:selected="uom.barcode == item.barcode">{{ uom.uom }}</option>
-                                                </select> -->
+                                                </select> 
                                             </td>
                                             <td class="text-right">{{ parseFloat(item.item_rate).toFixed(2) }}</td>
                                             <td class="text-right">{{ parseFloat(item.gross_amount).toFixed(2)  }}</td>
@@ -551,8 +551,6 @@ export default {
             scope.calculateItemNetAmount(item,'non-formatted')
             scope.calculateVATAmount(item,'non-formatted')
             scope.calculateTotalAmount(item,'non-formatted')
-
-            
         },
 
         calculateTotalDiscountRate: function (item, type = 'formatted') {
@@ -694,7 +692,16 @@ export default {
 
             return ''
         },
-
+        addSimilarItem: function (item) {
+            var scope = this
+            for (let i = 0; i < item.uoms.length; i++) {
+                var uom = item.uoms[i]
+                if (!scope.isItemUOMSelected(uom, item)) {
+                    scope.selectItem(uom.barcode);
+                    break;
+                }
+            }
+        },
         isItemUOMSelected: function (uom, pointed) {
             var scope = this
             for (let i = 0; i < scope.selected_items.length; i++) {
@@ -706,7 +713,24 @@ export default {
 
             return false
         },
+        changeSelectedItemUOM: function (barcode, item, index) {
+            var scope = this
+             for (let i = 0; i < scope.options_items.length; i++) {
+                var current = scope.options_items[i]
+                var excluded = ['quantity'];
+                if (current.barcode == barcode ) {
+                    for (var key in current) {
+                        if (!excluded.includes(key)) {
+                            item[key] = current[key]
+                        }
+                    }
 
+                    scope.calculate(item)
+
+                }
+            } 
+            
+        },
         getOrderSupplierItems: function () {
             var scope = this
             scope.items = []
