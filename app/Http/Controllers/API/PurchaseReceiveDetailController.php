@@ -135,5 +135,110 @@ class PurchaseReceiveDetailController extends Controller
         return response()->json(['success' => 1, 'rows' => $items, 'selected_items' => $selected_items], 200);
     }
 
+    public function save($orderUUID)
+    {
+        
+        $formData = (object) request()->data;
+
+        $order = PurchaseOrder::find($orderUUID);
+
+        if ($formData->po_status =='To Receive'){
+
+            $prefix = $this->getCompanyPrefix();
+            $type = 'IR';
+            $no_of_transactions = $this->getNumberOfTransactions($orderUUID) + 1;
+            $year = date('Y');
+            $month = date('m');
+            $day = date('d');
+            $created_id = sprintf($type.'_'.$prefix.''.$year.''.$month.''.$day.'%05d',$no_of_transactions);
+            
+            
+            $order->receiving_no = $created_id;
+            $order->date_received = date('Y-m-d',strtotime($formData->date_received));
+            $order->receiving_reason_code = $formData->receiving_reason_code;
+            $order->receiving_status = 'To Bill';
+
+            if($formData->receiving_reason_code =='Under Served' || $formData->receiving_reason_code =='Over Served'){
+                $order->po_status = 'Partially Received';
+            }else{
+                $order->po_status = 'Fully Received';
+            }
+
+            $order->save();
+        }else{
+
+            $order->receiving_reason_code = $formData->receiving_reason_code;
+
+            if($formData->receiving_reason_code =='Under Served' || $formData->receiving_reason_code =='Over Served'){
+                $order->po_status = 'Partially Received';
+            }else{
+                $order->po_status = 'Fully Received';
+            }
+
+            $order->save();
+
+        }
+
+
+        $auth = \Auth::user();
+        $items = (is_array(request()->items)) ? request()->items : [];
+     
+
+        $barcodes = [];
+        foreach ($items as $item) {
+            $item = (object) $item;
+            $barcodes[] = $item->barcode;
+        }
+    
+        $delete = PurchaseOrderDetail::where('bp_order_uuid','=',$orderUUID)->whereNotIn('barcode',$barcodes)->delete();
+
+        foreach ($items as $item) {
+            $item = (object) $item;
+
+            $order_detail = PurchaseOrderDetail::where('bp_order_uuid','=',$orderUUID)->where('item_uuid','=',$item->uuid)->where('barcode','=',$item->barcode)->withTrashed()->first();
+            $order_detail = ($order_detail) ? $order_detail : new PurchaseOrderDetail;
+
+            $order_detail->company_id               = $auth->company_id;
+            $order_detail->bp_order_uuid            = $orderUUID;
+            $order_detail->item_uuid                = $item->uuid;
+            $order_detail->barcode                  = $item->barcode;
+            $order_detail->order_qty                = $item->quantity;
+            $order_detail->accepted_qty             = $item->accepted_qty;
+            $order_detail->purchase_price           = $item->purchase_price;
+            $order_detail->ir_gross_amount             = $item->gross_amount;
+            $order_detail->ir_discount_rate            = $item->discount_rate;
+            $order_detail->ir_discount_amount          = $item->discount_amount;
+            $order_detail->ir_net_amount               = $item->net_amount;
+            $order_detail->ir_vat_amount               = $item->vat_amount;
+            $order_detail->ir_total_amount             = $item->total_amount;
+            $order_detail->deleted_at               = null;
+            $order_detail->save();
+        }
+
+        return response()->json(['success' => 1, 'message' => 'success'], 200);
+    }
+
+    public function getCompanyPrefix()
+    {
+        $auth = \Auth::user();
+        $prefix = CompanyList::whereNull('deleted_at')
+        ->where('id',$auth->company_id)
+        ->pluck('prefix')
+        ->first();
+
+        return $prefix;
+    }
+
+    public function getNumberOfTransactions($uuid)
+    {
+        $auth = \Auth::user();
+        $no_of_transactions = PurchaseOrder::whereNull('deleted_at')
+        ->where('company_id',$auth->company_id)
+        ->where('receiving_no','!=','')
+        ->whereDate('created_at',date('Y-m-d'))->count();
+
+        return $no_of_transactions;
+    }
+
     
 }

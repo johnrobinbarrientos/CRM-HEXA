@@ -41,7 +41,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6 col-12">
+                                        <div v-if="asset_group" class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="asset-group">Asset Group</label>
                                                 <input type="text" class="form-control disabled" v-model="asset_group" readonly>
@@ -50,7 +50,7 @@
 
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
-                                                <label class="form-label" for="item-group">PR Type</label>
+                                                <label class="form-label" for="item-group">Item Type</label>
                                                 <input type="text" class="form-control disabled" v-model="item_group" readonly>
                                             </div>
                                         </div>
@@ -170,7 +170,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <table class="table mb-0 table table-striped table-bordered">
+                                <table class="table mb-0 table-responsive table-striped table-bordered">
                                     <thead>
                                         <tr>
                                             <th width="40">Action</th>
@@ -181,6 +181,7 @@
                                             <th>Item Group</th>
                                             <th width="100">Ordered Qty</th>
                                             <th width="100">Accepted Qty</th>
+                                            <th width="100">UOM Variance?</th>
                                             <th width="80">UOM</th>
                                             
                                             <th>Item Rate</th>
@@ -198,20 +199,24 @@
                                     <tbody>
                                             <tr v-for="(item, index) in selectedItems" :key="item.barcode + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
                                             <td><button v-if ="item.quantity===0" @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button></td>
-                                            <td><input type="checkbox" v-on:change="fillAcceptedQty(item, $event.target.checked)" name="myTextEditBox" value="checked" /></td>
+                                            <td><input type="checkbox" v-on:change="fillAcceptedQty(item, $event.target.checked)" name="fill-accepted" value="checked" /></td>
                                             <td>{{ (index + 1) }}</td>
                                             <td>{{ item.barcode }}</td>
                                             <td><a :href="'/items/' + item.uuid + '/view'" target="_blank">{{ item.item_description }}</a></td>
                                             <td>
                                                 <span class="badge badge-pill badge-info mr-1" v-for="base_discount in item.base_discounts">{{ base_discount.order_base_discount_group.group_name }}</span>
                                             </td>
-                                            <td class="editable text-right">
-                                                <span>{{ item.quantity }}</span>
-                                                <!-- <input @keyup="calculate(item)" v-model="item.quantity" type="text" class="editable-control" :disabled="view_mode"> -->
+                                            <td class="text-right">
+                                                <span v-if="(item.quantity > item.accepted_qty)" style="color:red">{{ item.quantity }}</span>
+                                                <span v-else>{{ item.quantity }}</span>
                                             </td>
                                             <td class="editable text-right">
-                                                <span>{{ item.accepted_qty }}</span>
-                                                <input @keyup="calculate(item)" v-model="item.accepted_qty" type="text" class="editable-control" :disabled="view_mode">
+                                                <span v-if="(item.quantity > item.accepted_qty)" style="color:red">{{ item.accepted_qty }}</span>
+                                                <span v-else>{{ item.accepted_qty }}</span>
+                                                <input @keyup="calculate(item); reasonCode()" v-model="item.accepted_qty" type="text" class="editable-control" :disabled="view_mode">
+                                            </td>
+                                            <td>
+                                                <input v-if="(item.quantity > item.accepted_qty)" type="checkbox" name="uom-variance" value="checked" />
                                             </td>
                                             <td class="editable">
                                                 <span>{{ findUOMByBarcode(item.uoms,item.barcode) }}</span>
@@ -251,8 +256,7 @@
                                             </td>
                                         </tr> 
                                         <tr>
-                                            <td colspan="18"> 
-                                                <!-- <select class="search-items" v-model="option_items_selected" :options="options_items" name="item-group"></select> -->
+                                            <td colspan="19"> 
                                                 <input type="text" id="autocomplete" class="form-control" :disabled="view_mode">
                                             </td>
                                         </tr> 
@@ -370,6 +374,7 @@ export default {
             selectedItemDiscountView: 'all',
             additional_discounts: [],
 
+            po_uuid: '',
             item_group: '',
             asset_group: '',
             branch_name: '',
@@ -387,15 +392,6 @@ export default {
         }
     },
     computed: {
-        itemList() {
-            var scope = this
-            var keyword = scope.item_list_keyword.toLowerCase()
-            return this.options_items.filter((item) => {
-                return (item.item_code.toLowerCase().indexOf(keyword) > -1 ||
-                item.item_description.toLowerCase().indexOf(keyword) > -1 ||
-                item.item_shortname.toLowerCase().indexOf(keyword) > -1);
-            })
-        },
         selectedItems() {
             var scope = this
             var keyword = scope.selected_item_list_keyword.toLowerCase()
@@ -462,6 +458,7 @@ export default {
         getOrderDetails: function () {
             var scope = this
             scope.GET('buy-and-pay/receiving/' + scope.$route.params.orderUUID).then(res => {
+                scope.po_uuid = res.data.uuid
                 scope.item_group = res.data.item_group.item_group
                 scope.branch_name = res.data.branch.branch_name
                 scope.supplier = res.data.supplier.supplier_shortname
@@ -474,6 +471,8 @@ export default {
                 scope.po_no = res.data.po_no
                 scope.po_status = res.data.po_status
                 scope.additional_discounts = res.data.additional_discounts
+
+                scope.receiving_reason_code = res.data.receiving_reason_code
 
                 if (res.data.date_received===null){
                     scope.date_received = moment() 
@@ -491,8 +490,40 @@ export default {
                 item.accepted_qty = 0
                 scope.calculate(item)
             }
+
+            scope.reasonCode()
             
         },
+
+        reasonCode: function(){
+            var scope = this
+
+            var under_served = 0
+            var over_served = 0
+
+
+            for (let i = 0; i < scope.selected_items.length; i++) {
+                var item = scope.selected_items[i]
+                if (item.accepted_qty > item.quantity) {
+                    over_served += 1
+                }
+                else if (item.accepted_qty < item.quantity){
+                    under_served += 1
+                }
+            }
+
+            if (over_served > 0){
+                scope.receiving_reason_code = 'Over Served'
+            }
+            else if(over_served ===0 && under_served > 0){
+                scope.receiving_reason_code = 'Under Served'
+            }
+            else{
+                scope.receiving_reason_code = 'Fully Served'
+            }
+
+        },
+
         showDiscounts: function (item, view = 'all') {
             var scope = this
             scope.selectedItem = item
@@ -510,6 +541,7 @@ export default {
             }
         },
 
+
         calculate: function(item) {
             var scope = this
             scope.calculateTotalDiscountRate(item,'non-formatted')
@@ -519,6 +551,8 @@ export default {
             scope.calculateItemNetAmount(item,'non-formatted')
             scope.calculateVATAmount(item,'non-formatted')
             scope.calculateTotalAmount(item,'non-formatted')
+
+            
         },
 
         calculateTotalDiscountRate: function (item, type = 'formatted') {
@@ -710,6 +744,7 @@ export default {
                             
                         }
                     })
+                    scope.reasonCode()
                 })
 
                 scope.is_ready = true
@@ -739,15 +774,15 @@ export default {
                         },
                         beforeRender: function (container, suggestions) {
                             container.html('Searching..')
-                            var html = '<table style="width:100%;"><thead style="padding:2px 3px;"><tr style="background:#51a8f8; color:#fff;"><th>Barcode</th><th>Item Description</th><th>Packing</th><th>UOM</th></tr></thead>'
+                            var html = '<table style="width:100%;"><thead style="padding:2px 3px;"><tr style="background:#51a8f8; color:#fff;"><th style="width:120px;">Barcode</th><th style="width:340px;">Item Description</th><th style="width:80px;">Packing</th><th>UOM</th></tr></thead>'
                             html += '<tbody style="padding:2px 3px;">';
                             for (let i = 0; i < suggestions.length; i++) {
                                 var suggestion = suggestions[i]
-                                html+= '<tr class="autocomplete-suggestion" value="'+ suggestion.value +'">'
-                                html += '<td>'+suggestion.barcode+'</td>'
-                                html += '<td>'+suggestion.item_description+'</td>'
-                                html += '<td>'+suggestion.uom_packing+'</td>'
-                                html += '<td>'+suggestion.uom_label+'</td>'
+                                html += '<tr class="autocomplete-suggestion" value="'+ suggestion.value +'" data-barcode="'+ suggestion.barcode +'">'
+                                html += '<td style="border-right:1px solid #ccc; padding:0px 10px;">'+suggestion.barcode+'</td>'
+                                html += '<td style="border-right:1px solid #ccc; padding:0px 10px;">'+suggestion.item_description+'</td>'
+                                html += '<td style="border-right:1px solid #ccc; padding:0px 10px;">'+suggestion.uom_packing+'</td>'
+                                html += '<td style="padding:0px 10px;">'+suggestion.uom_label+'</td>'
                                 html += '</tr>'
                             }
                             html += '</tbody>'
@@ -763,12 +798,66 @@ export default {
 
             })
         },
+
+        selectItem: function (barcode) {
+            var scope = this
+            for (let i = 0; i < scope.options_items.length; i++) {
+                var current = scope.options_items[i]
+                if (barcode == current.barcode) {
+    
+                    var found = scope.findSelectedItems(scope.selected_items, barcode)
+
+                    if (found) {
+                        scope.selectedItem = current
+                    } else {
+                        current.quantity = 0
+                        current.accepted_qty = 1
+                        scope.calculate(current)
+                        scope.selected_items.push(JSON.parse(JSON.stringify(current)));
+                        
+                    }   
+                }
+            }
+        },
+
+        save: function() {
+            var scope = this
+
+            var formData = {} 
+
+            formData['receiving_no'] = scope.receiving_no
+            formData['date_received'] = scope.date_received
+            formData['receiving_reason_code'] = scope.receiving_reason_code
+            formData['po_status'] = scope.po_status
+
+
+            scope.POST('buy-and-pay/receiving/' + scope.po_uuid + '/details', {items: scope.selectedItems, data: formData }).then(res => {
+                if (res.success) {
+                    window.swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Successfuly Saved',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        
+                    })
+                } else {
+                    alert('ERROR:' + res.code)
+                } 
+            })
+        },
         
     },
     mounted() {
         var scope = this
         scope.getOrderDetails()
         scope.getOrderSupplierItems()
+
+        $(document).on('click','.autocomplete-suggestion',function(){
+           var barcode = $(this).data('barcode')
+           scope.selectItem(barcode ) 
+        })
     },
 }
 </script>
