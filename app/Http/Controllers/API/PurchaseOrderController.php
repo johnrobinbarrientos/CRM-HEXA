@@ -111,8 +111,8 @@ class PurchaseOrderController extends Controller
         $order->item_group_uuid = request()->item_group_uuid;
         $order->asset_group_uuid = request()->asset_group_uuid;
         $order->term = request()->term;
-        $order->date_purchased = request()->date_purchased;
-        $order->date_expected = request()->date_expected;
+        $order->date_purchased = date('Y-m-d',strtotime(request()->date_purchased));
+        $order->date_expected = date('Y-m-d',strtotime(request()->date_expected));
         $order->supplier_uuid = request()->supplier_uuid;
         $order->po_status = request()->po_status;
         $order->orders_reason_code_uuid = request()->orders_reason_code_uuid;

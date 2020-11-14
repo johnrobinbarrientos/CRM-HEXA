@@ -59,6 +59,24 @@
                                 </td>
                             </template>
                         </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <span><strong>Grand Total:</strong></span>
+                            </td>
+                            <td>
+                                <span v-if="grand_total==0"><strong>0.00</strong></span>
+                                <span v-else><strong>{{putSeparator(grand_total)}}</strong></span>
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -79,6 +97,7 @@ export default {
             options_reason_code: [],
 
             toReceiveOrders: [],
+            grand_total: 0,
 
             listLoading: true,
             listCurrentPage: 1,
@@ -108,6 +127,8 @@ export default {
             scope.toReceiveOrders = []
             scope.GET('buy-and-pay/to-received?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.toReceiveOrders = res.rows
+                scope.grand_total = res.grand_total
+
                 scope.listLoading = false
                 scope.listCount = res.count
             })

@@ -58,7 +58,7 @@
                                 </td>
                                 <td width="50">{{ (index + 1) }}</td>
                                 <td width="100">{{ purchase.item_group.item_group }}</td>
-                                <td width="150">{{ purchase.receive_no }}</td>
+                                <td width="150">{{ purchase.receiving_no }}</td>
                                 <td width="200" class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
                                 <td width="100">{{ purchase.branch.branch_name.toUpperCase() }}</td>
                                 <td>{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
@@ -80,10 +80,27 @@
                                     <span class="badge badge-success font-size-12">Fully Received</span>
                                 </td>
 
-                                <td class="editable text-center">
+                                <td width="100">{{ purchase.receiving_reason_code }}</td>
 
-                                </td>
                             </template>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <span><strong>Grand Total:</strong></span>
+                            </td>
+                            <td>
+                                <span v-if="grand_total==0"><strong>0.00</strong></span>
+                                <span v-else><strong>{{putSeparator(grand_total)}}</strong></span>
+                            </td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>
@@ -126,6 +143,8 @@ export default {
             options_reason_code: [],
 
             receivedOrders: [],
+            grand_total: 0,
+
             listLoading: true,
             listCurrentPage: 1,
             listItemPerPage: 20,
@@ -156,6 +175,8 @@ export default {
             scope.receivedOrders = []
             scope.GET('buy-and-pay/received?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.receivedOrders = res.rows
+                scope.grand_total = res.grand_total
+
                 scope.listLoading = false
                 scope.listCount = res.count
             })

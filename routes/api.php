@@ -285,6 +285,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/received', 'API\PurchaseReceiveController@getReceived');
         Route::get('/to-received', 'API\PurchaseReceiveController@getToReceive');
 
+        Route::post('/receiving/{order_uuid}/details', 'API\PurchaseReceiveDetailController@save');
+
         Route::get('/receiving/{order_uuid}', 'API\PurchaseReceiveDetailController@getOrderDetails');
         Route::get('/receiving/{order_uuid}/supplier-items', 'API\PurchaseReceiveDetailController@getOrderSupplierItems');
 
