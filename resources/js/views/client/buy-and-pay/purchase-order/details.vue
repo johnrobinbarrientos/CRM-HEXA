@@ -126,7 +126,7 @@
                                     </div>
                                     <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
                                         <div>Discount</div>
-                                        <div>-{{ putSeparator(TOTAL_DISCOUNT_AMOUNT) }}</div>
+                                        <div>-{{ putSeparator(DISCOUNT_SUMMARY_TOTAL) }}</div>
                                     </div>
                                     <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
                                         <div>Tax Amount</div>
@@ -308,6 +308,12 @@
                                                     <th colspan="2">Price Rule Total</th>
                                                     <th class="text-right">{{ DISCOUNT_PRICE_RULE_RATE_TOTAL }}%</th>
                                                     <th class="text-right">{{ DISCOUNT_PRICE_RULE_TOTAL }}</th>
+                                                </tr>
+                                                <tr style="background:#abd1f5;">
+                                                    <th style="background:#77ade0;"></th>
+                                                    <th colspan="2">TOTAL DISCOUNT</th>
+                                                    <th class="text-right">{{ DISCOUNT_SUMMARY_RATE_TOTAL }}%</th>
+                                                    <th class="text-right">{{ putSeparator(DISCOUNT_SUMMARY_TOTAL) }}</th>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -510,7 +516,7 @@ export default {
                 total_amount += parseFloat(current.discount_amount)
             }
 
-            // total_amount += scope.calculateTotalAdditionalDiscountAmount()
+            total_amount += parseFloat(scope.DISCOUNT_ADDITIONAL_TOTAL)
 
             return total_amount.toFixed(2)
         },
@@ -568,10 +574,6 @@ export default {
 
              return total.toFixed(2)
         },
-        DISCOUNT_SUMMARY_TOTAL: function () {
-            var total = parseFloat(this.DISCOUNT_ADDITIONAL_TOTAL) + parseFloat(this.DISCOUNT_BASE_TOTAL) + parseFloat(this.DISCOUNT_PRICE_RULE_TOTAL)
-            return total.toFixed(2)
-        },
         DISCOUNT_ADDITIONAL_RATE_TOTAL: function () {
             var scope = this
             var total = 0.00
@@ -607,6 +609,10 @@ export default {
         },
         DISCOUNT_SUMMARY_TOTAL: function () {
             var total = parseFloat(this.DISCOUNT_ADDITIONAL_TOTAL) + parseFloat(this.DISCOUNT_BASE_TOTAL) + parseFloat(this.DISCOUNT_PRICE_RULE_TOTAL)
+            return total.toFixed(2)
+        },
+        DISCOUNT_SUMMARY_RATE_TOTAL: function () {
+            var total = parseFloat(this.DISCOUNT_ADDITIONAL_RATE_TOTAL) + parseFloat(this.DISCOUNT_BASE_RATE_TOTAL) + parseFloat(this.DISCOUNT_PRICE_RULE_RATE_TOTAL)
             return total.toFixed(2)
         }
     },
@@ -934,7 +940,7 @@ export default {
             var scope = this
             scope.GET('buy-and-pay/orders/' + order_uuid).then(res => {
                 scope.order = res.data
-                console.log(scope.order)
+                scope.order.term = (scope.order.term == 1) ? scope.order.term + ' Day' : scope.order.term + ' Days' ;
                 //scope.additional_discounts =  res.data.additional_discounts
                 var supplier_uuid = scope.order.supplier_uuid
                
