@@ -275,6 +275,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/order', 'API\PurchaseOrderController@saveOrder');
         Route::post('/order/delete', 'API\PurchaseOrderController@deleteOrder');
 
+        Route::post('/order/{order_uuid}/cancel', 'API\PurchaseOrderController@cancelOrder');
+
         Route::post('/orders/{order_uuid}/details', 'API\PurchaseOrderDetailController@save');
 
 
@@ -284,6 +286,9 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
         Route::get('/received', 'API\PurchaseReceiveController@getReceived');
         Route::get('/to-received', 'API\PurchaseReceiveController@getToReceive');
+
+        Route::get('/billed', 'API\PurchaseBillingController@getBilled');
+        Route::get('/to-bill', 'API\PurchaseBillingController@getToBill');
 
         Route::post('/receiving/{order_uuid}/details', 'API\PurchaseReceiveDetailController@save');
 

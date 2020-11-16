@@ -9,7 +9,9 @@ use App\Models\CompanyList;
 use App\Models\CompanyBranch;
 use App\Models\CompanyBranchLocation;
  
-use App\Models\ItemList;  
+use App\Models\ItemList;
+use App\Models\ItemGroup;
+use App\Models\ItemAssetGroup;
 use App\Models\ItemSupplier; 
 use App\Models\ItemSupplierDiscount; 
 use App\Models\ItemUom; 
@@ -326,6 +328,16 @@ class PurchaseOrderController extends Controller
         return response()->json(['success' => 1, 'message' => 'Deleted!'], 200);
     }
 
+    public function cancelOrder($orderUUID)
+    {
+        $orders = PurchaseOrder::find($orderUUID);
+        $orders->date_cancelled = date('Y-m-d');
+        $orders->po_status = 'Cancelled';
+        $orders->save();
+                    
+        return response()->json(['success' => 1, 'message' => 'Cancelled!'], 200);
+    }
+
     public function getOrderDetails($orderUUID)
     {
 
@@ -345,14 +357,17 @@ class PurchaseOrderController extends Controller
         $additional_discounts = PurchaseOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->get();
         $order->additional_discounts = $additional_discounts;
 
-        $additional_discounts = PurchaseOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->get();
-        $order->additional_discounts = $additional_discounts;
-
         $base_discounts =  PurchaseOrderBaseDiscountGroupDetail::where('bp_order_uuid','=',$orderUUID)->get();
         $order->base_discounts = $base_discounts;
 
         $price_rule_discounts =  PurchasePriceRule::where('bp_order_uuid','=',$orderUUID)->with('PriceRuleDetail')->get();
         $order->price_rule_discounts = $price_rule_discounts;
+
+        $item_group = ItemGroup::find($order->item_group_uuid);
+        $order->item_group = $item_group;
+
+        $asset_group = ItemAssetGroup::find($order->asset_group_uuid);
+        $order->asset_group = $asset_group;
 
        
 

@@ -40,12 +40,15 @@ import AdminCoaAccountGroup from './views/admin/settings/admin-coa-account-group
 import AdminChartofAccounts from './views/admin/settings/admin-chart-of-accounts'
 import AdminCostCenter from './views/admin/settings/admin-cost-center'
 
-import PurchaseOrderMain from './views/client/buy-and-pay/purchase-order/purchase-order-main'
-import PurchaseOrderCreate from './views/client/buy-and-pay/purchase-order/purchase-order-create'
-import PurchaseOrderDetails from './views/client/buy-and-pay/purchase-order/purchase-order-details'
+import PurchaseOrderMain from './views/client/buy-and-pay/purchase-order/main'
+import PurchaseOrderCreate from './views/client/buy-and-pay/purchase-order/create'
+import PurchaseOrderDetails from './views/client/buy-and-pay/purchase-order/details'
 
 import PurchaseReceiptMain from './views/client/buy-and-pay/purchase-receipt/main'
 import PurchaseReceiptDetails from './views/client/buy-and-pay/purchase-receipt/details'
+
+import BillingReturnMain from './views/client/buy-and-pay/billing-return/main'
+import BillingDetails from './views/client/buy-and-pay/billing-return/billing-details'
 
 import PriceRuleMain from './views/client/inventory/price-rule/price-rule-main'
 import PriceRuleSupplierForm from './views/client/inventory/price-rule/price-rule-supplier-form'
@@ -352,6 +355,29 @@ export default new VueRouter({
           name: 'purchase-receipt-details',
           props: { view_mode: true },
           component: PurchaseReceiptDetails,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/billing-return-main',
+          name: 'billing-return-main',
+          component: BillingReturnMain,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/billing-details/:orderUUID',
+          name: 'billing-details',
+          props: { view_mode: true },
+          component: BillingDetails,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/billing-details/:orderUUID/view',
+          name: 'billing-details',
+          props: { view_mode: true },
+          component: BillingDetails,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },

@@ -1,0 +1,1218 @@
+<template>
+    <div v-if="is_ready">
+        <div class="card hx-card-override">
+            <div class="card-header">
+                <h5 class="mb-0">General Information</h5>
+            </div>
+
+            <div class="card-body" >
+                <div class="actions-bar">
+                    <div class="w-100">
+                        <h1 class="title">Purchase Order</h1>
+                    </div>
+                    <div class="bar-right">
+                        <span v-if ="view_mode">
+                            <a @click="ROUTE({path: '/purchase-order-main' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
+                                <i class="las la-x"></i> <span>Back</span>
+                            </a>
+                            <a  v-if ="order.po_status =='To Receive'" @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Cancel</a>
+                            <a v-if ="order.po_status =='To Receive'" @click="ROUTE({path: '/purchase-orders/' + order.uuid })" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                                <i class="las la-x"></i> <span>Edit</span>
+                            </a>
+
+                        </span>
+                        <span v-else>
+                            <a @click="ROUTE({path: '/purchase-order-main' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
+                                <i class="las la-x"></i> <span>Back</span>
+                            </a>
+                            <a @click="cancel()" class="hx-btn hx-btn-red" data-toggle="modal" href="javascript:void(0)">
+                                <span>Cancel</span>
+                            </a>
+                            <a @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                                <i class="las la-pluss"></i> <span>Update</span>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+
+                <form action="#" class="form-validate is-alter">
+                        <div class="row">
+                            <div class="col-md-7 col-12">
+                                    <div class="row">
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="item-group">Transaction No.</label>
+                                                <input type="text" class="form-control disabled" v-model="order.po_no" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div v-if="order.asset_group" class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="asset-group">Asset Group</label>
+                                                <input type="text" class="form-control disabled" v-model="order.asset_group" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="item-group">Item Type</label>
+                                                <input type="text" class="form-control disabled" v-model="order.item_group.item_group" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="branch-name">PO Date</label>
+                                                <div class="form-control-wrap">
+                                                    <date-picker class="form-control disabled" v-model="order.date_purchased" :config="{format: 'YYYY-MM-DD'}" disabled="true"></date-picker>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="branch-name">Branch</label>
+                                                <input type="text" class="form-control disabled" v-model="order.branch.branch_name" readonly>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="date-expected">Expected Date</label>
+                                                <div class="form-control-wrap">
+                                                    <date-picker class="form-control disabled" v-model="order.date_expected" :config="{format: 'YYYY-MM-DD'}" disabled="true"></date-picker>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="supplier">Supplier</label>
+                                                <input type="text" class="form-control disabled" v-model="order.supplier.supplier_shortname" readonly>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="discount-group">Discount Group</label>
+                                                <div style="margin-bottom:10px;">
+                                                    <span v-for="(discount_group, index) in order.discount_groups" :key="discount_group.uuid" class="badge badge-pill badge-info mr-1">
+                                                        {{ discount_group.group_name }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="po-status">Payment Term</label>
+                                                <input type="text" class="form-control disabled" v-model="order.term" readonly>
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                
+                            </div>
+
+                            <div class="col-md-5 col-12">
+
+                                <div style="margin-bottom:30px; padding:10px; background:#fafafa; border:1px solid #efefef;" class="po-details">
+                                    <h4 style="margin-bottom:20px;">Summary</h4>
+                                    <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
+                                        <div>Gross Amount</div>
+                                        <div>{{ putSeparator(TOTAL_GROSS_AMOUNT) }}</div>
+                                    </div>
+                                    <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
+                                        <div>Discount</div>
+                                        <div>-{{ putSeparator(TOTAL_DISCOUNT_AMOUNT) }}</div>
+                                    </div>
+                                    <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
+                                        <div>Tax Amount</div>
+                                        <div>{{ putSeparator(TOTAL_VAT_AMOUNT) }}</div>
+                                    </div>
+                                    <div style="display:flex; justify-content: space-between; font-weight:900;">
+                                        <div>PO Amount</div>
+                                        <div>{{ putSeparator(TOTAL_PO_AMOUNT) }}</div>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                        </div>
+
+
+                    <br/>
+                    <div class="hx-nav-tabs-override">
+                        <ul class="nav nav-tabs">    
+                            <li class="nav-item">        
+                                <a class="nav-link active" data-toggle="tab" href="#item-details">Item Details</a>    
+                            </li>    
+                            <li class="nav-item">        
+                                <a class="nav-link" data-toggle="tab" href="#discounts">Discounts</a>    
+                            </li>
+                            <li class="nav-item">        
+                                <a class="nav-link" data-toggle="tab" href="#tax">Tax</a>    
+                            </li>     
+                        </ul>
+
+                        <div class="tab-content">    
+                            <div class="tab-pane active" id="item-details">
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-3">
+                                        <input style="margin-bottom:10px;" v-model="selected_item_list_keyword"  class="form-control" type="text" placeholder="Search an Item">
+                                    </div>
+                                    <div class="col-12 col-lg-9">
+                                        <div style="float:right;">
+                                            
+                                            <button @click="addItems()" class="btn btn-sm hx-btn-shineblue" :disabled="view_mode">Add Items</button>
+                                            <button @click="addAllItems()" class="btn btn-sm hx-btn-shineblue" :disabled="view_mode">Add All Items</button>
+                                            <button @click="removeAllZeroAmount()" class="btn btn-sm btn-danger btn btn-secondary" :disabled="view_mode">Remove Zero</button>
+                                        
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table mb-0 table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="40">Action</th>
+                                            <th width="40">#</th>
+                                            <th>Barcode</th>
+                                            <th>Item Description</th>
+                                            <th>Item Group</th>
+                                            <th>Location</th>
+                                            <th width="100">Quantity</th>
+                                            <th width="80">UOM</th>
+                                            
+                                            <th>Item Rate</th>
+                                            <th>Gross Amount</th>
+                                            <th>Discount Rate</th>
+                                            <th>Discount Amount</th>
+                                            <th>Net</th>
+                                            <th>VAT Amount</th>
+                                            <th>Total Amount</th>
+                                            
+                                            <th>Price Rule?</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                            <tr v-for="(item, index) in selectedItems" :key="item.barcode + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
+                                            <td><button @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button></td>
+                                            <td>{{ (index + 1) }}</td>
+                                            <td>{{ item.barcode }}</td>
+                                            <td><a :href="'/items/' + item.uuid + '/view'" target="_blank">{{ item.item_description }}</a></td>
+                                            <td>
+                                                <span class="badge badge-pill badge-info mr-1" v-for="base_discount in item.base_discounts">{{ base_discount.order_base_discount_group.group_name }}</span>
+                                            </td>
+                                            <td>{{ order.branch_location.location_name }}</td>
+                                            <td class="editable text-right">
+                                                <span>{{ item.quantity }}</span>
+                                                <input @keyup="calculate(item)" v-model="item.quantity" type="text" class="editable-control" :disabled="view_mode">
+                                            </td>
+                                            <td class="editable">
+                                                <span>{{ findUOMByBarcode(item.uoms,item.barcode) }}</span>
+                                                <select @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="editable-control" :disabled="view_mode">
+                                                    <option v-if="!isItemUOMSelected(uom, item)" v-for="(uom,index) in item.uoms" :key="uom.uuid + '-' + index" :value="uom.barcode" v-bind:selected="uom.barcode == item.barcode">{{ uom.uom }}</option>
+                                                </select>
+                                            </td>
+                                            <td class="text-right">{{ parseFloat(item.item_rate).toFixed(2) }}</td>
+                                            <td class="text-right">{{ parseFloat(item.gross_amount).toFixed(2)  }}</td>
+                                            <td class="text-right">
+                                                <a href="javascript:void(0);" @click="showDiscounts(item)">
+                                                    {{ item.discount_rate }}%
+                                                </a>
+                                            </td>
+                                            <td class="text-right">{{ parseFloat(item.discount_amount).toFixed(2) }}</td>
+                                            <td class="text-right">{{ parseFloat(item.net_amount).toFixed(2) }}</td>
+                                            <td class="text-right">{{ parseFloat(item.vat_amount).toFixed(2) }}</td>
+                                            <td class="text-right">{{ parseFloat(item.total_amount).toFixed(2) }}</td>
+                                            <td>
+                                                <a v-if="item.price_rule_discounts.length > 0" href="javascript:void(0);" @click="showDiscounts(item, 'price-rule')">
+                                                    Yes
+                                                </a>
+                                                <a v-else style="color:#495057;" href="javascript:void(0);">
+                                                    No
+                                                </a>
+                                            </td>
+                                        </tr> 
+                                        <tr>
+                                            <td colspan="16">
+                                                <input type="text" id="autocomplete" class="form-control" :disabled="view_mode">
+                                            </td>
+                                        </tr> 
+                                    </tbody>
+                                </table>
+                            
+                            </div>
+
+                            <div class="tab-pane" id="discounts">
+
+                                <div class="row">
+                                    <div class="col-md-4 col-12">
+                                        <h4>Additional Discounts</h4>
+                                        <div  v-for="(discount, index) in order.additional_discounts" :key="index">
+                                            <div class="form-group">
+                                                <span>{{ (index + 1) }}. {{ discount.discount_name }} <span v-if="discount.discount_type == 'rate'">%</span></span>
+                                                <input  @keyup="calculateAdditionalDiscounSummary(discount)" v-if=" discount.discount_type == 'rate'" v-model="discount.discount_rate" :disabled="view_mode" style="margin-top:5px; margin-bottom:5px; height:30px; min-height:30px; line-height:30px;" type="text" class="form-control">
+                                                <input  @keyup="calculateAdditionalDiscounSummary(discount)" v-if="discount.discount_type == 'fixed'" v-model="discount.discount_fixed" :disabled="view_mode" style="margin-top:5px; margin-bottom:5px; height:30px; min-height:30px; line-height:30px;" type="text" class="form-control">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-12 col-md-7 offset-md-1">
+                                        <h4>Discount Summary</h4>
+                                        <table class="table-discount-summary table table-striped table-bordered"> 
+                                            <thead>
+                                                <tr >
+                                                    <th width="30">#</th>
+                                                    <th width="150">Discount Group</th>
+                                                    <th>Discount Name</th>
+                                                    <th>Rate</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(base_discount,index) in order.base_discounts" :key="'base-discount-summary' + index">
+                                                    <th style="background:#77ade0;" v-if="index == 0" :rowspan="order.base_discounts.length + 1">1</th>
+                                                    <th v-if="index == 0" :rowspan="order.base_discounts.length">Base</th>
+                                                    <th>{{ base_discount.discount_name }}</th>
+                                                    <th class="text-right">{{ base_discount.discount_rate }}%</th>
+                                                    <th class="text-right">{{ parseFloat(base_discount.total_amount).toFixed(2) }}</th>
+                                                </tr>
+                                                <tr style="background:#abd1f5;">
+                                                    <th style="background:#abd1f5;" colspan="2">Base Total</th>
+                                                    <th class="text-right">{{ DISCOUNT_BASE_RATE_TOTAL }}%</th>
+                                                    <th class="text-right">{{ DISCOUNT_BASE_TOTAL }}</th>
+                                                </tr>
+                                                <tr v-for="(discount,index) in order.additional_discounts" :key="'additional-discount-summary' + index">
+                                                    <th style="background:#77ade0;" v-if="index == 0" :rowspan="order.additional_discounts.length + 1">2</th>
+                                                    <th v-if="index == 0" :rowspan="order.additional_discounts.length">Additional</th>
+                                                    <th>{{ discount.discount_name }}</th>
+                                                    <th class="text-right">{{ parseFloat(discount.discount_rate).toFixed(2) }}%</th>
+                                                    <th class="text-right">{{ parseFloat(discount.discount_fixed).toFixed(2) }}</th>
+                                                </tr>
+                                                <tr style="background:#abd1f5;">
+                                                    <th style="background:#abd1f5;"  colspan="2">Additional Total</th>
+                                                    <th class="text-right">{{ DISCOUNT_ADDITIONAL_RATE_TOTAL }}%</th>
+                                                    <th class="text-right">{{ DISCOUNT_ADDITIONAL_TOTAL }}</th>
+                                                </tr>
+                                                <tr v-for="(discount,index) in order.price_rule_discounts" :key="'price-rule-discount-summary' + index">
+                                                    <th style="background:#77ade0;" v-if="index == 0" :rowspan="order.price_rule_discounts.length + 1">3</th>
+                                                    <th v-if="index == 0" :rowspan="order.price_rule_discounts.length">Price Rule</th>
+                                                    <th>{{ discount.rule_name }}</th>
+                                                    <th class="text-right">{{ discount.rate }}%</th>
+                                                    <th class="text-right">{{ parseFloat(discount.total_amount).toFixed(2) }}</th>
+                                                </tr>
+                                                <tr style="background:#abd1f5;">
+                                                    <th colspan="2">Price Rule Total</th>
+                                                    <th class="text-right">{{ DISCOUNT_PRICE_RULE_RATE_TOTAL }}%</th>
+                                                    <th class="text-right">{{ DISCOUNT_PRICE_RULE_TOTAL }}</th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+        
+                            </div>
+
+                            <div class="tab-pane" id="tax">
+                            
+
+                            </div>   
+
+
+                        </div>
+                    </div>
+                
+                </form>
+            </div>
+        </div>
+
+        <div class="modal fade" tabindex="-1" id="modal-discounts">
+                <div class="modal-dialog modal-md " role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Discounts</h5>
+                            <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modal-discounts');" class="close" data-dismiss="modal" aria-label="Close">
+                                <i class="bx bx-x"></i>
+                            </a>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <div v-if="selectedItemDiscountView == 'all' || selectedItemDiscountView == 'base-discount'">
+                                    <h5><strong>Base Discounts</strong></h5>
+                                    <table class="table mb-0 table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th width="40">#</th>
+                                                <th>Discount Group</th>
+                                                <th>Discount Name</th>
+                                                <th>Discount Rate</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody v-if="selectedItem">
+                                            <tr v-for="(discount, index) in selectedItem.base_discounts" :key="discount.uuid">
+                                                <th width="40">{{ index + 1 }}</th>
+                                                <th>{{ discount.order_base_discount_group.group_name }}</th>
+                                                <th>{{ discount.discount_name }}</th>
+                                                <th class="text-right">{{ discount.discount_rate }}%</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <hr  v-if="selectedItemDiscountView == 'all'" />
+                                <div v-if="selectedItemDiscountView == 'all' || selectedItemDiscountView == 'price-rule'">
+                                <h5><strong>Price Rule Discounts</strong></h5>
+                                <table class="table mb-0 table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="40">#</th>
+                                            <th>Discount Name</th>
+                                            <th>Discount Rate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody v-if="selectedItem">
+                                        <tr v-for="(discount, index) in selectedItem.price_rule_discounts" :key="discount.uuid">
+                                            <th width="40">{{ index + 1 }}</th>
+                                            <th>{{ discount.price_rule.rule_name }}</th>
+                                            <th class="text-right">{{ discount.price_rule.rate }}%</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer bg-light">
+                            <button @click="CLOSE_MODAL('#modal-discounts');" type="submit" class="hx-btn hx-btn-gray">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" tabindex="-1" id="modal-item-list">
+                <div class="modal-dialog modal-lg " role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Item List</h5>
+                            <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modal-item-list');" class="close" data-dismiss="modal" aria-label="Close">
+                                <i class="bx bx-x"></i>
+                            </a>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-12 col-lg-5 offset-lg-7">
+                                    <div style="padding-bottom:10px;">
+                                        <input v-model="item_list_keyword"  class="form-control" type="text" placeholder="Search an Item">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped mb-0 table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="30">#</th>
+                                            <th>Barcode</th>
+                                            <th>Description</th>
+                                            <th>Short Name</th>
+                                            <th>UOM</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(item, index) in itemList" :key="index" v-bind:class="{'table-success' : isTempSelected(item) }">
+                                            <th scope="row">
+                                                <i @click="addTempItem(item)" v-if="!isTempSelected(item)" class="kx-checkbox bx bx-checkbox"></i>
+                                                <i @click="removeTempItem(item)" v-else class="kx-checkbox checked bx bx-checkbox-checked"></i>
+                                            </th>
+                                            <td>{{ item.barcode }}</td>
+                                            <td>{{ item.item_description }}</td>
+                                            <td>{{ item.item_shortname }}</td>
+                                            <td>{{ item.uom_label }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer bg-light">
+                            <button @click="saveTempItems()" type="button" class="btn hx-btn-shineblue">Save</button>
+                            <button @click="CLOSE_MODAL('#modal-item-list');" type="button" class="btn hx-btn-gray">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</template>
+
+<script>
+
+import Swal from 'sweetalert2'
+import moment from 'moment'
+
+export default {
+    name: 'purchase-order',
+    props: ['properties','view_mode'],
+    data: function () {
+        return {
+            is_ready: false,
+            order: null,
+            items: [],
+            selected_items: [],
+            options_items: [],
+            option_items_selected: null,
+            selectedItem: null,
+            selectedItemDiscountView: 'all',
+            temp_selected_items: [],
+            item_list_keyword: '',
+            selected_item_list_keyword: '',
+            additional_discounts_timeout: null
+        }
+    },
+    components: {
+
+    },
+    computed: {
+        itemList() {
+            var scope = this
+            var keyword = scope.item_list_keyword.toLowerCase()
+            return this.options_items.filter((item) => {
+                return (item.item_code.toLowerCase().indexOf(keyword) > -1 ||
+                item.item_description.toLowerCase().indexOf(keyword) > -1 ||
+                item.item_shortname.toLowerCase().indexOf(keyword) > -1);
+            })
+        },
+        selectedItems() {
+            var scope = this
+            var keyword = scope.selected_item_list_keyword.toLowerCase()
+            return this.selected_items.filter((item) => {
+                return ((item.barcode.toLowerCase().indexOf(keyword) > -1 ||
+                item.item_description.toLowerCase().indexOf(keyword) > -1 ||
+                item.item_shortname.toLowerCase().indexOf(keyword) > -1));
+            })
+        },
+        TOTAL_GROSS_AMOUNT: function () {
+            var scope = this
+            var total_amount = 0.00
+
+            for (let i = 0; i < scope.selectedItems.length; i++) {
+                var current = scope.selectedItems[i]
+                // total_amount += scope.calculateItemGrossAmount(current,'non-formatted')
+                total_amount += parseFloat(current.gross_amount)
+            }
+            return total_amount.toFixed(2)
+        },
+        TOTAL_DISCOUNT_AMOUNT: function () {
+            var scope = this
+            var total_amount = 0.00
+            for (let i = 0; i < scope.selectedItems.length; i++) {
+                var current = scope.selectedItems[i]
+                total_amount += parseFloat(current.discount_amount)
+            }
+
+            // total_amount += scope.calculateTotalAdditionalDiscountAmount()
+
+            return total_amount.toFixed(2)
+        },
+        TOTAL_VAT_AMOUNT: function () {
+            var scope = this
+            var total_amount = 0.00
+            for (let i = 0; i < scope.selectedItems.length; i++) {
+                var current = scope.selectedItems[i]
+                total_amount += parseFloat(current.vat_amount)
+            }
+
+            return total_amount.toFixed(2)
+        },
+        TOTAL_PO_AMOUNT: function () {
+            var scope = this
+            var total_amount = 0.00
+            for (let i = 0; i < scope.selectedItems.length; i++) {
+                var current = scope.selectedItems[i]
+                total_amount += parseFloat(current.total_amount) 
+            }
+       
+            total_amount -= scope.DISCOUNT_ADDITIONAL_TOTAL
+            return total_amount.toFixed(2)
+        },
+        DISCOUNT_ADDITIONAL_TOTAL: function () {
+            var scope = this
+            var total = 0.00
+            for (let i = 0; i < scope.order.additional_discounts.length; i++)
+            {
+                var discount = scope.order.additional_discounts[i]
+                total += parseFloat(discount.discount_fixed)
+            }
+
+             return total.toFixed(2)
+        },
+        DISCOUNT_BASE_TOTAL: function () {
+            var scope = this
+            var total = 0.00
+            for (let i = 0; i < scope.order.base_discounts.length; i++)
+            {
+                var discount = scope.order.base_discounts[i]
+                total += parseFloat(discount.total_amount)
+            }
+
+             return total.toFixed(2)
+        },
+        DISCOUNT_PRICE_RULE_TOTAL: function () {
+            var scope = this
+            var total = 0.00
+            for (let i = 0; i < scope.order.price_rule_discounts.length; i++)
+            {
+                var discount = scope.order.price_rule_discounts[i]
+                total += parseFloat(discount.total_amount)
+            }
+
+             return total.toFixed(2)
+        },
+        DISCOUNT_SUMMARY_TOTAL: function () {
+            var total = parseFloat(this.DISCOUNT_ADDITIONAL_TOTAL) + parseFloat(this.DISCOUNT_BASE_TOTAL) + parseFloat(this.DISCOUNT_PRICE_RULE_TOTAL)
+            return total.toFixed(2)
+        },
+        DISCOUNT_ADDITIONAL_RATE_TOTAL: function () {
+            var scope = this
+            var total = 0.00
+            for (let i = 0; i < scope.order.additional_discounts.length; i++)
+            {
+                var discount = scope.order.additional_discounts[i]
+                total += parseFloat(discount.discount_rate)
+            }
+
+             return total.toFixed(2)
+        },
+        DISCOUNT_BASE_RATE_TOTAL: function () {
+            var scope = this
+            var total = 0.00
+            for (let i = 0; i < scope.order.base_discounts.length; i++)
+            {
+                var discount = scope.order.base_discounts[i]
+                total += parseFloat(discount.discount_rate)
+            }
+
+             return total.toFixed(2)
+        },
+        DISCOUNT_PRICE_RULE_RATE_TOTAL: function () {
+            var scope = this
+            var total = 0.00
+            for (let i = 0; i < scope.order.price_rule_discounts.length; i++)
+            {
+                var discount = scope.order.price_rule_discounts[i]
+                total += parseFloat(discount.rate)
+            }
+
+             return total.toFixed(2)
+        },
+        DISCOUNT_SUMMARY_TOTAL: function () {
+            var total = parseFloat(this.DISCOUNT_ADDITIONAL_TOTAL) + parseFloat(this.DISCOUNT_BASE_TOTAL) + parseFloat(this.DISCOUNT_PRICE_RULE_TOTAL)
+            return total.toFixed(2)
+        }
+    },
+    methods: {
+        putSeparator: function(value) {
+            var num_parts = value.toString().split(".");
+            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return num_parts.join(".");
+        },
+        calculateAdditionalDiscounSummary: function() {
+            var scope = this
+
+            scope.calculateTotalAdditionalDiscountAmount()
+           
+        },
+        calculateBaseDiscounSummary: function() {
+            var scope = this
+            
+            for (let i = 0; i < scope.order.base_discounts.length; i++)
+            {
+                var discount = scope.order.base_discounts[i]
+                scope.$set(discount,'total_amount',0)
+
+                for (let x = 0; x < scope.selected_items.length; x++) {
+                    var item = scope.selected_items[x]
+                    
+                    for (let y = 0; y < item.base_discounts.length; y++)
+                    {
+                        var item_discount = item.base_discounts[y]
+                       
+                        if (item_discount.id == discount.id) {
+                            var rate = (parseFloat(discount.discount_rate) / 100)
+                            discount.total_amount += (item.gross_amount * rate)
+                        }
+                    }
+                }
+            }
+        },
+        calculatePriceRuleDiscountSummary: function() {
+            var scope = this
+            
+            for (let i = 0; i < scope.order.price_rule_discounts.length; i++)
+            {
+                var discount = scope.order.price_rule_discounts[i]
+                scope.$set(discount,'total_amount',0)
+
+                for (let x = 0; x < scope.selected_items.length; x++) {
+                    var item = scope.selected_items[x]
+                    
+                    if (discount.price_rule_detail.applied_to == 'selected') {
+                        for (let y = 0; y < item.price_rule_discounts.length; y++)
+                        {
+                            var item_discount = item.price_rule_discounts[y]
+                        
+                            if (item_discount.bp_price_rule_uuid == discount.uuid) {
+                                var rate = (parseFloat(discount.rate) / 100)
+                                discount.total_amount += (item.gross_amount * rate)
+                            }
+                        }
+                    } else {
+                        var rate = (parseFloat(discount.rate) / 100)
+                        discount.total_amount += (item.gross_amount * rate)
+                    }
+                }
+            }
+        },
+        calculateTotalAdditionalDiscountAmount: function() {
+            var scope = this
+            var total = 0.00
+            for (let i = 0; i < scope.order.additional_discounts.length; i++)
+            {
+                var discount = scope.order.additional_discounts[i]
+                if (discount.discount_type == 'rate') {
+                    discount.discount_rate = discount.discount_rate.replace(/[^\d.]/g,'');
+                    var rate = parseFloat(discount.discount_rate) / 100
+                    discount.discount_fixed = scope.TOTAL_GROSS_AMOUNT * rate
+                    discount.discount_fixed = (!isNaN(discount.discount_fixed)) ? discount.discount_fixed : 0.00
+                } else {
+                    discount.discount_fixed = discount.discount_fixed.replace(/[^\d.]/g,'');
+                    discount.discount_rate = (parseFloat(discount.discount_fixed ) /  scope.TOTAL_GROSS_AMOUNT ) * 100
+                    discount.discount_rate = (!isNaN(discount.discount_rate)) ? discount.discount_rate : 0.00
+                }
+            }
+            
+            return total
+        },
+        addAllItems: function() {
+            var scope = this
+            scope.selected_items = []
+            for (let i = 0; i < scope.options_items.length; i++) {
+                var current = scope.options_items[i]
+                scope.selected_items.push(current);
+                scope.calculate(current)
+            }
+        },
+        addItems: function() {
+            var scope = this
+            scope.temp_selected_items = []
+            scope.temp_selected_items = JSON.parse(JSON.stringify(scope.selectedItems))
+
+            scope.OPEN_MODAL('#modal-item-list');
+        },
+        isTempSelected: function(pointed) {
+            var scope = this
+            var count = scope.temp_selected_items.filter(item => {
+                return item.barcode.indexOf(pointed.barcode) > -1
+            }).length
+            return (count > 0) ? true : false
+        },
+        addTempItem: function(item) {
+            var scope = this
+            scope.temp_selected_items.push(item)
+        },
+        removeTempItem: function(pointed) {
+            var scope = this
+            for (let i = 0; i < scope.temp_selected_items.length; i++) {
+                var current = scope.temp_selected_items[i]
+                if (current.barcode == pointed.barcode) {
+                    scope.temp_selected_items.splice(i, 1);
+                }
+            }
+        },
+        clearSelectedItems: function() {
+            var scope = this
+
+            for (let i = 0; i < scope.selected_items.length; i++) {
+                scope.selected_items.splice(i, 1);
+            }
+        },
+        saveTempItems: function () {
+            var scope = this
+            scope.selected_items = []
+
+            for (let i = 0; i < scope.temp_selected_items.length; i++) {
+                var current = scope.temp_selected_items[i]
+                scope.selected_items.push(current);
+                scope.calculate(current)
+            }
+
+            scope.CLOSE_MODAL('#modal-item-list')
+        },
+        removeAllZeroAmount: function () {
+            var scope = this
+            for (let i = 0; i < scope.selectedItems.length; i++) {
+                var current = scope.selectedItems[i]
+                var total_amount = current.total_amount
+
+                if (total_amount <= 0) {
+                    console.log('THIS', i)
+                    scope.selected_items.splice(i, 1);
+                }
+            }
+
+            scope.calculateTotalAdditionalDiscountAmount()
+            scope.calculateBaseDiscounSummary();
+            scope.calculatePriceRuleDiscountSummary();
+        },
+        removeSelectedItem: function (pointed) {
+            var scope = this
+            for (let i = 0; i < scope.selected_items.length; i++) {
+                var current = scope.selected_items[i]
+                if (current.barcode == pointed.barcode) {
+                    scope.selected_items.splice(i, 1);
+                }
+            }
+
+            scope.calculateTotalAdditionalDiscountAmount()
+            scope.calculateBaseDiscounSummary();
+            scope.calculatePriceRuleDiscountSummary();
+        },
+        isItemUOMSelected: function (uom, pointed) {
+            var scope = this
+            for (let i = 0; i < scope.selected_items.length; i++) {
+                var current = scope.selected_items[i]
+                if (current.barcode == uom.barcode && uom.barcode != pointed.barcode ) {
+                    return true
+                }
+            }
+
+            return false
+        },
+        changeSelectedItemUOM: function (barcode, item, index) {
+            var scope = this
+             for (let i = 0; i < scope.options_items.length; i++) {
+                var current = scope.options_items[i]
+                var excluded = ['quantity'];
+                if (current.barcode == barcode ) {
+                    for (var key in current) {
+                        if (!excluded.includes(key)) {
+                            item[key] = current[key]
+                        }
+                    }
+
+                    scope.calculate(item)
+
+                }
+            } 
+            
+        },
+        findUOMByBarcode: function (haystack, barcode) {
+           for (let i = 0; i < haystack.length; i++) {
+                var current = haystack[i]
+                if (current.barcode == barcode ) {
+                    return current.uom
+                }
+            } 
+
+            return ''
+        },
+        findItemByBarcode: function (pointed) {
+           for (let i = 0; i < scope.options_items.length; i++) {
+                var current = scope.options_items[i]
+                if (current.barcode == pointed.barcode ) {
+                    return current
+                }
+            } 
+
+            return
+        },
+        calculate: function(item) {
+            var scope = this
+            scope.calculateTotalDiscountRate(item,'non-formatted')
+            scope.calculateItemGrossAmount(item,'non-formatted')
+            scope.calculateItemRate(item,'non-formatted')
+            scope.calculateItemDiscountAmount(item,'non-formatted')
+            scope.calculateItemNetAmount(item,'non-formatted')
+            scope.calculateVATAmount(item,'non-formatted')
+            scope.calculateTotalAmount(item,'non-formatted')
+        },
+        calculateTotalDiscountRate: function (item, type = 'formatted') {
+            var base_discounts = item.base_discounts
+            var base_discount_total = 0.00
+            for (let i = 0; i < base_discounts.length; i++) {
+                var current = base_discounts[i]
+                base_discount_total += (current.discount_rate) ? parseFloat(current.discount_rate) : 0
+            }
+
+            var price_rules = item.price_rule_discounts
+            var price_rule_total = 0.00
+            for (let i = 0; i < price_rules.length; i++) {
+                var current = price_rules[i]
+                price_rule_total += (current.price_rule) ? parseFloat(current.price_rule.rate) : 0
+            }
+
+            var total = parseFloat(base_discount_total + price_rule_total)
+
+            item.discount_rate = total
+            return (type == 'formatted') ? total.toFixed(2) : total
+        },
+        calculateItemGrossAmount: function (item, type = 'formatted') {
+            var scope = this
+            var rate = item.purchase_price
+            var qty = item.quantity
+            var uom = item.uom
+            var packing = scope.getItemUOMPacking(item.uoms, item.uom)
+            var total = (qty * packing) * rate
+            total = total / 1.12
+
+            item.gross_amount = total
+            return (type == 'formatted') ? total.toFixed(2) : total
+        },
+        calculateItemRate: function (item) {
+            var scope = this
+            var rate = item.purchase_price
+            var qty = item.quantity
+            var uom = item.uom
+            var packing = scope.getItemUOMPacking(item.uoms, item.uom)
+
+            var total = (qty * packing) * rate
+
+            item.item_rate = total
+
+            return total.toFixed(2)
+        },
+        calculateItemDiscountAmount: function (item, type = 'formatted') {
+            var scope = this
+            
+            // var discounts = scope.calculateTotalDiscountRate(item,'non-formatted')
+            var discounts = item.discount_rate
+            discounts = discounts / 100
+
+            // var gross = scope.calculateItemGrossAmount(item,'non-formatted')
+            var gross = item.gross_amount
+
+            var total =  (gross * discounts)
+
+            item.discount_amount = total
+
+            return (type == 'formatted') ? total.toFixed(2) : total
+        },
+        calculateItemNetAmount: function (item, type = 'formatted') {
+            var scope = this
+            
+            // var gross = scope.calculateItemGrossAmount(item,'non-formatted') 
+            var gross = item.gross_amount 
+            var discount = scope.calculateItemDiscountAmount(item,'non-formatted')
+
+            var total = gross - discount
+
+            item.net_amount = total
+
+            return (type == 'formatted') ? total.toFixed(2) : total
+        },
+        calculateVATAmount: function (item, type = 'formatted') {
+            var scope = this
+            var net = item.net_amount
+            var total = net * 0.12
+
+            item.vat_amount = total
+
+            return (type == 'formatted') ? total.toFixed(2) : total
+        },
+        calculateTotalAmount: function (item, type = 'formatted') {
+            var scope = this
+            var net = item.net_amount
+            var vat = item.vat_amount 
+            var total = net + vat
+
+            item.total_amount = total
+            
+            return (type == 'formatted') ? total.toFixed(2) : total
+        },
+        
+        getOrderDetails: function (order_uuid) {
+            var scope = this
+            scope.GET('buy-and-pay/orders/' + order_uuid).then(res => {
+                scope.order = res.data
+                console.log(scope.order)
+                //scope.additional_discounts =  res.data.additional_discounts
+                var supplier_uuid = scope.order.supplier_uuid
+               
+                // scope.getSupplierItems(supplier_uuid)
+            })
+        },
+        findSelectedItems: function (haystack, barcode) {
+            for (let i = 0; i < haystack.length; i++) {
+                var current = haystack[i]
+                if (current.barcode == barcode) {
+                    return current
+                }
+            }
+
+            return null
+        },
+        getOrderSupplierItems: function (order_uuid) {
+            var scope = this
+            scope.items = []
+            scope.options_items = []
+            scope.selected_items = []
+
+            scope.GET('buy-and-pay/orders/' + order_uuid + '/supplier-items').then(res => {
+                scope.items = res.rows
+                var selected = res.selected_items
+
+                res.rows.forEach(function (data) {
+                    data.data = data.uuid
+                    data.value = data.item_description 
+                    scope.$set(data,'gross_amount',data.gross_amount)
+
+                    // scope.options_items.push(data)
+                    data.uoms.forEach(function (data2) {
+                        var option = JSON.parse(JSON.stringify(data));
+                        option.barcode = data2.barcode
+                        option.uom_label = data2.uom
+                        option.uom = data2.uuid
+                        option.uom_packing = data2.packing_qtty
+                        option.quantity = 0
+                        option.base_discounts = data.base_discounts
+                        option.value = option.barcode + ' ' + option.item_description
+                        scope.options_items.push(option)
+
+                        var found = scope.findSelectedItems(selected, option.barcode)
+
+                        if (found) {
+                            option.quantity = found.order_qty
+                            scope.calculate(option)
+                            scope.selected_items.push(JSON.parse(JSON.stringify(option)));
+                            
+                        }
+                    })
+                })
+
+                scope.is_ready = true
+
+                setTimeout(function(){ 
+                    /*
+                    $(".search-items").select2({allowClear: true, placeholder: "Select an Item", data: scope.options_items, matcher: matchCustom}); 
+                    $('.search-items').on('select2:select', function (e) {
+                        var data = e.params.data;
+                    });
+                    */
+
+                    $('#autocomplete').autocomplete({
+                        lookup: scope.options_items,
+                        onSelect: function (suggestion) {
+                        
+                            for (let i = 0; i < scope.selected_items.length; i++) {
+                                var current = scope.selected_items[i]
+                                if (current.barcode == suggestion.barcode) {
+                                    scope.selectedItem = current
+                                    $('#autocomplete').val('')
+                                    return
+                                }
+                            }
+                            suggestion.quantity = 1
+                            scope.selected_items.push(JSON.parse(JSON.stringify(suggestion)));
+                            var index = scope.selected_items.length - 1
+                            var latest = scope.selected_items[index]
+                            scope.selectedItem = latest
+                            scope.calculate(latest)
+                            
+                            $('#autocomplete').val('')
+
+                            scope.calculateTotalAdditionalDiscountAmount()
+                            scope.calculateBaseDiscounSummary();
+                            scope.calculatePriceRuleDiscountSummary();
+                        },
+                        beforeRender: function (container, suggestions) {
+                            container.html('Searching..')
+                            var html = '<table style="width:100%;"><thead style="padding:2px 3px;"><tr style="background:#51a8f8; color:#fff;"><th style="width:120px;">Barcode</th><th style="width:340px;">Item Description</th><th style="width:80px;">Packing</th><th>UOM</th></tr></thead>'
+                            html += '<tbody style="padding:2px 3px;">';
+                            for (let i = 0; i < suggestions.length; i++) {
+                                var suggestion = suggestions[i]
+                                html += '<tr class="autocomplete-suggestion" value="'+ suggestion.value +'" data-barcode="'+ suggestion.barcode +'">'
+                                html += '<td style="border-right:1px solid #ccc; padding:0px 10px;">'+suggestion.barcode+'</td>'
+                                html += '<td style="border-right:1px solid #ccc; padding:0px 10px;">'+suggestion.item_description+'</td>'
+                                html += '<td style="border-right:1px solid #ccc; padding:0px 10px;">'+suggestion.uom_packing+'</td>'
+                                html += '<td style="padding:0px 10px;">'+suggestion.uom_label+'</td>'
+                                html += '</tr>'
+                            }
+                            html += '</tbody>'
+                            html += '</table>'
+                            container.html(html)
+                        }
+                        
+                    });
+
+                    scope.calculateTotalAdditionalDiscountAmount()
+                    scope.calculateBaseDiscounSummary();
+                    scope.calculatePriceRuleDiscountSummary();
+                },100);
+                
+
+            })
+        },
+        getItemUOMName: function (uoms, uuid) {
+            var data = uoms.filter((uom) => {
+                return uom.uuid.indexOf(uuid) > -1;
+            })
+            
+            if (data.length < 1) {
+                return ''
+            }
+
+            return data[0].uom
+        },
+        getItemUOMPacking: function (uoms, uuid) {
+            var data = uoms.filter((uom) => {
+                return uom.uuid.indexOf(uuid) > -1;
+            })
+            
+            if (data.length < 1) {
+                return ''
+            }
+
+            return data[0].packing_qtty
+        },
+        selectItem: function (barcode) {
+            var scope = this
+            for (let i = 0; i < scope.options_items.length; i++) {
+                var current = scope.options_items[i]
+                if (barcode == current.barcode) {
+    
+                    var found = scope.findSelectedItems(scope.selected_items, barcode)
+
+                    if (found) {
+                        scope.selectedItem = current
+                    } else {
+                        current.quantity = 1
+                        scope.calculate(current)
+                        scope.selected_items.push(JSON.parse(JSON.stringify(current)));
+                        
+                        scope.calculateTotalAdditionalDiscountAmount()
+                        scope.calculateBaseDiscounSummary();
+                        scope.calculatePriceRuleDiscountSummary();
+                    }   
+                }
+            }
+        },
+        showDiscounts: function (item, view = 'all') {
+            var scope = this
+            scope.selectedItem = item
+            scope.selectedItemDiscountView = view
+            scope.OPEN_MODAL('#modal-discounts');
+        },
+        save: function() {
+            var scope = this
+
+            scope.POST('buy-and-pay/orders/' + scope.order.uuid + '/details', {items: scope.selectedItems, discounts: scope.order.additional_discounts }).then(res => {
+                if (res.success) {
+                    window.swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Orders Successfuly Saved',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        
+                    })
+                } else {
+                    alert('ERROR:' + res.code)
+                } 
+            })
+        },
+
+        cancel : function () {
+            var scope = this
+
+            window.swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, cancel it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.POST('buy-and-pay/order/' + scope.order.uuid + '/cancel').then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Successfuly Cancelled',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.ROUTE({path: '/purchase-order-main' })
+                            })
+                        }
+                        else{
+                            alert('ERROR:' + res.code)
+                        }
+                    })            
+                }                              
+            })
+        },
+
+        loadData: function () {
+            var scope = this
+            var order_uuid = scope.$route.params.order_uuid;
+            scope.getOrderDetails(order_uuid)
+            scope.getOrderSupplierItems(order_uuid)
+        }
+    },
+    mounted() {
+        var scope = this
+        scope.loadData()
+
+       
+
+        /*
+        $(document).on('blur','#autocomplete',function(){
+            $(this).val('')
+        })
+        */
+
+       $(document).on('click','.autocomplete-suggestion',function(){
+           var barcode = $(this).data('barcode')
+           scope.selectItem(barcode) 
+        })
+    },
+}
+
+
+function matchCustom(params, data) {
+    // If there are no search terms, return all of the data
+    if ($.trim(params.term) === '') {
+      return data;
+    }
+
+    // Do not display the item if there is no 'text' property
+    if (typeof data.text === 'undefined') {
+      return null;
+    }
+
+    // `params.term` should be the term that is used for searching
+    // `data.text` is the text that is displayed for the data object
+    if (data.text.toLowerCase().indexOf(params.term.toLowerCase()) > -1 || data.item_code.indexOf(params.term.toLowerCase()) > -1) {
+      var modifiedData = $.extend({}, data, true);
+      modifiedData.text += ' (matched)';
+
+      // You can return modified objects from here
+      // This includes matching the `children` how you want in nested data sets
+      return modifiedData;
+    }
+
+    // Return `null` if the term should not be displayed
+    return null;
+}
+</script>
+
+<style scoped>
+.table-tranx { table-layout: auto; width: 200%;}
+.autocomplete-suggestion:hover { cursor:pointer !important; }
+
+.table-discount-summary thead th { background:#398cdb !important; color:#fff;  }
+</style>

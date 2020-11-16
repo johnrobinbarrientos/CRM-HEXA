@@ -155,6 +155,9 @@ thead.th-nowrap th { white-space: nowrap !important; }
 .hx-btn-gray { background: #eee; border: 1px solid #ddd; color:#333;}
 .hx-btn-gray:hover { background: #ddd; border: 1px solid #ccc; color:#222; transition: .3s; }
 
+.hx-btn-red { background: #f46a6a; border: 1px solid #ddd; color:#fff;}
+.hx-btn-red:hover { background: #ee3838; border: 1px solid #ccc; color:#fff; transition: .3s; }
+
 .hx-hexagon-burger { position: relative; margin-right: 3px; }
 .hx-hexagon-burger svg { font-size: 32px; }
 .hx-hexagon-burger i {
