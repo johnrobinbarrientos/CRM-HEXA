@@ -49,12 +49,6 @@ class PurchaseReceiveDetailController extends Controller
         $branch = CompanyBranch::find($order->branch_uuid);
         $order->branch = $branch;
 
-        $item_group = ItemGroup::find($order->item_group_uuid);
-        $order->item_group = $item_group;
-
-        $asset_group = ItemAssetGroup::find($order->asset_group_uuid);
-        $order->asset_group = $asset_group;
-
         $branch_location = CompanyBranchLocation::find($order->branch_locations_uuid);
         $order->branch_location = $branch_location;
 
@@ -63,6 +57,18 @@ class PurchaseReceiveDetailController extends Controller
 
         $additional_discounts = PurchaseOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->get();
         $order->additional_discounts = $additional_discounts;
+
+        $base_discounts =  PurchaseOrderBaseDiscountGroupDetail::where('bp_order_uuid','=',$orderUUID)->get();
+        $order->base_discounts = $base_discounts;
+
+        $price_rule_discounts =  PurchasePriceRule::where('bp_order_uuid','=',$orderUUID)->with('PriceRuleDetail')->get();
+        $order->price_rule_discounts = $price_rule_discounts;
+
+        $item_group = ItemGroup::find($order->item_group_uuid);
+        $order->item_group = $item_group;
+
+        $asset_group = ItemAssetGroup::find($order->asset_group_uuid);
+        $order->asset_group = $asset_group;
 
         return response()->json(['success' => 1, 'data' => $order], 200);
     }

@@ -19,7 +19,7 @@
                         <!-- <a @click="ROUTE({path: '/purchase-orders/create' });" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                             <i class="las la-plus"></i> <span>New</span>
                         </a> -->
-                        <a href="javascript:void(0)" @click="OPEN_MODAL('#modalPurchaseList')" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                        <a href="javascript:void(0)" @click="OPEN_MODAL('#modalPurchaseOrders')" class="hx-btn hx-btn-shineblue" data-toggle="modal">
                             <i class="las la-plus"></i> <span>New</span>
                         </a>
 
@@ -52,8 +52,8 @@
                             <template v-if="purchase.po_status !== 'Cancelled'">
                                 <td width="100" style="text-align:center;">
                                     <span class="w-65px d-block mx-auto">
-                                    <a v-if="purchase.po_status === 'To Receive'" href="javascript:void(0)"  @click="ROUTE({path: '/purchase-receipt-details/' + purchase.uuid })" class="btn btn-sm hx-btn-shineblue"><i class="las la-cart-plus"></i></a>
-                                    <a href="javascript:void(0)" @click="ROUTE({path: '/purchase-orders/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
+                                    <a v-if="purchase.receiving_status === 'To Bill'" href="javascript:void(0)" @click="ROUTE({path: '/purchase-receipt-details/' + purchase.uuid })" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
+                                    <a href="javascript:void(0)" @click="ROUTE({path: '/purchase-receipt-details/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
                                     </span>
                                 </td>
                                 <td width="50">{{ (index + 1) }}</td>
@@ -65,19 +65,13 @@
                                 <td width="100">{{ purchase.date_received }}</td>
 
                                 <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
-                                <td v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
+                                <td v-else class="text-right">{{putSeparator(purchase.po_total_amount.toFixed(2))}}</td>
 
-                                <td v-if="purchase.po_status === 'To Receive'" style="text-align:center;" class="editable" width="150">
-                                    <span class="badge badge-danger font-size-12">To Receive</span>
+                                <td v-if="purchase.receiving_status === 'To Bill'" style="text-align:center;" class="editable" width="150">
+                                    <span class="badge badge-danger font-size-12">To Bill</span>
                                 </td>
-                                <td v-else-if="purchase.po_status === 'Partially Received'" style="text-align:center;" class="editable">
-                                    <span class="badge badge-warning font-size-12">Partially Received</span>
-                                </td>
-                                <td v-else-if="purchase.po_status === 'Cancelled'" style="text-align:center;" class="editable">
-                                    <span class="badge badge-secondary font-size-12">Cancelled</span>
-                                </td>
-                                <td v-else-if="purchase.po_status === 'Fully Received'" style="text-align:center;" class="editable">
-                                    <span class="badge badge-success font-size-12">Fully Received</span>
+                                <td v-else-if="purchase.receiving_status === 'Billed'" style="text-align:center;" class="editable">
+                                    <span class="badge badge-success font-size-12">Billed</span>
                                 </td>
 
                                 <td width="100">{{ purchase.receiving_reason_code }}</td>
@@ -97,7 +91,7 @@
                             </td>
                             <td>
                                 <span v-if="grand_total==0"><strong>0.00</strong></span>
-                                <span v-else><strong>{{putSeparator(grand_total)}}</strong></span>
+                                <span v-else><strong>{{putSeparator(grand_total.toFixed(2))}}</strong></span>
                             </td>
                             <td></td>
                             <td></td>
@@ -109,12 +103,12 @@
 
 
         <!-- Modal -->
-        <div class="modal fade" tabindex="-1" id="modalPurchaseList">
+        <div class="modal fade" tabindex="-1" id="modalPurchaseOrders">
             <div class="modal-dialog modal-lg " role="document" style="max-width: 1100px;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Purchase Orders</h5>
-                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalPurchaseList');" class="close" data-dismiss="modal" aria-label="Close">
+                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalPurchaseOrders');" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
                         </a>
                     </div>

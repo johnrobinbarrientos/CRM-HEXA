@@ -22,7 +22,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(purchase, index) in toReceiveOrders" :key="purchase.uuid">
+                        <tr v-for="(purchase, index) in toReceive" :key="purchase.uuid">
                             <template v-if="purchase.po_status !== 'Cancelled'">
                                 <td width="100" style="text-align:center;">
                                     <span class="w-65px d-block mx-auto">
@@ -38,7 +38,7 @@
                                 <td width="100">{{ purchase.date_purchased }}</td>
 
                                 <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
-                                <td v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
+                                <td v-else class="text-right">{{putSeparator(purchase.po_total_amount.toFixed(2))}}</td>
 
                                 <td v-if="purchase.po_status === 'To Receive'" style="text-align:center;" class="editable" width="150">
                                     <span class="badge badge-danger font-size-12">To Receive</span>
@@ -72,7 +72,7 @@
                             </td>
                             <td>
                                 <span v-if="grand_total==0"><strong>0.00</strong></span>
-                                <span v-else><strong>{{putSeparator(grand_total)}}</strong></span>
+                                <span v-else><strong>{{putSeparator(grand_total.toFixed(2))}}</strong></span>
                             </td>
                             <td></td>
                             <td></td>
@@ -96,7 +96,7 @@ export default {
             selected_reason_code: null,
             options_reason_code: [],
 
-            toReceiveOrders: [],
+            toReceive: [],
             grand_total: 0,
 
             listLoading: true,
@@ -124,9 +124,9 @@ export default {
         getToReceive: function () {
            var scope = this
             scope.listLoading = true
-            scope.toReceiveOrders = []
+            scope.toReceive = []
             scope.GET('buy-and-pay/to-received?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
-                scope.toReceiveOrders = res.rows
+                scope.toReceive = res.rows
                 scope.grand_total = res.grand_total
 
                 scope.listLoading = false
