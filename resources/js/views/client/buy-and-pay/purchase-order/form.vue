@@ -1,6 +1,5 @@
 <template>
     <div>
-        <div v-if="$props.form == 'full'">
             <div class="actions-bar">
                 <div class="w-100">
                     <h1 class="title"><i class="las la-list-ul"></i> Purchase Orders</h1>
@@ -83,126 +82,7 @@
                     </div>                                                    
                 </form>
             </div>
-        </div>
 
-
-
-        <div v-else>
-            <div style="margin-bottom:30px; padding:10px; background:#fafafa; border:1px solid #efefef; position:relative;" class="po-details">
-                <div v-if="edit && !ready" style="position:absolute; display: flex; align-items: center; justify-content: center; top:0px; left:0px; width:100%; height:100%;  background:rgb(239, 239, 239); z-index:4000;">
-                    <div class="text-center my-3 text-loader">
-                        <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
-                    </div>
-                </div>
-                <div style="z-index:4500; position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px;" @click="toggleEdit()">
-                    <button v-if="!edit" class="bx bx-pencil" :disabled="view_mode" type="button"></button>
-                    <i v-else class="bx bx-x"></i>
-                </div>
-                <h4 style="margin-bottom:20px;">Information</h4>
-                <div class="row">
-                    <div class="col-md-3 col-12">
-                        <div>
-                            <strong>Transaction Type:</strong>
-                            <div style="margin-bottom:10px;">Purchase Order</div>
-                        </div>
-
-                        <div>
-                            <strong>Reference #:</strong>
-                            <div style="margin-bottom:10px;">{{ order.po_no }}</div>
-                        </div>
-
-                        <div>
-                            <strong>Branch:</strong>
-                            <div style="margin-bottom:10px;">{{ order.branch.branch_name }}</div>
-                        </div>
-
-                        
-                        
-
-                    </div>
-
-                    <div class="col-md-3 col-12">
-
-                        <div>
-                            <strong>Branch Location:</strong>
-                            <div style="margin-bottom:10px;" v-show="!edit">{{ order.branch_location.location_name }}</div>
-                            <div style="margin-bottom:10px; margin-top:5px;" v-show="edit">
-                                <select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="branch-location">
-                                </select>
-                            </div>
-                        </div>
-
-                        
-                        
-                        <div>
-                            <strong>Supplier:</strong>
-                            <div style="margin-bottom:10px;" v-show="!edit">{{ order.supplier.supplier_name }}</div>
-                            <div style="margin-bottom:10px; margin-top:5px;" v-show="edit">
-                                <select class="form-select-supplier" v-model="selected_supplier" :options="options_supplier" name="supplier">
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <strong>Discount Group:</strong>
-                            <div style="margin-bottom:10px;" v-show="!edit">
-                                <span v-for="(discount_group, index) in order.discount_groups" :key="discount_group.uuid" class="badge badge-pill badge-info mr-1">
-                                    {{ discount_group.group_name }}
-                                </span>
-                            </div>
-                            <div style="margin-bottom:10px; margin-top:5px;" v-show="edit">
-                                <select class="form-select-supplier-discount-group" multiple="multiple" v-model="selected_item_discount_group" :options="options_item_discount_group" name="discount-group">
-                                </select>
-                            </div>
-                        </div>
-
-                        
-                    </div>
-
-
-                    <div class="col-md-3 col-12">
-                        <div>
-                            <strong>Term:</strong>
-                            <div style="margin-bottom:10px;">{{ order.term || '-' }}</div>
-                        </div>
-
-                        <div>
-                            <strong>Date Purchased:</strong>
-                            <div style="margin-bottom:10px;" v-show="!edit">{{ order.date_purchased }}</div>
-                            <div style="margin-bottom:10px; margin-top:5px;" v-show="edit">
-                                <date-picker v-model="formdata.date_purchased" :config="{format: 'YYYY-MM-DD'}"></date-picker>
-                            </div>
-                        </div>
-                        <div>
-                            <strong>Date Expected:</strong>
-                            <div style="margin-bottom:10px;" v-show="!edit">{{ order.date_expected }}</div>
-                            <div style="margin-bottom:10px; margin-top:5px;" v-show="edit">
-                                <date-picker v-model="formdata.date_expected" :config="{format: 'YYYY-MM-DD'}"></date-picker>
-                            </div>
-                        </div>
-                        
-                        
-                    </div>
-
-                    <div class="col-md-3 col-12">
-                        <div>
-                            <strong>Status:</strong>
-                            <div style="margin-bottom:10px; text-transform:capitalize;">{{ order.po_status }}</div>
-                        </div>
-                    </div>
-                    <div v-if="edit" class="col-md-12 col-12">
-                        <div style="margin-top:20px; text-align:right;">
-                            <button @click="toggleEdit()" style="display:inline-block; text-align:center;" type="button" class="hx-btn hx-btn-gray">
-                                <span >Cancel</span>
-                            </button>
-                            <button @click="save()" style="display:inline-block; text-align:center;" type="button" class="hx-btn hx-btn-shineblue">
-                                <span >Update</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-             </div>
-        </div>
     </div>
 </template>
 
@@ -553,15 +433,8 @@ export default {
     },
     mounted() {
         var scope = this
-        if (!scope.$props.order) {
-            scope.loadFormFields();
-        } else {
-            scope.formdata = scope.$props.order
-            scope.selected_item_discount_group = [];
-            scope.order.discount_groups.forEach(function (data) {
-                scope.selected_item_discount_group.push(data.supplier_base_discount_group_uuid)
-            })
-        }
+
+        scope.loadFormFields();
 
       
         $(".form-select-supplier").on('change',function(){

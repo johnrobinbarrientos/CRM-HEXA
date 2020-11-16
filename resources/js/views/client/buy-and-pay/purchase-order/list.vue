@@ -16,7 +16,7 @@
                                 <option value="50">50</option>
                                 <option value="100">100</option>
                         </select>
-                        <a @click="ROUTE({path: '/purchase-orders/create' });" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                        <a @click="ROUTE({path: '/purchase-orders/form' });" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                             <i class="las la-plus"></i> <span>New</span>
                         </a>
                     </div>
