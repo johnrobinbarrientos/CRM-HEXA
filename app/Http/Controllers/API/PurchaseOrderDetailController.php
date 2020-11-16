@@ -82,9 +82,12 @@ class PurchaseOrderDetailController extends Controller
 
         foreach ($discounts as $discount) {
             $discount = (object) $discount;
+           
             $uuid = (isset($discount->uuid)) ? $discount->uuid : '';
-            $additional_discount = PurchaseOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->where('uuid','=',$uuid)->first();
-            $additional_discount = ($additional_discount) ? $discount : new  PurchaseOrderAdditionalDiscount;
+     
+            $additional_discount = PurchaseOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->where('uuid','=',$uuid)->withTrashed()->first();
+  
+            $additional_discount = ($additional_discount) ? $additional_discount : new  PurchaseOrderAdditionalDiscount;
 
             $additional_discount->company_id               = $auth->company_id;
             $additional_discount->bp_order_uuid            = $order->uuid;

@@ -92,7 +92,8 @@
             .then(response => {
                 var data = response.data
                 if (data.success) {
-                    scope.$store.dispatch('authenticate',{ token: data.token })
+                    scope.$store.dispatch('authenticate',{ token: data.token, user: data.user })
+                    scope.$store.dispatch('getMenus',{})
                 }
             })
             .catch(function (error) {
