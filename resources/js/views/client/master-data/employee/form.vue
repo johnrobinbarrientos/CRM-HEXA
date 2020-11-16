@@ -196,297 +196,280 @@
                             <div class="tab-content">
 
                                 <div class="tab-pane active" id="address">
-                                    
-                                    <div class="row" style="margin-left: 12px;">
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="email">Email</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.email" style="font-weight: bold;" type="text" class="form-control" id="email" :readonly="view_mode">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-md-3 col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="email">Email</label>
+                                                    <div class="form-control-wrap">
+                                                        <input v-model="formdata.email" style="font-weight: bold;" type="text" class="form-control" id="email" :readonly="view_mode">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="form-label" for="contact-no">Contact No</label>
+                                                    <div class="form-control-wrap">
+                                                        <input v-model="formdata.contact_no " style="font-weight: bold;" type="text" class="form-control" id="contact-no" :readonly="view_mode">
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="col-md-7 col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="address-list">Search Address</label>
+                                                    <strong><select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list" :disabled="view_mode">
+                                                    </select></strong>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="address1">Purok/Street/Zone</label>
+                                                            <div class="form-control-wrap">
+                                                                <input v-model="formdata.address1" style="text-transform: uppercase; font-weight: bold;" type="text" class="form-control" id="address1" :readonly="view_mode">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="province">Province:<small style="color: #999; font-style: italic">(Auto Fill)</small></label>
+                                                            <div class="form-control-wrap">
+                                                                <input v-model="province" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="province" readonly="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="barangay">Barangay:<small style="color: #999; font-style: italic">(Auto Fill)</small></label>
+                                                            <div class="form-control-wrap">
+                                                                <input v-model="barangay" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="barangay" readonly="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="region">Region:<small style="color: #999; font-style: italic">(Auto Fill)</small></label>
+                                                            <div class="form-control-wrap">
+                                                                <input v-model="region" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="region" readonly="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="city-municipality">City/Municipality:<small style="color: #999; font-style: italic">(Auto Fill)</small></label>
+                                                            <div class="form-control-wrap">
+                                                                <input v-model="city_municipality" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="city-municipality" readonly="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="postal-code">Postal Code:<small style="color: #999; font-style: italic">(Auto Fill)</small></label>
+                                                            <div class="form-control-wrap">
+                                                                <input v-model="postal_code" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="postal-code" readonly="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-md-7 col-12" style="margin-left: 100px;">
-                                            <div class="form-group">
-                                                <label class="form-label" for="address-list">Search Address</label>
-                                                <strong><select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list" :disabled="view_mode">
-                                                </select></strong>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row" style="margin-left: 12px;">
-
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="contact-no">Contact No</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.contact_no " style="font-weight: bold;" type="text" class="form-control" id="contact-no" :readonly="view_mode">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3 col-12" style="margin-left: 100px;">
-                                            <div class="form-group">
-                                                <label class="form-label" for="address1">Purok/Street/Zone</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.address1" style="text-transform: uppercase; font-weight: bold;" type="text" class="form-control" id="address1" :readonly="view_mode">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3 col-12" style="margin-left: 113px;">
-                                            <div class="form-group">
-                                                <label class="form-label" for="province">Province:<small style="color: #999; font-style: italic">(Auto Fill)</small></label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="province" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="province" readonly="true">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row" style="margin-left: 12px;">
-
-                                        <div class="col-md-3 col-12" style="margin-left: 443px;">
-                                            <div class="form-group">
-                                                <label class="form-label" for="barangay">Barangay:<small style="color: #999; font-style: italic">(Auto Fill)</small></label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="barangay" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="barangay" readonly="true">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3 col-12" style="margin-left: 113px;">
-                                            <div class="form-group">
-                                                <label class="form-label" for="region">Region:<small style="color: #999; font-style: italic">(Auto Fill)</small></label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="region" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="region" readonly="true">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    
-                                    </div> 
-
-
-                                    <div class="row" style="margin-left: 12px;">
-
-                                        <div class="col-md-3 col-12" style="margin-left: 443px;">
-                                            <div class="form-group">
-                                                <label class="form-label" for="city-municipality">City/Municipality:<small style="color: #999; font-style: italic">(Auto Fill)</small></label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="city_municipality" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="city-municipality" readonly="true">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3 col-12" style="margin-left: 113px;">
-                                            <div class="form-group">
-                                                <label class="form-label" for="postal-code">Postal Code:<small style="color: #999; font-style: italic">(Auto Fill)</small></label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="postal_code" style="text-transform: uppercase; font-weight: bold; background: #dddddd;" type="text" class="form-control" id="postal-code" readonly="true">
-                                                </div>
-                                            </div>
-                                        </div>
-
                                     </div>
 
 
                                 </div>
 
                                 <div class="tab-pane" id="emergency-contact">
+                                    <div class="container-fluid">
+                                        <div class="row">
 
-                                    <div class="row" style="margin-left: 12px;">
-
-                                        <div class="col-md-4 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="emergency-contact">Emergency Contact</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.emergency_contact" style="text-transform: uppercase;  font-weight: bold; " type="text" class="form-control" id="emergency-contact" :readonly="view_mode">
+                                            <div class="col-lg-2">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="emergency-contact">Emergency Contact</label>
+                                                    <div class="form-control-wrap">
+                                                        <input v-model="formdata.emergency_contact" style="text-transform: uppercase;  font-weight: bold; " type="text" class="form-control" id="emergency-contact" :readonly="view_mode">
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-md-4 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="contact-relation">Contact Relation</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.contact_relation" style="text-transform: uppercase; font-weight: bold;" type="text" class="form-control" id="contact-relation" :readonly="view_mode">
+                                            <div class="col-lg-2">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="contact-relation">Contact Relation</label>
+                                                    <div class="form-control-wrap">
+                                                        <input v-model="formdata.contact_relation" style="text-transform: uppercase; font-weight: bold;" type="text" class="form-control" id="contact-relation" :readonly="view_mode">
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                    </div>
-
-                                    <div class="row" style="margin-left: 12px;">
-                                        <div class="col-md-4 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="emergency-contact-no">Emergency Contact No</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.emergency_contact_no" style="text-transform: uppercase;  font-weight: bold; " type="text" class="form-control" id="emergency-contact-no" :readonly="view_mode">
+                                            <div class="col-lg-2">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="emergency-contact-no">Emergency Contact No</label>
+                                                    <div class="form-control-wrap">
+                                                        <input v-model="formdata.emergency_contact_no" style="text-transform: uppercase;  font-weight: bold; " type="text" class="form-control" id="emergency-contact-no" :readonly="view_mode">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
 
                                 <div class="tab-pane" id="employement">
-                                    
-                                    <div class="row" style="margin-left: 12px;">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-lg-7">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="employment-type">Employment Type</label>
+                                                            <strong><select class="form-select-employment-type" v-model="selected_employment_type" :options="options_employment_type" name="employment-type" :disabled="view_mode">
+                                                            </select></strong>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="employment-status">Employment Status</label>
+                                                            <strong><select class="form-select-employment-status" v-model="selected_employment_status" :options="options_employment_status" name="employment-status" :disabled="view_mode">
+                                                            </select></strong>
+                                                        </div>
+                                                    </div>
+                                                
 
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="employment-type">Employment Type</label>
-                                                <strong><select class="form-select-employment-type" v-model="selected_employment_type" :options="options_employment_type" name="employment-type" :disabled="view_mode">
-                                                </select></strong>
-                                            </div>
-                                        </div>
+                                                    <div class="col-lg-4 col-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="date-hired">Date Hired</label>
+                                                            <div class="form-control-wrap">
+                                                                <date-picker v-model="formdata.date_hired" style="font-weight: bold;" :config="DATEPICKER_CONFIG()" :disabled="view_mode"></date-picker>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="date-hired">Date Hired</label>
-                                                <div class="form-control-wrap">
-                                                    <date-picker v-model="formdata.date_hired" style="font-weight: bold;" :config="DATEPICKER_CONFIG()" :disabled="view_mode"></date-picker>
+                                                    <div class="col-lg-4 col-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="date-separated">Date Separated</label>
+                                                            <div class="form-control-wrap">
+                                                                <date-picker v-model="formdata.date_separated" style="font-weight: bold;" :config="DATEPICKER_CONFIG()" :disabled="view_mode"></date-picker>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+            
+
+
+                                                    <div class="col-lg-4 col-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="date-regularized">Date Regularized</label>
+                                                            <div class="form-control-wrap">
+                                                                <date-picker v-model="formdata.date_regularized" style="font-weight: bold;" :config="DATEPICKER_CONFIG()" :disabled="view_mode"></date-picker>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="date-separated">Date Separated</label>
-                                                <div class="form-control-wrap">
-                                                    <date-picker v-model="formdata.date_separated" style="font-weight: bold;" :config="DATEPICKER_CONFIG()" :disabled="view_mode"></date-picker>
-                                                </div>
-                                            </div>
-                                        </div>
-  
                                     </div>
-
-                                    <div class="row" style="margin-left: 12px;">
-
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="employment-status">Employment Status</label>
-                                                <strong><select class="form-select-employment-status" v-model="selected_employment_status" :options="options_employment_status" name="employment-status" :disabled="view_mode">
-                                                </select></strong>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="date-regularized">Date Regularized</label>
-                                                <div class="form-control-wrap">
-                                                    <date-picker v-model="formdata.date_regularized" style="font-weight: bold;" :config="DATEPICKER_CONFIG()" :disabled="view_mode"></date-picker>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    
-        
                                 </div>
 
                                 <div class="tab-pane" id="financial">
-                                    
-                                    <div class="row" style="margin-left: 12px;">
+                                    <div class="container-fluid">                                    
+                                        <div class="row">
 
-                                        <div class="col-md-3 col-12" style="margin-top: 20px">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" v-model="formdata.is_min_wage" true-value="1" false-value="0" class="custom-control-input" id="is-min-wage" :disabled="view_mode">
-                                                        <label class="custom-control-label" for="is-min-wage">Is Minimum Wage?</label>
+                                            <div class="col-lg-2 col-12">
+                                                <div class="h-100 d-flex align-items-center">
+                                                    <div class="form-group">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" v-model="formdata.is_min_wage" true-value="1" false-value="0" class="custom-control-input" id="is-min-wage" :disabled="view_mode">
+                                                            <label class="custom-control-label" for="is-min-wage">Is Minimum Wage?</label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="daily-wage">Daily Wage</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.daily_wage" style="font-weight: bold;" type="text" class="form-control" id="daily-wage" :readonly="view_mode">
+                                            <div class="col-lg-2 col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="daily-wage">Daily Wage</label>
+                                                    <div class="form-control-wrap">
+                                                        <input v-model="formdata.daily_wage" style="font-weight: bold;" type="text" class="form-control" id="daily-wage" :readonly="view_mode">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-2 col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="cost-center">Cost Center</label>
+                                                    <strong><select class="form-select-cost-center" v-model="selected_cost_center" :options="options_cost_center" name="cost-center" :disabled="view_mode">
+                                                    </select></strong>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-md-3 col-12" style="margin-left: 100px">
-                                            <div class="form-group">
-                                                <label class="form-label" for="cost-center">Cost Center</label>
-                                                <strong><select class="form-select-cost-center" v-model="selected_cost_center" :options="options_cost_center" name="cost-center" :disabled="view_mode">
-                                                </select></strong>
-                                            </div>
-                                        </div>
                                     </div>
-  
                                 </div>
 
                                 <div class="tab-pane" id="government">
-                                    
-                                    <div class="row" style="margin-left: 12px;">
-                                        <div class="col-md-3 col-12" style="margin-top: 20px;">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" v-model="formdata.is_applied_tax" true-value="1" false-value="0" class="custom-control-input" id="is-applied-tax" :disabled="view_mode">
-                                                        <label class="custom-control-label" for="is-applied-tax">Is Applied Tax?</label>
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-md-2 col-12">
+                                                <div class="h-100 d-flex align-items-center">
+                                                    <div class="form-group">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" v-model="formdata.is_applied_tax" true-value="1" false-value="0" class="custom-control-input" id="is-applied-tax" :disabled="view_mode">
+                                                            <label class="custom-control-label" for="is-applied-tax">Is Applied Tax?</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2 col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="tax-id">TIN</label>
+                                                    <div class="form-control-wrap">
+                                                        <input v-model="formdata.tax_id" style="text-transform: uppercase;  font-weight: bold;" type="text" class="form-control" id="tax-id" :readonly="view_mode">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2 col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="phic-id">PHIC No</label>
+                                                    <div class="form-control-wrap">
+                                                        <input v-model="formdata.phic_id" style="text-transform: uppercase;  font-weight: bold;" type="text" class="form-control" id="phic-id" :readonly="view_mode">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                        </div>
+
+
+                                        <div class="row">
+
+                                            <div class="col-md-2 col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="vat">Withholding Tax</label>
+                                                    <select class="form-select-ewt" v-model="selected_ewt" :options="options_ewt" name="vat" :disabled="view_mode">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-2 col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="sss-id">SSS/UMID No</label>
+                                                    <div class="form-control-wrap">
+                                                        <input v-model="formdata.sss_id" style="text-transform: uppercase;  font-weight: bold;" type="text" class="form-control" id="sss-id" :readonly="view_mode">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2 col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="hdmf-id">HDMF No</label>
+                                                    <div class="form-control-wrap">
+                                                        <input v-model="formdata.hdmf_id" style="text-transform: uppercase;  font-weight: bold;" type="text" class="form-control" id="hdmf-id" :readonly="view_mode">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-md-3 col-12" style="margin-left: 100px;">
-                                            <div class="form-group">
-                                                <label class="form-label" for="tax-id">TIN</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.tax_id" style="text-transform: uppercase;  font-weight: bold;" type="text" class="form-control" id="tax-id" :readonly="view_mode">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3 col-12" style="margin-left: 100px;">
-                                            <div class="form-group">
-                                                <label class="form-label" for="phic-id">PHIC No</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.phic_id" style="text-transform: uppercase;  font-weight: bold;" type="text" class="form-control" id="phic-id" :readonly="view_mode">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    
                                     </div>
-
-
-                                    <div class="row" style="margin-left: 12px;">
-
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="vat">Withholding Tax</label>
-                                                <select class="form-select-ewt" v-model="selected_ewt" :options="options_ewt" name="vat" :disabled="view_mode">
-                                                </select>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-md-3 col-12" style="margin-left: 100px;">
-                                            <div class="form-group">
-                                                <label class="form-label" for="sss-id">SSS/UMID No</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.sss_id" style="text-transform: uppercase;  font-weight: bold;" type="text" class="form-control" id="sss-id" :readonly="view_mode">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3 col-12" style="margin-left: 100px;">
-                                            <div class="form-group">
-                                                <label class="form-label" for="hdmf-id">HDMF No</label>
-                                                <div class="form-control-wrap">
-                                                    <input v-model="formdata.hdmf_id" style="text-transform: uppercase;  font-weight: bold;" type="text" class="form-control" id="hdmf-id" :readonly="view_mode">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 </div>
 
                                 

@@ -4,14 +4,13 @@
         <div class="row">
             <div class="col-md-4 col-12" >
                 <div class="card-title" style="margin-left: 12px;">Discount Groups</div>
-                <div class="table-responsive">
+                <div v-bind:class="{ 'table-responsive': table_responsive }">
                     <table class="table  table-striped table-bordered table-hover mb-0 table" style="margin-left: 12px;">
                         <thead>
                             <tr>
                                 <th width="90">Actions</th>
                                 <th width="40">#</th>
                                 <th>Name</th>
-                                
                             </tr>
                         </thead>
                         <tbody>
@@ -123,7 +122,9 @@ export default {
         return {
             selected_group: null,
             discounts: [],
-            groups: []
+            groups: [],
+            table_responsive: true,
+            falsee: false,
         }
     },
     methods: {
@@ -287,6 +288,13 @@ export default {
     mounted() {
         var scope = this
         scope.getGroups()
+
+        if(scope.properties) {
+            scope.table_responsive = scope.properties.table_responsive
+        }
+        console.log(scope.properties)
+        console.log(scope.properties.table_responsive)
+
     },
 }
 </script>

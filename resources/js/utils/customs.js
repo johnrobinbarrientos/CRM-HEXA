@@ -20,7 +20,10 @@ export default {
             $('body').removeClass('modal-open');
             $('.modal-backdrop').hide();
             $('.modal-backdrop').removeClass('show');
-        }
+        },
+        FOCUS_INPUT: function (id) {
+          $(id).focus()
+        },
     }
 }
   

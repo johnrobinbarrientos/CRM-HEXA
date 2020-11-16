@@ -14,7 +14,7 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <a @click="OPEN_MODAL('#modalSupplierGroup');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                <a @click="OPEN_MODAL('#modalSupplierGroup'); FOCUS_INPUT('#group-name-input'); resetData();" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                     <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
@@ -24,28 +24,32 @@
         <div v-if="listLoading" class="text-center my-3 text-loader">
             <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
         </div>
- 
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Actions</th>
-                    <th>#</th>
-                    <th>Group Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(group, index) in groups" :key="group.uuid">
-                    <td width="100">
-                        <span class="w-65px d-block mx-auto">
-                            <a href="javascript:void(0)" @click="OPEN_MODAL('#modalSupplierGroup');setData(group)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                            <a href="javascript:void(0)" @click="remove(group)" class="btn btn-sm btn-danger" title="Trash"><i class="mdi mdi-trash-can"></i></a>
-                        </span>
-                    </td>
-                    <td width="100">{{ (index + 1) }}</td>
-                    <td><span class="">{{ group.group_name }}</span></td>
-                </tr>
-            </tbody>
-        </table>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Actions</th>
+                            <th>#</th>
+                            <th>Group Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(group, index) in groups" :key="group.uuid">
+                            <td width="100">
+                                <span class="w-65px d-block mx-auto">
+                                    <a href="javascript:void(0)" @click="OPEN_MODAL('#modalSupplierGroup');setData(group)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
+                                    <a href="javascript:void(0)" @click="remove(group)" class="btn btn-sm btn-danger" title="Trash"><i class="mdi mdi-trash-can"></i></a>
+                                </span>
+                            </td>
+                            <td width="100">{{ (index + 1) }}</td>
+                            <td><span class="">{{ group.group_name }}</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
             <ul class="pagination">
@@ -72,8 +76,8 @@
 
 
             <!-- Modal Group Form -->
-            <div class="modal fade" tabindex="-1" id="modalSupplierGroup">
-                <div class="modal-dialog modal-lg " role="document">
+            <div class="modal fade modal-single-form" tabindex="-1" id="modalSupplierGroup">
+                <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Supplier Group Details</h5>
@@ -85,11 +89,11 @@
                             <form action="#" class="form-validate is-alter">
 
                                 <div class="row">
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-lg-12">
                                         <div class="form-group">
                                             <label class="form-label" for="group-name">Group Name</label>
                                             <div class="form-control-wrap">
-                                                <input v-model="formdata.group_name" type="text" class="form-control" id="group-name" required>
+                                                <input v-model="formdata.group_name" type="text" class="form-control" id="group-name-input" required>
                                             </div>
                                         </div>
                                     </div>
@@ -281,7 +285,7 @@ export default {
             var scope = this
             scope.listCurrentPage = 1
             scope.getSupplierGroup()
-        }
+        },
     },
     mounted() {
         var scope = this

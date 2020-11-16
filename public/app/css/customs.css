@@ -92,13 +92,21 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
     border-bottom-right-radius: 4px;
 }
 
+/*modal (single field forms)*/
+@media (min-width: 992px) {
+	.modal-single-form .modal-dialog { max-width: 350px; margin-top: 150px; }
+}
+.modal-single-form .modal-dialog button,
+.modal-single-form .modal-dialog input { width: 100%; }
+.modal-single-form .modal-dialog .form-group { margin-bottom: .5rem; }
+
 /*nav-tabs*/
 .hx-nav-tabs-override .nav-tabs { background-color: var(--hexa-blue); border-top-left-radius: .25rem; border-top-right-radius: .25rem; margin-bottom: 0 !important; border-bottom: 0 !important; }
 .hx-nav-tabs-override .nav-tabs .nav-item { margin-bottom: 0; }
 .hx-nav-tabs-override .nav-item .nav-link { color: white; border: none; }
 .hx-nav-tabs-override .nav-item .nav-link.active { color: #fff !important; background-color: var(--shine-blue); }
 .hx-nav-tabs-override .nav-item .nav-link::after { content: none; }
-.hx-nav-tabs-override .tab-content { border: 1px solid #ced4da; border-top: 0; padding-top: 10px; border-bottom-left-radius: .25rem; border-bottom-right-radius: .25rem; }
+.hx-nav-tabs-override .tab-content { border: 1px solid #ced4da; border-top: 0; padding-top: 12px; border-bottom-left-radius: .25rem; border-bottom-right-radius: .25rem; }
 
 
 /*form fields*/

@@ -14,7 +14,7 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <a @click="OPEN_MODAL('#modalEmploymentStatus');resetData();" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                <a @click="OPEN_MODAL('#modalEmploymentStatus'); FOCUS_INPUT('#employment-status-input'); resetData();" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                     <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
@@ -25,28 +25,32 @@
             <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
         </div>
 
-        <div v-else class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Actions</th>
-                        <th>#</th>
-                        <th>Employment Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(status, index) in employmentStatus" :key="status.uuid">
-                        <td width="100">
-                            <span class="w-65px d-block mx-auto">
-                                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalEmploymentStatus');setData(status)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                <a href="javascript:void(0)" @click="remove(status)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
-                            </span>
-                        </td>
-                        <td width="50">{{ (index + 1) }}</td>
-                        <td>{{ status.employment_status }}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div v-else>
+            <div class="row">
+                <div class="col-lg-6">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Actions</th>
+                                <th class="text-right">#</th>
+                                <th>Employment Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(status, index) in employmentStatus" :key="status.uuid">
+                                <td width="100">
+                                    <span class="w-65px d-block mx-auto">
+                                        <a href="javascript:void(0)" @click="OPEN_MODAL('#modalEmploymentStatus'); FOCUS_INPUT('#employment-status-input'); setData(status)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
+                                        <a href="javascript:void(0)" @click="remove(status)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
+                                    </span>
+                                </td>
+                                <td width="50" class="text-right">{{ (index + 1) }}</td>
+                                <td>{{ status.employment_status }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
         <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
@@ -72,7 +76,7 @@
             
 
         <!-- Modal Group Form -->
-        <div class="modal fade" tabindex="-1" id="modalEmploymentStatus">
+        <div class="modal fade modal-single-form" tabindex="-1" id="modalEmploymentStatus">
             <div class="modal-dialog modal-lg " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -85,11 +89,11 @@
                         <form action="#" class="form-validate is-alter">
 
                             <div class="row">
-                                <div class="col-md-6 col-12">
+                                <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label" for="employment-status">Employment Status</label>
                                         <div class="form-control-wrap">
-                                            <input v-model="formdata.employment_status" type="text" class="form-control" id="employment-status" required>
+                                            <input v-model="formdata.employment_status" type="text" class="form-control" id="employment-status-input" required>
                                         </div>
                                     </div>
                                 </div>

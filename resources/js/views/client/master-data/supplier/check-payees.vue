@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-4 col-12">
                 <div class="card-title" style="margin-left: 12px;">Check Payees</div>
-                <div class="table-responsive">
+                <div v-bind:class="{ 'table-responsive': table_responsive }">
                     <table class="table  table-striped table-bordered table-hover mb-0 table" style="margin-left: 12px;">
                         <thead>
                             <tr>
@@ -65,7 +65,8 @@ export default {
     data: function () {
         return {
             selected_payee: null,
-            payees: []
+            payees: [],
+            table_responsive: true,
         }
     },
     methods: {
@@ -150,6 +151,10 @@ export default {
     mounted() {
         var scope = this
         scope.getPayees()
+
+        if(scope.properties) {
+            scope.table_responsive = scope.properties.table_responsive
+        }
     },
 }
 </script>
