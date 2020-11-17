@@ -48,5 +48,9 @@ class EmployeeList extends Model
     public function EmploymentStatus(){
         return $this->belongsTo('App\Models\EmployeeEmploymentStatus','employment_status_uuid','uuid');
     }
+
+    public function SystemInvitation(){
+        return $this->belongsTo('App\Models\EmployeeSystemInvitation','employee_uuid','uuid');
+    }
    
 }

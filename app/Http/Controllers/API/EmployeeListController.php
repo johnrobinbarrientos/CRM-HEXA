@@ -17,7 +17,12 @@ class EmployeeListController extends Controller
     public function getEmployeeList()
     {
         $list = EmployeeList::where('is_draft','=', 0)->whereNull('deleted_at')->with('BranchLocation')->with('Department')
-        ->with('EmploymentType')->with('EmploymentStatus');
+            ->with('EmploymentType')->with('EmploymentStatus');
+
+        if (isset(request()->system) && request()->system == 'yes') {
+            $list = $list->where('is_system_user','=',true)
+                ->with('SystemInvitation');
+        }
 
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;
