@@ -103,7 +103,7 @@
             <div class="modal-dialog modal-lg " role="document" style="max-width: 1100px;">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Item Receipts</h5>
+                        <h5 class="modal-title">Billings</h5>
                         <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalItemReceipts');" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
                         </a>
