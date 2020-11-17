@@ -161,24 +161,27 @@
 
                         <div class="tab-content">    
                             <div class="tab-pane active" id="account">
-                        
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="income-account">Income Account</label>
-                                        <select class="form-select-income-account" v-model="selected_income_account" :options="options_income_account" name="income-account" :disabled="view_mode">
-                                        </select>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-3 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="income-account">Income Account</label>
+                                                <select class="form-select-income-account" v-model="selected_income_account" :options="options_income_account" name="income-account" :disabled="view_mode">
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="cost-of-sales">Cost Of Sales</label>
-                                        <select class="form-select-cost-of-sales" v-model="selected_cost_of_sales" :options="options_cost_of_sales" name="cost-of-sales" :disabled="view_mode">
-                                        </select>
+                                    <div class="row">
+                                        <div class="col-md-3 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="cost-of-sales">Cost Of Sales</label>
+                                                <select class="form-select-cost-of-sales" v-model="selected_cost_of_sales" :options="options_cost_of_sales" name="cost-of-sales" :disabled="view_mode">
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-12" style="margin-left: 12px;">
+                                    <div class="row">
+                                        <div class="col-12">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
                                                     <div class="custom-control custom-checkbox">
@@ -188,153 +191,155 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="tab-pane" id="category">
+                                <div class="container-fluid pl-4 pr-4 pb-4">
+                                    <div class="row">
 
-                                <div class="row" style="margin-left: 12px;">
-
-                                    <div class="col-md-4 col-12">
-                                        <div class="form-group">
-                                            <label class="form-label" for="cat-department">Department</label>
-                                            <select class="form-select-cat-department" v-model="selected_cat_department" :options="options_cat_department" name="cat-department" :disabled="view_mode">
-                                            </select>
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="cat-department">Department</label>
+                                                <select class="form-select-cat-department" v-model="selected_cat_department" :options="options_cat_department" name="cat-department" :disabled="view_mode">
+                                                </select>
+                                            </div>
                                         </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="cat-manufacturer">Manufacturer</label>
+                                                <select class="form-select-cat-manufacturer" v-model="selected_cat_manufacturer" :options="options_cat_manufacturer" name="cat-manufacturer" :disabled="view_mode">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="cat-form">Form</label>
+                                                <select class="form-select-cat-form" v-model="selected_cat_form" :options="options_cat_form" name="cat-form" :disabled="view_mode">
+                                                </select>
+                                            </div>
+                                        </div>
+
+
                                     </div>
 
-                                    <div class="col-md-4 col-12">
-                                        <div class="form-group">
-                                            <label class="form-label" for="cat-manufacturer">Manufacturer</label>
-                                            <select class="form-select-cat-manufacturer" v-model="selected_cat_manufacturer" :options="options_cat_manufacturer" name="cat-manufacturer" :disabled="view_mode">
-                                            </select>
+                                    <div class="row">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="cat-section">Section</label>
+                                                <select class="form-select-cat-section" v-model="selected_cat_section" :options="options_cat_section" name="cat-section" :disabled="view_mode">
+                                                </select>
+                                            </div>
                                         </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="cat-item-type">Item Type</label>
+                                                <select class="form-select-cat-item-type" v-model="selected_cat_item_type" :options="options_cat_item_type" name="cat-item-type" :disabled="view_mode">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="cat-packing-type">Packing Type</label>
+                                                <select class="form-select-cat-packing-type" v-model="selected_cat_packing_type" :options="options_cat_packing_type" name="cat-packing-type" :disabled="view_mode">
+                                                </select>
+                                            </div>
+                                        </div>
+
                                     </div>
 
-                                    <div class="col-md-4 col-12">
-                                        <div class="form-group">
-                                            <label class="form-label" for="cat-form">Form</label>
-                                            <select class="form-select-cat-form" v-model="selected_cat_form" :options="options_cat_form" name="cat-form" :disabled="view_mode">
-                                            </select>
+                                    <div class="row">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="cat-category">Category</label>
+                                                <select class="form-select-cat-category" v-model="selected_cat_category" :options="options_cat_category" name="cat-category" :disabled="view_mode">
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
 
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="cat-brand">Brand</label>
+                                                <select class="form-select-cat-brand" v-model="selected_cat_brand" :options="options_cat_brand" name="cat-brand" :disabled="view_mode">
+                                                </select>
+                                            </div>
+                                        </div>
 
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="cat-sizes">Sizes</label>
+                                                <select class="form-select-cat-sizes" v-model="selected_cat_sizes" :options="options_cat_sizes" name="cat-sizes" :disabled="view_mode">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div> 
                                 </div>
-
-                                <div class="row" style="margin-left: 12px;">
-
-                                    <div class="col-md-4 col-12">
-                                        <div class="form-group">
-                                            <label class="form-label" for="cat-section">Section</label>
-                                            <select class="form-select-cat-section" v-model="selected_cat_section" :options="options_cat_section" name="cat-section" :disabled="view_mode">
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4 col-12">
-                                        <div class="form-group">
-                                            <label class="form-label" for="cat-item-type">Item Type</label>
-                                            <select class="form-select-cat-item-type" v-model="selected_cat_item_type" :options="options_cat_item_type" name="cat-item-type" :disabled="view_mode">
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    
-                                    <div class="col-md-4 col-12">
-                                        <div class="form-group">
-                                            <label class="form-label" for="cat-packing-type">Packing Type</label>
-                                            <select class="form-select-cat-packing-type" v-model="selected_cat_packing_type" :options="options_cat_packing_type" name="cat-packing-type" :disabled="view_mode">
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="row" style="margin-left: 12px;">
-
-                                    <div class="col-md-4 col-12">
-                                        <div class="form-group">
-                                            <label class="form-label" for="cat-category">Category</label>
-                                            <select class="form-select-cat-category" v-model="selected_cat_category" :options="options_cat_category" name="cat-category" :disabled="view_mode">
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4 col-12">
-                                        <div class="form-group">
-                                            <label class="form-label" for="cat-brand">Brand</label>
-                                            <select class="form-select-cat-brand" v-model="selected_cat_brand" :options="options_cat_brand" name="cat-brand" :disabled="view_mode">
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4 col-12">
-                                        <div class="form-group">
-                                            <label class="form-label" for="cat-sizes">Sizes</label>
-                                            <select class="form-select-cat-sizes" v-model="selected_cat_sizes" :options="options_cat_sizes" name="cat-sizes" :disabled="view_mode">
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div> 
-
                             </div>
 
                             <div class="tab-pane" id="unit-of-measure">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <div class="pl-3 pt-3 pb-4">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>UOM</th>
+                                                            <th width="100">Barcode</th>
+                                                            <th width="100">Packing</th>
+                                                            <th>Sales Description</th>
+                                                            <th>Remarks</th>
+                                                            <th width="50">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr v-for="(item_uom, index) in item_uoms" :key="item_uom.uuid + '-' + index">
+                                                            <td class="editable">
+                                                                <span>{{ getGlobalUOMName(item_uom.uuid) }}</span>
+                                                                <select v-model="item_uom.uuid" class="editable-control" :disabled="view_mode">
+                                                                    <option v-for="(uom,index_uom) in globalUOMs" :key="'base-' + uom.uuid + '-' + index_uom" :value="uom.uuid">{{ uom.uom}}</option>
+                                                                </select>
+                                                            </td>
 
-                                <div class="row">
-                                    <div class="col-md-6 col-12" style="margin-left: 12px;">
-                                        <div style="padding:20px 0px;">
-                                            <table class="table mb-0 table-striped table-bordered" style="margin-left: 12px;">
-                                                <thead>
-                                                    <tr>
-                                                        <th>UOM</th>
-                                                        <th width="100">Barcode</th>
-                                                        <th width="100">Packing</th>
-                                                        <th>Sales Description</th>
-                                                        <th>Remarks</th>
-                                                        <th width="50">Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr v-for="(item_uom, index) in item_uoms" :key="item_uom.uuid + '-' + index">
-                                                        <td class="editable">
-                                                            <span>{{ getGlobalUOMName(item_uom.uuid) }}</span>
-                                                            <select  v-model="item_uom.uuid" class="editable-control" :disabled="view_mode">
-                                                                <option v-for="(uom,index_uom) in globalUOMs" :key="'base-' + uom.uuid + '-' + index_uom" :value="uom.uuid">{{ uom.uom}}</option>
-                                                            </select>
-                                                        </td>
+                                                            <td class="editable text-right">
+                                                                <input v-model="item_uom.barcode" type="text" class="editable-control" :readonly="view_mode">
+                                                                <span>{{ item_uom.barcode }}</span>
+                                                            </td>
+                                                            <td class="editable text-right">
+                                                                <input v-model="item_uom.packing" type="text" class="editable-control" :readonly="view_mode">
+                                                                <span>{{ item_uom.packing }}</span>
+                                                            </td>
+                                                            <td class="editable text-right">
+                                                                <input v-model="item_uom.sales_description" type="text" class="editable-control" :readonly="view_mode">
+                                                                <span>{{ item_uom.sales_description }}</span>
+                                                            </td>
+                                                            <td class="editable text-right">
+                                                                <input v-model="item_uom.remarks" type="text" class="editable-control" :readonly="view_mode">
+                                                                <span>{{ item_uom.remarks }}</span>
+                                                            </td>
+                                                    
 
-                                                        <td class="editable text-right">
-                                                            <input v-model="item_uom.barcode" type="text" class="editable-control" :readonly="view_mode">
-                                                            <span>{{ item_uom.barcode }}</span>
-                                                        </td>
-                                                        <td class="editable text-right">
-                                                            <input v-model="item_uom.packing" type="text" class="editable-control" :readonly="view_mode">
-                                                            <span>{{ item_uom.packing }}</span>
-                                                        </td>
-                                                        <td class="editable text-right">
-                                                            <input v-model="item_uom.sales_description" type="text" class="editable-control" :readonly="view_mode">
-                                                            <span>{{ item_uom.sales_description }}</span>
-                                                        </td>
-                                                        <td class="editable text-right">
-                                                            <input v-model="item_uom.remarks" type="text" class="editable-control" :readonly="view_mode">
-                                                            <span>{{ item_uom.remarks }}</span>
-                                                        </td>
-                                                   
-
-                                                        <td>
-                                                            <button @click="removeItemUom(index)" type="button" class="btn btn-sm btn-danger waves-effect" :disabled="view_mode"><i class="mdi mdi-trash-can"></i></button>
-                                                        </td>
-                                                       
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="text-align:center; cursor:pointer; font-weight:600;" colspan="6">
-                                                            <button @click="addItemUom()"  type="button" style="font-weight:600; background:transparent; border:none;" :disabled="view_mode">New UOM</button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                                            <td>
+                                                                <button @click="removeItemUom(index)" type="button" class="btn btn-sm btn-danger waves-effect" :disabled="view_mode"><i class="mdi mdi-trash-can"></i></button>
+                                                            </td>
+                                                        
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="text-align:center; cursor:pointer; font-weight:600; border-color: var(--shine-blue) !important;" colspan="6" class="p-0">
+                                                                <button @click="addItemUom()" type="button" style="font-weight:600; border:none; width: 100%; padding: 6px;" class="hx-btn-shineblue" :disabled="view_mode"><i class="las la-plus"></i> New UOM</button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -384,7 +389,7 @@
 
                                                 <div v-show="formdata.is_sales_item">
                                                     <div class="d-flex">
-                                                        <div class="d-flex align-items-center" style="margin: 0 11px;">
+                                                        <div class="d-flex align-items-center">
                                                             <i class="fas fa-long-arrow-alt-right" style="font-size: 24px; color: var(--warning);"></i>
                                                         </div>
                                                         <div class="form-group" style="display: flex; align-items: center; margin: 0 !important;">
@@ -936,6 +941,7 @@ export default {
         addItemUom: function(uuid) {
             var scope = this
             scope.item_uoms.push({uuid: 'PACK', uom: '', barcode: '', sales_description: '', remarks: '', packing: 1});
+            $('#uombarcode').css("background-color", "red")
         },
         removeItemUom: function(index) {
             var scope = this

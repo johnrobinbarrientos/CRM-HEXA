@@ -41,7 +41,7 @@ import AdminChartofAccounts from './views/admin/settings/admin-chart-of-accounts
 import AdminCostCenter from './views/admin/settings/admin-cost-center'
 
 import PurchaseOrderMain from './views/client/buy-and-pay/purchase-order/main'
-import PurchaseOrderCreate from './views/client/buy-and-pay/purchase-order/create'
+import PurchaseOrderForm from './views/client/buy-and-pay/purchase-order/form'
 import PurchaseOrderDetails from './views/client/buy-and-pay/purchase-order/details'
 
 import PurchaseReceiptMain from './views/client/buy-and-pay/purchase-receipt/main'
@@ -313,9 +313,9 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
-          path: '/purchase-orders/create',
-          name: 'purchase-order-create',
-          component: PurchaseOrderCreate,
+          path: '/purchase-orders/form',
+          name: 'purchase-order-form',
+          component: PurchaseOrderForm,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
@@ -368,7 +368,7 @@ export default new VueRouter({
         {
           path: '/billing-details/:orderUUID',
           name: 'billing-details',
-          props: { view_mode: true },
+          props: { view_mode: false },
           component: BillingDetails,
           beforeEnter: checkAuth,
           meta: { protected: true }

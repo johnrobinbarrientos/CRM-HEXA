@@ -14,7 +14,7 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalItemGroup');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalItemGroup'); FOCUS_INPUT('#item-group-input'); resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
                     <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
@@ -24,40 +24,41 @@
             <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
         </div>
 
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Actions</th>
-                        <th>#</th>
-                        <th data-priority="3">Item Group</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(item, index) in Groups" :key="item.uuid">
-                        <td width="100">
-                            <span class="w-65px d-block mx-auto">
-                                <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemGroup');setData(item)" class="btn btn-sm btn-shineblue"><i class="bx bx-pencil"></i></a>
-                                <a href="javascript:void(0)"  @click="remove(item)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
-                            </span>
-                        </td>
-                        <td width="100">
-                            {{ (index + 1) }}
-                        </td>
-                        <td>
-                            {{ item.item_group }}
-                        </td>
+        <div class="row">
+            <div class="col-lg-6">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Actions</th>
+                            <th class="text-right">#</th>
+                            <th data-priority="3">Item Group</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in Groups" :key="item.uuid">
+                            <td width="100">
+                                <span class="w-65px d-block mx-auto">
+                                    <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemGroup');setData(item)" class="btn btn-sm btn-shineblue"><i class="bx bx-pencil"></i></a>
+                                    <a href="javascript:void(0)"  @click="remove(item)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
+                                </span>
+                            </td>
+                            <td width="100" class="text-right">
+                                {{ (index + 1) }}
+                            </td>
+                            <td>
+                                {{ item.item_group }}
+                            </td>
 
-                    </tr>
-                </tbody>
-            </table>         
+                        </tr>
+                    </tbody>
+                </table>         
+            </div>
         </div>
 
 
 
-
         <!-- Modal Item Group Form -->
-        <div class="modal fade" tabindex="-1" id="modalItemGroup">
+        <div class="modal fade modal-single-form" tabindex="-1" id="modalItemGroup">
             <div class="modal-dialog modal-md " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -70,11 +71,11 @@
                         <form action="#" class="form-validate is-alter">
 
                             <div class="row">
-                                <div class="col-md-12 col-12">
+                                <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label" for="item-group">Item Group</label>
                                         <div class="form-control-wrap">
-                                            <input v-model="formdata.item_group" type="text" class="form-control" id="item-group" required>
+                                            <input v-model="formdata.item_group" type="text" class="form-control" id="item-group-input" required>
                                         </div>
                                     </div>
                                 </div>

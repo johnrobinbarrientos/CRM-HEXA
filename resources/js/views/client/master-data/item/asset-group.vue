@@ -15,7 +15,7 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select> 
-                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalItemAssetGroup');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalItemAssetGroup'); FOCUS_INPUT('#asset-group-input'); resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
                     <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
@@ -25,27 +25,31 @@
             <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
         </div>
 
-         <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Actions</th>
-                        <th>#</th>
-                        <th>Item Asset Group</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(asset, index) in assetGroups" :key="asset.uuid">
-                        <td width="100">
-                            <span class="w-65px d-block mx-auto">
-                                <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemAssetGroup');setData(asset)" class="btn btn-sm btn-shineblue"><i class="bx bx-pencil"></i></a>
-                                <a href="javascript:void(0)"  @click="remove(asset)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
-                            </span>
-                        </td>
-                        <td width="100"><span class="">{{ (index + 1) }}</span></td>
-                        <td><span class="">{{ asset.asset_group }}</span></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="row">
+                <div class="col-lg-6">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Actions</th>
+                                <th class="text-right">#</th>
+                                <th>Item Asset Group</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(asset, index) in assetGroups" :key="asset.uuid">
+                                <td width="100">
+                                    <span class="w-65px d-block mx-auto">
+                                        <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemAssetGroup');setData(asset)" class="btn btn-sm btn-shineblue"><i class="bx bx-pencil"></i></a>
+                                        <a href="javascript:void(0)"  @click="remove(asset)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
+                                    </span>
+                                </td>
+                                <td width="100" class="text-right"><span>{{ (index + 1) }}</span></td>
+                                <td><span class="">{{ asset.asset_group }}</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
             <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
                 <ul class="pagination">
@@ -70,8 +74,8 @@
  
 
         <!-- Modal Asset Group Form -->
-        <div class="modal fade" tabindex="-1" id="modalItemAssetGroup">
-            <div class="modal-dialog modal-md " role="document">
+        <div class="modal fade modal-single-form" tabindex="-1" id="modalItemAssetGroup">
+            <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Asset Group Details</h5>
@@ -87,7 +91,7 @@
                                     <div class="form-group">
                                         <label class="form-label" for="asset-group">Asset Group</label>
                                         <div class="form-control-wrap">
-                                            <input v-model="formdata.asset_group" type="text" class="form-control" id="asset-group" required>
+                                            <input v-model="formdata.asset_group" type="text" class="form-control" id="asset-group-input" required>
                                         </div>
                                     </div>
                                 </div>

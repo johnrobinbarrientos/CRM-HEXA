@@ -7,16 +7,22 @@
             <div class="card-body" >
                 <div class="actions-bar">
                     <div class="w-100">
-                        <h1 class="title">New Bill</h1>
+                        <h1 v-if ="view_mode" class="title">View Bill</h1>
+                        <h1 v-else class="title">New Bill</h1>
                     </div>
                     <div class="bar-right">
                         <span v-if ="view_mode">
-                        <a @click="ROUTE({path: '/billing-return-main' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
-                            <i class="las la-x"></i> <span>Back</span>
-                        </a>
-                        <a @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
-                            <i class="las la-pluss"></i> <span>Bill</span>
-                        </a>
+                            <a @click="ROUTE({path: '/billing-return-main' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
+                                <i class="las la-x"></i> <span>Back</span>
+                            </a>
+                        </span>
+                        <span v-else>
+                            <a @click="ROUTE({path: '/billing-return-main' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
+                                <i class="las la-x"></i> <span>Back</span>
+                            </a>
+                            <a @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                                <i class="las la-pluss"></i> <span>Bill</span>
+                            </a>
                         </span>
                     </div>
                 </div>
@@ -54,7 +60,16 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="branch-name">Receive Date</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker v-model="date_received" :config="{format: 'YYYY-MM-DD'}" disabled="true"></date-picker>
+                                                    <date-picker class="form-control disabled" v-model="date_received" :config="{format: 'YYYY-MM-DD'}" disabled="true"></date-picker>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="branch-name">Billing Date</label>
+                                                <div class="form-control-wrap">
+                                                    <date-picker class="form-control disabled" v-model="date_billed" :config="{format: 'YYYY-MM-DD'}" disabled="true"></date-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -246,57 +261,65 @@
 
                             <div class="tab-pane" id="discounts">
 
-                                <div class="col-12 col-md-7 offset-md-1">
-                                    <h4>Discount Summary</h4>
-                                    <table class="table-discount-summary table table-striped table-bordered"> 
-                                        <thead>
-                                            <tr >
-                                                <th width="30">#</th>
-                                                <th width="150">Discount Group</th>
-                                                <th>Discount Name</th>
-                                                <th>Rate</th>
-                                                <th>Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="(base_discount,index) in order.base_discounts" :key="'base-discount-summary' + index">
-                                                <th style="background:#77ade0;" v-if="index == 0" :rowspan="order.base_discounts.length + 1">1</th>
-                                                <th v-if="index == 0" :rowspan="order.base_discounts.length">Base</th>
-                                                <th>{{ base_discount.discount_name }}</th>
-                                                <th class="text-right">{{ base_discount.discount_rate }}%</th>
-                                                <th class="text-right">{{ parseFloat(base_discount.total_amount).toFixed(2) }}</th>
-                                            </tr>
-                                            <tr style="background:#abd1f5;">
-                                                <th style="background:#abd1f5;" colspan="2">Base Total</th>
-                                                <th class="text-right">{{ DISCOUNT_BASE_RATE_TOTAL }}%</th>
-                                                <th class="text-right">{{ DISCOUNT_BASE_TOTAL }}</th>
-                                            </tr>
-                                            <tr v-for="(discount,index) in order.additional_discounts" :key="'additional-discount-summary' + index">
-                                                <th style="background:#77ade0;" v-if="index == 0" :rowspan="order.additional_discounts.length + 1">2</th>
-                                                <th v-if="index == 0" :rowspan="order.additional_discounts.length">Additional</th>
-                                                <th>{{ discount.discount_name }}</th>
-                                                <th class="text-right">{{ parseFloat(discount.discount_rate).toFixed(2) }}%</th>
-                                                <th class="text-right">{{ parseFloat(discount.discount_fixed).toFixed(2) }}</th>
-                                            </tr>
-                                            <tr style="background:#abd1f5;">
-                                                <th style="background:#abd1f5;"  colspan="2">Additional Total</th>
-                                                <th class="text-right">{{ DISCOUNT_ADDITIONAL_RATE_TOTAL }}%</th>
-                                                <th class="text-right">{{ DISCOUNT_ADDITIONAL_TOTAL }}</th>
-                                            </tr>
-                                            <tr v-for="(discount,index) in order.price_rule_discounts" :key="'price-rule-discount-summary' + index">
-                                                <th style="background:#77ade0;" v-if="index == 0" :rowspan="order.price_rule_discounts.length + 1">3</th>
-                                                <th v-if="index == 0" :rowspan="order.price_rule_discounts.length">Price Rule</th>
-                                                <th>{{ discount.rule_name }}</th>
-                                                <th class="text-right">{{ discount.rate }}%</th>
-                                                <th class="text-right">{{ parseFloat(discount.total_amount).toFixed(2) }}</th>
-                                            </tr>
-                                            <tr style="background:#abd1f5;">
-                                                <th colspan="2">Price Rule Total</th>
-                                                <th class="text-right">{{ DISCOUNT_PRICE_RULE_RATE_TOTAL }}%</th>
-                                                <th class="text-right">{{ DISCOUNT_PRICE_RULE_TOTAL }}</th>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                <div class="row">
+                                    <div class="col-12 col-md-7 offset-md-1">
+                                        <h4>Discount Summary</h4>
+                                        <table class="table-discount-summary table table-striped table-bordered"> 
+                                            <thead>
+                                                <tr >
+                                                    <th width="30">#</th>
+                                                    <th width="150">Discount Group</th>
+                                                    <th>Discount Name</th>
+                                                    <th>Rate</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(base_discount,index) in order.base_discounts" :key="'base-discount-summary' + index">
+                                                    <th style="background:#77ade0;" v-if="index == 0" :rowspan="order.base_discounts.length + 1">1</th>
+                                                    <th v-if="index == 0" :rowspan="order.base_discounts.length">Base</th>
+                                                    <th>{{ base_discount.discount_name }}</th>
+                                                    <th class="text-right">{{ base_discount.discount_rate }}%</th>
+                                                    <th class="text-right">{{ parseFloat(base_discount.total_amount).toFixed(2) }}</th>
+                                                </tr>
+                                                <tr style="background:#abd1f5;">
+                                                    <th style="background:#abd1f5;" colspan="2">Base Total</th>
+                                                    <th class="text-right">{{ DISCOUNT_BASE_RATE_TOTAL }}%</th>
+                                                    <th class="text-right">{{ DISCOUNT_BASE_TOTAL }}</th>
+                                                </tr>
+                                                <tr v-for="(discount,index) in order.additional_discounts" :key="'additional-discount-summary' + index">
+                                                    <th style="background:#77ade0;" v-if="index == 0" :rowspan="order.additional_discounts.length + 1">2</th>
+                                                    <th v-if="index == 0" :rowspan="order.additional_discounts.length">Additional</th>
+                                                    <th>{{ discount.discount_name }}</th>
+                                                    <th class="text-right">{{ parseFloat(discount.discount_rate).toFixed(2) }}%</th>
+                                                    <th class="text-right">{{ parseFloat(discount.discount_fixed).toFixed(2) }}</th>
+                                                </tr>
+                                                <tr style="background:#abd1f5;">
+                                                    <th style="background:#abd1f5;"  colspan="2">Additional Total</th>
+                                                    <th class="text-right">{{ DISCOUNT_ADDITIONAL_RATE_TOTAL }}%</th>
+                                                    <th class="text-right">{{ DISCOUNT_ADDITIONAL_TOTAL }}</th>
+                                                </tr>
+                                                <tr v-for="(discount,index) in order.price_rule_discounts" :key="'price-rule-discount-summary' + index">
+                                                    <th style="background:#77ade0;" v-if="index == 0" :rowspan="order.price_rule_discounts.length + 1">3</th>
+                                                    <th v-if="index == 0" :rowspan="order.price_rule_discounts.length">Price Rule</th>
+                                                    <th>{{ discount.rule_name }}</th>
+                                                    <th class="text-right">{{ discount.rate }}%</th>
+                                                    <th class="text-right">{{ parseFloat(discount.total_amount).toFixed(2) }}</th>
+                                                </tr>
+                                                <tr style="background:#abd1f5;">
+                                                    <th colspan="2">Price Rule Total</th>
+                                                    <th class="text-right">{{ DISCOUNT_PRICE_RULE_RATE_TOTAL }}%</th>
+                                                    <th class="text-right">{{ DISCOUNT_PRICE_RULE_TOTAL }}</th>
+                                                </tr>
+                                                <tr style="background:#abd1f5;">
+                                                    <th style="background:#77ade0;"></th>
+                                                    <th colspan="2">TOTAL DISCOUNT</th>
+                                                    <th class="text-right">{{ DISCOUNT_SUMMARY_RATE_TOTAL }}%</th>
+                                                    <th class="text-right">{{ putSeparator(DISCOUNT_SUMMARY_TOTAL) }}</th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
         
                             </div>
@@ -406,6 +429,7 @@ export default {
             date_purchased: '',
             date_expected: '',
             date_received: '',
+            date_billed: '',
             receiving_no: '',
             discount_groups: '',
             po_no:'',
@@ -548,6 +572,11 @@ export default {
         DISCOUNT_SUMMARY_TOTAL: function () {
             var total = parseFloat(this.DISCOUNT_ADDITIONAL_TOTAL) + parseFloat(this.DISCOUNT_BASE_TOTAL) + parseFloat(this.DISCOUNT_PRICE_RULE_TOTAL)
             return total.toFixed(2)
+        },
+
+        DISCOUNT_SUMMARY_RATE_TOTAL: function () {
+            var total = parseFloat(this.DISCOUNT_ADDITIONAL_RATE_TOTAL) + parseFloat(this.DISCOUNT_BASE_RATE_TOTAL) + parseFloat(this.DISCOUNT_PRICE_RULE_RATE_TOTAL)
+            return total.toFixed(2)
         }
 
     },
@@ -598,6 +627,7 @@ export default {
                 scope.date_purchased = res.data.date_purchased
                 scope.date_expected = res.data.date_expected
                 scope.date_received = res.data.date_received
+                scope.date_billed = res.data.date_billed
                 scope.receiving_no = res.data.receiving_no
                 scope.discount_groups =res.data.discount_groups
                 scope.asset_group =res.data.asset_group
@@ -611,8 +641,8 @@ export default {
 
                 scope.order = res.data
 
-                if (res.data.date_received===null){
-                    scope.date_received = moment() 
+                if (res.data.date_billed===null){
+                    scope.date_billed = moment() 
                 }
 
             })
@@ -1033,13 +1063,9 @@ export default {
 
             var formData = {} 
 
-            formData['receiving_no'] = scope.receiving_no
-            formData['date_received'] = scope.date_received
-            formData['receiving_reason_code'] = scope.receiving_reason_code
-            formData['po_status'] = scope.po_status
+            formData['date_billed'] = scope.date_billed
 
-
-            scope.POST('buy-and-pay/receiving/' + scope.po_uuid + '/details', {items: scope.selectedItems, data: formData }).then(res => {
+            scope.POST('buy-and-pay/billing/' + scope.po_uuid + '/details', {data: formData }).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -1048,7 +1074,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.ROUTE({path: '/purchase-receipt-main/'})
+                        scope.ROUTE({path: '/billing-return-main/'})
                     })
                 } else {
                     alert('ERROR:' + res.code)
@@ -1057,6 +1083,7 @@ export default {
         },
         
     },
+
     mounted() {
         var scope = this
         scope.getOrderDetails()
