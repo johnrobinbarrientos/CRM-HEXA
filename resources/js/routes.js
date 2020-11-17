@@ -368,7 +368,7 @@ export default new VueRouter({
         {
           path: '/billing-details/:orderUUID',
           name: 'billing-details',
-          props: { view_mode: true },
+          props: { view_mode: false },
           component: BillingDetails,
           beforeEnter: checkAuth,
           meta: { protected: true }

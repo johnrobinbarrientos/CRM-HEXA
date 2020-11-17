@@ -4,6 +4,9 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller; 
 
+use App\Models\CompanyList;
+
+
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderDetail;
 use App\Models\PurchaseOrderAdditionalDiscount; 
@@ -100,6 +103,57 @@ class PurchaseBillingController extends Controller
         
         return response()->json(['success' => 1, 'rows' => $lists, 'count' => $count, 'grand_total' => $grand_total], 200);
     }
+
+    public function save($orderUUID)
+    {
+        $formData = (object) request()->data;
+
+        $order = PurchaseOrder::find($orderUUID);
+
+        $prefix = $this->getCompanyPrefix();
+        $type = 'BL';
+        $no_of_transactions = $this->getNumberOfTransactions($orderUUID) + 1;
+        $year = date('Y');
+        $month = date('m');
+        $day = date('d');
+        $created_id = sprintf($type.'_'.$prefix.''.$year.''.$month.''.$day.'%05d',$no_of_transactions);
+        
+        
+        $order->billing_no = $created_id;
+        $order->date_billed = date('Y-m-d',strtotime($formData->date_billed));
+        $order->receiving_status = 'Billed';
+        $order->billing_status = 'To Pay';
+
+
+        $order->save();
+
+        return response()->json(['success' => 1, 'message' => 'success'], 200);
+    }
+
+    public function getCompanyPrefix()
+    {
+        $auth = \Auth::user();
+        $prefix = CompanyList::whereNull('deleted_at')
+        ->where('id',$auth->company_id)
+        ->pluck('prefix')
+        ->first();
+
+        return $prefix;
+    }
+
+    public function getNumberOfTransactions($uuid)
+    {
+        $auth = \Auth::user();
+        $no_of_transactions = PurchaseOrder::whereNull('deleted_at')
+        ->where('company_id',$auth->company_id)
+        ->where('billing_no','!=','')
+        ->whereDate('created_at',date('Y-m-d'))->count();
+
+        return $no_of_transactions;
+    }
+
+
+
 
     
 }

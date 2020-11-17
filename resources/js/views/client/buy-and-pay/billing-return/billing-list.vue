@@ -16,9 +16,6 @@
                                 <option value="50">50</option>
                                 <option value="100">100</option>
                         </select>
-                        <!-- <a @click="ROUTE({path: '/purchase-orders/create' });" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
-                            <i class="las la-plus"></i> <span>New</span>
-                        </a> -->
                         <a href="javascript:void(0)" @click="OPEN_MODAL('#modalItemReceipts')" class="hx-btn hx-btn-shineblue" data-toggle="modal">
                             <i class="las la-plus"></i> <span>New</span>
                         </a>
@@ -52,13 +49,12 @@
                             <template v-if="purchase.po_status !== 'Cancelled'">
                                 <td width="100" style="text-align:center;">
                                     <span class="w-65px d-block mx-auto">
-                                    <a v-if="purchase.receiving_status === 'To Bill'" href="javascript:void(0)" @click="ROUTE({path: '/purchase-receipt-details/' + purchase.uuid })" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                    <a href="javascript:void(0)" @click="ROUTE({path: '/purchase-receipt-details/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
+                                    <a href="javascript:void(0)" @click="ROUTE({path: '/billing-details/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
                                     </span>
                                 </td>
                                 <td width="50">{{ (index + 1) }}</td>
                                 <td width="100">{{ purchase.item_group.item_group }}</td>
-                                <td width="150">{{ purchase.receiving_no }}</td>
+                                <td width="150">{{ purchase.billing_no }}</td>
                                 <td width="200" class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
                                 <td width="100">{{ purchase.branch.branch_name.toUpperCase() }}</td>
                                 <td>{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
@@ -67,11 +63,11 @@
                                 <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
                                 <td v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
 
-                                <td v-if="purchase.receiving_status === 'To Bill'" style="text-align:center;" class="editable" width="150">
-                                    <span class="badge badge-danger font-size-12">To Bill</span>
+                                <td v-if="purchase.billing_status === 'To Pay'" style="text-align:center;" class="editable" width="150">
+                                    <span class="badge badge-danger font-size-12">To Pay</span>
                                 </td>
-                                <td v-else-if="purchase.receiving_status === 'Billed'" style="text-align:center;" class="editable">
-                                    <span class="badge badge-success font-size-12">Billed</span>
+                                <td v-else-if="purchase.billing_status === 'Paid'" style="text-align:center;" class="editable">
+                                    <span class="badge badge-success font-size-12">Paid</span>
                                 </td>
 
                                 <td width="100">{{ purchase.receiving_reason_code }}</td>

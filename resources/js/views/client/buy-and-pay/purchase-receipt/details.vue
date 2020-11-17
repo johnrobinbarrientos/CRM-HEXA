@@ -4,7 +4,7 @@
             <div class="card-header">
                 <h5 class="mb-0">General Information</h5>
             </div>
-            
+
             <div class="card-body" >
                 <div class="actions-bar">
                     <div class="w-100">
@@ -27,12 +27,9 @@
                     </div>
                 </div>
 
-
                 <form action="#" class="form-validate is-alter">
-                        
                         <div class="row">
                             <div class="col-md-7 col-12">
-                                
                                     <div class="row">
 
                                         <div class="col-md-6 col-12">
@@ -127,7 +124,7 @@
                                     </div>
                                     <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
                                         <div>Discount</div>
-                                        <div>-{{ putSeparator(TOTAL_DISCOUNT_AMOUNT) }}</div>
+                                        <div>-{{ putSeparator(DISCOUNT_SUMMARY_TOTAL) }}</div>
                                     </div>
                                     <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
                                         <div>Tax Amount</div>
@@ -168,6 +165,7 @@
                                         <button type="button" class="hx-btn hx-btn-shineblue" @click="markUnmark()">Mark/Unmark All</button>
                                     </div>
                                 </div>
+
                                 <table class="table mb-0 table-responsive table-striped table-bordered">
                                     <thead>
                                         <tr>
@@ -271,62 +269,69 @@
                                     </div>
                                 </div>
                             
-    
                             </div>
 
                             <div class="tab-pane" id="discounts">
 
-                                <div class="col-12 col-md-7 offset-md-1">
-                                    <h4>Discount Summary</h4>
-                                    <table class="table-discount-summary table table-striped table-bordered"> 
-                                        <thead>
-                                            <tr >
-                                                <th width="30">#</th>
-                                                <th width="150">Discount Group</th>
-                                                <th>Discount Name</th>
-                                                <th>Rate</th>
-                                                <th>Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="(base_discount,index) in order.base_discounts" :key="'base-discount-summary' + index">
-                                                <th style="background:#77ade0;" v-if="index == 0" :rowspan="order.base_discounts.length + 1">1</th>
-                                                <th v-if="index == 0" :rowspan="order.base_discounts.length">Base</th>
-                                                <th>{{ base_discount.discount_name }}</th>
-                                                <th class="text-right">{{ base_discount.discount_rate }}%</th>
-                                                <th class="text-right">{{ parseFloat(base_discount.total_amount).toFixed(2) }}</th>
-                                            </tr>
-                                            <tr style="background:#abd1f5;">
-                                                <th style="background:#abd1f5;" colspan="2">Base Total</th>
-                                                <th class="text-right">{{ DISCOUNT_BASE_RATE_TOTAL }}%</th>
-                                                <th class="text-right">{{ DISCOUNT_BASE_TOTAL }}</th>
-                                            </tr>
-                                            <tr v-for="(discount,index) in order.additional_discounts" :key="'additional-discount-summary' + index">
-                                                <th style="background:#77ade0;" v-if="index == 0" :rowspan="order.additional_discounts.length + 1">2</th>
-                                                <th v-if="index == 0" :rowspan="order.additional_discounts.length">Additional</th>
-                                                <th>{{ discount.discount_name }}</th>
-                                                <th class="text-right">{{ parseFloat(discount.discount_rate).toFixed(2) }}%</th>
-                                                <th class="text-right">{{ parseFloat(discount.discount_fixed).toFixed(2) }}</th>
-                                            </tr>
-                                            <tr style="background:#abd1f5;">
-                                                <th style="background:#abd1f5;"  colspan="2">Additional Total</th>
-                                                <th class="text-right">{{ DISCOUNT_ADDITIONAL_RATE_TOTAL }}%</th>
-                                                <th class="text-right">{{ DISCOUNT_ADDITIONAL_TOTAL }}</th>
-                                            </tr>
-                                            <tr v-for="(discount,index) in order.price_rule_discounts" :key="'price-rule-discount-summary' + index">
-                                                <th style="background:#77ade0;" v-if="index == 0" :rowspan="order.price_rule_discounts.length + 1">3</th>
-                                                <th v-if="index == 0" :rowspan="order.price_rule_discounts.length">Price Rule</th>
-                                                <th>{{ discount.rule_name }}</th>
-                                                <th class="text-right">{{ discount.rate }}%</th>
-                                                <th class="text-right">{{ parseFloat(discount.total_amount).toFixed(2) }}</th>
-                                            </tr>
-                                            <tr style="background:#abd1f5;">
-                                                <th colspan="2">Price Rule Total</th>
-                                                <th class="text-right">{{ DISCOUNT_PRICE_RULE_RATE_TOTAL }}%</th>
-                                                <th class="text-right">{{ DISCOUNT_PRICE_RULE_TOTAL }}</th>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                <div class="row">
+                                    <div class="col-12 col-md-7 offset-md-1">
+                                        <h4>Discount Summary</h4>
+                                        <table class="table-discount-summary table table-striped table-bordered"> 
+                                            <thead>
+                                                <tr >
+                                                    <th width="30">#</th>
+                                                    <th width="150">Discount Group</th>
+                                                    <th>Discount Name</th>
+                                                    <th>Rate</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(base_discount,index) in order.base_discounts" :key="'base-discount-summary' + index">
+                                                    <th style="background:#77ade0;" v-if="index == 0" :rowspan="order.base_discounts.length + 1">1</th>
+                                                    <th v-if="index == 0" :rowspan="order.base_discounts.length">Base</th>
+                                                    <th>{{ base_discount.discount_name }}</th>
+                                                    <th class="text-right">{{ base_discount.discount_rate }}%</th>
+                                                    <th class="text-right">{{ parseFloat(base_discount.total_amount).toFixed(2) }}</th>
+                                                </tr>
+                                                <tr style="background:#abd1f5;">
+                                                    <th style="background:#abd1f5;" colspan="2">Base Total</th>
+                                                    <th class="text-right">{{ DISCOUNT_BASE_RATE_TOTAL }}%</th>
+                                                    <th class="text-right">{{ DISCOUNT_BASE_TOTAL }}</th>
+                                                </tr>
+                                                <tr v-for="(discount,index) in order.additional_discounts" :key="'additional-discount-summary' + index">
+                                                    <th style="background:#77ade0;" v-if="index == 0" :rowspan="order.additional_discounts.length + 1">2</th>
+                                                    <th v-if="index == 0" :rowspan="order.additional_discounts.length">Additional</th>
+                                                    <th>{{ discount.discount_name }}</th>
+                                                    <th class="text-right">{{ parseFloat(discount.discount_rate).toFixed(2) }}%</th>
+                                                    <th class="text-right">{{ parseFloat(discount.discount_fixed).toFixed(2) }}</th>
+                                                </tr>
+                                                <tr style="background:#abd1f5;">
+                                                    <th style="background:#abd1f5;"  colspan="2">Additional Total</th>
+                                                    <th class="text-right">{{ DISCOUNT_ADDITIONAL_RATE_TOTAL }}%</th>
+                                                    <th class="text-right">{{ DISCOUNT_ADDITIONAL_TOTAL }}</th>
+                                                </tr>
+                                                <tr v-for="(discount,index) in order.price_rule_discounts" :key="'price-rule-discount-summary' + index">
+                                                    <th style="background:#77ade0;" v-if="index == 0" :rowspan="order.price_rule_discounts.length + 1">3</th>
+                                                    <th v-if="index == 0" :rowspan="order.price_rule_discounts.length">Price Rule</th>
+                                                    <th>{{ discount.rule_name }}</th>
+                                                    <th class="text-right">{{ discount.rate }}%</th>
+                                                    <th class="text-right">{{ parseFloat(discount.total_amount).toFixed(2) }}</th>
+                                                </tr>
+                                                <tr style="background:#abd1f5;">
+                                                    <th colspan="2">Price Rule Total</th>
+                                                    <th class="text-right">{{ DISCOUNT_PRICE_RULE_RATE_TOTAL }}%</th>
+                                                    <th class="text-right">{{ DISCOUNT_PRICE_RULE_TOTAL }}</th>
+                                                </tr>
+                                                <tr style="background:#abd1f5;">
+                                                    <th style="background:#77ade0;"></th>
+                                                    <th colspan="2">TOTAL DISCOUNT</th>
+                                                    <th class="text-right">{{ DISCOUNT_SUMMARY_RATE_TOTAL }}%</th>
+                                                    <th class="text-right">{{ putSeparator(DISCOUNT_SUMMARY_TOTAL) }}</th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
         
                             </div>
@@ -336,75 +341,13 @@
 
                             </div>   
 
-
                         </div>
                     </div>
+                
                 </form>
+
             </div>
         </div>
-
-        <div class="modal fade" tabindex="-1" id="modal-discounts">
-            <div class="modal-dialog modal-md " role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Discounts</h5>
-                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modal-discounts');" class="close" data-dismiss="modal" aria-label="Close">
-                            <i class="bx bx-x"></i>
-                        </a>
-                    </div>
-                    <div class="modal-body">
-                        <div>
-                            <div v-if="selectedItemDiscountView == 'all' || selectedItemDiscountView == 'base-discount'">
-                                <h5><strong>Base Discounts</strong></h5>
-                                <table class="table mb-0 table table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th width="40">#</th>
-                                            <th>Discount Group</th>
-                                            <th>Discount Name</th>
-                                            <th>Discount Rate</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody v-if="selectedItem">
-                                        <tr v-for="(discount, index) in selectedItem.base_discounts" :key="discount.uuid">
-                                            <th width="40">{{ index + 1 }}</th>
-                                            <th>{{ discount.order_base_discount_group.group_name }}</th>
-                                            <th>{{ discount.discount_name }}</th>
-                                            <th class="text-right">{{ discount.discount_rate }}%</th>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <hr  v-if="selectedItemDiscountView == 'all'" />
-                            <div v-if="selectedItemDiscountView == 'all' || selectedItemDiscountView == 'price-rule'">
-                            <h5><strong>Price Rule Discounts</strong></h5>
-                            <table class="table mb-0 table table-striped table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th width="40">#</th>
-                                        <th>Discount Name</th>
-                                        <th>Discount Rate</th>
-                                    </tr>
-                                </thead>
-                                <tbody v-if="selectedItem">
-                                    <tr v-for="(discount, index) in selectedItem.price_rule_discounts" :key="discount.uuid">
-                                        <th width="40">{{ index + 1 }}</th>
-                                        <th>{{ discount.price_rule.rule_name }}</th>
-                                        <th class="text-right">{{ discount.price_rule.rate }}%</th>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer bg-light">
-                        <button @click="CLOSE_MODAL('#modal-discounts');" type="submit" class="hx-btn hx-btn-gray">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
     </div>
 </template>
@@ -577,6 +520,11 @@ export default {
         },
         DISCOUNT_SUMMARY_TOTAL: function () {
             var total = parseFloat(this.DISCOUNT_ADDITIONAL_TOTAL) + parseFloat(this.DISCOUNT_BASE_TOTAL) + parseFloat(this.DISCOUNT_PRICE_RULE_TOTAL)
+            return total.toFixed(2)
+        },
+
+        DISCOUNT_SUMMARY_RATE_TOTAL: function () {
+            var total = parseFloat(this.DISCOUNT_ADDITIONAL_RATE_TOTAL) + parseFloat(this.DISCOUNT_BASE_RATE_TOTAL) + parseFloat(this.DISCOUNT_PRICE_RULE_RATE_TOTAL)
             return total.toFixed(2)
         }
 
