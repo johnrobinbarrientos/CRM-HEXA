@@ -166,9 +166,9 @@
                                     <div class="col-12 col-lg-9">
                                         <div style="float:right;">
                                             
-                                            <button @click="addItems()" class="btn btn-sm hx-btn-shineblue" :disabled="view_mode">Add Items</button>
-                                            <button @click="addAllItems()" class="btn btn-sm hx-btn-shineblue" :disabled="view_mode">Add All Items</button>
-                                            <button @click="removeAllZeroAmount()" class="btn btn-sm btn-danger btn btn-secondary" :disabled="view_mode">Remove Zero</button>
+                                            <button @click="addItems()" type="button" class="btn btn-sm hx-btn-shineblue" :disabled="view_mode">Add Items</button>
+                                            <button @click="addAllItems()" type="button" class="btn btn-sm hx-btn-shineblue" :disabled="view_mode">Add All Items</button>
+                                            <button @click="removeAllZero()" type="button" class="btn btn-sm btn-danger btn btn-secondary" :disabled="view_mode">Remove Zero</button>
                                         
                                         </div>
                                     </div>
@@ -754,14 +754,13 @@ export default {
 
             scope.CLOSE_MODAL('#modal-item-list')
         },
-        removeAllZeroAmount: function () {
+        removeAllZero: function () {
             var scope = this
-            for (let i = 0; i < scope.selectedItems.length; i++) {
-                var current = scope.selectedItems[i]
-                var total_amount = current.total_amount
 
-                if (total_amount <= 0) {
-                    console.log('THIS', i)
+            for (var i = scope.selectedItems.length - 1; i >= 0; i--) {
+               var quantity = scope.selectedItems[i].quantity
+
+                if (quantity <= 0) {
                     scope.selected_items.splice(i, 1);
                 }
             }
