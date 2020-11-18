@@ -165,6 +165,11 @@ class PurchaseOrderController extends Controller
         return $prefix;
     }
 
+    public function checkDiscounts($orderUUID)
+    {
+        $items = '';
+    }
+
     public function saveBaseDiscounts($order)
     {
         $auth = \Auth::user();
