@@ -165,6 +165,11 @@ class PurchaseOrderController extends Controller
         return $prefix;
     }
 
+    public function checkDiscounts($orderUUID)
+    {
+        $items = '';
+    }
+
     public function saveBaseDiscounts($order)
     {
         $auth = \Auth::user();
@@ -194,12 +199,14 @@ class PurchaseOrderController extends Controller
 
                 $buy_and_pay_order_base_discount_group_detail = PurchaseOrderBaseDiscountGroupDetail::where('bp_order_uuid','=', $order->uuid)
                     ->where('bp_order_base_discount_group_uuid','=', $buy_and_pay_order_base_discount_group->uuid)
+                    ->where('supplier_base_discount_group_detail_uuid','=', $supplier_base_discount_group_detail->uuid)
                     ->withTrashed()
                     ->first();
 
                 $buy_and_pay_order_base_discount_group_detail = ($buy_and_pay_order_base_discount_group_detail) ? $buy_and_pay_order_base_discount_group_detail : new PurchaseOrderBaseDiscountGroupDetail;
 
                 $buy_and_pay_order_base_discount_group_detail->company_id = $auth->company_id;
+                $buy_and_pay_order_base_discount_group_detail->supplier_base_discount_group_detail_uuid = $supplier_base_discount_group_detail->uuid;
                 $buy_and_pay_order_base_discount_group_detail->bp_order_base_discount_group_uuid = $buy_and_pay_order_base_discount_group->uuid;
                 $buy_and_pay_order_base_discount_group_detail->bp_order_uuid = $order->uuid;
                 $buy_and_pay_order_base_discount_group_detail->discount_name = $supplier_base_discount_group_detail->discount_name;
