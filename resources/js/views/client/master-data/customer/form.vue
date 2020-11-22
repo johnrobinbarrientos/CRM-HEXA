@@ -136,7 +136,6 @@
 
                             <div class="tab-content">    
                                 <div class="tab-pane active" id="account">
-                                    <div class="container-fluid">
                                         <div class="row">
                                             <div class="col-lg-4">
                                                 <div class="form-group">
@@ -188,16 +187,14 @@
 
                                             </div>
                                         </div>            
-                                    </div>
                                 </div>
 
                                 <div class="tab-pane" id="discounts">
                                     
-                                    <div class="container-fluid p-3">
                                         <div class="row">
 
                                             <div class="col-lg-3">
-                                                <div style="border: 1px solid #ddd; border-radius: 4px; padding: 20px; background: #eee" class="ml-2 mr-2 mb-3">
+                                                <div style="border: 1px solid #ddd; border-radius: 4px; padding: 15px; background: #eee">
                                                     <div class="row">
                                                         <div class="col-lg-12">
                                                             <div class="form-group">
@@ -229,7 +226,6 @@
 
                                             <div class="col-md-6 col-12">
                                                 <div class="card card-bordered card-preview">
-                                                    <div style="border: 1px solid #ddd; border-radius: 4px;">    
                                                         <table class="table table-bordered">
                                                             <thead>
                                                                 <tr>
@@ -257,15 +253,12 @@
                                                                 </tr>
                                                             </tbody>
                                                         </table>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                 </div>
 
                                 <div class="tab-pane" id="classification">
-                                    <div class="container-fluid">
                                         <div class="row">
                                             <div class="col-md-3 col-12">
                                                 <div class="form-group">
@@ -284,14 +277,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                 </div>   
 
                                 
                                 <div class="tab-pane" id="address">
 
-                                    <div class="container-fluid p-4">
-                                        <div class="row mb-3">
+                                        <div class="row mb-3 mt-2">
                                             <div class="col-md-6 offset-lg-3 col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="address-list"><strong>Select Address</strong></label>
@@ -362,7 +353,6 @@
                                             </div>
 
                                         </div>
-                                    </div>
                                 </div>     
                             </div>
                         </div>

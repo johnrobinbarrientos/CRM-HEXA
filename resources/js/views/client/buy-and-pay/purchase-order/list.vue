@@ -1,6 +1,5 @@
 <template>
     <div>
-        <div class="hx-tab">
 
             <div class="actions-bar">
                 <div class="w-100">
@@ -27,8 +26,8 @@
             </div>
 
             <div v-else class="table-responsive;">
-                <table class="table table-striped table-bordered">
-                    <thead>
+                <table class="table table-bordered">
+                    <thead class="th-nowrap">
                         <tr>
                             <th>Action</th>
                             <th>#</th>
@@ -47,74 +46,82 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(purchase, index) in purchaseOrders" :key="purchase.uuid">
-                            <td width="100" style="text-align:center;">
-                                <span class="w-65px d-block mx-auto">
-                                <a v-if ="purchase.po_status =='To Receive'" href="javascript:void(0)"  @click="ROUTE({path: '/purchase-orders/' + purchase.uuid })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-pencil"></i></a>
-                                <a href="javascript:void(0)" @click="ROUTE({path: '/purchase-orders/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
-                                </span>
-                            </td>
-                            <td width="50">{{ (index + 1) }}</td>
-                            <td width="100">{{ purchase.item_group.item_group }}</td>
-                            <td width="200">{{ purchase.po_no }}</td>
-                            <td class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
-                            <td>{{ purchase.branch.branch_name.toUpperCase()}}</td>
-                            <td>{{ purchase.branch_location.location_shortname.toUpperCase()}}</td>
-                            <td width="100">{{ moment(purchase.date_purchased) }}</td>
-                            <td>{{ moment(purchase.date_expected) }}</td>
+                        <template v-if="purchaseOrders.length > 0">
+                            <tr v-for="(purchase, index) in purchaseOrders" :key="purchase.uuid">
+                                <td width="100" style="text-align:center;">
+                                    <span class="w-65px d-block mx-auto">
+                                    <a v-if ="purchase.po_status =='To Receive'" href="javascript:void(0)"  @click="ROUTE({path: '/purchase-orders/' + purchase.uuid })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-pencil"></i></a>
+                                    <a href="javascript:void(0)" @click="ROUTE({path: '/purchase-orders/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
+                                    </span>
+                                </td>
+                                <td width="50">{{ (index + 1) }}</td>
+                                <td width="100">{{ purchase.item_group.item_group }}</td>
+                                <td width="200">{{ purchase.po_no }}</td>
+                                <td class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
+                                <td>{{ purchase.branch.branch_name.toUpperCase()}}</td>
+                                <td>{{ purchase.branch_location.location_shortname.toUpperCase()}}</td>
+                                <td width="100">{{ moment(purchase.date_purchased) }}</td>
+                                <td>{{ moment(purchase.date_expected) }}</td>
 
-                            <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
-                            <td v-else class="text-right">{{putSeparator(purchase.po_total_amount.toFixed(2))}}</td>
-                            
-                            <td v-if="purchase.term > 1" class="text-center">{{ purchase.term }} Days</td>
-                            <td v-else-if ="purchase.term === 1" class="text-center">{{ purchase.term }} Day</td>
-                            <td v-else></td>
-                            
-                            <td v-if="purchase.po_status === 'To Receive'" style="text-align:center;" class="editable" width="150">
-                                <span class="badge badge-danger font-size-12">To Receive</span>
-                            </td>
-                            <td v-else-if="purchase.po_status === 'Partially Received'" style="text-align:center;" class="editable">
-                                <span class="badge badge-warning font-size-12">Partially Received</span>
-                            </td>
-                            <td v-else-if="purchase.po_status === 'Cancelled'" style="text-align:center;" class="editable">
-                                <span class="badge badge-secondary font-size-12">Cancelled</span>
-                            </td>
-                            <td v-else-if="purchase.po_status === 'Fully Received'" style="text-align:center;" class="editable">
-                                <span class="badge badge-success font-size-12">Fully Received</span>
-                            </td>
+                                <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
+                                <td v-else class="text-right">{{putSeparator(purchase.po_total_amount.toFixed(2))}}</td>
+                                
+                                <td v-if="purchase.term > 1" class="text-center">{{ purchase.term }} Days</td>
+                                <td v-else-if ="purchase.term === 1" class="text-center">{{ purchase.term }} Day</td>
+                                <td v-else></td>
+                                
+                                <td v-if="purchase.po_status === 'To Receive'" style="text-align:center;" class="editable" width="150">
+                                    <span class="badge badge-danger font-size-12">To Receive</span>
+                                </td>
+                                <td v-else-if="purchase.po_status === 'Partially Received'" style="text-align:center;" class="editable">
+                                    <span class="badge badge-warning font-size-12">Partially Received</span>
+                                </td>
+                                <td v-else-if="purchase.po_status === 'Cancelled'" style="text-align:center;" class="editable">
+                                    <span class="badge badge-secondary font-size-12">Cancelled</span>
+                                </td>
+                                <td v-else-if="purchase.po_status === 'Fully Received'" style="text-align:center;" class="editable">
+                                    <span class="badge badge-success font-size-12">Fully Received</span>
+                                </td>
 
-                            <td class="editable text-center">
-                                <span v-if="purchase.order_reason_code==null">None <i class="bx bx-pencil"></i></span>
-                                <span v-else>{{ purchase.order_reason_code.short_name }} <i class="bx bx-pencil"></i></span>
-                                <select @change="changeReasonCode(purchase.uuid)" v-model="selected_reason_code" type="text" class="editable-control">
-                                    <option :value="reasoncode.id " v-for="(reasoncode,index) in options_reason_code" :key="index">{{ reasoncode.text }}</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <span><strong>Grand Total:</strong></span>
-                            </td>
-                            <td>
-                                <span v-if="grand_total==0"><strong>0.00</strong></span>
-                                <span v-else><strong>{{putSeparator(grand_total.toFixed(2))}}</strong></span>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                                <td class="editable text-center">
+                                    <span v-if="purchase.order_reason_code==null">None <i class="bx bx-pencil"></i></span>
+                                    <span v-else>{{ purchase.order_reason_code.short_name }} <i class="bx bx-pencil"></i></span>
+                                    <select @change="changeReasonCode(purchase.uuid)" v-model="selected_reason_code" type="text" class="editable-control">
+                                        <option :value="reasoncode.id " v-for="(reasoncode,index) in options_reason_code" :key="index">{{ reasoncode.text }}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-color: transparent !important"></td>
+                                <td style="border-color: transparent !important"></td>
+                                <td style="border-color: transparent !important"></td>
+                                <td style="border-color: transparent !important"></td>
+                                <td style="border-color: transparent !important"></td>
+                                <td style="border-color: transparent !important"></td>
+                                <td style="border-color: transparent !important"></td>
+                                <td style="border-color: transparent !important"></td>
+                                <td style="border-left: 2px solid #eee">
+                                    <span><strong>Grand Total:</strong></span>
+                                </td>
+                                <td class="text-right">
+                                    <span v-if="grand_total==0"><strong>0.00</strong></span>
+                                    <span v-else><strong>{{putSeparator(grand_total.toFixed(2))}}</strong></span>
+                                </td>
+                                <td style="border-color: transparent !important"></td>
+                                <td style="border-color: transparent !important"></td>
+                                <td style="border-color: transparent !important"></td>
+                            </tr>
+                        </template>
+                        <template v-else>
+                            <tr>
+                                <td colspan="13" class="text-center">
+                                    <strong style="display: block; height: 30px; line-height: 30px;">No Purchase Order yet.</strong>
+                                </td>
+                            </tr>
+                        </template>
                     </tbody>
                 </table>
             </div>
-        </div>
 
     </div>
 </template>
@@ -275,6 +282,8 @@ export default {
         $('.form-reason-codes').on("change", function(e) { 
             scope.selected_reason_code = $('.form-reason-codes').val();
         })
+
+        console.log('irannnn',scope.purchaseOrders)
     },
 }
 </script>

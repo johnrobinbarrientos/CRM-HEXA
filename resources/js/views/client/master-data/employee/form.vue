@@ -196,7 +196,6 @@
                             <div class="tab-content">
 
                                 <div class="tab-pane active" id="address">
-                                    <div class="container-fluid">
                                         <div class="row">
                                             <div class="col-md-3 col-12">
                                                 <div class="form-group">
@@ -277,16 +276,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
 
                                 </div>
 
                                 <div class="tab-pane" id="emergency-contact">
-                                    <div class="container-fluid">
                                         <div class="row">
 
-                                            <div class="col-lg-2">
+                                            <div class="col-lg-3">
                                                 <div class="form-group">
                                                     <label class="form-label" for="emergency-contact">Emergency Contact</label>
                                                     <div class="form-control-wrap">
@@ -295,7 +292,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-2">
+                                            <div class="col-lg-3">
                                                 <div class="form-group">
                                                     <label class="form-label" for="contact-relation">Contact Relation</label>
                                                     <div class="form-control-wrap">
@@ -304,7 +301,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-2">
+                                            <div class="col-lg-3">
                                                 <div class="form-group">
                                                     <label class="form-label" for="emergency-contact-no">Emergency Contact No</label>
                                                     <div class="form-control-wrap">
@@ -313,11 +310,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                 </div>
 
                                 <div class="tab-pane" id="employement">
-                                    <div class="container-fluid">
                                         <div class="row">
                                             <div class="col-lg-7">
                                                 <div class="row">
@@ -368,14 +363,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                 </div>
 
                                 <div class="tab-pane" id="financial">
-                                    <div class="container-fluid">                                    
                                         <div class="row">
 
-                                            <div class="col-lg-2 col-12">
+                                            <div class="col-lg-3 col-12">
                                                 <div class="h-100 d-flex align-items-center">
                                                     <div class="form-group">
                                                         <div class="custom-control custom-checkbox">
@@ -386,7 +379,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-2 col-12">
+                                            <div class="col-lg-3 col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="daily-wage">Daily Wage</label>
                                                     <div class="form-control-wrap">
@@ -395,7 +388,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-2 col-12">
+                                            <div class="col-lg-3 col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="cost-center">Cost Center</label>
                                                     <strong><select class="form-select-cost-center" v-model="selected_cost_center" :options="options_cost_center" name="cost-center" :disabled="view_mode">
@@ -403,13 +396,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                 </div>
 
                                 <div class="tab-pane" id="government">
-                                    <div class="container-fluid">
                                         <div class="row">
-                                            <div class="col-md-2 col-12">
+                                            <div class="col-md-3 col-12">
                                                 <div class="h-100 d-flex align-items-center">
                                                     <div class="form-group">
                                                         <div class="custom-control custom-checkbox">
@@ -420,7 +411,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-2 col-12">
+                                            <div class="col-md-3 col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="tax-id">TIN</label>
                                                     <div class="form-control-wrap">
@@ -429,7 +420,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-2 col-12">
+                                            <div class="col-md-3 col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="phic-id">PHIC No</label>
                                                     <div class="form-control-wrap">
@@ -443,7 +434,7 @@
 
                                         <div class="row">
 
-                                            <div class="col-md-2 col-12">
+                                            <div class="col-md-3 col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="vat">Withholding Tax</label>
                                                     <select class="form-select-ewt" v-model="selected_ewt" :options="options_ewt" name="vat" :disabled="view_mode">
@@ -451,7 +442,7 @@
                                                 </div>
                                             </div>
                                             
-                                            <div class="col-md-2 col-12">
+                                            <div class="col-md-3 col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="sss-id">SSS/UMID No</label>
                                                     <div class="form-control-wrap">
@@ -460,7 +451,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-2 col-12">
+                                            <div class="col-md-3 col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="hdmf-id">HDMF No</label>
                                                     <div class="form-control-wrap">
@@ -469,7 +460,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                 </div>
 
                                 

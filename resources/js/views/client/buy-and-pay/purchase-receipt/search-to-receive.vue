@@ -4,9 +4,9 @@
             <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
         </div>
         <br>
-        <div class="table-responsive;">
-            <table class="table table-striped table-bordered">
-                    <thead>
+        <div>
+            <table class="table table-bordered">
+                    <thead class="th-nowrap">
                         <tr>
                             <th>Action</th>
                             <th>#</th>
@@ -60,22 +60,22 @@
                             </template>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
+                            <td style="border-color: transparent !important;"></td>
+                            <td style="border-color: transparent !important;"></td>
+                            <td style="border-color: transparent !important;"></td>
+                            <td style="border-color: transparent !important;"></td>
+                            <td style="border-color: transparent !important;"></td>
+                            <td style="border-color: transparent !important;"></td>
+                            <td style="border-color: transparent !important;"></td>
+                            <td style="border-left: 2px solid">
                                 <span><strong>Grand Total:</strong></span>
                             </td>
-                            <td>
+                            <td class="text-right">
                                 <span v-if="grand_total==0"><strong>0.00</strong></span>
                                 <span v-else><strong>{{putSeparator(grand_total.toFixed(2))}}</strong></span>
                             </td>
-                            <td></td>
-                            <td></td>
+                            <td style="border-color: transparent !important;"></td>
+                            <td style="border-color: transparent !important;"></td>
                         </tr>
                     </tbody>
                 </table>

@@ -25,31 +25,35 @@
             <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
         </div>
 
-        <div v-else class="table-responsive">
+        <div v-else>
+            <div class="row">
+                <div class="col-lg-6">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Actions</th>
+                                <th>#</th>
+                                <th>Short Name</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(codes, index) in reasonCodes" :key="codes.uuid">
+                                <td width="100">
+                                    <span class="w-65px d-block mx-auto">
+                                        <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalReasonCodes');setData(codes)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
+                                        <a href="javascript:void(0)"  @click="remove(codes)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
+                                    </span>
+                                </td>
+                                <td width="50">{{ (index + 1) }}</td>
+                                <td width="100">{{ codes.short_name }}</td>
+                                <td>{{ codes.details }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>Actions</th>
-                        <th>#</th>
-                        <th>Short Name</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(codes, index) in reasonCodes" :key="codes.uuid">
-                        <td width="100">
-                            <span class="w-65px d-block mx-auto">
-                                <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalReasonCodes');setData(codes)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                <a href="javascript:void(0)"  @click="remove(codes)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
-                            </span>
-                        </td>
-                        <td width="50">{{ (index + 1) }}</td>
-                        <td width="100">{{ codes.short_name }}</td>
-                        <td>{{ codes.details }}</td>
-                    </tr>
-                </tbody>
-            </table>
 
             <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
                 <ul class="pagination">

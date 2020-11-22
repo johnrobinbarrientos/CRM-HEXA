@@ -27,7 +27,7 @@
             <div v-if="listLoading" class="text-center my-3 text-loader">
                 <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
             </div>
-            <div v-else class="table-responsive"> 
+            <div v-else> 
                 <table class="table table-bordered">
                     <thead class="th-nowrap">
                         <tr>
@@ -90,7 +90,7 @@
                     </tbody>
                 </table>
                 
-                <div style="padding:10px; padding-top:20px; padding-bottom:0px; margin-bottom:-50px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
+                <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
                 <nav style="float:right;" v-if="listTotalPages > 1" class="pagination pagination-rounded mt-4" aria-label="pagination">
                     <ul class="pagination">
                         <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >

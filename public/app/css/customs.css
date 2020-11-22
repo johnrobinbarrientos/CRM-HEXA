@@ -106,7 +106,7 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
 .hx-nav-tabs-override .nav-item .nav-link { color: white; border: none; }
 .hx-nav-tabs-override .nav-item .nav-link.active { color: #fff !important; background-color: var(--shine-blue); }
 .hx-nav-tabs-override .nav-item .nav-link::after { content: none; }
-.hx-nav-tabs-override .tab-content { border: 1px solid #ced4da; border-top: 0; padding-top: 12px; border-bottom-left-radius: .25rem; border-bottom-right-radius: .25rem; }
+.hx-nav-tabs-override .tab-content { border: 1px solid #ced4da; border-top: 0; padding: 20px; border-bottom-left-radius: .25rem; border-bottom-right-radius: .25rem; }
 
 
 /*form fields*/
@@ -144,6 +144,11 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
 
 /*tables*/
 thead.th-nowrap th { white-space: nowrap !important; }
+tr.tr-grandtotal td {
+	border-color: transparent !important;
+}
+tr.tr-grandtotal td:nth-child(8) { border-color: #eee !important; border-left: 2px solid; }
+tr.tr-grandtotal td:nth-child(9) { border-color: #eee !important; }
 
 /*btns*/
 .hx-btn { 
@@ -214,7 +219,7 @@ img.header-profile-user { background: #fff; }
 
 /* side menu */
 /*.vertical-menu { background-image: linear-gradient(45deg,var(--hexa-blue) 0%,var(--hexa-blue) 100%) !important; top: 50px; border-top: 1px solid #e0e0e0; }*/
-.vertical-menu { top: 50px; border-top: 1px solid #e0e0e0; background-color: #fff !important; width: 230px; box-shadow: 0px 0.5px 10px #e5e4e2 }
+.vertical-menu { top: 50px; border-top: 1px solid #e0e0e0; background-color: #fff !important; width: 230px; box-shadow: 0px 0.5px 10px #e5e4e2; border-right: 1px solid #e0e0e0; }
 
 #sidebar-menu ul li a { font-family: "OpenSans"; font-weight: 500; color: #222 !important;  font-size: 14px; }
 #sidebar-menu ul li a i { color: #222 !important; }
@@ -250,7 +255,7 @@ img.header-profile-user { background: #fff; }
     width: calc(100% - 230px);
     background: #fff;
     border-top: 1px solid #e8ecee;
-    border-bottom: 1px solid #e8ecee;
+    border-bottom: 1px solid #e0e0e0;
 	z-index: 999;
 	box-shadow: 0px 0.5px 10px #eee;
 }

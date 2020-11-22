@@ -29,31 +29,31 @@
 
                 <form action="#" class="form-validate is-alter">
                         <div class="row">
-                            <div class="col-md-7 col-12">
+                            <div class="col-md-9 col-12">
                                     <div class="row">
 
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="item-group">Transaction No.</label>
                                                 <input type="text" class="form-control disabled" v-model="receiving_no" readonly>
                                             </div>
                                         </div>
 
-                                        <div v-if="asset_group" class="col-md-6 col-12">
+                                        <div v-if="asset_group" class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="asset-group">Asset Group</label>
                                                 <input type="text" class="form-control disabled" v-model="asset_group" readonly>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="item-group">Item Type</label>
                                                 <input type="text" class="form-control disabled" v-model="item_group" readonly>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="branch-name">Receive Date</label>
                                                 <div class="form-control-wrap">
@@ -62,14 +62,14 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="branch-name">Branch</label>
                                                 <input type="text" class="form-control disabled" v-model="branch_name" readonly>
                                             </div>
                                         </div>
                                         
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="date-expected">Expected Date</label>
                                                 <div class="form-control-wrap">
@@ -78,24 +78,24 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="supplier">Supplier</label>
                                                 <input type="text" class="form-control disabled" v-model="supplier" readonly>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="po-no">Reference No.</label>
                                                 <input type="text" class="form-control disabled" v-model="po_no" readonly>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="discount-group">Discount Group</label>
-                                                <div style="margin-bottom:10px;">
+                                                <div style="margin-bottom:10px; margin-top: 7px;">
                                                     <span v-for="(discount_group) in discount_groups" :key="discount_group.uuid" class="badge badge-pill badge-info mr-1">
                                                         {{ discount_group.group_name }}
                                                     </span>
@@ -103,7 +103,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="po-status">Status</label>
                                                 <input type="text" class="form-control disabled" v-model="po_status" readonly>
@@ -114,9 +114,9 @@
                                 
                             </div>
 
-                            <div class="col-md-5 col-12">
+                            <div class="col-md-3 col-12">
 
-                                <div style="margin-bottom:30px; padding:10px; background:#fafafa; border:1px solid #efefef;" class="po-details">
+                                <div style="margin-bottom:30px; padding:10px; background:#eee; border:1px solid #efefef; border-radius: 4px;" class="po-details">
                                     <h4 style="margin-bottom:20px;">Summary</h4>
                                     <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
                                         <div>Gross Amount</div>
@@ -166,8 +166,8 @@
                                     </div>
                                 </div>
 
-                                <table class="table mb-0 table-responsive table-striped table-bordered">
-                                    <thead>
+                                <table class="table table-responsive table-bordered mb-0">
+                                    <thead class="th-nowrap">
                                         <tr>
                                             <th width="40">Action</th>
                                             <th width="40">Receive</th>
@@ -194,7 +194,7 @@
                                     </thead>
                                     <tbody>
                                             <tr v-for="(item, index) in selectedItems" :key="item.barcode + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
-                                            <td><button v-if ="item.quantity===0" @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button></td>
+                                            <td class="text-center"><button v-if ="item.quantity===0" @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button></td>
                                             <td><input v-if ="item.quantity > 0" :checked="item.quantity == item.accepted_qty" type="checkbox" v-on:change="fillAcceptedQty(item, $event.target.checked)" name="fill-accepted" value="checked" /></td>
                                             <td>{{ (index + 1) }}</td>
                                             <td>{{ item.barcode }}</td>

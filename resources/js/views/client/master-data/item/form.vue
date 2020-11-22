@@ -161,7 +161,6 @@
 
                         <div class="tab-content">    
                             <div class="tab-pane active" id="account">
-                                <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
@@ -192,11 +191,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                             </div>
 
                             <div class="tab-pane" id="category">
-                                <div class="container-fluid pl-4 pr-4 pb-4">
                                     <div class="row">
 
                                         <div class="col-md-4 col-12">
@@ -281,14 +278,11 @@
                                             </div>
                                         </div>
                                     </div> 
-                                </div>
                             </div>
 
                             <div class="tab-pane" id="unit-of-measure">
-                                <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-md-6 col-12">
-                                            <div class="pl-3 pt-3 pb-4">
                                                 <table class="table table-bordered">
                                                     <thead>
                                                         <tr>
@@ -339,10 +333,8 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                            </div>
                                         </div>
                                     </div>
-                                </div>
                             </div>   
 
                             <div class="tab-pane" id="pricing" style="padding: 0 15px 15px;"> 
@@ -389,7 +381,7 @@
 
                                                 <div v-show="formdata.is_sales_item">
                                                     <div class="d-flex">
-                                                        <div class="d-flex align-items-center">
+                                                        <div class="d-flex align-items-center ml-3 mr-3">
                                                             <i class="fas fa-long-arrow-alt-right" style="font-size: 24px; color: var(--warning);"></i>
                                                         </div>
                                                         <div class="form-group" style="display: flex; align-items: center; margin: 0 !important;">
@@ -400,7 +392,7 @@
                                                         </div>
                                                    
                                                         <div class="form-group pl-3" style="margin: 0 !important; display: flex; align-items: center;">
-                                                            <label class="form-label m-0" for="transfer-price">Transfer Price:</label>
+                                                            <label class="form-label m-0 mr-2" for="transfer-price">Transfer Price:</label>
                                                             <div class="form-control-wrap">
                                                                 <input v-model="formdata.sales_price" type="text" class="form-control" id="transfer-price" readonly="disabled">
                                                             </div>
@@ -1349,5 +1341,4 @@ export default {
 }
 .nav-tabs-custom .nav-item .nav-link::after { content: none; }
 
-.form-group { margin-top:10px !important; }
 </style>

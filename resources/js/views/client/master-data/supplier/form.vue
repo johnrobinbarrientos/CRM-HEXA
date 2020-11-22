@@ -129,7 +129,6 @@
 
                             <div class="tab-content">    
                                 <div class="tab-pane active" id="account">
-                                    <div class="container-fluid p-3">
                                         <div class="row">
                                             <div class="col-md-4 col-12">
 
@@ -193,23 +192,17 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                 </div>
 
                                 <div class="tab-pane" id="discounts">
-                                    <div class="container-fluid mb-3">
                                         <Discounts v-if="formdata.uuid" :supplier_uuid="formdata.uuid" :view_mode="view_mode" :properties="{ table_responsive: false }"></Discounts>
-                                    </div>
                                 </div>
 
                                 <div class="tab-pane" id="check-payees">
-                                    <div class="container-fluid mb-3">
                                         <check-payees :supplier_uuid="formdata.uuid" :view_mode="view_mode" :properties="{ table_responsive: false }"></check-payees>
-                                    </div>
                                 </div>
 
                                 <div class="tab-pane" id="address">
-                                    <div class="container-fluid p-3">
                                         <div class="row">
 
                                             <div class="col-lg-6 offset-lg-3">
@@ -283,7 +276,6 @@
                                             </div>
 
                                         </div>
-                                    </div>
                                 </div>     
                             </div>
                         </div>

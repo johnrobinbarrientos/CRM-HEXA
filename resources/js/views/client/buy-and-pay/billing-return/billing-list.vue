@@ -1,6 +1,5 @@
 <template>
     <div>
-        <div class="hx-tab">
 
             <div class="actions-bar">
                 <div class="w-100">
@@ -28,7 +27,7 @@
             </div>
 
             <div v-else class="table-responsive;">
-                <table class="table table-striped table-bordered">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>Action</th>
@@ -45,57 +44,65 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(purchase, index) in billedOrders" :key="purchase.uuid">
-                            <template v-if="purchase.po_status !== 'Cancelled'">
-                                <td width="100" style="text-align:center;">
-                                    <span class="w-65px d-block mx-auto">
-                                    <a href="javascript:void(0)" @click="ROUTE({path: '/billing-details/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
-                                    </span>
+                        <template v-if="billedOrders.length > 0">
+                            <tr v-for="(purchase, index) in billedOrders" :key="purchase.uuid">
+                                <template v-if="purchase.po_status !== 'Cancelled'">
+                                    <td width="100" style="text-align:center;">
+                                        <span class="w-65px d-block mx-auto">
+                                        <a href="javascript:void(0)" @click="ROUTE({path: '/billing-details/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
+                                        </span>
+                                    </td>
+                                    <td width="50">{{ (index + 1) }}</td>
+                                    <td width="100">{{ purchase.item_group.item_group }}</td>
+                                    <td width="150">{{ purchase.billing_no }}</td>
+                                    <td width="200" class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
+                                    <td width="100">{{ purchase.branch.branch_name.toUpperCase() }}</td>
+                                    <td>{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
+                                    <td width="100">{{ purchase.date_received }}</td>
+
+                                    <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
+                                    <td v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
+
+                                    <td v-if="purchase.billing_status === 'To Pay'" style="text-align:center;" class="editable" width="150">
+                                        <span class="badge badge-danger font-size-12">To Pay</span>
+                                    </td>
+                                    <td v-else-if="purchase.billing_status === 'Paid'" style="text-align:center;" class="editable">
+                                        <span class="badge badge-success font-size-12">Paid</span>
+                                    </td>
+
+                                    <td width="100">{{ purchase.receiving_reason_code }}</td>
+
+                                </template>
+                            </tr>
+                            <tr class="tr-grandtotal">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <span><strong>Grand Total:</strong></span>
                                 </td>
-                                <td width="50">{{ (index + 1) }}</td>
-                                <td width="100">{{ purchase.item_group.item_group }}</td>
-                                <td width="150">{{ purchase.billing_no }}</td>
-                                <td width="200" class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
-                                <td width="100">{{ purchase.branch.branch_name.toUpperCase() }}</td>
-                                <td>{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
-                                <td width="100">{{ purchase.date_received }}</td>
-
-                                <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
-                                <td v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
-
-                                <td v-if="purchase.billing_status === 'To Pay'" style="text-align:center;" class="editable" width="150">
-                                    <span class="badge badge-danger font-size-12">To Pay</span>
+                                <td class="text-right">
+                                    <span v-if="grand_total==0"><strong>0.00</strong></span>
+                                    <span v-else><strong>{{putSeparator(grand_total)}}</strong></span>
                                 </td>
-                                <td v-else-if="purchase.billing_status === 'Paid'" style="text-align:center;" class="editable">
-                                    <span class="badge badge-success font-size-12">Paid</span>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </template>
+                        <template v-else>
+                            <tr>
+                                <td colspan="11" class="text-center">
+                                    <strong style="display: block; height: 30px; line-height: 30px;">No Bill has been added yet.</strong>
                                 </td>
-
-                                <td width="100">{{ purchase.receiving_reason_code }}</td>
-
-                            </template>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <span><strong>Grand Total:</strong></span>
-                            </td>
-                            <td>
-                                <span v-if="grand_total==0"><strong>0.00</strong></span>
-                                <span v-else><strong>{{putSeparator(grand_total)}}</strong></span>
-                            </td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                            </tr>
+                        </template>
                     </tbody>
                 </table>
             </div>
-        </div>
 
 
         <!-- Modal -->
@@ -217,8 +224,3 @@ export default {
     },
 }
 </script>
-
-<style scoped>
-.table-tranx { table-layout: auto; width: 200%;}
-
-</style>
