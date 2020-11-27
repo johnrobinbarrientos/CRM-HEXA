@@ -50,12 +50,6 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/item-asset-group/delete', 'API\ItemAssetGroupController@delete');
 
         
-        Route::post('/item-supplier-discounts', 'API\ItemSupplierDiscountController@save');
-
-        Route::delete('/item-supplier-discounts', 'API\ItemSupplierDiscountController@delete');
-        Route::delete('/item-supplier-discounts-batch', 'API\ItemSupplierDiscountController@deleteBatch');
-
-
         Route::get('/cat-brand', 'API\ItemCatBrandController@getCatBrand');
         Route::post('/cat-brand', 'API\ItemCatBrandController@save');
         Route::post('/cat-brand/delete', 'API\ItemCatBrandController@delete');
@@ -115,6 +109,11 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
         Route::get('/{supplierDiscountUUID}/supplier-base-discount-group-details', 'API\SupplierBaseDiscountGroupDetailController@getSupplierBaseDiscountGroupDetails');
         Route::post('/{supplierDiscountUUID}/supplier-base-discount-group-details', 'API\SupplierBaseDiscountGroupDetailController@save');
+
+        Route::post('/item-supplier-discounts', 'API\SupplierBaseDiscountGroupItemController@save');
+
+        Route::delete('/item-supplier-discounts', 'API\SupplierBaseDiscountGroupItemController@delete');
+        Route::delete('/item-supplier-discounts-batch', 'API\SupplierBaseDiscountGroupItemController@deleteBatch');
 
 
         Route::get('/{supplierUUID}/check-payee', 'API\SupplierCheckPayeeController@getCheckPayee');
@@ -268,7 +267,6 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         
         Route::get('/orders', 'API\PurchaseOrderController@getOrders');
         Route::get('/orders/{order_uuid}', 'API\PurchaseOrderController@getOrderDetails');
-        Route::get('/orders/{order_uuid}/supplier-items', 'API\PurchaseOrderController@getOrderSupplierItems');
         Route::get('/orders/{order_uuid}/suppliers/{supplier_uuid}/discounts', 'API\PurchaseOrderController@getSupplierDiscounts');
 
         Route::post('/order/reason-code', 'API\PurchaseOrderController@updateOrderReasonCode');
@@ -277,7 +275,9 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
         Route::post('/order/{order_uuid}/cancel', 'API\PurchaseOrderController@cancelOrder');
 
-        Route::post('/orders/{order_uuid}/details', 'API\PurchaseOrderDetailController@save');
+
+        Route::get('/orders/{order_uuid}/items', 'API\PurchaseOrderItemController@index');
+        Route::post('/orders/{order_uuid}/items', 'API\PurchaseOrderItemController@save');
 
 
         Route::get('/order-reason-code', 'API\PurchaseOrderReasonCodeController@getReasonCode');

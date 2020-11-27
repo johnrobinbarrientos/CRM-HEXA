@@ -12,11 +12,11 @@ use App\Models\ItemList;
 use App\Models\ItemGroup;
 use App\Models\ItemAssetGroup;
 use App\Models\ItemSupplier; 
-use App\Models\ItemSupplierDiscount; 
+use App\Models\SupplierBaseDiscountGroupItem; 
 use App\Models\ItemUom;
 
 use App\Models\PurchaseOrder;
-use App\Models\PurchaseOrderDetail;
+use App\Models\PurchaseOrderItem;
 use App\Models\PurchaseOrderSupplierBaseDiscountGroup;
 
 use App\Models\PurchaseOrderAdditionalDiscount; 
@@ -77,7 +77,7 @@ class PurchaseReceiveDetailController extends Controller
     {
         // $order = PurchaseOrder::find($orderUUID);
         
-        $item_ids = PurchaseOrderDetail::where('bp_order_uuid','=',$orderUUID)->whereNull('deleted_at')
+        $item_ids = PurchaseOrderItem::where('bp_order_uuid','=',$orderUUID)->whereNull('deleted_at')
         ->groupBy('item_uuid')
         ->pluck('item_uuid')
         ->toArray();
@@ -121,7 +121,7 @@ class PurchaseReceiveDetailController extends Controller
             $item->total_amount     = 0.00;
             $item->item_rate        = 0.00;
             
-            $order_detail = PurchaseOrderDetail::where('bp_order_uuid','=',$orderUUID)->where('item_uuid','=',$item->uuid)->first();
+            $order_detail = PurchaseOrderItem::where('bp_order_uuid','=',$orderUUID)->where('item_uuid','=',$item->uuid)->first();
             
             if ($order_detail) {
                 $item->quantity         = $order_detail->order_qty;
@@ -136,7 +136,7 @@ class PurchaseReceiveDetailController extends Controller
             }
         }
 
-        $selected_items = $order_detail = PurchaseOrderDetail::where('bp_order_uuid','=',$orderUUID)->get();
+        $selected_items = $order_detail = PurchaseOrderItem::where('bp_order_uuid','=',$orderUUID)->get();
 
         return response()->json(['success' => 1, 'rows' => $items, 'selected_items' => $selected_items], 200);
     }
@@ -196,13 +196,13 @@ class PurchaseReceiveDetailController extends Controller
             $barcodes[] = $item->barcode;
         }
     
-        $delete = PurchaseOrderDetail::where('bp_order_uuid','=',$orderUUID)->whereNotIn('barcode',$barcodes)->delete();
+        $delete = PurchaseOrderItem::where('bp_order_uuid','=',$orderUUID)->whereNotIn('barcode',$barcodes)->delete();
 
         foreach ($items as $item) {
             $item = (object) $item;
 
-            $order_detail = PurchaseOrderDetail::where('bp_order_uuid','=',$orderUUID)->where('item_uuid','=',$item->uuid)->where('barcode','=',$item->barcode)->withTrashed()->first();
-            $order_detail = ($order_detail) ? $order_detail : new PurchaseOrderDetail;
+            $order_detail = PurchaseOrderItem::where('bp_order_uuid','=',$orderUUID)->where('item_uuid','=',$item->uuid)->where('barcode','=',$item->barcode)->withTrashed()->first();
+            $order_detail = ($order_detail) ? $order_detail : new PurchaseOrderItem;
 
             $order_detail->company_id               = $auth->company_id;
             $order_detail->bp_order_uuid            = $orderUUID;

@@ -29,5 +29,13 @@ class PriceRuleSupplierDetail extends Model
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
     }
+
+    public function PriceRuleSupplier(){
+        return $this->belongsTo('App\Models\PriceRuleSupplier','price_rule_supplier_uuid','uuid');
+    }
+
+    public function PriceRuleSupplierItems(){
+        return $this->belongsTo('App\Models\PriceRuleSupplierItem','price_rule_supplier_detail_uuid','uuid');
+    }
    
 }
