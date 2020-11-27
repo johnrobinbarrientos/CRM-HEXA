@@ -13,7 +13,7 @@ class PurchaseOrder extends Model
 
     protected $fillable = [
         'uuid', 'company_id', 'po_no','receiving_no','billing_no','item_group_uuid','asset_group_uuid','item_discount_group_uuid',
-        'term','date_purchased','date_expected','date_received','date_billed','date_due','memo','supplier_uuid','po_status',
+        'term','date_purchased','date_expected','date_received','date_billed','date_due','memo_po','memo_receiving','memo_billing','supplier_uuid','po_status',
         'billing_status','orders_reason_code_uuid','recieving_reason_code','is_apply_tax','branch_uuid','branch_locations_uuid',
     ];
 

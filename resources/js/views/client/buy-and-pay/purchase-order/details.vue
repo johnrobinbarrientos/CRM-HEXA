@@ -245,6 +245,13 @@
                                         </tr> 
                                     </tbody>
                                 </table>
+
+                                <form>
+                                    <div class="form-group">
+                                        <label for="memo-po">Memo:</label>
+                                        <textarea v-model="memo_po" class="form-control" id="memo-po"></textarea>
+                                    </div>
+                                </form>
                             
                             </div>
 
@@ -474,7 +481,9 @@ export default {
             temp_selected_items: [],
             item_list_keyword: '',
             selected_item_list_keyword: '',
-            additional_discounts_timeout: null
+            additional_discounts_timeout: null,
+
+            memo_po: ''
         }
     },
     components: {
@@ -941,6 +950,7 @@ export default {
             var scope = this
             scope.GET('buy-and-pay/orders/' + order_uuid).then(res => {
                 scope.order = res.data
+                scope.memo_po = res.data.memo_po
                 scope.order.term = (scope.order.term == 1) ? scope.order.term + ' Day' : scope.order.term + ' Days' ;
                 //scope.additional_discounts =  res.data.additional_discounts
                 var supplier_uuid = scope.order.supplier_uuid
@@ -1112,7 +1122,7 @@ export default {
         save: function() {
             var scope = this
 
-            scope.POST('buy-and-pay/orders/' + scope.order.uuid + '/details', {items: scope.selectedItems, discounts: scope.order.additional_discounts }).then(res => {
+            scope.POST('buy-and-pay/orders/' + scope.order.uuid + '/details', {items: scope.selectedItems, discounts: scope.order.additional_discounts, memo: scope.memo_po }).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -1121,7 +1131,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        
+                        scope.ROUTE({path: '/purchase-order-main' });
                     })
                 } else {
                     alert('ERROR:' + res.code)

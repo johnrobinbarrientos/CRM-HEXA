@@ -121,6 +121,8 @@ class PurchaseOrderController extends Controller
         $order->is_apply_tax = request()->is_apply_tax;
         $order->branch_uuid = request()->branch_uuid;
         $order->branch_locations_uuid = request()->branch_locations_uuid;
+        
+        
         $order->save();
 
         $order = PurchaseOrder::find($order->uuid);
