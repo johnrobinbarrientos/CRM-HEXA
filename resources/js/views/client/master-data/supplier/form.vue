@@ -351,7 +351,9 @@ export default {
                 email: '',
                 contact_no: '',
                 global_address_uuid: '',
-                address1: ''
+                address1: '',
+                with_vat: 0,
+                with_ewt: 0,
             }
 
         }
@@ -516,6 +518,8 @@ export default {
             scope.formdata.ewt_uuid = scope.selected_ewt
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
             scope.formdata.global_address_uuid = scope.selected_global_address
+            scope.formdata.with_vat = scope.with_vat
+            scope.formdata.with_ewt = scope.with_ewt
 
             scope.PUT('suppliers/supplier-list', scope.formdata).then(res => {
                 if (res.success) {
@@ -542,6 +546,9 @@ export default {
             scope.formdata.ewt_uuid = scope.selected_ewt
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
             scope.formdata.global_address_uuid = scope.selected_global_address
+            scope.formdata.with_vat = scope.with_vat
+            scope.formdata.with_ewt = scope.with_ewt
+            
             window.swal.fire({
                 title: 'Update Record?',
                 icon: 'warning',
@@ -590,13 +597,13 @@ export default {
                     scope.formdata.contact_no = data.contact_no
                     scope.formdata.address1 = data.address1
 
-                    if (data.vat_uuid!=null){
+                    if (data.vat_uuid != null){
                         scope.with_vat = 1
                     }else{
                         scope.with_vat = 0
                     }
 
-                    if (data.ewt_uuid!=null){
+                    if (data.ewt_uuid != null){
                         scope.with_ewt = 1
                     }else{
                         scope.with_ewt = 0

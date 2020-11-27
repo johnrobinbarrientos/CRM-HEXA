@@ -28,5 +28,15 @@ class SupplierBaseDiscountGroup extends Model
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
     }
+
+    public function SupplierBaseDiscountGroupDetails()
+    {
+        return $this->hasMany('App\Models\SupplierBaseDiscountGroupDetail','supplier_base_discount_group_uuid','uuid');
+    }
+
+    public function SupplierBaseDiscountGroupItems()
+    {
+        return $this->hasMany('App\Models\SupplierBaseDiscountGroupItem','supplier_base_discount_group_uuid','uuid');
+    }
    
 }

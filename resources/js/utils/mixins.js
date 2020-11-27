@@ -52,6 +52,7 @@ export default {
         },
         ROUTE: function (data) {
             var scope = this
+            $('body').removeClass('modal-open');
             scope.$router.push(data)
         },
         POST: function (name,payload) {

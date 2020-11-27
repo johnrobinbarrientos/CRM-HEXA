@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
 
 use App\Models\PurchaseOrder;
-use App\Models\PurchaseOrderDetail;
+use App\Models\PurchaseOrderItem;
 use App\Models\PurchaseOrderAdditionalDiscount; 
 use Illuminate\Support\Facades\Auth; 
 
@@ -45,7 +45,7 @@ class PurchaseReceiveController extends Controller
             ->where('bp_order_uuid','=',$order->uuid)
             ->sum('discount_fixed');
 
-            $total_amount = PurchaseOrderDetail::whereNull('deleted_at')
+            $total_amount = PurchaseOrderItem::whereNull('deleted_at')
             ->where('bp_order_uuid','=',$order->uuid)
             ->sum('total_amount');
             $lists[$x]['po_total_amount'] = $total_amount - $total_discount;
@@ -90,7 +90,7 @@ class PurchaseReceiveController extends Controller
             ->where('bp_order_uuid','=',$order->uuid)
             ->sum('discount_fixed');
 
-            $total_amount = PurchaseOrderDetail::whereNull('deleted_at')
+            $total_amount = PurchaseOrderItem::whereNull('deleted_at')
             ->where('bp_order_uuid','=',$order->uuid)
             ->sum('total_amount');
             $lists[$x]['po_total_amount'] = $total_amount - $total_discount;

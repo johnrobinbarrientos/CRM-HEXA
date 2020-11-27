@@ -28,5 +28,7 @@ class SupplierBaseDiscountGroupDetail extends Model
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
     }
+
+    
    
 }

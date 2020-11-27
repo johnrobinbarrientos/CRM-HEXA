@@ -84,5 +84,15 @@ $(document).ready(function(){
         $(document).find('.editable').removeClass('focused');
     });
 
+    $(document).on('keyup', '.editable-control', function(e) {
+        if (e.keyCode == 13) {
+          e.preventDefault();
+          var THIS = $(this)
+          
+          THIS.closest('.editable').closest('tr').next().find('.editable').trigger('click');
+          THIS.blur();
+        }
+    });
+
     
 });

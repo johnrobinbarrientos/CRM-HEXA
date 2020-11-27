@@ -11,7 +11,7 @@ use App\Models\CompanyBranchLocation;
  
 use App\Models\ItemList;  
 use App\Models\ItemSupplier; 
-use App\Models\ItemSupplierDiscount; 
+use App\Models\SupplierBaseDiscountGroupItem; 
 use App\Models\ItemUom; 
 
 use App\Models\SupplierList;  
@@ -215,8 +215,8 @@ class BuyAndPayOrderController extends Controller
                 $buy_and_pay_order_base_discount_group_detail->deleted_at = null;
                 $buy_and_pay_order_base_discount_group_detail->save();
                 
-                // ItemSupplierDiscount to be changed to SupplierBaseDiscountGroupItem 
-                $supplier_base_discount_group_items = ItemSupplierDiscount::where('supplier_base_discount_group_uuid','=',$supplier_base_discount_group_detail->supplier_base_discount_group_uuid)->get();
+                // SupplierBaseDiscountGroupItem to be changed to SupplierBaseDiscountGroupItem 
+                $supplier_base_discount_group_items = SupplierBaseDiscountGroupItem::where('supplier_base_discount_group_uuid','=',$supplier_base_discount_group_detail->supplier_base_discount_group_uuid)->get();
 
                 foreach ($supplier_base_discount_group_items as $supplier_base_discount_group_item) {
 

@@ -23,5 +23,15 @@ class PurchaseOrderBaseDiscountGroup extends Model
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
     }
+
+    public function PurchaseOrderBaseDiscountGroupDetails()
+    {
+        return $this->hasMany('App\Models\PurchaseOrderBaseDiscountGroupDetail','bp_order_base_discount_group_uuid','uuid');
+    }
+
+    public function PurchaseOrderBaseDiscountGroupItem()
+    {
+        return $this->hasMany('App\Models\PurchaseOrderBaseDiscountGroupItem','bp_order_base_discount_group_detail_uuid','uuid');
+    }
    
 }

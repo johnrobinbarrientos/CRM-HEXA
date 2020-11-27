@@ -27,5 +27,9 @@ class PurchaseOrderBaseDiscountGroupDetail extends Model
     public function OrderBaseDiscountGroup(){
         return $this->belongsTo('App\Models\PurchaseOrderBaseDiscountGroup','bp_order_base_discount_group_uuid','uuid');
     }
+
+    public function PurchaseOrderBaseDiscountGroup(){
+        return $this->belongsTo('App\Models\PurchaseOrderBaseDiscountGroup','bp_order_base_discount_group_uuid','uuid');
+    }
    
 }

@@ -166,7 +166,7 @@ export default {
             var payload = group
             payload.item_uuid = scope.item.uuid
 
-            scope.POST('items/item-supplier-discounts', payload).then(res => {
+            scope.POST('suppliers/item-supplier-discounts', payload).then(res => {
 
                 
             })
@@ -176,7 +176,7 @@ export default {
             var payload = group
             payload.item_uuid = scope.item.uuid
 
-            scope.DELETE('items/item-supplier-discounts', payload).then(res => {
+            scope.DELETE('suppliers/item-supplier-discounts', payload).then(res => {
 
                 
             })

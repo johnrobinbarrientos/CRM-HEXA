@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller; 
 
-use App\Models\ItemSupplierDiscount; 
+use App\Models\SupplierBaseDiscountGroupItem; 
 use App\Models\SupplierList; 
 use App\Models\SupplierBaseDiscountGroup; 
 use App\Models\SupplierBaseDiscountGroupDetail; 
@@ -37,7 +37,7 @@ class SupplierBaseDiscountGroupController extends Controller
                 $discount_group->discounts = $discounts;
             }
 
-            $selected = ItemSupplierDiscount::where('item_uuid','=',$item_uuid)->where('supplier_uuid','=',$supplier->uuid)->first();
+            $selected = SupplierBaseDiscountGroupItem::where('item_uuid','=',$item_uuid)->where('supplier_uuid','=',$supplier->uuid)->first();
             $supplier->selected_discount_group_uuid = ($selected) ? $selected->supplier_base_discount_group_uuid : '0';
             $supplier->selected_discount_group  = null;
 
