@@ -20,6 +20,7 @@ class PurchaseOrderDetailController extends Controller
 
     public function save($orderUUID)
     {
+
         $auth = \Auth::user();
         $items = (is_array(request()->items)) ? request()->items : [];
      
@@ -58,6 +59,38 @@ class PurchaseOrderDetailController extends Controller
             $order_detail->deleted_at               = null;
             $order_detail->save();
         }
+
+        if ($order->po_revision === null){
+            $order->po_revision = 0;
+        }
+        else{
+
+            $increment_revision = $order->po_revision + 1;
+            
+            $order->po_revision = $increment_revision;
+
+            $position = strpos($order->po_no, '-');
+            $original_id = substr($order->po_no, 0, $position);
+
+            if($increment_revision < 10){
+                
+                if ($position == false){
+                    $order->po_no = $order->po_no . '-' . 0 .$increment_revision;
+                }
+                else{
+                    $order->po_no = $original_id . '-' . 0 .$increment_revision;
+                }       
+
+            }
+            else{
+                $order->po_no = $original_id . '-' . $increment_revision;
+            }
+        }
+
+        $order->memo_po = request()->memo;
+
+        $order->save();
+
 
         return response()->json(['success' => 1, 'message' => 'success'], 200);
     }

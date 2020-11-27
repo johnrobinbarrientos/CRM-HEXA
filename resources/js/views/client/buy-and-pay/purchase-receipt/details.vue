@@ -387,7 +387,9 @@ export default {
             receiving_reason_code: '',
             po_status: '',
 
-            mark_unmark: 0
+            mark_unmark: 0,
+
+            memo_receiving: ''
 
         }
     },
@@ -588,6 +590,8 @@ export default {
                 scope.additional_discounts = res.data.additional_discounts
 
                 scope.receiving_reason_code = res.data.receiving_reason_code
+
+                scope.memo_receiving = res.data.memo_receiving
 
                 console.log(res.data)
 
