@@ -184,6 +184,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/taxation', 'API\CompanyTaxationController@save');
         Route::post('/taxation/delete', 'API\CompanyTaxationController@delete');
 
+        Route::get('/taxation/{uuid}', 'API\CompanyTaxationController@getDetails');
+
         Route::get('/taxation-vat', 'API\CompanyTaxationController@getVAT');
         Route::get('/taxation-ewt', 'API\CompanyTaxationController@getEWT');
         Route::get('/taxation-wt', 'API\CompanyTaxationController@getWT');

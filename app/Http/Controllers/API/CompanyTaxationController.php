@@ -35,6 +35,12 @@ class CompanyTaxationController extends Controller
         return response()->json(['success' => 1, 'rows' => $list, 'count' => $count], 200);
     }
 
+    public function getDetails()
+    {
+        $details = CompanyTaxation::find(request()->uuid);
+        return response()->json(['success' => 1, 'rows' => $details], 200);
+    }
+
     public function save()
     {
         $companyTaxation = request()->uuid ? CompanyTaxation::find(request()->uuid) : new CompanyTaxation();

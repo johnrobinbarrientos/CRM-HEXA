@@ -186,7 +186,37 @@ class PurchaseOrderItemController extends Controller
             $order_detail->save();
         }
 
+
+        if ($order->po_revision === null){
+            $order->po_revision = 0;
+        }
+        else{
+
+            $increment_revision = $order->po_revision + 1;
+            
+            $order->po_revision = $increment_revision;
+
+            $position = strpos($order->po_no, '-');
+            $original_id = substr($order->po_no, 0, $position);
+
+            if($increment_revision < 10){
+                
+                if ($position == false){
+                    $order->po_no = $order->po_no . '-' . 0 .$increment_revision;
+                }
+                else{
+                    $order->po_no = $original_id . '-' . 0 .$increment_revision;
+                }       
+
+            }
+            else{
+                $order->po_no = $original_id . '-' . $increment_revision;
+            }
+        }
+
         $order->memo_po = request()->memo;
+
+        $order->save();
 
 
         $this->saveBaseDiscountsGroupItems($order,$items);

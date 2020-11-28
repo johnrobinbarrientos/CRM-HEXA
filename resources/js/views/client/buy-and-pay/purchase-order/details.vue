@@ -182,11 +182,11 @@
                                             <th width="40">Action</th>
                                             <th width="40">#</th>
                                             <th>Barcode</th>
+                                            <th width="100">Quantity</th>
+                                            <th width="80">UOM</th>
                                             <th>Item Description</th>
                                             <th>Item Group</th>
                                             <th>Location</th>
-                                            <th width="80">UOM</th>
-                                            <th width="100">Quantity</th>
                                             <th width="80">Packing</th>
                                             <th>Item Rate</th>
                                             <th>Subtotal</th>
@@ -204,6 +204,19 @@
                                             <td><button @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button></td>
                                             <td>{{ (index + 1) }}</td>
                                             <td>{{ item.barcode }}</td>
+
+                                            <td  @click="setSelectedItem(item)" class="editable text-right">
+                                                <span>{{ item.quantity }}</span>
+                                                <input @keyup="calculate(item);changeSelectedItemQTY(item)" v-model="item.quantity" type="text" class="editable-control" :disabled="view_mode">
+                                            </td>
+
+                                            <td  @click="setSelectedItem(item)" class="editable">
+                                                <span>{{ findUOMByBarcode(item.uoms,item.barcode) }}</span>
+                                                <select @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="editable-control" :disabled="view_mode">
+                                                    <option v-if="!isItemUOMSelected(uom, item)" v-for="(uom,index) in item.uoms" :key="uom.uuid + '-' + index" :value="uom.barcode" v-bind:selected="uom.barcode == item.barcode">{{ uom.uom }}</option>
+                                                </select>
+                                            </td>
+
                                             <td><a :href="'/items/' + item.uuid + '/view'" target="_blank">{{ item.item_description }}</a></td>
                                             <td>
                                                 <span class="badge badge-pill badge-info mr-1">
@@ -211,44 +224,36 @@
                                                 </span>
                                             </td>
                                             <td>{{ order.branch_location.location_name }}</td>
-                                             <td  @click="setSelectedItem(item)" class="editable">
-                                                <span>{{ findUOMByBarcode(item.uoms,item.barcode) }}</span>
-                                                <select @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="editable-control" :disabled="view_mode">
-                                                    <option v-if="!isItemUOMSelected(uom, item)" v-for="(uom,index) in item.uoms" :key="uom.uuid + '-' + index" :value="uom.barcode" v-bind:selected="uom.barcode == item.barcode">{{ uom.uom }}</option>
-                                                </select>
-                                            </td>
-                                            <td  @click="setSelectedItem(item)" class="editable text-right">
-                                                <span>{{ item.quantity }}</span>
-                                                <input @keyup="calculate(item);changeSelectedItemQTY(item)" v-model="item.quantity" type="text" class="editable-control" :disabled="view_mode">
-                                            </td>
+
+
                                            
                                             <td class="text-right">{{ item.uom_packing }}</td>
-                                            <td class="text-right">{{ parseFloat(item.packing_rate).toFixed(2) }}</td>
-                                            <td class="text-right">{{ parseFloat(item.item_rate).toFixed(2) }}</td>
-                                            <td class="text-right">{{ parseFloat(item.gross_amount).toFixed(2)  }}</td>
+                                            <td class="text-right">{{ putSeparator(parseFloat(item.packing_rate).toFixed(2)) }}</td>
+                                            <td class="text-right">{{ putSeparator(parseFloat(item.item_rate).toFixed(2)) }}</td>
+                                            <td class="text-right">{{ putSeparator(parseFloat(item.gross_amount).toFixed(2))  }}</td>
 
-                                            <td class="text-right">{{ parseFloat(item.discount_amount_total).toFixed(2) }}</td>
-                                            <td class="text-right">{{ parseFloat(item.net_amount).toFixed(2) }}</td>
-                                            <td class="text-right">{{ parseFloat(item.vat_amount).toFixed(2) }}</td>
-                                            <td class="text-right">{{ parseFloat(item.total_amount).toFixed(2) }}</td>
+                                            <td class="text-right">{{ putSeparator(parseFloat(item.discount_amount_total).toFixed(2)) }}</td>
+                                            <td class="text-right">{{ putSeparator(parseFloat(item.net_amount).toFixed(2)) }}</td>
+                                            <td class="text-right">{{ putSeparator(parseFloat(item.vat_amount).toFixed(2)) }}</td>
+                                            <td class="text-right">{{ putSeparator(parseFloat(item.total_amount).toFixed(2)) }}</td>
                                             <td>
-                                                NO
+                                                No
                                             </td>
                                         </tr>
 
                                          <tr>
-                                            <td colspan="7" class="text-right">TOTALS:</td>
-                                            <td class="text-right">{{ TOTALS.QUANTITY }}</td>
+                                            <td colspan="9" class="text-right">Totals:</td>
+                                            <!-- <td class="text-right"><strong>{{ TOTALS.QUANTITY }}</strong></td> -->
                                            
-                                            <td class="text-right">{{ parseFloat(TOTALS.PACKING).toFixed(2) }}</td>
-                                            <td class="text-right">{{ parseFloat(TOTALS.RATE).toFixed(2) }}</td>
-                                            <td class="text-right">{{ parseFloat(TOTALS.SUBTOTAL).toFixed(2) }}</td>
-                                            <td class="text-right">{{ parseFloat(TOTALS.GROSS).toFixed(2)  }}</td>
+                                            <!-- <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.PACKING).toFixed(2)) }}</strong></td> -->
+                                            <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.RATE).toFixed(2)) }}</strong></td>
+                                            <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.SUBTOTAL).toFixed(2)) }}</strong></td>
+                                            <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.GROSS).toFixed(2)) }}</strong></td>
 
-                                            <td class="text-right">{{ parseFloat(TOTALS.DISCOUNT_AMOUNT).toFixed(2) }}</td>
-                                            <td class="text-right">{{ parseFloat(TOTALS.NET).toFixed(2) }}</td>
-                                            <td class="text-right">{{ parseFloat(TOTALS.VAT).toFixed(2) }}</td>
-                                            <td class="text-right">{{ parseFloat(TOTALS.AMOUNT).toFixed(2) }}</td>
+                                            <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.DISCOUNT_AMOUNT).toFixed(2)) }}</strong></td>
+                                            <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.NET).toFixed(2)) }}</strong></td>
+                                            <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.VAT).toFixed(2)) }}</strong></td>
+                                            <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.AMOUNT).toFixed(2)) }}</strong></td>
                                             <td>
                                             </td>
                                         </tr>
@@ -336,7 +341,7 @@
                                                         <span v-if="index == 0">3</span>
                                                     </th>
                                                     <th >
-                                                        <span v-if="index == 0">PRICE RULE</span>
+                                                        <span v-if="index == 0">Price Rule</span>
                                                     </th>
                                                     <th>{{ discount.price_rule_supplier.rule_name }}</th>
                                                     <th class="text-right">{{ discount.price_rule_supplier.rate }}%</th>
@@ -362,6 +367,33 @@
                             </div>
 
                             <div class="tab-pane" id="tax">
+
+                                <div class="col-md-4 col-12">
+                                        <h4>Tax Summary</h4>
+                                        <table class="table-discount-summary table table-striped table-bordered"> 
+                                            <thead>
+                                                <tr >
+                                                    <th width="30">#</th>
+                                                    <th width="150">Tax Type</th>
+                                                    <th>Rate</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th style="background:#77ade0;">
+                                                        <span>1</span>
+                                                    </th>
+                                                    <th >
+                                                        <span>Value Added Tax</span>
+                                                    </th>
+                                                    <th>{{order.supplier_tax_rate}}%</th>
+                                                    <th><div>{{ putSeparator(TOTALS.VAT.toFixed(2)) }}</div></th>
+                                                </tr>
+                    
+                                            </tbody>
+                                        </table>
+                                    </div>
                             
 
                             </div>   
