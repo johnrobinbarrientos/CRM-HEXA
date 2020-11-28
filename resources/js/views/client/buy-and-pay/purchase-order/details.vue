@@ -242,11 +242,11 @@
                                         </tr>
 
                                          <tr>
-                                            <td colspan="9" class="text-right">Totals:</td>
+                                            <td colspan="10" class="text-right">Totals:</td>
                                             <!-- <td class="text-right"><strong>{{ TOTALS.QUANTITY }}</strong></td> -->
                                            
                                             <!-- <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.PACKING).toFixed(2)) }}</strong></td> -->
-                                            <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.RATE).toFixed(2)) }}</strong></td>
+                                            <!-- <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.RATE).toFixed(2)) }}</strong></td> -->
                                             <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.SUBTOTAL).toFixed(2)) }}</strong></td>
                                             <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.GROSS).toFixed(2)) }}</strong></td>
 
