@@ -26,6 +26,50 @@
             </div>
 
             <div v-else class="table-responsive;">
+                <div style="display:none;" class="row">
+                    <div class="col-12 col-md-3">
+                        <div class="mb-4">
+                            <input class="form-control" type="text" placeholder="Item Type">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <div class="mb-4">
+                            <input class="form-control" type="text" placeholder="Transaction #">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <div class="mb-4">
+                            <input class="form-control" type="text" placeholder="Supplier">
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 col-md-3">
+                        <div class="mb-4">
+                            <input class="form-control" type="text" placeholder="Branch">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <div class="mb-4">
+                            <input class="form-control" type="text" placeholder="Location">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <div class="mb-4">
+                            <input class="form-control" type="text" placeholder="Transaction Date">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <div class="mb-4">
+                            <input class="form-control" type="text" placeholder="Status">
+                        </div>
+                    </div>
+                </div>
                 <table class="table table-bordered">
                     <thead class="th-nowrap">
                         <tr>

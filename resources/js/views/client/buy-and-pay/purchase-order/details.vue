@@ -237,7 +237,7 @@
                                             <td class="text-right">{{ putSeparator(parseFloat(item.vat_amount).toFixed(2)) }}</td>
                                             <td class="text-right">{{ putSeparator(parseFloat(item.total_amount).toFixed(2)) }}</td>
                                             <td>
-                                                No
+                                                {{ itemHasPriceRule(item) }}
                                             </td>
                                         </tr>
 
@@ -406,118 +406,56 @@
             </div>
         </div>
 
-        <div class="modal fade" tabindex="-1" id="modal-discounts">
-                <div class="modal-dialog modal-md " role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Discounts</h5>
-                            <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modal-discounts');" class="close" data-dismiss="modal" aria-label="Close">
-                                <i class="bx bx-x"></i>
-                            </a>
-                        </div>
-                        <div class="modal-body">
-                            <div>
-                                <div v-if="selectedItemDiscountView == 'all' || selectedItemDiscountView == 'base-discount'">
-                                    <h5><strong>Base Discounts</strong></h5>
-                                    <table class="table mb-0 table table-striped table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th width="40">#</th>
-                                                <th>Discount Group</th>
-                                                <th>Discount Name</th>
-                                                <th>Discount Rate</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody v-if="selectedItem">
-                                            <tr v-for="(discount, index) in selectedItem.__BASE_DISCOUNTS__" :key="discount.uuid">
-                                                <th width="40">{{ index + 1 }}</th>
-                                                <th>{{ discount.order_base_discount_group.group_name }}</th>
-                                                <th>{{ discount.discount_name }}</th>
-                                                <th class="text-right">{{ discount.discount_rate }}%</th>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <hr  v-if="selectedItemDiscountView == 'all'" />
-                                <div v-if="selectedItemDiscountView == 'all' || selectedItemDiscountView == 'price-rule'">
-                                <h5><strong>Price Rule Discounts</strong></h5>
-                                <table class="table mb-0 table table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th width="40">#</th>
-                                            <th>Discount Name</th>
-                                            <th>Discount Rate</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody v-if="selectedItem">
-                                        <tr v-for="(discount, index) in selectedItem.price_rule_discounts" :key="discount.uuid">
-                                            <th width="40">{{ index + 1 }}</th>
-                                            <th>{{ discount.price_rule.rule_name }}</th>
-                                            <th class="text-right">{{ discount.price_rule.rate }}%</th>
-                                        </tr>
-                                    </tbody>
-                                </table>
+        <div class="modal fade" tabindex="-1" id="modal-item-list">
+            <div class="modal-dialog modal-lg " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Item List</h5>
+                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modal-item-list');" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="bx bx-x"></i>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12 col-lg-5 offset-lg-7">
+                                <div style="padding-bottom:10px;">
+                                    <input v-model="item_list_keyword"  class="form-control" type="text" placeholder="Search an Item">
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer bg-light">
-                            <button @click="CLOSE_MODAL('#modal-discounts');" type="submit" class="hx-btn hx-btn-gray">Close</button>
+                        <div class="table-responsive">
+                            <table class="table table-striped mb-0 table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th width="30">#</th>
+                                        <th>Barcode</th>
+                                        <th>Description</th>
+                                        <th>Short Name</th>
+                                        <th>UOM</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in itemList" :key="index" v-bind:class="{'table-success' : isTempSelected(item) }">
+                                        <th scope="row">
+                                            <i @click="addTempItem(item)" v-if="!isTempSelected(item)" class="kx-checkbox bx bx-checkbox"></i>
+                                            <i @click="removeTempItem(item)" v-else class="kx-checkbox checked bx bx-checkbox-checked"></i>
+                                        </th>
+                                        <td>{{ item.barcode }}</td>
+                                        <td>{{ item.item_description }}</td>
+                                        <td>{{ item.item_shortname }}</td>
+                                        <td>{{ item.uom_label }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button @click="saveTempItems()" type="button" class="btn hx-btn-shineblue">Save</button>
+                        <button @click="CLOSE_MODAL('#modal-item-list');" type="button" class="btn hx-btn-gray">Close</button>
                     </div>
                 </div>
             </div>
-
-            <div class="modal fade" tabindex="-1" id="modal-item-list">
-                <div class="modal-dialog modal-lg " role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Item List</h5>
-                            <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modal-item-list');" class="close" data-dismiss="modal" aria-label="Close">
-                                <i class="bx bx-x"></i>
-                            </a>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-12 col-lg-5 offset-lg-7">
-                                    <div style="padding-bottom:10px;">
-                                        <input v-model="item_list_keyword"  class="form-control" type="text" placeholder="Search an Item">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table table-striped mb-0 table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th width="30">#</th>
-                                            <th>Barcode</th>
-                                            <th>Description</th>
-                                            <th>Short Name</th>
-                                            <th>UOM</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(item, index) in itemList" :key="index" v-bind:class="{'table-success' : isTempSelected(item) }">
-                                            <th scope="row">
-                                                <i @click="addTempItem(item)" v-if="!isTempSelected(item)" class="kx-checkbox bx bx-checkbox"></i>
-                                                <i @click="removeTempItem(item)" v-else class="kx-checkbox checked bx bx-checkbox-checked"></i>
-                                            </th>
-                                            <td>{{ item.barcode }}</td>
-                                            <td>{{ item.item_description }}</td>
-                                            <td>{{ item.item_shortname }}</td>
-                                            <td>{{ item.uom_label }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="modal-footer bg-light">
-                            <button @click="saveTempItems()" type="button" class="btn hx-btn-shineblue">Save</button>
-                            <button @click="CLOSE_MODAL('#modal-item-list');" type="button" class="btn hx-btn-gray">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
 
     </div>
 </template>
@@ -652,9 +590,14 @@ export default {
             var packing = item.uom_packing
             var total = (qty * packing) * rate
 
+            // if supplier has no vat or supplier is vatable but item is not vatable = 0
+            var VAT = (!scope.VAT || (scope.VAT && item.without_vat)) ? 0.00 : parseFloat(scope.VAT.tax_rate)
+            VAT = VAT / 100
            
             item.item_rate = (qty * packing) * rate
-            item.gross_amount = item.item_rate / 1.12
+            item.vat_amount = item.item_rate * VAT
+            item.gross_amount = item.item_rate / (1 + VAT)
+            
             item.packing_rate = packing * rate
             
 
@@ -667,12 +610,7 @@ export default {
             item.discount_amount_total = parseFloat(item.discount_base_amount) + parseFloat(item.discount_price_rule_amount) + parseFloat(item.discount_additional_amount)
             
 
-            // if supplier has no vat or supplier is vatable but item is not vatable = 0
-            var VAT = (!scope.VAT || (scope.VAT && item.without_vat)) ? 0.00 : parseFloat(scope.VAT.tax_rate)
-            VAT = VAT / 100
-            
             item.net_amount = item.gross_amount - item.discount_amount_total
-            item.vat_amount = item.net_amount * VAT
             item.total_amount = item.net_amount + item.vat_amount 
 
             //scope.calculateDiscounts();
@@ -837,6 +775,22 @@ export default {
             scope.DISCOUNT_ADDITIONAL_RATE_TOTAL +=  RATE
             scope.DISCOUNT_ADDITIONAL_AMOUNT_TOTAL +=  scope.TOTALS.GROSS * parseFloat(RATE/100)
            
+        },
+        itemHasPriceRule: function (item) {
+            var scope = this
+            var price_rules = scope.APPLIED_PRICE_RULE_DISCOUNTS
+            var found = false
+
+            for (let i = 0; i < price_rules.length; i++) {
+                var current = price_rules[i]
+                if (current.applied_to == 'all' || current.applied_to == 'selected' && current.items.includes(item.uuid)) {
+                    found = true;
+                    break;
+                }
+            }
+
+            return (found) ? 'Yes' : 'No'
+            
         },
         putSeparator: function(value) {
             var num_parts = value.toString().split(".");
