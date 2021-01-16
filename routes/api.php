@@ -160,6 +160,12 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
     });
 
+    Route::group(['prefix' => 'companies'], function(){
+        Route::get('/branches', 'API\CompanyBranchController@getBranch');
+        Route::post('/branches', 'API\CompanyBranchController@save');
+        Route::delete('/branches', 'API\CompanyBranchController@delete');
+    });
+
     Route::group(['prefix' => 'company'], function(){
 
         Route::get('/details', 'API\CompanyDetailsController@getCompanyDetails');
@@ -269,6 +275,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         
         Route::get('/orders', 'API\PurchaseOrderController@getOrders');
         Route::get('/orders/{order_uuid}', 'API\PurchaseOrderController@getOrderDetails');
+        Route::put('/orders/{order_uuid}', 'API\PurchaseOrderController@update');
+
         Route::get('/orders/{order_uuid}/suppliers/{supplier_uuid}/discounts', 'API\PurchaseOrderController@getSupplierDiscounts');
 
         Route::post('/order/reason-code', 'API\PurchaseOrderController@updateOrderReasonCode');
