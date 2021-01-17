@@ -2,7 +2,7 @@
     <div>
             <div class="actions-bar">
                 <div class="w-100">
-                    <h1 class="title"><i class="las la-list-ul"></i> Purchase Orders</h1>
+                    <h1 class="title"><!--<i class="las la-list-ul"></i>--> New Purchase Order</h1>
                 </div>
                 <div class="bar-right">
                     <a @click="ROUTE({path: '/purchase-order-main' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
@@ -14,75 +14,73 @@
                 </div>
             </div>
                     
-            <div>
+            <div class="card hx-card-override no-header">
+                <div class="card-body">
                     <form action="#" class="form-validate is-alter">
-                    <div class="row">
-                        <div class="col-md-6 col-12">
+                        <div class="row">
+                            <div class="col-md-4 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="item-group">PO Type</label>
+                                    <select class="form-select-item-group" v-model="selected_item_group" :options="options_item_group" name="item-group">
+                                    </select>
+                                </div>
 
-                            <div class="form-group">
-                                <label class="form-label" for="item-group">PO Type</label>
-                                <select class="form-select-item-group" v-model="selected_item_group" :options="options_item_group" name="item-group">
-                                </select>
-                            </div>
+                                <div class="form-group" v-show="show_asset_group">
+                                    <label class="form-label" for="asset-group">Asset Group</label>
+                                    <select class="form-select-asset-group" v-model="selected_asset_group" :options="options_asset_group" name="asset-group">
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="item-group">Branch</label>
+                                    <input type="text" class="form-control disabled" v-model="branch_name" readonly>
+                                </div>
 
-                            <div class="form-group" v-show="show_asset_group">
-                                <label class="form-label" for="asset-group">Asset Group</label>
-                                <select class="form-select-asset-group" v-model="selected_asset_group" :options="options_asset_group" name="asset-group">
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="item-group">Branch</label>
-                                <input type="text" class="form-control disabled" v-model="branch_name" readonly>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label" for="branch-location">Location</label>
-                                <select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="branch-location">
-                                </select>
-                            </div>
-                            
-                        
-                            <div class="form-group">
-                                <label class="form-label" for="supplier">Supplier</label>
-                                <select class="form-select-supplier" v-model="selected_supplier" :options="options_supplier" name="supplier">
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label" for="discount-group">Discount Group</label>
-                                <select class="form-select-supplier-discount-group" multiple="multiple" v-model="selected_item_discount_group" :options="options_item_discount_group" name="discount-group">
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label" for="item-group">Term</label>
-                                <input type="text" class="form-control disabled" v-model="formdata.term" readonly>
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-6 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="date-terminated">PO Date</label>
-                                <div class="form-control-wrap">
-                                    <date-picker v-model="formdata.date_purchased" :config="{format: 'YYYY-MM-DD'}"></date-picker>
+                                <div class="form-group">
+                                    <label class="form-label" for="branch-location">Location</label>
+                                    <select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="branch-location">
+                                    </select>
                                 </div>
                             </div>
+                            <div class="col-md-4 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="supplier">Supplier</label>
+                                    <select class="form-select-supplier" v-model="selected_supplier" :options="options_supplier" name="supplier">
+                                    </select>
+                                </div>
 
-                            <div class="form-group">
-                                <label class="form-label" for="date-terminated">Expected Date</label>
-                                <div class="form-control-wrap">
-                                    <date-picker v-model="formdata.date_expected" :config="{format: 'YYYY-MM-DD'}"></date-picker>
+                                <div class="form-group">
+                                    <label class="form-label" for="discount-group">Discount Group</label>
+                                    <select class="form-select-supplier-discount-group" multiple="multiple" v-model="selected_item_discount_group" :options="options_item_discount_group" name="discount-group">
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="item-group">Term</label>
+                                    <input type="text" class="form-control disabled" v-model="formdata.term" readonly>
                                 </div>
                             </div>
-                        </div>
+                            <div class="col-md-4 col-12">
 
-                                                
-                    </div>                                                    
-                </form>
+                                <div class="form-group">
+                                    <label class="form-label" for="date-terminated">PO Date</label>
+                                    <div class="form-control-wrap">
+                                        <date-picker v-model="formdata.date_purchased" :config="{format: 'YYYY-MM-DD'}"></date-picker>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="date-terminated">Expected Date</label>
+                                    <div class="form-control-wrap">
+                                        <date-picker v-model="formdata.date_expected" :config="{format: 'YYYY-MM-DD'}"></date-picker>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                                                    
+                    </form>
+            
+            
+                </div>
             </div>
-
     </div>
 </template>
 
