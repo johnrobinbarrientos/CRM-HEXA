@@ -28,7 +28,7 @@
                 <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
             </div>
             <div v-else> 
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
                     <thead class="th-nowrap">
                         <tr>
                             <th>Actions</th>
@@ -46,8 +46,8 @@
                     </thead>
                     <tbody>
                         <tr v-for="(item, index) in itemList" :key="item.uuid">
-                            <td width="100">
-                                <span class="w-65px d-block mx-auto">
+                            <td width="65" class="text-center">
+                                <span class="hx-table-actions">
                                     <a href="javascript:void(0)" @click="ROUTE({path: '/items/' + item.uuid })" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
                                     <a href="javascript:void(0)" @click="ROUTE({path: '/items/' + item.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
                                 </span>
@@ -69,7 +69,7 @@
                             <td>
                                 <span v-if="item.suppliers.length > 0">
                                     <span v-for="item_supplier in item.suppliers" :key="item_supplier.uuid">
-                                        <span  class="badge badge-dim badge-outline-secondary">{{ item_supplier.supplier.supplier_shortname }}</span> &nbsp;
+                                        <span  class="badge badge-dim badge-outline-secondary hx-badge-override">{{ item_supplier.supplier.supplier_shortname }}</span> &nbsp;
                                     </span>
                                 </span>
                                 <span v-else>
