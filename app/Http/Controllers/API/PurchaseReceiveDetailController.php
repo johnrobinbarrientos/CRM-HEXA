@@ -90,10 +90,10 @@ class PurchaseReceiveDetailController extends Controller
             // get all item base discounts
             $buy_and_pay_order_base_discount_group_item_uuids = PurchaseOrderBaseDiscountGroupItem::where('bp_order_uuid','=',$orderUUID)
                 ->where('item_uuid','=',$item->uuid)
-                ->pluck('bp_order_base_discount_group_detail_uuid')
+                ->pluck('bp_order_base_discount_group_uuid')
                 ->toArray();
 
-            $item->base_discounts = PurchaseOrderBaseDiscountGroupDetail::whereIn('uuid',$buy_and_pay_order_base_discount_group_item_uuids)->with('OrderBaseDiscountGroup')->get();
+            $item->base_discounts = PurchaseOrderBaseDiscountGroupDetail::whereIn('bp_order_base_discount_group_uuid',$buy_and_pay_order_base_discount_group_item_uuids)->with('OrderBaseDiscountGroup')->get();
             
             $buy_and_pay_price_rule_item_uuids = PurchasePriceRuleItem::where('bp_order_uuid','=',$orderUUID)
                 ->where('item_uuid','=',$item->uuid)

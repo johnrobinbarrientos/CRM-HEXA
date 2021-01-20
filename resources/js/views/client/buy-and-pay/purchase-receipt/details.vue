@@ -194,8 +194,10 @@
                                     </thead>
                                     <tbody>
                                             <tr v-for="(item, index) in selectedItems" :key="item.barcode + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
-                                            <td class="text-center"><button v-if ="item.quantity===0" @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button></td>
-                                            <td><input v-if ="item.quantity > 0" :checked="item.quantity == item.accepted_qty" type="checkbox" v-on:change="fillAcceptedQty(item, $event.target.checked)" name="fill-accepted" value="checked" /></td>
+                                            <td class="text-center">
+                                                <button v-if ="item.quantity===0" @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
+                                            </td>
+                                            <td><input @click="setSelectedItem(item)" v-if ="item.quantity > 0" :checked="item.quantity == item.accepted_qty" type="checkbox" v-on:change="fillAcceptedQty(item, $event.target.checked)" name="fill-accepted" value="checked" /></td>
                                             <td>{{ (index + 1) }}</td>
                                             <td>{{ item.barcode }}</td>
                                             <td><a :href="'/items/' + item.uuid + '/view'" target="_blank">{{ item.item_description }}</a></td>
@@ -206,7 +208,7 @@
                                                 <span v-if="(item.quantity > item.accepted_qty)" style="color:red">{{ item.quantity }}</span>
                                                 <span v-else>{{ item.quantity }}</span>
                                             </td>
-                                            <td class="editable text-right">
+                                            <td @click="setSelectedItem(item)" class="editable text-right">
                                                 <span v-if="(item.quantity > item.accepted_qty)" style="color:red">{{ item.accepted_qty }}</span>
                                                 <span v-else>{{ item.accepted_qty }}</span>
                                                 <input @keyup="calculate(item); reasonCode()" v-model="item.accepted_qty" type="text" class="editable-control" :disabled="view_mode">
@@ -215,7 +217,7 @@
                                                 <input @change="addSimilarItem(item)" v-if="(item.quantity > item.accepted_qty)" type="checkbox" name="uom-variance" value="checked" />
                                                 <span v-if="(item.quantity > item.accepted_qty)" style="color:red">Yes</span>
                                             </td>
-                                            <td class="editable">
+                                            <td @click="setSelectedItem(item)" class="editable">
                                                 <span>{{ findUOMByBarcode(item.uoms,item.barcode) }}</span>
                                                 <select v-if="(item.quantity <= 0)" @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="editable-control" :disabled="view_mode">
                                                     <option v-if="!isItemUOMSelected(uom, item)" v-for="(uom,index) in item.uoms" :key="uom.uuid + '-' + index" :value="uom.barcode" v-bind:selected="uom.barcode == item.barcode">{{ uom.uom }}</option>
@@ -925,6 +927,9 @@ export default {
                 }
             } 
             
+        },
+        setSelectedItem: function (item) {
+            this.selectedItem = item
         },
         getOrderSupplierItems: function () {
             var scope = this

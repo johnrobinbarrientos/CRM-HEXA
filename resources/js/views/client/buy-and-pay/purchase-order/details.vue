@@ -65,7 +65,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="branch-name">PO Date</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker class="form-control disabled" v-model="order.date_purchased" :config="{format: 'YYYY-MM-DD'}" disabled="true"></date-picker>
+                                                    <date-picker class="form-control" v-model="order.date_purchased" :config="{format: 'YYYY-MM-DD'}"></date-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -394,6 +394,10 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    <div style="margin-top:10px; margin-left:15px;" class="form-check">
+                                        <input @change="recalculateItems()" class="form-check-input" type="checkbox" id="defaultCheck1" v-model="order.is_apply_tax">
+                                        <label class="form-check-label" for="defaultCheck1">Apply Tax</label>
+                                    </div>
                             
 
                             </div>   
@@ -591,7 +595,7 @@ export default {
             var total = (qty * packing) * rate
 
             // if supplier has no vat or supplier is vatable but item is not vatable = 0
-            var VAT = (!scope.VAT || (scope.VAT && item.without_vat)) ? 0.00 : parseFloat(scope.VAT.tax_rate)
+            var VAT = (!scope.order.is_apply_tax || !scope.VAT || (scope.VAT && item.without_vat)) ? 0.00 : parseFloat(scope.VAT.tax_rate)
             VAT = VAT / 100
            
             item.item_rate = (qty * packing) * rate
@@ -1128,9 +1132,8 @@ export default {
             scope.selectedItemDiscountView = view
             scope.OPEN_MODAL('#modal-discounts');
         },
-        save: function() {
+        saveOrderItems: function() {
             var scope = this
-
             scope.POST('buy-and-pay/orders/' + scope.order.uuid + '/items', {items: scope.selectedItems, discounts: scope.__ADDITIONALS__, memo: scope.memo_po }).then(res => {
                 if (res.success) {
                     window.swal.fire({
@@ -1145,6 +1148,16 @@ export default {
                 } else {
                     alert('ERROR:' + res.code)
                 } 
+            })
+        },
+        save: function() {
+            var scope = this
+
+            scope.PUT('buy-and-pay/orders/' + scope.order.uuid , { date_purchased: scope.order.date_purchased, is_apply_tax: scope.order.is_apply_tax }).then(res => {
+                return;
+                if (res.success) {
+                    scope.saveOrderItems()
+                }
             })
         },
 
