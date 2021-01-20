@@ -26,7 +26,7 @@
         <div v-if="listLoading" class="text-center my-3 text-loader">
             <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
         </div>
-        <div v-else class="table-responsive"> 
+        <div v-else class="table-responsive table-striped"> 
             <table class="table table-bordered">
                 <thead class="th-nowrap">
                     <tr>
@@ -45,8 +45,8 @@
                 </thead>
                 <tbody>
                     <tr v-for="(supplier, index) in supplierList" :key="supplier.uuid">
-                        <td width="100">
-                            <span class="w-65px d-block mx-auto">
+                        <td width="65" class="text-center">
+                            <span class="hx-table-actions">
                                 <a href="javascript:void(0)" @click="ROUTE({path: '/suppliers/' + supplier.uuid })" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
                                 <a href="javascript:void(0)" @click="ROUTE({path: '/suppliers/' + supplier.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
                             </span>

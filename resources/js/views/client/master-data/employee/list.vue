@@ -29,7 +29,7 @@
             </div>
 
             <div class="table-responsive"> 
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
                     <thead class="th-nowrap">
                         <tr>
                             <th>Actions</th>
@@ -50,8 +50,8 @@
                     </thead>
                     <tbody>
                         <tr v-for="(employee, index) in employeeList" :key="employee.uuid">
-                            <td width="100">
-                                <span class="w-65px d-block mx-auto">
+                            <td width="65" class="text-center">
+                                <span class="hx-table-actions">
                                     <a href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid })" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
                                     <a href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
                                 </span>
