@@ -71,8 +71,7 @@ class MenuController extends Controller
             'submenus' => [
                 [ 'text' => 'Ordering', 'route' => 'project-main'],
                 [ 'text' => 'Fulfillment', 'route' => 'project-main'],
-                [ 'text' => 'Invoicing', 'route' => 'project-main'],
-                [ 'text' => 'Reversal', 'route' => 'project-main'],
+                [ 'text' => 'Invoicing & Reversal', 'route' => 'project-main'],
                 [ 'text' => 'Collection', 'route' => 'project-main']
             ]
         ];
@@ -194,8 +193,7 @@ class MenuController extends Controller
             'submenus' => [
                 [ 'text' => 'Ordering', 'route' => 'project-main'],
                 [ 'text' => 'Fulfillment', 'route' => 'project-main'],
-                [ 'text' => 'Invoicing', 'route' => 'project-main'],
-                [ 'text' => 'Reversal', 'route' => 'project-main'],
+                [ 'text' => 'Invoicing & Reversal', 'route' => 'project-main'],
                 [ 'text' => 'Collection', 'route' => 'project-main']
             ]
         ];
@@ -293,8 +291,7 @@ class MenuController extends Controller
             'submenus' => [
                 [ 'text' => 'Ordering', 'route' => 'project-main'],
                 [ 'text' => 'Fulfillment', 'route' => 'project-main'],
-                [ 'text' => 'Invoicing', 'route' => 'project-main'],
-                [ 'text' => 'Reversal', 'route' => 'project-main'],
+                [ 'text' => 'Invoicing & Reversal', 'route' => 'project-main'],
                 [ 'text' => 'Collection', 'route' => 'project-main']
             ]
         ];
