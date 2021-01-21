@@ -27,7 +27,7 @@
 
         <div class="row">
             <div class="col-lg-6">
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th><span class="">Actions</span></th>
@@ -38,8 +38,8 @@
                     </thead>
                     <tbody>
                         <tr v-for="(group, index) in Groups" :key="group.uuid">
-                            <td width="100">
-                                <span class="w-65px d-block mx-auto">
+                            <td width="65" class="text-center">
+                                <span class="hx-table-actions">
                                     <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalCustomerGroup');setData(group)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
                                     <a href="javascript:void(0)"  @click="remove(group)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
                                 </span>

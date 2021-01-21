@@ -28,7 +28,7 @@
         <div v-else>
             <div class="row">
                 <div class="col-lg-6">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>Actions</th>
@@ -39,8 +39,8 @@
                         </thead>
                         <tbody>
                             <tr v-for="(codes, index) in reasonCodes" :key="codes.uuid">
-                                <td width="100">
-                                    <span class="w-65px d-block mx-auto">
+                                <td width="65" class="text-center">
+                                    <span class="hx-table-actions">
                                         <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalReasonCodes');setData(codes)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
                                         <a href="javascript:void(0)"  @click="remove(codes)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
                                     </span>

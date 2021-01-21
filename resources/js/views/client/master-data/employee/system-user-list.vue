@@ -28,7 +28,7 @@
                 <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
             </div>
 
-            <div class="table-responsive"> 
+            <div class="table-responsive table-striped"> 
                 <table class="table table-bordered">
                     <thead class="th-nowrap">
                         <tr>
@@ -44,8 +44,8 @@
                     </thead>
                     <tbody>
                         <tr v-for="(employee, index) in employeeList" :key="employee.uuid">
-                            <td width="140">
-                                <span class="w-120px d-block mx-auto">
+                            <td width="65" class="text-center">
+                                <span class="hx-table-actions">
                                     <a href="javascript:void(0)" @click="" title="Send Credentials" class="btn btn-sm hx-btn-shineblue"><i class="bx bx-mail-send" title="Send Credentials"></i></a>
                                 </span>
                             </td>

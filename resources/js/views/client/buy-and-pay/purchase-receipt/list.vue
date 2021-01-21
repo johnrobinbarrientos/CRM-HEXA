@@ -79,8 +79,8 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-bordered">
-                    <thead>
+                <table class="table table-bordered table-striped">
+                    <thead class="th-nowrap">
                         <tr>
                             <th>Action</th>
                             <th>#</th>
@@ -99,17 +99,25 @@
                         <template v-if="receivedOrders.length > 0">
                             <tr v-for="(purchase, index) in receivedOrders" :key="purchase.uuid">
                                 <template v-if="purchase.po_status !== 'Cancelled'">
-                                    <td width="100" style="text-align:center;">
-                                        <span class="w-65px d-block mx-auto">
-                                        <a v-if="purchase.receiving_status === 'To Bill'" href="javascript:void(0)" @click="ROUTE({path: '/purchase-receipt-details/' + purchase.uuid })" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                        <a href="javascript:void(0)" @click="ROUTE({path: '/purchase-receipt-details/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
+                                    <td width="65" class="text-center">
+                                        <span class="hx-table-actions">
+                                            <a
+                                                href="javascript:void(0)" @click="ROUTE({path: '/purchase-receipt-details/' + purchase.uuid })" 
+                                                class="btn btn-sm btn-shineblue"
+                                                title="Edit"
+                                                :class="{ disabled : purchase.receiving_status === 'To Bill' }"
+                                                :disabled="{ disabled : purchase.receiving_status === 'To Bill' }"
+                                                :style="[purchase.receiving_status === 'To Bill' ? {'cursor': 'no-drop'} : '']"
+                                            >
+                                                <i class="mdi mdi-pencil"></i></a>
+                                            <a href="javascript:void(0)" @click="ROUTE({path: '/purchase-receipt-details/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
                                         </span>
                                     </td>
                                     <td width="50">{{ (index + 1) }}</td>
                                     <td width="100">{{ purchase.item_group.item_group }}</td>
                                     <td width="150">{{ purchase.receiving_no }}</td>
-                                    <td width="200" class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
-                                    <td width="100">{{ purchase.branch.branch_name.toUpperCase() }}</td>
+                                    <td width="200" class="text-nowrap text-center">{{ purchase.supplier.supplier_shortname }}</td>
+                                    <td width="100" class="text-nowrap">{{ purchase.branch.branch_name.toUpperCase() }}</td>
                                     <td>{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
                                     <td width="100">{{ purchase.date_received }}</td>
 
