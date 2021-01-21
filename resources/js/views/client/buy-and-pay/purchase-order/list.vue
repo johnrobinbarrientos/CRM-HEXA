@@ -27,7 +27,7 @@
 
             <div v-else class="table-responsive;">
 
-                <div style="background:#f9f9f9; border:1px solid #d7d8e0; padding:0px;">
+                <div style="background:#f9f9f9; border:1px solid #d7d8e0; padding:0px; margin-bottom: 5px;">
                     <div style="display:flex; justify-content: flex-start;">
                         <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
                             <select @change="getPurchaseOrders()" v-model="selected_item_group" style="padding:5px; background:transparent; border:none; width:100%;">
@@ -76,7 +76,8 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped
+                ">
                     <thead class="th-nowrap">
                         <tr>
                             <th>Action</th>
@@ -98,10 +99,20 @@
                     <tbody>
                         <template v-if="purchaseOrders.length > 0">
                             <tr v-for="(purchase, index) in purchaseOrders" :key="purchase.uuid">
-                                <td width="100" style="text-align:center;">
-                                    <span class="w-65px d-block mx-auto">
-                                    <a v-if ="purchase.po_status =='To Receive'" href="javascript:void(0)"  @click="ROUTE({path: '/purchase-orders/' + purchase.uuid })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-pencil"></i></a>
-                                    <a href="javascript:void(0)" @click="ROUTE({path: '/purchase-orders/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
+                                <td width="65" class="text-center">
+                                    <span class="hx-table-actions">
+                                        <a
+                                            href="javascript:void(0)"
+                                            @click="ROUTE({path: '/purchase-orders/' + purchase.uuid })"
+                                            class="btn btn-sm hx-btn-shineblue"
+                                            title="Edit"
+                                            :class="{ disabled : purchase.po_status == 'To Receive' }"
+                                            :disabled="{ disabled : purchase.po_status == 'To Receive' }"
+                                            :style="[purchase.po_status == 'To Receive' ? {'cursor': 'no-drop'} : '']"
+                                        >
+                                            <i class="mdi mdi-pencil"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" @click="ROUTE({path: '/purchase-orders/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
                                     </span>
                                 </td>
                                 <td width="50">{{ (index + 1) }}</td>

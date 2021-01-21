@@ -120,25 +120,28 @@
 
                             <div class="col-md-3 col-12">
 
-                                <div style="margin-bottom:30px; padding:10px; background:#eee; border:1px solid #efefef; border-radius: 4px;" class="po-details">
-                                    <h4 style="margin-bottom:20px;">Summary</h4>
+                                <div class="buy-and-pay-summary">
+                                    <h4>Summary:</h4>
 
                                     <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
-                                        <div>Gross Amount</div>
-                                        <div>{{ putSeparator(TOTALS.GROSS.toFixed(2) ) }}</div>
+                                        <div><span>Gross Amount</span></div>
+                                        <div><span>{{ putSeparator(TOTALS.GROSS.toFixed(2) ) }}</span></div>
                                     </div>
                                     <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
-                                        <div>Discount</div>
-                                        <div>-{{ putSeparator(TOTALS.DISCOUNT_AMOUNT.toFixed(2) ) }}</div>
+                                        <div><span>Discount</span></div>
+                                        <div><span>-{{ putSeparator(TOTALS.DISCOUNT_AMOUNT.toFixed(2) ) }}</span></div>
                                     </div>
                                     <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
-                                        <div>Tax Amount</div>
-                                        <div>{{ putSeparator(TOTALS.VAT.toFixed(2) ) }}</div>
+                                        <div><span>Tax Amount</span></div>
+                                        <div><span>{{ putSeparator(TOTALS.VAT.toFixed(2) ) }}</span></div>
                                     </div>
+                                    <hr>
                                     <div style="display:flex; justify-content: space-between; font-weight:900;">
-                                        <div>PO Amount</div>
-                                        <div>{{ putSeparator(TOTALS.AMOUNT.toFixed(2) ) }}</div>
+                                        <div><span>PO Amount</span></div>
+                                        <div><span>{{ putSeparator(TOTALS.AMOUNT.toFixed(2) ) }}</span></div>
                                     </div>
+                                    <hr class="mb-1">
+                                    <hr>
                                 </div>
                             
                             </div>
@@ -176,13 +179,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <table class="table table-responsive table-bordered mb-0">
+                                <table class="table table-bordered mb-0">
                                     <thead class="th-nowrap">
                                         <tr>
                                             <th width="40">Action</th>
                                             <th width="40">#</th>
                                             <th>Barcode</th>
-                                            <th width="100">Quantity</th>
+                                            <th width="100">Qty</th>
                                             <th width="80">UOM</th>
                                             <th>Item Description</th>
                                             <th>Item Group</th>
@@ -201,7 +204,11 @@
                                     </thead>
                                     <tbody>
                                         <tr v-for="(item, index) in selectedItems" :key="item.barcode + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
-                                            <td><button @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button></td>
+                                            <td class="text-center">
+                                                <span class="hx-table-actions w-auto">
+                                                    <button @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
+                                                </span>
+                                            </td>
                                             <td>{{ (index + 1) }}</td>
                                             <td>{{ item.barcode }}</td>
 
@@ -242,7 +249,7 @@
                                         </tr>
 
                                          <tr>
-                                            <td colspan="10" class="text-right">Totals:</td>
+                                            <td colspan="10" class="text-right">Total:</td>
                                             <!-- <td class="text-right"><strong>{{ TOTALS.QUANTITY }}</strong></td> -->
                                            
                                             <!-- <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.PACKING).toFixed(2)) }}</strong></td> -->
@@ -257,10 +264,15 @@
                                             <td>
                                             </td>
                                         </tr>
-                                        
                                         <tr>
                                             <td colspan="17">
-                                                <input type="text" id="autocomplete" class="form-control" :disabled="view_mode">
+                                                <div class="pb-1"></div>
+                                            </td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td colspan="17" style="padding: 10px;">
+                                                <input type="text" id="autocomplete" class="form-control" placeholder="Search item here.." :disabled="view_mode" style="width: 60%;">
                                             </td>
                                         </tr> 
                                     </tbody>
@@ -1250,8 +1262,13 @@ function matchCustom(params, data) {
 </script>
 
 <style scoped>
-.table-tranx { table-layout: auto; width: 200%;}
 .autocomplete-suggestion:hover { cursor:pointer !important; }
-
 .table-discount-summary thead th { background:#398cdb !important; color:#fff;  }
+
+.buy-and-pay-summary {
+    margin-bottom:30px; padding:10px; background:#eee; border:1px solid #efefef; border-radius: 4px;
+}
+.buy-and-pay-summary span { font-size: 16px; }
+.buy-and-pay-summary hr { margin: 0; }
+.buy-and-pay-summary h4 { margin-bottom: 12px; font-weight: 600; font-size: 18px; }
 </style>
