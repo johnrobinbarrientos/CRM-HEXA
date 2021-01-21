@@ -37,7 +37,7 @@
                             <th>Item Code</th>
                             <th>Item Barcode</th>
                             <th>Item Group</th>
-                            <th>Re-order Qty / ICO</th>
+                            <th>ICO</th>
                             <th>Supplier</th>
                             <th>Is Expiry?</th>
                             <th>Purchase Cost</th>
