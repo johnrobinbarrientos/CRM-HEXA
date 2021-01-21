@@ -30,6 +30,55 @@
             </div>
 
             <div v-else>
+                <div style="background:#f9f9f9; border:1px solid #d7d8e0; padding:0px;">
+                    <div style="display:flex; justify-content: flex-start;">
+                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
+                            <select @change="getReceivedOrders()" v-model="selected_item_group" style="padding:5px; background:transparent; border:none; width:100%;">
+                                <option value="">Item Type</option>     
+                                <option v-for="item_type in options_item_group" :value="item_type.id" :key="'option-' + item_type.id ">{{ item_type.text }}</option>
+                            </select>
+                        </div>
+                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
+                            <select  @change="getReceivedOrders()" v-model="selected_supplier" style="padding:5px; background:transparent; border:none; width:100%;">
+                                <option value="">Supplier</option>
+                                <option v-for="supplier in options_supplier" :value="supplier.id"  :key="'option-' + supplier.id ">{{ supplier.text }}</option>
+                            </select>
+                        </div>
+                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
+                            <select  @change="getReceivedOrders()" v-model="selected_branch" style="padding:5px; background:transparent; border:none; width:100%;">
+                                <option value="">Branch</option>
+                                <option v-for="branch in options_branch" :value="branch.id"  :key="'option-' + branch.id ">{{ branch.text }}</option>
+                            </select>
+                        </div>
+                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
+                            <select  @change="getReceivedOrders()" v-model="selected_branch_location" style="padding:5px; background:transparent; border:none; width:100%;">
+                                <option value="">Location</option>
+                                <option v-for="location in options_branch_location" :value="location.id"  :key="'option-' + location.id ">{{ location.text }}</option>
+                            </select>
+                        </div>
+                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
+                            <select  @change="getReceivedOrders()" v-model="selected_status" style="padding:5px; background:transparent; border:none; width:100%;">
+                                <option value="">Status</option>
+                                <option value="To Receive">To Receive</option>
+                                <option value="Partially Received">Partially Received</option>
+                                <option value="Fully Received">Fully Received</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
+                            <select  @change="getReceivedOrders()" v-model="selected_reason_code_filter" style="padding:5px; background:transparent; border:none; width:100%;">
+                                <option value="">Reason Code</option>
+                                <option v-for="reason_code in options_reason_code" :value="reason_code.id"  :key="'option-' + reason_code.id ">{{ reason_code.text }}</option>
+                            </select>
+                        </div>
+                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
+                            <date-picker class="transaction-from" placeholder="From" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_from" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
+                        </div>
+                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
+                            <date-picker class="transaction-to"  placeholder="To" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_to" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
+                        </div>
+                    </div>
+                </div>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -141,8 +190,44 @@ export default {
     props: ['properties'],
     data: function () {
         return {
-            selected_reason_code: null,
+
+            prerequisite: {
+                getBranch: false,
+                getBranchLocations: false,
+                getSupplierDiscountGroup: false,
+                getAssetGroup: false,
+                getOrderReasonCodes: false,
+                getSupplier: false,
+            },
+
+            transaction_from: null,
+            transaction_to: null,
+
+            selected_item_group: '',
+            options_item_group: [],
+
+            selected_supplier: '',
+            options_supplier: [],
+
+            selected_asset_group: '',
+            options_asset_group: [],
+
+            selected_reason_code: '',
+
+            selected_reason_code_filter: '',
             options_reason_code: [],
+
+            selected_item_discount_group: '',
+            options_item_discount_group: [],
+
+            selected_branch: '',
+            options_branch: [],
+
+            selected_branch_location: '',
+            options_branch_location: [],
+
+
+            selected_status: '',
 
             receivedOrders: [],
             grand_total: 0,
@@ -175,7 +260,22 @@ export default {
            var scope = this
             scope.listLoading = true
             scope.receivedOrders = []
-            scope.GET('buy-and-pay/received?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+
+            var params = {
+                item_group: scope.selected_item_group,
+                supplier: scope.selected_supplier,
+                reason_code: scope.selected_reason_code_filter,
+                item_discount_group: scope.selected_item_discount_group,
+                branch: scope.selected_branch,
+                branch_location: scope.selected_branch_location,
+                status: scope.selected_status,
+                from: scope.transaction_from,
+                to: scope.transaction_to,
+            }
+
+            var str = jQuery.param( params );
+
+            scope.GET('buy-and-pay/received?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage + '&' + str).then(res => {
                 scope.receivedOrders = res.rows
                 scope.grand_total = res.grand_total
 
@@ -220,12 +320,205 @@ export default {
             var scope = this
             scope.listCurrentPage = 1
             scope.getReceivedOrders()
-        }
+        },
+        getReasonCodes: function () {
+           var scope = this
+
+           scope.options_reason_code.push({
+               id: '',
+               text: 'None'
+           });
+
+            scope.GET('buy-and-pay/order-reason-code').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_reason_code.push({
+                        id: data.uuid,
+                        text: data.details
+                    })
+                
+                })
+            })
+
+        },
+        getItemGroup: function () {
+           var scope = this
+            scope.GET('items/item-group').then(res => {
+                res.rows.forEach(function (data) {
+
+                    scope.options_item_group.push({
+                        id: data.uuid,
+                        text: data.item_group
+                    })
+                
+                })
+
+                //$(".form-select-item-group").select2({data: scope.options_item_group});
+                //scope.selected_item_group = scope.options_item_group[0].id
+                
+                scope.prerequisite.getItemGroup = true
+            })
+        },
+        getBranch: function () {
+           var scope = this
+            scope.GET('companies/branches').then(res => {
+                res.rows.forEach(function (data) {
+
+                    scope.options_branch.push({
+                        id: data.uuid,
+                        text: data.branch_name
+                    })
+                
+                })
+
+                scope.prerequisite.getBranch = true
+
+            })
+        },
+        getBranchLocations: function () {
+           var scope = this
+            scope.GET('users/get-branch-locations').then(res => {
+                res.rows.forEach(function (data) {
+
+                    scope.options_branch_location.push({
+                        id: data.uuid,
+                        text: data.location_name
+                    })
+                
+                })
+
+                //$(".form-select-branch-location").select2({data: scope.options_branch_location});
+                //scope.selected_branch_location = scope.options_branch_location[0].id
+
+                scope.prerequisite.getBranchLocations = true
+            })
+        },
+        getSupplierDiscountGroup: function (suppier_uuid) {
+            var scope = this
+            scope.options_item_discount_group = []
+            
+
+            scope.GET('suppliers/' + suppier_uuid + '/supplier-base-discount-group').then(res => {
+                res.rows.forEach(function (data) {
+                    scope.options_item_discount_group.push({
+                        id: data.uuid,
+                        text: data.group_name
+                    })
+                })
+
+                $(".form-select-supplier-discount-group").select2();
+                $(".form-select-supplier-discount-group").html('');
+                $(".form-select-supplier-discount-group").select2({data: scope.options_item_discount_group});
+
+                
+                $(".form-select-supplier-discount-group").val(scope.selected_item_discount_group).trigger('change');
+            
+
+                scope.prerequisite.getSupplierDiscountGroup = true
+                    
+            })
+        },
+        getAssetGroup: function () {
+           var scope = this
+           
+           scope.options_asset_group.push({
+               id: '',
+               text: 'NONE'
+           });
+
+            scope.GET('items/item-asset-group').then(res => {
+                
+                res.rows.forEach(function (data) {
+                    scope.options_asset_group.push({
+                        id: data.uuid,
+                        text: data.asset_group
+                    })
+                })
+
+                $(".form-select-asset-group").select2({data: scope.options_asset_group});
+
+                scope.prerequisite.getAssetGroup = true
+            })
+
+        },
+        getOrderReasonCodes: function () {
+           var scope = this
+           
+           scope.options_reason_code.push({
+               id: '',
+               text: 'NONE'
+           });
+
+            scope.GET('buy-and-pay/order-reason-code').then(res => {
+                
+                res.rows.forEach(function (data) {
+                    scope.options_reason_code.push({
+                        id: data.uuid,
+                        text: data.reason_code
+                    })
+                })
+
+                $(".form-select-reason-code").select2({data: scope.options_reason_code});
+
+                scope.prerequisite.getOrderReasonCodes = true
+            })
+
+        },
+        getSupplier: function () {
+           var scope = this
+            scope.GET('suppliers/supplier-list').then(res => {
+
+                res.rows.forEach(function (data) {
+
+                    scope.options_supplier.push({
+                        id: data.uuid,
+                        text: data.supplier_shortname,
+                        lead_time: data.lead_time,
+                        vat_uuid: data.vat_uuid
+                    })
+                
+                })
+
+                if (scope.options_supplier[0].vat_uuid!==null){
+                    scope.formdata.is_apply_tax = 1
+
+                    scope.GET('company/taxation/' + scope.options_supplier[0].vat_uuid).then(res => {
+                        scope.formdata.supplier_tax_rate = res.rows.tax_rate
+                    })
+                }
+                else{
+                    scope.formdata.is_apply_tax = 0
+                    scope.formdata.supplier_tax_rate = 0
+                }
+                
+                scope.formdata.term = scope.options_supplier[0].lead_time
+                scope.formdata.date_expected = moment().add(parseInt(scope.options_supplier[0].lead_time) ,'days').format('YYYY-MM-DD')
+
+                $(".form-select-supplier").select2({data: scope.options_supplier});
+
+                if (scope.order && scope.order.supplier_uuid) {
+                    $(".form-select-supplier").val(scope.order.supplier_uuid).trigger('change');
+                } else {
+                    $(".form-select-supplier").trigger('change');
+                }
+                
+               
+
+                scope.prerequisite.getSupplier = true
+            })
+        },
 
     },
     mounted() {
         var scope = this
         scope.getReceivedOrders()
+
+        scope.getItemGroup()
+        scope.getAssetGroup()
+        scope.getSupplier()
+        scope.getBranchLocations()
+        scope.getBranch()
     },
 }
 </script>

@@ -180,12 +180,30 @@ class PurchaseOrderController extends Controller
         
         $order = PurchaseOrder::find($orderUUID);
 
-        $is_apply_tax = (request()->is_apply_tax && (request()->is_apply_tax == 1 || request()->is_apply_tax == true)) ? true : false;
-        $order->date_purchased = date('Y-m-d',strtotime(request()->date_purchased));
+        $is_apply_tax = (request()->is_apply_tax && (request()->is_apply_tax == 1 || request()->is_apply_tax == true)) ? 1 : 0;
+
+        
+        $date_expected = date('Y-m-d',strtotime(request()->date_expected));
+        $date_purchased = date('Y-m-d',strtotime(request()->date_purchased));
+
+        if ($order->date_purchased != $date_purchased ||  $order->date_expected != $date_expected || $order->is_apply_tax != $is_apply_tax) {
+            
+            $revision = $order->po_revision;
+            $revision = $revision + 1;
+            
+
+            $po_no = ($revision > 1)  ? substr($order->po_no,0, -3)  : $order->po_no;
+        
+            $order->po_revision = $revision;
+            $order->po_no = $po_no.'-'.sprintf('%02d',$revision);
+        }
+
+        $order->date_purchased = $date_purchased;
+        $order->date_expected = $date_expected;
         $order->is_apply_tax = request()->is_apply_tax;
         $order->save();
 
-        return response()->json(['success' => 1, 'data' => $order, 'po_date' => $po_date], 200);
+        return response()->json(['success' => 1, 'data' => $order, 'po_date' => $date_purchased], 200);
     }
 
     public function updateOrderReasonCode()

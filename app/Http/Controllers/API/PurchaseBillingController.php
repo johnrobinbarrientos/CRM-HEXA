@@ -18,12 +18,49 @@ class PurchaseBillingController extends Controller
     {
         $lists = PurchaseOrder::whereNull('deleted_at')->with('Supplier')->with('OrderReasonCode')
         ->with('ItemGroup')->with('ItemAssetGroup')->with('Branch')->with('BranchLocation')
-        ->where('billing_status','To Pay')->orWhere('billing_status','Paid');
+        ->where(function($query){
+            $query->where('billing_status','To Pay')->orWhere('billing_status','Paid');
+        });
+        
+
+    
 
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;
             $lists = $lists->where(function($query) use ($keyword) {
-                $query->where('receiving_no','LIKE','%'.$keyword.'%');
+                $query->where('po_no','LIKE','%'.$keyword.'%');
+            });
+        }
+
+        if (!empty(request()->item_group)) {
+            $lists = $lists->where('item_group_uuid','=',request()->item_group);
+        }
+
+        if (!empty(request()->supplier)) {
+            $lists = $lists->where('supplier_uuid','=',request()->supplier);
+        }
+
+        if (!empty(request()->reason_code)) {
+            $lists = $lists->where('orders_reason_code_uuid','=',request()->reason_code);
+        }
+
+
+        if (!empty(request()->branch)) {
+            $lists = $lists->where('branch_uuid','=',request()->branch);
+        }
+
+        if (!empty(request()->branch_location)) {
+            $lists = $lists->where('branch_locations_uuid','=',request()->branch_location);
+        }
+
+        if (!empty(request()->status)) {
+            $lists = $lists->where('po_status','=',request()->status);
+        }
+
+        if (!empty(request()->from) && !empty(request()->to)) {
+            $lists = $lists->where(function ($query) {
+                $query->where('date_purchased','>=',request()->from)
+                    ->where('date_purchased','<=',request()->to);
             });
         }
 
