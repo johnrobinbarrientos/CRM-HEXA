@@ -177,7 +177,7 @@
                                 <table class="table mb-0 table-responsive table-striped table-bordered">
                                     <thead>
                                         <tr>
-                                            <th width="40">#</th>
+                                            <th width="40"></th>
                                             <th width="40">Item Code</th>
                                             <th>Accepted Qty</th>
                                             <th>Barcode</th>

@@ -183,7 +183,7 @@
                                     <thead class="th-nowrap">
                                         <tr>
                                             <th width="40">Action</th>
-                                            <th width="40">#</th>
+                                            <th width="40"></th>
                                             <th>Barcode</th>
                                             <th width="100">Qty</th>
                                             <th width="80">UOM</th>

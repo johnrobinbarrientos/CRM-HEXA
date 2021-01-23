@@ -27,7 +27,7 @@
             </div>
 
             <div v-else class="table-responsive;">
-                <div style="background:#f9f9f9; border:1px solid #d7d8e0; padding:0px;">
+                <div style="background:#f9f9f9; border:1px solid #d7d8e0; padding:0px; margin-bottom: 5px;">
                     <div style="display:flex; justify-content: flex-start;">
                         <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
                             <select @change="getBilledOrders()" v-model="selected_item_group" style="padding:5px; background:transparent; border:none; width:100%;">
@@ -78,7 +78,7 @@
                     <thead>
                         <tr>
                             <th>Action</th>
-                            <th>#</th>
+                            <th></th>
                             <th>Item Type</th>
                             <th>Transaction No</th>
                             <th>Supplier Name</th>

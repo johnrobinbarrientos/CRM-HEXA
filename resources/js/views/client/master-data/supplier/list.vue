@@ -31,7 +31,7 @@
                 <thead class="th-nowrap">
                     <tr>
                         <th>Actions</th>
-                        <th>#</th>
+                        <th></th>
                         <th>Supplier Name</th>
                         <th>Supplier Shortname</th>
                         <th>Is Transporter?</th>

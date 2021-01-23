@@ -32,7 +32,7 @@
                         <thead>
                             <tr>
                                 <th>Actions</th>
-                                <th class="text-right">#</th>
+                                <th class="text-right"></th>
                                 <th>Employment Status</th>
                             </tr>
                         </thead>

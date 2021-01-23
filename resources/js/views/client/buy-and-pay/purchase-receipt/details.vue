@@ -171,7 +171,7 @@
                                         <tr>
                                             <th width="40">Action</th>
                                             <th width="40">Receive</th>
-                                            <th width="40">#</th>
+                                            <th width="40"></th>
                                             <th>Barcode</th>
                                             <th>Item Description</th>
                                             <th>Item Group</th>

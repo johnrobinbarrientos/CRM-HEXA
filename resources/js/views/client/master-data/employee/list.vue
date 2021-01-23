@@ -33,7 +33,7 @@
                     <thead class="th-nowrap">
                         <tr>
                             <th>Actions</th>
-                            <th>#</th>
+                            <th></th>
                             <th>Employee ID</th>
                             <th>Employee Name</th>
                             <th>Assign Branch</th>

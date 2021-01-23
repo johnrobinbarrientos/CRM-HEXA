@@ -27,18 +27,18 @@
 
             <div class="row">
                 <div class="col-lg-6">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>Actions</th>
-                                <th class="text-right">#</th>
+                                <th class="text-right"></th>
                                 <th>Item Asset Group</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(asset, index) in assetGroups" :key="asset.uuid">
-                                <td width="100">
-                                    <span class="w-65px d-block mx-auto">
+                                <td width="65" class="text-center">
+                                    <span class="hx-table-actions">
                                         <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemAssetGroup');setData(asset)" class="btn btn-sm btn-shineblue"><i class="bx bx-pencil"></i></a>
                                         <a href="javascript:void(0)"  @click="remove(asset)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
                                     </span>
