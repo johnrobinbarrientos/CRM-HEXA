@@ -67,7 +67,7 @@
 
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
-                                                <label class="form-label" for="branch-name">Billing Date</label>
+                                                <label class="form-label" for="branch-name">Transaction Date</label>
                                                 <div class="form-control-wrap">
                                                     <date-picker class="form-control disabled" v-model="date_billed" :config="{format: 'YYYY-MM-DD'}" disabled="true"></date-picker>
                                                 </div>
@@ -131,7 +131,7 @@
                                 <div style="margin-bottom:30px; padding:10px; background:#fafafa; border:1px solid #efefef;" class="po-details">
                                     <h4 style="margin-bottom:20px;">Summary</h4>
                                     <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
-                                        <div>Gross Amount</div>
+                                        <div>Gross</div>
                                         <div>{{ putSeparator(TOTAL_GROSS_AMOUNT) }}</div>
                                     </div>
                                     <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
@@ -139,11 +139,11 @@
                                         <div>-{{ putSeparator(TOTAL_DISCOUNT_AMOUNT) }}</div>
                                     </div>
                                     <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
-                                        <div>Tax Amount</div>
+                                        <div>Tax</div>
                                         <div>{{ putSeparator(TOTAL_VAT_AMOUNT) }}</div>
                                     </div>
                                     <div style="display:flex; justify-content: space-between; font-weight:900;">
-                                        <div>PO Amount</div>
+                                        <div>Amount</div>
                                         <div>{{ putSeparator(TOTAL_PO_AMOUNT) }}</div>
                                     </div>
                                 </div>
@@ -156,10 +156,10 @@
                     <div class="hx-nav-tabs-override">
                         <ul class="nav nav-tabs">    
                             <li class="nav-item">        
-                                <a class="nav-link active" data-toggle="tab" href="#item-details">Item Details</a>    
+                                <a class="nav-link active" data-toggle="tab" href="#item-details">Item</a>    
                             </li>    
                             <li class="nav-item">        
-                                <a class="nav-link" data-toggle="tab" href="#discounts">Discounts</a>    
+                                <a class="nav-link" data-toggle="tab" href="#discounts">Discount</a>    
                             </li>
                             <li class="nav-item">        
                                 <a class="nav-link" data-toggle="tab" href="#tax">Tax</a>    

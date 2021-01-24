@@ -117,7 +117,7 @@
                                     <td width="100">{{ purchase.item_group.item_group }}</td>
                                     <td width="150">{{ purchase.receiving_no }}</td>
                                     <td width="200" class="text-nowrap text-center">{{ purchase.supplier.supplier_shortname }}</td>
-                                    <td width="100" class="text-nowrap">{{ purchase.branch.branch_name.toUpperCase() }}</td>
+                                    <td width="100" class="text-nowrap">{{ purchase.branch.branch_shortname.toUpperCase() }}</td>
                                     <td>{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
                                     <td width="100">{{ purchase.date_received }}</td>
 

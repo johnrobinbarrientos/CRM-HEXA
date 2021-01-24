@@ -119,7 +119,7 @@
                                 <td width="100">{{ purchase.item_group.item_group }}</td>
                                 <td width="200">{{ purchase.po_no }}</td>
                                 <td class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
-                                <td>{{ purchase.branch.branch_name.toUpperCase()}}</td>
+                                <td>{{ purchase.branch.branch_shortname.toUpperCase()}}</td>
                                 <td>{{ purchase.branch_location.location_shortname.toUpperCase()}}</td>
                                 <td width="100">{{ moment(purchase.date_purchased) }}</td>
                                 <td>{{ moment(purchase.date_expected) }}</td>
