@@ -8,10 +8,10 @@
                 <a class="nav-link" data-toggle="tab" href="#employee-system-user-list">System Users</a>    
             </li>   
             <li class="nav-item">        
-                <a class="nav-link" data-toggle="tab" href="#employment-type">Employement Type</a>    
+                <a class="nav-link" data-toggle="tab" href="#employment-type">Employment Type</a>    
             </li>
             <li class="nav-item">        
-                <a class="nav-link" data-toggle="tab" href="#employment-status">Employement Status</a>    
+                <a class="nav-link" data-toggle="tab" href="#employment-status">Employment Status</a>    
             </li> 
         </ul>
 
