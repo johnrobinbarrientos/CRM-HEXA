@@ -31,7 +31,7 @@
                     <thead>
                         <tr>
                             <th>Actions</th>
-                            <th>#</th>
+                            <th></th>
                             <th>Group Name</th>
                         </tr>
                     </thead>

@@ -30,7 +30,7 @@
             </div>
 
             <div v-else>
-                <div style="background:#f9f9f9; border:1px solid #d7d8e0; padding:0px;">
+                <div style="background:#f9f9f9; border:1px solid #d7d8e0; padding:0px; margin-bottom: 5px;">
                     <div style="display:flex; justify-content: flex-start;">
                         <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
                             <select @change="getReceivedOrders()" v-model="selected_item_group" style="padding:5px; background:transparent; border:none; width:100%;">
@@ -83,7 +83,7 @@
                     <thead class="th-nowrap">
                         <tr>
                             <th>Action</th>
-                            <th>#</th>
+                            <th></th>
                             <th>Item Type</th>
                             <th>Transaction No</th>
                             <th>Supplier Name</th>
@@ -117,7 +117,7 @@
                                     <td width="100">{{ purchase.item_group.item_group }}</td>
                                     <td width="150">{{ purchase.receiving_no }}</td>
                                     <td width="200" class="text-nowrap text-center">{{ purchase.supplier.supplier_shortname }}</td>
-                                    <td width="100" class="text-nowrap">{{ purchase.branch.branch_name.toUpperCase() }}</td>
+                                    <td width="100" class="text-nowrap">{{ purchase.branch.branch_shortname.toUpperCase() }}</td>
                                     <td>{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
                                     <td width="100">{{ purchase.date_received }}</td>
 

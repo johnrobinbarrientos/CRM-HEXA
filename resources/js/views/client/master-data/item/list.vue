@@ -32,7 +32,7 @@
                     <thead class="th-nowrap">
                         <tr>
                             <th>Actions</th>
-                            <th>#</th>
+                            <th></th>
                             <th>Item Description</th>
                             <th>Item Code</th>
                             <th>Item Barcode</th>

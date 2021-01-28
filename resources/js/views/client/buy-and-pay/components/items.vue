@@ -1,121 +1,129 @@
 <template>
-    <div>
+    <div v-if="is_ready">
         <form action="#" class="form-validate is-alter">
             <div id="item-details">
 
-                <div class="row">
-                    <div class="col-12 col-lg-3">
-                        <input style="margin-bottom:10px;" v-model="selected_item_list_keyword"  class="form-control" type="text" placeholder="Search an Item">
-                    </div>
-                    <div class="col-12 col-lg-9">
-                        <div style="float:right;">
+                    <div class="row">
+                        <div class="col-12 col-lg-3">
+                            <input style="margin-bottom:10px;" v-model="selected_item_list_keyword"  class="form-control" type="text" placeholder="Search an Item">
+                        </div>
+                        <div class="col-12 col-lg-9">
+                            <div style="float:right;">
+                                
+                                <button @click="addItems()" type="button" class="btn btn-sm hx-btn-shineblue" :disabled="view_mode">Add Items</button>
+                                <button @click="addAllItems()" type="button" class="btn btn-sm hx-btn-shineblue" :disabled="view_mode">Add All Items</button>
+                                <button @click="removeAllZero()" type="button" class="btn btn-sm btn-danger btn btn-secondary" :disabled="view_mode">Remove Zero</button>
                             
-                            <button @click="addItems()" type="button" class="btn btn-sm hx-btn-shineblue" :disabled="view_mode">Add Items</button>
-                            <button @click="addAllItems()" type="button" class="btn btn-sm hx-btn-shineblue" :disabled="view_mode">Add All Items</button>
-                            <button @click="removeAllZero()" type="button" class="btn btn-sm btn-danger btn btn-secondary" :disabled="view_mode">Remove Zero</button>
-                        
+                            </div>
                         </div>
                     </div>
-                </div>
-                <table class="table table-responsive table-bordered mb-0">
-                    <thead class="th-nowrap">
-                        <tr>
-                            <th width="40">Action</th>
-                            <th width="40">#</th>
-                            <th>Barcode</th>
-                            <th width="100">Quantity</th>
-                            <th width="80">UOM</th>
-                            <th>Item Description</th>
-                            <th>Item Group</th>
-                            <th>Location</th>
-                            <th width="80">Packing</th>
-                            <th>Item Rate</th>
-                            <th>Subtotal</th>
-                            <th>Gross Amount</th>
-                            <th>Discount Amount</th>
-                            <th>Net</th>
-                            <th>VAT Amount</th>
-                            <th>Total Amount</th>
-                            
-                            <th>Price Rule?</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(item, index) in selectedItems" :key="item.barcode + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
-                            <td><button @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button></td>
-                            <td>{{ (index + 1) }}</td>
-                            <td>{{ item.barcode }}</td>
-
-                            <td  @click="setSelectedItem(item)" class="editable text-right">
-                                <span>{{ item.quantity }}</span>
-                                <input @keyup="calculate(item);changeSelectedItemQTY(item)" v-model="item.quantity" type="text" class="editable-control" :disabled="view_mode">
-                            </td>
-
-                            <td  @click="setSelectedItem(item)" class="editable">
-                                <span>{{ findUOMByBarcode(item.uoms,item.barcode) }}</span>
-                                <select @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="editable-control" :disabled="view_mode">
-                                    <option v-if="!isItemUOMSelected(uom, item)" v-for="(uom,index) in item.uoms" :key="uom.uuid + '-' + index" :value="uom.barcode" v-bind:selected="uom.barcode == item.barcode">{{ uom.uom }}</option>
-                                </select>
-                            </td>
-
-                            <td><a :href="'/items/' + item.uuid + '/view'" target="_blank">{{ item.item_description }}</a></td>
-                            <td>
-                                <span class="badge badge-pill badge-info mr-1">
-                                    {{ findDiscountGroup(item) }}
-                                </span>
-                            </td>
-                            <td>{{ order.branch_location.location_name }}</td>
-
-
-                            
-                            <td class="text-right">{{ item.uom_packing }}</td>
-                            <td class="text-right">{{ putSeparator(parseFloat(item.packing_rate).toFixed(2)) }}</td>
-                            <td class="text-right">{{ putSeparator(parseFloat(item.item_rate).toFixed(2)) }}</td>
-                            <td class="text-right">{{ putSeparator(parseFloat(item.gross_amount).toFixed(2))  }}</td>
-
-                            <td class="text-right">{{ putSeparator(parseFloat(item.discount_amount_total).toFixed(2)) }}</td>
-                            <td class="text-right">{{ putSeparator(parseFloat(item.net_amount).toFixed(2)) }}</td>
-                            <td class="text-right">{{ putSeparator(parseFloat(item.vat_amount).toFixed(2)) }}</td>
-                            <td class="text-right">{{ putSeparator(parseFloat(item.total_amount).toFixed(2)) }}</td>
-                            <td>
-                                {{ itemHasPriceRule(item) }}
-                            </td>
-                        </tr>
-
+                    <table class="table table-bordered mb-0">
+                        <thead class="th-nowrap">
                             <tr>
-                            <td colspan="10" class="text-right">Totals:</td>
-                            <!-- <td class="text-right"><strong>{{ TOTALS.QUANTITY }}</strong></td> -->
+                                <th width="40">Action</th>
+                                <th width="40"></th>
+                                <th>Barcode</th>
+                                <th width="50">Qty</th>
+                                <th width="50">UOM</th>
+                                <th>Item Description</th>
+                                <th>Item Group</th>
+                                <th>Location</th>
+                                <th width="60">Packing</th>
+                                <th>Item Rate</th>
+                                <!-- <th>Subtotal</th> -->
+                                <th>Gross</th>
+                                <th>Discount</th>
+                                <th>Net</th>
+                                <th>VAT</th>
+                                <th>Total</th>
+                                
+                                <th>Price Rule?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in SELECTED_ITEMS" :key="item.barcode + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
+                                <td class="text-center">
+                                    <span class="hx-table-actions w-auto">
+                                        <button @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
+                                    </span>
+                                </td>
+                                <td>{{ (index + 1) }}</td>
+                                <td>{{ item.barcode }}</td>
+
+                                <td  @click="setSelectedItem(item)" class="editable text-right">
+                                    <span>{{ item.quantity }}</span>
+                                    <input @keyup="calculate(item);changeSelectedItemQTY(item)" v-model="item.quantity" type="text" class="editable-control" :disabled="view_mode">
+                                </td>
+
+                                <td  @click="setSelectedItem(item)" class="editable">
+                                    <span>{{ findUOMByBarcode(item.uoms,item.barcode) }}</span>
+                                    <select @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="editable-control" :disabled="view_mode">
+                                        <option v-if="!isItemUOMSelected(uom, item)" v-for="(uom,index) in item.uoms" :key="uom.uuid + '-' + index" :value="uom.barcode" v-bind:selected="uom.barcode == item.barcode">{{ uom.uom }}</option>
+                                    </select>
+                                </td>
+
+                                <td><a :href="'/items/' + item.uuid + '/view'" target="_blank">{{ item.item_description }}</a></td>
+                                <td>
+                                    <span class="badge badge-pill badge-info mr-1">
+                                        {{ findDiscountGroup(item) }}
+                                    </span>
+                                </td>
+                                <td>{{ order.branch_location.location_shortname }}</td>
+
+
+                                
+                                <td class="text-right">{{ item.uom_packing }}</td>
+                                <td class="text-right">{{ PUT_SEPARATOR(parseFloat(item.packing_rate).toFixed(2)) }}</td>
+                                <!-- <td class="text-right">{{ PUT_SEPARATOR(parseFloat(item.item_rate).toFixed(2)) }}</td> -->
+                                <td class="text-right">{{ PUT_SEPARATOR(parseFloat(item.gross_amount).toFixed(2))  }}</td>
+
+                                <td class="text-right">{{ PUT_SEPARATOR(parseFloat(item.discount_amount_total).toFixed(2)) }}</td>
+                                <td class="text-right">{{ PUT_SEPARATOR(parseFloat(item.net_amount).toFixed(2)) }}</td>
+                                <td class="text-right">{{ PUT_SEPARATOR(parseFloat(item.vat_amount).toFixed(2)) }}</td>
+                                <td class="text-right">{{ PUT_SEPARATOR(parseFloat(item.total_amount).toFixed(2)) }}</td>
+                                <td>
+                                    {{ itemHasPriceRule(item) }}
+                                </td>
+                            </tr>
+
+                                <tr>
+                                <td colspan="10" class="text-right">Total:</td>
+                                <!-- <td class="text-right"><strong>{{ TOTALS.QUANTITY }}</strong></td> -->
+                                
+                                <!-- <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.PACKING).toFixed(2)) }}</strong></td> -->
+                                <!-- <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.RATE).toFixed(2)) }}</strong></td> -->
+                                <!-- <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.SUBTOTAL).toFixed(2)) }}</strong></td> -->
+                                <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.GROSS).toFixed(2)) }}</strong></td>
+
+                                <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.DISCOUNT_AMOUNT).toFixed(2)) }}</strong></td>
+                                <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.NET).toFixed(2)) }}</strong></td>
+                                <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.VAT).toFixed(2)) }}</strong></td>
+                                <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.AMOUNT).toFixed(2)) }}</strong></td>
+                                <td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="18">
+                                    <div class="pb-1"></div>
+                                </td>
+                            </tr>
                             
-                            <!-- <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.PACKING).toFixed(2)) }}</strong></td> -->
-                            <!-- <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.RATE).toFixed(2)) }}</strong></td> -->
-                            <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.SUBTOTAL).toFixed(2)) }}</strong></td>
-                            <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.GROSS).toFixed(2)) }}</strong></td>
+                            <tr>
+                                <td colspan="18" style="padding: 10px;">
+                                    <input type="text" id="autocomplete" class="form-control" placeholder="Search item here.." :disabled="view_mode" style="width: 60%;">
+                                </td>
+                            </tr> 
+                        </tbody>
+                    </table>
 
-                            <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.DISCOUNT_AMOUNT).toFixed(2)) }}</strong></td>
-                            <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.NET).toFixed(2)) }}</strong></td>
-                            <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.VAT).toFixed(2)) }}</strong></td>
-                            <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.AMOUNT).toFixed(2)) }}</strong></td>
-                            <td>
-                            </td>
-                        </tr>
-                        
-                        <tr>
-                            <td colspan="17">
-                                <input type="text" id="autocomplete" class="form-control" :disabled="view_mode">
-                            </td>
-                        </tr> 
-                    </tbody>
-                </table>
-
-                <form style="margin-top:30px;">
-                    <div class="form-group">
-                        <label for="memo-po">Memo:</label>
-                        <textarea v-model="memo_po" class="form-control" id="memo-po"></textarea>
-                    </div>
-                </form>
-            </div>
-            
-        
+                    <form style="margin-top:30px;">
+                        <div class="form-group">
+                            <label for="memo-po">Memo:</label>
+                            <textarea v-model="memo_po" class="form-control" id="memo-po"></textarea>
+                        </div>
+                    </form>
+                
+                </div>
         </form>
     
 
@@ -180,11 +188,10 @@ import moment from 'moment'
 
 export default {
     name: 'purchase-order',
-    props: ['properties','view_mode'],
+    props: ['properties','view_mode','order'],
     data: function () {
         return {
             is_ready: false,
-            order: null,
             items: [],
             selected_items: [],
             options_items: [],
@@ -225,7 +232,7 @@ export default {
                 item.item_shortname.toLowerCase().indexOf(keyword) > -1);
             })
         },
-        selectedItems() {
+        SELECTED_ITEMS() {
             var scope = this
             var keyword = scope.selected_item_list_keyword.toLowerCase()
             return this.selected_items.filter((item) => {
@@ -268,8 +275,8 @@ export default {
 
             var gross = 0.00
 
-            for (let i = 0; i < scope.selectedItems.length; i++) {
-                var current = scope.selectedItems[i]
+            for (let i = 0; i < scope.SELECTED_ITEMS.length; i++) {
+                var current = scope.SELECTED_ITEMS[i]
                 TOTAL.RATE += parseFloat(current.purchase_price)
                 TOTAL.GROSS += parseFloat(current.gross_amount)
                 TOTAL.SUBTOTAL += parseFloat(current.item_rate) // rate * price
@@ -420,7 +427,7 @@ export default {
          
                 discount.discount_amount = 0.00
 
-                var items = scope.selectedItems.filter(item => {
+                var items = scope.SELECTED_ITEMS.filter(item => {
                     return (discount.items.includes(item.uuid))
                 })
 
@@ -447,7 +454,7 @@ export default {
          
                 discount.discount_amount = 0.00
 
-                var items = scope.selectedItems.filter(item => {
+                var items = scope.SELECTED_ITEMS.filter(item => {
                     return (discount.applied_to == 'selected' && discount.items.includes(item.uuid)) || discount.applied_to == 'all'
                 })
 
@@ -505,11 +512,6 @@ export default {
             return (found) ? 'Yes' : 'No'
             
         },
-        putSeparator: function(value) {
-            var num_parts = value.toString().split(".");
-            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            return num_parts.join(".");
-        },
         findDiscountGroup: function (item) {
             var scope = this
             for (let i = 0; i < scope.__BASE_DISCOUNTS__.length; i++) {
@@ -536,7 +538,7 @@ export default {
         addItems: function() {
             var scope = this
             scope.temp_selected_items = []
-            scope.temp_selected_items = JSON.parse(JSON.stringify(scope.selectedItems))
+            scope.temp_selected_items = JSON.parse(JSON.stringify(scope.SELECTED_ITEMS))
 
             scope.OPEN_MODAL('#modal-item-list');
         },
@@ -583,8 +585,8 @@ export default {
         removeAllZero: function () {
             var scope = this
 
-            for (var i = scope.selectedItems.length - 1; i >= 0; i--) {
-               var quantity = scope.selectedItems[i].quantity
+            for (var i = scope.SELECTED_ITEMS.length - 1; i >= 0; i--) {
+               var quantity = scope.SELECTED_ITEMS[i].quantity
 
                 if (quantity <= 0) {
                     scope.selected_items.splice(i, 1);
@@ -830,7 +832,7 @@ export default {
         },
         saveOrderItems: function() {
             var scope = this
-            scope.POST('buy-and-pay/orders/' + scope.order.uuid + '/items', {items: scope.selectedItems, discounts: scope.__ADDITIONALS__, memo: scope.memo_po }).then(res => {
+            scope.POST('buy-and-pay/orders/' + scope.order.uuid + '/items', {items: scope.SELECTED_ITEMS, discounts: scope.__ADDITIONALS__, memo: scope.memo_po }).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -849,15 +851,8 @@ export default {
     },
     mounted() {
         var scope = this
-        //scope.getOrderDetails(order_uuid)
-        console.log(scope.props)
-        scope.getOrderSupplierItems(order.uuid)
+        scope.getOrderSupplierItems(scope.order.uuid)
 
-        /*
-        $(document).on('blur','#autocomplete',function(){
-            $(this).val('')
-        })
-        */
 
        $(document).on('click','.autocomplete-suggestion',function(){
            var barcode = $(this).data('barcode')

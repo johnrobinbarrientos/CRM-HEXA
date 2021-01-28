@@ -34,7 +34,7 @@
                 <thead class="th-nowrap">
                     <tr>
                         <th>Actions</th>
-                        <th>#</th>
+                        <th></th>
                         <th>Sold To Name</th>
                         <th>Business Group Name</th>
                         <th>Business Shortname</th>

@@ -27,34 +27,34 @@
 
             <div v-else class="table-responsive;">
 
-                <div style="background:#f9f9f9; border:1px solid #d7d8e0; padding:0px; margin-bottom: 5px;">
-                    <div style="display:flex; justify-content: flex-start;">
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
-                            <select @change="getPurchaseOrders()" v-model="selected_item_group" style="padding:5px; background:transparent; border:none; width:100%;">
+                <div class="table-filter">
+                    <div class="table-filter-row">
+                        <div class="select-wrap">
+                            <select @change="getPurchaseOrders()" v-model="selected_item_group">
                                 <option value="">Item Type</option>     
                                 <option v-for="item_type in options_item_group" :value="item_type.id" :key="'option-' + item_type.id ">{{ item_type.text }}</option>
                             </select>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
-                            <select  @change="getPurchaseOrders()" v-model="selected_supplier" style="padding:5px; background:transparent; border:none; width:100%;">
+                        <div class="select-wrap">
+                            <select  @change="getPurchaseOrders()" v-model="selected_supplier">
                                 <option value="">Supplier</option>
                                 <option v-for="supplier in options_supplier" :value="supplier.id"  :key="'option-' + supplier.id ">{{ supplier.text }}</option>
                             </select>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
-                            <select  @change="getPurchaseOrders()" v-model="selected_branch" style="padding:5px; background:transparent; border:none; width:100%;">
+                        <div class="select-wrap">
+                            <select  @change="getPurchaseOrders()" v-model="selected_branch">
                                 <option value="">Branch</option>
                                 <option v-for="branch in options_branch" :value="branch.id"  :key="'option-' + branch.id ">{{ branch.text }}</option>
                             </select>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
-                            <select  @change="getPurchaseOrders()" v-model="selected_branch_location" style="padding:5px; background:transparent; border:none; width:100%;">
+                        <div class="select-wrap">
+                            <select  @change="getPurchaseOrders()" v-model="selected_branch_location">
                                 <option value="">Location</option>
                                 <option v-for="location in options_branch_location" :value="location.id"  :key="'option-' + location.id ">{{ location.text }}</option>
                             </select>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
-                            <select  @change="getPurchaseOrders()" v-model="selected_status" style="padding:5px; background:transparent; border:none; width:100%;">
+                        <div class="select-wrap">
+                            <select  @change="getPurchaseOrders()" v-model="selected_status">
                                 <option value="">Status</option>
                                 <option value="To Receive">To Receive</option>
                                 <option value="Partially Received">Partially Received</option>
@@ -62,16 +62,16 @@
                                 <option value="Cancelled">Cancelled</option>
                             </select>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
-                            <select  @change="getPurchaseOrders()" v-model="selected_reason_code_filter" style="padding:5px; background:transparent; border:none; width:100%;">
+                        <div class="select-wrap">
+                            <select  @change="getPurchaseOrders()" v-model="selected_reason_code_filter">
                                 <option value="">Reason Code</option>
                                 <option v-for="reason_code in options_reason_code" :value="reason_code.id"  :key="'option-' + reason_code.id ">{{ reason_code.text }}</option>
                             </select>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
+                        <div class="select-wrap">
                             <date-picker class="transaction-from" placeholder="From" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_from" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
+                        <div class="select-wrap">
                             <date-picker class="transaction-to"  placeholder="To" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_to" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
                         </div>
                     </div>
@@ -81,7 +81,7 @@
                     <thead class="th-nowrap">
                         <tr>
                             <th>Action</th>
-                            <th>#</th>
+                            <th></th>
                             <th>Item Type</th>
                             <th>Transaction No.</th>
                             <th>Supplier Name</th>
@@ -119,7 +119,7 @@
                                 <td width="100">{{ purchase.item_group.item_group }}</td>
                                 <td width="200">{{ purchase.po_no }}</td>
                                 <td class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
-                                <td>{{ purchase.branch.branch_name.toUpperCase()}}</td>
+                                <td>{{ purchase.branch.branch_shortname.toUpperCase()}}</td>
                                 <td>{{ purchase.branch_location.location_shortname.toUpperCase()}}</td>
                                 <td width="100">{{ moment(purchase.date_purchased) }}</td>
                                 <td>{{ moment(purchase.date_expected) }}</td>
@@ -593,6 +593,8 @@ export default {
 </script>
 
 <style scoped>
-.table-tranx { table-layout: auto; width: 200%;}
-
+.table-filter { background:#f9f9f9; border:1px solid #d7d8e0; padding:0px; margin-bottom: 8px; }
+.table-filter-row { display:flex; justify-content: space-evenly; }
+.select-wrap { background:#e5e5ed; padding-right: 5px; border-right:1px solid #d7d8e0; width: 100%; }
+.select-wrap select { padding:5px; padding-top: 6px; background:transparent; border:none; width:100%; font-size: 12px; }
 </style>

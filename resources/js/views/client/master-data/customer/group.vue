@@ -31,7 +31,7 @@
                     <thead>
                         <tr>
                             <th><span class="">Actions</span></th>
-                            <th><span class="text-right">#</span></th>
+                            <th><span class="text-right"></span></th>
                             <th><span class="">Group Name</span></th>
                             <th><span class="">Markup Rate</span></th>
                         </tr>

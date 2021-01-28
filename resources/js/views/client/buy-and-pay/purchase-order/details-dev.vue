@@ -168,7 +168,7 @@
                             </div>
 
                             <div class="tab-pane" id="discounts">
-                                DISCOUNTS
+                                <discounts :order="order"></discounts>
                             </div>
 
                             <div class="tab-pane" id="tax">
@@ -190,6 +190,7 @@
 import Swal from 'sweetalert2'
 import moment from 'moment'
 import Items from '../components/items'
+import Discounts from '../components/discounts'
 
 export default {
     name: 'purchase-order',
@@ -201,7 +202,8 @@ export default {
         }
     },
     components: {
-        'items' : Items
+        'items' : Items,
+        'discounts' : Discounts,
     },
     computed: {
         TOTALS: function () {

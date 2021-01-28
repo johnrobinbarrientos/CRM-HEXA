@@ -32,7 +32,7 @@
                         <thead>
                             <tr>
                                 <th>Actions</th>
-                                <th>#</th>
+                                <th></th>
                                 <th>Short Name</th>
                                 <th>Details</th>
                             </tr>

@@ -63,7 +63,7 @@
 
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
-                                                <label class="form-label" for="branch-name">PO Date</label>
+                                                <label class="form-label" for="branch-name">Transaction Date</label>
                                                 <div class="form-control-wrap">
                                                     <date-picker class="form-control" v-model="order.date_purchased" :config="{format: 'YYYY-MM-DD'}"></date-picker>
                                                 </div>
@@ -124,7 +124,7 @@
                                     <h4>Summary:</h4>
 
                                     <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
-                                        <div><span>Gross Amount</span></div>
+                                        <div><span>Gross</span></div>
                                         <div><span>{{ putSeparator(TOTALS.GROSS.toFixed(2) ) }}</span></div>
                                     </div>
                                     <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
@@ -132,12 +132,12 @@
                                         <div><span>-{{ putSeparator(TOTALS.DISCOUNT_AMOUNT.toFixed(2) ) }}</span></div>
                                     </div>
                                     <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
-                                        <div><span>Tax Amount</span></div>
+                                        <div><span>Tax</span></div>
                                         <div><span>{{ putSeparator(TOTALS.VAT.toFixed(2) ) }}</span></div>
                                     </div>
                                     <hr>
                                     <div style="display:flex; justify-content: space-between; font-weight:900;">
-                                        <div><span>PO Amount</span></div>
+                                        <div><span>Amount</span></div>
                                         <div><span>{{ putSeparator(TOTALS.AMOUNT.toFixed(2) ) }}</span></div>
                                     </div>
                                     <hr class="mb-1">
@@ -152,10 +152,10 @@
                     <div class="hx-nav-tabs-override">
                         <ul class="nav nav-tabs">    
                             <li class="nav-item">        
-                                <a class="nav-link active" data-toggle="tab" href="#item-details">Item Details</a>    
+                                <a class="nav-link active" data-toggle="tab" href="#item-details">Item</a>    
                             </li>    
                             <li class="nav-item">        
-                                <a class="nav-link" data-toggle="tab" href="#discounts">Discounts</a>    
+                                <a class="nav-link" data-toggle="tab" href="#discounts">Discount</a>    
                             </li>
                             <li class="nav-item">        
                                 <a class="nav-link" data-toggle="tab" href="#tax">Tax</a>    
@@ -183,21 +183,21 @@
                                     <thead class="th-nowrap">
                                         <tr>
                                             <th width="40">Action</th>
-                                            <th width="40">#</th>
+                                            <th width="40"></th>
                                             <th>Barcode</th>
-                                            <th width="100">Qty</th>
-                                            <th width="80">UOM</th>
+                                            <th width="50">Qty</th>
+                                            <th width="50">UOM</th>
                                             <th>Item Description</th>
                                             <th>Item Group</th>
                                             <th>Location</th>
-                                            <th width="80">Packing</th>
+                                            <th width="60">Packing</th>
                                             <th>Item Rate</th>
-                                            <th>Subtotal</th>
-                                            <th>Gross Amount</th>
-                                            <th>Discount Amount</th>
+                                            <!-- <th>Subtotal</th> -->
+                                            <th>Gross</th>
+                                            <th>Discount</th>
                                             <th>Net</th>
-                                            <th>VAT Amount</th>
-                                            <th>Total Amount</th>
+                                            <th>VAT</th>
+                                            <th>Total</th>
                                             
                                             <th>Price Rule?</th>
                                         </tr>
@@ -230,13 +230,13 @@
                                                     {{ findDiscountGroup(item) }}
                                                 </span>
                                             </td>
-                                            <td>{{ order.branch_location.location_name }}</td>
+                                            <td>{{ order.branch_location.location_shortname }}</td>
 
 
                                            
                                             <td class="text-right">{{ item.uom_packing }}</td>
                                             <td class="text-right">{{ putSeparator(parseFloat(item.packing_rate).toFixed(2)) }}</td>
-                                            <td class="text-right">{{ putSeparator(parseFloat(item.item_rate).toFixed(2)) }}</td>
+                                            <!-- <td class="text-right">{{ putSeparator(parseFloat(item.item_rate).toFixed(2)) }}</td> -->
                                             <td class="text-right">{{ putSeparator(parseFloat(item.gross_amount).toFixed(2))  }}</td>
 
                                             <td class="text-right">{{ putSeparator(parseFloat(item.discount_amount_total).toFixed(2)) }}</td>
@@ -254,7 +254,7 @@
                                            
                                             <!-- <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.PACKING).toFixed(2)) }}</strong></td> -->
                                             <!-- <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.RATE).toFixed(2)) }}</strong></td> -->
-                                            <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.SUBTOTAL).toFixed(2)) }}</strong></td>
+                                            <!-- <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.SUBTOTAL).toFixed(2)) }}</strong></td> -->
                                             <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.GROSS).toFixed(2)) }}</strong></td>
 
                                             <td class="text-right"><strong>{{ putSeparator(parseFloat(TOTALS.DISCOUNT_AMOUNT).toFixed(2)) }}</strong></td>
@@ -265,13 +265,13 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="17">
+                                            <td colspan="18">
                                                 <div class="pb-1"></div>
                                             </td>
                                         </tr>
                                         
                                         <tr>
-                                            <td colspan="17" style="padding: 10px;">
+                                            <td colspan="18" style="padding: 10px;">
                                                 <input type="text" id="autocomplete" class="form-control" placeholder="Search item here.." :disabled="view_mode" style="width: 60%;">
                                             </td>
                                         </tr> 
@@ -303,10 +303,10 @@
                                     </div>
                                     <div class="col-12 col-md-7 offset-md-1">
                                         <h4>Discount Summary</h4>
-                                        <table class="table-discount-summary table table-striped table-bordered"> 
+                                        <table class="table-discount-summary table table-bordered"> 
                                             <thead>
                                                 <tr >
-                                                    <th width="30">#</th>
+                                                    <!--<th width="30">#</th>-->
                                                     <th width="150">Discount Group</th>
                                                     <th>Discount Name</th>
                                                     <th>Rate</th>
@@ -314,27 +314,27 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="(base_discount,index) in APPLIED_BASE_DISCOUNTS" :key="'base-discount-summary' + index">
-                                                    <th style="background:#77ade0;">
+                                                <tr v-for="(base_discount,index) in APPLIED_BASE_DISCOUNTS" :key="'base-discount-summary' + index" class="tr-greyish">
+                                                    <!--<th style="background:#77ade0;">
                                                         <span v-if="index == 0">1</span>
-                                                    </th>
-                                                    <th >
+                                                    </th>-->
+                                                    <th>
                                                         <span v-if="index == 0">Base</span>
                                                     </th>
                                                     <th>{{ base_discount.discount_name }}</th>
                                                     <th class="text-right">{{ base_discount.discount_rate }}%</th>
                                                     <th class="text-right">{{ parseFloat(base_discount.discount_amount).toFixed(2) }}</th>
                                                 </tr>
-                                                <tr style="background:#abd1f5;">
-                                                    <th style="background:#77ade0;"></th>
-                                                    <th colspan="2">Base Total</th>
-                                                    <th class="text-right">{{ parseFloat(DISCOUNT_BASE_RATE_TOTAL).toFixed(2) }}%</th>
-                                                    <th class="text-right">{{ parseFloat(DISCOUNT_BASE_AMOUNT_TOTAL).toFixed(2) }}</th>
+                                                <tr style="/*background:#abd1f5;*/" class="tr-grey">
+                                                    <!--<th style="background:#77ade0;"></th>-->
+                                                    <th colspan="2" style="border-bottom-color: #bbb !important;">Base Total</th>
+                                                    <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_BASE_RATE_TOTAL).toFixed(2) }}%</th>
+                                                    <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_BASE_AMOUNT_TOTAL).toFixed(2) }}</th>
                                                 </tr>
                                                 <tr v-for="(discount,index) in __ADDITIONALS__" :key="'additional-discount-summary' + index">
-                                                    <th style="background:#77ade0;">
+                                                    <!--<th style="background:#77ade0;">
                                                         <span v-if="index == 0">2</span>
-                                                    </th>
+                                                    </th>-->
                                                     <th >
                                                         <span v-if="index == 0">Additional</span>
                                                     </th>
@@ -342,31 +342,31 @@
                                                     <th class="text-right">{{ parseFloat(discount.discount_rate).toFixed(2) }}%</th>
                                                     <th class="text-right">{{ parseFloat(discount.discount_fixed).toFixed(2) }}</th>
                                                 </tr>
-                                                <tr style="background:#abd1f5;">
-                                                    <th></th>
-                                                    <th style="background:#abd1f5;"  colspan="2">Additional Total</th>
-                                                    <th class="text-right">{{ parseFloat(DISCOUNT_ADDITIONAL_RATE_TOTAL).toFixed(2) }}%</th>
-                                                    <th class="text-right">{{ parseFloat(DISCOUNT_ADDITIONAL_AMOUNT_TOTAL).toFixed(2) }}</th>
+                                                <tr style="/*background:#abd1f5;*/" class="tr-grey">
+                                                    <!--<th></th>-->
+                                                    <th style="border-bottom-color: #bbb !important;" colspan="2">Additional Total</th>
+                                                    <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_ADDITIONAL_RATE_TOTAL).toFixed(2) }}%</th>
+                                                    <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_ADDITIONAL_AMOUNT_TOTAL).toFixed(2) }}</th>
                                                 </tr>
-                                                <tr v-for="(discount,index) in APPLIED_PRICE_RULE_DISCOUNTS" :key="'price-rule-discount-summary' + index">
-                                                     <th style="background:#77ade0;">
+                                                <tr v-for="(discount,index) in APPLIED_PRICE_RULE_DISCOUNTS" :key="'price-rule-discount-summary' + index" class="tr-greyish">
+                                                     <!--<th style="background:#77ade0;">
                                                         <span v-if="index == 0">3</span>
-                                                    </th>
-                                                    <th >
+                                                    </th>-->
+                                                    <th>
                                                         <span v-if="index == 0">Price Rule</span>
                                                     </th>
                                                     <th>{{ discount.price_rule_supplier.rule_name }}</th>
                                                     <th class="text-right">{{ discount.price_rule_supplier.rate }}%</th>
                                                     <th class="text-right">{{ parseFloat(discount.discount_amount).toFixed(2) }}</th>
                                                 </tr>
-                                                <tr style="background:#abd1f5;">
-                                                    <th></th>
-                                                    <th colspan="2">Price Rule Total</th>
-                                                    <th class="text-right">{{ parseFloat(DISCOUNT_PRICE_RULE_RATE_TOTAL).toFixed(2) }}%</th>
-                                                    <th class="text-right">{{ parseFloat(DISCOUNT_PRICE_RULE_AMOUNT_TOTAL).toFixed(2) }}</th>
+                                                <tr style="/*background:#abd1f5;*/" class="tr-grey">
+                                                    <!--<th></th>-->
+                                                    <th colspan="2" style="border-bottom-color: #bbb !important;">Price Rule Total</th>
+                                                    <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_PRICE_RULE_RATE_TOTAL).toFixed(2) }}%</th>
+                                                    <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_PRICE_RULE_AMOUNT_TOTAL).toFixed(2) }}</th>
                                                 </tr>
                                                 <tr style="background:#abd1f5;">
-                                                    <th style="background:#77ade0;"></th>
+                                                    <!--<th style="background:#77ade0;"></th>-->
                                                     <th colspan="2">TOTAL DISCOUNT</th>
                                                     <th class="text-right">{{ DISCOUNT_SUMMARY_RATE_TOTAL }}%</th>
                                                     <th class="text-right">{{ putSeparator(DISCOUNT_SUMMARY_TOTAL) }}</th>
@@ -1271,4 +1271,8 @@ function matchCustom(params, data) {
 .buy-and-pay-summary span { font-size: 16px; }
 .buy-and-pay-summary hr { margin: 0; }
 .buy-and-pay-summary h4 { margin-bottom: 12px; font-weight: 600; font-size: 18px; }
+
+
+.tr-greyish { background: #f9f9f9; }
+.tr-grey { background: #eee; }
 </style>

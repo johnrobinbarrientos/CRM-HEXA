@@ -26,18 +26,18 @@
 
         <div class="row">
             <div class="col-lg-6">
-                <table class="table table-bordered">
-                    <thead>
+                <table class="table table-bordered table-striped">
+                    <thead class="th-nowrap">
                         <tr>
                             <th>Actions</th>
-                            <th class="text-right">#</th>
+                            <th class="text-right"></th>
                             <th data-priority="3">Item Group</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(item, index) in Groups" :key="item.uuid">
-                            <td width="100">
-                                <span class="w-65px d-block mx-auto">
+                            <td width="65" class="text-center">
+                                <span class="hx-table-actions">
                                     <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemGroup');setData(item)" class="btn btn-sm btn-shineblue"><i class="bx bx-pencil"></i></a>
                                     <a href="javascript:void(0)"  @click="remove(item)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
                                 </span>
