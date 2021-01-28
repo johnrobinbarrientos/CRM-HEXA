@@ -176,7 +176,7 @@
                         <template v-else>
                             <tr>
                                 <td colspan="13" class="text-center">
-                                    <strong style="display: block; height: 30px; line-height: 30px;">No Purchase Order yet.</strong>
+                                    <strong style="display: block; height: 30px; line-height: 30px;">No Transactions</strong>
                                 </td>
                             </tr>
                         </template>
@@ -273,9 +273,6 @@ export default {
         }
     },
     methods: {
-        test: function () {
-            alert('aaa')
-        },
         moment: function (date) {
             return moment(date).format('DD-MMM-YYYY')
         },
