@@ -43,9 +43,12 @@ import AdminCostCenter from './views/admin/settings/admin-cost-center'
 import PurchaseOrderMain from './views/client/buy-and-pay/purchase-order/main'
 import PurchaseOrderForm from './views/client/buy-and-pay/purchase-order/form'
 import PurchaseOrderDetails from './views/client/buy-and-pay/purchase-order/details'
+import PurchaseOrderDetailsDev from './views/client/buy-and-pay/purchase-order/details-dev'
+
 
 import PurchaseReceiptMain from './views/client/buy-and-pay/purchase-receipt/main'
 import PurchaseReceiptDetails from './views/client/buy-and-pay/purchase-receipt/details'
+import PurchaseReceiptDetailsDev from './views/client/buy-and-pay/purchase-receipt/details-dev'
 
 import BillingReturnMain from './views/client/buy-and-pay/billing-return/main'
 import BillingDetails from './views/client/buy-and-pay/billing-return/billing-details'
@@ -320,6 +323,14 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
+          path: '/purchase-orders-dev/:order_uuid',
+          name: 'purchase-order-details-dev',
+          component: PurchaseOrderDetailsDev,
+          props: { view_mode: false },
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
           path: '/purchase-orders/:order_uuid',
           name: 'purchase-order-details',
           component: PurchaseOrderDetails,
@@ -347,6 +358,14 @@ export default new VueRouter({
           name: 'purchase-receipt-details',
           props: { view_mode: false },
           component: PurchaseReceiptDetails,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/purchase-receipt-details-dev/:orderUUID',
+          name: 'purchase-receipt-details',
+          props: { view_mode: false },
+          component: PurchaseReceiptDetailsDev,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
