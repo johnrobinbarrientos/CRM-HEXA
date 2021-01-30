@@ -168,11 +168,11 @@
                             </div>
 
                             <div class="tab-pane" id="discounts">
-                                <discounts ref="discounts" :order="order"></discounts>
+                                <discounts ref="discounts" :order="order" :DISCOUNTS="DISCOUNTS"></discounts>
                             </div>
 
                             <div class="tab-pane" id="tax">
-                               TAX
+                               <taxes ref="taxes" :order="order" :DISCOUNTS="DISCOUNTS"></taxes>
                             </div>   
                         </div>
                     </div>
@@ -191,6 +191,7 @@ import Swal from 'sweetalert2'
 import moment from 'moment'
 import Items from '../components/items'
 import Discounts from '../components/discounts'
+import Taxes from '../components/taxes'
 
 export default {
     name: 'purchase-order',
@@ -199,21 +200,7 @@ export default {
         return {
             is_ready: false,
             order: null,
-            __BASE_DISCOUNTS__: [],
-            __PRICE_RULES__: [],
-            __ADDITIONALS__: [],
-            SELECTED_ITEMS: [],
-        }
-    },
-    components: {
-        'items' : Items,
-        'discounts' : Discounts,
-    },
-    computed: {
-        TOTALS: function () {
-            
-            var scope = this
-            var TOTAL = {
+            TOTALS: {
                 GROSS: 0.00,
                 SUBTOTAL: 0.00,
                 RATE: 0.00,
@@ -224,32 +211,26 @@ export default {
                 AMOUNT: 0.00,
                 QUANTITY: 0.00,
                 PACKING: 0.00,
-            }
-
-            var gross = 0.00
-            /*
-            for (let i = 0; i < scope.selectedItems.length; i++) {
-                var current = scope.selectedItems[i]
-                TOTAL.RATE += parseFloat(current.purchase_price)
-                TOTAL.GROSS += parseFloat(current.gross_amount)
-                TOTAL.SUBTOTAL += parseFloat(current.item_rate) // rate * price
-                TOTAL.DISCOUNT_AMOUNT += parseFloat(current.discount_amount_total)
-                TOTAL.DISCOUNT_RATE += parseFloat(current.discount_rate_total)
-                TOTAL.NET += parseFloat(current.net_amount)
-                TOTAL.VAT += parseFloat(current.vat_amount)
-                TOTAL.AMOUNT += parseFloat(current.total_amount)
-                TOTAL.QUANTITY += parseFloat(current.quantity)
-                TOTAL.PACKING += parseFloat(current.uom_packing)
-            }
-            */
-
-            return TOTAL
-        },
+            },
+            DISCOUNTS: {
+                base: [],
+                price_rules: [],
+                additionals: [],
+            },
+            SELECTED_ITEMS: [],
+        }
+    },
+    components: {
+        'items' : Items,
+        'discounts' : Discounts,
+        'taxes' : Taxes,
+    },
+    computed: {
     },
     methods: {
-        updateItemList: function () {
+        updateTOTALS: function (data) {
             var scope = this
-            scope.SELECTED_ITEMS = scope.$refs.items.getSelectedItems()
+            scope.TOTALS = data
         },
         getOrderDetails: function (order_uuid) {
             var scope = this

@@ -188,11 +188,12 @@ import moment from 'moment'
 
 export default {
     name: 'purchase-order',
-    props: ['properties','view_mode','order','VAT'],
+    props: ['properties','view_mode','order'],
     data: function () {
         return {
             is_ready: false,
             items: [],
+            VAT_RATE: 0.00,
             selected_items: [],
             options_items: [],
             option_items_selected: null,
@@ -202,7 +203,6 @@ export default {
             item_list_keyword: '',
             selected_item_list_keyword: '',
             memo_po: '',
-            VAT: null,
             __BASE_DISCOUNTS__: [],
             __PRICE_RULES__: [],
             __ADDITIONALS__: [],
@@ -289,18 +289,23 @@ export default {
                 TOTAL.PACKING += parseFloat(current.uom_packing)
             }
 
+            var TAXES = {
+                VAT_RATE: scope.VAT_RATE,
+                VAT_AMOUNT: TOTAL.VAT,
+            }
+
+            scope.$parent.updateTOTALS(TOTAL)
+            scope.$parent.$refs.taxes.updateTAXES(TAXES)
+
             return TOTAL
-        },
-        DISCOUNT_SUMMARY_TOTAL: function () {
-            var total = parseFloat(this.DISCOUNT_ADDITIONAL_AMOUNT_TOTAL) + parseFloat(this.DISCOUNT_BASE_AMOUNT_TOTAL) + parseFloat(this.DISCOUNT_PRICE_RULE_AMOUNT_TOTAL)
-            return total.toFixed(2)
-        },
-        DISCOUNT_SUMMARY_RATE_TOTAL: function () {
-            var total = parseFloat(this.DISCOUNT_ADDITIONAL_RATE_TOTAL) + parseFloat(this.DISCOUNT_BASE_RATE_TOTAL) + parseFloat(this.DISCOUNT_PRICE_RULE_RATE_TOTAL)
-            return total.toFixed(2)
         }
     },
     methods: {
+        updateADDITIONALDISCOUNTS: function (DISCOUNTS) {
+            var scope = this
+            scope.__ADDITIONALS__ = DISCOUNTS
+            scope.recalculateItems()
+        },
         calculate: function(item) {
             var scope = this
 
@@ -311,8 +316,16 @@ export default {
             var total = (qty * packing) * rate
 
             // if supplier has no vat or supplier is vatable but item is not vatable = 0
-            var VAT = (!scope.order.is_apply_tax || !scope.VAT || (scope.VAT && item.without_vat)) ? 0.00 : parseFloat(scope.VAT.tax_rate)
+            var VAT = (!scope.order.is_apply_tax || !scope.VAT_RATE || (scope.VAT_RATE && item.without_vat)) ? 0.00 : parseFloat(scope.VAT_RATE)
             VAT = VAT / 100
+
+
+            console.log('scope.order.is_apply_tax', scope.order.is_apply_tax)
+            console.log('scope.VAT_RATE', scope.VAT_RATE)
+            console.log('item.without_vat', item.without_vat)
+
+   
+
            
             item.item_rate = (qty * packing) * rate
             item.vat_amount = item.item_rate * VAT
@@ -334,12 +347,8 @@ export default {
             item.total_amount = item.net_amount + item.vat_amount 
 
             //scope.calculateDiscounts();
-
-            scope.$parent.updateItemList()
-            
         },
         recalculateItems: function () {
-
             var scope = this  
             if (scope.RECALCULATE_TIMER) {
                 clearTimeout(scope.RECALCULATE_TIMER);
@@ -352,7 +361,7 @@ export default {
                     scope.calculate(current)
                     scope.calculateDiscounts()
                 }
-            }, 500);
+            }, 100);
         },
         calculateItemBaseDiscount: function (item) {
             var scope = this
@@ -496,6 +505,28 @@ export default {
 
             scope.DISCOUNT_ADDITIONAL_RATE_TOTAL +=  RATE
             scope.DISCOUNT_ADDITIONAL_AMOUNT_TOTAL +=  scope.TOTALS.GROSS * parseFloat(RATE/100)
+
+
+            var DISCOUNTS  = {
+                base: scope.__BASE_DISCOUNTS__,
+                price_rules: scope.__PRICE_RULES__,
+                additionals: scope.__ADDITIONALS__,
+            }
+
+            var TOTALS = {
+                /* BASE */
+                BASE_AMOUNT_TOTAL: scope.DISCOUNT_BASE_AMOUNT_TOTAL,
+                BASE_RATE_TOTAL: scope.DISCOUNT_BASE_RATE_TOTAL,
+                /* PRICE RULE */
+                PRICE_RULE_AMOUNT_TOTAL: scope.DISCOUNT_PRICE_RULE_AMOUNT_TOTAL,
+                PRICE_RULE_RATE_TOTAL: scope.DISCOUNT_PRICE_RULE_RATE_TOTAL,
+                /* ADDITIONAL */
+                ADDITIONAL_AMOUNT_TOTAL: scope.DISCOUNT_ADDITIONAL_AMOUNT_TOTAL,
+                ADDITIONAL_RATE_TOTAL: scope.DISCOUNT_ADDITIONAL_RATE_TOTAL,
+            }
+
+
+            scope.$parent.$refs.discounts.updateDISCOUNTS(DISCOUNTS, TOTALS)
            
         },
         itemHasPriceRule: function (item) {
@@ -730,7 +761,6 @@ export default {
                 })
 
                 scope.is_ready = true
-
                 setTimeout(function(){ 
                     /*
                     $(".search-items").select2({allowClear: true, placeholder: "Select an Item", data: scope.options_items, matcher: matchCustom}); 
@@ -850,14 +880,12 @@ export default {
                     alert('ERROR:' + res.code)
                 } 
             })
-        },
-        getSelectedItems: function () {
-            return this.selected_items
         }
     },
     mounted() {
         var scope = this
         scope.getOrderSupplierItems(scope.order.uuid)
+         scope.VAT_RATE = scope.order.supplier_tax_rate,
 
 
        $(document).on('click','.autocomplete-suggestion',function(){

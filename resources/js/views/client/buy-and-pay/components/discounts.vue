@@ -3,11 +3,11 @@
         <div class="row">
             <div class="col-md-4 col-12">
                 <h4>Additional Discounts</h4>
-                <div  v-for="(discount, index) in __ADDITIONALS__" :key="index">
+                <div  v-for="(discount, index) in discounts.additionals" :key="index">
                     <div class="form-group">
                         <span>{{ (index + 1) }}. {{ discount.discount_name }} <span v-if="discount.discount_type == 'rate'">%</span></span>
-                        <input  @keyup="recalculateItems()" v-if=" discount.discount_type == 'rate'" v-model="discount.discount_rate" :disabled="view_mode" style="margin-top:5px; margin-bottom:5px; height:30px; min-height:30px; line-height:30px;" type="text" class="form-control">
-                        <input  @keyup="recalculateItems()" v-if="discount.discount_type == 'fixed'" v-model="discount.discount_fixed" :disabled="view_mode" style="margin-top:5px; margin-bottom:5px; height:30px; min-height:30px; line-height:30px;" type="text" class="form-control">
+                        <input  @keyup="changeAdditionalDiscount()" v-if=" discount.discount_type == 'rate'" v-model="discount.discount_rate" :disabled="view_mode" style="margin-top:5px; margin-bottom:5px; height:30px; min-height:30px; line-height:30px;" type="text" class="form-control">
+                        <input  @keyup="changeAdditionalDiscount()" v-if="discount.discount_type == 'fixed'" v-model="discount.discount_fixed" :disabled="view_mode" style="margin-top:5px; margin-bottom:5px; height:30px; min-height:30px; line-height:30px;" type="text" class="form-control">
                     </div>
                 </div>
 
@@ -39,10 +39,10 @@
                         <tr style="/*background:#abd1f5;*/" class="tr-grey">
                             <!--<th style="background:#77ade0;"></th>-->
                             <th colspan="2" style="border-bottom-color: #bbb !important;">Total</th>
-                            <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_BASE_RATE_TOTAL).toFixed(2) }}%</th>
-                            <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_BASE_AMOUNT_TOTAL).toFixed(2) }}</th>
+                            <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(BASE_RATE_TOTAL).toFixed(2) }}%</th>
+                            <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(BASE_AMOUNT_TOTAL).toFixed(2) }}</th>
                         </tr>
-                        <tr v-for="(discount,index) in __ADDITIONALS__" :key="'additional-discount-summary' + index">
+                        <tr v-for="(discount,index) in discounts.additionals" :key="'additional-discount-summary' + index">
                             <!--<th style="background:#77ade0;">
                                 <span v-if="index == 0">2</span>
                             </th>-->
@@ -56,10 +56,10 @@
                         <tr style="/*background:#abd1f5;*/" class="tr-grey">
                             <!--<th></th>-->
                             <th style="border-bottom-color: #bbb !important;" colspan="2">Total</th>
-                            <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_ADDITIONAL_RATE_TOTAL).toFixed(2) }}%</th>
-                            <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_ADDITIONAL_AMOUNT_TOTAL).toFixed(2) }}</th>
+                            <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(ADDITIONAL_RATE_TOTAL).toFixed(2) }}%</th>
+                            <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(ADDITIONAL_AMOUNT_TOTAL).toFixed(2) }}</th>
                         </tr>
-                        <tr v-for="(discount,index) in APPLIED_PRICE_RULE_DISCOUNTS" :key="'price-rule-discount-summary' + index">
+                        <tr v-for="(discount,index) in discounts.APPLIED_PRICE_RULE_DISCOUNTS" :key="'price-rule-discount-summary' + index">
                                 <!--<th style="background:#77ade0;">
                                 <span v-if="index == 0">3</span>
                             </th>-->
@@ -73,8 +73,8 @@
                         <tr style="/*background:#abd1f5;*/" class="tr-grey">
                             <!--<th></th>-->
                             <th colspan="2" style="border-bottom-color: #bbb !important;">Total</th>
-                            <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_PRICE_RULE_RATE_TOTAL).toFixed(2) }}%</th>
-                            <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_PRICE_RULE_AMOUNT_TOTAL).toFixed(2) }}</th>
+                            <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(PRICE_RULE_RATE_TOTAL).toFixed(2) }}%</th>
+                            <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(PRICE_RULE_AMOUNT_TOTAL).toFixed(2) }}</th>
                         </tr>
                         <tr style="background:#abd1f5;">
                             <!--<th style="background:#77ade0;"></th>-->
@@ -102,24 +102,81 @@ export default {
     data: function () {
         return {
             is_ready: false,
-            __BASE_DISCOUNTS__: [],
-            __PRICE_RULES__: [],
-            __ADDITIONALS__: [],
+            view_mode: false,
+            discounts: {
+                base: [],
+                price_rules: [],
+                additionals: [],
+            },
+            /* BASE */
+            BASE_AMOUNT_TOTAL: 0.00,
+            BASE_RATE_TOTAL: 0.00,
+            /* PRICE RULE */
+            PRICE_RULE_AMOUNT_TOTAL: 0.00,
+            PRICE_RULE_RATE_TOTAL: 0.00,
+            /* ADDITIONAL */
+            ADDITIONAL_AMOUNT_TOTAL: 0.00,
+            ADDITIONAL_RATE_TOTAL: 0.00,
+
+            CHANGE_ADDITIONAL_DISCOUNT_TIMER: null,
         }
     },
     components: {
 
     },
     computed: {
-     
+        APPLIED_BASE_DISCOUNTS: function () {
+            var BASE_AMOUNT_TOTAL = this.BASE_AMOUNT_TOTAL
+            return  this.discounts.base.filter(discount => {
+                return parseFloat(discount.discount_amount) > 0
+            })
+        },
+        APPLIED_PRICE_RULE_DISCOUNTS: function () {
+            var PRICE_RULE_AMOUNT_TOTAL = this.PRICE_RULE_AMOUNT_TOTAL
+            return this.discounts.price_rules.filter(discount => {
+                return discount.discount_amount && discount.discount_amount > 0
+            })
+        },
+        DISCOUNT_SUMMARY_TOTAL: function () {
+            var total = parseFloat(this.ADDITIONAL_AMOUNT_TOTAL) + parseFloat(this.BASE_AMOUNT_TOTAL) + parseFloat(this.PRICE_RULE_AMOUNT_TOTAL)
+            return total.toFixed(2)
+        },
+        DISCOUNT_SUMMARY_RATE_TOTAL: function () {
+            var total = parseFloat(this.ADDITIONAL_RATE_TOTAL) + parseFloat(this.BASE_RATE_TOTAL) + parseFloat(this.PRICE_RULE_RATE_TOTAL)
+            return total.toFixed(2)
+        }
     },
     methods: {
-        updateDiscounts: function () {
-            alert('updated!')
+        updateDISCOUNTS: function (DISCOUNTS,TOTALS) {
+            var scope = this
+            scope.discounts = DISCOUNTS
+
+            /* BASE */
+            scope.BASE_AMOUNT_TOTAL = TOTALS.BASE_AMOUNT_TOTAL
+            scope.BASE_RATE_TOTAL = TOTALS.BASE_RATE_TOTAL
+            /* PRICE RULE */
+            scope.PRICE_RULE_AMOUNT_TOTAL = TOTALS.PRICE_RULE_AMOUNT_TOTAL
+            scope.PRICE_RULE_RATE_TOTAL= TOTALS.PRICE_RULE_RATE_TOTAL
+            /* ADDITIONAL */
+            scope.ADDITIONAL_AMOUNT_TOTAL = TOTALS.ADDITIONAL_AMOUNT_TOTAL
+            scope.ADDITIONAL_RATE_TOTAL = TOTALS.ADDITIONAL_RATE_TOTAL
+        },
+        changeAdditionalDiscount: function () {
+             var scope = this  
+            if (scope.CHANGE_ADDITIONAL_DISCOUNT_TIMER) {
+                clearTimeout(scope.CHANGE_ADDITIONAL_DISCOUNT_TIMER);
+                scope.CHANGE_ADDITIONAL_DISCOUNT_TIMER = null;
+            }
+
+            scope.CHANGE_ADDITIONAL_DISCOUNT_TIMER = setTimeout(() => {
+              scope.$parent.$refs.items.updateADDITIONALDISCOUNTS(scope.discounts.additionals)
+            }, 300);
         }
     },
     mounted() {
         var scope = this
+        // scope.$parent.$refs.items.diiiissscccouunnnt();
+        // console.log('__BASE_DISCOUNTS__ ====> ', scope.discounts)
     },
 }
 </script>
