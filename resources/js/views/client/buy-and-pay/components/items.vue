@@ -188,7 +188,7 @@ import moment from 'moment'
 
 export default {
     name: 'purchase-order',
-    props: ['properties','view_mode','order'],
+    props: ['properties','view_mode','order','VAT'],
     data: function () {
         return {
             is_ready: false,
@@ -334,6 +334,8 @@ export default {
             item.total_amount = item.net_amount + item.vat_amount 
 
             //scope.calculateDiscounts();
+
+            scope.$parent.updateItemList()
             
         },
         recalculateItems: function () {
@@ -763,6 +765,7 @@ export default {
                             scope.selectedItem = latest
                             scope.calculate(latest)
                             scope.calculateDiscounts()
+                           
                             $('#autocomplete').val('')
 
 
@@ -848,6 +851,9 @@ export default {
                 } 
             })
         },
+        getSelectedItems: function () {
+            return this.selected_items
+        }
     },
     mounted() {
         var scope = this

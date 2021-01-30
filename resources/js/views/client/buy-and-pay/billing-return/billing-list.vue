@@ -143,7 +143,7 @@
                         <template v-else>
                             <tr>
                                 <td colspan="11" class="text-center">
-                                    <strong style="display: block; height: 30px; line-height: 30px;">No Bill has been added yet.</strong>
+                                    <strong style="display: block; height: 30px; line-height: 30px;">No Transactions</strong>
                                 </td>
                             </tr>
                         </template>

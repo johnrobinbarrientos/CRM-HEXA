@@ -25,7 +25,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(base_discount,index) in APPLIED_BASE_DISCOUNTS" :key="'base-discount-summary' + index" class="tr-greyish">
+                        <tr v-for="(base_discount,index) in APPLIED_BASE_DISCOUNTS" :key="'base-discount-summary' + index">
                             <!--<th style="background:#77ade0;">
                                 <span v-if="index == 0">1</span>
                             </th>-->
@@ -38,7 +38,7 @@
                         </tr>
                         <tr style="/*background:#abd1f5;*/" class="tr-grey">
                             <!--<th style="background:#77ade0;"></th>-->
-                            <th colspan="2" style="border-bottom-color: #bbb !important;">Base Total</th>
+                            <th colspan="2" style="border-bottom-color: #bbb !important;">Total</th>
                             <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_BASE_RATE_TOTAL).toFixed(2) }}%</th>
                             <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_BASE_AMOUNT_TOTAL).toFixed(2) }}</th>
                         </tr>
@@ -55,11 +55,11 @@
                         </tr>
                         <tr style="/*background:#abd1f5;*/" class="tr-grey">
                             <!--<th></th>-->
-                            <th style="border-bottom-color: #bbb !important;" colspan="2">Additional Total</th>
+                            <th style="border-bottom-color: #bbb !important;" colspan="2">Total</th>
                             <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_ADDITIONAL_RATE_TOTAL).toFixed(2) }}%</th>
                             <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_ADDITIONAL_AMOUNT_TOTAL).toFixed(2) }}</th>
                         </tr>
-                        <tr v-for="(discount,index) in APPLIED_PRICE_RULE_DISCOUNTS" :key="'price-rule-discount-summary' + index" class="tr-greyish">
+                        <tr v-for="(discount,index) in APPLIED_PRICE_RULE_DISCOUNTS" :key="'price-rule-discount-summary' + index">
                                 <!--<th style="background:#77ade0;">
                                 <span v-if="index == 0">3</span>
                             </th>-->
@@ -72,13 +72,13 @@
                         </tr>
                         <tr style="/*background:#abd1f5;*/" class="tr-grey">
                             <!--<th></th>-->
-                            <th colspan="2" style="border-bottom-color: #bbb !important;">Price Rule Total</th>
+                            <th colspan="2" style="border-bottom-color: #bbb !important;">Total</th>
                             <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_PRICE_RULE_RATE_TOTAL).toFixed(2) }}%</th>
                             <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_PRICE_RULE_AMOUNT_TOTAL).toFixed(2) }}</th>
                         </tr>
                         <tr style="background:#abd1f5;">
                             <!--<th style="background:#77ade0;"></th>-->
-                            <th colspan="2">TOTAL DISCOUNT</th>
+                            <th colspan="2">Overall Total</th>
                             <th class="text-right">{{ DISCOUNT_SUMMARY_RATE_TOTAL }}%</th>
                             <th class="text-right">{{ PUT_SEPARATOR(DISCOUNT_SUMMARY_TOTAL) }}</th>
                         </tr>
@@ -89,3 +89,37 @@
 
     </div>
 </template>
+
+
+<script>
+
+import Swal from 'sweetalert2'
+import moment from 'moment'
+
+export default {
+    name: 'purchase-order',
+    props: ['properties',],
+    data: function () {
+        return {
+            is_ready: false,
+            __BASE_DISCOUNTS__: [],
+            __PRICE_RULES__: [],
+            __ADDITIONALS__: [],
+        }
+    },
+    components: {
+
+    },
+    computed: {
+     
+    },
+    methods: {
+        updateDiscounts: function () {
+            alert('updated!')
+        }
+    },
+    mounted() {
+        var scope = this
+    },
+}
+</script>

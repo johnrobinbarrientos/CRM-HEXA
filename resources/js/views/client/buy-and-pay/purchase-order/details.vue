@@ -65,7 +65,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="branch-name">Transaction Date</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker class="form-control" v-model="order.date_purchased" :config="{format: 'YYYY-MM-DD'}"></date-picker>
+                                                    <date-picker class="form-control" v-model="order.date_purchased" :config="{format: 'DD-MMM-YYYY'}"></date-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -81,7 +81,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="date-expected">Expected Date</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker class="form-control" v-model="order.date_expected" :config="{format: 'YYYY-MM-DD'}"></date-picker>
+                                                    <date-picker class="form-control" v-model="order.date_expected" :config="{format: 'DD-MMM-YYYY'}"></date-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -199,7 +199,7 @@
                                             <th>VAT</th>
                                             <th>Total</th>
                                             
-                                            <th>Price Rule?</th>
+                                            <th>Price Rule</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -314,7 +314,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="(base_discount,index) in APPLIED_BASE_DISCOUNTS" :key="'base-discount-summary' + index" class="tr-greyish">
+                                                <tr v-for="(base_discount,index) in APPLIED_BASE_DISCOUNTS" :key="'base-discount-summary' + index">
                                                     <!--<th style="background:#77ade0;">
                                                         <span v-if="index == 0">1</span>
                                                     </th>-->
@@ -327,7 +327,7 @@
                                                 </tr>
                                                 <tr style="/*background:#abd1f5;*/" class="tr-grey">
                                                     <!--<th style="background:#77ade0;"></th>-->
-                                                    <th colspan="2" style="border-bottom-color: #bbb !important;">Base Total</th>
+                                                    <th colspan="2" style="border-bottom-color: #bbb !important;">Total</th>
                                                     <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_BASE_RATE_TOTAL).toFixed(2) }}%</th>
                                                     <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_BASE_AMOUNT_TOTAL).toFixed(2) }}</th>
                                                 </tr>
@@ -344,11 +344,11 @@
                                                 </tr>
                                                 <tr style="/*background:#abd1f5;*/" class="tr-grey">
                                                     <!--<th></th>-->
-                                                    <th style="border-bottom-color: #bbb !important;" colspan="2">Additional Total</th>
+                                                    <th style="border-bottom-color: #bbb !important;" colspan="2">Total</th>
                                                     <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_ADDITIONAL_RATE_TOTAL).toFixed(2) }}%</th>
                                                     <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_ADDITIONAL_AMOUNT_TOTAL).toFixed(2) }}</th>
                                                 </tr>
-                                                <tr v-for="(discount,index) in APPLIED_PRICE_RULE_DISCOUNTS" :key="'price-rule-discount-summary' + index" class="tr-greyish">
+                                                <tr v-for="(discount,index) in APPLIED_PRICE_RULE_DISCOUNTS" :key="'price-rule-discount-summary' + index">
                                                      <!--<th style="background:#77ade0;">
                                                         <span v-if="index == 0">3</span>
                                                     </th>-->
@@ -361,13 +361,13 @@
                                                 </tr>
                                                 <tr style="/*background:#abd1f5;*/" class="tr-grey">
                                                     <!--<th></th>-->
-                                                    <th colspan="2" style="border-bottom-color: #bbb !important;">Price Rule Total</th>
+                                                    <th colspan="2" style="border-bottom-color: #bbb !important;">Total</th>
                                                     <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_PRICE_RULE_RATE_TOTAL).toFixed(2) }}%</th>
                                                     <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(DISCOUNT_PRICE_RULE_AMOUNT_TOTAL).toFixed(2) }}</th>
                                                 </tr>
                                                 <tr style="background:#abd1f5;">
                                                     <!--<th style="background:#77ade0;"></th>-->
-                                                    <th colspan="2">TOTAL DISCOUNT</th>
+                                                    <th colspan="2">Overall Total</th>
                                                     <th class="text-right">{{ DISCOUNT_SUMMARY_RATE_TOTAL }}%</th>
                                                     <th class="text-right">{{ putSeparator(DISCOUNT_SUMMARY_TOTAL) }}</th>
                                                 </tr>
@@ -385,7 +385,6 @@
                                         <table class="table-discount-summary table table-striped table-bordered"> 
                                             <thead>
                                                 <tr >
-                                                    <th width="30">#</th>
                                                     <th width="150">Tax Type</th>
                                                     <th>Rate</th>
                                                     <th>Amount</th>
@@ -393,9 +392,6 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <th style="background:#77ade0;">
-                                                        <span>1</span>
-                                                    </th>
                                                     <th >
                                                         <span>Value Added Tax</span>
                                                     </th>

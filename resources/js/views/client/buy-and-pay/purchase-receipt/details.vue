@@ -57,7 +57,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="branch-name">Transaction Date</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker v-model="date_received" :config="{format: 'YYYY-MM-DD'}" disabled="true"></date-picker>
+                                                    <date-picker v-model="date_received" :config="{format: 'DD-MMM-YYYY'}" disabled="true"></date-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -73,7 +73,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="date-expected">Expected Date</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker class="form-control disabled" v-model="date_expected" :config="{format: 'YYYY-MM-DD'}" disabled="true"></date-picker>
+                                                    <date-picker class="form-control disabled" v-model="date_expected" :config="{format: 'DD-MMM-YYYY'}" disabled="true"></date-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -188,7 +188,7 @@
                                             <th>VAT Amount</th>
                                             <th>Total Amount</th>
                                             
-                                            <th>Price Rule?</th>
+                                            <th>Price Rule</th>
                                             <th>Reason Code</th>
                                         </tr>
                                     </thead>

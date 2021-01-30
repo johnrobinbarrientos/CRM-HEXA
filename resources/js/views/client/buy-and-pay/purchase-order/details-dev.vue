@@ -164,11 +164,11 @@
 
                         <div class="tab-content">    
                             <div class="tab-pane active" id="item-details">
-                                <items :order="order"></items>
+                                <items ref="items" :order="order" :VAT="VAT"></items>
                             </div>
 
                             <div class="tab-pane" id="discounts">
-                                <discounts :order="order"></discounts>
+                                <discounts ref="discounts" :order="order"></discounts>
                             </div>
 
                             <div class="tab-pane" id="tax">
@@ -198,7 +198,11 @@ export default {
     data: function () {
         return {
             is_ready: false,
-            order: null
+            order: null,
+            __BASE_DISCOUNTS__: [],
+            __PRICE_RULES__: [],
+            __ADDITIONALS__: [],
+            SELECTED_ITEMS: [],
         }
     },
     components: {
@@ -240,9 +244,13 @@ export default {
             */
 
             return TOTAL
-        }
+        },
     },
     methods: {
+        updateItemList: function () {
+            var scope = this
+            scope.SELECTED_ITEMS = scope.$refs.items.getSelectedItems()
+        },
         getOrderDetails: function (order_uuid) {
             var scope = this
             scope.GET('buy-and-pay/orders/' + order_uuid).then(res => {
@@ -308,8 +316,6 @@ export default {
         var scope = this
         var order_uuid = scope.$route.params.order_uuid;
         scope.getOrderDetails(order_uuid)
-
-       
 
         /*
         $(document).on('blur','#autocomplete',function(){

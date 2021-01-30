@@ -35,7 +35,7 @@
                                 <td width="200" class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
                                 <td width="100">{{ purchase.branch.branch_name.toUpperCase() }}</td>
                                 <td>{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
-                                <td width="100">{{ purchase.date_purchased }}</td>
+                                <td width="100">{{ moment(purchase.date_purchased) }}</td>
 
                                 <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
                                 <td v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
@@ -108,6 +108,9 @@ export default {
         }
     },
     methods: {
+        moment: function (date) {
+            return moment(date).format('DD-MMM-YYYY')
+        },
         putSeparator: function(value) {
             var num_parts = value.toString().split(".");
             num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
