@@ -24,8 +24,6 @@ class PriceRuleSupplierItemController extends Controller
             return response()->json(['success' => 0, 'message' => 'An error occur while saving..'], 500);
         }
 
-        $auth = \Auth::user();
-        $priceRuleItem->company_id = $auth->company_id;
         $priceRuleItem->price_rule_supplier_detail_uuid = $priceRuleSupplierDetailUUID;
         $priceRuleItem->item_uuid = request()->item_uuid;
         $priceRuleItem->save();

@@ -12,7 +12,7 @@ class SupplierBaseDiscountGroupDetail extends Model
     protected $table = 'supplier_base_discount_group_details';
 
     protected $fillable = [
-        'uuid', 'company_id', 'supplier_base_discount_group_uuid', 'discount_name', 'discount_rate',
+        'uuid','supplier_base_discount_group_uuid', 'discount_name', 'discount_rate',
     ];
 
     protected $primaryKey = 'uuid';

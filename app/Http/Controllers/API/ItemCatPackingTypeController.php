@@ -37,8 +37,7 @@ class ItemCatPackingTypeController extends Controller
     public function save()
     {
         $cat = request()->uuid ? ItemCatPackingType::find(request()->uuid) : new ItemCatPackingType();
-        $auth = \Auth::user();
-        $cat->company_id = $auth->company_id;
+
         $cat->packing_type = request()->packing_type;
         $cat->save();
 

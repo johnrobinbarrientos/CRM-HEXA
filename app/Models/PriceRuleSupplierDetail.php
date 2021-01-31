@@ -12,7 +12,7 @@ class PriceRuleSupplierDetail extends Model
     protected $table = 'price_rule_supplier_details';
 
     protected $fillable = [
-        'uuid', 'company_id', 'price_rule_supplier_uuid', 'supplier_uuid', 
+        'uuid','price_rule_supplier_uuid', 'supplier_uuid', 
         'applied_to',
     ];
 

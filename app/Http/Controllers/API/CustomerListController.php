@@ -48,7 +48,6 @@ class CustomerListController extends Controller
             $auth = \Auth::user();
 
             $customer = new CustomerList();
-            $customer->company_id = $auth->company_id;
 
             $customer->save();
         }
@@ -66,9 +65,6 @@ class CustomerListController extends Controller
             return response()->json(['success' => 0, 'data' => null, 'Not found'], 500);
         }
 
-
-        $auth = \Auth::user();
-        $customer->company_id = $auth->company_id;
         $customer->sold_to_name = request()->sold_to_name;
         $customer->business_group_name = request()->business_group_name;
         $customer->business_shortname = request()->business_shortname;
@@ -97,8 +93,7 @@ class CustomerListController extends Controller
             foreach ($discounts as $d)
             {
                 $discount = new CustomerDiscountRegular;
-                $auth = \Auth::user();
-                $discount->company_id = $auth->company_id;
+
                 $discount->customer_uuid = $customer->uuid;
                 $discount->discount_name = $d['discount_name'];
                 $discount->discount_rate = $d['discount_rate'];

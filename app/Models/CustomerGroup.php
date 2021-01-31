@@ -12,7 +12,7 @@ class CustomerGroup extends Model
     protected $table = 'customer_group';
 
     protected $fillable = [
-        'uuid', 'company_id', 'group_name', 'markup_rate',
+        'uuid','group_name', 'markup_rate',
     ];
 
     protected $primaryKey = 'uuid';

@@ -12,7 +12,7 @@ class SupplierList extends Model
     protected $table = 'supplier_list';
 
     protected $fillable = [
-        'uuid', 'company_id', 'supplier_name','supplier_shortname','tax_identification_no',
+        'uuid','supplier_name','supplier_shortname','tax_identification_no',
         'supplier_group_uuid','lead_time','is_transporter','vat_uuid','ewt_uuid','payment_term_uuid',
         'coa_payable_account_uuid','email','contact_no','global_address_uuid', 'address1',
     ];

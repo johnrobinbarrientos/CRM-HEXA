@@ -18,7 +18,7 @@ class SupplierBaseDiscountGroupItemController extends Controller
         $item_uuid = request()->item_uuid;
         $supplier_uuid = request()->supplier_uuid;
         $supplier_base_discount_group_uuid = request()->uuid;
-        $supplier_base_discount_group = SupplierBaseDiscountGroup::where('company_id','=',$auth->company_id)->where('uuid','=',$supplier_base_discount_group_uuid)->first();
+        $supplier_base_discount_group = SupplierBaseDiscountGroup::where('uuid','=',$supplier_base_discount_group_uuid)->first();
 
         if (!$supplier_base_discount_group) {
             return response()->json(['success' => 0, 'message' => 'An error occur while saving...'], 500);
@@ -45,7 +45,7 @@ class SupplierBaseDiscountGroupItemController extends Controller
         $item_uuid = request()->item_uuid;
         $supplier_base_discount_group_uuid = request()->uuid;
         
-        $supplier_base_discount_group = SupplierBaseDiscountGroup::where('company_id','=',$auth->company_id)->where('uuid','=',$supplier_base_discount_group_uuid)->first();
+        $supplier_base_discount_group = SupplierBaseDiscountGroup::where('uuid','=',$supplier_base_discount_group_uuid)->first();
 
         if (!$supplier_base_discount_group) {
             return response()->json(['success' => 0, 'message' => 'An error occur while saving...'], 500);

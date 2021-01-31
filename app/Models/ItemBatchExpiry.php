@@ -12,7 +12,7 @@ class ItemBatchExpiry extends Model
     protected $table = 'item_batch_expiry';
 
     protected $fillable = [
-        'uuid', 'company_id', 'item_uuid','batch_code','batch_name','date_expiry','accepted_qty',
+        'uuid','item_uuid','batch_code','batch_name','date_expiry','accepted_qty',
     ];
 
     protected $primaryKey = 'uuid';

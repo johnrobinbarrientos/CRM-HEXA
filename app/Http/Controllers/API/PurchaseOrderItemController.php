@@ -80,8 +80,7 @@ class PurchaseOrderItemController extends Controller
         }
      
 
-        $price_rule_supplier_uuids = PriceRuleSupplier::where('company_id','=',$auth->company_id)
-            ->where('date_start','<=',$po_date)
+        $price_rule_supplier_uuids = PriceRuleSupplier::where('date_start','<=',$po_date)
             ->where('date_end','>=',$po_date)
             ->pluck('uuid')
             ->toArray();
@@ -169,7 +168,6 @@ class PurchaseOrderItemController extends Controller
             $order_detail = PurchaseOrderItem::where('bp_order_uuid','=',$orderUUID)->where('item_uuid','=',$item->uuid)->where('barcode','=',$item->barcode)->withTrashed()->first();
             $order_detail = ($order_detail) ? $order_detail : new PurchaseOrderItem;
 
-            $order_detail->company_id               = $auth->company_id;
             $order_detail->bp_order_uuid            = $order->uuid;
             $order_detail->item_uuid                = $item->uuid;
             $order_detail->barcode                  = $item->barcode;
@@ -252,7 +250,6 @@ class PurchaseOrderItemController extends Controller
   
             $additional_discount = ($additional_discount) ? $additional_discount : new  PurchaseOrderAdditionalDiscount;
 
-            $additional_discount->company_id               = $auth->company_id;
             $additional_discount->bp_order_uuid            = $order->uuid;
             $additional_discount->discount_name            = $discount->discount_name;
             $additional_discount->discount_type            = $discount->discount_type;
@@ -298,7 +295,6 @@ class PurchaseOrderItemController extends Controller
 
                 $buy_and_pay_order_base_discount_group_item = ($buy_and_pay_order_base_discount_group_item) ? $buy_and_pay_order_base_discount_group_item : new PurchaseOrderBaseDiscountGroupItem;
 
-                $buy_and_pay_order_base_discount_group_item->company_id = $auth->company_id;
                 $buy_and_pay_order_base_discount_group_item->bp_order_uuid = $order->uuid;
                 $buy_and_pay_order_base_discount_group_item->item_uuid = $discounted_item->item_uuid;
                 $buy_and_pay_order_base_discount_group_item->supplier_uuid = $discounted_item->supplier_uuid;
@@ -316,8 +312,7 @@ class PurchaseOrderItemController extends Controller
         
         $po_date = date('Y-m-d',strtotime($order->date_purchased));
 
-        $price_rule_supplier_uuids = PriceRuleSupplier::where('company_id','=',$auth->company_id)
-            ->where('date_start','<=',$po_date)
+        $price_rule_supplier_uuids = PriceRuleSupplier::where('date_start','<=',$po_date)
             ->where('date_end','>=',$po_date)
             ->pluck('uuid')
             ->toArray();
@@ -354,7 +349,6 @@ class PurchaseOrderItemController extends Controller
 
                
                 $po_price_rule = ($po_price_rule) ? $po_price_rule : new PurchasePriceRule;
-                $po_price_rule->company_id                 = $auth->company_id;
                 $po_price_rule->price_rule_supplier_uuid   = $price_rule_supplier_detail->price_rule_supplier_uuid;
                 $po_price_rule->bp_order_uuid              = $order->uuid;
                 $po_price_rule->rule_name                  = $price_rule_supplier->rule_name;
@@ -373,7 +367,6 @@ class PurchaseOrderItemController extends Controller
                     ->first();
 
                 $po_price_rule_detail = ($po_price_rule_detail) ? $po_price_rule_detail : new PurchasePriceRuleDetail;
-                $po_price_rule_detail->company_id                  = $auth->company_id;
                 $po_price_rule_detail->bp_order_uuid               = $order->uuid;
                 $po_price_rule_detail->bp_price_rule_uuid          = $po_price_rule->uuid;
                 $po_price_rule_detail->supplier_uuid               = $price_rule_supplier_detail->supplier_uuid;
@@ -402,7 +395,6 @@ class PurchaseOrderItemController extends Controller
                     ->first();
 
                 $po_price_rule = ($po_price_rule) ? $po_price_rule : new PurchasePriceRule;
-                $po_price_rule->company_id                 = $auth->company_id;
                 $po_price_rule->price_rule_supplier_uuid   = $price_rule_supplier_detail->price_rule_supplier_uuid;
                 $po_price_rule->bp_order_uuid              = $order->uuid;
                 $po_price_rule->rule_name                  = $price_rule_supplier->rule_name;
@@ -421,7 +413,6 @@ class PurchaseOrderItemController extends Controller
                     ->first();
 
                 $po_price_rule_detail = ($po_price_rule_detail) ? $po_price_rule_detail : new PurchasePriceRuleDetail;
-                $po_price_rule_detail->company_id                  = $auth->company_id;
                 $po_price_rule_detail->bp_order_uuid               = $order->uuid;
                 $po_price_rule_detail->bp_price_rule_uuid          = $po_price_rule->uuid;
                 $po_price_rule_detail->supplier_uuid               = $price_rule_supplier_detail->supplier_uuid;
@@ -447,7 +438,6 @@ class PurchaseOrderItemController extends Controller
 
 
                     $po_price_rule_item = ($po_price_rule_item) ? $po_price_rule_item : new PurchasePriceRuleItem;
-                    $po_price_rule_item->company_id                    = $auth->company_id;
                     $po_price_rule_item->bp_order_uuid                 = $order->uuid;
                     $po_price_rule_item->bp_price_rule_detail_uuid     = $po_price_rule_detail->uuid;
                     $po_price_rule_item->item_uuid                     = $item->uuid;

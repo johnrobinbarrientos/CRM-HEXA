@@ -12,7 +12,7 @@ class ItemAssetGroup extends Model
     protected $table = 'item_asset_group';
 
     protected $fillable = [
-        'uuid', 'company_id', 'asset_group',
+        'uuid','asset_group',
     ];
 
     protected $primaryKey = 'uuid';

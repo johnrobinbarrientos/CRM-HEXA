@@ -37,8 +37,6 @@ class CompanyAccountingPeriodController extends Controller
     public function save()
     {
         $period = request()->uuid ? CompanyAccountingPeriod::find(request()->uuid) : new CompanyAccountingPeriod();
-        $auth = \Auth::user();
-        $period->company_id = $auth->company_id;
         $period->year_name = request()->year_name;
         $period->jan_is_open = request()->jan_is_open;
         $period->feb_is_open = request()->feb_is_open;

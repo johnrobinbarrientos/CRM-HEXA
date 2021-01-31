@@ -12,7 +12,7 @@ class PriceRuleCustomerItem extends Model
     protected $table = 'price_rule_customer_items';
 
     protected $fillable = [
-        'uuid', 'company_id', 'price_rule_customer_uuid', 'item_uuid',
+        'uuid','price_rule_customer_uuid', 'item_uuid',
     ];
 
     protected $primaryKey = 'uuid';

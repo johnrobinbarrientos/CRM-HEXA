@@ -37,7 +37,6 @@ class UserController extends Controller
     public function store()
     {
         $user = new User();
-        $user->company_id = request()->company_id;
         $user->first_name = request()->first_name;
         $user->last_name = request()->last_name;
         $user->email = request()->email;
@@ -57,7 +56,6 @@ class UserController extends Controller
             return response()->json(['success' => 0, 'message' => 'Could not find user!'], 200);
         }
 
-        $user->company_id = request()->company_id;
         $user->first_name = request()->first_name;
         $user->last_name = request()->last_name;
         $user->email = request()->email;

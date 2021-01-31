@@ -38,8 +38,7 @@ class ItemAssetGroupController extends Controller
     public function save()
     {
         $itemAssetGroup = request()->uuid ? ItemAssetGroup::find(request()->uuid) : new ItemAssetGroup();
-        $auth = \Auth::user();
-        $itemAssetGroup->company_id = $auth->company_id;
+
         $itemAssetGroup->asset_group = request()->asset_group;
         $itemAssetGroup->save();
 

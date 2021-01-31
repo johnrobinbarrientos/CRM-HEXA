@@ -12,7 +12,7 @@ class ItemCatSizes extends Model
     protected $table = 'item_cat_sizes';
 
     protected $fillable = [
-        'uuid', 'company_id', 'sizes',
+        'uuid','sizes',
     ];
 
     protected $primaryKey = 'uuid';

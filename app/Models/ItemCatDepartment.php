@@ -12,7 +12,7 @@ class ItemCatDepartment extends Model
     protected $table = 'item_cat_department';
 
     protected $fillable = [
-        'uuid', 'company_id', 'department',
+        'uuid','department',
     ];
 
     protected $primaryKey = 'uuid';

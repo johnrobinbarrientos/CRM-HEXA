@@ -37,8 +37,7 @@ class ItemCatFormController extends Controller
     public function save()
     {
         $cat = request()->uuid ? ItemCatForm::find(request()->uuid) : new ItemCatForm();
-        $auth = \Auth::user();
-        $cat->company_id = $auth->company_id;
+
         $cat->form = request()->form;
         $cat->save();
 

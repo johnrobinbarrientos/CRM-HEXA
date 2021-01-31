@@ -12,7 +12,7 @@ class ItemCatItemType extends Model
     protected $table = 'item_cat_item_type';
 
     protected $fillable = [
-        'uuid', 'company_id', 'item_type',
+        'uuid','item_type',
     ];
 
     protected $primaryKey = 'uuid';

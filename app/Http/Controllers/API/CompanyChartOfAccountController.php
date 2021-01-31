@@ -38,8 +38,7 @@ class CompanyChartOfAccountController extends Controller
     public function save()
     {
         $chartOfAccounts = request()->uuid ? CompanyChartOfAccount::find(request()->uuid) : new CompanyChartOfAccount();
-        $auth = \Auth::user();
-        $chartOfAccounts->company_id = $auth->company_id;
+
         $chartOfAccounts->code = request()->code;
         $chartOfAccounts->account_name = request()->account_name;
         $chartOfAccounts->coa_group_uuid = request()->coa_group_uuid;

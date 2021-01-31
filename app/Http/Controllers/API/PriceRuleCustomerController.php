@@ -18,8 +18,7 @@ class PriceRuleCustomerController extends Controller
     public function save()
     {
         $customerRule = request()->uuid ? PriceRuleCustomer::find(request()->uuid) : new PriceRuleCustomer();
-        $auth = \Auth::user();
-        $customerRule->company_id = $auth->company_id;
+
         $customerRule->rule_name = request()->rule_name;
         $customerRule->rate = request()->rate;
         $customerRule->date_start = request()->date_start;

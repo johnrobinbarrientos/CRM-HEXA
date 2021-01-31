@@ -12,7 +12,7 @@ class EmployeeEmploymentStatus extends Model
     protected $table = 'employee_employment_status';
 
     protected $fillable = [
-        'uuid', 'company_id','employment_status',
+        'uuid','employment_status',
     ];
 
     protected $primaryKey = 'uuid';

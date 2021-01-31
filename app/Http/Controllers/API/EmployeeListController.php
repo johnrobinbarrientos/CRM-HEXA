@@ -65,7 +65,6 @@ class EmployeeListController extends Controller
             $auth = \Auth::user();
 
             $employee = new EmployeeList();
-            $employee->company_id = $auth->company_id;
 
             $employee->save();
         }
@@ -100,8 +99,7 @@ class EmployeeListController extends Controller
             return response()->json(['success' => 0, 'data' => null, 'Not found'], 500);
         }
 
-        $auth = \Auth::user();
-        $employee->company_id = $auth->company_id;
+
         $employee->emp_id = request()->emp_id;
         $employee->first_name = strtoupper(request()->first_name);
         $employee->middle_name = strtoupper(request()->middle_name);

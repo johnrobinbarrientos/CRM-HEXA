@@ -37,8 +37,7 @@ class CompanyDepartmentController extends Controller
     public function save()
     {
         $department = request()->uuid ? CompanyDepartment::find(request()->uuid) : new CompanyDepartment();
-        $auth = \Auth::user();
-        $department->company_id = $auth->company_id;
+
         $department->department = request()->department;
         $department->global_cost_center_uuid = request()->global_cost_center_uuid;
         $department->save();

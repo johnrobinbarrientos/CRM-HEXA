@@ -37,8 +37,7 @@ class SupplierGroupController extends Controller
     public function save()
     {
         $supplierGroup = request()->uuid ? SupplierGroup::find(request()->uuid) : new SupplierGroup();
-        $auth = \Auth::user();
-        $supplierGroup->company_id = $auth->company_id;
+
         $supplierGroup->group_name = request()->group_name;
         $supplierGroup->save();
 

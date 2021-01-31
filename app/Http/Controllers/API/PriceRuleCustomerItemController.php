@@ -18,8 +18,7 @@ class PriceRuleCustomerItemController extends Controller
     public function save()
     {
         $customerItem = request()->uuid ? PriceRuleCustomerItem::find(request()->uuid) : new PriceRuleCustomerItem();
-        $auth = \Auth::user();
-        $customerItem->company_id = $auth->company_id;
+
         $customerItem->price_rule_customer_uuid = request()->price_rule_customer_uuid;
         $customerItem->item_uuid = request()->item_uuid;
         $customerItem->save();

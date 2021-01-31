@@ -37,8 +37,7 @@ class EmployeeEmploymentStatusController extends Controller
     public function save()
     {
         $employmentStatus = request()->uuid ? EmployeeEmploymentStatus::find(request()->uuid) : new EmployeeEmploymentStatus();
-        $auth = \Auth::user();
-        $employmentStatus->company_id = $auth->company_id;
+
         $employmentStatus->employment_status = request()->employment_status;
         $employmentStatus->save();
 

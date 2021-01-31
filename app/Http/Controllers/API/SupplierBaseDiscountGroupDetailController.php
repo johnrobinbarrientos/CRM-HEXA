@@ -20,8 +20,7 @@ class SupplierBaseDiscountGroupDetailController extends Controller
     public function save($supplierDiscountGroupUUID)
     {
         $data = request()->uuid ? SupplierBaseDiscountGroupDetail::find(request()->uuid) : new SupplierBaseDiscountGroupDetail();
-        $auth = \Auth::user();
-        $data->company_id = $auth->company_id;
+
         $data->supplier_base_discount_group_uuid = $supplierDiscountGroupUUID;
         $data->discount_name = request()->discount_name;
         $data->discount_rate = request()->discount_rate;

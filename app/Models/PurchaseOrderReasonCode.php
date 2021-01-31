@@ -12,7 +12,7 @@ class PurchaseOrderReasonCode extends Model
     protected $table = 'purchase_order_reason_codes';
 
     protected $fillable = [
-        'uuid', 'company_id', 'short_name','details',
+        'uuid','short_name','details',
     ];
 
     protected $primaryKey = 'uuid';

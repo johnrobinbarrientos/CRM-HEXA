@@ -169,9 +169,7 @@ class PurchaseBillingController extends Controller
 
     public function getCompanyPrefix()
     {
-        $auth = \Auth::user();
         $prefix = CompanyList::whereNull('deleted_at')
-        ->where('id',$auth->company_id)
         ->pluck('prefix')
         ->first();
 
@@ -180,9 +178,7 @@ class PurchaseBillingController extends Controller
 
     public function getNumberOfTransactions($uuid)
     {
-        $auth = \Auth::user();
         $no_of_transactions = PurchaseOrder::whereNull('deleted_at')
-        ->where('company_id',$auth->company_id)
         ->where('billing_no','!=','')
         ->whereDate('created_at',date('Y-m-d'))->count();
 
