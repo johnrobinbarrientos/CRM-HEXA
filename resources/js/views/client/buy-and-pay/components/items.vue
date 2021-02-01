@@ -784,7 +784,7 @@ export default {
                             suggestion.quantity = 1
 
                           
-                            if (!scope.VAT && suggestion.without_vat) {
+                            if (!scope.VAT_RATE && suggestion.without_vat) {
                                 alert('You cannot add vatable item on non-vatable supplier...')
                                 return;
                             }

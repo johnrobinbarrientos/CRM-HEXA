@@ -247,11 +247,11 @@ export default {
         },
         save: function() {
             var scope = this
-
             scope.PUT('buy-and-pay/orders/' + scope.order.uuid , { date_purchased: scope.order.date_purchased, date_expected: scope.order.date_expected, is_apply_tax: scope.order.is_apply_tax }).then(res => {
-                return;
+                alert('saved!')
                 if (res.success) {
-                    scope.saveOrderItems()
+                    alert('HEY@')
+                    scope.$refs.items.saveOrderItems() 
                 }
             })
         },
