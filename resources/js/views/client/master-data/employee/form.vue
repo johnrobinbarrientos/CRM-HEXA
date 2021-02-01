@@ -803,7 +803,7 @@ export default {
                     window.swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Employee Updated',
+                        title: 'Saved',
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
@@ -814,8 +814,8 @@ export default {
                 }
             }).catch(error => {
                 if (error.response.status == 411){
-                    console.log('asdsadasdsdd')
-                    console.log(error.response)
+                    // console.log('asdsadasdsdd')
+                    // console.log(error.response)
                 }
             })     
 
@@ -843,12 +843,12 @@ export default {
             }
 
             window.swal.fire({
-                title: 'Update Record?',
+                title: 'Update?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#548235',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Update it!',
+                confirmButtonText: 'Yes',
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
@@ -864,7 +864,7 @@ export default {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Employee Updated',
+                                title: 'Updated',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
@@ -876,8 +876,8 @@ export default {
                         }
                     }).catch(error => {
                         if (error.response.status == 411){
-                        console.log('asdsadasdsdd')
-                        console.log(error.response)
+                        // console.log('asdsadasdsdd')
+                        // console.log(error.response)
                 }
                     })            
                 }                              
@@ -888,8 +888,7 @@ export default {
             var scope = this
 
             window.swal.fire({
-                title: 'Are you sure?',
-                text: 'You won\'t be able to revert this',
+                title: 'Delete?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#548235',
@@ -903,7 +902,7 @@ export default {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Employee Deleted',
+                                title: 'Deleted',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {

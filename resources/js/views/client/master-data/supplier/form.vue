@@ -518,7 +518,7 @@ export default {
                     window.swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Supplier Successfuly Saved',
+                        title: 'Saved',
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
@@ -542,12 +542,12 @@ export default {
             scope.formdata.with_ewt = scope.with_ewt
             
             window.swal.fire({
-                title: 'Update Record?',
+                title: 'Update?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#548235',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Update it!',
+                confirmButtonText: 'Yes',
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
@@ -556,7 +556,7 @@ export default {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Supplier Successfuly Updated',
+                                title: 'Updated',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
