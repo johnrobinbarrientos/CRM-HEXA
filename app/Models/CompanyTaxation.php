@@ -12,7 +12,7 @@ class CompanyTaxation extends Model
     protected $table = 'company_taxation';
 
     protected $fillable = [
-        'uuid', 'company_id', 'tax_type','tax_name','tax_rate',
+        'uuid','tax_type','tax_name','tax_rate',
     ];
 
     protected $primaryKey = 'uuid';

@@ -37,8 +37,7 @@ class CompanyCOAReportGroupController extends Controller
     public function save()
     {
         $reportGroup = request()->uuid ? CompanyChartOfAccountReportGroup::find(request()->uuid) : new CompanyChartOfAccountReportGroup();
-        $auth = \Auth::user();
-        $reportGroup->company_id = $auth->company_id;
+
         $reportGroup->coa_report_name = request()->coa_report_name;
         $reportGroup->save();
 

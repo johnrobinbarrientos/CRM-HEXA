@@ -137,28 +137,28 @@
                     </div>
 
                     <br/>
-                    <div class="hx-nav-tabs-override">
-                        <ul class="nav nav-tabs">    
-                            <li class="nav-item">        
-                                <a class="nav-link active" data-toggle="tab" href="#account">Financial Account</a>    
-                            </li>    
-                            <li class="nav-item">        
-                                <a class="nav-link" data-toggle="tab" href="#category">Category</a>    
-                            </li>
-                            <li class="nav-item">        
-                                <a class="nav-link" data-toggle="tab" href="#unit-of-measure">Unit of Measure</a>    
-                            </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" data-toggle="tab" href="#pricing">Pricing</a>           
-                            </li>
-                            <li class="nav-item" v-show="show_asset_group">        
-                                <a class="nav-link" data-toggle="tab" href="#asset">Asset 2</a>    
+                    <div class="hx-tab-2 tabbed round">
+                        <ul class="nav nav-tabs">
+                            <li>        
+                                <a class="" data-toggle="tab" href="#supplier-discounts">Discounts</a>    
+                            </li>  
+                            <li v-show="show_asset_group">        
+                                <a class="" data-toggle="tab" href="#asset">Asset 2</a>    
                             </li> 
-                            <li class="nav-item">        
-                                <a class="nav-link" data-toggle="tab" href="#supplier-discounts">Discounts</a>    
-                            </li>   
+                            <li> 
+                                <a class="" data-toggle="tab" href="#pricing">Pricing</a>           
+                            </li>
+                            <li>
+                                <a class="" data-toggle="tab" href="#unit-of-measure">Unit of Measure</a>    
+                            </li>
+                            <li>
+                                <a class="" data-toggle="tab" href="#category">Category</a>    
+                            </li>
+                            <li>
+                                <a class="active" data-toggle="tab" href="#account">Financial Account</a>    
+                            </li>    
                         </ul>
-
+                        <div class="clearfix"></div>
                         <div class="tab-content">    
                             <div class="tab-pane active" id="account">
                                     <div class="row">
@@ -1340,5 +1340,104 @@ export default {
   color: black !important;
 }
 .nav-tabs-custom .nav-item .nav-link::after { content: none; }
+
+
+
+.tabbed {
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 68px;
+    overflow: hidden;
+    transition: border 250ms ease;
+}
+
+.tabbed  ul.nav {
+    display: unset;
+    flex-wrap: unset;
+}
+.tabbed .tab-content { border: 1px solid #ced4da; border-top: 4px solid var(--shine-blue); padding: 15px; border-radius: 4px; }
+.tabbed  ul.nav-tabs { border-bottom: unset; }
+
+.tabbed ul {
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    float: left;
+    padding-left: 48px;
+    list-style-type: none;
+}
+
+.tabbed li { float: right; }
+
+.tabbed ul li a {
+    display: block;
+    float: right;
+    padding: 10px 24px 8px;
+    background-color:#f1f1f1;
+    margin-right: 46px;
+    z-index: 2;
+    position: relative;
+    cursor: pointer;
+    color: #495057;
+    text-transform: uppercase;
+    font: 600 13px/20px roboto, "Open Sans", Helvetica, sans-serif;
+    transition: all 250ms ease;
+}
+
+.tabbed ul * {
+    margin: 0px;
+    padding: 0px;
+}
+
+/* Round Tabs */
+.tabbed.round ul li a {
+  border-radius: 4px 4px 0 0;
+}
+.tabbed.round ul li a:before {
+  border-radius: 0 4px 0 0;
+}
+.tabbed.round ul li a:after {
+  border-radius: 4px 0 0 0;
+}
+
+.tabbed ul li a:before, .tabbed ul li a:after {
+    display: block;
+    content: " ";
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 44px;
+    background-color: #f1f1f1;
+    transition: all 250ms ease;
+}
+
+.tabbed ul li a:before {
+    right: -24px;
+    transform: skew(
+30deg
+, 
+0deg
+);
+    box-shadow: rgb(0 0 0 / 10%) 3px 2px 5px, inset rgb(255 255 255 / 9%) -1px 0;
+}
+
+.tabbed ul li a:after {
+    left: -24px;
+    transform: skew(
+-30deg
+, 
+0deg
+);
+    box-shadow: rgb(0 0 0 / 10%) -3px 2px 5px, inset rgb(255 255 255 / 9%) 1px 0;
+}
+
+.tabbed ul li a.active {
+    z-index: 3;
+}
+
+.tabbed ul li a.active, .tabbed ul li a.active:before, .tabbed ul li a.active:after {
+    background-color: var(--shine-blue);
+    color: #fff;
+}
 
 </style>

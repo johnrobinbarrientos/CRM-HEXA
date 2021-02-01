@@ -18,6 +18,9 @@ import SupplierForm from './views/client/master-data/supplier/form'
 import CustomerMain from './views/client/master-data/customer/main'
 import CustomerForm from './views/client/master-data/customer/form'
 
+import ProjectMain from './views/client/master-data/project/main'
+import ProjectForm from './views/client/master-data/project/form'
+
 import EmployeeMain from './views/client/master-data/employee/main'
 import EmployeeForm from './views/client/master-data/employee/form'
 
@@ -191,6 +194,28 @@ export default new VueRouter({
           path: '/customers/:customerUUID/view',
           name: 'customer-form',
           component: CustomerForm,
+          beforeEnter: checkAuth,
+          props: { view_mode: true },
+          meta: { protected: true }
+        },
+        {
+          path: '/project-main',
+          name: 'project-main',
+          component: ProjectMain,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/projects/:projectUUID',
+          name: 'project-form',
+          component: ProjectForm,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/projects/:projectUUID/view',
+          name: 'project-form',
+          component: ProjectForm,
           beforeEnter: checkAuth,
           props: { view_mode: true },
           meta: { protected: true }

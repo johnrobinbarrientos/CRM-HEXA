@@ -57,7 +57,6 @@ class ItemListController extends Controller
             $auth = \Auth::user();
 
             $item = new ItemList();
-            $item->company_id = $auth->company_id;
 
             $item->save();
         }
@@ -96,8 +95,6 @@ class ItemListController extends Controller
             return response()->json(['success' => 0, 'message' => $message], 500);
         }
         
-        $auth = \Auth::user();
-        $item->company_id = $auth->company_id;
         $item->item_group_uuid = request()->item_group_uuid;
         $item->item_code = request()->item_code;
         $item->item_barcode = request()->item_barcode;
@@ -137,7 +134,7 @@ class ItemListController extends Controller
         foreach ($supplier_uuids as $supplier_uuid) {
             
             // make sure the suppier belongs to the company
-            $exists = SupplierList::where('uuid','=',$supplier_uuid)->where('company_id','=',$auth->company_id)->first();
+            $exists = SupplierList::where('uuid','=',$supplier_uuid)->first();
             
             if (!$exists) {
                 continue;
@@ -177,7 +174,6 @@ class ItemListController extends Controller
             $item_uom = ItemUom::where('item_uuid','=',$item->uuid)->where('global_uom_uuid','=',$global_uom_uuid)->where('barcode','=',$barcode)->withTrashed()->first();
             $item_uom = ($item_uom) ? $item_uom :  new ItemUom;
 
-            $item_uom->company_id = $auth->company_id;
             $item_uom->item_uuid = $item->uuid;
             $item_uom->global_uom_uuid = $global_uom_uuid;
             $item_uom->packing_qtty = $packing;

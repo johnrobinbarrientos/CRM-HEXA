@@ -24,11 +24,9 @@ class PriceRuleSupplierDetailController extends Controller
 
     public function save($priceRuleSupplierUUID)
     {
-        $auth = \Auth::user();
         $priceRuleSupplierDetail = PriceRuleSupplierDetail::where('price_rule_supplier_uuid','=',$priceRuleSupplierUUID)->where('supplier_uuid','=',request()->supplier_uuid)->first();
         $priceRuleSupplierDetail = ($priceRuleSupplierDetail) ? $priceRuleSupplierDetail : new PriceRuleSupplierDetail;
 
-        $priceRuleSupplierDetail->company_id = $auth->company_id;
         $priceRuleSupplierDetail->price_rule_supplier_uuid = $priceRuleSupplierUUID;
         $priceRuleSupplierDetail->supplier_uuid = request()->supplier_uuid;
         $priceRuleSupplierDetail->applied_to = request()->applied_to;

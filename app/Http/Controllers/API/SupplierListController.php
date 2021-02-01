@@ -49,10 +49,8 @@ class SupplierListController extends Controller
         $supplier =  SupplierList::where('is_draft','=', 1)->first();
 
         if (!$supplier) {
-            $auth = \Auth::user();
 
             $supplier = new SupplierList();
-            $supplier->company_id = $auth->company_id;
 
             $supplier->save();
         }
@@ -70,8 +68,6 @@ class SupplierListController extends Controller
             return response()->json(['success' => 0, 'data' => null, 'Supplier not found'], 500);
         }
 
-        $auth = \Auth::user();
-        $supplier->company_id = $auth->company_id;
         $supplier->supplier_name = request()->supplier_name;
         $supplier->supplier_shortname = request()->supplier_shortname;
         $supplier->tax_identification_no = request()->tax_identification_no;

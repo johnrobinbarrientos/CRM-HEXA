@@ -37,8 +37,6 @@ class CompanyPaymentTermController extends Controller
     public function save()
     {
         $companyPaymentTerm = request()->uuid ? CompanyPaymentTerm::find(request()->uuid) : new CompanyPaymentTerm();
-        $auth = \Auth::user();
-        $companyPaymentTerm->company_id = $auth->company_id;
         $companyPaymentTerm->term = request()->term;
         $companyPaymentTerm->save();
 

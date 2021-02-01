@@ -38,8 +38,7 @@ class PurchaseOrderReasonCodeController extends Controller
     public function saveReasonCode()
     {
         $reasonCode = request()->uuid ? PurchaseOrderReasonCode::find(request()->uuid) : new PurchaseOrderReasonCode();
-        $auth = \Auth::user();
-        $reasonCode->company_id = $auth->company_id;
+
         $reasonCode->short_name = strtoupper(request()->short_name);
         $reasonCode->details = request()->details;
         $reasonCode->save();

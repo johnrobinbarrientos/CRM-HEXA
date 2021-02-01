@@ -12,7 +12,7 @@ class ItemCatBrand extends Model
     protected $table = 'item_cat_brand';
 
     protected $fillable = [
-        'uuid', 'company_id', 'brand',
+        'uuid','brand',
     ];
 
     protected $primaryKey = 'uuid';

@@ -58,8 +58,7 @@ class PurchaseOrderItemController extends Controller
 
         $po_date = date('Y-m-d',strtotime($order->date_purchased));
         $supplier_base_discount_groups = SupplierBaseDiscountGroup::where('supplier_id',$order->supplier_uuid)->get();
-        $supplier_price_rules = PriceRuleSupplier::where('company_id','=',$auth->company_id)
-            ->where('date_start','<=',$po_date)
+        $supplier_price_rules = PriceRuleSupplier::where('date_start','<=',$po_date)
             ->where('date_end','>=',$po_date)
             ->get();
 
@@ -145,7 +144,6 @@ class PurchaseOrderItemController extends Controller
             $order_detail = PurchaseOrderItem::where('bp_order_uuid','=',$orderUUID)->where('item_uuid','=',$item->uuid)->where('barcode','=',$item->barcode)->withTrashed()->first();
             $order_detail = ($order_detail) ? $order_detail : new PurchaseOrderItem;
 
-            $order_detail->company_id               = $auth->company_id;
             $order_detail->bp_order_uuid            = $order->uuid;
             $order_detail->item_uuid                = $item->uuid;
             $order_detail->barcode                  = $item->barcode;
@@ -192,7 +190,6 @@ class PurchaseOrderItemController extends Controller
   
             $additional_discount = ($additional_discount) ? $additional_discount : new  PurchaseOrderAdditionalDiscount;
 
-            $additional_discount->company_id               = $auth->company_id;
             $additional_discount->bp_order_uuid            = $order->uuid;
             $additional_discount->discount_name            = $discount->discount_name;
             $additional_discount->discount_type            = $discount->discount_type;
@@ -224,7 +221,6 @@ class PurchaseOrderItemController extends Controller
 
             $buy_and_pay_order_base_discount_group = ($buy_and_pay_order_base_discount_group) ? $buy_and_pay_order_base_discount_group : new PurchaseOrderBaseDiscountGroup;
             $buy_and_pay_order_base_discount_group->bp_order_uuid = $order->uuid;
-            $buy_and_pay_order_base_discount_group->company_id = $auth->company_id;
             $buy_and_pay_order_base_discount_group->supplier_uuid = $supplier_base_discount_group->supplier_uuid;
             $buy_and_pay_order_base_discount_group->supplier_base_discount_group_uuid = $supplier_base_discount_group->uuid;
             $buy_and_pay_order_base_discount_group->group_name = $supplier_base_discount_group->group_name;
@@ -243,7 +239,6 @@ class PurchaseOrderItemController extends Controller
 
                 $buy_and_pay_order_base_discount_group_detail = ($buy_and_pay_order_base_discount_group_detail) ? $buy_and_pay_order_base_discount_group_detail : new PurchaseOrderBaseDiscountGroupDetail;
 
-                $buy_and_pay_order_base_discount_group_detail->company_id = $auth->company_id;
                 $buy_and_pay_order_base_discount_group_detail->supplier_base_discount_group_detail_uuid = $supplier_base_discount_group_detail->uuid;
                 $buy_and_pay_order_base_discount_group_detail->bp_order_base_discount_group_uuid = $buy_and_pay_order_base_discount_group->uuid;
                 $buy_and_pay_order_base_discount_group_detail->bp_order_uuid = $order->uuid;
@@ -264,7 +259,6 @@ class PurchaseOrderItemController extends Controller
 
                     $buy_and_pay_order_base_discount_group_item = new PurchaseOrderBaseDiscountGroupItem;
 
-                    $buy_and_pay_order_base_discount_group_item->company_id = $auth->company_id;
                     $buy_and_pay_order_base_discount_group_item->bp_order_uuid = $order->uuid;
                     $buy_and_pay_order_base_discount_group_item->item_uuid = $supplier_base_discount_group_item->item_uuid;
                     $buy_and_pay_order_base_discount_group_item->supplier_uuid = $supplier_base_discount_group_item->supplier_uuid;

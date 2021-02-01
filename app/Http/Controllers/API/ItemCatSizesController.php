@@ -37,8 +37,7 @@ class ItemCatSizesController extends Controller
     public function save()
     {
         $cat = request()->uuid ? ItemCatSizes::find(request()->uuid) : new ItemCatSizes();
-        $auth = \Auth::user();
-        $cat->company_id = $auth->company_id;
+
         $cat->sizes = request()->sizes;
         $cat->save();
 

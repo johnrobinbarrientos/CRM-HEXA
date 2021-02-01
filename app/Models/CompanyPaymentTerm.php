@@ -12,7 +12,7 @@ class CompanyPaymentTerm extends Model
     protected $table = 'company_payment_term';
 
     protected $fillable = [
-        'uuid', 'company_id', 'term',
+        'uuid', 'term',
     ];
 
     protected $primaryKey = 'uuid';

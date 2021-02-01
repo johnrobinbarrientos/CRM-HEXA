@@ -14,8 +14,7 @@ class CustomerDiscountRegularController extends Controller
     public function save()
     {
         $discount = request()->uuid ? CustomerDiscountRegular::find(request()->uuid) : new CustomerDiscountRegular();
-        $auth = \Auth::user();
-        $discount->company_id = $auth->company_id;
+
         $discount->customer_uuid = request()->customer_uuid;
         $discount->discount_name = request()->discount_name;
         $discount->discount_rate = request()->discount_rate;

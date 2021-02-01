@@ -44,8 +44,6 @@ class CompanyTaxationController extends Controller
     public function save()
     {
         $companyTaxation = request()->uuid ? CompanyTaxation::find(request()->uuid) : new CompanyTaxation();
-        $auth = \Auth::user();
-        $companyTaxation->company_id = $auth->company_id;
         $companyTaxation->tax_type = request()->tax_type;
         $companyTaxation->tax_name = request()->tax_name;
         $companyTaxation->tax_rate = request()->tax_rate;

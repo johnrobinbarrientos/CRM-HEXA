@@ -37,8 +37,7 @@ class ItemCatManufacturerController extends Controller
     public function save()
     {
         $cat = request()->uuid ? ItemCatManufacturer::find(request()->uuid) : new ItemCatManufacturer();
-        $auth = \Auth::user();
-        $cat->company_id = $auth->company_id;
+
         $cat->manufacturer = request()->manufacturer;
         $cat->save();
 

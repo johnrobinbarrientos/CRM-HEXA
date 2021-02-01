@@ -185,8 +185,6 @@ class PurchaseReceiveDetailController extends Controller
 
         }
 
-
-        $auth = \Auth::user();
         $items = (is_array(request()->items)) ? request()->items : [];
      
 
@@ -204,7 +202,6 @@ class PurchaseReceiveDetailController extends Controller
             $order_detail = PurchaseOrderItem::where('bp_order_uuid','=',$orderUUID)->where('item_uuid','=',$item->uuid)->where('barcode','=',$item->barcode)->withTrashed()->first();
             $order_detail = ($order_detail) ? $order_detail : new PurchaseOrderItem;
 
-            $order_detail->company_id               = $auth->company_id;
             $order_detail->bp_order_uuid            = $orderUUID;
             $order_detail->item_uuid                = $item->uuid;
             $order_detail->barcode                  = $item->barcode;
