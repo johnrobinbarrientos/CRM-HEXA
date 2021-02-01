@@ -56,8 +56,8 @@ import PurchaseReceiptDetailsDev from './views/client/buy-and-pay/purchase-recei
 import BillingReturnMain from './views/client/buy-and-pay/billing-return/main'
 import BillingDetails from './views/client/buy-and-pay/billing-return/billing-details'
 
-import PriceRuleMain from './views/client/inventory/price-rule/price-rule-main'
-import PriceRuleSupplierForm from './views/client/inventory/price-rule/price-rule-supplier-form'
+import PriceRuleMain from './views/client/inventory/price-rule/main'
+import PriceRuleSupplierForm from './views/client/inventory/price-rule/supplier-form'
 
 
 
