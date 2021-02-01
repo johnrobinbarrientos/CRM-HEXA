@@ -38,8 +38,7 @@ class CompanyBranchController extends Controller
     public function save()
     {
         $companyBranch = request()->uuid ? CompanyBranch::find(request()->uuid) : new CompanyBranch();
-        $auth = \Auth::user();
-        $companyBranch->company_id = $auth->company_id;
+
         $companyBranch->branch_name = request()->branch_name;
         $companyBranch->branch_shortname = request()->branch_shortname;
         $companyBranch->save();

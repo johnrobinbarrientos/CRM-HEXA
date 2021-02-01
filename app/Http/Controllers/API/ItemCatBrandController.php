@@ -38,8 +38,7 @@ class ItemCatBrandController extends Controller
     {
 
         $cat = request()->uuid ? ItemCatBrand::find(request()->uuid) : new ItemCatBrand();
-        $auth = \Auth::user();
-        $cat->company_id = $auth->company_id;
+
         $cat->brand = request()->brand;
         $cat->save();
 

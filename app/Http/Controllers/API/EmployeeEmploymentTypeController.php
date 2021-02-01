@@ -37,8 +37,7 @@ class EmployeeEmploymentTypeController extends Controller
     public function save()
     {
         $employmentType = request()->uuid ? EmployeeEmploymentType::find(request()->uuid) : new EmployeeEmploymentType();
-        $auth = \Auth::user();
-        $employmentType->company_id = $auth->company_id;
+
         $employmentType->employment_type = request()->employment_type;
         $employmentType->save();
 

@@ -187,8 +187,6 @@ class PurchaseReceiveItemController extends Controller
 
         }
 
-
-        $auth = \Auth::user();
         $items = (is_array(request()->items)) ? request()->items : [];
      
 
@@ -206,7 +204,6 @@ class PurchaseReceiveItemController extends Controller
             $order_detail = PurchaseOrderItem::where('bp_order_uuid','=',$orderUUID)->where('item_uuid','=',$item->uuid)->where('barcode','=',$item->barcode)->withTrashed()->first();
             $order_detail = ($order_detail) ? $order_detail : new PurchaseOrderItem;
 
-            $order_detail->company_id               = $auth->company_id;
             $order_detail->bp_order_uuid            = $orderUUID;
             $order_detail->item_uuid                = $item->uuid;
             $order_detail->barcode                  = $item->barcode;
@@ -230,7 +227,6 @@ class PurchaseReceiveItemController extends Controller
     {
         $auth = \Auth::user();
         $prefix = CompanyList::whereNull('deleted_at')
-        ->where('id',$auth->company_id)
         ->pluck('prefix')
         ->first();
 
@@ -241,7 +237,6 @@ class PurchaseReceiveItemController extends Controller
     {
         $auth = \Auth::user();
         $no_of_transactions = PurchaseOrder::whereNull('deleted_at')
-        ->where('company_id',$auth->company_id)
         ->where('receiving_no','!=','')
         ->whereDate('created_at',date('Y-m-d'))->count();
 

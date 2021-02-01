@@ -12,7 +12,7 @@ class LocationGroup extends Model
     protected $table = 'master_location_groups';
 
     protected $fillable = [
-        'uuid', 'company_id', 'location_group_name',
+        'uuid','location_group_name',
     ];
 
     protected $primaryKey = 'uuid';

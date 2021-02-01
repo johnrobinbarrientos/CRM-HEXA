@@ -12,7 +12,7 @@ class Location extends Model
     protected $table = 'master_locations';
 
     protected $fillable = [
-        'uuid', 'company_id', 'location_code', 'location_name', 'location_shortname', 'is_group',
+        'uuid','location_code', 'location_name', 'location_shortname', 'is_group',
     ];
 
     protected $primaryKey = 'uuid';

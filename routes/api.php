@@ -139,6 +139,15 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
     });
 
+    Route::group(['prefix' => 'projects'], function(){
+
+        Route::get('/project-list', 'API\ProjectListController@getProjectList');
+        Route::post('/project-list', 'API\ProjectListController@store');
+        Route::put('/project-list', 'API\ProjectListController@update');
+        Route::get('/project-list/{project_uuid}','API\ProjectListController@show');
+
+    });
+
     Route::group(['prefix' => 'employees'], function(){
 
         Route::get('/employee-list', 'API\EmployeeListController@getEmployeeList');

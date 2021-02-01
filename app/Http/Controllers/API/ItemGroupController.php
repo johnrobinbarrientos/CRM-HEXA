@@ -38,8 +38,7 @@ class ItemGroupController extends Controller
     public function save()
     {
         $itemGroup = request()->uuid ? ItemGroup::find(request()->uuid) : new ItemGroup();
-        $auth = \Auth::user();
-        $itemGroup->company_id = $auth->company_id;
+
         $itemGroup->item_group = request()->item_group;
         $itemGroup->save();
 

@@ -37,8 +37,7 @@ class CustomerGroupController extends Controller
     public function save()
     {
         $customerGroup = request()->uuid ? CustomerGroup::find(request()->uuid) : new CustomerGroup();
-        $auth = \Auth::user();
-        $customerGroup->company_id = $auth->company_id;
+
         $customerGroup->group_name = request()->group_name;
         $customerGroup->markup_rate = request()->markup_rate;
         $customerGroup->save();

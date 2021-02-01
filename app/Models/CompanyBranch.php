@@ -12,7 +12,7 @@ class CompanyBranch extends Model
     protected $table = 'company_branch';
 
     protected $fillable = [
-        'uuid', 'company_id', 'branch_name', 'branch_shortname',
+        'uuid','branch_name', 'branch_shortname',
     ];
 
     protected $primaryKey = 'uuid';

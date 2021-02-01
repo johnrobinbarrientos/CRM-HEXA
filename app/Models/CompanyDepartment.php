@@ -12,7 +12,7 @@ class CompanyDepartment extends Model
     protected $table = 'company_department';
 
     protected $fillable = [
-        'uuid', 'company_id','department','global_cost_center_uuid',
+        'uuid','department','global_cost_center_uuid',
     ];
 
     protected $primaryKey = 'uuid';

@@ -37,8 +37,7 @@ class ItemCatSectionController extends Controller
     public function save()
     {
         $cat = request()->uuid ? ItemCatSection::find(request()->uuid) : new ItemCatSection();
-        $auth = \Auth::user();
-        $cat->company_id = $auth->company_id;
+
         $cat->section = request()->section;
         $cat->save();
 

@@ -37,8 +37,7 @@ class SupplierCheckPayeeController extends Controller
     public function save()
     {
         $checkPayee = request()->uuid ? SupplierCheckPayee::find(request()->uuid) : new SupplierCheckPayee();
-        $auth = \Auth::user();
-        $checkPayee->company_id = $auth->company_id;
+
         $checkPayee->supplier_uuid = request()->supplier_uuid;
         $checkPayee->check_payee = request()->check_payee;
         $checkPayee->save();

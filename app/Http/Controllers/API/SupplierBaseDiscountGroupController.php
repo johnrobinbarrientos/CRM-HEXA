@@ -26,7 +26,7 @@ class SupplierBaseDiscountGroupController extends Controller
         $supplier_ids = (is_array(request()->supplier_ids)) ? request()->supplier_ids : [];
         
 
-        $suppliers = SupplierList::where('company_id','=',$auth->company_id)->whereIn('uuid',$supplier_ids)->get();
+        $suppliers = SupplierList::whereIn('uuid',$supplier_ids)->get();
 
         foreach ($suppliers as $supplier) {
 
@@ -58,9 +58,7 @@ class SupplierBaseDiscountGroupController extends Controller
     public function save($supplierUUID)
     {
         $discountGroup = request()->uuid ? SupplierBaseDiscountGroup::find(request()->uuid) : new SupplierBaseDiscountGroup();
-        $auth = \Auth::user();
-        
-        $discountGroup->company_id = $auth->company_id;
+
         $discountGroup->supplier_uuid = $supplierUUID;
         $discountGroup->group_name = request()->group_name;
         $discountGroup->save();

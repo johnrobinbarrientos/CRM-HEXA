@@ -12,7 +12,7 @@ class ItemCatForm extends Model
     protected $table = 'item_cat_form';
 
     protected $fillable = [
-        'uuid', 'company_id', 'form',
+        'uuid','form',
     ];
 
     protected $primaryKey = 'uuid';

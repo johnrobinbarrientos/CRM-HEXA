@@ -38,8 +38,7 @@ class CompanyBranchLocationController extends Controller
     public function save()
     {
         $branchLocation = request()->uuid ? CompanyBranchLocation::find(request()->uuid) : new CompanyBranchLocation();
-        $auth = \Auth::user();
-        $branchLocation->company_id = $auth->company_id;
+
         $branchLocation->branch_uuid = request()->branch_uuid;
         $branchLocation->location_name = request()->location_name;
         $branchLocation->location_shortname = request()->location_shortname;
