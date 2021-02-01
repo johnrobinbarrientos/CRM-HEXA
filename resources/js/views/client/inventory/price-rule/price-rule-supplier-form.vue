@@ -6,7 +6,7 @@
                     <h1 class="title"><i class="las la-list-ul"></i> Price Rule</h1>
                 </div>
                 <div class="bar-right">
-                    <a @click="ROUTE({path: '/price-rules' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
+                    <a @click="ROUTE({path: '/price-rule-main' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
                         <i class="las la-x"></i> <span>Cancel</span>
                     </a>
                     <a @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
@@ -79,7 +79,7 @@
                                     <select v-model="selectedSupplierUUID" class="form-control">
                                         <option value="null">Select a Supplier</option>
                                         <template v-for="(supplier, index2) in suppliers" >
-                                            <option v-if="!isSupplierAdded(supplier.uuid)" :key="'opt-' + supplier.id + '-' + index2" :value="supplier.uuid">{{ supplier.business_name }}</option>
+                                            <option v-if="!isSupplierAdded(supplier.uuid)" :key="'opt-' + supplier.id + '-' + index2" :value="supplier.uuid">{{ supplier.supplier_name }}</option>
                                         </template>
                                     </select>
                                     <button @click="addPriceRuleSupplierDetail()" type="button" style="position:absolute; top:0px; right:0px; width:90px; height:34px;" class="hx-btn hx-btn-shineblue">Add</button>
@@ -104,7 +104,7 @@
                                             </th>
                                             <th width="40">{{ index + 1 }}</th>
                                             <td>
-                                                <strong>{{ getSupplierDetails('business_name', priceRuleSupplierDetail.supplier_uuid) }}</strong>
+                                                <strong>{{ getSupplierDetails('supplier_name', priceRuleSupplierDetail.supplier_uuid) }}</strong>
                                             </td>
                                             <td>
                                                 <strong v-if="!priceRuleSupplierDetail.edit">{{ priceRuleSupplierDetail.applied_to }}</strong>
@@ -119,7 +119,7 @@
                             </div>
                             <div class="col-md-6 col-12 offset-md-1">
                                 <div v-if="selectedPriceRuleDetail">
-                                <h4 class="card-title">{{ getSupplierDetails('business_name',selectedPriceRuleDetail.supplier_uuid) }}</h4>
+                                <h4 class="card-title">{{ getSupplierDetails('supplier_name',selectedPriceRuleDetail.supplier_uuid) }}</h4>
                                 <p>Below are the list of items included in this price rule</p>
 
                                 <table class="table table-striped table-bordered responsiveTable">
