@@ -43,12 +43,14 @@ import AdminCoaAccountGroup from './views/admin/settings/admin-coa-account-group
 import AdminChartofAccounts from './views/admin/settings/admin-chart-of-accounts'
 import AdminCostCenter from './views/admin/settings/admin-cost-center'
 
-import PurchaseOrderMain from './views/client/buy-and-pay/purchase-order/main'
-import PurchaseOrderForm from './views/client/buy-and-pay/purchase-order/form'
-import PurchaseOrderDetails from './views/client/buy-and-pay/purchase-order/details'
-import PurchaseOrderDetailsDev from './views/client/buy-and-pay/purchase-order/details-dev'
+import BuyANDPayOrders from './views/client/buy-and-pay/orders/main'
+import BuyANDPayOrdersForm from './views/client/buy-and-pay/orders/form'
+import BuyANDPayOrdersDetails from './views/client/buy-and-pay/orders/details'
 
+import BuyANDPayReceipts from './views/client/buy-and-pay/receipts/main'
+import BuyANDPayReceiptsDetails from './views/client/buy-and-pay/receipts/details'
 
+/* to be replaced with above code */
 import PurchaseReceiptMain from './views/client/buy-and-pay/purchase-receipt/main'
 import PurchaseReceiptDetails from './views/client/buy-and-pay/purchase-receipt/details'
 import PurchaseReceiptDetailsDev from './views/client/buy-and-pay/purchase-receipt/details-dev'
@@ -85,7 +87,6 @@ function checkGuess (to, from, next) {
     } else {
     next() // go to '/auth';
     }
-  
 }
 
 export default new VueRouter({
@@ -333,44 +334,47 @@ export default new VueRouter({
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
+
         {
-          path: '/purchase-order-main',
-          name: 'purchase-order-main',
-          component: PurchaseOrderMain,
+            path: '/buy-and-pay/orders',
+            name: 'buy-and-pay-orders',
+            component: BuyANDPayOrders,
+            beforeEnter: checkAuth,
+            meta: { protected: true }
+        },
+        {
+          path: '/buy-and-pay/orders/create',
+          name: 'buy-and-pay-orders-create',
+          component: BuyANDPayOrdersForm,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
         {
-          path: '/purchase-orders/form',
-          name: 'purchase-order-form',
-          component: PurchaseOrderForm,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/purchase-orders-dev/:order_uuid',
-          name: 'purchase-order-details-dev',
-          component: PurchaseOrderDetailsDev,
+          path: '/buy-and-pay/orders/:order_uuid/:action',
+          name: 'purchase-order-details',
+          component: BuyANDPayOrdersDetails,
           props: { view_mode: false },
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
+
         {
-          path: '/purchase-orders/:order_uuid',
-          name: 'purchase-order-details',
-          component: PurchaseOrderDetails,
+            path: '/buy-and-pay/receipts',
+            name: 'buy-and-pay-receipts',
+            component: BuyANDPayReceipts,
+            beforeEnter: checkAuth,
+            meta: { protected: true }
+        },
+        {
+          path: '/buy-and-pay/receipts/:order_uuid/:action',
+          name: 'buy-and-pay-receipts-details',
+          component: BuyANDPayReceiptsDetails,
           props: { view_mode: false },
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
-        {
-          path: '/purchase-orders/:order_uuid/view',
-          name: 'purchase-order-details',
-          component: PurchaseOrderDetails,
-          props: { view_mode: true },
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
+
+
         {
           path: '/purchase-receipt-main',
           name: 'purchase-receipt-main',
@@ -402,6 +406,9 @@ export default new VueRouter({
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
+
+
+
         {
           path: '/billing-return-main',
           name: 'billing-return-main',

@@ -282,22 +282,17 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
     Route::group(['prefix' => 'buy-and-pay'], function(){
         
-        Route::get('/orders', 'API\PurchaseOrderController@getOrders');
-        Route::get('/orders/{order_uuid}', 'API\PurchaseOrderController@getOrderDetails');
-        Route::put('/orders/{order_uuid}', 'API\PurchaseOrderController@update');
+        Route::get('/orders', 'API\BuyAndPayOrderController@index');
+        Route::get('/orders/{order_uuid}', 'API\BuyAndPayOrderController@show');
+        Route::put('/orders/{order_uuid}', 'API\BuyAndPayOrderController@update');
 
-        Route::get('/orders/{order_uuid}/suppliers/{supplier_uuid}/discounts', 'API\PurchaseOrderController@getSupplierDiscounts');
+        Route::get('/orders/{order_uuid}/suppliers/{supplier_uuid}/discounts', 'API\BuyAndPayOrderController@getSupplierDiscounts');
 
-        Route::post('/order/reason-code', 'API\PurchaseOrderController@updateOrderReasonCode');
-        Route::post('/order', 'API\PurchaseOrderController@saveOrder');
-        Route::post('/order/delete', 'API\PurchaseOrderController@deleteOrder');
+        Route::post('/orders', 'API\BuyAndPayOrderController@save');
+        Route::post('/order/reason-code', 'API\BuyAndPayOrderController@updateOrderReasonCode');
+        Route::post('/order/delete', 'API\BuyAndPayOrderController@deleteOrder');
 
-        Route::post('/order/{order_uuid}/cancel', 'API\PurchaseOrderController@cancelOrder');
-
-
-        Route::get('/orders/{order_uuid}/items', 'API\PurchaseOrderItemController@index');
-        Route::post('/orders/{order_uuid}/items', 'API\PurchaseOrderItemController@save');
-
+        Route::post('/orders/{order_uuid}/cancel', 'API\BuyAndPayOrderController@cancelOrder');
 
         Route::get('/order-reason-code', 'API\PurchaseOrderReasonCodeController@getReasonCode');
         Route::post('/order-reason-code', 'API\PurchaseOrderReasonCodeController@saveReasonCode');
@@ -311,10 +306,13 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/billing/{order_uuid}/details', 'API\PurchaseBillingController@save');
         
 
-        Route::post('/receiving/{order_uuid}/details', 'API\PurchaseReceiveDetailController@save');
+        Route::post('/receipts/{order_uuid}', 'API\BuyAndPayReceiveController@save');
 
-        Route::get('/receiving/{order_uuid}', 'API\PurchaseReceiveDetailController@getOrderDetails');
-        Route::get('/receiving/{order_uuid}/supplier-items', 'API\PurchaseReceiveDetailController@getOrderSupplierItems');
+        Route::get('/receipts/{order_uuid}', 'API\BuyAndPayReceiveController@show');
+        Route::get('/receipts/{order_uuid}/supplier-items', 'API\BuyAndPayReceiveController@getOrderSupplierItems');
+
+        Route::get('/{type}/{order_uuid}/items', 'API\BuyAndPayItemController@index');
+        Route::post('/{type}/{order_uuid}/items', 'API\BuyAndPayItemController@save');
 
     });
 

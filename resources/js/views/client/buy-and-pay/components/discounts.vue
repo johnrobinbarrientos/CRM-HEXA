@@ -119,24 +119,15 @@ export default {
             ADDITIONAL_RATE_TOTAL: 0.00,
 
             CHANGE_ADDITIONAL_DISCOUNT_TIMER: null,
+
+            APPLIED_BASE_DISCOUNTS: [],
+            APPLIED_PRICE_RULE_DISCOUNTS: [],
         }
     },
     components: {
 
     },
     computed: {
-        APPLIED_BASE_DISCOUNTS: function () {
-            var BASE_AMOUNT_TOTAL = this.BASE_AMOUNT_TOTAL
-            return  this.discounts.base.filter(discount => {
-                return parseFloat(discount.discount_amount) > 0
-            })
-        },
-        APPLIED_PRICE_RULE_DISCOUNTS: function () {
-            var PRICE_RULE_AMOUNT_TOTAL = this.PRICE_RULE_AMOUNT_TOTAL
-            return this.discounts.price_rules.filter(discount => {
-                return discount.discount_amount && discount.discount_amount > 0
-            })
-        },
         DISCOUNT_SUMMARY_TOTAL: function () {
             var total = parseFloat(this.ADDITIONAL_AMOUNT_TOTAL) + parseFloat(this.BASE_AMOUNT_TOTAL) + parseFloat(this.PRICE_RULE_AMOUNT_TOTAL)
             return total.toFixed(2)
@@ -150,6 +141,8 @@ export default {
         updateDISCOUNTS: function (DISCOUNTS,TOTALS) {
             var scope = this
             scope.discounts = DISCOUNTS
+
+            scope.APPLIED_BASE_DISCOUNTS = scope.discounts.base
 
             /* BASE */
             scope.BASE_AMOUNT_TOTAL = TOTALS.BASE_AMOUNT_TOTAL
