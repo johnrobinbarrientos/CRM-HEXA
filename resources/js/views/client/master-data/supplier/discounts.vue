@@ -2,10 +2,10 @@
     <div>
         <br/>
         <div class="row">
-            <div class="col-md-4 col-12" >
-                <div class="card-title" style="margin-left: 12px;">Discount Groups</div>
+            <div class="col-lg-4 col-12" >
+                <div class="card-title">Discount Groups</div>
                 <div v-bind:class="{ 'table-responsive': table_responsive }">
-                    <table class="table  table-striped table-bordered table-hover mb-0 table" style="margin-left: 12px;">
+                    <table class="table table-bordered table-hover mb-0 table-discounts">
                         <thead>
                             <tr>
                                 <th width="90">Actions</th>
@@ -16,15 +16,17 @@
                         <tbody>
                             <template v-if="groups.length > 0">
                             <tr @click="selectGroup(group)" v-bind:class="{'table-success' : (selected_group && selected_group.uuid === group.uuid) }" style="cursor:pointer;" v-for="(group,index) in groups" :key="index" >
-                                <td>
-                                    <template v-if="group.edit !== true">
-                                        <button @click="editGroup(group)" class="btn btn-sm btn-light" role="button" :disabled="view_mode"><i class="bx bx-pencil"></i></button>
-                                        <button class="btn btn-sm btn-danger" role="button" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
-                                    </template>
-                                    <template v-else>
-                                        <button @click="saveGroup(group)" class="btn btn-sm btn-primary" role="button" :disabled="view_mode"><i class="bx bx-save"></i></button>
-                                        <button class="btn btn-sm btn-danger" role="button" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
-                                    </template>
+                                <td width="65" class="text-center">
+                                    <span class="hx-table-actions">
+                                        <template v-if="group.edit !== true">
+                                            <button @click="editGroup(group)" class="btn btn-sm btn-shineblue" role="button" :disabled="view_mode"><i class="mdi mdi-pencil"></i></button>
+                                            <button class="btn btn-sm btn-danger" role="button" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
+                                        </template>
+                                        <template v-else>
+                                            <button @click="saveGroup(group)" class="btn btn-sm btn-primary" role="button" :disabled="view_mode"><i class="bx bx-save"></i></button>
+                                            <button class="btn btn-sm btn-danger" role="button" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
+                                        </template>
+                                    </span>
                                 </td>
                                 <th scope="row" >
                                    {{ (index + 1) }}
@@ -42,18 +44,18 @@
                                 </tr>
                             </template>
                             <tr>
-                                <td style="text-align:center; cursor:pointer; font-weight:600; background:#efefef;" colspan="3" >
-                                    <button @click="addNewGroup()"  type="button" style="font-weight:600; background:transparent; border:none;" :disabled="view_mode"><i class="bx bx-plus"></i> New Group</button>
+                                <td class="p-0" colspan="3" >
+                                    <button @click="addNewGroup()"  type="button" style="font-weight:600; border-radius: 0; padding-top: 4px; padding-bottom: 4px;" :disabled="view_mode" class="hx-btn hx-btn-shineblue w-100"><i class="bx bx-plus"></i> New Group</button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     </div>
             </div>
-            <div v-if="selected_group" class="col-md-7 col-12 offset-md-1">
+            <div v-if="selected_group" class="col-lg-4 col-12 offset-lg-1">
                 <div class="card-title">{{ selected_group.group_name }} Discounts</div>
                 <div class="table-responsive">
-                    <table class="table  table-striped table-bordered table-hover mb-0 table">
+                    <table class="table table-bordered table-hover mb-0 table-discounts">
                         <thead>
                             <tr>
                                 <th width="90">Actions</th>
@@ -65,32 +67,34 @@
                         <tbody>
                             <template v-if="discounts.length > 0">
                             <tr style="cursor:pointer;" v-for="(discount,index) in discounts" :key="index" >
-                                <td>
-                                    <template v-if="discount.edit !== true">
-                                        <button @click="editDiscount(discount)" type="button" class="btn btn-sm btn-light" :disabled="view_mode"><i class="bx bx-pencil"></i></button>
-                                        <button class="btn btn-sm btn-danger" type="button" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
-                                    </template>
-                                    <template v-else>
-                                        <button @click="saveDiscount(discount)" type="button" class="btn btn-sm btn-primary" :disabled="view_mode"><i class="bx bx-save"></i></button>
-                                        <button class="btn btn-sm btn-danger" type="button" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
-                                    </template>
+                                <td width="65" class="text-center">
+                                    <span class="hx-table-actions">
+                                        <template v-if="discount.edit !== true">
+                                            <button @click="editDiscount(discount)" type="button" class="btn btn-sm btn-shineblue" :disabled="view_mode"><i class="mdi mdi-pencil"></i></button>
+                                            <button class="btn btn-sm btn-danger" type="button" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
+                                        </template>
+                                        <template v-else>
+                                            <button @click="saveDiscount(discount)" type="button" class="btn btn-sm btn-primary" :disabled="view_mode"><i class="bx bx-save"></i></button>
+                                            <button class="btn btn-sm btn-danger" type="button" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
+                                        </template>
+                                    </span>
                                 </td>
                                 <th scope="row">
                                    {{ (index + 1) }}
                                 </th>
                                 <td>
-                                    <strong v-if="discount.edit !== true">{{ discount.discount_name }}</strong>
+                                    <span v-if="discount.edit !== true">{{ discount.discount_name }}</span>
                                     <input v-else v-model="discount.discount_name" class="form-control" type="text" placeholder="Enter discount name">
                                 </td>
 
                                 <td class="text-right">
-                                    <strong v-if="discount.edit !== true">{{ discount.discount_rate }}%</strong>
+                                    <span v-if="discount.edit !== true">{{ discount.discount_rate }}%</span>
                                     <input v-else v-model="discount.discount_rate" class="form-control" type="text" placeholder="Enter discount rate">
                                 </td>
                             </tr>
-                            <tr>
-                                <td colspan="3" class="text-right"><strong>Total</strong></td>
-                                <td class="text-right"><strong>{{ totalDiscountGroup(discounts) }}%</strong></td>
+                            <tr class="bg-grey">
+                                <td colspan="3" class="text-right" style="border-bottom-color: #bbb !important;"><strong>Total</strong></td>
+                                <td class="text-right" style="border-bottom-color: #bbb !important;"><strong>{{ totalDiscountGroup(discounts) }}%</strong></td>
                             </tr>
                             </template>
                             <template v-else>
@@ -99,8 +103,8 @@
                                 </tr>
                             </template>
                             <tr>
-                                <td style="text-align:center; cursor:pointer; font-weight:600; background:#efefef;" colspan="4" >
-                                    <button @click="addNewDiscount()"  type="button" style="font-weight:600; background:transparent; border:none;" :disabled="view_mode"><i class="bx bx-plus"></i> New Discount</button>
+                                <td class="p-0" colspan="4" >
+                                    <button @click="addNewDiscount()" type="button" style="font-weight:600; border-color: transparent; border-radius: 0; padding-top: 4px; padding-bottom: 4px;" :disabled="view_mode" class="hx-btn hx-btn-shineblue w-100"><i class="bx bx-plus"></i> New Discount</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -300,10 +304,14 @@ export default {
 </script>
 
 <style scoped>
-/* .table-tranx { table-layout: auto; width: 200%;} */
 a.disabled {
     pointer-events: none;
     color: #ccc;
 }
 
+.table-discounts thead th { background-color: #398cdb; color: #fff; }
+.table-discounts tbody th {
+    font-weight: normal;
+}
+.table-success, .table-success>td, .table-success>th { background-color: #eee !important; }
 </style>

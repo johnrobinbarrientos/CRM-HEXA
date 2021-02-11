@@ -96,7 +96,7 @@
                             <th>Reason Code</th> 
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="td-border-bottom-black">
                         <template v-if="purchaseOrders.length > 0">
                             <tr v-for="(purchase, index) in purchaseOrders" :key="purchase.uuid">
                                 <td width="65" class="text-center">
@@ -132,35 +132,28 @@
                                 <td v-else></td>
                                 
                                 <td v-if="purchase.po_status === 'To Receive'" style="text-align:center;" class="editable" width="150">
-                                    <span class="badge badge-danger font-size-12">To Receive</span>
+                                    <span class="badge badge-danger">To Receive</span>
                                 </td>
                                 <td v-else-if="purchase.po_status === 'Partially Received'" style="text-align:center;" class="editable">
-                                    <span class="badge badge-warning font-size-12">Partially Received</span>
+                                    <span class="badge badge-warning">Partially Received</span>
                                 </td>
                                 <td v-else-if="purchase.po_status === 'Cancelled'" style="text-align:center;" class="editable">
-                                    <span class="badge badge-secondary font-size-12">Cancelled</span>
+                                    <span class="badge badge-secondary">Cancelled</span>
                                 </td>
                                 <td v-else-if="purchase.po_status === 'Fully Received'" style="text-align:center;" class="editable">
-                                    <span class="badge badge-success font-size-12">Fully Received</span>
+                                    <span class="badge badge-success">Fully Received</span>
                                 </td>
 
                                 <td class="editable text-center">
-                                    <span v-if="purchase.order_reason_code==null">None <i class="bx bx-pencil"></i></span>
-                                    <span v-else>{{ purchase.order_reason_code.short_name }} <i class="bx bx-pencil"></i></span>
+                                    <span v-if="purchase.order_reason_code==null" class="cursor-pointer">None <i class="bx bx-pencil cursor-pointer"></i></span>
+                                    <span v-else class="cursor-pointer">{{ purchase.order_reason_code.short_name }} <i class="bx bx-pencil cursor-pointer"></i></span>
                                     <select @change="changeReasonCode(purchase.uuid)" v-model="selected_reason_code" type="text" class="editable-control">
                                         <option :value="reasoncode.id " v-for="(reasoncode,index) in options_reason_code" :key="index">{{ reasoncode.text }}</option>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
-                                <td style="border-color: transparent !important"></td>
-                                <td style="border-color: transparent !important"></td>
-                                <td style="border-color: transparent !important"></td>
-                                <td style="border-color: transparent !important"></td>
-                                <td style="border-color: transparent !important"></td>
-                                <td style="border-color: transparent !important"></td>
-                                <td style="border-color: transparent !important"></td>
-                                <td style="border-color: transparent !important"></td>
+                                <td colspan="8"></td>
                                 <td style="border-left: 2px solid #eee">
                                     <span><strong>Grand Total:</strong></span>
                                 </td>
@@ -168,9 +161,12 @@
                                     <span v-if="grand_total==0"><strong>0.00</strong></span>
                                     <span v-else><strong>{{putSeparator(grand_total.toFixed(2))}}</strong></span>
                                 </td>
-                                <td style="border-color: transparent !important"></td>
-                                <td style="border-color: transparent !important"></td>
-                                <td style="border-color: transparent !important"></td>
+                                <td colspan="3"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="13">
+                                    <div style="margin-bottom: 2px;"></div>
+                                </td>
                             </tr>
                         </template>
                         <template v-else>
@@ -594,4 +590,9 @@ export default {
 .table-filter-row { display:flex; justify-content: space-evenly; }
 .select-wrap { background:#e5e5ed; padding-right: 5px; border-right:1px solid #d7d8e0; width: 100%; }
 .select-wrap select { padding:5px; padding-top: 6px; background:transparent; border:none; width:100%; font-size: 12px; }
+.badge { font-size: 11px; }
+
+.td-border-bottom-black tr:nth-last-child(3) td { border-bottom-color: #495057 !important; }
+.td-border-bottom-black tr:nth-last-child(2) td { border-bottom-color: #495057 !important; }
+.td-border-bottom-black tr:nth-last-child(1) td { border-bottom-color: #495057 !important; }
 </style>

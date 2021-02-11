@@ -215,7 +215,4 @@ export default {
 </script>
 
 <style scoped>
-.table-tranx { table-layout: auto; }
-.table-fixed-column { position:absolute; }
-.form-group { margin-top:10px !important; }
 </style>
