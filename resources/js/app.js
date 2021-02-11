@@ -9,6 +9,8 @@ import datePicker from 'vue-bootstrap-datetimepicker';
 import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 
 
+
+
 // CSS 
 import './assets/vendors/lineawesome/css/line-awesome.min.css'
 //import './assets/themes/css/dashlite.css?ver=1.6.0'
@@ -29,6 +31,7 @@ import router from './routes'
 import customs from './utils/customs'
 import mixins from './utils/mixins'
 
+
 // components
 import App from './views/App'
 
@@ -39,6 +42,11 @@ window.API_URL = '//'+ window.location.host +'/api'
 
 
 Vue.component('Spinner', Spinner)
+// Make BootstrapVue available throughout your project
+
+import BootstrapVue from 'bootstrap-vue'
+//import '../css/boostrap-app.scss'
+Vue.use(BootstrapVue)
 
 Vue.use(datePicker)
 Vue.use(Vuex) 

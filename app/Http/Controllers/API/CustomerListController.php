@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CustomerListController extends Controller
 {
-    public function getCustomerList()
+    public function index()
     {
         $list = CustomerList::where('is_draft','=', 0)->whereNull('deleted_at')->with('discounts')
         ->with('CustomerGroup')->with('CustomerChain')

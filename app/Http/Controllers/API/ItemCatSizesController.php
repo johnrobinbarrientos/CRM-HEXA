@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ItemCatSizesController extends Controller
 {
-    public function getCatSizes()
+    public function index()
     {
         $list = ItemCatSizes::whereNull('deleted_at');
 

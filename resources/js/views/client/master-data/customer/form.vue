@@ -538,7 +538,6 @@ export default {
         getCustomerGroup: function () {
            var scope = this
             scope.GET('customers/customer-group').then(res => {
-                
                 res.rows.forEach(function (data) {
 
                     scope.options_customer_group.push({
@@ -650,7 +649,7 @@ export default {
 
             scope.formdata.discounts = scope.tempCustomerDiscounts
 
-            scope.PUT('customers/customer-list', scope.formdata).then(res => {
+            scope.PUT('customers/', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -692,7 +691,7 @@ export default {
             }).then((result) => {
                 if (result.value) {
             
-                    scope.PUT('customers/customer-list', scope.formdata).then(res => {
+                    scope.PUT('customers/', scope.formdata).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
@@ -852,7 +851,7 @@ export default {
 
         getCustomerDetails: function (customerUUID) {
             var scope = this
-            scope.GET('customers/customer-list/' + customerUUID).then(res => {
+            scope.GET('customers/' + customerUUID).then(res => {
                 let data = res.data
 
                 scope.formdata.uuid = customerUUID

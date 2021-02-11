@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CustomerGroupController extends Controller
 {
-    public function getCustomerGroup()
+    public function index()
     {
         $list = CustomerGroup::whereNull('deleted_at');
         

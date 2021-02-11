@@ -10,7 +10,7 @@ use DB;
 
 class AdminChartOfAccountController extends Controller
 {
-    public function getAccounts()
+    public function index()
     {
         $list = AdminChartOfAccount::whereNull('deleted_at')->with('AccountGroup');
 

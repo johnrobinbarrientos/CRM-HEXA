@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class SupplierListController extends Controller
 {
-    public function getSupplierList()
+    public function index()
     {
     
         $list = SupplierList::where('is_draft','=', 0)->whereNull('deleted_at')->with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable');

@@ -129,7 +129,7 @@ export default {
             var scope = this
             scope.listLoading = true
             scope.customerList = []
-            scope.GET('customers/customer-list?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+            scope.GET('customers/?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.customerList = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
@@ -138,7 +138,7 @@ export default {
         create: function () {
             var scope = this
 
-            scope.POST('customers/customer-list').then(res => {
+            scope.POST('customers/create').then(res => {
                 if (res.success) {
                    scope.ROUTE({path: '/customers/' + res.data.uuid })
                 }

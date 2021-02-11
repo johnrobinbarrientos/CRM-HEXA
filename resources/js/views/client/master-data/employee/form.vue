@@ -588,7 +588,7 @@ export default {
         
         getEmployeeList: function () {
            var scope = this
-            scope.GET('employees/employee-list').then(res => {
+            scope.GET('employees/').then(res => {
                 scope.employeeList = res.rows
             })
         },
@@ -791,7 +791,7 @@ export default {
                 formData.append('picture_file', scope.picture_file)
             }
 
-            scope.axios.post(window.API_URL + '/' + 'employees/employee-list/update' , formData, {
+            scope.axios.post(window.API_URL + '/' + 'employees/update' , formData, {
                 'headers': {
                 'Content-Type': 'multipart/form-data',
                 'X-Requested-With': 'XMLHttpRequest',
@@ -852,7 +852,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.axios.post(window.API_URL + '/' + 'employees/employee-list/update' , formData, {
+                    scope.axios.post(window.API_URL + '/' + 'employees/update' , formData, {
                         'headers': {
                         'Content-Type': 'multipart/form-data',
                         'X-Requested-With': 'XMLHttpRequest',
@@ -897,7 +897,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST('employees/employee-list/delete', data).then(res => {
+                    scope.POST('employees/delete', data).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
@@ -920,7 +920,7 @@ export default {
 
         getEmployeeDetails: function (employeeUUID) {
             var scope = this
-            scope.GET('employees/employee-list/' + employeeUUID).then(res => {
+            scope.GET('employees/' + employeeUUID).then(res => {
                 let data = res.data
 
                 scope.formdata.uuid = employeeUUID

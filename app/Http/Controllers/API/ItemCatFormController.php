@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ItemCatFormController extends Controller
 {
-    public function getCatForm()
+    public function index()
     {
         $list = ItemCatForm::whereNull('deleted_at');
 

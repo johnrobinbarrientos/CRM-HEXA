@@ -125,7 +125,7 @@ export default {
         save: function () {
             var scope = this
 
-            scope.PUT('projects/project-list', scope.formdata).then(res => {
+            scope.PUT('projects/', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -155,7 +155,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.PUT('projects/project-list', scope.formdata).then(res => {
+                    scope.PUT('projects/', scope.formdata).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
@@ -176,7 +176,7 @@ export default {
 
         getProjectDetails: function (projectUUID) {
             var scope = this
-            scope.GET('projects/project-list/' + projectUUID).then(res => {
+            scope.GET('projects/' + projectUUID).then(res => {
             
                 let data = res.data
 

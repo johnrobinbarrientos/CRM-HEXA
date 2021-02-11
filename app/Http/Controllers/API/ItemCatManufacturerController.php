@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ItemCatManufacturerController extends Controller
 {
-    public function getCatManufacturer()
+    public function index()
     {
         $list = ItemCatManufacturer::whereNull('deleted_at');
 

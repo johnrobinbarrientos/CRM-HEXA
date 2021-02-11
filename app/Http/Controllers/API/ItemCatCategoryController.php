@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ItemCatCategoryController extends Controller
 {
-    public function getCatCategory()
+    public function index()
     {
         $list = ItemCatCategory::whereNull('deleted_at');
 

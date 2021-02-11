@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EmployeeEmploymentTypeController extends Controller
 {
-    public function getEmploymentType()
+    public function index()
     {
         $list = EmployeeEmploymentType::whereNull('deleted_at');
 

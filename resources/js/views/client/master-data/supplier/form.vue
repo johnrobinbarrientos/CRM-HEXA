@@ -513,7 +513,7 @@ export default {
             scope.formdata.with_vat = scope.with_vat
             scope.formdata.with_ewt = scope.with_ewt
 
-            scope.PUT('suppliers/supplier-list', scope.formdata).then(res => {
+            scope.PUT('suppliers/', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -551,7 +551,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.PUT('suppliers/supplier-list', scope.formdata).then(res => {
+                    scope.PUT('suppliers/', scope.formdata).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
@@ -571,7 +571,7 @@ export default {
         },
         getSupplierDetails: function (supplierUUID) {
             var scope = this
-            scope.GET('suppliers/supplier-list/' + supplierUUID).then(res => {
+            scope.GET('suppliers/' + supplierUUID).then(res => {
             
                 let data = res.data
 

@@ -125,7 +125,7 @@ export default {
             var scope = this
             scope.listLoading = true
             scope.projectList = []
-            scope.GET('projects/project-list?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+            scope.GET('projects/?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.projectList = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
@@ -134,7 +134,7 @@ export default {
         create: function () {
             var scope = this
 
-            scope.POST('projects/project-list').then(res => {
+            scope.POST('projects/').then(res => {
                 if (res.success) {
                    scope.ROUTE({path: '/projects/' + res.data.uuid })
                 }

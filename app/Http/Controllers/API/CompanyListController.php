@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyListController extends Controller
 {
-    public function getCompanyList()
+    public function index()
     {
         $list = CompanyList::whereNull('deleted_at')->with('AddressList');
 
