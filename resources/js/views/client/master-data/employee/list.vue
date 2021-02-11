@@ -165,7 +165,7 @@ export default {
             var scope = this
             scope.listLoading = true
             scope.employeeList = []
-            scope.GET('employees/employee-list?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+            scope.GET('employees/?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.employeeList = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
@@ -178,7 +178,7 @@ export default {
         create: function () {
             var scope = this
 
-            scope.POST('employees/employee-list').then(res => {
+            scope.POST('employees/').then(res => {
                 if (res.success) {
                    scope.ROUTE({path: '/employees/' + res.data.uuid })
                 }

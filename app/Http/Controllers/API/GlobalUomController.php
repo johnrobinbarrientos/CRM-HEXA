@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class GlobalUomController extends Controller
 {
-    public function getUoms()
+    public function index()
     {
         $list = GlobalUom::whereNull('deleted_at');
 

@@ -588,7 +588,7 @@ export default {
         
         getEmployeeList: function () {
            var scope = this
-            scope.GET('employees/employee-list').then(res => {
+            scope.GET('employees/').then(res => {
                 scope.employeeList = res.rows
             })
         },
@@ -791,7 +791,7 @@ export default {
                 formData.append('picture_file', scope.picture_file)
             }
 
-            scope.axios.post(window.API_URL + '/' + 'employees/employee-list/update' , formData, {
+            scope.axios.post(window.API_URL + '/' + 'employees/update' , formData, {
                 'headers': {
                 'Content-Type': 'multipart/form-data',
                 'X-Requested-With': 'XMLHttpRequest',
@@ -803,7 +803,7 @@ export default {
                     window.swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Employee Updated',
+                        title: 'Saved',
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
@@ -814,8 +814,8 @@ export default {
                 }
             }).catch(error => {
                 if (error.response.status == 411){
-                    console.log('asdsadasdsdd')
-                    console.log(error.response)
+                    // console.log('asdsadasdsdd')
+                    // console.log(error.response)
                 }
             })     
 
@@ -843,16 +843,16 @@ export default {
             }
 
             window.swal.fire({
-                title: 'Update Record?',
+                title: 'Update?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#548235',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Update it!',
+                confirmButtonText: 'Yes',
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.axios.post(window.API_URL + '/' + 'employees/employee-list/update' , formData, {
+                    scope.axios.post(window.API_URL + '/' + 'employees/update' , formData, {
                         'headers': {
                         'Content-Type': 'multipart/form-data',
                         'X-Requested-With': 'XMLHttpRequest',
@@ -864,7 +864,7 @@ export default {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Employee Updated',
+                                title: 'Updated',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
@@ -876,8 +876,8 @@ export default {
                         }
                     }).catch(error => {
                         if (error.response.status == 411){
-                        console.log('asdsadasdsdd')
-                        console.log(error.response)
+                        // console.log('asdsadasdsdd')
+                        // console.log(error.response)
                 }
                     })            
                 }                              
@@ -888,8 +888,7 @@ export default {
             var scope = this
 
             window.swal.fire({
-                title: 'Are you sure?',
-                text: 'You won\'t be able to revert this',
+                title: 'Delete?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#548235',
@@ -898,12 +897,12 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST('employees/employee-list/delete', data).then(res => {
+                    scope.POST('employees/delete', data).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Employee Deleted',
+                                title: 'Deleted',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
@@ -921,7 +920,7 @@ export default {
 
         getEmployeeDetails: function (employeeUUID) {
             var scope = this
-            scope.GET('employees/employee-list/' + employeeUUID).then(res => {
+            scope.GET('employees/' + employeeUUID).then(res => {
                 let data = res.data
 
                 scope.formdata.uuid = employeeUUID

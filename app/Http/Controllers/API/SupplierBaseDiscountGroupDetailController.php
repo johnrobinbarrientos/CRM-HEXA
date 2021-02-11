@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class SupplierBaseDiscountGroupDetailController extends Controller
 {
-    public function getSupplierBaseDiscountGroupDetails($supplierDiscountGroupUUID)
+    public function index($supplierDiscountGroupUUID)
     {
         $discount_groups = SupplierBaseDiscountGroupDetail::where('supplier_base_discount_group_uuid','=',$supplierDiscountGroupUUID)->get();
         return response()->json(['success' => 1, 'rows' => $discount_groups], 200);

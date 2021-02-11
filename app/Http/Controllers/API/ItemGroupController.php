@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ItemGroupController extends Controller
 {
-    public function getItemGroup()
+    public function index()
     {
         $list = ItemGroup::whereNull('deleted_at');
 

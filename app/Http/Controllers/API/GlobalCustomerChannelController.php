@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class GlobalCustomerChannelController extends Controller
 {
-    public function getCustomerChannels()
+    public function index()
     {
         $list = GlobalCustomerChannel::whereNull('deleted_at');
 

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ItemListController extends Controller
 {
-    public function getItemList()
+    public function index()
     {
         $list = ItemList::where('is_draft','=', 0)->whereNull('deleted_at')
         ->with('ItemGroup')->with('Suppliers')

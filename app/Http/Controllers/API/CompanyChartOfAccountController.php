@@ -11,7 +11,7 @@ use DB;
 
 class CompanyChartOfAccountController extends Controller
 {
-    public function getChartOfAccounts()
+    public function index()
     {
         $list = CompanyChartOfAccount::whereNull('deleted_at')->with('AccountGroup');
         
@@ -74,7 +74,7 @@ class CompanyChartOfAccountController extends Controller
         return response()->json(['success' => 1, 'rows' => $payables], 200);
     }
 
-    public function getIncomeAccount()
+    public function getIncomeAccounts()
     {
 
         $income = CompanyChartOfAccount::select('company_chart_of_accounts.uuid','account_name')

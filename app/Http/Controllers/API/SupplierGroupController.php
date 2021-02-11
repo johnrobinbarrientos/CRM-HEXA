@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class SupplierGroupController extends Controller
 {
-    public function getSupplierGroup()
+    public function index()
     {
         $list = SupplierGroup::whereNull('deleted_at');
 

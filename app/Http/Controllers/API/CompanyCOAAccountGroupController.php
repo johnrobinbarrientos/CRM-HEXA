@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyCOAAccountGroupController extends Controller
 {
-    public function getAccountGroup()
+    public function index()
     {
         $list = CompanyChartOfAccountAccountGroup::whereNull('deleted_at')->with('ReportGroup');
         

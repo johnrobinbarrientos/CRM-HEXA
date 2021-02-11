@@ -137,7 +137,7 @@
                     </div>
 
                     <br/>
-                    <div class="hx-tab-2 tabbed round">
+                    <div class="hx-tab-2 round">
                         <ul class="nav nav-tabs">
                             <li>        
                                 <a class="" data-toggle="tab" href="#supplier-discounts">Discounts</a>    
@@ -1019,12 +1019,12 @@ export default {
             scope.formdata.item_uoms = scope.item_uoms
 
 
-            scope.PUT('items/item-list', scope.formdata).then(res => {
+            scope.PUT('items/', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Item Successfuly Saved',
+                        title: 'Saved',
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
@@ -1065,21 +1065,21 @@ export default {
             scope.formdata.item_uoms = scope.item_uoms
 
             window.swal.fire({
-                title: 'Update Record?',
+                title: 'Update?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#548235',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Update it!',
+                confirmButtonText: 'Yes',
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.PUT('items/item-list', scope.formdata).then(res => {
+                    scope.PUT('items/', scope.formdata).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Item Successfuly Updated',
+                                title: 'Updated',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
@@ -1101,22 +1101,21 @@ export default {
             var scope = this
 
             window.swal.fire({
-                title: 'Are you sure?',
-                text: 'You won\'t be able to revert this',
+                title: 'Delete?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#548235',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!',
+                confirmButtonText: 'Yes',
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.DELETE('items/item-list/' + data.uuid).then(res => {
+                    scope.DELETE('items/' + data.uuid).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Item Deleted',
+                                title: 'Deleted',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
@@ -1139,7 +1138,7 @@ export default {
         },
         getItemDetails: function (itemUUID) {
             var scope = this
-            scope.GET('items/item-list/' + itemUUID).then(res => {
+            scope.GET('items/' + itemUUID).then(res => {
                 let data = res.data
 
                 scope.formdata.uuid = itemUUID
@@ -1340,104 +1339,5 @@ export default {
   color: black !important;
 }
 .nav-tabs-custom .nav-item .nav-link::after { content: none; }
-
-
-
-.tabbed {
-    width: 100%;
-    margin: 0 auto;
-    margin-bottom: 68px;
-    overflow: hidden;
-    transition: border 250ms ease;
-}
-
-.tabbed  ul.nav {
-    display: unset;
-    flex-wrap: unset;
-}
-.tabbed .tab-content { border: 1px solid #ced4da; border-top: 4px solid var(--shine-blue); padding: 15px; border-radius: 4px; }
-.tabbed  ul.nav-tabs { border-bottom: unset; }
-
-.tabbed ul {
-    margin: 0px;
-    padding: 0px;
-    overflow: hidden;
-    float: left;
-    padding-left: 48px;
-    list-style-type: none;
-}
-
-.tabbed li { float: right; }
-
-.tabbed ul li a {
-    display: block;
-    float: right;
-    padding: 10px 24px 8px;
-    background-color:#f1f1f1;
-    margin-right: 46px;
-    z-index: 2;
-    position: relative;
-    cursor: pointer;
-    color: #495057;
-    text-transform: uppercase;
-    font: 600 13px/20px roboto, "Open Sans", Helvetica, sans-serif;
-    transition: all 250ms ease;
-}
-
-.tabbed ul * {
-    margin: 0px;
-    padding: 0px;
-}
-
-/* Round Tabs */
-.tabbed.round ul li a {
-  border-radius: 4px 4px 0 0;
-}
-.tabbed.round ul li a:before {
-  border-radius: 0 4px 0 0;
-}
-.tabbed.round ul li a:after {
-  border-radius: 4px 0 0 0;
-}
-
-.tabbed ul li a:before, .tabbed ul li a:after {
-    display: block;
-    content: " ";
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 44px;
-    background-color: #f1f1f1;
-    transition: all 250ms ease;
-}
-
-.tabbed ul li a:before {
-    right: -24px;
-    transform: skew(
-30deg
-, 
-0deg
-);
-    box-shadow: rgb(0 0 0 / 10%) 3px 2px 5px, inset rgb(255 255 255 / 9%) -1px 0;
-}
-
-.tabbed ul li a:after {
-    left: -24px;
-    transform: skew(
--30deg
-, 
-0deg
-);
-    box-shadow: rgb(0 0 0 / 10%) -3px 2px 5px, inset rgb(255 255 255 / 9%) 1px 0;
-}
-
-.tabbed ul li a.active {
-    z-index: 3;
-}
-
-.tabbed ul li a.active, .tabbed ul li a.active:before, .tabbed ul li a.active:after {
-    background-color: var(--shine-blue);
-    color: #fff;
-}
 
 </style>

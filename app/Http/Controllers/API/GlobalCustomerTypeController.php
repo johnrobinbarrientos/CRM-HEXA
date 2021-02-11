@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class GlobalCustomerTypeController extends Controller
 {
-    public function getCustomerTypes()
+    public function index()
     {
         $list = GlobalCustomerType::whereNull('deleted_at');
 

@@ -133,7 +133,7 @@ export default {
             var scope = this
             scope.listLoading = true
             scope.supplierList = []
-            scope.GET('suppliers/supplier-list?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+            scope.GET('suppliers/?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.supplierList = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
@@ -142,7 +142,7 @@ export default {
         create: function () {
             var scope = this
 
-            scope.POST('suppliers/supplier-list').then(res => {
+            scope.POST('suppliers/').then(res => {
                 if (res.success) {
                    scope.ROUTE({path: '/suppliers/' + res.data.uuid })
                 }

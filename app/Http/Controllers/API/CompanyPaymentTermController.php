@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyPaymentTermController extends Controller
 {
-    public function getPaymentTerm()
+    public function index()
     {
         $list = CompanyPaymentTerm::whereNull('deleted_at');
 
