@@ -192,7 +192,7 @@
                                             <th>Reason Code</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="td-border-bottom-black">
                                             <tr v-for="(item, index) in selectedItems" :key="item.barcode + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
                                             <td class="text-center">
                                                 <button v-if ="item.quantity===0" @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>

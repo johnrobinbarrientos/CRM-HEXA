@@ -95,7 +95,7 @@
                             <th>Reason Code</th> 
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="td-border-bottom-black">
                         <template v-if="receivedOrders.length > 0">
                             <tr v-for="(purchase, index) in receivedOrders" :key="purchase.uuid">
                                 <template v-if="purchase.po_status !== 'Cancelled'">

@@ -173,3 +173,26 @@ export default {
     },
 }
 </script>
+
+
+
+<style scoped>
+.autocomplete-suggestion:hover { cursor:pointer !important; }
+.table-discount-summary thead th { background:#398cdb !important; color:#fff;  }
+.table-discount-summary tbody th { font-weight: 400; }
+
+.buy-and-pay-summary {
+    margin-bottom:30px; padding:10px; background:#eee; border:1px solid #efefef; border-radius: 4px;
+}
+.buy-and-pay-summary span { font-size: 16px; }
+.buy-and-pay-summary hr { margin: 0; border-color: #495057; }
+.buy-and-pay-summary h4 { margin-bottom: 12px; font-weight: 600; font-size: 18px; }
+
+.table-success, .table-success>td, .table-success>th { background-color: #eee !important; }
+
+.tr-greyish { background: #f9f9f9; }
+.tr-grey { background: #eee; }
+
+.badge { padding-top: 3px; font-size: 10px; }
+/** .table-success { background-color: #eeeeee; }*/
+</style>

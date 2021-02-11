@@ -44,7 +44,7 @@
                                     <th>Price Rule?</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="td-border-bottom-black-2">
                                 <tr v-for="(item, index) in SELECTED_ITEMS" :key="item.barcode + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
                                     <td class="text-center">
                                         <span class="hx-table-actions w-auto">
@@ -161,7 +161,7 @@
                                     <th>Reason Code</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="td-border-bottom-black">
                                 <tr v-for="(item, index) in SELECTED_ITEMS" :key="item.barcode + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
                                     <td class="text-center">
                                         <span class="hx-table-actions w-auto">
@@ -301,7 +301,7 @@
                                     <th>Reason Code</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="td-border-bottom-black">
                                 <tr v-for="(item, index) in SELECTED_ITEMS" :key="item.barcode + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
                                     <td>{{ (index + 1) }}</td>
                                     <td>{{ item.barcode }}</td>
