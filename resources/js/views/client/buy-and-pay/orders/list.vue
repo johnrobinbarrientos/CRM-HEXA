@@ -81,7 +81,6 @@
                 ">
                     <thead class="th-nowrap">
                         <tr>
-                            <th width="20"></th>
                             <th>Action</th>
                             <th>Item Type</th>
                             <th>Transaction No.</th>
@@ -101,34 +100,18 @@
                         <template v-if="purchaseOrders.length > 0">
                             
                             <tr v-for="(purchase, index) in purchaseOrders" :key="purchase.uuid">
-                                <!-- <td width="65" class="text-center">
-                                    <span class="hx-table-actions">
-                                        <a
-                                            href="javascript:void(0)"
-                                            @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/edit'})"
-                                            class="btn btn-sm hx-btn-shineblue"
-                                            title="Edit"
-                                            :class="{ disabled : purchase.po_status == 'To Receive' }"
-                                            :disabled="{ disabled : purchase.po_status == 'To Receive' }"
-                                            :style="[purchase.po_status == 'To Receive' ? {'cursor': 'no-drop'} : '']"
-                                        >
-                                            <i class="mdi mdi-pencil"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
-                                    </span>
-                                </td> -->
-                                <td> 
+                                <td>  
                                     <span v-if="purchase.po_status == 'To Receive'" class="hx-table-actions">
-                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/purchase-orders/' + purchase.uuid })">
-                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/purchase-orders/' + purchase.uuid })">Edit</b-dropdown-item>
-                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/purchase-orders/' + purchase.uuid + '/view' })">View</b-dropdown-item>
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid +'/view'  })">
+                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/edit'})">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid +'/view' })">View</b-dropdown-item>
                                             <b-dropdown-item href="#">Cancel</b-dropdown-item>
                                         </b-dropdown>
                                     </span>
                                     <span v-else class="hx-table-actions">
-                                        <b-dropdown split text="View" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/purchase-orders/' + purchase.uuid + '/view' })">
-                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/purchase-orders/' + purchase.uuid })" disabled="true">Edit</b-dropdown-item>
-                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/purchase-orders/' + purchase.uuid + '/view' })">View</b-dropdown-item>
+                                        <b-dropdown split text="View" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/view' })">
+                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/edit' })" disabled="true">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/view' })">View</b-dropdown-item>
                                             <b-dropdown-item href="#" disabled="true">Cancel</b-dropdown-item>
                                         </b-dropdown>
                                     </span>
@@ -171,7 +154,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="8"></td>
+                                <td colspan="7"></td>
                                 <td style="border-left: 2px solid #eee">
                                     <span><strong>Grand Total:</strong></span>
                                 </td>
