@@ -25,9 +25,6 @@
                             <a @click="ROUTE({path: '/buy-and-pay/orders/' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
                                 <!-- <i class="las la-x"></i> --> <span>Back</span>
                             </a>
-                            <a @click="cancel()" class="hx-btn hx-btn-red" data-toggle="modal" href="javascript:void(0)">
-                                <span>Cancel</span>
-                            </a>
                             <a @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                                 <i class="las la-pluss"></i> <span>Update</span>
                             </a>
@@ -253,39 +250,6 @@ export default {
                 }
             })
         },
-        cancel : function () {
-            var scope = this
-
-            window.swal.fire({
-                title: 'Cancel?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.value) {
-                    scope.POST('buy-and-pay/order/' + scope.order.uuid + '/cancel').then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Cancelled',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.ROUTE({path: '/purchase-order-main' })
-                            })
-                        }
-                        else{
-                            alert('ERROR:' + res.code)
-                        }
-                    })            
-                }                              
-            })
-        },
-
         loadData: function () {
             
         }

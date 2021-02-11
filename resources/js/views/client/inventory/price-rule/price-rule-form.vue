@@ -79,8 +79,31 @@
                     <div class="tab-content">    
                         <div class="tab-pane active" id="details">
                             <span v-if="selected_applicable_to=='Buying'">
-                                <buying-by-group></buying-by-group>
-                                <buying-by-supplier></buying-by-supplier>
+                                <div id="accordion">
+                                    <div class="card shadow-none">
+                                        <a href="#collapseOne" class="text-dark" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">
+                                            <div class="card-header" id="headingOne">
+                                                <h5 class="m-0">By Group</h5>
+                                                <i class="las la-plus-circle fs-30"></i>
+                                            </div>
+                                        </a>
+                                        <div id="collapseOne" v-bind:class="{'show' : is_show }" class="collapse"  aria-labelledby="headingOne" data-parent="#accordion">
+                                            <buying-by-group></buying-by-group>
+                                        </div>
+                                        <a href="#collapseTwo" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                                            <div class="card-header" id="headingOne">
+                                                <h5 class="m-0">By Supplier</h5>
+                                                <i class="las la-plus-circle fs-30"></i>
+                                            </div>
+                                        </a>
+                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <buying-by-supplier></buying-by-supplier>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                
                             </span>
                             <span v-else>
                                 <selling-by-group></selling-by-group>
@@ -134,7 +157,9 @@ export default {
                 mechanics: '',
                 applicable_to: 'Buying',
                 is_draft: '',
-            }
+            },
+            testshow: 'show',
+            testcollapse: 'collapsed',
         }
     },
     components: {

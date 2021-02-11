@@ -6,13 +6,13 @@
                     <div v-if="TYPE == 'orders'">
                         <div class="row">
                             <div class="col-12 col-lg-3">
-                                <input style="margin-bottom:10px;" v-model="selected_item_list_keyword"  class="form-control" type="text" placeholder="Search an Item">
+                                <input style="margin-bottom:10px;" v-model="selected_item_list_keyword"  class="form-control" type="text" placeholder="Search">
                             </div>
                             <div class="col-12 col-lg-9">
                                 <div style="float:right;">
                                     
-                                    <button @click="addItems()" type="button" class="btn btn-sm hx-btn-shineblue" :disabled="view_mode">Add Items</button>
-                                    <button @click="addAllItems()" type="button" class="btn btn-sm hx-btn-shineblue" :disabled="view_mode">Add All Items</button>
+                                    <button @click="addItems()" type="button" class="btn btn-sm hx-btn-shineblue" :disabled="view_mode">Add Multiple</button>
+                                    <button @click="addAllItems()" type="button" class="btn btn-sm hx-btn-shineblue" :disabled="view_mode">Add All</button>
                                     <button @click="removeAllZero()" type="button" class="btn btn-sm btn-danger btn btn-secondary" :disabled="view_mode">Remove Zero</button>
                                 
                                 </div>
@@ -25,7 +25,6 @@
                             <thead class="th-nowrap">
                                 <tr>
                                     <th width="40">Action</th>
-                                    <th width="40"></th>
                                     <th>Barcode</th>
                                     <th width="50">Qty</th>
                                     <th width="50">UOM</th>
@@ -40,7 +39,7 @@
                                     <th width="100">VAT</th>
                                     <th width="100">Total</th>
                                     
-                                    <th>Price Rule?</th>
+                                    <th>Price Rule</th>
                                 </tr>
                             </thead>
                             <tbody class="td-border-bottom-black-2">
@@ -50,7 +49,6 @@
                                             <button @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
                                         </span>
                                     </td>
-                                    <td>{{ (index + 1) }}</td>
                                     <td>{{ item.barcode }}</td>
 
                                     <td  @click="setSelectedItem(item)" class="editable text-right">
@@ -90,7 +88,7 @@
                                 </tr>
 
                                     <tr>
-                                    <td colspan="10" class="text-right">Total:</td>
+                                    <td colspan="8" class="text-right">Total:</td>
                                     <!-- <td class="text-right"><strong>{{ TOTALS.QUANTITY }}</strong></td> -->
                                     
                                     <!-- <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.PACKING).toFixed(2)) }}</strong></td> -->
@@ -114,7 +112,7 @@
                                 
                                 <tr>
                                     <td colspan="18" style="padding: 10px;">
-                                        <input type="text" id="autocomplete" class="form-control" placeholder="Search item here.." :disabled="view_mode" style="width: 60%;">
+                                        <input type="text" id="autocomplete" class="form-control" placeholder="Add item" :disabled="view_mode" style="width: 60%;">
                                     </td>
                                 </tr> 
                             </tbody>
@@ -125,7 +123,7 @@
                     <div v-if="TYPE == 'receipts'">
                         <div class="row">
                             <div class="col-12 col-lg-3">
-                                <input style="margin-bottom:10px;" v-model="selected_item_list_keyword"  class="form-control" type="text" placeholder="Search an Item">
+                                <input style="margin-bottom:10px;" v-model="selected_item_list_keyword"  class="form-control" type="text" placeholder="Search">
                             </div>
                             <div class="col-12 col-lg-3">
                                 <button type="button" class="hx-btn hx-btn-shineblue" @click="markUnmark()">Mark/Unmark All</button>
@@ -138,7 +136,6 @@
                                 <tr>
                                     <th width="40">Action</th>
                                     <th width="40">Receive</th>
-                                    <th width="40"></th>
                                     <th>Barcode</th>
                                     <th>Item Description</th>
                                     <th width="50">Ordered  Qty</th>
@@ -156,7 +153,7 @@
                                     <th width="100">VAT</th>
                                     <th width="100">Total</th>
                                     
-                                    <th>Price Rule?</th>
+                                    <th>Price Rule</th>
                                     <th>Reason Code</th>
                                 </tr>
                             </thead>
@@ -168,7 +165,6 @@
                                         </span>
                                     </td>
                                     <td><input @click="setSelectedItem(item)" v-if ="item.quantity > 0" :checked="item.quantity == item.accepted_qty" type="checkbox" v-on:change="fillAcceptedQty(item, $event.target.checked)" name="fill-accepted" value="checked" /></td>
-                                    <td>{{ (index + 1) }}</td>
                                     <td>{{ item.barcode }}</td>
                                     <td><a :href="'/items/' + item.uuid + '/view'" target="_blank">{{ item.item_description }}</a></td>
                                     
@@ -257,7 +253,7 @@
                                 
                                 <tr>
                                     <td colspan="20" style="padding: 10px;">
-                                        <input type="text" id="autocomplete" class="form-control" placeholder="Search item here.." :disabled="view_mode" style="width: 60%;">
+                                        <input type="text" id="autocomplete" class="form-control" placeholder="Add item" :disabled="view_mode" style="width: 60%;">
                                     </td>
                                 </tr> 
                             </tbody>
@@ -267,7 +263,7 @@
                     <div v-if="TYPE == 'bills'">
                         <div class="row">
                             <div class="col-12 col-lg-3">
-                                <input style="margin-bottom:10px;" v-model="selected_item_list_keyword"  class="form-control" type="text" placeholder="Search an Item">
+                                <input style="margin-bottom:10px;" v-model="selected_item_list_keyword"  class="form-control" type="text" placeholder="Search">
                             </div>
                             <div class="col-12 col-lg-3">
                                
@@ -278,7 +274,6 @@
                         <table class="table table-bordered mb-0">
                             <thead class="th-nowrap">
                                 <tr>
-                                    <th width="40"></th>
                                     <th>Barcode</th>
                                     <th>Item Description</th>
                                     <th width="50">Ordered  Qty</th>
@@ -296,13 +291,12 @@
                                     <th width="100">VAT</th>
                                     <th width="100">Total</th>
                                     
-                                    <th>Price Rule?</th>
+                                    <th>Price Rule</th>
                                     <th>Reason Code</th>
                                 </tr>
                             </thead>
                             <tbody class="td-border-bottom-black-2">
                                 <tr v-for="(item, index) in SELECTED_ITEMS" :key="item.barcode + '-' + index" v-bind:class="{'table-selected' : (selectedItem && item.barcode == selectedItem.barcode)}">
-                                    <td>{{ (index + 1) }}</td>
                                     <td>{{ item.barcode }}</td>
                                     <td><a :href="'/items/' + item.uuid + '/view'" target="_blank">{{ item.item_description }}</a></td>
                                     
@@ -411,7 +405,7 @@
                         <div class="row">
                             <div class="col-12 col-lg-5 offset-lg-7">
                                 <div style="padding-bottom:10px;">
-                                    <input v-model="item_list_keyword"  class="form-control" type="text" placeholder="Search an Item">
+                                    <input v-model="item_list_keyword"  class="form-control" type="text" placeholder="Search">
                                 </div>
                             </div>
                         </div>

@@ -31,8 +31,7 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>Actions</th>
-                                <th></th>
+                                <th>Action</th>
                                 <th>Short Name</th>
                                 <th>Details</th>
                             </tr>
@@ -45,7 +44,6 @@
                                         <a href="javascript:void(0)"  @click="remove(codes)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
                                     </span>
                                 </td>
-                                <td width="50">{{ (index + 1) }}</td>
                                 <td width="100">{{ codes.short_name }}</td>
                                 <td>{{ codes.details }}</td>
                             </tr>

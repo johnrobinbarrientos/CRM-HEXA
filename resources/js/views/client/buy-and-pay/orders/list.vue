@@ -105,14 +105,14 @@
                                         <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid +'/view'  })">
                                             <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/edit'})">Edit</b-dropdown-item>
                                             <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid +'/view' })">View</b-dropdown-item>
-                                            <b-dropdown-item href="#">Cancel</b-dropdown-item>
+                                            <b-dropdown-item href="#" @click="cancel()">Cancel</b-dropdown-item>
                                         </b-dropdown>
                                     </span>
                                     <span v-else class="hx-table-actions">
                                         <b-dropdown split text="View" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/view' })">
                                             <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/edit' })" disabled="true">Edit</b-dropdown-item>
                                             <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/view' })">View</b-dropdown-item>
-                                            <b-dropdown-item href="#" disabled="true">Cancel</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" disabled="true">Cancel</b-dropdown-item>
                                         </b-dropdown>
                                     </span>
                                 </td>
@@ -562,7 +562,39 @@ export default {
             var scope = this
             scope.listCurrentPage = 1
             scope.getPurchaseOrders()
-        }
+        },
+        cancel : function () {
+            var scope = this
+
+            window.swal.fire({
+                title: 'Cancel?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.value) {
+                    scope.POST('buy-and-pay/order/' + scope.order.uuid + '/cancel').then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Cancelled',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.ROUTE({path: '/purchase-order-main' })
+                            })
+                        }
+                        else{
+                            alert('ERROR:' + res.code)
+                        }
+                    })            
+                }                              
+            })
+        },
 
     },
     mounted() {
