@@ -137,7 +137,7 @@
                                         <div><span>PO Amount</span></div>
                                         <div><span>{{ PUT_SEPARATOR(TOTALS.AMOUNT.toFixed(2) ) }}</span></div>
                                     </div>
-                                    <hr class="mb-1">
+                                    <hr style="margin-bottom: 2px">
                                     <hr>
                                 </div>
                                 <div  v-else class="buy-and-pay-summary">
@@ -315,6 +315,6 @@ function matchCustom(params, data) {
     margin-bottom:30px; padding:10px; background:#eee; border:1px solid #efefef; border-radius: 4px;
 }
 .buy-and-pay-summary span { font-size: 16px; }
-.buy-and-pay-summary hr { margin: 0; }
+.buy-and-pay-summary hr { margin: 0; border-color: #495057; }
 .buy-and-pay-summary h4 { margin-bottom: 12px; font-weight: 600; font-size: 18px; }
 </style>

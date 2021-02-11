@@ -33,13 +33,12 @@
                                     <th>Item Group</th>
                                     <th>Location</th>
                                     <th width="60">Packing</th>
-                                    <th>Item Rate</th>
-                                    <!-- <th>Subtotal</th> -->
-                                    <th>Gross</th>
-                                    <th>Discount</th>
-                                    <th>Net</th>
-                                    <th>VAT</th>
-                                    <th>Total</th>
+                                    <th width="100">Item Rate</th>
+                                    <th width="100">Gross</th>
+                                    <th width="100">Discount</th>
+                                    <th width="100">Net</th>
+                                    <th width="100">VAT</th>
+                                    <th width="100">Total</th>
                                     
                                     <th>Price Rule?</th>
                                 </tr>
@@ -109,7 +108,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="18">
-                                        <div class="pb-1"></div>
+                                        <div style="margin-bottom:2px;"></div>
                                     </td>
                                 </tr>
                                 
@@ -149,13 +148,13 @@
                                     <th>Item Group</th>
                                     <th>Location</th>
                                     <th width="60">Packing</th>
-                                    <th>Item Rate</th>
-                                    <!-- <th>Subtotal</th> -->
-                                    <th>Gross</th>
-                                    <th>Discount</th>
-                                    <th>Net</th>
-                                    <th>VAT</th>
-                                    <th>Total</th>
+                                    <th width="100">Item Rate</th>
+                
+                                    <th width="100">Gross</th>
+                                    <th width="100">Discount</th>
+                                    <th width="100">Net</th>
+                                    <th width="100">VAT</th>
+                                    <th width="100">Total</th>
                                     
                                     <th>Price Rule?</th>
                                     <th>Reason Code</th>
@@ -252,7 +251,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="20">
-                                        <div class="pb-1"></div>
+                                        <div style="margin-bottom:2px;"></div>
                                     </td>
                                 </tr>
                                 
@@ -289,13 +288,13 @@
                                     <th>Item Group</th>
                                     <th>Location</th>
                                     <th width="60">Packing</th>
-                                    <th>Item Rate</th>
+                                    <th width="100">Item Rate</th>
                                     <!-- <th>Subtotal</th> -->
-                                    <th>Gross</th>
-                                    <th>Discount</th>
-                                    <th>Net</th>
-                                    <th>VAT</th>
-                                    <th>Total</th>
+                                    <th width="100">Gross</th>
+                                    <th width="100">Discount</th>
+                                    <th width="100">Net</th>
+                                    <th width="100">VAT</th>
+                                    <th width="100">Total</th>
                                     
                                     <th>Price Rule?</th>
                                     <th>Reason Code</th>
@@ -379,7 +378,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="18">
-                                        <div class="pb-1"></div>
+                                        <div style="margin-bottom:2px;"></div>
                                     </td>
                                 </tr>
                                 
