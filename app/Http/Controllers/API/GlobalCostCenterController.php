@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class GlobalCostCenterController extends Controller
 {
-    public function getCostCenter()
+    public function index()
     {
         $list = GlobalCostCenter::whereNull('deleted_at');
 

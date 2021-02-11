@@ -113,6 +113,14 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="col-md-3 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="cost-center">Cost Center</label>
+                                    <select class="form-select-cost-center" v-model="selected_cost_center" :options="options_cost_center" name="cost-center" :disabled="view_mode">
+                                    </select>
+                                </div>
+                            </div>
                             
                                 
                         </div>
@@ -123,9 +131,9 @@
                                 <li class="nav-item">        
                                     <a class="nav-link active" data-toggle="tab" href="#account">Financial Account</a>    
                                 </li>    
-                                <li class="nav-item">        
+                                <!-- <li class="nav-item">        
                                     <a class="nav-link" data-toggle="tab" href="#discounts">Discounts</a>    
-                                </li>
+                                </li> -->
                                 <li class="nav-item">        
                                     <a class="nav-link" data-toggle="tab" href="#classification">Classification</a>    
                                 </li> 
@@ -189,7 +197,7 @@
                                         </div>            
                                 </div>
 
-                                <div class="tab-pane" id="discounts">
+                                <!-- <div class="tab-pane" id="discounts">
                                     
                                         <div class="row">
 
@@ -256,7 +264,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                </div>
+                                </div> -->
 
                                 <div class="tab-pane" id="classification">
                                         <div class="row">
@@ -383,6 +391,9 @@ export default {
             selected_customer_type: null,
             options_customer_type: [],
 
+            selected_cost_center: null,
+            options_cost_center: [],
+
             selected_coa_recievable: null,
             options_coa_recievable: [],
 
@@ -421,6 +432,7 @@ export default {
                 global_customer_chain_uuid: '',
                 global_customer_channel_uuid: '',
                 global_customer_type_uuid: '',
+                global_cost_center_uuid: '',
                 vat_uuid: '',
                 payment_term_uuid: '',
                 coa_receivable_account_uuid: '',
@@ -456,6 +468,22 @@ export default {
                 $(".form-select-recievables").select2({data: scope.options_coa_recievable});
                 
                 scope.selected_coa_recievable = scope.options_coa_recievable[0].id
+            })
+
+        },
+        getCostCenter: function () {
+           var scope = this
+            scope.GET('globals/cost-center').then(res => {
+                res.rows.forEach(function (data) {
+                    scope.options_cost_center.push({
+                        id: data.uuid,
+                        text: data.cost_center_name
+                    })
+                })
+
+                $(".form-select-cost-center").select2({data: scope.options_cost_center});
+                
+                scope.selected_cost_center = scope.options_cost_center[0].id
             })
 
         },
@@ -510,7 +538,6 @@ export default {
         getCustomerGroup: function () {
            var scope = this
             scope.GET('customers/customer-group').then(res => {
-                
                 res.rows.forEach(function (data) {
 
                     scope.options_customer_group.push({
@@ -614,6 +641,7 @@ export default {
             scope.formdata.global_customer_chain_uuid = scope.selected_customer_chain
             scope.formdata.global_customer_channel_uuid = scope.selected_customer_channel
             scope.formdata.global_customer_type_uuid = scope.selected_customer_type
+            scope.formdata.global_cost_center_uuid = scope.selected_cost_center
             scope.formdata.vat_uuid = scope.selected_vat
             scope.formdata.payment_term_uuid = scope.selected_payment_term
             scope.formdata.coa_receivable_account_uuid = scope.selected_coa_recievable
@@ -621,12 +649,12 @@ export default {
 
             scope.formdata.discounts = scope.tempCustomerDiscounts
 
-            scope.PUT('customers/customer-list', scope.formdata).then(res => {
+            scope.PUT('customers/', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Customer Successfuly Saved',
+                        title: 'Saved',
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
@@ -646,28 +674,29 @@ export default {
             scope.formdata.global_customer_chain_uuid = scope.selected_customer_chain
             scope.formdata.global_customer_channel_uuid = scope.selected_customer_channel
             scope.formdata.global_customer_type_uuid = scope.selected_customer_type
+            scope.formdata.global_cost_center_uuid = scope.selected_cost_center
             scope.formdata.vat_uuid = scope.selected_vat
             scope.formdata.payment_term_uuid = scope.selected_payment_term
             scope.formdata.coa_receivable_account_uuid = scope.selected_coa_recievable
             scope.formdata.global_address_uuid = scope.selected_global_address
 
             window.swal.fire({
-                title: 'Update Record?',
+                title: 'Update?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#548235',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Update it!',
+                confirmButtonText: 'Yes',
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
             
-                    scope.PUT('customers/customer-list', scope.formdata).then(res => {
+                    scope.PUT('customers/', scope.formdata).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Customer Successfuly Updated',
+                                title: 'Updated',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
@@ -822,7 +851,7 @@ export default {
 
         getCustomerDetails: function (customerUUID) {
             var scope = this
-            scope.GET('customers/customer-list/' + customerUUID).then(res => {
+            scope.GET('customers/' + customerUUID).then(res => {
                 let data = res.data
 
                 scope.formdata.uuid = customerUUID
@@ -861,6 +890,9 @@ export default {
                     $('.form-select-customer-type').val(data.global_customer_type_uuid);
                     $('.form-select-customer-type').trigger('change');
 
+                    $('.form-select-cost-center').val(data.global_cost_center_uuid);
+                    $('.form-select-cost-center').trigger('change');
+
                     $('.form-select-vat').val(data.vat_uuid);
                     $('.form-select-vat').trigger('change');
 
@@ -886,6 +918,7 @@ export default {
         scope.getCustomerChannel()
         scope.getCustomerChain()
         scope.getCustomerGroup()
+        scope.getCostCenter()
         scope.getPaymentTerm()
         scope.getVat()
         scope.getAddressList()
@@ -908,6 +941,10 @@ export default {
 
         $('.form-select-customer-type').on("change", function(e) { 
             scope.selected_customer_type = $('.form-select-customer-type').val();
+        })
+
+        $('.form-select-cost-center').on("change", function(e) { 
+            scope.selected_cost_center = $('.form-select-cost-center').val();
         })
 
         $('.form-select-vat').on("change", function(e) { 

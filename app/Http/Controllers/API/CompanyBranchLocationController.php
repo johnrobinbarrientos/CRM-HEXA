@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyBranchLocationController extends Controller
 {
-    public function getBranchLocation()
+    public function index()
     {
         $list = CompanyBranchLocation::whereNull('deleted_at')->with('branch');
 

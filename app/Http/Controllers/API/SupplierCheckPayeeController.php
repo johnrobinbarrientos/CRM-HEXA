@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class SupplierCheckPayeeController extends Controller
 {
-    public function getCheckPayee()
+    public function index()
     {
         $list = SupplierCheckPayee::whereNull('deleted_at');
 

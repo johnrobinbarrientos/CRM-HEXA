@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyDepartmentController extends Controller
 {
-    public function getDepartment()
+    public function index()
     {
         $list = CompanyDepartment::whereNull('deleted_at')->with('GlobalCostCenter');
 

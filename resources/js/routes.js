@@ -56,8 +56,8 @@ import PurchaseReceiptDetailsDev from './views/client/buy-and-pay/purchase-recei
 import BillingReturnMain from './views/client/buy-and-pay/billing-return/main'
 import BillingDetails from './views/client/buy-and-pay/billing-return/billing-details'
 
-import PriceRuleMain from './views/client/inventory/price-rule/price-rule-main'
-import PriceRuleSupplierForm from './views/client/inventory/price-rule/price-rule-supplier-form'
+import PriceRuleMain from './views/client/inventory/price-rule/main'
+import PriceRuleForm from './views/client/inventory/price-rule/price-rule-form'
 
 
 
@@ -432,17 +432,17 @@ export default new VueRouter({
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
+        // {
+        //     path: '/price-rule/create',
+        //     name: 'price-rule-form',
+        //     component: PriceRuleForm,
+        //     beforeEnter: checkAuth,
+        //     meta: { protected: true }
+        // },
         {
-            path: '/price-rules/suppliers/create',
-            name: 'price-rule-supplier-form',
-            component: PriceRuleSupplierForm,
-            beforeEnter: checkAuth,
-            meta: { protected: true }
-        },
-        {
-            path: '/price-rules/suppliers/:priceRuleSupplierUUID',
-            name: 'price-rule-supplier-form',
-            component: PriceRuleSupplierForm,
+            path: '/price-rule/:priceRuleUUID',
+            name: 'price-rule-form',
+            component: PriceRuleForm,
             beforeEnter: checkAuth,
             meta: { protected: true }
         },

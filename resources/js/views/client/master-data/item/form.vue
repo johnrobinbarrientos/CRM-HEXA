@@ -1019,12 +1019,12 @@ export default {
             scope.formdata.item_uoms = scope.item_uoms
 
 
-            scope.PUT('items/item-list', scope.formdata).then(res => {
+            scope.PUT('items/', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Item Successfuly Saved',
+                        title: 'Saved',
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
@@ -1065,21 +1065,21 @@ export default {
             scope.formdata.item_uoms = scope.item_uoms
 
             window.swal.fire({
-                title: 'Update Record?',
+                title: 'Update?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#548235',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Update it!',
+                confirmButtonText: 'Yes',
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.PUT('items/item-list', scope.formdata).then(res => {
+                    scope.PUT('items/', scope.formdata).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Item Successfuly Updated',
+                                title: 'Updated',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
@@ -1101,22 +1101,21 @@ export default {
             var scope = this
 
             window.swal.fire({
-                title: 'Are you sure?',
-                text: 'You won\'t be able to revert this',
+                title: 'Delete?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#548235',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!',
+                confirmButtonText: 'Yes',
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.DELETE('items/item-list/' + data.uuid).then(res => {
+                    scope.DELETE('items/' + data.uuid).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Item Deleted',
+                                title: 'Deleted',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
@@ -1139,7 +1138,7 @@ export default {
         },
         getItemDetails: function (itemUUID) {
             var scope = this
-            scope.GET('items/item-list/' + itemUUID).then(res => {
+            scope.GET('items/' + itemUUID).then(res => {
                 let data = res.data
 
                 scope.formdata.uuid = itemUUID

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 
 class EmployeeListController extends Controller
 {
-    public function getEmployeeList()
+    public function index()
     {
         $list = EmployeeList::where('is_draft','=', 0)->whereNull('deleted_at')->with('BranchLocation')->with('Department')
             ->with('EmploymentType')->with('EmploymentStatus');

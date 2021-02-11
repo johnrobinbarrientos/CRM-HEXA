@@ -6,7 +6,7 @@
                     <h1 class="title"><i class="las la-list-ul"></i> Price Rule</h1>
                 </div>
                 <div class="bar-right">
-                    <a @click="ROUTE({path: '/price-rules' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
+                    <a @click="ROUTE({path: '/price-rule-main' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
                         <i class="las la-x"></i> <span>Cancel</span>
                     </a>
                     <a @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
@@ -16,8 +16,6 @@
             </div>
         
             <div>
-                
-
                 <form action="#" class="form-validate is-alter">
 
                     <div class="row">
@@ -67,89 +65,151 @@
                         </div>
                     </div>
 
+                    <div class="hx-nav-tabs-override">
+                            <ul class="nav nav-tabs">    
+                                <li class="nav-item">        
+                                    <a class="nav-link active" data-toggle="tab" href="#item">Item</a>    
+                                </li>    
+                                <li class="nav-item">        
+                                    <a class="nav-link" data-toggle="tab" href="#buying">Buying</a>    
+                                </li> 
+                                <li class="nav-item">        
+                                    <a class="nav-link" data-toggle="tab" href="#selling">Selling</a>    
+                                </li>     
+                            </ul>
 
-                    <div v-if="formdata.uuid">
-                        <hr/>
-                        <div class="row">
-                            <div class="col-md-5 col-12">
-                                <h4 class="card-title">Selected Suppliers</h4>
-                                <p>Below are the list of suppliers included on this price rule</p>
-                                
-                                <div style="position:relative; padding-right:100px;">
-                                    <select v-model="selectedSupplierUUID" class="form-control">
-                                        <option value="null">Select a Supplier</option>
-                                        <template v-for="(supplier, index2) in suppliers" >
-                                            <option v-if="!isSupplierAdded(supplier.uuid)" :key="'opt-' + supplier.id + '-' + index2" :value="supplier.uuid">{{ supplier.business_name }}</option>
-                                        </template>
-                                    </select>
-                                    <button @click="addPriceRuleSupplierDetail()" type="button" style="position:absolute; top:0px; right:0px; width:90px; height:34px;" class="hx-btn hx-btn-shineblue">Add</button>
+                            <div class="tab-content">    
+                                <div class="tab-pane active" id="item">
+                                         
                                 </div>
 
-                                <br/>
-                                <table class="table table-striped table-bordered responsiveTable">
-                                    <thead>
-                                        <tr class="tb-tnx-head">
-                                            <th width="90">Actions</th>
-                                            <th width="20">#</th>
-                                            <th>Supplier Name</th>
-                                            <th>Applied To</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr style="cursor:pointer; z-index:3000;" @click="selectPriceRuleDetails(priceRuleSupplierDetail)" v-for="(priceRuleSupplierDetail, index) in priceRuleSupplierDetails" :key="index" v-bind:class="{'table-success' : (selectedPriceRuleDetail && selectedPriceRuleDetail.uuid == priceRuleSupplierDetail.uuid) }">
-                                            <th>
-                                                <a href="javascript:void(0)"  v-if="priceRuleSupplierDetail.edit" @click="savePriceRuleSupplierDetail(priceRuleSupplierDetail)" class="btn btn-sm  hx-btn-shineblue"><i class="bx bx-save"></i></a>
-                                                <a href="javascript:void(0)"  v-else @click="editPriceRuleSupplierDetail(priceRuleSupplierDetail)" class="btn btn-sm  hx-btn-shineblue"><i class="bx bx-pencil"></i></a>
-                                                <a href="javascript:void(0)"  @click="deletePriceRuleSupplierDetail(priceRuleSupplierDetail)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
-                                            </th>
-                                            <th width="40">{{ index + 1 }}</th>
-                                            <td>
-                                                <strong>{{ getSupplierDetails('business_name', priceRuleSupplierDetail.supplier_uuid) }}</strong>
-                                            </td>
-                                            <td>
-                                                <strong v-if="!priceRuleSupplierDetail.edit">{{ priceRuleSupplierDetail.applied_to }}</strong>
-                                                <select style="z-index:4000;" v-else @change="selectPriceRuleDetails(priceRuleSupplierDetail)"  v-model="priceRuleSupplierDetail.applied_to" class="form-control">
-                                                    <option value="all">All</option>
-                                                    <option value="selected">Selected</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-md-6 col-12 offset-md-1">
-                                <div v-if="selectedPriceRuleDetail">
-                                <h4 class="card-title">{{ getSupplierDetails('business_name',selectedPriceRuleDetail.supplier_uuid) }}</h4>
-                                <p>Below are the list of items included in this price rule</p>
+                                <div class="tab-pane" id="buying">
+                                    
+                                    <div v-if="formdata.uuid">
+                                        <!-- <hr/> -->
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-5 col-12">       
+                                                <div style="position:relative; padding-right:100px;">
+                                                    <select v-model="selectedSupplierUUID" class="form-control">
+                                                        <option value="null">Select a Supplier</option>
+                                                        <template v-for="(supplier, index2) in suppliers" >
+                                                            <option v-if="!isSupplierAdded(supplier.uuid)" :key="'opt-' + supplier.id + '-' + index2" :value="supplier.uuid">{{ supplier.supplier_name }}</option>
+                                                        </template>
+                                                    </select>
+                                                    <button @click="addPriceRuleSupplierDetail()" type="button" style="position:absolute; top:0px; right:0px; width:90px; height:34px;" class="hx-btn hx-btn-shineblue">Add</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-md-5 col-12">
+                                                <!-- <h4 class="card-title">Suppliers</h4> -->
+                                                <div class="form-group" style="margin-top: 30px;">
+                                                    <div class="form-control-wrap">
+                                                        <div class="custom-control custom-radio">
+                                                            <input v-model="buying_option" type="radio"  value="by supplier" class="custom-control-input" id="suppliers">
+                                                            <label class="custom-control-label" for="suppliers">By Supplier</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <br/>
+                                                <p>List of suppliers</p>
+                                                <table class="table table-striped table-bordered responsiveTable">
+                                                    <thead>
+                                                        <tr class="tb-tnx-head">
+                                                            <th width="90">Actions</th>
+                                                            <th width="20">#</th>
+                                                            <th>Supplier Name</th>
+                                                            <th>Applied To</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr style="cursor:pointer; z-index:3000;" @click="selectPriceRuleDetails(priceRuleSupplierDetail)" v-for="(priceRuleSupplierDetail, index) in priceRuleSupplierDetails" :key="index" v-bind:class="{'table-success' : (selectedPriceRuleDetail && selectedPriceRuleDetail.uuid == priceRuleSupplierDetail.uuid) }">
+                                                            <th>
+                                                                <a href="javascript:void(0)"  v-if="priceRuleSupplierDetail.edit" @click="savePriceRuleSupplierDetail(priceRuleSupplierDetail)" class="btn btn-sm  hx-btn-shineblue"><i class="bx bx-save"></i></a>
+                                                                <a href="javascript:void(0)"  v-else @click="editPriceRuleSupplierDetail(priceRuleSupplierDetail)" class="btn btn-sm  hx-btn-shineblue"><i class="bx bx-pencil"></i></a>
+                                                                <a href="javascript:void(0)"  @click="deletePriceRuleSupplierDetail(priceRuleSupplierDetail)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
+                                                            </th>
+                                                            <th width="40">{{ index + 1 }}</th>
+                                                            <td>
+                                                                <strong>{{ getSupplierDetails('supplier_name', priceRuleSupplierDetail.supplier_uuid) }}</strong>
+                                                            </td>
+                                                            <td>
+                                                                <strong v-if="!priceRuleSupplierDetail.edit">{{ priceRuleSupplierDetail.applied_to }}</strong>
+                                                                <select style="z-index:4000;" v-else @change="selectPriceRuleDetails(priceRuleSupplierDetail)"  v-model="priceRuleSupplierDetail.applied_to" class="form-control">
+                                                                    <option value="all">All</option>
+                                                                    <option value="selected">Selected</option>
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                
+                                                <br>
+                                                <br>
+                                                <div v-if="selectedPriceRuleDetail">
+                                                <h4 class="card-title">{{ getSupplierDetails('supplier_name',selectedPriceRuleDetail.supplier_uuid) }}</h4>
+                                                <p>Item List</p>
 
-                                <table class="table table-striped table-bordered responsiveTable">
-                                    <thead>
-                                        <tr class="tb-tnx-head">
-                                            <th width="30">#</th>
-                                            <th>Item Code</th>
-                                            <th>Description</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(item, index) in items" :key="index" v-bind:class="{'table-success' : selectedPriceRuleDetail.applied_to == 'all' || isSupplierItemSelected(item)}">
-                                            <th>
-                                                <div v-if="selectedPriceRuleDetail.applied_to == 'all'" class="form-check mb-3">
-                                                    <input checked disabled class="form-check-input" type="checkbox">
+                                                <table class="table table-striped table-bordered responsiveTable">
+                                                    <thead>
+                                                        <tr class="tb-tnx-head">
+                                                            <th width="30">#</th>
+                                                            <th>Item Code</th>
+                                                            <th>Description</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr v-for="(item, index) in items" :key="index" v-bind:class="{'table-success' : selectedPriceRuleDetail.applied_to == 'all' || isSupplierItemSelected(item)}">
+                                                            <th>
+                                                                <div v-if="selectedPriceRuleDetail.applied_to == 'all'" class="form-check mb-3">
+                                                                    <input checked disabled class="form-check-input" type="checkbox">
+                                                                </div>
+                                                                <div v-else class="form-check mb-3">
+                                                                    <input v-if="!isSupplierItemSelected(item)" @change="addPriceRuleSupplierItem(item)" class="form-check-input" type="checkbox">
+                                                                    <input v-else @change="removePriceRuleSupplierItem(item)" class="form-check-input" type="checkbox" checked>
+                                                                </div>
+                                                            </th>
+                                                            <td><strong>{{ item.item_code }}</strong></td>
+                                                            <td><strong>{{ item.item_description }}</strong></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                                 </div>
-                                                <div v-else class="form-check mb-3">
-                                                    <input v-if="!isSupplierItemSelected(item)" @change="addPriceRuleSupplierItem(item)" class="form-check-input" type="checkbox">
-                                                    <input v-else @change="removePriceRuleSupplierItem(item)" class="form-check-input" type="checkbox" checked>
+                                            </div>
+                                            
+                                            
+                                            <div class="col-md-6 col-12 offset-md-1">
+                                                <div class="form-group" style="margin-top: 30px;">
+                                                    <div class="form-control-wrap">
+                                                        <div class="custom-control custom-radio">
+                                                            <input v-model="buying_option" type="radio"  value="by supplier group" class="custom-control-input" id="supplier-group">
+                                                            <label class="custom-control-label" for="supplier-group">By Supplier Group</label>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </th>
-                                            <td><strong>{{ item.item_code }}</strong></td>
-                                            <td><strong>{{ item.item_description }}</strong></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                </div>
+                                            
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>   
+     
+                                <div class="tab-pane" id="selling">
+
+                 
+                                </div>     
                             </div>
-                        </div>
                     </div>
+
+
+                    
+
+
+
                 </form>
             </div>          
         </div>
@@ -161,16 +221,17 @@ import Swal from 'sweetalert2'
 import moment from 'moment'
 
 export default {
-    name: 'price-rule-supplier',
+    name: 'price-rule-form',
     props: ['properties'],
     data: function () {
         return {
-            priceRuleSupplierUUID: null,
+            priceRuleUUID: null,
             suppliers: [],
             priceRuleSupplierDetails: [],
             items: [],
             selectedSupplierUUID: null,
             selectedPriceRuleDetail: null,
+            buying_option: 'by supplier',
 
             formdata: { 
                 uuid: null,
@@ -199,7 +260,7 @@ export default {
 
             var data = { uuid: null, supplier_uuid: scope.selectedSupplierUUID, applied_to: 'all', edit: true, items: [], }
 
-            scope.POST('price-rule/supplier/'+ scope.priceRuleSupplierUUID +'/details', data).then(res => {
+            scope.POST('price-rule/supplier/'+ scope.priceRuleUUID +'/details', data).then(res => {
                 if (res.success) {
                     data.uuid = res.data.uuid
                     scope.priceRuleSupplierDetails.push(data);
@@ -227,7 +288,7 @@ export default {
                 applied_to: priceRuleSupplierDetail.applied_to,  
             }
 
-            scope.POST('price-rule/supplier/'+ scope.priceRuleSupplierUUID +'/details', data).then(res => {
+            scope.POST('price-rule/supplier/'+ scope.priceRuleUUID +'/details', data).then(res => {
                 if (res.success) {
                     priceRuleSupplierDetail.edit = false
                     scope.selectPriceRuleDetails(priceRuleSupplierDetail)
@@ -243,18 +304,17 @@ export default {
             var scope = this
     
             window.swal.fire({
-                title: 'Are you sure?',
-                text: 'You won\'t be able to revert this',
+                title: 'Delete?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!',
+                confirmButtonText: 'Yes',
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
                         
-                    scope.DELETE('price-rule/supplier/'+ scope.priceRuleSupplierUUID +'/details/' + scope.selectedPriceRuleDetail.uuid  ).then(res => {
+                    scope.DELETE('price-rule/supplier/'+ scope.priceRuleUUID +'/details/' + scope.selectedPriceRuleDetail.uuid  ).then(res => {
                         if (res.success) {
                             for (let i = 0; i < scope.priceRuleSupplierDetails.length; i++) {
                                 var current = scope.priceRuleSupplierDetails[i]
@@ -280,18 +340,18 @@ export default {
             scope.formdata.mechanics = data.mechanics
             scope.formdata.target_amount = data.target_amount
         },
-        getPriceRuleSupplier: function (priceRuleSupplierUUID) {
+        getPriceRuleSupplier: function (priceRuleUUID) {
             var scope = this
-            scope.GET('price-rule/supplier/' + priceRuleSupplierUUID).then(res => {
+            scope.GET('price-rule/supplier/' + priceRuleUUID).then(res => {
                 if (res.success) {
                     scope.formdata = res.data
                 }
             })
 
         },
-        getPriceRuleSupplierDetails: function (priceRuleSupplierUUID) {
+        getPriceRuleSupplierDetails: function (priceRuleUUID) {
             var scope = this
-            scope.GET('price-rule/supplier/'+ priceRuleSupplierUUID +'/details').then(res => {
+            scope.GET('price-rule/supplier/'+ priceRuleUUID +'/details').then(res => {
                 if (res.success) {
                     for (let i = 0; i < res.rows.length; i++) {
                         var current = res.rows[i]
@@ -407,19 +467,18 @@ export default {
         },
         save: function () {
             var scope = this
-            scope.POST('price-rule/supplier', scope.formdata).then(res => {
+            scope.POST('price-rules/save', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Price Rule Successfuly Saved',
+                        title: 'Saved',
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.setData(res.rows)
-                        // console.log(res.rows)
-                        scope.getPriceRules()
-                        // scope.toggleForm()
+                        // scope.setData(res.rows)
+                        // scope.ROUTE({path: '/price-rule/' +  res.rows.uuid });
+                        // scope.getSupplierList()
                     })
                 } else {
                     alert('ERROR:' + res.code)
@@ -431,12 +490,12 @@ export default {
             var scope = this
         
             window.swal.fire({
-                title: 'Update Record?',
+                title: 'Update?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Update it!',
+                confirmButtonText: 'Yes',
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
@@ -445,13 +504,12 @@ export default {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Price Rule Updated',
+                                title: 'Updated',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
                                 scope.setData(res.rows)
-                                scope.getPriceRules()
-                                // scope.toggleForm()
+
                             })
                         }
                         else{
@@ -465,13 +523,12 @@ export default {
             var scope = this
 
             window.swal.fire({
-                title: 'Are you sure?',
-                text: 'You won\'t be able to revert this',
+                title: 'Delete?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!',
+                confirmButtonText: 'Yes',
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
@@ -480,7 +537,7 @@ export default {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Price Rule Deleted',
+                                title: 'Deleted',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
@@ -499,12 +556,12 @@ export default {
     },
     mounted() {
         var scope = this
-        var priceRuleSupplierUUID = scope.$route.params.priceRuleSupplierUUID
-        scope.priceRuleSupplierUUID = priceRuleSupplierUUID
+        var priceRuleUUID = scope.$route.params.priceRuleUUID
+        scope.priceRuleUUID = priceRuleUUID
 
-        if (priceRuleSupplierUUID) {
-            scope.getPriceRuleSupplier(priceRuleSupplierUUID)
-            scope.getPriceRuleSupplierDetails(priceRuleSupplierUUID)
+        if (priceRuleUUID) {
+            scope.getPriceRuleSupplier(priceRuleUUID)
+            scope.getPriceRuleSupplierDetails(priceRuleUUID)
             scope.getSupplierList()
         }
         

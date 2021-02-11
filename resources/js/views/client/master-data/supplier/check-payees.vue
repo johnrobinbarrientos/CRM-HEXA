@@ -133,7 +133,7 @@ export default {
                     window.swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Check payee has been successfuly Saved',
+                        title: 'Saved',
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {

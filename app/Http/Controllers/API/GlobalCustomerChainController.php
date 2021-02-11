@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class GlobalCustomerChainController extends Controller
 {
-    public function getCustomerChains()
+    public function index()
     {
         $list = GlobalCustomerChain::whereNull('deleted_at');
 

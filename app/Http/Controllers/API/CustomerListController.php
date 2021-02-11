@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CustomerListController extends Controller
 {
-    public function getCustomerList()
+    public function index()
     {
         $list = CustomerList::where('is_draft','=', 0)->whereNull('deleted_at')->with('discounts')
         ->with('CustomerGroup')->with('CustomerChain')
@@ -73,6 +73,7 @@ class CustomerListController extends Controller
         $customer->global_customer_chain_uuid = request()->global_customer_chain_uuid;
         $customer->global_customer_channel_uuid = request()->global_customer_channel_uuid;
         $customer->global_customer_type_uuid = request()->global_customer_type_uuid;
+        $customer->global_cost_center_uuid = request()->global_cost_center_uuid;
         $customer->vat_uuid = request()->vat_uuid;
         $customer->payment_term_uuid = request()->payment_term_uuid;
         $customer->coa_receivable_account_uuid = request()->coa_receivable_account_uuid;

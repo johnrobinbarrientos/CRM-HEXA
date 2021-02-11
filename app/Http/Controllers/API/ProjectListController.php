@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ProjectListController extends Controller
 {
-    public function getProjectList()
+    public function index()
     {
         $list = ProjectList::where('is_draft','=', 0)->whereNull('deleted_at');
 

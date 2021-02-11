@@ -259,13 +259,12 @@ export default {
             var scope = this
 
             window.swal.fire({
-                title: 'Are you sure?',
-                text: 'You won\'t be able to revert this',
+                title: 'Cancel?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, cancel it!',
+                confirmButtonText: 'Yes',
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
@@ -274,7 +273,7 @@ export default {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Successfuly Cancelled',
+                                title: 'Cancelled',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {

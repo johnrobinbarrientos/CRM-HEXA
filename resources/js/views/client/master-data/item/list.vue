@@ -149,7 +149,7 @@ export default {
             var scope = this
             scope.listLoading = true
             scope.itemList = []
-            scope.GET('items/item-list?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+            scope.GET('items/?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.itemList = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
@@ -160,7 +160,7 @@ export default {
         create: function () {
             var scope = this
 
-            scope.POST('items/item-list').then(res => {
+            scope.POST('items/').then(res => {
                 if (res.success) {
                    scope.ROUTE({path: '/items/' + res.data.uuid })
                 }

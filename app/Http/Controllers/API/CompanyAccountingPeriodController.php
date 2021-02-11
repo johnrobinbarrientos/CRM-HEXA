@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyAccountingPeriodController extends Controller
 {
-    public function getAccountingPeriod()
+    public function index()
     {
         $list = CompanyAccountingPeriod::whereNull('deleted_at');
 

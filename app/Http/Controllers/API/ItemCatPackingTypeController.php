@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ItemCatPackingTypeController extends Controller
 {
-    public function getCatPackingType()
+    public function index()
     {
         $list = ItemCatPackingType::whereNull('deleted_at');
 

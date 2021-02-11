@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyTaxationController extends Controller
 {
-    public function getTaxation()
+    public function index()
     {
         $list = CompanyTaxation::whereNull('deleted_at');
 
