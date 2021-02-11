@@ -140,10 +140,10 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
     Route::group(['prefix' => 'projects'], function(){
 
-        Route::get('/', 'API\ProjectListController@index');
-        Route::post('/', 'API\ProjectListController@store');
-        Route::put('/', 'API\ProjectListController@update');
-        Route::get('/{project_uuid}','API\ProjectListController@show');
+        Route::get('/', 'API\ProjectController@index');
+        Route::post('/', 'API\ProjectController@store');
+        Route::put('/', 'API\ProjectController@update');
+        Route::get('/{project_uuid}','API\ProjectController@show');
 
     });
 
