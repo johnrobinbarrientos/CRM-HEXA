@@ -81,7 +81,7 @@
                 ">
                     <thead class="th-nowrap">
                         <tr>
-                            <th>Action</th>
+                            <th  width="105">Action</th>
                             <th>Item Type</th>
                             <th>Transaction No.</th>
                             <th>Supplier Name</th>

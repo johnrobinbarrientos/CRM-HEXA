@@ -54,9 +54,7 @@ import BuyANDPayBillingReturnMain from './views/client/buy-and-pay/billing-retur
 import BuyANDPayBillingReturnDetails from './views/client/buy-and-pay/billing-return/details'
 
 /* to be replaced with above code */
-import PurchaseReceiptMain from './views/client/buy-and-pay/purchase-receipt/main'
-import PurchaseReceiptDetails from './views/client/buy-and-pay/purchase-receipt/details'
-import PurchaseReceiptDetailsDev from './views/client/buy-and-pay/purchase-receipt/details-dev'
+
 
 import BillingReturnMain from './views/client/buy-and-pay/billing-return/main'
 import BillingDetails from './views/client/buy-and-pay/billing-return/details'
@@ -395,37 +393,8 @@ export default new VueRouter({
         },
 
 
-        {
-          path: '/purchase-receipt-main',
-          name: 'purchase-receipt-main',
-          component: PurchaseReceiptMain,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/purchase-receipt-details/:orderUUID',
-          name: 'purchase-receipt-details',
-          props: { view_mode: false },
-          component: PurchaseReceiptDetails,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/purchase-receipt-details-dev/:orderUUID',
-          name: 'purchase-receipt-details',
-          props: { view_mode: false },
-          component: PurchaseReceiptDetailsDev,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/purchase-receipt-details/:orderUUID/view',
-          name: 'purchase-receipt-details',
-          props: { view_mode: true },
-          component: PurchaseReceiptDetails,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
+
+        
 
 
 

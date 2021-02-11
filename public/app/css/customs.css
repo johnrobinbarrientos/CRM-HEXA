@@ -466,3 +466,32 @@ img.header-profile-user { background: #fff; }
   }
   
 /** === jepyoo styles end === **/
+
+/** === Kenji STYLES START === */
+.dropdown.m-2 { margin: 0rem !important; margin-top:2px !important; margin-bottom:2px !important; }
+
+.dropdown .btn-secondary {
+    color: #656565!important;
+    background: rgb(231, 233, 236) !important;
+    min-width: 55px;
+}
+
+.dropdown .btn-secondary.dropdown-toggle-split {
+    min-width: 20px;
+}
+
+.b-dropdown:after {
+    font-family: dripicons-v2!important;
+    font-style: normal!important;
+    font-weight: 400!important;
+    font-variant: normal!important;
+    text-transform: none!important;
+    speak: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    content: "\54";
+    position:absolute;
+    top:3px;
+    right:4px;
+    color:#656565;
+}

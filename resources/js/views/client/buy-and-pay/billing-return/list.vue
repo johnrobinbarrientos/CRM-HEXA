@@ -89,7 +89,7 @@
                             <th>Reason Code</th> 
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="td-border-bottom-black">
                         <template v-if="billedOrders.length > 0">
                             <tr v-for="(purchase, index) in billedOrders" :key="purchase.uuid">
                                 <template v-if="purchase.po_status !== 'Cancelled'">
@@ -120,23 +120,21 @@
 
                                 </template>
                             </tr>
-                            <tr class="tr-grandtotal">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
+                            <tr>
+                                <td colspan="7"></td>
+                                <td style="border-left: 2px solid #eee">
                                     <span><strong>Grand Total:</strong></span>
                                 </td>
                                 <td class="text-right">
                                     <span v-if="grand_total==0"><strong>0.00</strong></span>
-                                    <span v-else><strong>{{putSeparator(grand_total)}}</strong></span>
+                                    <span v-else><strong>{{putSeparator(grand_total.toFixed(2))}}</strong></span>
                                 </td>
-                                <td></td>
-                                <td></td>
+                                <td colspan="3"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="13">
+                                    <div style="margin-bottom: 2px;"></div>
+                                </td>
                             </tr>
                         </template>
                         <template v-else>
@@ -517,3 +515,11 @@ export default {
     },
 }
 </script>
+
+
+<style scoped>
+.table-tranx { table-layout: auto; width: 200%;}
+.td-border-bottom-black tr:nth-last-child(3) td { border-bottom-color: #495057 !important; }
+.td-border-bottom-black tr:nth-last-child(2) td { border-bottom-color: #495057 !important; }
+.td-border-bottom-black tr:nth-last-child(1) td { border-bottom-color: #495057 !important; }
+</style>
