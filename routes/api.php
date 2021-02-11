@@ -141,11 +141,10 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
     Route::group(['prefix' => 'projects'], function(){
 
-        Route::get('/project-list', 'API\ProjectListController@getProjectList');
-        Route::post('/project-list', 'API\ProjectListController@store');
-        Route::put('/project-list', 'API\ProjectListController@update');
-        Route::get('/project-list/{project_uuid}','API\ProjectListController@show');
-
+        Route::get('/', 'API\ProjectController@index');
+        Route::post('/', 'API\ProjectController@store');
+        Route::put('/', 'API\ProjectController@update');
+        Route::get('/{project_uuid}','API\ProjectController@show');
     });
 
     Route::group(['prefix' => 'employees'], function(){
@@ -283,20 +282,18 @@ Route::group(['middleware' => ['auth:api'] ], function(){
     Route::group(['prefix' => 'buy-and-pay'], function(){
         
         Route::get('/orders', 'API\BuyAndPayOrderController@index');
-        Route::get('/orders/{order_uuid}', 'API\BuyAndPayOrderController@show');
+        Route::get('/orders/{order_uuid}', 'API\BuyAndPayOrderController@show'); // check if can use this for all PO status
         Route::put('/orders/{order_uuid}', 'API\BuyAndPayOrderController@update');
 
         Route::get('/orders/{order_uuid}/suppliers/{supplier_uuid}/discounts', 'API\BuyAndPayOrderController@getSupplierDiscounts');
 
         Route::post('/orders', 'API\BuyAndPayOrderController@save');
-        Route::post('/order/reason-code', 'API\BuyAndPayOrderController@updateOrderReasonCode');
         Route::post('/order/delete', 'API\BuyAndPayOrderController@deleteOrder');
-
         Route::post('/orders/{order_uuid}/cancel', 'API\BuyAndPayOrderController@cancelOrder');
 
-        Route::get('/order-reason-code', 'API\PurchaseOrderReasonCodeController@getReasonCode');
-        Route::post('/order-reason-code', 'API\PurchaseOrderReasonCodeController@saveReasonCode');
-        Route::post('/order-reason-code/delete', 'API\PurchaseOrderReasonCodeController@deleteReasonCode');
+        Route::get('/reason-codes', 'API\BuyAndPayReasonCodeController@index');
+        Route::post('/reason-codes', 'API\BuyAndPayReasonCodeController@save');
+        Route::delete('/reason-codes/{uuid}', 'API\BuyAndPayReasonCodeController@delete');
 
         Route::get('/received', 'API\PurchaseReceiveController@getReceived');
         Route::get('/to-received', 'API\PurchaseReceiveController@getToReceive');
@@ -314,6 +311,12 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/{type}/{order_uuid}/items', 'API\BuyAndPayItemController@index');
         Route::post('/{type}/{order_uuid}/items', 'API\BuyAndPayItemController@save');
 
+
+        Route::get('/bills', 'API\BuyAndPayBillController@index');
+        Route::post('/bills', 'API\BuyAndPayBillController@store');
+
+        Route::get('/bills/{order_uuid}', 'API\BuyAndPayBillController@show');
+        Route::get('/bills/{order_uuid}/supplier-items', 'API\BuyAndPayBillController@getOrderSupplierItems');
     });
 
     Route::group(['prefix' => 'users'], function(){

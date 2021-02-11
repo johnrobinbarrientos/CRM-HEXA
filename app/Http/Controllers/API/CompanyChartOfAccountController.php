@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
 
 use App\Models\CompanyChartOfAccount; 
+use App\Models\CompanyChartOfAccountAccountGroup; 
 use Illuminate\Support\Facades\Auth;
 use DB; 
 
@@ -19,6 +20,12 @@ class CompanyChartOfAccountController extends Controller
             $list = $list->where(function($query) use ($keyword) {
                 $query->where('account_name','LIKE','%'.$keyword.'%');
             });
+        }
+
+        if (!empty(request()->group)) {
+            $group_name = explode(',',request()->group);
+            $group_uuids = CompanyChartOfAccountAccountGroup::where('account_group','=',$group_name)->pluck('uuid')->toArray();
+            $list->whereIn('coa_group_uuid',$group_uuids);
         }
 
         $count = $list->count();

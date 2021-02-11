@@ -233,21 +233,7 @@ class BuyAndPayOrderController extends Controller
         return response()->json(['success' => 1, 'data' => $order, 'po_date' => $date_purchased], 200);
     }
 
-    public function updateOrderReasonCode()
-    {
-        $order =  PurchaseOrder::find(request()->uuid);
 
-        if (!$order) {
-            return response()->json(['success' => 0, 'data' => null, 'Order not found'], 500);
-        }
-
-        $order->orders_reason_code_uuid = request()->orders_reason_code_uuid;
-        $order->save();
-
-        $order = PurchaseOrder::find($order->uuid);
-        return response()->json(['success' => 1, 'rows' => $order], 200);
-    }
-    
 
     public function getNumberOfTransactions($uuid)
     {
@@ -269,7 +255,6 @@ class BuyAndPayOrderController extends Controller
     public function deleteOrder()
     {
         $orders = PurchaseOrder::find(request()->uuid)->delete();
-
         return response()->json(['success' => 1, 'message' => 'Deleted!'], 200);
     }
 

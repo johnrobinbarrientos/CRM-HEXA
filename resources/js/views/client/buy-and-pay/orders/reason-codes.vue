@@ -162,7 +162,7 @@ export default {
             var scope = this
             scope.listLoading = true
             scope.reasonCodes = []
-            scope.GET('buy-and-pay/order-reason-code?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+            scope.GET('buy-and-pay/reason-codes?type=order&keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.reasonCodes = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
@@ -173,16 +173,18 @@ export default {
             scope.formdata.uuid = null
             scope.formdata.short_name = ''
             scope.formdata.details = ''
+            scope.formdata.type = 'order'
         },
         setData: function (data) {
             var scope = this
             scope.formdata.uuid = data.uuid
             scope.formdata.short_name = data.short_name
             scope.formdata.details = data.details
+            scope.formdata.type = 'order'
         },
         save: function () {
             var scope = this
-            scope.POST('buy-and-pay/order-reason-code', scope.formdata).then(res => {
+            scope.POST('buy-and-pay/reason-codes', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -212,7 +214,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST('buy-and-pay/order-reason-code', scope.formdata).then(res => {
+                    scope.POST('buy-and-pay/reason-codes', scope.formdata).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
@@ -246,7 +248,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST('buy-and-pay/order-reason-code/delete', data).then(res => {
+                    scope.DELETE('buy-and-pay/reason-codes/' + data.uuid).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',

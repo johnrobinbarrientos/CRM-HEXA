@@ -12,11 +12,11 @@
                     </div>
                     <div class="bar-right">
                         <span v-if ="view_mode">
-                            <a @click="ROUTE({path: '/purchase-order-main' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
+                            <a @click="ROUTE({path: '/buy-and-pay/receipts' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
                                 <!-- <i class="las la-x"></i> --> <span>Back</span>
                             </a>
                             <a  v-if ="order.po_status =='To Receive'" @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Cancel</a>
-                            <a v-if ="order.po_status =='To Receive'" @click="ROUTE({path: '/purchase-orders/' + order.uuid })" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                            <a v-if ="order.po_status =='To Receive'" @click="ROUTE({path: '/buy-and-pay/receipt/' + order.uuid + '/edit'})" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                                 <!-- <i class="las la-x"></i> --> <span>Edit</span>
                             </a>
 
@@ -26,7 +26,7 @@
                                 <!-- <i class="las la-x"></i> --> <span>Back</span>
                             </a>
                             <a @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
-                                <i class="las la-pluss"></i> <span>Update</span>
+                                <i class="las la-pluss"></i> <span>Receive</span>
                             </a>
                         </span>
                     </div>
@@ -237,11 +237,13 @@ export default {
                 scope.order.term = (scope.order.term == 1) ? scope.order.term + ' Day' : scope.order.term + ' Days' ;
                 scope.VAT = scope.order.supplier.v_a_t;
                 scope.order.receiving_no = (!scope.order.receiving_no || scope.order.receiving_no == '') ? 'To be generated' : scope.order.receiving_no
-                //scope.additional_discounts =  res.data.additional_discounts
                 var supplier_uuid = scope.order.supplier_uuid
                scope.is_ready = true
-                // scope.getSupplierItems(supplier_uuid)
             })
+        },
+        updateReceivingReasonCode: function (reason_code) {
+            var scope = this
+            scope.order.receiving_reason_code = reason_code
         },
         save: function() {
             var scope = this
@@ -253,19 +255,13 @@ export default {
         },
         loadData: function () {
             
-        }
+        }``
     },
     mounted() {
         var scope = this
         var order_uuid = scope.$route.params.order_uuid;
         scope.getOrderDetails(order_uuid)
-
-        /*
-        $(document).on('blur','#autocomplete',function(){
-            $(this).val('')
-        })
-        */
-
+        
        $(document).on('click','.autocomplete-suggestion',function(){
            var barcode = $(this).data('barcode')
            scope.selectItem(barcode) 

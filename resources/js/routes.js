@@ -50,13 +50,17 @@ import BuyANDPayOrdersDetails from './views/client/buy-and-pay/orders/details'
 import BuyANDPayReceipts from './views/client/buy-and-pay/receipts/main'
 import BuyANDPayReceiptsDetails from './views/client/buy-and-pay/receipts/details'
 
+import BuyANDPayBillingReturnMain from './views/client/buy-and-pay/billing-return/main'
+import BuyANDPayBillingReturnDetails from './views/client/buy-and-pay/billing-return/details'
+
 /* to be replaced with above code */
 import PurchaseReceiptMain from './views/client/buy-and-pay/purchase-receipt/main'
 import PurchaseReceiptDetails from './views/client/buy-and-pay/purchase-receipt/details'
 import PurchaseReceiptDetailsDev from './views/client/buy-and-pay/purchase-receipt/details-dev'
 
 import BillingReturnMain from './views/client/buy-and-pay/billing-return/main'
-import BillingDetails from './views/client/buy-and-pay/billing-return/billing-details'
+import BillingDetails from './views/client/buy-and-pay/billing-return/details'
+/* end to be replaced with above code */
 
 import PriceRuleMain from './views/client/inventory/price-rule/price-rule-main'
 import PriceRuleSupplierForm from './views/client/inventory/price-rule/price-rule-supplier-form'
@@ -369,6 +373,22 @@ export default new VueRouter({
           path: '/buy-and-pay/receipts/:order_uuid/:action',
           name: 'buy-and-pay-receipts-details',
           component: BuyANDPayReceiptsDetails,
+          props: { view_mode: false },
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+
+        {
+            path: '/buy-and-pay/bills',
+            name: 'buy-and-pay-bills',
+            component: BuyANDPayBillingReturnMain,
+            beforeEnter: checkAuth,
+            meta: { protected: true }
+        },
+        {
+          path: '/buy-and-pay/bills/:order_uuid/:action',
+          name: 'buy-and-pay-bills-details',
+          component: BuyANDPayBillingReturnDetails,
           props: { view_mode: false },
           beforeEnter: checkAuth,
           meta: { protected: true }

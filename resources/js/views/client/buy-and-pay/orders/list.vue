@@ -80,8 +80,8 @@
                 ">
                     <thead class="th-nowrap">
                         <tr>
+                            <th width="20"></th>
                             <th>Action</th>
-                            <th></th>
                             <th>Item Type</th>
                             <th>Transaction No.</th>
                             <th>Supplier Name</th>
@@ -98,7 +98,9 @@
                     </thead>
                     <tbody>
                         <template v-if="purchaseOrders.length > 0">
+                            
                             <tr v-for="(purchase, index) in purchaseOrders" :key="purchase.uuid">
+                                <td width="40">{{ (index + 1) }}</td>
                                 <td width="65" class="text-center">
                                     <span class="hx-table-actions">
                                         <a
@@ -115,7 +117,7 @@
                                         <a href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
                                     </span>
                                 </td>
-                                <td width="50">{{ (index + 1) }}</td>
+                                
                                 <td width="100">{{ purchase.item_group.item_group }}</td>
                                 <td width="200">{{ purchase.po_no }}</td>
                                 <td class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
@@ -301,7 +303,7 @@ export default {
 
             var str = jQuery.param( params );
             
-            scope.GET('buy-and-pay/orders?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage + '&' + str).then(res => {
+            scope.GET('buy-and-pay/orders?type=order&keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage + '&' + str).then(res => {
                 scope.purchaseOrders = res.rows
                 scope.grand_total = res.grand_total
 
@@ -317,7 +319,7 @@ export default {
                text: 'None'
            });
 
-            scope.GET('buy-and-pay/order-reason-code').then(res => {
+            scope.GET('buy-and-pay/reason-codes').then(res => {
                 
                 res.rows.forEach(function (data) {
 
@@ -584,7 +586,6 @@ export default {
         $('.form-reason-codes').on("change", function(e) { 
             scope.selected_reason_code = $('.form-reason-codes').val();
         })
-
     },
 }
 </script>

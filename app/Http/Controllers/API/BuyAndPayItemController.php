@@ -172,13 +172,13 @@ class BuyAndPayItemController extends Controller
         }
 
         if ($type == 'orders') {
-            $this->ordersAlterations();
+            $this->ordersAlterations($order,$items);
         }
 
         return response()->json(['success' => 1, 'message' => 'success'], 200);
     }
 
-    private function ordersAlterations()
+    private function ordersAlterations($order,$items)
     {
 
         if ($order->po_revision === null){

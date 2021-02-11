@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import BillingList from './billing-list'
+import BillingList from './list'
 
 export default {
     components: {

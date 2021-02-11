@@ -16,13 +16,13 @@
                                 <!-- <i class="las la-x"></i> --> <span>Back</span>
                             </a>
                             <a  v-if ="order.po_status =='To Receive'" @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Cancel</a>
-                            <a v-if ="order.po_status =='To Receive'" @click="ROUTE({path: '/purchase-orders/' + order.uuid })" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                            <a v-if ="order.po_status =='To Receive'" @click="ROUTE({path: '/buy-and-pay/orders/' + order.uuid + '/edit' })" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                                 <!-- <i class="las la-x"></i> --> <span>Edit</span>
                             </a>
 
                         </span>
                         <span v-else>
-                            <a @click="ROUTE({path: '/purchase-order-main' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
+                            <a @click="ROUTE({path: '/buy-and-pay/orders/' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
                                 <!-- <i class="las la-x"></i> --> <span>Back</span>
                             </a>
                             <a @click="cancel()" class="hx-btn hx-btn-red" data-toggle="modal" href="javascript:void(0)">

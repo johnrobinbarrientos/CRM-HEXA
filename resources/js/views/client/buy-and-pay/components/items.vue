@@ -97,6 +97,7 @@
                                     <!-- <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.PACKING).toFixed(2)) }}</strong></td> -->
                                     <!-- <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.RATE).toFixed(2)) }}</strong></td> -->
                                     <!-- <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.SUBTOTAL).toFixed(2)) }}</strong></td> -->
+                                    <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.SUBTOTAL).toFixed(2)) }}</strong></td>
                                     <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.GROSS).toFixed(2)) }}</strong></td>
 
                                     <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.DISCOUNT_AMOUNT).toFixed(2)) }}</strong></td>
@@ -233,19 +234,147 @@
                                 </tr>
 
                                     <tr>
-                                    <td colspan="10" class="text-right">Total:</td>
+                                    <td colspan="12" class="text-right">Total:</td>
                                     <!-- <td class="text-right"><strong>{{ TOTALS.QUANTITY }}</strong></td> -->
                                     
                                     <!-- <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.PACKING).toFixed(2)) }}</strong></td> -->
                                     <!-- <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.RATE).toFixed(2)) }}</strong></td> -->
                                     <!-- <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.SUBTOTAL).toFixed(2)) }}</strong></td> -->
+                                    <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.SUBTOTAL).toFixed(2)) }}</strong></td>
                                     <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.GROSS).toFixed(2)) }}</strong></td>
 
                                     <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.DISCOUNT_AMOUNT).toFixed(2)) }}</strong></td>
                                     <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.NET).toFixed(2)) }}</strong></td>
                                     <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.VAT).toFixed(2)) }}</strong></td>
                                     <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.AMOUNT).toFixed(2)) }}</strong></td>
+                                    <td colspan="3">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="20">
+                                        <div class="pb-1"></div>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td colspan="20" style="padding: 10px;">
+                                        <input type="text" id="autocomplete" class="form-control" placeholder="Search item here.." :disabled="view_mode" style="width: 60%;">
+                                    </td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div v-if="TYPE == 'bills'">
+                        <div class="row">
+                            <div class="col-12 col-lg-3">
+                                <input style="margin-bottom:10px;" v-model="selected_item_list_keyword"  class="form-control" type="text" placeholder="Search an Item">
+                            </div>
+                            <div class="col-12 col-lg-3">
+                               
+                            </div>
+                        </div>
+
+
+                        <table class="table table-bordered mb-0">
+                            <thead class="th-nowrap">
+                                <tr>
+                                    <th width="40"></th>
+                                    <th>Barcode</th>
+                                    <th>Item Description</th>
+                                    <th width="50">Ordered  Qty</th>
+                                    <th width="50">Accepted  Qty</th>
+                                    <th width="90">UOM Variance?</th>
+                                    <th width="50">UOM</th>
+                                    <th>Item Group</th>
+                                    <th>Location</th>
+                                    <th width="60">Packing</th>
+                                    <th>Item Rate</th>
+                                    <!-- <th>Subtotal</th> -->
+                                    <th>Gross</th>
+                                    <th>Discount</th>
+                                    <th>Net</th>
+                                    <th>VAT</th>
+                                    <th>Total</th>
+                                    
+                                    <th>Price Rule?</th>
+                                    <th>Reason Code</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item, index) in SELECTED_ITEMS" :key="item.barcode + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
+                                    <td>{{ (index + 1) }}</td>
+                                    <td>{{ item.barcode }}</td>
+                                    <td><a :href="'/items/' + item.uuid + '/view'" target="_blank">{{ item.item_description }}</a></td>
+                                    
+                                    <td  @click="setSelectedItem(item)" class="text-right">
+                                        <span>{{ item.quantity }}</span>
+                                    </td>
+
+
+                                    <td @click="setSelectedItem(item)" class="text-right">
+                                        <span v-if="(item.quantity > item.accepted_qty)" style="color:red">{{ item.accepted_qty }}</span>
+                                        <span v-else>{{ item.accepted_qty }}</span>
+                                    </td>
+                                    
+
                                     <td>
+                                        <span v-if="(item.quantity > item.accepted_qty)" style="color:red">Yes</span>
+                                    </td>
+
+                                    <td  @click="setSelectedItem(item)" class="">
+                                        <span>{{ findUOMByBarcode(item.uoms,item.barcode) }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-pill badge-info mr-1">
+                                            {{ findDiscountGroup(item) }}
+                                        </span>
+                                    </td>
+                                    <td>{{ order.branch_location.location_shortname }}</td>
+
+
+                                    
+                                    <td class="text-right">{{ item.uom_packing }}</td>
+                                    <td class="text-right">{{ PUT_SEPARATOR(parseFloat(item.packing_rate).toFixed(2)) }}</td>
+                                    <!-- <td class="text-right">{{ PUT_SEPARATOR(parseFloat(item.item_rate).toFixed(2)) }}</td> -->
+                                    <td class="text-right">{{ PUT_SEPARATOR(parseFloat(item.gross_amount).toFixed(2))  }}</td>
+
+                                    <td class="text-right">{{ PUT_SEPARATOR(parseFloat(item.discount_amount_total).toFixed(2)) }}</td>
+                                    <td class="text-right">{{ PUT_SEPARATOR(parseFloat(item.net_amount).toFixed(2)) }}</td>
+                                    <td class="text-right">{{ PUT_SEPARATOR(parseFloat(item.vat_amount).toFixed(2)) }}</td>
+                                    <td class="text-right">{{ PUT_SEPARATOR(parseFloat(item.total_amount).toFixed(2)) }}</td>
+                                    <td>
+                                        {{ itemHasPriceRule(item) }}
+                                    </td>
+                                    <td>
+                                        <span v-if="item.quantity!=0">
+                                            <span v-if="(item.accepted_qty - item.quantity) < 0">
+                                                Under Served
+                                            </span>
+                                            <span v-else-if="(item.accepted_qty - item.quantity) > 0">
+                                                Over Served
+                                            </span>
+                                            <span v-else-if="(item.accepted_qty - item.quantity) === 0">
+                                                Fully Served
+                                            </span>
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                    <tr>
+                                    <td colspan="10" class="text-right">Total:</td>
+                                    <!-- <td class="text-right"><strong>{{ TOTALS.QUANTITY }}</strong></td> -->
+                                    
+                                    <!-- <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.PACKING).toFixed(2)) }}</strong></td> -->
+                                    <!-- <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.RATE).toFixed(2)) }}</strong></td> -->
+                                    <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.SUBTOTAL).toFixed(2)) }}</strong></td>
+                                    <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.GROSS).toFixed(2)) }}</strong></td>
+
+                                    <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.DISCOUNT_AMOUNT).toFixed(2)) }}</strong></td>
+                                    <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.NET).toFixed(2)) }}</strong></td>
+                                    <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.VAT).toFixed(2)) }}</strong></td>
+                                    <td class="text-right"><strong>{{ PUT_SEPARATOR(parseFloat(TOTALS.AMOUNT).toFixed(2)) }}</strong></td>
+                                    <td colspan="5">
                                     </td>
                                 </tr>
                                 <tr>
@@ -254,11 +383,7 @@
                                     </td>
                                 </tr>
                                 
-                                <tr>
-                                    <td colspan="18" style="padding: 10px;">
-                                        <input type="text" id="autocomplete" class="form-control" placeholder="Search item here.." :disabled="view_mode" style="width: 60%;">
-                                    </td>
-                                </tr> 
+
                             </tbody>
                         </table>
                     </div>
@@ -485,12 +610,13 @@ export default {
 
             if (over_served > 0){
                 scope.receiving_reason_code = 'Over Served'
-            }
-            else if(over_served ===0 && under_served > 0){
+                scope.$parent.updateReceivingReasonCode('Over Served');
+            } else if(over_served ===0 && under_served > 0){
                 scope.receiving_reason_code = 'Under Served'
-            }
-            else{
+                scope.$parent.updateReceivingReasonCode('Under Served');
+            } else{
                 scope.receiving_reason_code = 'Fully Served'
+                scope.$parent.updateReceivingReasonCode('Fully Served');
             }
 
         },
@@ -595,9 +721,9 @@ export default {
             item.packing_rate = packing * rate
             
 
-            scope.calculateItemBaseDiscount(item)
-            scope.calculateItemPriceRuleDiscount(item)
-            scope.calculateItemAdditionalDiscount(item)
+           scope.calculateItemBaseDiscount(item)
+           scope.calculateItemPriceRuleDiscount(item)
+           scope.calculateItemAdditionalDiscount(item)
 
             
             item.discount_rate_total = parseFloat(item.discount_base_rate) + parseFloat(item.discount_price_rule_rate) + parseFloat(item.discount_additional_rate)
@@ -708,7 +834,12 @@ export default {
                     for (let x = 0; x < items.length; x++) {
                         var item = items[x]
                         discount.discount_amount += item.gross_amount * (discount.discount_rate / 100)
-                        scope.DISCOUNT_BASE_INCLUDED.push(discount);
+                        
+                        // only add the discount to the list when the value is greater than 0
+                        if (discount.discount_amount > 0) {
+                            scope.DISCOUNT_BASE_INCLUDED.push(discount);
+                        }
+                       
                     }
                 }
 
@@ -1142,7 +1273,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.ROUTE({path: '/buy-and-pay/receipts' });
+                        scope.ROUTE({path: '/buy-and-pay/' + scope.TYPE });
                     })
                 } else {
                     alert('ERROR:' + res.code)

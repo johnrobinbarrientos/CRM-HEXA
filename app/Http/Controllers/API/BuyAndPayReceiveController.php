@@ -113,7 +113,7 @@ class BuyAndPayReceiveController extends Controller
     {
         $auth = \Auth::user();
         $prefix = CompanyList::whereNull('deleted_at')
-        ->where('id',$auth->company_id)
+        //->where('id',$auth->company_id)
         ->pluck('prefix')
         ->first();
 
@@ -124,7 +124,7 @@ class BuyAndPayReceiveController extends Controller
     {
         $auth = \Auth::user();
         $no_of_transactions = PurchaseOrder::whereNull('deleted_at')
-        ->where('company_id',$auth->company_id)
+        //->where('company_id',$auth->company_id)
         ->where('receiving_no','!=','')
         ->whereDate('created_at',date('Y-m-d'))->count();
 
