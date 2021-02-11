@@ -45,7 +45,7 @@
                                 </tr>
                             </thead>
                             <tbody class="td-border-bottom-black-2">
-                                <tr v-for="(item, index) in SELECTED_ITEMS" :key="item.barcode + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
+                                <tr v-for="(item, index) in SELECTED_ITEMS" :key="item.barcode + '-' + index" v-bind:class="{'table-selected' : (selectedItem && item.barcode == selectedItem.barcode)}">
                                     <td class="text-center">
                                         <span class="hx-table-actions w-auto">
                                             <button @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
@@ -162,7 +162,7 @@
                                 </tr>
                             </thead>
                             <tbody class="td-border-bottom-black-2">
-                                <tr v-for="(item, index) in SELECTED_ITEMS" :key="item.barcode + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
+                                <tr v-for="(item, index) in SELECTED_ITEMS" :key="item.barcode + '-' + index" v-bind:class="{'table-selected' : (selectedItem && item.barcode == selectedItem.barcode)}">
                                     <td class="text-center">
                                         <span class="hx-table-actions w-auto">
                                             <button @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
@@ -302,7 +302,7 @@
                                 </tr>
                             </thead>
                             <tbody class="td-border-bottom-black-2">
-                                <tr v-for="(item, index) in SELECTED_ITEMS" :key="item.barcode + '-' + index" v-bind:class="{'table-success' : (selectedItem && item.barcode == selectedItem.barcode)}">
+                                <tr v-for="(item, index) in SELECTED_ITEMS" :key="item.barcode + '-' + index" v-bind:class="{'table-selected' : (selectedItem && item.barcode == selectedItem.barcode)}">
                                     <td>{{ (index + 1) }}</td>
                                     <td>{{ item.barcode }}</td>
                                     <td><a :href="'/items/' + item.uuid + '/view'" target="_blank">{{ item.item_description }}</a></td>
@@ -1329,4 +1329,6 @@ function matchCustom(params, data) {
 .autocomplete-suggestion:hover { cursor:pointer !important; }
 
 .table-discount-summary thead th { background:#398cdb !important; color:#fff;  }
+
+.table-selected, .table-selected>td, .table-selected>th { background-color: #eee !important; }
 </style>
