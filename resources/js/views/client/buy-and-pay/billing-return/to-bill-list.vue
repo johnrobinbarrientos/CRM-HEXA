@@ -120,7 +120,7 @@ export default {
            var scope = this
             scope.listLoading = true
             scope.toBill = []
-            scope.GET('buy-and-pay/to-bill?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+            scope.GET('buy-and-pay/orders?type=to-bill?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.toBill = res.rows
                 scope.grand_total = res.grand_total
 

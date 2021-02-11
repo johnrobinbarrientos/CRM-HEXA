@@ -124,7 +124,7 @@ export default {
            var scope = this
             scope.listLoading = true
             scope.toReceive = []
-            scope.GET('buy-and-pay/to-received?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+            scope.GET('buy-and-pay/orders?type=to-receive&keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.toReceive = res.rows
                 scope.grand_total = res.grand_total
 

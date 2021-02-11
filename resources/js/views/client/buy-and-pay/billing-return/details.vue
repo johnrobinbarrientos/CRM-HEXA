@@ -256,7 +256,6 @@ export default {
         },
         save: function() {
             var scope = this
-
             scope.POST('buy-and-pay/bills', {type: 'Inventory', order: scope.order}).then(res => {
                 if (res.success) {
                     // scope.$refs.items.saveOrderItems() 

@@ -46,12 +46,30 @@ class BuyAndPayOrderController extends Controller
 {
     public function index()
     {
+        $type = (isset(request()->type)) ? request()->type : 'orders' ; // orders, receipts or bills
+
         $lists = PurchaseOrder::whereNull('deleted_at')
-            ->with('Supplier')->with('OrderReasonCode')
+            ->with('Supplier')
+            ->with('OrderReasonCode')
             ->with('ItemGroup')
             ->with('ItemAssetGroup')
             ->with('Branch')
             ->with('BranchLocation');
+
+        if ($type == 'receipts') {
+            $lists->where(function ($query) {
+                $query->where('receiving_status','To Bill')
+                    ->orWhere('receiving_status','Billed');
+            });
+        } else if ($type == 'to -receive') {
+            $lists->where(function ($query) {
+                $query->where('po_status','To Receive');
+            });
+        } else if ($type == 'to-bill') {
+            $lists->where(function ($query) {
+                $query->where('receiving_status','To Bill');
+            });
+        }
 
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;

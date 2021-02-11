@@ -283,7 +283,7 @@ export default {
 
             var str = jQuery.param( params );
 
-            scope.GET('buy-and-pay/received?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage + '&' + str).then(res => {
+            scope.GET('buy-and-pay/orders?type=receipts&keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage + '&' + str).then(res => {
                 scope.receivedOrders = res.rows
                 scope.grand_total = res.grand_total
 
