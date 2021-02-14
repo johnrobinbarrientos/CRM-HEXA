@@ -510,3 +510,12 @@ img.header-profile-user { background: #fff; }
 
 
 .table-hover tbody tr:hover { color: #526484; background-color: rgba(237,245,255,255) !important; }
+
+.buy-and-pay-summary {
+    margin-bottom: 30px;
+    padding: 10px;
+    background: #fff !important;
+    border: 1px solid #333 !important;
+    border-radius: 3px;
+    box-shadow: 2px 2px #333;
+}
