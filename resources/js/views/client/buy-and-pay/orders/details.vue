@@ -118,7 +118,7 @@
                             <div class="col-md-3 col-12">
 
                                 <div class="buy-and-pay-summary">
-                                    <h4>Summary:</h4>
+                                    <h4>Summary</h4>
 
                                     <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
                                         <div><span>Gross</span></div>
