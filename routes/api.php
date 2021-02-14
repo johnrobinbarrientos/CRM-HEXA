@@ -315,8 +315,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/bills', 'API\BuyAndPayBillController@index');
         Route::post('/bills', 'API\BuyAndPayBillController@store');
 
-        Route::get('/bills/{order_uuid}', 'API\BuyAndPayBillController@show');
-        Route::get('/bills/{order_uuid}/supplier-items', 'API\BuyAndPayBillController@getOrderSupplierItems');
+        Route::get('/bills/{bill_uuid}', 'API\BuyAndPayBillController@show');
+        Route::get('/bills/{bill_uuid}/expenses', 'API\BuyAndPayBillController@getExpenses');
     });
 
     Route::group(['prefix' => 'users'], function(){

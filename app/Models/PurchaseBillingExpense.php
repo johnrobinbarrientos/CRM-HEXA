@@ -31,4 +31,14 @@ class PurchaseBillingExpense extends Model
         return $this->belongsTo('App\Models\PurchaseBilling','purchase_order_billing_uuid','uuid');
     }
 
+    public function Account()
+    {
+        return $this->belongsTo('App\Models\CompanyChartOfAccount','coa_uuid','uuid');
+    }
+
+    public function Project()
+    {
+        return $this->belongsTo('App\Models\ProjectList','project_uuid','uuid');
+    }
+
 }

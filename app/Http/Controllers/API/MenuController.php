@@ -58,7 +58,7 @@ class MenuController extends Controller
             'submenus' => [
                 [ 'text' => 'Ordering', 'route' => 'buy-and-pay-orders'],
                 [ 'text' => 'Receiving', 'route' => 'buy-and-pay-receipts'],
-                [ 'text' => 'Billing & Return', 'route' => 'billing-return-main'],
+                [ 'text' => 'Billing & Return', 'route' => 'buy-and-pay-bills'],
                 [ 'text' => 'Payment', 'route' => 'main']
             ]
         ];
@@ -180,7 +180,7 @@ class MenuController extends Controller
             'submenus' => [
                 [ 'text' => 'Ordering', 'route' => 'buy-and-pay-orders'],
                 [ 'text' => 'Receiving', 'route' => 'buy-and-pay-receipts'],
-                [ 'text' => 'Billing & Return', 'route' => 'billing-return-main'],
+                [ 'text' => 'Billing & Return', 'route' => 'buy-and-pay-bills'],
                 [ 'text' => 'Payment', 'route' => 'main']
             ]
         ];
@@ -278,7 +278,7 @@ class MenuController extends Controller
             'submenus' => [
                 [ 'text' => 'Ordering', 'route' => 'buy-and-pay-orders'],
                 [ 'text' => 'Receiving', 'route' => 'buy-and-pay-receipts'],
-                [ 'text' => 'Billing & Return', 'route' => 'billing-return-main'],
+                [ 'text' => 'Billing & Return', 'route' => 'buy-and-pay-bills'],
                 [ 'text' => 'Payment', 'route' => 'project-main']
             ]
         ];

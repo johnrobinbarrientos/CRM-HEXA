@@ -476,6 +476,10 @@ img.header-profile-user { background: #fff; }
     min-width: 55px;
 }
 
+.dropdown .btn-secondary.btn-sm {
+    padding: 1px 3px;
+}
+
 .dropdown .btn-secondary.dropdown-toggle-split {
     min-width: 20px;
 }

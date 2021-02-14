@@ -114,48 +114,89 @@ class BuyAndPayBillController extends Controller
         return response()->json(['success' => 1, 'rows' => $lists, 'count' => $count, 'grand_total' => $grand_total], 200);
     }
 
-    public function show($billingUUID)
+    public function show($uuid)
     {
-        $bill = PurchaseBilling::find($billingUUID);
+        $is_billed = (isset(request()->billed) && request()->billed == 'no') ? false : true ;
 
-        $supplier = SupplierList::find($bill->supplier_uuid);
-        $bill->supplier = $supplier;
 
-        $branch = CompanyBranch::find($bill->branch_uuid);
-        $bill->branch = $branch;
+        // if billing is from PO and not "billed" yet, meaning no bill record has been generated yet
+        if (!$is_billed) {
+            $orderUUID = $uuid;
+            $order = PurchaseOrder::where('uuid','=',$orderUUID)->first();
 
-        $branch_location = CompanyBranchLocation::find($bill->branch_locations_uuid);
-        $bill->branch_location = $branch_location;
+            
+
+            $supplier = SupplierList::with('VAT')->with('EWT')->find($order->supplier_uuid);
+            $order->supplier = $supplier;
+
+            $branch = CompanyBranch::find($order->branch_uuid);
+            $order->branch = $branch;
+
+            $branch_location = CompanyBranchLocation::find($order->branch_locations_uuid);
+            $order->branch_location = $branch_location;
+
+
+            // dummy data for billing for non-existing billing
+            $data = ['id' => null, 'uuid' => null, 'transaction_type' => 'Inventory', 'supplier' => $supplier, 'branch' => $branch, 'branch_location' => $branch_location];
+            $bill = (object) $data;
+
+        } else {
+            $billingUUID = $uuid;
+            $bill = PurchaseBilling::find($billingUUID);
+
+            $supplier = SupplierList::with('VAT')->with('EWT')->find($bill->supplier_uuid);
+            $bill->supplier = $supplier;
+
+            $branch = CompanyBranch::find($bill->branch_uuid);
+            $bill->branch = $branch;
+
+            $branch_location = CompanyBranchLocation::find($bill->branch_locations_uuid);
+            $bill->branch_location = $branch_location;
+
+            $order = PurchaseOrder::where('billing_no','=',$bill->transaction_no)->first();
+        }
 
         if ($bill->transaction_type == 'Inventory') {
       
-            $order = PurchaseOrder::where('billing_no','=',$bill->transaction_no)->first();
+            $order = ($order) ? $order : PurchaseOrder::where('billing_no','=',$bill->transaction_no)->first();
             $orderUUID = $order->uuid;
-
+            
+            
             $discount_groups = PurchaseOrderBaseDiscountGroup::where('bp_order_uuid','=',$orderUUID)->get();
-            $bill->discount_groups = $discount_groups;
+            $order->discount_groups = $discount_groups;
 
             $additional_discounts = PurchaseOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->get();
-            $bill->additional_discounts = $additional_discounts;
+            $order->additional_discounts = $additional_discounts;
 
             $base_discounts =  PurchaseOrderBaseDiscountGroupDetail::where('bp_order_uuid','=',$orderUUID)->get();
-            $bill->base_discounts = $base_discounts;
+            $order->base_discounts = $base_discounts;
 
             $price_rule_discounts =  PurchasePriceRule::where('bp_order_uuid','=',$orderUUID)->with('PriceRuleDetail')->get();
-            $bill->price_rule_discounts = $price_rule_discounts;
+            $order->price_rule_discounts = $price_rule_discounts;
             
             $item_group = ItemGroup::find($order->item_group_uuid);
-            $bill->item_group = $item_group;
+            $order->item_group = $item_group;
 
             $asset_group = ItemAssetGroup::find($order->asset_group_uuid);
-            $bill->asset_group = $asset_group;
+            $order->asset_group = $asset_group;
 
-            $bill->term = $order->term;
+            $order->term = $order->term;
+
+            $branch = CompanyBranch::find($order->branch_uuid);
+            $order->branch = $branch;
+
+            $branch_location = CompanyBranchLocation::find($order->branch_locations_uuid);
+            $order->branch_location = $branch_location;
+
+
+            $bill->order = $order;
         }
         
 
         return response()->json(['success' => 1, 'data' => $bill], 200);
     }
+
+    
 
     public function store()
     {
@@ -197,7 +238,7 @@ class BuyAndPayBillController extends Controller
             $bill->branch_location_uuid = $order->branch_locations_uuid;    
             $bill->amount = $po_amount; 
             $bill->transaction_type = $transaction_type;    
-            $bill->transaction_date = date('Y-m-d',now());  
+            $bill->transaction_date = date('Y-m-d');  
             $bill->status = 'To Pay';  
             $bill->save();
             
@@ -220,7 +261,7 @@ class BuyAndPayBillController extends Controller
             $bill->branch_location_uuid = $formdata->branch_location_uuid;     
             $bill->amount = $formdata->amount;    
             $bill->transaction_type = $transaction_type;    
-            $bill->transaction_date = date('Y-m-d',strtotime($formdata->transaction_date));  
+            $bill->transaction_date = date('Y-m-d');  
             $bill->status = 'To Pay';
             $bill->save();
 
@@ -274,5 +315,11 @@ class BuyAndPayBillController extends Controller
         ->whereDate('created_at',date('Y-m-d'))->count();
 
         return $no_of_transactions;
+    }
+
+    public function getExpenses($billingUUID)
+    {
+        $expenses = PurchaseBillingExpense::where('purchase_billing_uuid','=',$billingUUID)->with('Account')->with('Project')->get();
+        return response()->json(['success' => 1, 'message' => 'success', 'rows' => $expenses], 200);
     }
 }

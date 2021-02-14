@@ -26,7 +26,7 @@
                         <template v-if="purchase.po_status !== 'Cancelled'">
                             <td width="100" style="text-align:center;">
                                 <span class="w-65px d-block mx-auto">
-                                <a href="javascript:void(0)"  @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/view'})" class="btn btn-sm hx-btn-shineblue">Bill</a>
+                                <a href="javascript:void(0)"  @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/view?billed=no'})" class="btn btn-sm hx-btn-shineblue">Bill</a>
                                 </span>
                             </td>
                             <td width="50">{{ (index + 1) }}</td>

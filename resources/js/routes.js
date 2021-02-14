@@ -53,13 +53,6 @@ import BuyANDPayReceiptsDetails from './views/client/buy-and-pay/receipts/detail
 import BuyANDPayBillingReturnMain from './views/client/buy-and-pay/billing-return/main'
 import BuyANDPayBillingReturnDetails from './views/client/buy-and-pay/billing-return/details'
 
-/* to be replaced with above code */
-
-
-import BillingReturnMain from './views/client/buy-and-pay/billing-return/main'
-import BillingDetails from './views/client/buy-and-pay/billing-return/details'
-/* end to be replaced with above code */
-
 import PriceRuleMain from './views/client/inventory/price-rule/main'
 import PriceRuleForm from './views/client/inventory/price-rule/price-rule-form'
 
@@ -398,29 +391,7 @@ export default new VueRouter({
 
 
 
-        {
-          path: '/billing-return-main',
-          name: 'billing-return-main',
-          component: BillingReturnMain,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/billing-details/:orderUUID',
-          name: 'billing-details',
-          props: { view_mode: false },
-          component: BillingDetails,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/billing-details/:orderUUID/view',
-          name: 'billing-details',
-          props: { view_mode: true },
-          component: BillingDetails,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
+       
         {
           path: '/price-rule-main',
           name: 'price-rule-main',

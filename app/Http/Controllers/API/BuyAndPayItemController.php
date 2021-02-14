@@ -45,9 +45,9 @@ class BuyAndPayItemController extends Controller
     {
         $auth = \Auth::user();
         $order = PurchaseOrder::find($orderUUID);
-        
-        $type = (isset($type) && $type == 'receipts') ? 'receipts' : 'orders' ;
-        $items = $this->getItemsByTransactionType($orderUUID,$type);
+
+        $type = (isset($type)) ? $type : 'orders' ;
+        $items = $this->getItemsByTransactionType($order,$type);
 
         $po_date = date('Y-m-d',strtotime($order->date_purchased));
 
@@ -108,7 +108,9 @@ class BuyAndPayItemController extends Controller
             
             if ($order_detail) {
                 $item->quantity         = $order_detail->order_qty;
+                $item->accepted_qty     = $order_detail->accepted_qty;
                 $item->purchase_price   = $order_detail->purchase_price;
+                $item->gross_amount     = $order_detail->gross_amount;
                 $item->gross_amount     = $order_detail->gross_amount;
                 //$item->discount_rate    = $order_detail->discount_rate;
                 $item->discount_amount  = $order_detail->discount_amount;
@@ -201,11 +203,12 @@ class BuyAndPayItemController extends Controller
         $this->savePriceRuleDiscounts($order,$items);
     }
 
-    private function getItemsByTransactionType($orderUUID, $type)
+    private function getItemsByTransactionType($order, $type)
     {
         // type = orders, receipts 
-        
         $items = [];
+
+        $orderUUID = $order->uuid;
 
         if ($type === 'orders') {
             $supplier_base_discount_group_uuids = PurchaseOrderBaseDiscountGroup::where('bp_order_uuid','=',$orderUUID)
@@ -224,7 +227,7 @@ class BuyAndPayItemController extends Controller
                 $items = ItemList::whereIn('uuid',$item_uuids)->orderBy('item_description')->get();
             }
 
-        } else if ($type === 'receipts') {
+        } else if ($type === 'receipts' || $type === 'bills') {
             $item_uuids = PurchaseOrderItem::where('bp_order_uuid','=',$orderUUID)->pluck('item_uuid')->toArray();
             $items = ItemList::whereIn('uuid',$item_uuids)->orderBy('item_description')->get();
 

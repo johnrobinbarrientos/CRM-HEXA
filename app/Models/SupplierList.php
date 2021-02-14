@@ -47,6 +47,10 @@ class SupplierList extends Model
     public function vat(){
         return $this->hasOne('App\Models\CompanyTaxation','uuid','vat_uuid');
     }
+
+    public function EWT(){
+        return $this->hasOne('App\Models\CompanyTaxation','uuid','ewt_uuid');
+    }
    
     
 }

@@ -354,7 +354,7 @@
                                     </td>
                                 </tr>
 
-                                    <tr>
+                                <tr>
                                     <td colspan="10" class="text-right">Total:</td>
                                     <!-- <td class="text-right"><strong>{{ TOTALS.QUANTITY }}</strong></td> -->
                                     
@@ -371,10 +371,16 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="18">
+                                    <td colspan="20">
                                         <div style="margin-bottom:2px;"></div>
                                     </td>
                                 </tr>
+                                
+                                <tr>
+                                    <td colspan="20" style="padding: 10px;">
+                                        <input type="text" id="autocomplete" class="form-control" placeholder="Add item" :disabled="view_mode" style="width: 60%;">
+                                    </td>
+                                </tr> 
                                 
 
                             </tbody>
