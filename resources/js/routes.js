@@ -26,22 +26,15 @@ import EmployeeForm from './views/client/master-data/employee/form'
 
 import CompanyMain from './views/client/master-data/company/main'
 
-import GlobalAddressList from './views/admin/globals/address-list'
-import GlobalCustomerChain from './views/admin/globals/customer-chain'
-import GlobalCustomerChannel from './views/admin/globals/customer-channel'
-import GlobalCustomerType from './views/admin/globals/customer-type'
-import GlobalCostCenter from './views/admin/globals/cost-center'
 
-import GlobalUom from './views/admin/globals/global-uom'
+import GlobalsMain from './views/admin/globals/main'
 
 
 import CompanyList from './views/admin/settings/company-list'
 import CompanyForm from './views/admin/settings/company-form'
 
-import AdminCoaReportGroup from './views/admin/settings/admin-coa-report-group'
-import AdminCoaAccountGroup from './views/admin/settings/admin-coa-account-group'
-import AdminChartofAccounts from './views/admin/settings/admin-chart-of-accounts'
-import AdminCostCenter from './views/admin/settings/admin-cost-center'
+
+import AdminMain from './views/admin/settings/main'
 
 import BuyANDPayOrders from './views/client/buy-and-pay/orders/main'
 import BuyANDPayOrdersForm from './views/client/buy-and-pay/orders/form'
@@ -253,44 +246,9 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
-          path: '/global-address-list',
-          name: 'global-address-list',
-          component: GlobalAddressList,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/global-customer-chain',
-          name: 'global-customer-chain',
-          component: GlobalCustomerChain,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/global-customer-channel',
-          name: 'global-customer-channel',
-          component: GlobalCustomerChannel,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/global-customer-type',
-          name: 'global-customer-type',
-          component: GlobalCustomerType,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/global-cost-center',
-          name: 'global-cost-center',
-          component: GlobalCostCenter,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/global-uom',
-          name: 'global-uom',
-          component: GlobalUom,
+          path: '/globals-main',
+          name: 'globals-main',
+          component: GlobalsMain,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
@@ -309,30 +267,9 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
-          path: '/admin-coa-report-group',
-          name: 'admin-coa-report-group',
-          component: AdminCoaReportGroup,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/admin-coa-account-group',
-          name: 'admin-coa-account-group',
-          component: AdminCoaAccountGroup,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/admin-chart-of-accounts',
-          name: 'admin-chart-of-accounts',
-          component: AdminChartofAccounts,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/admin-cost-center',
-          name: 'admin-cost-center',
-          component: AdminCostCenter,
+          path: '/admin-main',
+          name: 'admin-main',
+          component: AdminMain,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
@@ -391,12 +328,6 @@ export default new VueRouter({
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
-
-
-
-        
-
-
 
         {
           path: '/billing-return-main',

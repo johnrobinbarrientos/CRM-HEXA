@@ -1,8 +1,5 @@
 <template>
     <div>
-        <div v-show="show_preloader">
-            <Spinner />
-        </div>
         <div>
             <div class="actions-bar">
                 <div class="w-100">
@@ -29,11 +26,10 @@
             </div>
 
             <div class="table-responsive"> 
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-hover table-striped">
                     <thead class="th-nowrap">
                         <tr>
-                            <th>Actions</th>
-                            <th></th>
+                            <th width="105">Action</th>
                             <th>Employee ID</th>
                             <th>Employee Name</th>
                             <th>Assign Branch</th>
@@ -49,14 +45,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(employee, index) in employeeList" :key="employee.uuid">
+                        <tr v-for="(employee) in employeeList" :key="employee.uuid">
                             <td width="65" class="text-center">
                                 <span class="hx-table-actions">
-                                    <a href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid })" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                    <a href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
+                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid })">
+                                        <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid })">Edit</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid + '/view' })">View</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)">Delete</b-dropdown-item>
+                                    </b-dropdown>
                                 </span>
                             </td>
-                            <td class="text-right">{{ (index + 1) }}</td>
                             <td class="text-right">{{employee.emp_id}}</td>
                             <td>
                                 <span class="text-nowrap">
@@ -105,6 +103,7 @@
                     </tbody>
                 </table>
 
+                    <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
                     <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
                         <ul class="pagination">
                             <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
@@ -141,13 +140,14 @@ export default {
     props: ['properties'],
     data: function () {
         return {
-            show_preloader: true,
             
             employeeList: [],
             listLoading: true,
             listCurrentPage: 1,
             listItemPerPage: 20,
             listCount: 0,
+            listOffset: 0,
+            listResults: 0,
             searchKeyword: '',
             timer: null,
 
@@ -169,6 +169,9 @@ export default {
                 scope.employeeList = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
+
+                scope.listOffset = res.offset
+                scope.listResults = res.results
             })
         },
         moment: function (date_hired) {
@@ -230,8 +233,6 @@ export default {
         
         var scope = this
         scope.getEmployeeList()
-
-        setTimeout(function(){ scope.show_preloader = false },2000)
 
     },
 }

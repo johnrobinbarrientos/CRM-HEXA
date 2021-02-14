@@ -94,7 +94,7 @@
 
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
-                                                <label class="form-label" for="po-status">Payment Term</label>
+                                                <label class="form-label" for="po-status">Term</label>
                                                 <input type="text" class="form-control disabled" v-model="order.term" readonly>
                                             </div>
                                         </div>
@@ -121,7 +121,7 @@
                                     <h4>Summary:</h4>
 
                                     <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
-                                        <div><span>Gross Amount</span></div>
+                                        <div><span>Gross</span></div>
                                         <div><span>{{ PUT_SEPARATOR(TOTALS.GROSS.toFixed(2) ) }}</span></div>
                                     </div>
                                     <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
@@ -129,12 +129,12 @@
                                         <div><span>-{{ PUT_SEPARATOR(TOTALS.DISCOUNT_AMOUNT.toFixed(2) ) }}</span></div>
                                     </div>
                                     <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
-                                        <div><span>Tax Amount</span></div>
+                                        <div><span>Tax</span></div>
                                         <div><span>{{ PUT_SEPARATOR(TOTALS.VAT.toFixed(2) ) }}</span></div>
                                     </div>
                                     <hr>
                                     <div style="display:flex; justify-content: space-between; font-weight:900;">
-                                        <div><span>PO Amount</span></div>
+                                        <div><span>Amount</span></div>
                                         <div><span>{{ PUT_SEPARATOR(TOTALS.AMOUNT.toFixed(2) ) }}</span></div>
                                     </div>
                                     <hr style="margin-bottom: 2px">
@@ -149,10 +149,10 @@
                     <div class="hx-nav-tabs-override">
                         <ul class="nav nav-tabs">    
                             <li class="nav-item">        
-                                <a class="nav-link active" data-toggle="tab" href="#item-details">Item Details</a>    
+                                <a class="nav-link active" data-toggle="tab" href="#item-details">Item</a>    
                             </li>    
                             <li class="nav-item">        
-                                <a class="nav-link" data-toggle="tab" href="#discounts">Discounts</a>    
+                                <a class="nav-link" data-toggle="tab" href="#discounts">Discount</a>    
                             </li>
                             <li class="nav-item">        
                                 <a class="nav-link" data-toggle="tab" href="#tax">Tax</a>    

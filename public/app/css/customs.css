@@ -476,9 +476,21 @@ img.header-profile-user { background: #fff; }
     min-width: 55px;
 }
 
+
+.btn-secondary.m-2 {
+    margin: 0rem !important; 
+    margin-bottom:2px !important; 
+    margin-top:2px !important;
+    color: #656565!important;
+    background: rgb(231, 233, 236) !important;
+    min-width: 55px !important; 
+    padding: 0px !important; 
+}
+
 .dropdown .btn-secondary.dropdown-toggle-split {
     min-width: 20px;
 }
+
 
 .b-dropdown:after {
     font-family: dripicons-v2!important;
@@ -495,3 +507,6 @@ img.header-profile-user { background: #fff; }
     right:4px;
     color:#656565;
 }
+
+
+.table-hover tbody tr:hover { color: #526484; background-color: rgba(237,245,255,255) !important; }

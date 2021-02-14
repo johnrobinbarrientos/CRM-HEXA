@@ -25,32 +25,35 @@
             <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
         </div>
 
-        <div v-else class="table-responsive">
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>Actions</th>
-                        <th>#</th>
-                        <th>Departments</th>
-                        <th>Cost Center</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(department, index) in companyDepartments" :key="department.uuid">
-                        <td width="100">
-                            <span class="w-65px d-block mx-auto">
-                                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalDepartment');setData(department)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                <a href="javascript:void(0)" @click="remove(department)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
-                            </span>
-                        </td>
-                        <td width="50">{{ (index + 1) }}</td>
-                        <td>{{ department.department }}</td>
-                        <td>{{ department.global_cost_center.cost_center_name }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="105">Action</th>
+                            <th>Departments</th>
+                            <th>Cost Center</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(department) in companyDepartments" :key="department.uuid">
+                            <td width="100">
+                                <span class="hx-table-actions">
+                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalDepartment');setData(department)">
+                                        <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalDepartment');setData(department)">Edit</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)" @click="remove(department)">Delete</b-dropdown-item>
+                                    </b-dropdown>
+                                </span>
+                            </td>
+                            <td>{{ department.department }}</td>
+                            <td>{{ department.global_cost_center.cost_center_name }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div> 
 
+        <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
         <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
             <ul class="pagination">
                 <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
@@ -74,11 +77,11 @@
             
 
         <!-- Modal Group Form -->
-        <div class="modal fade" tabindex="-1" id="modalDepartment">
-            <div class="modal-dialog modal-lg " role="document">
+        <div class="modal fade modal-single-form" tabindex="-1" id="modalDepartment">
+            <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Department Details</h5>
+                        <h5 class="modal-title">Department</h5>
                         <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalDepartment');" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
                         </a>
@@ -87,18 +90,18 @@
                         <form action="#" class="form-validate is-alter">
 
                             <div class="row">
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="department">Department</label>
+                                        <label class="form-label" for="department">Department:</label>
                                         <div class="form-control-wrap">
                                             <input v-model="formdata.department" type="text" class="form-control" id="department" required>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="global-cost-center">Cost Center</label>
+                                        <label class="form-label" for="global-cost-center">Cost Center:</label>
                                             <select class="form-select-global-cost-center" v-model="selected_cost_center" :options="options_cost_center" name="global-cost-center">
                                         </select>
                                     </div>
@@ -132,6 +135,8 @@ export default {
             listCurrentPage: 1,
             listItemPerPage: 20,
             listCount: 0,
+            listOffset: 0,
+            listResults: 0,
             searchKeyword: '',
             timer: null,
             formdata: { 
@@ -159,6 +164,9 @@ export default {
                 scope.companyDepartments = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
+
+                scope.listOffset = res.offset
+                scope.listResults = res.results
             })
         },
 

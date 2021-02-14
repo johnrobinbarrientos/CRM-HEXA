@@ -69,13 +69,13 @@
                 </form>
 
                 <br/>
-                <div class="hx-nav-tabs-override">
+                <div class="hx-tab-2 tabbed round">
                     <ul class="nav nav-tabs">    
                         <li class="nav-item">        
-                            <a class="nav-link active" data-toggle="tab" href="#details">Details</a>    
+                            <a class="active" data-toggle="tab" href="#details">Details</a>    
                         </li>    
                     </ul>
-
+                    <div class="clearfix"></div>
                     <div class="tab-content">    
                         <div class="tab-pane active" id="details">
                             <span v-if="selected_applicable_to=='Buying'">
@@ -87,16 +87,17 @@
                                                 <i class="las la-plus-circle fs-30"></i>
                                             </div>
                                         </a>
-                                        <div id="collapseOne" v-bind:class="{'show' : is_show }" class="collapse"  aria-labelledby="headingOne" data-parent="#accordion">
+                                        <div id="collapseOne" v-bind:class="{'show' : buying_by_group }" class="collapse"  aria-labelledby="headingOne" data-parent="#accordion">
                                             <buying-by-group></buying-by-group>
                                         </div>
+                                        
                                         <a href="#collapseTwo" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
-                                            <div class="card-header" id="headingOne">
+                                            <div class="card-header" id="headingTwo">
                                                 <h5 class="m-0">By Supplier</h5>
                                                 <i class="las la-plus-circle fs-30"></i>
                                             </div>
                                         </a>
-                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                        <div id="collapseTwo" v-bind:class="{'show' : buying_by_supplier }" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                                             <buying-by-supplier></buying-by-supplier>
                                         </div>
                                     </div>
@@ -158,8 +159,8 @@ export default {
                 applicable_to: 'Buying',
                 is_draft: '',
             },
-            testshow: 'show',
-            testcollapse: 'collapsed',
+            buying_by_group: false,
+            buying_by_supplier: true
         }
     },
     components: {

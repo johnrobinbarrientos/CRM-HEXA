@@ -27,32 +27,36 @@
         </div>
 
 
-        <div v-else class="table-responsive">
-            <table class="table table-tranx">
-                <thead>
-                    <tr>
-                        <th>Actions</th> 
-                        <th>#</th>
-                        <th>Account Groups</th>
-                        <th>Report Group</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(account, index) in accountGroups" :key="account.uuid" class="tb-tnx-item">
-                        <td width="100">
-                            <span class="w-65px d-block mx-auto">
-                                <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalAccountGroup');setData(account)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                <a href="javascript:void(0)"  @click="remove(account)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
-                            </span>
-                        </td>
-                        <td width="50">{{ (index + 1) }}</td>
-                        <td>{{ account.account_group }}</td>
-                        <td>{{ account.report_group.coa_report_name }}</td>
+        <div class="row">
+            <div class="col-lg-6">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="105">Action</th> 
+                            <th>Account Groups</th>
+                            <th>Report Group</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(account) in accountGroups" :key="account.uuid" class="tb-tnx-item">
+                            <td width="100">
+                                <span class="hx-table-actions">
+                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalAccountGroup');setData(account)">
+                                        <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalAccountGroup');setData(account)">Edit</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)" @click="remove(account)">Delete</b-dropdown-item>
+                                    </b-dropdown>
+                                </span>
+                            </td>
+                            <td>{{ account.account_group }}</td>
+                            <td>{{ account.report_group.coa_report_name }}</td>
 
-                    </tr>
-                </tbody>
-            </table>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div> 
 
+            <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
             <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
                 <ul class="pagination">
                     <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
@@ -73,16 +77,14 @@
                     </li>
                 </ul>
             </nav>
-
-        </div>
                     
 
         <!-- Modal Group Form -->
-        <div class="modal fade" tabindex="-1" id="modalAccountGroup">
-            <div class="modal-dialog modal-lg " role="document">
+        <div class="modal fade modal-single-form" tabindex="-1" id="modalAccountGroup">
+            <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Account Group Details</h5>
+                        <h5 class="modal-title">Account Group</h5>
                         <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalAccountGroup');" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
                         </a>
@@ -91,13 +93,17 @@
                         <form action="#" class="form-validate is-alter">
 
                             <div class="row">
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="report-group">Report Group</label>
+                                        <label class="form-label" for="report-group">Report Group:</label>
                                             <select class="form-select-report" v-model="selected_report_group" :options="options_report_group" name="report-group">
-                                            <!-- <option></option> -->
-                                        </select>
-                                        <label class="form-label" for="account-group">Account Group</label>
+                                            </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="account-group">Account Group:</label>
                                         <div class="form-control-wrap">
                                             <input v-model="formdata.account_group" type="text" class="form-control" id="account-group" required>
                                         </div>
@@ -114,8 +120,7 @@
                     </div>
                 </div>
             </div>
-        </div>
->        
+        </div>      
     </div>
 </template>
 
@@ -133,6 +138,8 @@ export default {
             listCurrentPage: 1,
             listItemPerPage: 20,
             listCount: 0,
+            listOffset: 0,
+            listResults: 0,
             searchKeyword: '',
             timer: null,
             formdata: { 
@@ -180,6 +187,9 @@ export default {
                 scope.accountGroups = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
+
+                scope.listOffset = res.offset
+                scope.listResults = res.results
             })
         },
 

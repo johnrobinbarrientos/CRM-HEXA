@@ -70,14 +70,17 @@
                             </select>
                         </div>
                         <div class="select-wrap">
-                            <date-picker class="transaction-from" placeholder="From" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_from" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
+                            <date-picker class="transaction-from" placeholder="From" :config="{format: 'DD-MMM-YYYY'}" v-model="transaction_from" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
                         </div>
                         <div class="select-wrap">
-                            <date-picker class="transaction-to"  placeholder="To" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_to" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
+                            <date-picker class="transaction-to"  placeholder="To" :config="{format: 'DD-MMM-YYYY'}" v-model="transaction_to" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
+                        </div>
+                        <div class="select-wrap" style="width:50px !important;">
+                            <b-button @click="reset()" pill variant="outline-secondary" size="sm">Reset</b-button>
                         </div>
                     </div>
                 </div>
-                <table class="table table-bordered table-striped
+                <table class="table table-bordered table-hover table-striped
                 ">
                     <thead class="th-nowrap">
                         <tr>
@@ -90,7 +93,7 @@
                             <th>Transaction Date</th>
                             <th>Expected Date</th>
                             <th>Amount</th>
-                            <th>Payment Term</th>
+                            <th>Term</th>
 
                             <th>Status</th> 
                             <th>Reason Code</th> 
@@ -99,20 +102,20 @@
                     <tbody class="td-border-bottom-black">
                         <template v-if="purchaseOrders.length > 0">
                             
-                            <tr v-for="(purchase, index) in purchaseOrders" :key="purchase.uuid">
+                            <tr v-for="(purchase) in purchaseOrders" :key="purchase.uuid">
                                 <td>  
                                     <span v-if="purchase.po_status == 'To Receive'" class="hx-table-actions">
                                         <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid +'/view'  })">
                                             <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/edit'})">Edit</b-dropdown-item>
                                             <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid +'/view' })">View</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)">Reason Code</b-dropdown-item>
                                             <b-dropdown-item href="#" @click="cancel()">Cancel</b-dropdown-item>
                                         </b-dropdown>
                                     </span>
                                     <span v-else class="hx-table-actions">
                                         <b-dropdown split text="View" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/view' })">
-                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/edit' })" disabled="true">Edit</b-dropdown-item>
                                             <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/view' })">View</b-dropdown-item>
-                                            <b-dropdown-item href="javascript:void(0)" disabled="true">Cancel</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)">Reason Code</b-dropdown-item>
                                         </b-dropdown>
                                     </span>
                                 </td>
@@ -122,8 +125,8 @@
                                 <td class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
                                 <td>{{ purchase.branch.branch_shortname.toUpperCase()}}</td>
                                 <td>{{ purchase.branch_location.location_shortname.toUpperCase()}}</td>
-                                <td width="100">{{ moment(purchase.date_purchased) }}</td>
-                                <td>{{ moment(purchase.date_expected) }}</td>
+                                <td width="120">{{ moment(purchase.date_purchased) }}</td>
+                                <td width="120">{{ moment(purchase.date_expected) }}</td>
 
                                 <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
                                 <td v-else class="text-right">{{putSeparator(purchase.po_total_amount.toFixed(2))}}</td>
@@ -146,8 +149,8 @@
                                 </td>
 
                                 <td class="editable text-center">
-                                    <span v-if="purchase.order_reason_code==null" class="cursor-pointer">None <i class="bx bx-pencil cursor-pointer"></i></span>
-                                    <span v-else class="cursor-pointer">{{ purchase.order_reason_code.short_name }} <i class="bx bx-pencil cursor-pointer"></i></span>
+                                    <span v-if="purchase.order_reason_code==null" class="cursor-pointer">None</span>
+                                    <span v-else class="cursor-pointer">{{ purchase.order_reason_code.short_name }}</span>
                                     <select @change="changeReasonCode(purchase.uuid)" v-model="selected_reason_code" type="text" class="editable-control">
                                         <option :value="reasoncode.id " v-for="(reasoncode,index) in options_reason_code" :key="index">{{ reasoncode.text }}</option>
                                     </select>
@@ -179,6 +182,29 @@
                         </template>
                     </tbody>
                 </table>
+
+                <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
+                <nav style="float:right;" v-if="listTotalPages > 1" class="pagination pagination-rounded mt-4" aria-label="pagination">
+                    <ul class="pagination">
+                        <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
+                            <a href="javascript:void(0)" class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+
+                        
+                        <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
+                            <a href="javascript:void(0)" class="page-link">
+                                {{ page }}
+                            </a>
+                        </li>
+                        
+                        <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
+                            <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
+                        </li>
+                    </ul>
+                </nav>
+
             </div>
 
     </div>
@@ -237,6 +263,8 @@ export default {
             listCurrentPage: 1,
             listItemPerPage: 20,
             listCount: 0,
+            listOffset: 0,
+            listResults: 0,
             searchKeyword: '',
             timer: null,
         }
@@ -270,6 +298,18 @@ export default {
         }
     },
     methods: {
+        reset: function () {
+            var scope = this
+            scope.selected_item_group = ""
+            scope.selected_supplier = ""
+            scope.selected_branch = ""
+            scope.selected_branch_location = ""
+            scope.selected_status = ""
+            scope.selected_reason_code_filter = ""
+            scope.transaction_to = ""
+            scope.transaction_from = ""
+            scope.getPurchaseOrders()
+        },
         moment: function (date) {
             return moment(date).format('DD-MMM-YYYY')
         },
@@ -304,6 +344,9 @@ export default {
 
                 scope.listLoading = false
                 scope.listCount = res.count
+
+                scope.listOffset = res.offset
+                scope.listResults = res.results
             })
         },
         getReasonCodes: function () {
@@ -452,7 +495,7 @@ export default {
         },
         getSupplier: function () {
            var scope = this
-            scope.GET('suppliers/supplier-list').then(res => {
+            scope.GET('suppliers/').then(res => {
 
                 res.rows.forEach(function (data) {
 

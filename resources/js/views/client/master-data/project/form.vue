@@ -21,9 +21,8 @@
                     </div>
                     <div class="bar-right">
                         <span v-if="view_mode">
-                            <a @click="ROUTE({path: '/projects/' + formdata.uuid })" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Edit</a>
-                            <a @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Delete</a>
                             <a @click="ROUTE({path: '/supplier-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)">Close</a>
+                            <a @click="ROUTE({path: '/projects/' + formdata.uuid })" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Edit</a>
                         </span>
                         <span v-else>
                             <a @click="ROUTE({path: '/project-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)"><span>Cancel</span></a>

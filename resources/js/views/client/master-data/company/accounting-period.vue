@@ -26,11 +26,10 @@
         </div>
 
         <div v-else class="table-responsive">
-            <table class="table table-striped table-bordered">
+            <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th>Actions</th>
-                        <th>#</th>
+                        <th width="105">Action</th>
                         <th>Year</th>
                         <th>JAN</th>
                         <th>FEB</th>
@@ -47,16 +46,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(period, index) in accountingPeriod" :key="period.uuid">
+                    <tr v-for="(period) in accountingPeriod" :key="period.uuid">
 
                             <td width="100">
-                                <span class="w-65px d-block mx-auto">
-                                    <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalAccountingPeriod');setData(period)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                    <a href="javascript:void(0)"  @click="remove(period)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
+                                <span class="hx-table-actions">
+                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalAccountingPeriod');setData(period)">
+                                        <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalAccountingPeriod');setData(period)">Edit</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)" @click="remove(period)">Delete</b-dropdown-item>
+                                    </b-dropdown>
                                 </span>
                             </td>
 
-                            <td>{{ (index + 1) }}</td>
                             <td><strong>{{ period.year_name}}</strong></td>
                             <td v-if="period.jan_is_open === 1">
                                 <span class="badge badge-pill badge-soft-success font-size-12">OPEN</span>
@@ -136,6 +136,28 @@
                 </tbody>
             </table>
         </div>
+
+        <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
+        <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
+            <ul class="pagination">
+                <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
+                    <a href="javascript:void(0)" class="page-link" aria-label="Previous">
+                        <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
+                    </a>
+                </li>
+
+                
+                <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
+                    <a href="javascript:void(0)" class="page-link">
+                        {{ page }}
+                    </a>
+                </li>
+                
+                <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
+                    <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
+                </li>
+            </ul>
+        </nav> 
                     
 
 
@@ -278,6 +300,8 @@ export default {
             listCurrentPage: 1,
             listItemPerPage: 20,
             listCount: 0,
+            listOffset: 0,
+            listResults: 0,
             searchKeyword: '',
             timer: null,
             formdata: { 
@@ -315,6 +339,9 @@ export default {
                 scope.accountingPeriod = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
+
+                scope.listOffset = res.offset
+                scope.listResults = res.results
             })
         },
         resetData: function () {

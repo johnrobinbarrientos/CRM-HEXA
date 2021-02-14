@@ -1,8 +1,5 @@
 <template>
     <div>
-        <div v-show="show_preloader">
-            <Spinner />
-        </div>
         <div>
             <div class="actions-bar">
                 <div class="w-100">
@@ -32,8 +29,7 @@
                 <table class="table table-bordered">
                     <thead class="th-nowrap">
                         <tr>
-                            <th>Actions</th>
-                            <th></th>
+                            <th>Action</th>
                             <th>Employee ID</th>
                             <th>Employee Name</th>
                             <th>Assign Branch</th>
@@ -43,13 +39,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(employee, index) in employeeList" :key="employee.uuid">
+                        <tr v-for="(employee) in employeeList" :key="employee.uuid">
                             <td width="65" class="text-center">
                                 <span class="hx-table-actions">
                                     <a href="javascript:void(0)" @click="" title="Send Credentials" class="btn btn-sm hx-btn-shineblue"><i class="bx bx-mail-send" title="Send Credentials"></i></a>
                                 </span>
                             </td>
-                            <td class="text-right">{{ (index + 1) }}</td>
                             <td class="text-right">{{employee.emp_id}}</td>
                             <td>
                                 <span class="text-nowrap">
@@ -118,7 +113,6 @@ export default {
     props: ['properties'],
     data: function () {
         return {
-            show_preloader: true,
             
             employeeList: [],
             listLoading: true,
@@ -207,8 +201,6 @@ export default {
         
         var scope = this
         scope.getEmployeeList()
-
-        setTimeout(function(){ scope.show_preloader = false },2000)
 
     },
 }

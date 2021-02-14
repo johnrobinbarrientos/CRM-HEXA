@@ -21,9 +21,8 @@
                     </div>
                     <div class="bar-right">
                         <span v-if ="view_mode">
-                            <a @click="ROUTE({path: '/employees/' + formdata.uuid })" class="hx-btn hx-btn-shineblue" href="javascript:void(0)"><span>Edit</span></a>
-                            <a @click="create()" class="btn btn-danger"  href="javascript:void(0)"><span>Delete</span></a>
                             <a @click="ROUTE({path: '/employee-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)"><span>Close</span></a>
+                            <a @click="ROUTE({path: '/employees/' + formdata.uuid })" class="hx-btn hx-btn-shineblue" href="javascript:void(0)"><span>Edit</span></a>
                         </span>
                         <span v-else>
                             <a @click="ROUTE({path: '/employee-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)"><span>Cancel</span></a>  
@@ -174,24 +173,26 @@
 
                     <br/>
                     <br/>
-                    <div class="hx-nav-tabs-override">
+                    <div class="hx-tab-2 round">
                             <ul class="nav nav-tabs">
-                                <li class="nav-item">        
-                                    <a class="nav-link active" data-toggle="tab" href="#address">Contact and Address</a>    
+                                <li>        
+                                    <a class="" data-toggle="tab" href="#government">Government</a>    
                                 </li>
-                                <li class="nav-item">        
-                                    <a class="nav-link" data-toggle="tab" href="#emergency-contact">Emergency Contact</a>    
+                                <li>        
+                                    <a class="" data-toggle="tab" href="#financial">Financial</a>    
                                 </li>
-                                <li class="nav-item">        
-                                    <a class="nav-link" data-toggle="tab" href="#employement">Employment</a>    
-                                </li>    
-                                <li class="nav-item">        
-                                    <a class="nav-link" data-toggle="tab" href="#financial">Financial</a>    
+                                <li>        
+                                    <a class="" data-toggle="tab" href="#employement">Employment</a>    
                                 </li>
-                                <li class="nav-item">        
-                                    <a class="nav-link" data-toggle="tab" href="#government">Government</a>    
+                                <li>        
+                                    <a class="" data-toggle="tab" href="#emergency-contact">Emergency Contact</a>    
+                                </li>
+                                <li>        
+                                    <a class="active" data-toggle="tab" href="#address">Contact and Address</a>    
                                 </li>
                             </ul>
+
+                            <div class="clearfix"></div>
 
                             <div class="tab-content">
 

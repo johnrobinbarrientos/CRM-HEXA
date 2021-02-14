@@ -1,8 +1,5 @@
 <template>
     <div>
-        <div v-show="show_preloader">
-            <Spinner />
-        </div>
 
         <div class="actions-bar">
             <div class="w-100">
@@ -18,72 +15,72 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCustomerType');resetData()" class="btn btn-primary" data-toggle="modal">
-                    <em class="icon ni ni-plus"></em> <span>New</span>
+                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCustomerType');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                    <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-body">
 
                 <div v-if="listLoading" class="text-center my-3 text-loader">
                     <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
                 </div>
 
-                <div v-else class="table-responsive">
-                    <table class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Actions</th>
-                                <th>#</th>
-                                <th>Customer Type</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(type, index) in customerTypes" :key="type.uuid">
-                                <td width="100">
-                                    <span class="w-65px d-block mx-auto">
-                                        <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalCustomerType');setData(type)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                        <a href="javascript:void(0)"  @click="remove(type)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
-                                    </span>
-                                </td>
-                                <td width="50">{{ (index + 1) }}</td>
-                                <td>{{ type.customer_type }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
-                        <ul class="pagination">
-                            <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
-                                <a href="javascript:void(0)" class="page-link" aria-label="Previous">
-                                    <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-
-                            
-                            <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
-                                <a href="javascript:void(0)" class="page-link">
-                                    {{ page }}
-                                </a>
-                            </li>
-                            
-                            <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
-                                <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
-                            </li>
-                        </ul>
-                    </nav>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <table class="table table-striped table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th width="105">Action</th>
+                                    <th>Customer Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(type) in customerTypes" :key="type.uuid" class="tb-tnx-item">
+                                    <td width="100">
+                                        <span class="hx-table-actions">
+                                            <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalCustomerType');setData(type)">
+                                                <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalCustomerType');setData(type)">Edit</b-dropdown-item>
+                                                <b-dropdown-item href="javascript:void(0)" @click="remove(type)">Delete</b-dropdown-item>
+                                            </b-dropdown>
+                                        </span>
+                                    </td>
+                                    <td>{{ type.customer_type }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        </div>
+
+                <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
+                <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
+                    <ul class="pagination">
+                        <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
+                            <a href="javascript:void(0)" class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+
+                        
+                        <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
+                            <a href="javascript:void(0)" class="page-link">
+                                {{ page }}
+                            </a>
+                        </li>
+                        
+                        <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
+                            <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
+                        </li>
+                    </ul>
+                </nav>
+            
         
         <!-- Modal Group Form -->
-        <div class="modal fade" tabindex="-1" id="modalCustomerType">
-            <div class="modal-dialog modal-lg " role="document">
+        <div class="modal fade modal-single-form" tabindex="-1" id="modalCustomerType">
+            <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Customer Type Details</h5>
+                        <h5 class="modal-title">Customer Type</h5>
                         <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalCustomerType');" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
                         </a>
@@ -92,9 +89,9 @@
                         <form action="#" class="form-validate is-alter">
 
                             <div class="row">
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="type">Type</label>
+                                        <label class="form-label" for="type">Type:</label>
                                         <div class="form-control-wrap">
                                             <input v-model="formdata.customer_type" type="text" class="form-control" id="type" required>
                                         </div>
@@ -124,13 +121,14 @@ export default {
     props: ['properties'],
     data: function () {
         return {
-            show_preloader: true,
 
             customerTypes: [],
             listLoading: true,
             listCurrentPage: 1,
             listItemPerPage: 20,
             listCount: 0,
+            listOffset: 0,
+            listResults: 0,
             searchKeyword: '',
             timer: null,
             formdata: { 
@@ -156,6 +154,9 @@ export default {
                 scope.customerTypes = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
+
+                scope.listOffset = res.offset
+                scope.listResults = res.results
             })
         },
         resetData: function () {
@@ -294,8 +295,6 @@ export default {
     mounted() {
         var scope = this
         scope.getCustomerTypes()
-
-        setTimeout(function(){ scope.show_preloader = false },2000)
     },
 }
 </script>

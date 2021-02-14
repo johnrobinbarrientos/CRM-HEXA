@@ -8,8 +8,7 @@
                     <table class="table table-bordered table-hover mb-0 table-discounts">
                         <thead>
                             <tr>
-                                <th width="90">Actions</th>
-                                <th width="40">#</th>
+                                <th width="90">Action</th>
                                 <th>Name</th>
                             </tr>
                         </thead>
@@ -28,9 +27,6 @@
                                         </template>
                                     </span>
                                 </td>
-                                <th scope="row" >
-                                   {{ (index + 1) }}
-                                </th>
                                 <td>
                                     <strong v-if="group.edit !== true">{{ group.group_name }}</strong>
                                     <input v-else v-model="group.group_name" class="form-control" type="text" placeholder="Enter group name">

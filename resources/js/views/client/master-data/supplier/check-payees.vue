@@ -8,8 +8,7 @@
                     <table class="table  table-striped table-bordered table-hover mb-0 table" style="margin-left: 12px;">
                         <thead>
                             <tr>
-                                <th width="90">Actions</th>
-                                <th width="40">#</th>
+                                <th width="90">Action</th>
                                 <th>Name</th>
                                 
                             </tr>
@@ -27,14 +26,10 @@
                                         <button  type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
                                     </template>
                                 </td>
-                                <th scope="row" >
-                                   {{ (index + 1) }}
-                                </th>
                                 <td>
                                     <strong v-if="payee.edit !== true">{{ payee.check_payee }}</strong>
                                     <input v-else v-model="payee.check_payee" class="form-control" type="text" placeholder="Enter check payee" :readonly="view_mode">
                                 </td>
-                                
                             </tr>
                             </template>
                             <template v-else>
