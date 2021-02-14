@@ -35,14 +35,11 @@ import mixins from './utils/mixins'
 // components
 import App from './views/App'
 
-import Spinner from './views/components/Spinner'
 
 window.TOKEN_KEY = 'KX-HEXA'
 window.API_URL = '//'+ window.location.host +'/api'
 
 
-Vue.component('Spinner', Spinner)
-// Make BootstrapVue available throughout your project
 
 import BootstrapVue from 'bootstrap-vue'
 //import '../css/boostrap-app.scss'

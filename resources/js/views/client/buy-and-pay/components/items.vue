@@ -21,10 +21,10 @@
 
                     
 
-                        <table class="table table-bordered mb-0">
+                        <table class="table table-bordered table-hover mb-0">
                             <thead class="th-nowrap">
                                 <tr>
-                                    <th width="40">Action</th>
+                                    <th width="70">Action</th>
                                     <th>Barcode</th>
                                     <th width="50">Qty</th>
                                     <th width="50">UOM</th>
@@ -45,9 +45,7 @@
                             <tbody class="td-border-bottom-black-2">
                                 <tr v-for="(item, index) in SELECTED_ITEMS" :key="item.barcode + '-' + index" v-bind:class="{'table-selected' : (selectedItem && item.barcode == selectedItem.barcode)}">
                                     <td class="text-center">
-                                        <span class="hx-table-actions w-auto">
-                                            <button @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
-                                        </span>
+                                        <b-button @click="removeSelectedItem(item)" type="button" size ="sm" class="m-2" :disabled="view_mode">Delete</b-button>
                                     </td>
                                     <td>{{ item.barcode }}</td>
 
@@ -131,7 +129,7 @@
                         </div>
 
 
-                        <table class="table table-bordered mb-0">
+                        <table class="table table-bordered table-hover mb-0">
                             <thead class="th-nowrap">
                                 <tr>
                                     <th width="40">Action</th>
@@ -160,9 +158,7 @@
                             <tbody class="td-border-bottom-black-2">
                                 <tr v-for="(item, index) in SELECTED_ITEMS" :key="item.barcode + '-' + index" v-bind:class="{'table-selected' : (selectedItem && item.barcode == selectedItem.barcode)}">
                                     <td class="text-center">
-                                        <span class="hx-table-actions w-auto">
-                                            <button @click="removeSelectedItem(item)" type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
-                                        </span>
+                                        <b-button @click="removeSelectedItem(item)" type="button" size ="sm" class="m-2" :disabled="view_mode">Delete</b-button>
                                     </td>
                                     <td><input @click="setSelectedItem(item)" v-if ="item.quantity > 0" :checked="item.quantity == item.accepted_qty" type="checkbox" v-on:change="fillAcceptedQty(item, $event.target.checked)" name="fill-accepted" value="checked" /></td>
                                     <td>{{ item.barcode }}</td>
@@ -271,7 +267,7 @@
                         </div>
 
 
-                        <table class="table table-bordered mb-0">
+                        <table class="table table-bordered table-hover mb-0">
                             <thead class="th-nowrap">
                                 <tr>
                                     <th>Barcode</th>
@@ -416,7 +412,7 @@
                             </div>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-striped mb-0 table table-bordered">
+                            <table class="table table-striped table-hover mb-0 table table-bordered">
                                 <thead>
                                     <tr>
                                         <th width="30">#</th>
@@ -1192,7 +1188,7 @@ export default {
                         },
                         beforeRender: function (container, suggestions) {
                             container.html('Searching..')
-                            var html = '<table style="width:100%;"><thead style="padding:2px 3px;"><tr style="background:#51a8f8; color:#fff;"><th style="width:120px;">Barcode</th><th style="width:340px;">Item Description</th><th style="width:80px;">Packing</th><th>UOM</th></tr></thead>'
+                            var html = '<table class="table table-hover" style="width:100%;"><thead style="padding:2px 3px;"><tr style="background:#51a8f8; color:#fff;"><th style="width:120px;">Barcode</th><th style="width:340px;">Item Description</th><th style="width:80px;">Packing</th><th>UOM</th></tr></thead>'
                             html += '<tbody style="padding:2px 3px;">';
                             for (let i = 0; i < suggestions.length; i++) {
                                 var suggestion = suggestions[i]
@@ -1329,5 +1325,5 @@ function matchCustom(params, data) {
 
 .table-discount-summary thead th { background:#398cdb !important; color:#fff;  }
 
-.table-selected, .table-selected>td, .table-selected>th { background-color: #eee !important; }
+.table-selected, .table-selected>td, .table-selected>th { background-color: #f8f9fa !important; }
 </style>

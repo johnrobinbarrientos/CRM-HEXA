@@ -31,7 +31,7 @@ class CustomerGroupController extends Controller
         $list = $list->offset($offset);
         $list = $list->get();
 
-        return response()->json(['success' => 1, 'rows' => $list, 'count' => $count], 200);
+        return response()->json(['success' => 1, 'rows' => $list, 'count' => $count, 'offset' => $offset, 'results' => count($list)], 200);
     }
 
     public function save()

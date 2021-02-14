@@ -21,9 +21,8 @@
                         </div>
                         <div class="bar-right">
                             <span v-if ="view_mode">
-                                <a @click="ROUTE({path: '/customers/' + formdata.uuid })" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Edit</a>
-                                <a @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Delete</a>
                                 <a @click="ROUTE({path: '/customer-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)">Close</a>
+                                <a @click="ROUTE({path: '/customers/' + formdata.uuid })" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Edit</a>
                             </span>
                             <span v-else>
                                 <a @click="ROUTE({path: '/customer-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)">Cancel</a>
@@ -126,22 +125,24 @@
                         </div>
 
                         <br/>
-                        <div class="hx-nav-tabs-override">
+                        <div class="hx-tab-2 round">
                             <ul class="nav nav-tabs">    
-                                <li class="nav-item">        
-                                    <a class="nav-link active" data-toggle="tab" href="#account">Financial Account</a>    
-                                </li>    
+                                   
                                 <!-- <li class="nav-item">        
                                     <a class="nav-link" data-toggle="tab" href="#discounts">Discounts</a>    
                                 </li> -->
-                                <li class="nav-item">        
-                                    <a class="nav-link" data-toggle="tab" href="#classification">Classification</a>    
+                                <li>        
+                                    <a class="" data-toggle="tab" href="#address">Address</a>    
+                                </li>
+                                <li>        
+                                    <a class="" data-toggle="tab" href="#classification">Classification</a>    
                                 </li> 
-                                <li class="nav-item">        
-                                    <a class="nav-link" data-toggle="tab" href="#address">Address</a>    
-                                </li>     
+                                <li>        
+                                    <a class="active" data-toggle="tab" href="#account">Financial Account</a>    
+                                </li> 
                             </ul>
-
+                            
+                            <div class="clearfix"></div>
                             <div class="tab-content">    
                                 <div class="tab-pane active" id="account">
                                         <div class="row">
@@ -363,6 +364,7 @@
                                         </div>
                                 </div>     
                             </div>
+                            
                         </div>
                     </form>
                 </div>

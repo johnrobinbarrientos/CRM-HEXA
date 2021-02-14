@@ -480,9 +480,20 @@ img.header-profile-user { background: #fff; }
     padding: 1px 3px;
 }
 
+.btn-secondary.m-2 {
+    margin: 0rem !important; 
+    margin-bottom:2px !important; 
+    margin-top:2px !important;
+    color: #656565!important;
+    background: rgb(231, 233, 236) !important;
+    min-width: 55px !important; 
+    padding: 0px !important; 
+}
+
 .dropdown .btn-secondary.dropdown-toggle-split {
     min-width: 20px;
 }
+
 
 .b-dropdown:after {
     font-family: dripicons-v2!important;
@@ -498,4 +509,16 @@ img.header-profile-user { background: #fff; }
     top:3px;
     right:4px;
     color:#656565;
+}
+
+
+.table-hover tbody tr:hover { color: #526484; background-color: rgba(237,245,255,255) !important; }
+
+.buy-and-pay-summary {
+    margin-bottom: 30px;
+    padding: 10px;
+    background: #fff !important;
+    border: 1px solid #333 !important;
+    border-radius: 3px;
+    box-shadow: 2px 2px #333;
 }

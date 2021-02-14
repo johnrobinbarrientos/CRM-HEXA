@@ -21,9 +21,8 @@
                     </div>
                     <div class="bar-right">
                         <span v-if="view_mode">
-                            <a @click="ROUTE({path: '/suppliers/' + formdata.uuid })" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Edit</a>
-                            <a @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Delete</a>
                             <a @click="ROUTE({path: '/supplier-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)">Close</a>
+                            <a @click="ROUTE({path: '/suppliers/' + formdata.uuid })" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Edit</a>
                         </span>
                         <span v-else>
                             <a @click="ROUTE({path: '/supplier-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)"><span>Cancel</span></a>
@@ -110,22 +109,24 @@
                     </div>
 
                     <br/>
-                    <div class="hx-nav-tabs-override">
+                    <div class="hx-tab-2 round">
                             <ul class="nav nav-tabs">  
-                                <li class="nav-item">        
-                                    <a class="nav-link active" data-toggle="tab" href="#account">Financial Account</a>    
-                                </li>    
-                                <li class="nav-item">        
-                                    <a v-if="formdata.uuid === null" class="nav-link disabled" data-toggle="tab" href="#discounts">Discounts</a> 
-                                    <a v-else class="nav-link" data-toggle="tab" href="#discounts">Discounts</a>   
+                                <li>        
+                                    <a class="" data-toggle="tab" href="#address">Address</a>    
                                 </li>
-                                <li class="nav-item">        
-                                    <a class="nav-link" data-toggle="tab" href="#check-payees">Check Payees</a>    
+                                <li>        
+                                    <a class="" data-toggle="tab" href="#check-payees">Check Payees</a>    
                                 </li>
-                                <li class="nav-item">        
-                                    <a class="nav-link" data-toggle="tab" href="#address">Address</a>    
+                                <li>        
+                                    <a v-if="formdata.uuid === null" class="disabled" data-toggle="tab" href="#discounts">Discounts</a> 
+                                    <a v-else class="" data-toggle="tab" href="#discounts">Discounts</a>   
+                                </li>
+                                <li>        
+                                    <a class="active" data-toggle="tab" href="#account">Financial Account</a>    
                                 </li>     
                             </ul>
+
+                            <div class="clearfix"></div>
 
                             <div class="tab-content">    
                                 <div class="tab-pane active" id="account">

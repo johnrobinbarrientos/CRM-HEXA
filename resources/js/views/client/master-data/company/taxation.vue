@@ -25,34 +25,37 @@
             <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
         </div>
 
-        <div v-else class="table-responsive">
+        <div class="row">
+            <div class="col-lg-6">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="105">Action</th>
+                            <th>Tax Type</th>
+                            <th>Tax Name</th>
+                            <th>Tax Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(tax) in Taxations" :key="tax.uuid">
+                            <td width="100">
+                                <span class="hx-table-actions">
+                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalTaxation');setData(tax)">
+                                        <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalTaxation');setData(tax)">Edit</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)" @click="remove(tax)">Delete</b-dropdown-item>
+                                    </b-dropdown>
+                                </span>
+                            </td>
+                            <td>{{ tax.tax_type }}</td>
+                            <td>{{ tax.tax_name }}</td>
+                            <td>{{ tax.tax_rate }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div> 
 
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>Actions</th>
-                        <th>#</th>
-                        <th>Tax Type</th>
-                        <th>Tax Name</th>
-                        <th>Tax Rate</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(tax, index) in Taxations" :key="tax.uuid">
-                        <td width="100">
-                            <span class="w-65px d-block mx-auto">
-                                <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalTaxation');setData(tax)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                <a href="javascript:void(0)"  @click="remove(tax)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
-                            </span>
-                        </td>
-                        <td width="50">{{ (index + 1) }}</td>
-                        <td>{{ tax.tax_type }}</td>
-                        <td>{{ tax.tax_name }}</td>
-                        <td>{{ tax.tax_rate }}</td>
-                    </tr>
-                </tbody>
-            </table>
-
+            <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
             <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
                 <ul class="pagination">
                     <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
@@ -73,17 +76,15 @@
                     </li>
                 </ul>
             </nav>
-
-        </div>
                     
 
 
         <!-- Modal Group Form -->
-        <div class="modal fade" tabindex="-1" id="modalTaxation">
-            <div class="modal-dialog modal-lg " role="document">
+        <div class="modal fade modal-single-form" tabindex="-1" id="modalTaxation">
+            <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Taxation Details</h5>
+                        <h5 class="modal-title">Taxation</h5>
                         <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalTaxation');" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
                         </a>
@@ -92,23 +93,33 @@
                         <form action="#" class="form-validate is-alter">
 
                             <div class="row">
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="tax-type">Tax Type</label>
+                                        <label class="form-label" for="tax-type">Type:</label>
                                         <div class="form-control-wrap">
                                             <input v-model="formdata.tax_type" type="text" class="form-control" id="tax-type" required>
                                         </div>
-                                        <label class="form-label" for="tax-name">Tax Name</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="tax-name">Name:</label>
                                         <div class="form-control-wrap">
                                             <input v-model="formdata.tax_name" type="text" class="form-control" id="tax-name" required>
                                         </div>
-                                        <label class="form-label" for="tax-rate">Tax Rate</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="tax-rate">Rate:</label>
                                         <div class="form-control-wrap">
                                             <input v-model="formdata.tax_rate" type="text" class="form-control" id="tax-rate" required>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>                                    
                             
                         </form>
@@ -138,6 +149,8 @@ export default {
             listCurrentPage: 1,
             listItemPerPage: 20,
             listCount: 0,
+            listOffset: 0,
+            listResults: 0,
             searchKeyword: '',
             timer: null,
             formdata: { 
@@ -164,6 +177,9 @@ export default {
                 scope.Taxations = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
+
+                scope.listOffset = res.offset
+                scope.listResults = res.results
             })
         },
         resetData: function () {

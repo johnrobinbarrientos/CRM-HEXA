@@ -138,7 +138,7 @@ class BuyAndPayOrderController extends Controller
             $x++;
         }
         
-        return response()->json(['success' => 1, 'rows' => $lists, 'count' => $count, 'grand_total' => $grand_total], 200);
+        return response()->json(['success' => 1, 'rows' => $lists, 'count' => $count, 'grand_total' => $grand_total, 'offset' => $offset, 'results' => count($lists)], 200);
     }
 
     public function show($orderUUID)

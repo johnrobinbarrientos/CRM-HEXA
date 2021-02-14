@@ -1,9 +1,5 @@
 <template>
         <div>
-            <div v-show="show_preloader">
-                <Spinner />
-            </div>
-
             <div class="actions-bar">
                 <div class="w-100">
                     <h1 class="title"><i class="las la-list-ul"></i> Item List</h1>
@@ -28,11 +24,10 @@
                 <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
             </div>
             <div v-else> 
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-hover table-striped">
                     <thead class="th-nowrap">
                         <tr>
-                            <th>Actions</th>
-                            <th></th>
+                            <th width="105">Action</th>
                             <th>Item Description</th>
                             <th>Item Code</th>
                             <th>Item Barcode</th>
@@ -45,14 +40,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item, index) in itemList" :key="item.uuid">
+                        <tr v-for="(item) in itemList" :key="item.uuid">
                             <td width="65" class="text-center">
                                 <span class="hx-table-actions">
-                                    <a href="javascript:void(0)" @click="ROUTE({path: '/items/' + item.uuid })" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                    <a href="javascript:void(0)" @click="ROUTE({path: '/items/' + item.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
+                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/items/' + item.uuid })">
+                                        <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/items/' + item.uuid })">Edit</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/items/' + item.uuid + '/view' })">View</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)">Delete</b-dropdown-item>
+                                    </b-dropdown>
                                 </span>
                             </td>
-                            <td>{{ (index + 1) }}</td>
                             <td>
                                 {{ item.item_description }}
                             </td>
@@ -124,7 +121,6 @@ export default {
     props: ['properties'],
     data: function () {
         return {
-            show_preloader: true,
 
             itemList: [],
             listLoading: true,
@@ -209,7 +205,6 @@ export default {
         var scope = this
         scope.getItemList()
 
-        setTimeout(function(){ scope.show_preloader = false },2000)
     },
 }
 </script>

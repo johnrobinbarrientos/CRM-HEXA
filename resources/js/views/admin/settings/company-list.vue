@@ -1,9 +1,5 @@
 <template>
     <div>
-        <div v-show="show_preloader">
-            <Spinner />
-        </div>
-
         <div class="actions-bar">
             <div class="w-100">
                 <h1 class="title"><i class="las la-list-ul"></i>Company List</h1>
@@ -18,8 +14,8 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <a href="javascript:void(0)"  @click="ROUTE({ path: '/companies/create' })" class="btn btn-primary bl" data-toggle="modal">
-                    <em class="icon ni ni-plus"></em> <span>New Company</span>
+                <a href="javascript:void(0)"  @click="ROUTE({ path: '/companies/create' })" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                    <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
         </div>
@@ -33,11 +29,10 @@
                 </div>
 
                 <div v-else class="table-responsive">
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-striped table-hover table-bordered">
                         <thead>
                             <tr>
-                                <th>Actions</th>
-                                <th>#</th>
+                                <th width="105">Action</th>
                                 <th>Company Name</th>
                                 <th>Shortname</th>
                                 <th>Tagline</th>
@@ -50,14 +45,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(company, index) in companies" :key="company.id" class="tb-tnx-item">
+                            <tr v-for="(company) in companies" :key="company.id" class="tb-tnx-item">
                                 <td width="100">
-                                    <span class="w-65px d-block mx-auto">
-                                        <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalCompanyList');setData(company)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                        <a href="javascript:void(0)"  @click="remove(company)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
+                                    <span class="hx-table-actions">
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalCompanyList');setData(company)">
+                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalCompanyList');setData(company)">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="remove(company)">Delete</b-dropdown-item>
+                                        </b-dropdown>
                                     </span>
                                 </td>
-                                <td width="50">{{ (index + 1) }}</td>
                                 <td>{{ company.company_name }}</td>
                                 <td>{{ company.shortname }}</td>
                                 <td>{{ company.tagline }}</td>
@@ -118,7 +114,6 @@ export default {
     props: ['properties'],
     data: function () {
         return {
-            show_preloader: true,
             
             selected_global_address: null,
             options_global_address: [],
@@ -347,7 +342,6 @@ export default {
             scope.selected_global_address = $('.form-select-address-list').val();
         })
 
-        setTimeout(function(){ scope.show_preloader = false },2000)
     },
 }
 </script>

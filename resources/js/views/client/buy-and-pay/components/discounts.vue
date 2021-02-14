@@ -14,7 +14,7 @@
             </div>
             <div class="col-12 col-md-7 offset-md-1">
                 <h4>Discount Summary</h4>
-                <table class="table-discount-summary table table-bordered"> 
+                <table class="table table-bordered table-hover mb-0"> 
                     <thead>
                         <tr >
                             <!--<th width="30">#</th>-->

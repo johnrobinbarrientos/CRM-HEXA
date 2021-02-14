@@ -1,8 +1,5 @@
 <template>
     <div>
-        <div v-show="show_preloader">
-            <Spinner />
-        </div>
         <div class="actions-bar">
             <div class="w-100">
                 <h1 class="title"><i class="las la-list-ul"></i> Supplier List</h1>
@@ -26,12 +23,11 @@
         <div v-if="listLoading" class="text-center my-3 text-loader">
             <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
         </div>
-        <div v-else class="table-responsive table-striped"> 
+        <div v-else class="table table-bordered table-hover table-striped"> 
             <table class="table table-bordered">
                 <thead class="th-nowrap">
                     <tr>
-                        <th>Actions</th>
-                        <th></th>
+                        <th width="105">Action</th>
                         <th>Supplier Name</th>
                         <th>Supplier Shortname</th>
                         <th>Is Transporter?</th>
@@ -44,14 +40,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(supplier, index) in supplierList" :key="supplier.uuid">
+                    <tr v-for="(supplier) in supplierList" :key="supplier.uuid">
                         <td width="65" class="text-center">
                             <span class="hx-table-actions">
-                                <a href="javascript:void(0)" @click="ROUTE({path: '/suppliers/' + supplier.uuid })" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                <a href="javascript:void(0)" @click="ROUTE({path: '/suppliers/' + supplier.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
+                                <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/suppliers/' + supplier.uuid })">
+                                    <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/suppliers/' + supplier.uuid })">Edit</b-dropdown-item>
+                                    <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/suppliers/' + supplier.uuid + '/view' })">View</b-dropdown-item>
+                                    <b-dropdown-item href="javascript:void(0)">Delete</b-dropdown-item>
+                                </b-dropdown>
                             </span>
                         </td>
-                        <td><span class="">{{ (index + 1) }}</span></td>
                         <td><span class="">{{supplier.supplier_name}}</span></td>
                         <td><span class="">{{supplier.supplier_shortname}}</span></td>
                         <td v-if="supplier.is_transporter === 1">Yes</td>
@@ -74,6 +72,8 @@
                     </tr>
                 </tbody>
             </table>
+
+            <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
             <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
                 <ul class="pagination">
                     <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
@@ -108,7 +108,6 @@ export default {
 
     data: function () {
         return {
-            show_preloader: true,
 
             supplierList: [],
             supplier_data: [],
@@ -117,6 +116,8 @@ export default {
             listCurrentPage: 1,
             listItemPerPage: 20,
             listCount: 0,
+            listOffset: 0,
+            listResults: 0,
             searchKeyword: '',
             timer: null
         }
@@ -137,6 +138,9 @@ export default {
                 scope.supplierList = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
+
+                scope.listOffset = res.offset
+                scope.listResults = res.results
             })
         },
         create: function () {
@@ -191,7 +195,6 @@ export default {
         var scope = this
         scope.getSupplierList()
 
-        setTimeout(function(){ scope.show_preloader = false },2000)
     },
 }
 </script>

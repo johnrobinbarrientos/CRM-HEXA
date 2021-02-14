@@ -27,23 +27,24 @@
 
             <div class="row">
                 <div class="col-lg-6">
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered table-hover table-striped">
                         <thead>
                             <tr>
-                                <th>Actions</th>
-                                <th class="text-right"></th>
+                                <th width="105">Action</th>
                                 <th>Item Asset Group</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(asset, index) in assetGroups" :key="asset.uuid">
+                            <tr v-for="(asset) in assetGroups" :key="asset.uuid">
                                 <td width="65" class="text-center">
                                     <span class="hx-table-actions">
-                                        <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalItemAssetGroup');setData(asset)" class="btn btn-sm btn-shineblue"><i class="bx bx-pencil"></i></a>
-                                        <a href="javascript:void(0)"  @click="remove(asset)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalItemAssetGroup');setData(asset)">
+                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalItemAssetGroup');setData(asset)">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="remove(asset)">Delete</b-dropdown-item>
+                                        </b-dropdown>
                                     </span>
+
                                 </td>
-                                <td width="100" class="text-right"><span>{{ (index + 1) }}</span></td>
                                 <td><span class="">{{ asset.asset_group }}</span></td>
                             </tr>
                         </tbody>
@@ -51,6 +52,7 @@
                 </div>
             </div>
 
+            <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
             <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
                 <ul class="pagination">
                     <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
@@ -78,7 +80,7 @@
             <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Asset Group Details</h5>
+                        <h5 class="modal-title">Asset Group</h5>
                         <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalItemAssetGroup');" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
                         </a>
@@ -89,7 +91,7 @@
                             <div class="row">
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="asset-group">Asset Group</label>
+                                        <label class="form-label" for="asset-group">Asset Group:</label>
                                         <div class="form-control-wrap">
                                             <input v-model="formdata.asset_group" type="text" class="form-control" id="asset-group-input" required>
                                         </div>
@@ -127,6 +129,8 @@ export default {
             listCurrentPage: 1,
             listItemPerPage: 20,
             listCount: 0,
+            listOffset: 0,
+            listResults: 0,
             searchKeyword: '',
             timer: null,
             formdata: { 
@@ -154,6 +158,9 @@ export default {
                 scope.assetGroups = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
+
+                scope.listOffset = res.offset
+                scope.listResults = res.results
             })
         },
         resetData: function () {

@@ -1,8 +1,5 @@
 <template>
     <div>
-        <div v-show="show_preloader">
-            <Spinner />
-        </div>
 
         <div class="actions-bar">
             <div class="w-100">
@@ -18,83 +15,83 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCostCenter');resetData()" class="btn btn-primary" data-toggle="modal">
-                    <em class="icon ni ni-plus"></em> <span>New</span>
+                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalCostCenter');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                    <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-body">
-
-                <div v-if="listLoading" class="text-center my-3 text-loader">
-                    <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
-                </div>
+        <div v-if="listLoading" class="text-center my-3 text-loader">
+            <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
+        </div>
 
 
-                <div v-else class="table-responsive">
-                    <table class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Actions</th>
-                                <th>#</th>
-                                <th>Cost Center Name</th>
-                                <th>Shortname</th>
-                                <th>Is Group</th>
-                                <th>Cost Center Group</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(costcenter, index) in costCenters" :key="costcenter.uuid">
-                                <td width="100">
-                                    <span class="w-65px d-block mx-auto">
-                                        <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalCostCenter');setData(costcenter)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                        <a href="javascript:void(0)"  @click="remove(costcenter)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
-                                    </span>
-                                </td>
-                                <td width="50">{{ (index + 1) }}</td>
-                                <td>{{ costcenter.cost_center_name }}</td>
-                                <td>{{ costcenter.cost_center_shortname }}</td>
-                                <td v-if="costcenter.is_group === 1">Yes</td>
-                                <td v-else>No</td>
-                                <td>{{ costcenter.cost_center_group }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <div class="row">
+            <div class="col-lg-6">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="105">Action</th>
+                            <th>Cost Center Name</th>
+                            <th>Shortname</th>
+                            <th>Is Group</th>
+                            <th>Cost Center Group</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(costcenter) in costCenters" :key="costcenter.uuid" class="tb-tnx-item">
+                            <td width="100">
+                                <span class="hx-table-actions">
+                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalCostCenter');setData(costcenter)" >
+                                        <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalCostCenter');setData(costcenter)">Edit</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)" @click="remove(costcenter)">Delete</b-dropdown-item>
+                                    </b-dropdown>
+                                </span>
+                            </td>
 
-                    <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
-                        <ul class="pagination">
-                            <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
-                                <a href="javascript:void(0)" class="page-link" aria-label="Previous">
-                                    <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-
-                            
-                            <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
-                                <a href="javascript:void(0)" class="page-link">
-                                    {{ page }}
-                                </a>
-                            </li>
-                            
-                            <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
-                                <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
-                            </li>
-                        </ul>
-                    </nav>
-
-                </div>
+                            <td>{{ costcenter.cost_center_name }}</td>
+                            <td>{{ costcenter.cost_center_shortname }}</td>
+                            <td v-if="costcenter.is_group === 1">Yes</td>
+                            <td v-else>No</td>
+                            <td>{{ costcenter.cost_center_group }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
+
+        <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
+        <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
+            <ul class="pagination">
+                <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
+                    <a href="javascript:void(0)" class="page-link" aria-label="Previous">
+                        <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
+                    </a>
+                </li>
+
+                
+                <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
+                    <a href="javascript:void(0)" class="page-link">
+                        {{ page }}
+                    </a>
+                </li>
+                
+                <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
+                    <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
+                </li>
+            </ul>
+        </nav>
+
+            
 
 
 
         <!-- Modal Group Form -->
-        <div class="modal fade" tabindex="-1" id="modalCostCenter">
-            <div class="modal-dialog modal-lg " role="document">
+        <div class="modal fade modal-single-form" tabindex="-1" id="modalCostCenter">
+            <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Cost Center Details</h5>
+                        <h5 class="modal-title">Cost Center</h5>
                         <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalCostCenter');" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
                         </a>
@@ -103,23 +100,39 @@
                         <form action="#" class="form-validate is-alter">
 
                             <div class="row">
-                                <div class="col-md-6 col-12">
+
+                                <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="cost-center">Cost Center Name</label>
+                                        <label class="form-label" for="cost-center">Name:</label>
                                         <div class="form-control-wrap">
                                             <input v-model="formdata.cost_center_name" type="text" class="form-control" id="cost-center-name" required>
                                         </div>
-                                        <label class="form-label" for="cost-center">Shortname</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="cost-center">Shortname:</label>
                                         <div class="form-control-wrap">
                                             <input v-model="formdata.cost_center_shortname" type="text" class="form-control" id="cost-center-shortname" required>
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
                                         <div class="form-control-wrap">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" v-model="formdata.is_group" true-value="1" false-value="0" class="custom-control-input" id="is-group">
                                                 <label class="custom-control-label" for="is-group">Is Group?</label>
                                             </div>
                                         </div>
-                                        <label class="form-label" for="cost-center">Cost Center Group</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="cost-center">Group:</label>
                                         <div class="form-control-wrap">
                                             <input v-model="formdata.cost_center_group" type="text" class="form-control" id="cost-center-group" required>
                                         </div>
@@ -150,13 +163,14 @@ export default {
     props: ['properties'],
     data: function () {
         return {
-            show_preloader: true,
-
+  
             costCenters: [],
             listLoading: true,
             listCurrentPage: 1,
             listItemPerPage: 20,
             listCount: 0,
+            listOffset: 0,
+            listResults: 0,
             searchKeyword: '',
             timer: null,
             formdata: { 
@@ -184,6 +198,9 @@ export default {
                 scope.costCenters = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
+
+                scope.listOffset = res.offset
+                scope.listResults = res.results
             })
         },
         resetData: function () {
@@ -333,7 +350,6 @@ export default {
         var scope = this
         scope.getCostCenters()
 
-        setTimeout(function(){ scope.show_preloader = false },2000)
     },
 }
 </script>

@@ -36,35 +36,57 @@
                             </div>
        
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered">
+                                <table class="table table-bordered table-hover table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Actions</th>
-                                            <th>#</th>
+                                            <th width="105">Action</th>
                                             <th>Item Type</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(category, index) in categories" :key="category.uuid">
+                                        <tr v-for="(category) in categories" :key="category.uuid">
                                             <td width="100">
-                                                <span class="w-65px d-block mx-auto">
-                                                    <a href="javascript:void(0)" @click="OPEN_MODAL('#modalItemType');setData(category)" class="btn btn-sm btn-shineblue "><i class="mdi mdi-pencil"></i></a>
-                                                    <a href="javascript:void(0)" @click="remove(category)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can"></i></a>
+                                                <span class="hx-table-actions">
+                                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalItemType');setData(category)">
+                                                        <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalItemType');setData(category)">Edit</b-dropdown-item>
+                                                        <b-dropdown-item href="javascript:void(0)" @click="remove(category)">Delete</b-dropdown-item>
+                                                    </b-dropdown>
                                                 </span>
                                             </td>
-                                            <td width="100"><span class="">{{ (index + 1) }}</span></td>
                                             <td><span class="">{{ category.item_type }}</span></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
+
+                            <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
+                            <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
+                                    <ul class="pagination">
+                                        <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
+                                            <a href="javascript:void(0)" class="page-link" aria-label="Previous">
+                                                <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+
+                                        
+                                        <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
+                                            <a href="javascript:void(0)" class="page-link">
+                                                {{ page }}
+                                            </a>
+                                        </li>
+                                        
+                                        <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
+                                            <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
+                                        </li>
+                                    </ul>
+                            </nav>
                                     
                             <!-- Modal Category1 Form -->
-                            <div class="modal fade" tabindex="-1" id="modalItemType">
-                                <div class="modal-dialog modal-lg " role="document">
+                            <div class="modal fade modal-single-form" tabindex="-1" id="modalItemType">
+                                <div class="modal-dialog modal-md" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Item Type Details</h5>
+                                            <h5 class="modal-title">Item Type</h5>
                                             <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalItemType');" class="close" data-dismiss="modal" aria-label="Close">
                                                 <i class="bx bx-x"></i>
                                             </a>
@@ -73,9 +95,9 @@
                                             <form action="#" class="form-validate is-alter">
 
                                                 <div class="row">
-                                                    <div class="col-md-6 col-12">
+                                                    <div class="col-md-12 col-12">
                                                         <div class="form-group">
-                                                            <label class="form-label" for="item-type">Category 1</label>
+                                                            <label class="form-label" for="item-type">Item Type:</label>
                                                             <div class="form-control-wrap">
                                                                 <input v-model="formdata.item_type" type="text" class="form-control" id="item-type" required>
                                                             </div>
@@ -117,6 +139,8 @@ export default {
             listCurrentPage: 1,
             listItemPerPage: 20,
             listCount: 0,
+            listOffset: 0,
+            listResults: 0,
             searchKeyword: '',
             timer: null,
             formdata: { 
@@ -141,6 +165,9 @@ export default {
                 scope.categories = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
+
+                scope.listOffset = res.offset
+                scope.listResults = res.results
             })
         },
         resetData: function () {

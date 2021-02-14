@@ -389,7 +389,7 @@ export default {
         },
         getSupplierList: function () {
            var scope = this
-            scope.GET('suppliers/supplier-list').then(res => {
+            scope.GET('suppliers/').then(res => {
                 scope.suppliers = res.rows
             })
         },
@@ -416,7 +416,7 @@ export default {
         getItemList: function (supplierUUID) {
             var scope = this
             scope.items = [] 
-            scope.GET('suppliers/supplier-list/' + supplierUUID + '/items').then(res => {
+            scope.GET('suppliers/' + supplierUUID + '/items').then(res => {
                 scope.items = res.rows
             })
         },

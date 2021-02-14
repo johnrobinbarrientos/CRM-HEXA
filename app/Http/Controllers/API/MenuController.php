@@ -129,12 +129,7 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bx-globe',
             'submenus' => [
-                [ 'text' => 'Address List', 'route' => 'global-address-list'],
-                [ 'text' => 'Customer Chain', 'route' => 'global-customer-chain'],
-                [ 'text' => 'Customer Channel', 'route' => 'global-customer-channel'],
-                [ 'text' => 'Customer Type', 'route' => 'global-customer-type'],
-                [ 'text' => 'Cost Center', 'route' => 'global-cost-center'],
-                [ 'text' => 'UOM', 'route' => 'global-uom'],
+                [ 'text' => 'Setup', 'route' => 'globals-main'],
             ]
         ];
 
@@ -143,11 +138,7 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bxs-cog',
             'submenus' => [
-                [ 'text' => 'Chart of Accounts', 'route' => 'admin-chart-of-accounts'],
-                [ 'text' => 'Account Group', 'route' => 'admin-coa-account-group'],
-                [ 'text' => 'Report Group', 'route' => 'admin-coa-report-group'],
-                [ 'text' => 'Cost Center', 'route' => 'admin-cost-center'],
-                [ 'text' => 'Company List', 'route' => 'company-list'],
+                [ 'text' => 'Setup', 'route' => 'admin-main'],
                 [ 'text' => 'Users', 'route' => 'users'],
             ]
         ];

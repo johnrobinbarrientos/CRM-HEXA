@@ -21,9 +21,8 @@
                     </div>
                     <div class="bar-right">
                         <span v-if ="view_mode">
-                            <a @click="ROUTE({path: '/items/' + formdata.uuid })" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Edit</a>
-                            <a @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Delete</a>
                             <a @click="ROUTE({path: '/item-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)">Close</a>
+                            <a @click="ROUTE({path: '/items/' + formdata.uuid })" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Edit</a>
                         </span>
                         <span v-else>
                             <a @click="ROUTE({path: '/item-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)">Cancel</a>
@@ -95,7 +94,7 @@
                         
                         <div class="col-md-3 col-12">
                             <div class="form-group">
-                                <label class="form-label" for="reorder-qty">Re-Order Qty</label>
+                                <label class="form-label" for="reorder-qty">ICO</label>
                                 <div class="form-control-wrap">
                                     <input v-model="formdata.reorder_qty" type="text" class="form-control" id="reorder-qty" :readonly="view_mode">
                                 </div>
@@ -627,7 +626,7 @@ export default {
 
         getSupplier: function () {
            var scope = this
-            scope.GET('suppliers/supplier-list').then(res => {
+            scope.GET('suppliers/').then(res => {
                 res.rows.forEach(function (data) {
 
                     scope.options_supplier.push({

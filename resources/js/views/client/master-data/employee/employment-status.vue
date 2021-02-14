@@ -14,7 +14,7 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <a @click="OPEN_MODAL('#modalEmploymentStatus'); FOCUS_INPUT('#employment-status-input'); resetData();" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                <a @click="OPEN_MODAL('#modalEmploymentStatus'); resetData();" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                     <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
@@ -28,23 +28,23 @@
         <div v-else>
             <div class="row">
                 <div class="col-lg-6">
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered table-hover table-striped">
                         <thead>
                             <tr>
-                                <th>Actions</th>
-                                <th class="text-right"></th>
+                                <th width="105">Action</th>
                                 <th>Employment Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(status, index) in employmentStatus" :key="status.uuid">
+                            <tr v-for="(status) in employmentStatus" :key="status.uuid">
                                 <td width="65" class="text-center">
                                     <span class="hx-table-actions">
-                                        <a href="javascript:void(0)" @click="OPEN_MODAL('#modalEmploymentStatus'); FOCUS_INPUT('#employment-status-input'); setData(status)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                        <a href="javascript:void(0)" @click="remove(status)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalEmploymentStatus'); setData(status)">
+                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalEmploymentStatus'); setData(status)">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="remove(status)">Delete</b-dropdown-item>
+                                        </b-dropdown>
                                     </span>
                                 </td>
-                                <td width="50" class="text-right">{{ (index + 1) }}</td>
                                 <td>{{ status.employment_status }}</td>
                             </tr>
                         </tbody>
@@ -53,6 +53,7 @@
             </div>
         </div>
 
+        <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
         <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
             <ul class="pagination">
                 <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
@@ -80,7 +81,7 @@
             <div class="modal-dialog modal-lg " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Employment Status Details</h5>
+                        <h5 class="modal-title">Detail</h5>
                         <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalEmploymentStatus');" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
                         </a>
@@ -126,6 +127,8 @@ export default {
             listCurrentPage: 1,
             listItemPerPage: 20,
             listCount: 0,
+            listOffset: 0,
+            listResults: 0,
             searchKeyword: '',
             timer: null,
             formdata: { 
@@ -150,6 +153,9 @@ export default {
                 scope.employmentStatus = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
+
+                scope.listOffset = res.offset
+                scope.listResults = res.results
             })
         },
         resetData: function () {

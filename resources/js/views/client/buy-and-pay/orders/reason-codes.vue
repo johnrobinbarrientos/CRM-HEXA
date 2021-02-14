@@ -14,8 +14,8 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalReasonCodes');resetData()" class="btn btn-primary" data-toggle="modal">
-                    <em class="icon ni ni-plus"></em> <span>New</span>
+                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalReasonCodes');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                    <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
         </div>
@@ -28,20 +28,22 @@
         <div v-else>
             <div class="row">
                 <div class="col-lg-6">
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered table-hover table-striped">
                         <thead>
                             <tr>
-                                <th>Action</th>
+                                <th width="105">Action</th>
                                 <th>Short Name</th>
                                 <th>Details</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(codes, index) in reasonCodes" :key="codes.uuid">
+                            <tr v-for="(codes) in reasonCodes" :key="codes.uuid">
                                 <td width="65" class="text-center">
                                     <span class="hx-table-actions">
-                                        <a href="javascript:void(0)"  @click="OPEN_MODAL('#modalReasonCodes');setData(codes)" class="btn btn-sm btn-shineblue" title="Edit"><i class="mdi mdi-pencil"></i></a>
-                                        <a href="javascript:void(0)"  @click="remove(codes)" class="btn btn-sm btn-danger"><i class="mdi mdi-trash-can" title="Trash"></i></a>
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalReasonCodes');setData(codes)">
+                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalReasonCodes');setData(codes)">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="remove(codes)">Delete</b-dropdown-item>
+                                        </b-dropdown>
                                     </span>
                                 </td>
                                 <td width="100">{{ codes.short_name }}</td>
@@ -53,6 +55,7 @@
             </div>
 
 
+            <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
             <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
                 <ul class="pagination">
                     <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
@@ -79,11 +82,11 @@
 
 
         <!-- Modal Group Form -->
-        <div class="modal fade" tabindex="-1" id="modalReasonCodes">
-            <div class="modal-dialog modal-lg " role="document">
+        <div class="modal fade modal-single-form" tabindex="-1" id="modalReasonCodes">
+            <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Reason Code Details</h5>
+                        <h5 class="modal-title">Reason Code</h5>
                         <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalReasonCodes');" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
                         </a>
@@ -92,18 +95,18 @@
                         <form action="#" class="form-validate is-alter">
 
                             <div class="row">
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="po-reason-code-short-name">Short Name</label>
+                                        <label class="form-label" for="po-reason-code-short-name">Short Name:</label>
                                         <div class="form-control-wrap">
                                             <input style="text-transform: uppercase;" v-model="formdata.short_name" type="text" class="form-control" id="po-reason-code-short-name" required>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="po-reason-code-details">Details</label>
+                                        <label class="form-label" for="po-reason-code-details">Details:</label>
                                         <div class="form-control-wrap">
                                             <input v-model="formdata.details" type="text" class="form-control" id="po-reason-code-details" required>
                                         </div>
@@ -139,6 +142,8 @@ export default {
             listCurrentPage: 1,
             listItemPerPage: 20,
             listCount: 0,
+            listOffset: 0,
+            listResults: 0,
             searchKeyword: '',
             timer: null,
             formdata: { 
@@ -164,6 +169,9 @@ export default {
                 scope.reasonCodes = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
+
+                scope.listOffset = res.offset
+                scope.listResults = res.results
             })
         },
         resetData: function () {
@@ -203,12 +211,12 @@ export default {
         update: function () {
             var scope = this
             window.swal.fire({
-                title: 'Update Record?',
+                title: 'Update?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Update it!',
+                confirmButtonText: 'Yes',
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
@@ -217,7 +225,7 @@ export default {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Reason Code Updated',
+                                title: 'Updated',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
@@ -236,13 +244,12 @@ export default {
             var scope = this
 
             window.swal.fire({
-                title: 'Are you sure?',
-                text: 'You won\'t be able to revert this',
+                title: 'Delete?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!',
+                confirmButtonText: 'Yes',
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
@@ -251,7 +258,7 @@ export default {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Reason Code Deleted',
+                                title: 'Deleted',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {

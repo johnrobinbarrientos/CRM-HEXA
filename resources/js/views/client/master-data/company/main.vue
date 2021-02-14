@@ -1,8 +1,5 @@
 <template>
     <div>
-        <div v-show="show_preloader">
-            <Spinner />
-        </div>
 
         <div class="card">
             <div class="card-body">                    
@@ -100,7 +97,7 @@ import AccountingPeriod from './accounting-period'
 export default {
     data: function () {
         return {
-            show_preloader: true
+
         }
     },
     components: {
@@ -119,7 +116,6 @@ export default {
         mounted() {
         var scope = this
 
-        setTimeout(function(){ scope.show_preloader = false },2000)
     },
 }
 </script>
