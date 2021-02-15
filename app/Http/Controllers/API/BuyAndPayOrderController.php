@@ -55,13 +55,13 @@ class BuyAndPayOrderController extends Controller
             ->with('ItemAssetGroup')
             ->with('Branch')
             ->with('BranchLocation');
-
+            
         if ($type == 'receipts') {
             $lists->where(function ($query) {
                 $query->where('receiving_status','To Bill')
                     ->orWhere('receiving_status','Billed');
             });
-        } else if ($type == 'to -receive') {
+        } else if ($type == 'to-receive') {
             $lists->where(function ($query) {
                 $query->where('po_status','To Receive');
             });

@@ -29,35 +29,36 @@
                 <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
             </div>
 
-            <div v-else>
-                <div style="background:#f9f9f9; border:1px solid #d7d8e0; padding:0px; margin-bottom: 5px;">
-                    <div style="display:flex; justify-content: flex-start;">
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
-                            <select @change="getReceivedOrders()" v-model="selected_item_group" style="padding:5px; background:transparent; border:none; width:100%;">
+            <div v-else class="table-responsive;">
+                
+                <div class="table-filter">
+                    <div class="table-filter-row">
+                        <div class="select-wrap">
+                            <select @change="getReceivedOrders()" v-model="selected_item_group">
                                 <option value="">Item Type</option>     
                                 <option v-for="item_type in options_item_group" :value="item_type.id" :key="'option-' + item_type.id ">{{ item_type.text }}</option>
                             </select>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
-                            <select  @change="getReceivedOrders()" v-model="selected_supplier" style="padding:5px; background:transparent; border:none; width:100%;">
+                        <div class="select-wrap">
+                            <select  @change="getReceivedOrders()" v-model="selected_supplier">
                                 <option value="">Supplier</option>
                                 <option v-for="supplier in options_supplier" :value="supplier.id"  :key="'option-' + supplier.id ">{{ supplier.text }}</option>
                             </select>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
-                            <select  @change="getReceivedOrders()" v-model="selected_branch" style="padding:5px; background:transparent; border:none; width:100%;">
+                        <div class="select-wrap">
+                            <select  @change="getReceivedOrders()" v-model="selected_branch">
                                 <option value="">Branch</option>
                                 <option v-for="branch in options_branch" :value="branch.id"  :key="'option-' + branch.id ">{{ branch.text }}</option>
                             </select>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
-                            <select  @change="getReceivedOrders()" v-model="selected_branch_location" style="padding:5px; background:transparent; border:none; width:100%;">
+                        <div class="select-wrap">
+                            <select  @change="getReceivedOrders()" v-model="selected_branch_location">
                                 <option value="">Location</option>
                                 <option v-for="location in options_branch_location" :value="location.id"  :key="'option-' + location.id ">{{ location.text }}</option>
                             </select>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
-                            <select  @change="getReceivedOrders()" v-model="selected_status" style="padding:5px; background:transparent; border:none; width:100%;">
+                        <div class="select-wrap">
+                            <select  @change="getReceivedOrders()" v-model="selected_status">
                                 <option value="">Status</option>
                                 <option value="To Receive">To Receive</option>
                                 <option value="Partially Received">Partially Received</option>
@@ -65,25 +66,27 @@
                                 <option value="Cancelled">Cancelled</option>
                             </select>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
-                            <select  @change="getReceivedOrders()" v-model="selected_reason_code_filter" style="padding:5px; background:transparent; border:none; width:100%;">
+                        <div class="select-wrap">
+                            <select  @change="getReceivedOrders()" v-model="selected_reason_code_filter">
                                 <option value="">Reason Code</option>
                                 <option v-for="reason_code in options_reason_code" :value="reason_code.id"  :key="'option-' + reason_code.id ">{{ reason_code.text }}</option>
                             </select>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
+                        <div class="select-wrap">
                             <date-picker class="transaction-from" placeholder="From" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_from" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
+                        <div class="select-wrap">
                             <date-picker class="transaction-to"  placeholder="To" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_to" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
+                        </div>
+                        <div class="select-wrap" style="width:50px !important;">
+                            <b-button @click="reset()" pill variant="outline-secondary" size="sm">Reset</b-button>
                         </div>
                     </div>
                 </div>
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-hover table-striped">
                     <thead class="th-nowrap">
                         <tr>
-                            <th>Action</th>
-                            <th></th>
+                            <th width="105">Action</th>
                             <th>Item Type</th>
                             <th>Transaction No</th>
                             <th>Supplier Name</th>
@@ -97,29 +100,27 @@
                     </thead>
                     <tbody class="td-border-bottom-black">
                         <template v-if="receivedOrders.length > 0">
-                            <tr v-for="(purchase, index) in receivedOrders" :key="purchase.uuid">
+                            <tr v-for="(purchase) in receivedOrders" :key="purchase.uuid">
                                 <template v-if="purchase.po_status !== 'Cancelled'">
                                     <td width="65" class="text-center">
-                                        <span class="hx-table-actions">
-                                            <a
-                                                href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/receipts/' + purchase.uuid + '/edit'})" 
-                                                class="btn btn-sm btn-shineblue"
-                                                title="Edit"
-                                                :class="{ disabled : purchase.receiving_status === 'To Bill' }"
-                                                :disabled="{ disabled : purchase.receiving_status === 'To Bill' }"
-                                                :style="[purchase.receiving_status === 'To Bill' ? {'cursor': 'no-drop'} : '']"
-                                            >
-                                                <i class="mdi mdi-pencil"></i></a>
-                                            <a href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/receipts/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
+                                        <span v-if="purchase.receiving_status === 'To Bill'" class="hx-table-actions">
+                                            <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/receipts/' + purchase.uuid + '/edit'})" >
+                                                <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/receipts/' + purchase.uuid + '/edit'})" >Edit</b-dropdown-item>
+                                                <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/receipts/' + purchase.uuid + '/view' })">View</b-dropdown-item>
+                                            </b-dropdown>
+                                        </span>
+                                        <span v-else class="hx-table-actions">
+                                            <b-dropdown split text="View" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/receipts/' + purchase.uuid + '/view' })">
+                                                <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/receipts/' + purchase.uuid + '/view' })">View</b-dropdown-item>
+                                            </b-dropdown>
                                         </span>
                                     </td>
-                                    <td width="50">{{ (index + 1) }}</td>
                                     <td width="100">{{ purchase.item_group.item_group }}</td>
-                                    <td width="150">{{ purchase.receiving_no }}</td>
+                                    <td width="200">{{ purchase.receiving_no }}</td>
                                     <td width="200" class="text-nowrap text-center">{{ purchase.supplier.supplier_shortname }}</td>
                                     <td width="100" class="text-nowrap">{{ purchase.branch.branch_shortname.toUpperCase() }}</td>
                                     <td>{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
-                                    <td width="100">{{ purchase.date_received }}</td>
+                                    <td width="150">{{ moment(purchase.date_received) }}</td>
 
                                     <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
                                     <td v-else class="text-right">{{putSeparator(purchase.po_total_amount.toFixed(2))}}</td>
@@ -131,12 +132,12 @@
                                         <span class="badge badge-success font-size-12">Billed</span>
                                     </td>
 
-                                    <td width="100">{{ purchase.receiving_reason_code }}</td>
+                                    <td >{{ purchase.receiving_reason_code }}</td>
 
                                 </template>
                             </tr>
                             <tr>
-                                <td colspan="7"></td>
+                                <td colspan="6"></td>
                                 <td style="border-left: 2px solid #eee">
                                     <span><strong>Grand Total:</strong></span>
                                 </td>
@@ -162,6 +163,29 @@
 
                     </tbody>
                 </table>
+
+                <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
+                <nav style="float:right;" v-if="listTotalPages > 1" class="pagination pagination-rounded mt-4" aria-label="pagination">
+                    <ul class="pagination">
+                        <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
+                            <a href="javascript:void(0)" class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+
+                        
+                        <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
+                            <a href="javascript:void(0)" class="page-link">
+                                {{ page }}
+                            </a>
+                        </li>
+                        
+                        <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
+                            <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
+                        </li>
+                    </ul>
+                </nav>
+
             </div>
 
 
@@ -242,6 +266,8 @@ export default {
             listCurrentPage: 1,
             listItemPerPage: 20,
             listCount: 0,
+            listOffset: 0,
+            listResults: 0,
             searchKeyword: '',
             timer: null,
         }
@@ -257,6 +283,21 @@ export default {
         }
     },
     methods: {
+        reset: function () {
+            var scope = this
+            scope.selected_item_group = ""
+            scope.selected_supplier = ""
+            scope.selected_branch = ""
+            scope.selected_branch_location = ""
+            scope.selected_status = ""
+            scope.selected_reason_code_filter = ""
+            scope.transaction_to = ""
+            scope.transaction_from = ""
+            scope.getReceivedOrders()
+        },
+        moment: function (date) {
+            return moment(date).format('DD-MMM-YYYY')
+        },
         putSeparator: function(value) {
             var num_parts = value.toString().split(".");
             num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -287,6 +328,9 @@ export default {
 
                 scope.listLoading = false
                 scope.listCount = res.count
+
+                scope.listOffset = res.offset
+                scope.listResults = res.results
             })
         },
         search: function () {
@@ -530,7 +574,12 @@ export default {
 </script>
 
 <style scoped>
-.table-tranx { table-layout: auto; width: 200%;}
+.table-filter { background:#f9f9f9; border:1px solid #d7d8e0; padding:0px; margin-bottom: 8px; }
+.table-filter-row { display:flex; justify-content: space-evenly; }
+.select-wrap { background:#e5e5ed; padding-right: 5px; border-right:1px solid #d7d8e0; width: 100%; }
+.select-wrap select { padding:5px; padding-top: 6px; background:transparent; border:none; width:100%; font-size: 12px; }
+.badge { font-size: 11px; }
+
 .td-border-bottom-black tr:nth-last-child(3) td { border-bottom-color: #495057 !important; }
 .td-border-bottom-black tr:nth-last-child(2) td { border-bottom-color: #495057 !important; }
 .td-border-bottom-black tr:nth-last-child(1) td { border-bottom-color: #495057 !important; }

@@ -26,58 +26,61 @@
             </div>
 
             <div v-else class="table-responsive;">
-                <div style="background:#f9f9f9; border:1px solid #d7d8e0; padding:0px; margin-bottom: 5px;">
-                    <div style="display:flex; justify-content: flex-start;">
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
-                            <select @change="getBills()" v-model="selected_item_group" style="padding:5px; background:transparent; border:none; width:100%;">
+
+                <div class="table-filter">
+                    <div class="table-filter-row">
+                        <div class="select-wrap">
+                            <select @change="getBills()" v-model="selected_item_group">
                                 <option value="">Item Type</option>     
                                 <option v-for="item_type in options_item_group" :value="item_type.id" :key="'option-' + item_type.id ">{{ item_type.text }}</option>
                             </select>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
-                            <select  @change="getBills()" v-model="selected_supplier" style="padding:5px; background:transparent; border:none; width:100%;">
+                        <div class="select-wrap">
+                            <select  @change="getBills()" v-model="selected_supplier">
                                 <option value="">Supplier</option>
                                 <option v-for="supplier in options_supplier" :value="supplier.id"  :key="'option-' + supplier.id ">{{ supplier.text }}</option>
                             </select>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
-                            <select  @change="getBills()" v-model="selected_branch" style="padding:5px; background:transparent; border:none; width:100%;">
+                        <div class="select-wrap">
+                            <select  @change="getBills()" v-model="selected_branch">
                                 <option value="">Branch</option>
                                 <option v-for="branch in options_branch" :value="branch.id"  :key="'option-' + branch.id ">{{ branch.text }}</option>
                             </select>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
-                            <select  @change="getBills()" v-model="selected_branch_location" style="padding:5px; background:transparent; border:none; width:100%;">
+                        <div class="select-wrap">
+                            <select  @change="getBills()" v-model="selected_branch_location">
                                 <option value="">Location</option>
                                 <option v-for="location in options_branch_location" :value="location.id"  :key="'option-' + location.id ">{{ location.text }}</option>
                             </select>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
-                            <select  @change="getBills()" v-model="selected_status" style="padding:5px; background:transparent; border:none; width:100%;">
+                        <div class="select-wrap">
+                            <select  @change="getBills()" v-model="selected_status">
                                 <option value="">Status</option>
                                 <option value="To Receive">To Pay</option>
                                 <option value="Partially Received">Paid</option>
                             </select>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
-                            <select  @change="getBills()" v-model="selected_reason_code_filter" style="padding:5px; background:transparent; border:none; width:100%;">
+                        <div class="select-wrap">
+                            <select  @change="getBills()" v-model="selected_reason_code_filter">
                                 <option value="">Reason Code</option>
                                 <option v-for="reason_code in options_reason_code" :value="reason_code.id"  :key="'option-' + reason_code.id ">{{ reason_code.text }}</option>
                             </select>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
+                        <div class="select-wrap">
                             <date-picker class="transaction-from" placeholder="From" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_from" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
                         </div>
-                        <div style="background:#e5e5ed; padding:3px 8px; border-right:1px solid #d7d8e0;">
+                        <div class="select-wrap">
                             <date-picker class="transaction-to"  placeholder="To" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_to" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
+                        </div>
+                        <div class="select-wrap" style="width:50px !important;">
+                            <b-button @click="reset()" pill variant="outline-secondary" size="sm">Reset</b-button>
                         </div>
                     </div>
                 </div>
-                <table class="table table-bordered">
-                    <thead>
+                <table class="table table-bordered table-hover table-striped">
+                    <thead class="th-nowrap">
                         <tr>
-                            <th>Action</th>
-                            <th></th>
+                            <th width="105">Action</th>
                             <th>Item Type</th>
                             <th>Transaction No</th>
                             <th>Supplier Name</th>
@@ -91,23 +94,23 @@
                     </thead>
                     <tbody class="td-border-bottom-black">
                         <template v-if="billedOrders.length > 0">
-                            <tr v-for="(purchase, index) in billedOrders" :key="purchase.uuid">
+                            <tr v-for="(purchase) in billedOrders" :key="purchase.uuid">
                                 <template v-if="purchase.po_status !== 'Cancelled'">
                                     <td width="100" style="text-align:center;">
-                                        <span class="w-65px d-block mx-auto">
-                                        <a href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/view' })" class="btn btn-sm hx-btn-shineblue"><i class="mdi mdi-eye" title="View"></i></a>
-                                        </span>
+
+                                        <b-dropdown split text="View" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/view' })">
+                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/view' })">View</b-dropdown-item>
+                                        </b-dropdown>
                                     </td>
-                                    <td width="50">{{ (index + 1) }}</td>
                                     <td width="100">{{ purchase.transaction_type }}</td>
-                                    <td width="150">{{ purchase.transaction_no }}</td>
+                                    <td width="200">{{ purchase.transaction_no }}</td>
                                     <td width="200" class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
                                     <td width="100">{{ purchase.branch.branch_shortname.toUpperCase() }}</td>
-                                    <td>{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
-                                    <td width="100">{{ purchase.date_received }}</td>
+                                    <td width="100">{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
+                                    <td width="200">{{ moment(purchase.transaction_date) }}</td>
 
-                                    <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
-                                    <td v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
+                                    <td width="200" v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
+                                    <td width="200" v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
 
                                     <td v-if="purchase.status === 'To Pay'" style="text-align:center;" class="editable" width="150">
                                         <span class="badge badge-danger font-size-12">To Pay</span>
@@ -121,7 +124,7 @@
                                 </template>
                             </tr>
                             <tr>
-                                <td colspan="7"></td>
+                                <td colspan="6"></td>
                                 <td style="border-left: 2px solid #eee">
                                     <span><strong>Grand Total:</strong></span>
                                 </td>
@@ -146,6 +149,28 @@
                         </template>
                     </tbody>
                 </table>
+
+                <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
+                <nav style="float:right;" v-if="listTotalPages > 1" class="pagination pagination-rounded mt-4" aria-label="pagination">
+                    <ul class="pagination">
+                        <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
+                            <a href="javascript:void(0)" class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+
+                        
+                        <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
+                            <a href="javascript:void(0)" class="page-link">
+                                {{ page }}
+                            </a>
+                        </li>
+                        
+                        <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
+                            <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
 
 
@@ -229,6 +254,8 @@ export default {
             listCurrentPage: 1,
             listItemPerPage: 20,
             listCount: 0,
+            listOffset: 0,
+            listResults: 0,
             searchKeyword: '',
             timer: null,
         }
@@ -244,6 +271,21 @@ export default {
         }
     },
     methods: {
+        reset: function () {
+            var scope = this
+            scope.selected_item_group = ""
+            scope.selected_supplier = ""
+            scope.selected_branch = ""
+            scope.selected_branch_location = ""
+            scope.selected_status = ""
+            scope.selected_reason_code_filter = ""
+            scope.transaction_to = ""
+            scope.transaction_from = ""
+            scope.getBills()
+        },
+        moment: function (date) {
+            return moment(date).format('DD-MMM-YYYY')
+        },
         putSeparator: function(value) {
             var num_parts = value.toString().split(".");
             num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -274,6 +316,9 @@ export default {
 
                 scope.listLoading = false
                 scope.listCount = res.count
+
+                scope.listOffset = res.offset
+                scope.listResults = res.results
             })
         },
         search: function () {
@@ -518,8 +563,12 @@ export default {
 
 
 <style scoped>
-.table-tranx { table-layout: auto; width: 200%;}
+.table-filter { background:#f9f9f9; border:1px solid #d7d8e0; padding:0px; margin-bottom: 8px; }
+.table-filter-row { display:flex; justify-content: space-evenly; }
+.select-wrap { background:#e5e5ed; padding-right: 5px; border-right:1px solid #d7d8e0; width: 100%; }
+.select-wrap select { padding:5px; padding-top: 6px; background:transparent; border:none; width:100%; font-size: 12px; }
+.badge { font-size: 11px; }
+
 .td-border-bottom-black tr:nth-last-child(3) td { border-bottom-color: #495057 !important; }
 .td-border-bottom-black tr:nth-last-child(2) td { border-bottom-color: #495057 !important; }
-.td-border-bottom-black tr:nth-last-child(1) td { border-bottom-color: #495057 !important; }
 </style>
