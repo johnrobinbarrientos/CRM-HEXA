@@ -54,6 +54,13 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
 .bg-grey { background-color: #eee; }
 .bg-shineblue { background: var(--shine-blue); }
 
+.table-transaction tr.total-bg-grey { background-color: #eee; }
+.table-transaction tr.total-bg-grey th { border-bottom-color: rgb(187, 187, 187) !important; }
+.table-transaction tr.table-success,
+.table-transaction tr.table-success>td,
+.table-transaction tr.table-success>th { background-color: #f5f5f5 !important; }
+
+
 .td-border-bottom-black-2 tr:nth-last-child(4) td { border-bottom-color: #495057 !important; }
 .td-border-bottom-black-2 tr:nth-last-child(3) td { border-bottom-color: #495057 !important; }
 .td-border-bottom-black-2 tr:nth-last-child(2) td { border-bottom-color: #495057 !important; }
@@ -81,11 +88,24 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
     line-height: 1;
 }
 
+.table .hx-table-actions .dropdown.btn-group button { border-color: #ccc; }
+.table .hx-table-actions .dropdown.btn-group .dropdown-menu.show {
+    border: 1px solid #ced4da;
+    outline: 0;
+    min-width: 6rem;
+    padding: .2rem 0;
+}
+.table .hx-table-actions .dropdown.btn-group .dropdown-item { color: #495057; }
+
+
+
 /*badge*/
 .hx-badge-override {
 	background: #50a5f1;
     color: #fff;
     padding-top: 4px;
+    border-radius: 35px;
+    margin-right: 4px;
 }
 
 /*card override*/
@@ -253,6 +273,17 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
 .btn-shineblue { color: #fff; background: var(--shine-blue); }
 .btn-shineblue:hover { background: var(--hexa-blue); border-color: var(--hexa-blue); color: #fff; transition: .3s; }
 
+.select-wrap.options-wrap { display: flex; align-items: center; padding-left: 5px; }
+.select-wrap.options-wrap .btn {
+    line-height: 20px;
+    height: 22px;
+    padding: 0 8px;
+    background: #fff;
+}
+.select-wrap.options-wrap .btn:hover {
+    background: var(--shine-blue);
+    border-color: var(--shine-blue);
+}
 
 /** HEXA in-house modules (custom modules) **/
 
@@ -409,10 +440,11 @@ img.header-profile-user { background: #fff; }
 
 /* accordion */
 #accordion .card { border: 1px solid #ddd; margin-bottom: 10px; }
-#accordion .card-header { display: flex; justify-content: space-between; align-items: center; border-radius: .25rem; transition: .2s; }
+#accordion .card-header { display: flex; justify-content: space-between; align-items: center; border-radius: .25rem; transition: .2s; padding: 7px 14px; }
+#accordion .card-header h5 { font-size: 15px; }
 #accordion .card-header:hover { background: #eee; transition: .3s; }
 #accordion .card-body { border-top: 1px solid #ddd; }
-#accordion .card-header i { font-size: 26px; color: #aaa; }
+#accordion .card-header i { font-size: 24px; color: #aaa; }
 
 
 
@@ -471,9 +503,9 @@ img.header-profile-user { background: #fff; }
 .dropdown.m-2 { margin: 0rem !important; margin-top:2px !important; margin-bottom:2px !important; }
 
 .dropdown .btn-secondary {
-    color: #656565!important;
+    color: #495057!important;
     background: rgb(231, 233, 236) !important;
-    min-width: 55px;
+    min-width: 50px;
 }
 
 .dropdown .btn-secondary.btn-sm {
@@ -484,7 +516,7 @@ img.header-profile-user { background: #fff; }
     margin: 0rem !important; 
     margin-bottom:2px !important; 
     margin-top:2px !important;
-    color: #656565!important;
+    color: #495057!important;
     background: rgb(231, 233, 236) !important;
     min-width: 55px !important; 
     padding: 0px !important; 

@@ -72,8 +72,8 @@
                         <div class="select-wrap">
                             <date-picker class="transaction-to"  placeholder="To" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_to" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
                         </div>
-                        <div class="select-wrap" style="width:50px !important;">
-                            <b-button @click="reset()" pill variant="outline-secondary" size="sm">Reset</b-button>
+                        <div class="select-wrap options-wrap" style="width:60px !important;">
+                            <b-button @click="reset()" variant="outline-secondary" size="sm">Reset</b-button>
                         </div>
                     </div>
                 </div>
