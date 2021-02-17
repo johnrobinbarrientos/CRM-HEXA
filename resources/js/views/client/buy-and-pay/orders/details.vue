@@ -70,7 +70,7 @@
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="branch-name">Branch</label>
-                                                <input type="text" class="form-control disabled" v-model="order.branch.branch_name" readonly>
+                                                <input type="text" class="form-control disabled" v-model="order.branch.branch_shortname" readonly>
                                             </div>
                                         </div>
                                         
@@ -148,15 +148,17 @@
                     <br/>
                     <div class="hx-tab-2 tabbed round">
                         <ul class="nav nav-tabs">    
+                            
                             <li class="nav-item">        
                                 <a class="active" data-toggle="tab" href="#item-details">Item</a>    
-                            </li>    
+                            </li>
                             <li class="nav-item">        
                                 <a data-toggle="tab" href="#discounts">Discount</a>    
                             </li>
                             <li class="nav-item">        
                                 <a data-toggle="tab" href="#tax">Tax</a>    
-                            </li>     
+                            </li>
+                                   
                         </ul>
                         <div class="clearfix"></div>
                         <div class="tab-content">    
