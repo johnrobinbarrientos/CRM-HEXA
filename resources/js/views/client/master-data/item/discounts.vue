@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="col-md-6 col-12 offset-md-1">
-                <table class="table table-bordered table-hover mb-0 table">
+                <table class="table table-bordered table-hover table-transaction mb-0">
                     <tbody>
                         <template v-for="supplier in suppliers">
                             <tr class="table-info" :key="'supplier' + supplier.id">
@@ -29,7 +29,7 @@
                                     <th style="padding-left:60px;"><i class="mdi mdi-arrow-right"></i> &nbsp; {{ discount.discount_name }}</th>
                                     <th class="text-right">{{ parseFloat(discount.discount_rate).toFixed(2) }}%</th>
                                 </tr>
-                                <tr :key="'supplier-selected-group-total-' + supplier.id">
+                                <tr :key="'supplier-selected-group-total-' + supplier.id" class="total-bg-grey">
                                     <th class="text-right">Total:</th>
                                     <th class="text-right">{{ calclateTotalSupplierDiscount(supplier) }}%</th>
                                 </tr> 

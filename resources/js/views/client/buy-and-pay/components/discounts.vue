@@ -1,7 +1,7 @@
 <template>
     <div id="discounts">
         <div class="row">
-            <div class="col-md-4 col-12">
+            <div class="col-md-6 col-12">
                 <h4>Additional Discounts</h4>
                 <div  v-for="(discount, index) in discounts.additionals" :key="index">
                     <div class="form-group">
@@ -12,7 +12,7 @@
                 </div>
 
             </div>
-            <div class="col-12 col-md-7 offset-md-1">
+            <div class="col-12 col-md-6">
                 <h4>Discount Summary</h4>
                 <table class="table table-bordered table-hover mb-0"> 
                     <thead>
