@@ -62,7 +62,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="branch-name">PO Date</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker class="form-control" v-model="order.date_purchased" :config="{format: 'YYYY-MM-DD'}"></date-picker>
+                                                    <date-picker class="form-control" v-model="order.date_purchased" :config="{format: 'DD-MMM-YYYY'}"></date-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -78,7 +78,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="date-expected">Expected Date</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker class="form-control" v-model="order.date_expected" :config="{format: 'YYYY-MM-DD'}"></date-picker>
+                                                    <date-picker class="form-control" v-model="order.date_expected" :config="{format: 'DD-MMM-YYYY'}"></date-picker>
                                                 </div>
                                             </div>
                                         </div>
