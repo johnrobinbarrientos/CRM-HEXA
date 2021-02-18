@@ -70,10 +70,10 @@
                             </select>
                         </div>
                         <div class="select-wrap">
-                            <date-picker class="transaction-from" placeholder="From" :config="{format: 'DD-MMM-YYYY'}" v-model="transaction_from" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
+                            <date-picker class="transaction-from" placeholder="Start Date" :config="{format: 'DD-MMM-YYYY'}" v-model="transaction_from" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
                         </div>
                         <div class="select-wrap">
-                            <date-picker class="transaction-to"  placeholder="To" :config="{format: 'DD-MMM-YYYY'}" v-model="transaction_to" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
+                            <date-picker class="transaction-to"  placeholder="End Date" :config="{format: 'DD-MMM-YYYY'}" v-model="transaction_to" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
                         </div>
                         <div class="select-wrap options-wrap" style="width:60px !important;">
                             <b-button @click="reset()" variant="outline-secondary" size="sm">Reset</b-button>
