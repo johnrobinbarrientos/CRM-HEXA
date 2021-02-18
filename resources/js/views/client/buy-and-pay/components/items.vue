@@ -455,7 +455,7 @@ import moment from 'moment'
 
 export default {
     name: 'purchase-order',
-    props: ['properties','view_mode','order','type'],
+    props: ['properties','view_mode','order','type','action'],
     data: function () {
         return {
             is_ready: false,

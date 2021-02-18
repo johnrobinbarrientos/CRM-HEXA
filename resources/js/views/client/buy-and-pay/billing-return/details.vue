@@ -211,15 +211,15 @@
 
                         <div class="tab-content">    
                             <div class="tab-pane active" id="item-details">
-                                <items ref="items" :order="bill.order" :VAT="VAT" :type="'bills'"></items>
+                                <items ref="items" :order="bill.order" :VAT="VAT" :type="'bills'" :action="ACTION"></items>
                             </div>
 
                             <div class="tab-pane" id="discounts">
-                                <discounts ref="discounts" :order="bill.order" :DISCOUNTS="DISCOUNTS"></discounts>
+                                <discounts ref="discounts" :order="bill.order" :DISCOUNTS="DISCOUNTS" :action="ACTION"></discounts>
                             </div>
 
                             <div class="tab-pane" id="tax">
-                               <taxes ref="taxes" :order="bill.order" :DISCOUNTS="DISCOUNTS"></taxes>
+                               <taxes ref="taxes" :order="bill.order" :DISCOUNTS="DISCOUNTS" :action="ACTION"></taxes>
                             </div>   
                         </div>
                     </div>
@@ -252,6 +252,7 @@ export default {
             is_ready: false,
             bill: null,
             order: null,
+            ACTION: 'view',
             TOTALS: {
                 GROSS: 0.00,
                 SUBTOTAL: 0.00,
@@ -309,6 +310,14 @@ export default {
                 scope.bill = res.data
                 scope.order = res.data.order
                 scope.memo_po = res.data.memo_po
+
+                // check PO status if allowed to enter the page
+                if (scope.bill.transaction_type == 'Inventory' && (!scope.order || (scope.order.receiving_no == '')) ) {
+                    scope.ROUTE({path: '/buy-and-pay/bills' });
+                    return
+                }
+                
+
                 if (scope.bill.transaction_type == 'Inventory') {
                     scope.order.term = (scope.order.term == 1) ? scope.order.term + ' Day' : scope.order.term + ' Days' ;
                     scope.order.transaction_no = (!scope.order.transaction_no || scope.order.transaction_no == '') ? 'To be generated' : scope.order.transaction_no
@@ -317,6 +326,7 @@ export default {
                 
                 scope.VAT = res.data.supplier.v_a_t;
                
+                
                 
                scope.is_ready = true
             })
@@ -336,7 +346,10 @@ export default {
     },
     mounted() {
         var scope = this
+
         var order_uuid = scope.$route.params.order_uuid;
+        scope.ACTION = scope.$route.params.action;
+
         scope.getOrderDetails(order_uuid)
 
   

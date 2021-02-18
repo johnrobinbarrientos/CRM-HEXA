@@ -8,20 +8,19 @@
             <div class="card-body" >
                 <div class="actions-bar">
                     <div class="w-100">
-                        <h1 class="title">Purchase Order</h1>
+                        <h1 class="title">Purchase Order {{ ACTION }}</h1>
                     </div>
                     <div class="bar-right">
-                        <span v-if ="view_mode">
-                            <a @click="ROUTE({path: '/purchase-order-main' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
-                                <!-- <i class="las la-x"></i> --> <span>Back</span>
+                        <span v-if ="ACTION == 'view'">
+                            <a @click="ROUTE({path: '/buy-and-pay/orders/' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
+                                <span>Back</span>
                             </a>
-                            <a  v-if ="order.po_status =='To Receive'" @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Cancel</a>
+                            <a  v-if ="order.po_status =='To Receive'" @click="cancel()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Cancel</a>
                             <a v-if ="order.po_status =='To Receive'" @click="ROUTE({path: '/buy-and-pay/orders/' + order.uuid + '/edit' })" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
-                                <!-- <i class="las la-x"></i> --> <span>Edit</span>
+                                <span>Edit</span>
                             </a>
-
                         </span>
-                        <span v-else>
+                        <span v-if ="ACTION == 'edit'">
                             <a @click="ROUTE({path: '/buy-and-pay/orders/' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
                                 <!-- <i class="las la-x"></i> --> <span>Back</span>
                             </a>
@@ -161,15 +160,15 @@
                         <div class="clearfix"></div>
                         <div class="tab-content">    
                             <div class="tab-pane active" id="item-details">
-                                <items ref="items" :order="order" :VAT="VAT" :type="'orders'"></items>
+                                <items ref="items" :order="order" :VAT="VAT" :type="'orders'" :action="ACTION"></items>
                             </div>
 
                             <div class="tab-pane" id="discounts">
-                                <discounts ref="discounts" :order="order" :DISCOUNTS="DISCOUNTS"></discounts>
+                                <discounts ref="discounts" :order="order" :DISCOUNTS="DISCOUNTS" :action="ACTION"></discounts>
                             </div>
 
                             <div class="tab-pane" id="tax">
-                               <taxes ref="taxes" :order="order" :DISCOUNTS="DISCOUNTS"></taxes>
+                               <taxes ref="taxes" :order="order" :DISCOUNTS="DISCOUNTS" :action="ACTION"></taxes>
                             </div>   
                         </div>
                     </div>
@@ -197,6 +196,7 @@ export default {
         return {
             is_ready: false,
             order: null,
+            ACTION: 'view',
             TOTALS: {
                 GROSS: 0.00,
                 SUBTOTAL: 0.00,
@@ -250,6 +250,38 @@ export default {
                 }
             })
         },
+        cancel : function () {
+            var scope = this
+
+            window.swal.fire({
+                title: 'Cancel?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.value) {
+                    scope.POST('buy-and-pay/order/' + scope.order.uuid + '/cancel').then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Cancelled',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.ROUTE({path: '/buy-and-pay/orders' })
+                            })
+                        }
+                        else{
+                            alert('ERROR:' + res.code)
+                        }
+                    })            
+                }                              
+            })
+        },
         loadData: function () {
             
         }
@@ -257,6 +289,12 @@ export default {
     mounted() {
         var scope = this
         var order_uuid = scope.$route.params.order_uuid;
+        scope.ACTION = scope.$route.params.action;
+
+        if (scope.ACTION != 'view' && scope.ACTION != 'edit') {
+            scope.ROUTE({path: '/buy-and-pay/orders' });
+        }
+
         scope.getOrderDetails(order_uuid)
 
         /*

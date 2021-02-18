@@ -197,6 +197,7 @@ export default {
         return {
             is_ready: false,
             order: null,
+            ACTION: 'view',
             TOTALS: {
                 GROSS: 0.00,
                 SUBTOTAL: 0.00,
@@ -232,6 +233,12 @@ export default {
         getOrderDetails: function (order_uuid) {
             var scope = this
             scope.GET('buy-and-pay/receipts/' + order_uuid).then(res => {
+                // check PO status if allowed to enter the page
+                if (!scope.order) {
+                    scope.ROUTE({path: '/buy-and-pay/receipts' });
+                    return
+                }
+
                 scope.order = res.data
                 scope.memo_po = res.data.memo_po
                 scope.order.term = (scope.order.term == 1) ? scope.order.term + ' Day' : scope.order.term + ' Days' ;
@@ -260,6 +267,8 @@ export default {
     mounted() {
         var scope = this
         var order_uuid = scope.$route.params.order_uuid;
+        scope.ACTION = scope.$route.params.action;
+
         scope.getOrderDetails(order_uuid)
         
        $(document).on('click','.autocomplete-suggestion',function(){
