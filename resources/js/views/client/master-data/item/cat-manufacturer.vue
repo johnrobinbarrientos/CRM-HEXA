@@ -12,7 +12,7 @@
                     <div class="card-body">
 
                         <div class="container-fluid">
-                            <div class="d-none d-lg-flex justify-content-between" style="margin-bottom: 20px;">
+                            <div class="accordion-options-head d-none d-lg-flex justify-content-between" style="margin-bottom: 20px;">
                                 <div class="d-flex align-items-center">
                                     <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none mr-1" placeholder="Search">
                                     <select style="max-width:80px;" @change="changeListItemPerPage()" v-model="listItemPerPage" class="form-control border-transparent form-focus-none">

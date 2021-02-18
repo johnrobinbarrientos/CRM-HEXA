@@ -48,7 +48,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="branch-name">Transaction Date</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker class="form-control disabled" v-model="bill.transaction_date" :config="{format: 'YYYY-MM-DD'}" disabled></date-picker>
+                                                    <date-picker class="form-control disabled" v-model="bill.transaction_date" :config="{format: 'DD-MMM-YYYY'}" disabled></date-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -97,7 +97,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="branch-name">Transaction Date</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker class="form-control disabled" v-model="bill.transaction_date" :config="{format: 'YYYY-MM-DD'}" disabled></date-picker>
+                                                    <date-picker class="form-control disabled" v-model="bill.transaction_date" :config="{format: 'DD-MMM-YYYY'}" disabled></date-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -105,7 +105,7 @@
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="branch-name">Branch</label>
-                                                <input type="text" class="form-control disabled" v-model="bill.branch.branch_name" readonly>
+                                                <input type="text" class="form-control disabled" v-model="bill.branch.branch_shortname" readonly>
                                             </div>
                                         </div>
                                         
@@ -113,7 +113,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="date-expected">Expected Date</label>
                                                 <div class="form-control-wrap">
-                                                    <date-picker class="form-control disabled" v-model="bill.transaction_date" :config="{format: 'YYYY-MM-DD'}" disabled></date-picker>
+                                                    <date-picker class="form-control disabled" v-model="bill.transaction_date" :config="{format: 'DD-MMM-YYYY'}" disabled></date-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -196,19 +196,20 @@
 
 
                     <br/>
-                    <div  v-if="bill.transaction_type == 'Inventory'" class="hx-nav-tabs-override">
+                    <div  v-if="bill.transaction_type == 'Inventory'" class="hx-tab-2 tabbed round">
                         <ul class="nav nav-tabs">    
                             <li class="nav-item">        
-                                <a class="nav-link active" data-toggle="tab" href="#item-details">Item Details</a>    
-                            </li>    
-                            <li class="nav-item">        
-                                <a class="nav-link" data-toggle="tab" href="#discounts">Discounts</a>    
+                                <a data-toggle="tab" href="#tax">Tax</a>    
                             </li>
                             <li class="nav-item">        
-                                <a class="nav-link" data-toggle="tab" href="#tax">Tax</a>    
-                            </li>     
+                                <a data-toggle="tab" href="#discounts">Discount</a>    
+                            </li>
+                            <li class="nav-item">        
+                                <a class="active" data-toggle="tab" href="#item-details">Item</a>    
+                            </li>  
                         </ul>
 
+                        <div class="clearfix"></div>
                         <div class="tab-content">    
                             <div class="tab-pane active" id="item-details">
                                 <items ref="items" :order="bill.order" :VAT="VAT" :type="'bills'" :action="ACTION"></items>
