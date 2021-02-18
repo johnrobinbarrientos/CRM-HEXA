@@ -138,17 +138,17 @@
                                 <td v-if="purchase.po_status === 'To Receive'" class="editable" width="150">
                                     <span class="badge badge-danger">To Receive</span>
                                 </td>
-                                <td v-else-if="purchase.po_status === 'Partially Received'" class="editable">
+                                <td v-else-if="purchase.po_status === 'Partially Received'" class="editable" width="150">
                                     <span class="badge badge-warning">Partially Received</span>
                                 </td>
-                                <td v-else-if="purchase.po_status === 'Cancelled'" class="editable">
+                                <td v-else-if="purchase.po_status === 'Cancelled'" class="editable" width="150">
                                     <span class="badge badge-secondary">Cancelled</span>
                                 </td>
-                                <td v-else-if="purchase.po_status === 'Fully Received'" class="editable">
+                                <td v-else-if="purchase.po_status === 'Fully Received'" class="editable" width="150">
                                     <span class="badge badge-success">Fully Received</span>
                                 </td>
 
-                                <td class="editable">
+                                <td class="editable" width="150">
                                     <span v-if="purchase.order_reason_code==null" class="cursor-pointer">None</span>
                                     <span v-else class="cursor-pointer">{{ purchase.order_reason_code.short_name }}</span>
                                     <select @change="changeReasonCode(purchase.uuid)" v-model="selected_reason_code" type="text" class="editable-control">
