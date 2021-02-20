@@ -18,20 +18,20 @@
                 <div class="tab-pane active" id="billing-list">        
                     <billing-list></billing-list>   
                 </div>
-                <div class="tab-pane active" id="debit-memo">        
+                <div class="tab-pane" id="debit-memo">        
 
                 </div>
-                <div class="tab-pane active" id="reason-code">        
+                <div class="tab-pane" id="reason-code">        
                     
                     <div id="accordion">
                         <div class="card shadow-none">
-                            <a href="#collapseOne" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">
+                            <a href="#collapseOne" class="text-dark" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">
                                 <div class="card-header" id="headingOne">
                                     <h5 class="m-0">Billing</h5>
                                     <i class="las la-plus-circle fs-30"></i>
                                 </div>
                             </a>
-                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                 <reason-codes-billing></reason-codes-billing>
                             </div>
                             
@@ -55,8 +55,8 @@
 
 <script>
 import BillingList from './billing/list'
-import ReasonCodesBilling from './billing/reason-codes-billing'
-import ReasonCodesDebitMemo from './debit-memo/reason-codes-debit-memo'
+import ReasonCodesBilling from './billing/reason-codes'
+import ReasonCodesDebitMemo from './debit-memo/reason-codes'
 
 export default {
     components: {

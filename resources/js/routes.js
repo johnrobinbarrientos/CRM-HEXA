@@ -46,6 +46,13 @@ import BuyANDPayReceiptsDetails from './views/client/buy-and-pay/receipts/detail
 import BuyANDPayBillingReturnMain from './views/client/buy-and-pay/billing-and-return/main'
 import BuyANDPayBillingReturnDetails from './views/client/buy-and-pay/billing-and-return/billing/details'
 
+
+
+import SalesOrderMain from './views/client/sell-and-collect/orders/main'
+import InvoiceANDReversalMain from './views/client/sell-and-collect/invoicing-and-reversal/main'
+
+
+
 import PriceRuleMain from './views/client/inventory/price-rule/main'
 import PriceRuleForm from './views/client/inventory/price-rule/price-rule-form'
 
@@ -341,6 +348,21 @@ export default new VueRouter({
             component: PriceRuleForm,
             beforeEnter: checkAuth,
             meta: { protected: true }
+        },
+
+        {
+          path: '/sell-and-collect/orders',
+          name: 'sales-order-main',
+          component: SalesOrderMain,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/sell-and-collect/invoicing-reversal',
+          name: 'invoicing-and-reversal-main',
+          component: InvoiceANDReversalMain,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
         },
     ],
 });
