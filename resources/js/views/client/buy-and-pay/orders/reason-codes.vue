@@ -55,7 +55,8 @@
             </div>
 
 
-            <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
+            <div v-if="listCount==0" style="padding:10px; padding-top:20px; padding-bottom:0px;"> No Records</div>
+            <div v-else style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
             <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
                 <ul class="pagination">
                     <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
@@ -133,7 +134,7 @@
 import Swal from 'sweetalert2'
 
 export default {
-    name: 'reason-codes',
+    name: 'reason-codes-purchase-order',
     props: ['properties'],
     data: function () {
         return {
@@ -149,7 +150,8 @@ export default {
             formdata: { 
                 uuid: null, 
                 short_name: '',
-                details: ''
+                details: '',
+                type:'Purchase Order'
             }
         }
     },
@@ -165,7 +167,7 @@ export default {
             var scope = this
             scope.listLoading = true
             scope.reasonCodes = []
-            scope.GET('buy-and-pay/reason-codes?type=order&keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+            scope.GET('reason-codes/?type=purchase-order&keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.reasonCodes = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
@@ -179,23 +181,23 @@ export default {
             scope.formdata.uuid = null
             scope.formdata.short_name = ''
             scope.formdata.details = ''
-            scope.formdata.type = 'order'
+            scope.formdata.type = 'Purchase Order'
         },
         setData: function (data) {
             var scope = this
             scope.formdata.uuid = data.uuid
             scope.formdata.short_name = data.short_name
             scope.formdata.details = data.details
-            scope.formdata.type = 'order'
+            scope.formdata.type = 'Purchase Order'
         },
         save: function () {
             var scope = this
-            scope.POST('buy-and-pay/reason-codes', scope.formdata).then(res => {
+            scope.POST('reason-codes', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Reason Code Successfuly Saved',
+                        title: 'Saved',
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
@@ -220,7 +222,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST('buy-and-pay/reason-codes', scope.formdata).then(res => {
+                    scope.PUT('reason-codes', scope.formdata).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
@@ -253,7 +255,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.DELETE('buy-and-pay/reason-codes/' + data.uuid).then(res => {
+                    scope.DELETE('reason-codes/' + data.uuid).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',

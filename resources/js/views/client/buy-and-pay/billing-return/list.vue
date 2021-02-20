@@ -109,8 +109,8 @@
                                     <td width="100">{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
                                     <td width="150">{{ moment(purchase.transaction_date) }}</td>
 
-                                    <td width="200" v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
-                                    <td width="200" v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
+                                    <td width="100" v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
+                                    <td width="100" v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
 
                                     <td v-if="purchase.status === 'To Pay'" style="text-align;" class="editable" width="150">
                                         <span class="badge badge-danger font-size-12">To Pay</span>
