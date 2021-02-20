@@ -67,10 +67,10 @@
                             </select>
                         </div>
                         <div class="select-wrap">
-                            <date-picker class="transaction-from" placeholder="From" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_from" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
+                            <date-picker class="transaction-from" placeholder="Start Date" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_from" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
                         </div>
                         <div class="select-wrap">
-                            <date-picker class="transaction-to"  placeholder="To" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_to" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
+                            <date-picker class="transaction-to"  placeholder="End Date" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_to" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
                         </div>
                         <div class="select-wrap options-wrap" style="width:60px !important;">
                             <b-button @click="reset()" variant="outline-secondary" size="sm">Reset</b-button>
@@ -103,22 +103,22 @@
                                     </td>
                                     <td width="100">{{ purchase.transaction_type }}</td>
                                     <td width="200">{{ purchase.transaction_no }}</td>
-                                    <td width="200" class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
+                                    <td width="200">{{ purchase.supplier.supplier_name }}</td>
                                     <td width="100">{{ purchase.branch.branch_shortname.toUpperCase() }}</td>
                                     <td width="100">{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
-                                    <td width="200">{{ moment(purchase.transaction_date) }}</td>
+                                    <td width="150">{{ moment(purchase.transaction_date) }}</td>
 
                                     <td width="200" v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
                                     <td width="200" v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
 
-                                    <td v-if="purchase.status === 'To Pay'" style="text-align:center;" class="editable" width="150">
+                                    <td v-if="purchase.status === 'To Pay'" style="text-align;" class="editable" width="150">
                                         <span class="badge badge-danger font-size-12">To Pay</span>
                                     </td>
-                                    <td v-else-if="purchase.status === 'Paid'" style="text-align:center;" class="editable">
+                                    <td v-else-if="purchase.status === 'Paid'" style="text-align;" class="editable" width="150">
                                         <span class="badge badge-success font-size-12">Paid</span>
                                     </td>
 
-                                    <td width="100">{{ purchase.receiving_reason_code }}</td>
+                                    <td width="150">{{ purchase.receiving_reason_code }}</td>
 
                                 </template>
                             </tr>
