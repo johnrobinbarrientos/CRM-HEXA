@@ -43,8 +43,8 @@ import BuyANDPayOrdersDetails from './views/client/buy-and-pay/orders/details'
 import BuyANDPayReceipts from './views/client/buy-and-pay/receipts/main'
 import BuyANDPayReceiptsDetails from './views/client/buy-and-pay/receipts/details'
 
-import BuyANDPayBillingReturnMain from './views/client/buy-and-pay/billing-return/main'
-import BuyANDPayBillingReturnDetails from './views/client/buy-and-pay/billing-return/details'
+import BuyANDPayBillingReturnMain from './views/client/buy-and-pay/billing-and-return/main'
+import BuyANDPayBillingReturnDetails from './views/client/buy-and-pay/billing-and-return/billing/details'
 
 import PriceRuleMain from './views/client/inventory/price-rule/main'
 import PriceRuleForm from './views/client/inventory/price-rule/price-rule-form'
