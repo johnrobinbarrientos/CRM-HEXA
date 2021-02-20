@@ -117,15 +117,18 @@ class BuyAndPayBillController extends Controller
     public function show($uuid)
     {
         $is_billed = (isset(request()->billed) && request()->billed == 'no') ? false : true ;
-
+        $transaction_type = request()->type;
 
         // if billing is from PO and not "billed" yet, meaning no bill record has been generated yet
-        if (!$is_billed) {
+        if (!$is_billed && $transaction_type == 'Inventory') {
             $orderUUID = $uuid;
             $order = PurchaseOrder::where('uuid','=',$orderUUID)->first();
 
-            
+            if (!$order) {
+                return response()->json(['success' => 0, 'message' => 'billing not found!'], 200);
+            }
 
+        
             $supplier = SupplierList::with('VAT')->with('EWT')->find($order->supplier_uuid);
             $order->supplier = $supplier;
 
@@ -143,6 +146,10 @@ class BuyAndPayBillController extends Controller
         } else {
             $billingUUID = $uuid;
             $bill = PurchaseBilling::find($billingUUID);
+
+            if (!$bill) {
+                return response()->json(['success' => 0, 'message' => 'billing not found!'], 200);
+            }
 
             $supplier = SupplierList::with('VAT')->with('EWT')->find($bill->supplier_uuid);
             $bill->supplier = $supplier;

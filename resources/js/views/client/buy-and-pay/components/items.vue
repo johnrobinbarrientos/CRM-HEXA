@@ -11,9 +11,9 @@
                             <div class="col-12 col-lg-9">
                                 <div style="float:right;">
                                     
-                                    <button @click="addItems()" type="button" class="btn btn-sm hx-btn-shineblue" :disabled="view_mode">Add Multiple</button>
-                                    <button @click="addAllItems()" type="button" class="btn btn-sm hx-btn-shineblue" :disabled="view_mode">Add All</button>
-                                    <button @click="removeAllZero()" type="button" class="btn btn-sm btn-danger btn btn-secondary" :disabled="view_mode">Remove Zero</button>
+                                    <button @click="addItems()" type="button" class="btn btn-sm hx-btn-shineblue" :disabled="action != 'edit'">Add Multiple</button>
+                                    <button @click="addAllItems()" type="button" class="btn btn-sm hx-btn-shineblue" :disabled="action != 'edit'">Add All</button>
+                                    <button @click="removeAllZero()" type="button" class="btn btn-sm btn-danger btn btn-secondary" :disabled="action != 'edit'">Remove Zero</button>
                                 
                                 </div>
                             </div>
@@ -45,22 +45,23 @@
                             <tbody class="td-border-bottom-black-2">
                                 <tr v-for="(item, index) in SELECTED_ITEMS" :key="item.barcode + '-' + index" v-bind:class="{'table-selected' : (selectedItem && item.barcode == selectedItem.barcode)}">
                                     <td class="text-center">
-                                        <b-button @click="removeSelectedItem(item)" type="button" size ="sm" class="m-2" :disabled="view_mode">Delete</b-button>
+                                        <b-button @click="removeSelectedItem(item)" type="button" size ="sm" class="m-2" :disabled="action != 'edit'">Delete</b-button>
                                     </td>
                                     <td>{{ item.barcode }}</td>
 
-                                    <td  @click="setSelectedItem(item)" class="editable text-right">
+                                    <td @click="setSelectedItem(item)" class="editable text-right">
                                         <span>{{ item.quantity }}</span>
-                                        <input @keyup="calculate(item);changeSelectedItemQTY(item)" v-model="item.quantity" type="text" class="editable-control" :disabled="view_mode">
+                                        <input @keyup="calculate(item);changeSelectedItemQTY(item)" v-model="item.quantity" type="text" class="editable-control" :disabled="action != 'edit'">
                                     </td>
+                          
 
                                     <td  @click="setSelectedItem(item)" class="editable">
                                         <span>{{ findUOMByBarcode(item.uoms,item.barcode) }}</span>
-                                        <select @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="editable-control" :disabled="view_mode">
+                                        <select @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="editable-control" :disabled="action != 'edit'">
                                             <option v-if="!isItemUOMSelected(uom, item)" v-for="(uom,index) in item.uoms" :key="uom.uuid + '-' + index" :value="uom.barcode" v-bind:selected="uom.barcode == item.barcode">{{ uom.uom }}</option>
                                         </select>
                                     </td>
-
+                            
                                     <td><a :href="'/items/' + item.uuid + '/view'" target="_blank">{{ item.item_description }}</a></td>
                                     <td>
                                         <span class="badge badge-pill badge-info mr-1">
@@ -110,7 +111,7 @@
                                 
                                 <tr>
                                     <td colspan="18" style="padding: 10px;">
-                                        <input type="text" id="autocomplete" class="form-control" placeholder="Add item" :disabled="view_mode" style="width: 60%;">
+                                        <input type="text" id="autocomplete" class="form-control" :class="{'disabled': action != 'edit' }" placeholder="Add item" :disabled="action != 'edit' " style="width: 60%;">
                                     </td>
                                 </tr> 
                             </tbody>
@@ -124,7 +125,7 @@
                                 <input style="margin-bottom:10px;" v-model="selected_item_list_keyword"  class="form-control" type="text" placeholder="Search">
                             </div>
                             <div class="col-12 col-lg-3">
-                                <button type="button" class="hx-btn hx-btn-shineblue" @click="markUnmark()">Mark/Unmark All</button>
+                                <button type="button" class="hx-btn hx-btn-shineblue" @click="markUnmark()" v-bind:class="{'disabled' : action != 'edit'}" :disabled="action != 'edit'">Mark/Unmark All</button>
                             </div>
                         </div>
 
@@ -158,33 +159,33 @@
                             <tbody class="td-border-bottom-black-2">
                                 <tr v-for="(item, index) in SELECTED_ITEMS" :key="item.barcode + '-' + index" v-bind:class="{'table-selected' : (selectedItem && item.barcode == selectedItem.barcode)}">
                                     <td class="text-center">
-                                        <b-button @click="removeSelectedItem(item)" type="button" size ="sm" class="m-2" :disabled="view_mode">Delete</b-button>
+                                        <b-button @click="removeSelectedItem(item)" type="button" size ="sm" class="m-2" :disabled="action != 'edit'">Delete</b-button>
                                     </td>
-                                    <td><input @click="setSelectedItem(item)" v-if ="item.quantity > 0" :checked="item.quantity == item.accepted_qty" type="checkbox" v-on:change="fillAcceptedQty(item, $event.target.checked)" name="fill-accepted" value="checked" /></td>
+                                    <td><input :disabled="action != 'edit'" @click="setSelectedItem(item)" v-if ="item.quantity > 0" :checked="item.quantity == item.accepted_qty" type="checkbox" v-on:change="fillAcceptedQty(item, $event.target.checked)" name="fill-accepted" value="checked" /></td>
                                     <td>{{ item.barcode }}</td>
                                     <td><a :href="'/items/' + item.uuid + '/view'" target="_blank">{{ item.item_description }}</a></td>
                                     
                                     <td  @click="setSelectedItem(item)" class="editable text-right">
                                         <span>{{ item.quantity }}</span>
-                                        <input @keyup="calculate(item);changeSelectedItemQTY(item)" v-model="item.quantity" type="text" class="editable-control" :disabled="view_mode">
+                                        <input @keyup="calculate(item);changeSelectedItemQTY(item)" v-model="item.quantity" type="text" class="editable-control" :disabled="action != 'edit'">
                                     </td>
 
 
                                     <td @click="setSelectedItem(item)" class="editable text-right">
                                         <span v-if="(item.quantity > item.accepted_qty)" style="color:red">{{ item.accepted_qty }}</span>
                                         <span v-else>{{ item.accepted_qty }}</span>
-                                        <input @keyup="calculate(item); reasonCode()" v-model="item.accepted_qty" type="text" class="editable-control" :disabled="view_mode">
+                                        <input @keyup="calculate(item); reasonCode()" v-model="item.accepted_qty" type="text" class="editable-control" :disabled="action != 'edit'">
                                     </td>
                                     
 
                                     <td>
-                                        <input @change="addSimilarItem(item)" v-if="(item.quantity > item.accepted_qty)" type="checkbox" name="uom-variance" value="checked" />
+                                        <input @change="addSimilarItem(item)" v-if="(item.quantity > item.accepted_qty)" type="checkbox" name="uom-variance" value="checked" :disabled="action != 'edit'"/>
                                         <span v-if="(item.quantity > item.accepted_qty)" style="color:red">Yes</span>
                                     </td>
 
                                     <td  @click="setSelectedItem(item)" class="editable">
                                         <span>{{ findUOMByBarcode(item.uoms,item.barcode) }}</span>
-                                        <select @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="editable-control" :disabled="view_mode">
+                                        <select @change="changeSelectedItemUOM($event.target.value, item, index)" type="text" class="editable-control" :disabled="action != 'edit'">
                                             <option v-if="!isItemUOMSelected(uom, item)" v-for="(uom,index) in item.uoms" :key="uom.uuid + '-' + index" :value="uom.barcode" v-bind:selected="uom.barcode == item.barcode">{{ uom.uom }}</option>
                                         </select>
                                     </td>
@@ -249,7 +250,7 @@
                                 
                                 <tr>
                                     <td colspan="20" style="padding: 10px;">
-                                        <input type="text" id="autocomplete" class="form-control" placeholder="Add item" :disabled="view_mode" style="width: 60%;">
+                                        <input type="text" id="autocomplete" class="form-control" placeholder="Add item" v-bind:class="{'disabled' : action != 'edit'}" :disabled="action != 'edit'" style="width: 60%;">
                                     </td>
                                 </tr> 
                             </tbody>

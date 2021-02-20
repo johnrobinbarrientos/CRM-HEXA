@@ -97,7 +97,6 @@
                             <tr v-for="(purchase) in billedOrders" :key="purchase.uuid">
                                 <template v-if="purchase.po_status !== 'Cancelled'">
                                     <td width="100" style="text-align:center;">
-
                                         <b-dropdown split text="View" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/view' })">
                                             <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/view' })">View</b-dropdown-item>
                                         </b-dropdown>

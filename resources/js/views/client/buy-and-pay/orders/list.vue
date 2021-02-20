@@ -105,7 +105,7 @@
                             <tr v-for="(purchase) in purchaseOrders" :key="purchase.uuid">
                                 <td>  
                                     <span v-if="purchase.po_status == 'To Receive'" class="hx-table-actions">
-                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid +'/view'  })">
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid +'/edit'  })">
                                             <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/edit'})">Edit</b-dropdown-item>
                                             <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid +'/view' })">View</b-dropdown-item>
                                             <b-dropdown-item href="javascript:void(0)">Reason Code</b-dropdown-item>

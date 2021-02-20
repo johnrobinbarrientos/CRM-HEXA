@@ -281,21 +281,25 @@ export default {
         'expenses' : Expenses,
     },
     computed: {
-        EWT: function () {
-            var scope = this
-            var ewt = scope.bill.supplier.e_w_t;
-            ewt = ewt.tax_rate / 100
-
-            return (scope.bill.amount * ewt)
-        },
-        INPUT_TAX: function() {
+        TAX_BASE: function () {
             var scope = this
             var vat = scope.bill.supplier.v_a_t;
             vat = vat.tax_rate / 100
 
             var total = scope.bill.amount / (1 + vat) // e.g 1.12 if VAT = 12%
 
-            return (scope.bill.amount - total)
+            return total
+        },
+        EWT: function () {
+            var scope = this
+            var ewt = scope.bill.supplier.e_w_t;
+            ewt = ewt.tax_rate / 100
+
+            return (scope.TAX_BASE * ewt)
+        },
+        INPUT_TAX: function() {
+            var scope = this
+            return (scope.bill.amount - scope.TAX_BASE)
              
         }
     },
@@ -308,28 +312,30 @@ export default {
             var scope = this
             var billed = (scope.$route.query.billed && scope.$route.query.billed == 'no') ? scope.$route.query.billed : 'yes'
             scope.GET('buy-and-pay/bills/' + order_uuid + '?billed=' + billed).then(res => {
+               
+               if (!res) {
+                    scope.ROUTE({path: '/buy-and-pay/bills' });
+                }
+
                 scope.bill = res.data
-                scope.order = res.data.order
                 scope.memo_po = res.data.memo_po
 
                 // check PO status if allowed to enter the page
-                if (scope.bill.transaction_type == 'Inventory' && (!scope.order || (scope.order.receiving_no == '')) ) {
+                if (!res.success || (scope.bill.transaction_type == 'Inventory' && (!res.data.order || res.data.order .receiving_no == '')) ) {
                     scope.ROUTE({path: '/buy-and-pay/bills' });
                     return
                 }
                 
 
                 if (scope.bill.transaction_type == 'Inventory') {
+                    scope.order = res.data.order
                     scope.order.term = (scope.order.term == 1) ? scope.order.term + ' Day' : scope.order.term + ' Days' ;
                     scope.order.transaction_no = (!scope.order.transaction_no || scope.order.transaction_no == '') ? 'To be generated' : scope.order.transaction_no
                     var supplier_uuid = scope.order.supplier_uuid
                 }
                 
                 scope.VAT = res.data.supplier.v_a_t;
-               
-                
-                
-               scope.is_ready = true
+                scope.is_ready = true
             })
         },
         save: function() {

@@ -161,15 +161,15 @@
                         <div class="clearfix"></div>
                         <div class="tab-content">    
                             <div class="tab-pane active" id="item-details">
-                                <items ref="items" :order="order" :VAT="VAT" :type="'receipts'"></items>
+                                <items ref="items" :order="order" :VAT="VAT" :type="'receipts'" :action="ACTION"></items>
                             </div>
 
                             <div class="tab-pane" id="discounts">
-                                <discounts ref="discounts" :order="order" :DISCOUNTS="DISCOUNTS"></discounts>
+                                <discounts ref="discounts" :order="order" :DISCOUNTS="DISCOUNTS" :action="ACTION"></discounts>
                             </div>
 
                             <div class="tab-pane" id="tax">
-                               <taxes ref="taxes" :order="order" :DISCOUNTS="DISCOUNTS"></taxes>
+                               <taxes ref="taxes" :order="order" :DISCOUNTS="DISCOUNTS" :action="ACTION"></taxes>
                             </div>   
                         </div>
                     </div>
@@ -234,9 +234,8 @@ export default {
             var scope = this
             scope.GET('buy-and-pay/receipts/' + order_uuid).then(res => {
                 // check PO status if allowed to enter the page
-                if (!scope.order) {
+                if (!res) {
                     scope.ROUTE({path: '/buy-and-pay/receipts' });
-                    return
                 }
 
                 scope.order = res.data
