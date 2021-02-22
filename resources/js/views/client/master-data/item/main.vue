@@ -51,15 +51,136 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-6 col-12">
-                                <cat-department></cat-department>
-                                <cat-section></cat-section>
-                                <cat-category></cat-category>
-                                <cat-manufacturer></cat-manufacturer>
-                                <cat-item-type></cat-item-type>
-                                <cat-brand></cat-brand>
-                                <cat-form></cat-form>
-                                <cat-packing-type></cat-packing-type>
-                                <cat-sizes></cat-sizes>
+                                <div id="accordion">
+                                    <div class="card shadow-none">
+                                        <a href="#collapseOne" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">
+                                            <div class="card-header" id="headingOne">
+                                                <h5 class="m-0">Department</h5>
+                                                <i class="las la-plus-circle fs-30"></i>
+                                            </div>
+                                        </a>
+                                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="container-fluid">
+                                                    <cat-department></cat-department>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <a href="#collapseTwo" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                                            <div class="card-header" id="headingOne">
+                                                <h5 class="m-0">Section</h5>
+                                                <i class="las la-plus-circle fs-30"></i>
+                                            </div>
+                                        </a>
+                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="container-fluid">
+                                                    <cat-section></cat-section>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <a href="#collapseThree" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseThree">
+                                            <div class="card-header" id="headingOne">
+                                                <h5 class="m-0">Category</h5>
+                                                <i class="las la-plus-circle fs-30"></i>
+                                            </div>
+                                        </a>
+                                        <div id="collapseThree" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="container-fluid">
+                                                    <cat-category></cat-category>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <a href="#collapseFour" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseFour">
+                                            <div class="card-header" id="headingOne">
+                                                <h5 class="m-0">Manufacturer</h5>
+                                                <i class="las la-plus-circle fs-30"></i>
+                                            </div>
+                                        </a>
+                                        <div id="collapseFour" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="container-fluid">
+                                                    <cat-manufacturer></cat-manufacturer>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <a href="#collapseFive" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseFive">
+                                            <div class="card-header" id="headingOne">
+                                                <h5 class="m-0">Item Type</h5>
+                                                <i class="las la-plus-circle fs-30"></i>
+                                            </div>
+                                        </a>
+                                        <div id="collapseFive" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="container-fluid">
+                                                    <cat-item-type></cat-item-type>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <a href="#collapseSix" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseSix">
+                                            <div class="card-header" id="headingOne">
+                                                <h5 class="m-0">Brand</h5>
+                                                <i class="las la-plus-circle fs-30"></i>
+                                            </div>
+                                        </a>
+                                        <div id="collapseSix" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="container-fluid">
+                                                    <cat-brand></cat-brand>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <a href="#collapseSeven" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseSeven">
+                                            <div class="card-header" id="headingOne">
+                                                <h5 class="m-0">Form</h5>
+                                                <i class="las la-plus-circle fs-30"></i>
+                                            </div>
+                                        </a>
+                                        <div id="collapseSeven" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="container-fluid">
+                                                    <cat-form></cat-form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <a href="#collapseEight" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseEight">
+                                            <div class="card-header" id="headingOne">
+                                                <h5 class="m-0">Packing Type</h5>
+                                                <i class="las la-plus-circle fs-30"></i>
+                                            </div>
+                                        </a>
+                                        <div id="collapseEight" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="container-fluid">
+                                                    <cat-packing-type></cat-packing-type>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <a href="#collapseNine" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseNine">
+                                            <div class="card-header" id="headingOne">
+                                                <h5 class="m-0">Sizes</h5>
+                                                <i class="las la-plus-circle fs-30"></i>
+                                            </div>
+                                        </a>
+                                        <div id="collapseNine" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="container-fluid">
+                                                    <cat-sizes></cat-sizes>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
