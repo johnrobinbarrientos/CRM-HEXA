@@ -52,7 +52,7 @@
             </div>
         </div>
         <br/>
-        <table class="table table-bordered table-striped">
+        <table style="display:none;" class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th width="30px"></th>

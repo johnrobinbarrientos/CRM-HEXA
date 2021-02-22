@@ -117,10 +117,8 @@ class BuyAndPayBillController extends Controller
     public function show($uuid)
     {
         $is_billed = (isset(request()->billed) && request()->billed == 'no') ? false : true ;
-        $transaction_type = request()->type;
-
         // if billing is from PO and not "billed" yet, meaning no bill record has been generated yet
-        if (!$is_billed && $transaction_type == 'Inventory') {
+        if (!$is_billed) {
             $orderUUID = $uuid;
             $order = PurchaseOrder::where('uuid','=',$orderUUID)->first();
 
