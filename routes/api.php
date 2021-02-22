@@ -147,6 +147,16 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
     });
 
+    Route::group(['prefix' => 'reason-codes'], function(){
+
+        Route::get('/', 'API\ReasonCodeController@index');
+        Route::post('/', 'API\ReasonCodeController@store');
+        Route::put('/', 'API\ReasonCodeController@update');
+        Route::delete('/{reason_code_uuid}', 'API\ReasonCodeController@delete');
+        Route::get('/{reason_code_uuid}','API\ReasonCodeController@show');
+        
+    });
+
     Route::group(['prefix' => 'employees'], function(){
 
         Route::post('/delete', 'API\EmployeeListController@delete');
@@ -291,9 +301,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/order/delete', 'API\BuyAndPayOrderController@deleteOrder');
         Route::post('/orders/{order_uuid}/cancel', 'API\BuyAndPayOrderController@cancelOrder');
 
-        Route::get('/reason-codes', 'API\BuyAndPayReasonCodeController@index');
-        Route::post('/reason-codes', 'API\BuyAndPayReasonCodeController@save');
-        Route::delete('/reason-codes/{uuid}', 'API\BuyAndPayReasonCodeController@delete');
+        Route::post('/order/reason_code', 'API\BuyAndPayOrderController@updateOrderReasonCode');
+
 
         Route::get('/received', 'API\PurchaseReceiveController@getReceived');
         Route::get('/to-received', 'API\PurchaseReceiveController@getToReceive');

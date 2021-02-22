@@ -357,8 +357,7 @@ export default {
                text: 'None'
            });
 
-            scope.GET('buy-and-pay/reason-codes').then(res => {
-                
+            scope.GET('reason-codes/?type=purchase-order').then(res => {
                 res.rows.forEach(function (data) {
 
                     scope.options_reason_code.push({
@@ -549,7 +548,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST('buy-and-pay/order/reason-code', {uuid: po_uuid, orders_reason_code_uuid: scope.selected_reason_code}).then(res => {
+                    scope.POST('buy-and-pay/order/reason_code', {uuid: po_uuid, orders_reason_code_uuid: scope.selected_reason_code}).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',

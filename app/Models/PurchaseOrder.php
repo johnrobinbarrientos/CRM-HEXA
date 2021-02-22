@@ -44,7 +44,7 @@ class PurchaseOrder extends Model
     }
 
     public function OrderReasonCode(){
-        return $this->belongsTo('App\Models\PurchaseOrderReasonCode','orders_reason_code_uuid','uuid');
+        return $this->belongsTo('App\Models\ReasonCode','orders_reason_code_uuid','uuid');
     }
 
     public function Branch(){

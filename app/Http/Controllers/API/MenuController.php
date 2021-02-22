@@ -69,9 +69,9 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bx-purchase-tag',
             'submenus' => [
-                [ 'text' => 'Ordering', 'route' => 'main'],
+                [ 'text' => 'Ordering', 'route' => 'sales-order-main'],
                 [ 'text' => 'Fulfillment', 'route' => 'main'],
-                [ 'text' => 'Invoicing & Reversal', 'route' => 'main'],
+                [ 'text' => 'Invoicing & Reversal', 'route' => 'invoicing-and-reversal-main'],
                 [ 'text' => 'Collection', 'route' => 'main']
             ]
         ];
@@ -182,9 +182,9 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bx-purchase-tag',
             'submenus' => [
-                [ 'text' => 'Ordering', 'route' => 'main'],
+                [ 'text' => 'Ordering', 'route' => 'sales-order-main'],
                 [ 'text' => 'Fulfillment', 'route' => 'main'],
-                [ 'text' => 'Invoicing & Reversal', 'route' => 'main'],
+                [ 'text' => 'Invoicing & Reversal', 'route' => 'invoicing-and-reversal-main'],
                 [ 'text' => 'Collection', 'route' => 'main']
             ]
         ];
@@ -280,9 +280,9 @@ class MenuController extends Controller
             'route' => '#has-submenu',
             'icon' => 'bx bx-purchase-tag',
             'submenus' => [
-                [ 'text' => 'Ordering', 'route' => 'main'],
+                [ 'text' => 'Ordering', 'route' => 'sales-order-main'],
                 [ 'text' => 'Fulfillment', 'route' => 'main'],
-                [ 'text' => 'Invoicing & Reversal', 'route' => 'main'],
+                [ 'text' => 'Invoicing & Reversal', 'route' => 'invoicing-and-reversal-main'],
                 [ 'text' => 'Collection', 'route' => 'main']
             ]
         ];

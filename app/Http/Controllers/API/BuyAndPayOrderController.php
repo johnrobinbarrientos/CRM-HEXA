@@ -46,6 +46,7 @@ class BuyAndPayOrderController extends Controller
 {
     public function index()
     {
+
         $type = (isset(request()->type)) ? request()->type : 'orders' ; // orders, receipts or bills
 
         $lists = PurchaseOrder::whereNull('deleted_at')
@@ -442,5 +443,20 @@ class BuyAndPayOrderController extends Controller
                 }
             }
         }
+    }
+
+    public function updateOrderReasonCode()
+    {
+        $order =  PurchaseOrder::find(request()->uuid);
+
+        if (!$order) {
+            return response()->json(['success' => 0, 'data' => null, 'Order not found'], 500);
+        }
+
+        $order->orders_reason_code_uuid = request()->orders_reason_code_uuid;
+        $order->save();
+
+        $order = PurchaseOrder::find($order->uuid);
+        return response()->json(['success' => 1, 'rows' => $order], 200);
     }
 }
