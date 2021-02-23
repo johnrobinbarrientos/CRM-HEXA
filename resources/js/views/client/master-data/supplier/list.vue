@@ -134,7 +134,7 @@ export default {
             var scope = this
             scope.listLoading = true
             scope.supplierList = []
-            scope.GET('suppliers/?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+            scope.GET('suppliers?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.supplierList = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
