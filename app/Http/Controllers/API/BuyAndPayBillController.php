@@ -395,6 +395,12 @@ class BuyAndPayBillController extends Controller
 
     public function saveExpenses($billUUID)
     {
+        $bill = PurchaseBilling::find($billUUID);
+
+        if (!$bill) {
+            return response()->json(['success' => 0, 'message' => 'Could not find the bill']);
+        }
+
         $expenses = (is_array(request()->expenses)) ? request()->expenses : [];
 
         $expenses_uuids = [];
@@ -425,6 +431,21 @@ class BuyAndPayBillController extends Controller
 
         return response()->json(['success' => 1, 'message' => 'saved!']);
     }
+
+    public function cancel($billUUID)
+    {
+        $bill = PurchaseBilling::find($billUUID);
+
+        if (!$bill) {
+            return response()->json(['success' => 0, 'message' => 'Could not find the bill']);
+        }
+
+        $bill->status = 'Cancelled';
+        $bill->save();
+        
+        return response()->json(['success' => 1, 'message' => 'Cancelled!']);
+    }
+
 
     public function getCompanyPrefix()
     {

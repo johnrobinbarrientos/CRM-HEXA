@@ -439,7 +439,7 @@ export default {
                 cancelButtonText: 'No'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST(URL, { type: type, bill: scope.bill, expenses: expenses }).then(res => {
+                    scope.POST(URL, {}).then(res => {
                         if (res.success) {
                             scope.ROUTE({path: '/buy-and-pay/bills' });
                         } else {

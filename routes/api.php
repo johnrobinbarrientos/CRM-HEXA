@@ -331,6 +331,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/bills/{bill_uuid}', 'API\BuyAndPayBillController@update');
 
         Route::post('/bills/{bill_uuid}/expenses', 'API\BuyAndPayBillController@saveExpenses');
+        Route::post('/bills/{bill_uuid}/cancel', 'API\BuyAndPayBillController@cancel');
     });
 
     Route::group(['prefix' => 'users'], function(){

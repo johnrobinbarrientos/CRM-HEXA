@@ -122,6 +122,9 @@
                                     <td v-else-if="purchase.status === 'Paid'" style="text-align;" class="editable" width="150">
                                         <span class="badge badge-success font-size-12">Paid</span>
                                     </td>
+                                    <td v-else-if="purchase.status === 'Cancelled'" style="text-align;" class="editable" width="150">
+                                        <span class="badge badge-soft-dark font-size-12">Cancelled</span>
+                                    </td>
 
                                     <td width="150">{{ purchase.receiving_reason_code }}</td>
 
@@ -550,6 +553,31 @@ export default {
                 scope.prerequisite.getSupplier = true
             })
         },
+        cancel: function (bill_uuid) {
+            var scope = this
+
+            var URL =  'buy-and-pay/bills/' + bill_uuid + '/cancel';
+
+            window.swal.fire({
+                title: 'Cancel?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#548235',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.value) {
+                    scope.POST(URL, {}).then(res => {
+                        if (res.success) {
+                            scope.getBills()
+                        } else {
+                            alert(res.message)
+                        }
+                    })
+                }                              
+            })
+        }
 
     },
     mounted() {
