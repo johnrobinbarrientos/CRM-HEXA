@@ -8,7 +8,7 @@
             <div class="card-body" >
                 <div class="actions-bar">
                     <div class="w-100">
-                        <h1 class="title">Billing</h1>
+                        <h1 class="title">Expenses</h1>
                     </div>
                     <div class="bar-right">
                         <span v-if="bill.transaction_type == 'Expenses'">
