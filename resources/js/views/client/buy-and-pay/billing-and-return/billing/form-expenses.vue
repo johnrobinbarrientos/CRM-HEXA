@@ -20,7 +20,7 @@
 
                 <div class="col-12 col-md-6">
                     <div class="form-group">
-                        <label>Total Amount</label>
+                        <label>Amount payable</label>
                         <input v-model="formdata.amount" type="text" class="form-control" >
                     </div>
                 </div>

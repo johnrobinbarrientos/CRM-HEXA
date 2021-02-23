@@ -88,7 +88,7 @@
                                             <div class="row">
                                                 <div class="col-md-8 col-12">
                                                      <div class="form-group">
-                                                        <label class="form-label" for="supplier">Amount</label>
+                                                        <label class="form-label" for="supplier">Amount Payable</label>
                                                         <input type="text" class="form-control" v-model="temp_amount" v-bind:class="{'disabled' : ACTION != 'edit'}" :disabled="ACTION != 'edit'">
                                                     </div>
                                                 </div>
@@ -207,7 +207,7 @@
                                 </div>
                                 <div  v-else class="buy-and-pay-summary">
                                     <div style="display:flex; justify-content: space-between; font-weight:900;">
-                                        <div><span>Amount</span></div>
+                                        <div><span>Amount Payable</span></div>
                                         <div><span>{{ PUT_SEPARATOR(bill.amount) }}</span></div>
                                     </div>
                                     <div style="display:flex; justify-content: space-between; font-weight:900;">
