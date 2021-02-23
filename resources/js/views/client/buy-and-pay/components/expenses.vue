@@ -185,31 +185,6 @@ export default {
                 })
             })
         },
-        getBranches: function () {
-           var scope = this
-            scope.GET('users/get-branch').then(res => {
-                //scope.formdata.branch_uuid = res.rows.branch_uuid
-                scope.branch_name = res.rows.branch_name
-                scope.formdata.branch_uuid = res.rows.branch_uuid
-            })
-        },
-        getBranchLocations: function () {
-           var scope = this
-            scope.GET('users/get-branch-locations').then(res => {
-                res.rows.forEach(function (data) {
-
-                    scope.options_branch_location.push({
-                        id: data.uuid,
-                        text: data.location_name
-                    })
-                
-                })
-
-                $(".form-select-branch-location").select2({data: scope.options_branch_location});
-                scope.selected_branch_location = scope.options_branch_location[0].id
-                scope.formdata.branch_location_uuid = scope.options_branch_location[0].uuid
-            })
-        },
         getCostCenters: function () {
            var scope = this
             scope.GET('admin/cost-center').then(res => {
@@ -254,29 +229,6 @@ export default {
 
             return (result.length > 0) ? result[0].text : ''
         },
-        getSupplier: function () {
-           var scope = this
-            scope.GET('suppliers').then(res => {
-
-                res.rows.forEach(function (data) {
-
-                    scope.options_supplier.push({
-                        id: data.uuid,
-                        text: data.supplier_shortname,
-                        lead_time: data.lead_time,
-                        vat_uuid: data.vat_uuid
-                    })
-                
-                })
-
-                scope.formdata.supplier_uuid = scope.options_supplier[0].uuid
-
-                setTimeout(function(){
-                    $(".form-select-supplier").select2({data: scope.options_supplier});
-                    $(".form-select-supplier").trigger('change');
-                },100);
-            })
-        },
         saveBillExpenses: function (bill_uuid) {
             var scope = this
             var URL = 'buy-and-pay/bills/' + bill_uuid + '/expenses'
@@ -301,9 +253,6 @@ export default {
     mounted() {
         var scope = this
         scope.getExpenses();
-        scope.getSupplier();
-        scope.getBranches();
-        scope.getBranchLocations();
         scope.getProjects();
         scope.getChartOfAccountByGroup('expenses');
     },

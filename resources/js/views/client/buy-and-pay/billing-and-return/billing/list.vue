@@ -100,6 +100,7 @@
                                         <b-dropdown v-if="purchase.transaction_type == 'Expenses' && purchase.status == 'To Pay'"  split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/edit' })">
                                             <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/edit'})">Edit</b-dropdown-item>
                                             <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/view' })">View</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="cancel(purchase.uuid)">Cancel</b-dropdown-item>
                                         </b-dropdown>
                                         <b-dropdown v-else  split text="View" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/view' })">
                                             <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/view' })">View</b-dropdown-item>

@@ -15,7 +15,9 @@
                             <a @click="ROUTE({path: '/buy-and-pay/bills' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
                                 <span>Back</span>
                             </a>
-                            <!-- <a v-if ="bill.status =='To Pay'" @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Cancel</a> -->
+                            
+                            
+
                             <a v-if ="!bill.uuid" @click="ROUTE({path: '/purchase-orders/' + bill.uuid })" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                                 <span>Bill</span>
                             </a>
@@ -24,7 +26,9 @@
                                 <span>Update</span>
                             </a>
 
-                            <a v-if ="bill.uuid && ACTION == 'view'"  @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/edit'})" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                            <a v-if="bill.uuid &&  bill.status =='To Pay' && ACTION == 'view'" @click="cancel()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Cancel</a>
+
+                            <a v-if="bill.uuid &&  bill.status =='To Pay' && ACTION == 'view'"  @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/edit'})" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                                 <span>Edit</span>
                             </a>
                         </span>
