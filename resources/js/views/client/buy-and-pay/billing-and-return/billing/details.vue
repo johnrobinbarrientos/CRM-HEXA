@@ -18,7 +18,7 @@
                             
                             
 
-                            <a v-if ="!bill.uuid" @click="ROUTE({path: '/purchase-orders/' + bill.uuid })" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                            <a v-if ="!bill.uuid" @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                                 <span>Bill</span>
                             </a>
 
