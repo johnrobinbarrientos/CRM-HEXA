@@ -589,7 +589,7 @@ export default {
         
         getEmployeeList: function () {
            var scope = this
-            scope.GET('employees/').then(res => {
+            scope.GET('employees').then(res => {
                 scope.employeeList = res.rows
             })
         },

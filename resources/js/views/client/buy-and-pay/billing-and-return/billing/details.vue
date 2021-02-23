@@ -8,7 +8,7 @@
             <div class="card-body" >
                 <div class="actions-bar">
                     <div class="w-100">
-                        <h1 class="title">Billing</h1>
+                        <h1 class="title">Expenses</h1>
                     </div>
                     <div class="bar-right">
                         <span v-if="bill.transaction_type == 'Expenses'">
@@ -18,7 +18,7 @@
                             
                             
 
-                            <a v-if ="!bill.uuid" @click="ROUTE({path: '/purchase-orders/' + bill.uuid })" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                            <a v-if ="!bill.uuid" @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                                 <span>Bill</span>
                             </a>
 
@@ -88,7 +88,7 @@
                                             <div class="row">
                                                 <div class="col-md-8 col-12">
                                                      <div class="form-group">
-                                                        <label class="form-label" for="supplier">Amount</label>
+                                                        <label class="form-label" for="supplier">Amount Payable</label>
                                                         <input type="text" class="form-control" v-model="temp_amount" v-bind:class="{'disabled' : ACTION != 'edit'}" :disabled="ACTION != 'edit'">
                                                     </div>
                                                 </div>
@@ -207,7 +207,7 @@
                                 </div>
                                 <div  v-else class="buy-and-pay-summary">
                                     <div style="display:flex; justify-content: space-between; font-weight:900;">
-                                        <div><span>Amount</span></div>
+                                        <div><span>Amount Payable</span></div>
                                         <div><span>{{ PUT_SEPARATOR(bill.amount) }}</span></div>
                                     </div>
                                     <div style="display:flex; justify-content: space-between; font-weight:900;">
@@ -276,7 +276,8 @@ import moment from 'moment'
 import Items from '../../components/items'
 import Discounts from '../../components/discounts'
 import Taxes from '../../components/taxes'
-import Expenses from '../../components/expenses'
+import ExpenseTaxes from './taxes'
+import Expenses from './expenses'
 
 export default {
     name: 'purchase-order',
@@ -359,7 +360,8 @@ export default {
             }).then((result) => {
                 if (result.value) {
                     scope.bill.amount = scope.temp_amount
-                    scope.$refs.expenses.clear();
+                    scope.AMOUNT_TO_ALLOCATE = parseFloat(scope.$refs.expenses.getAmountToAllocate());
+                    // scope.$refs.expenses.clear();
                 }                              
             })
            

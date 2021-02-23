@@ -20,7 +20,7 @@
 
                 <div class="col-12 col-md-6">
                     <div class="form-group">
-                        <label>Total Amount</label>
+                        <label>Amount payable</label>
                         <input v-model="formdata.amount" type="text" class="form-control" >
                     </div>
                 </div>
@@ -46,9 +46,9 @@
                     <th>Account</th>
                     <th>Project</th>
                     <th>Amount</th>
-                    <th>Memo 1</th>
-                    <th>Memo 2</th>
-                    <th>Memo 3</th>
+                    <th>Memo</th>
+                    <th>Memo</th>
+                    <th>Memo</th>
                 </tr>
             </thead>
             <tbody>
@@ -100,7 +100,7 @@
 
         <div style="padding:10px 0px; text-align:right;">
             <a style="max-width:150px; display:inline-block;" @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
-                <span>Bill</span>
+                <span>Next</span>
             </a>
         </div>
     </div>

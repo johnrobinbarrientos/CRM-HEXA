@@ -128,7 +128,7 @@ export default {
             var scope = this
             scope.listLoading = true
             scope.customerList = []
-            scope.GET('customers/?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+            scope.GET('customers?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.customerList = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count

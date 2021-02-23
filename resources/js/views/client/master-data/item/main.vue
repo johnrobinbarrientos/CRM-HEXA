@@ -6,13 +6,13 @@
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#categories" role="tab">
                         <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Categories</span>    
+                        <span class="d-none d-sm-block">Category</span>    
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#asset-group" role="tab">
                         <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Assets Group</span>    
+                        <span class="d-none d-sm-block">Asset Group</span>    
                     </a>
                 </li>
                 <li class="nav-item">
