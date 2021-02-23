@@ -148,6 +148,107 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
 	border-radius: .25rem;
 }
 
+/*hx-tab-1*/
+.hx-tab-1 {
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 68px;
+    overflow: hidden;
+    transition: border 250ms ease;
+}
+
+.hx-tab-1  ul.nav {
+    display: unset;
+    flex-wrap: unset;
+}
+.hx-tab-1 .nav-tabs .nav-link { border: none !important; font-size: 12px; }
+.hx-tab-1 .nav.nav-tabs .nav-link.active { font-weight: 500 !important; }
+
+.hx-tab-1 .tab-content {
+    /**border: 1px solid #ced4da;**/
+    border-top: none;
+    border-radius: 4px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding: 15px;
+    padding-top: 25px;
+    background-color: #fff;
+}
+.hx-tab-1 ul.nav-tabs { border-bottom: unset; margin-bottom: 0; }
+
+.hx-tab-1 ul {
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    float: left;
+    list-style-type: none;
+}
+
+.hx-tab-1 li { float: right; }
+
+.hx-tab-1 ul li a {
+    display: block;
+    float: right;
+    padding: 9px 24px 7px;
+    padding-left: 40px;
+    background-color: #f1f1f1;
+    margin-right: 25px;
+    z-index: 2;
+    position: relative;
+    cursor: pointer;
+    color: #495057;
+    font-weight: 600;
+    transition: all 250ms ease;
+}
+
+.hx-tab-1 ul li:first-child a { margin-right: 50px; }
+
+.hx-tab-1 ul * {
+    margin: 0px;
+    padding: 0px;
+}
+
+/* tabs: round tabs */
+.hx-tab-1.round ul li a {
+  border-radius: 4px 4px 0 0;
+}
+.hx-tab-1.round ul li a:before {
+  border-radius: 0 4px 0 0;
+}
+.hx-tab-1.round ul li a:after {
+  border-radius: 4px 0 0 0;
+}
+
+.hx-tab-1 ul li a:before {
+    display: block;
+    content: " ";
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 44px;
+    background-color: #f1f1f1;
+    transition: all 250ms ease;
+}
+
+.hx-tab-1 ul li a:before {
+    right: -24px;
+    transform: skew(12deg,0deg);
+    box-shadow: rgb(0 0 0 / 10%) 3px 2px 5px, inset rgb(255 255 255 / 9%) -1px 0;
+}
+
+
+.hx-tab-1 ul li a.active {
+    z-index: 3;
+}
+
+.hx-tab-1 ul li a.active, .hx-tab-1 ul li a.active:before {
+    background-color: #fff;
+    color: #333 !important;
+}
+
+
+
+/*hx-tab-2*/
 .hx-tab-2 {
     width: 100%;
     margin: 0 auto;
@@ -237,6 +338,15 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
     color: #fff;
 }
 
+/* b-dropdown 'dissappearing carret on hover & click' fix */
+.b-dropdown.dropdown { background-color: #e7e9ec; }
+.b-dropdown.dropdown.btn-group button { background: transparent !important; }
+.b-dropdown.dropdown.btn-group button:hover,
+.b-dropdown.dropdown.btn-group button:focus {
+    background: transparent!important;
+    background-color: transparent!important;
+    box-shadow: none !important;
+} 
 
 /*modal (single field forms)*/
 @media (min-width: 992px) {
@@ -508,7 +618,7 @@ img.header-profile-user { background: #fff; }
 
 .dropdown .btn-secondary {
     color: #495057!important;
-    background: rgb(231, 233, 236) !important;
+    background: #e7e9ec !important;
     min-width: 50px;
 }
 

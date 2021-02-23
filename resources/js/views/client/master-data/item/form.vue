@@ -1330,13 +1330,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.nav-tabs-custom .nav-item .nav-link {
-    color: white;
-}
-.nav-tabs-custom .nav-item .nav-link.active {
-  color: black !important;
-}
-.nav-tabs-custom .nav-item .nav-link::after { content: none; }
-
-</style>
+<style scoped></style>

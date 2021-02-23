@@ -31,7 +31,7 @@
                         <thead>
                             <tr>
                                 <th width="105">Action</th>
-                                <th>Item Asset Group</th>
+                                <th>Asset Group</th>
                             </tr>
                         </thead>
                         <tbody>
