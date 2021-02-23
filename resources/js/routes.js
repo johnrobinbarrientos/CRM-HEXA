@@ -46,7 +46,8 @@ import BuyANDPayReceiptsDetails from './views/client/buy-and-pay/receipts/detail
 import BuyANDPayBillingReturnMain from './views/client/buy-and-pay/billing-and-return/main'
 import BuyANDPayBillingReturnDetails from './views/client/buy-and-pay/billing-and-return/billing/details'
 
-
+import BuyANDPayPayments from './views/client/buy-and-pay/payments/main'
+import BuyANDPayPaymentsForm from './views/client/buy-and-pay/payments/form'
 
 import SalesOrderMain from './views/client/sell-and-collect/orders/main'
 import InvoiceANDReversalMain from './views/client/sell-and-collect/invoicing-and-reversal/main'
@@ -337,19 +338,26 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
+            path: '/buy-and-pay/payments',
+            name: 'buy-and-pay-payments',
+            component: BuyANDPayPayments,
+            beforeEnter: checkAuth,
+            meta: { protected: true }
+        },
+        {
+            path: '/buy-and-pay/payments/create',
+            name: 'buy-and-pay-payment-create',
+            component: BuyANDPayPaymentsForm,
+            beforeEnter: checkAuth,
+            meta: { protected: true }
+        },
+        {
           path: '/price-rule-main',
           name: 'price-rule-main',
           component: PriceRuleMain,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
-        // {
-        //     path: '/price-rule/create',
-        //     name: 'price-rule-form',
-        //     component: PriceRuleForm,
-        //     beforeEnter: checkAuth,
-        //     meta: { protected: true }
-        // },
         {
             path: '/price-rule/:priceRuleUUID',
             name: 'price-rule-form',

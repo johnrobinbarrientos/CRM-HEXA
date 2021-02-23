@@ -59,7 +59,7 @@ class MenuController extends Controller
                 [ 'text' => 'Ordering', 'route' => 'buy-and-pay-orders'],
                 [ 'text' => 'Receiving', 'route' => 'buy-and-pay-receipts'],
                 [ 'text' => 'Billing & Return', 'route' => 'buy-and-pay-bills'],
-                [ 'text' => 'Payment', 'route' => 'main']
+                [ 'text' => 'Payment', 'route' => 'buy-and-pay-payments']
             ]
         ];
 
@@ -172,7 +172,7 @@ class MenuController extends Controller
                 [ 'text' => 'Ordering', 'route' => 'buy-and-pay-orders'],
                 [ 'text' => 'Receiving', 'route' => 'buy-and-pay-receipts'],
                 [ 'text' => 'Billing & Return', 'route' => 'buy-and-pay-bills'],
-                [ 'text' => 'Payment', 'route' => 'main']
+                [ 'text' => 'Payment', 'route' => 'buy-and-pay-payments']
             ]
         ];
 
@@ -270,7 +270,7 @@ class MenuController extends Controller
                 [ 'text' => 'Ordering', 'route' => 'buy-and-pay-orders'],
                 [ 'text' => 'Receiving', 'route' => 'buy-and-pay-receipts'],
                 [ 'text' => 'Billing & Return', 'route' => 'buy-and-pay-bills'],
-                [ 'text' => 'Payment', 'route' => 'project-main']
+                [ 'text' => 'Payment', 'route' => 'buy-and-pay-payments']
             ]
         ];
 

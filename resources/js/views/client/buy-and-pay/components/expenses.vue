@@ -1,11 +1,22 @@
 <template>
     <div id="Expenses">
+
+        <hr/>
+
+        <div style="margin-bottom:10px;" v-if="action == 'edit'">
+            <div class="text-right">
+                <button type="button"  @click="add()" class="btn btn-sm hx-btn-shineblue" :disabled="AMOUNT_TO_ALLOCATE <= 0">Add Row</button>
+            </div>
+        </div>
+
+    
         <table class="table table-bordered mb-0">
             <thead class="th-nowrap">
                 <tr>
+                    <th width="40" >Action</th>
                     <th>Account</th>
                     <th>Project</th>
-                    <th>Amount</th>
+                    <th>Amount</th> 
                     <th>Memo 1</th>
                     <th>Memo 2</th>
                     <th>Memo 3</th>
@@ -13,6 +24,9 @@
             </thead>
             <tbody class="td-border-bottom-black-2">
                 <tr v-for="(expense,index) in expenses" :key="'expense-' + index">
+                    <td class="text-center">
+                        <b-button @click="removeSelected(index)" type="button" size ="sm" class="m-2" :disabled="action != 'edit'">Delete</b-button>
+                    </td>
                     <td width="250" class="editable">
                         <span>{{ getAccountNameByUUID(expense.coa_uuid) }}</span>
                         <select v-model="expense.coa_uuid" class="editable-control" :disabled="action != 'edit'">
@@ -49,7 +63,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="text-right">Total</td>
+                    <td colspan="3" class="text-right">Total</td>
                     <td v-if="AMOUNT_TO_ALLOCATE >= 0" class="text-right">{{ PUT_SEPARATOR(AMOUNT_ALLOCATED.toFixed(2)) }}</td>
                     <td v-if="AMOUNT_TO_ALLOCATE < 0" class="text-right text-danger">{{ PUT_SEPARATOR(AMOUNT_ALLOCATED.toFixed(2)) }}</td>
                     <td colspan="3"></td>
@@ -155,6 +169,10 @@ export default {
             } 
 
             scope.$parent.updateAmountToAllocate()
+        },
+        removeSelected: function (i) {
+            var scope = this
+            scope.expenses.splice(i, 1);
         },
         getAmountToAllocate: function () {
             return  this.AMOUNT_TO_ALLOCATE;

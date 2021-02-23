@@ -417,8 +417,6 @@ export default {
             scope.POST(URL, { type: type, bill: scope.bill, expenses: expenses }).then(res => {
                 if (res.success) {
                     scope.$refs.expenses.saveBillExpenses(res.data.uuid) 
-                    // scope.$refs.items.saveOrderItems() 
-                    // scope.ROUTE({path: '/buy-and-pay/bills' });
                 } else {
                     alert(res.message)
                 }
