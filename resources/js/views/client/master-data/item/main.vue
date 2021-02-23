@@ -1,5 +1,5 @@
 <template>
-    <div class="black-container">
+    <div>
         <div class="hx-tab-1 round">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
@@ -48,7 +48,7 @@
                         </div>
                         <div class="bar-right"></div>
                     </div>
-                    <div class="container-fluid">
+                    <div class="container-fluid p-0">
                         <div class="row">
                             <div class="col-lg-6 col-12">
                                 <cat-department></cat-department>
@@ -111,15 +111,3 @@ export default {
     }
 }
 </script>
-<style>
-/*temp only!*/
-.black-container {
-background: rgb(51, 51, 51);
-    margin: -16px -15px;
-    padding: 30px 20px;
-    height: calc(100vh - 142px)
-}
-.black-container .actions-bar {
-    box-shadow: none !important;
-}
-</style>

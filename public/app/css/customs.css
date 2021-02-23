@@ -92,7 +92,7 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
 
 .table .hx-table-actions .dropdown.btn-group button { border-color: #ccc; }
 .table .hx-table-actions .dropdown.btn-group .dropdown-menu.show {
-    border: 1px solid #ced4da;
+    border: 1px solid var(--hexa-darkgrey);
     outline: 0;
     min-width: 6rem;
     padding: .2rem 0;
@@ -116,7 +116,7 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
     padding: 13px 20px;
     background-color: #f9f9f9;
     /*border: 1px solid #ddd;*/
-    border: 1px solid #ced4da;
+    border: 1px solid var(--hexa-darkgrey);
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
 }
@@ -135,7 +135,7 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
 .hx-card-override.no-header {
     border-top-left-radius: 4px;
 	border-top-right-radius: 4px;
-	border-top: 1px solid #ced4da;
+	border-top: 1px solid var(--hexa-darkgrey);
 }
 
 /* nav-tabs */
@@ -157,26 +157,26 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
     transition: border 250ms ease;
 }
 
-.hx-tab-1  ul.nav {
+.hx-tab-1 > ul.nav {
     display: unset;
     flex-wrap: unset;
 }
-.hx-tab-1 .nav-tabs .nav-link { border: none !important; font-size: 12px; }
-.hx-tab-1 .nav.nav-tabs .nav-link.active { font-weight: 500 !important; }
+.hx-tab-1 .nav-tabs .nav-item { margin-bottom: 0px; }
+.hx-tab-1 .nav-tabs .nav-link { border: 1px solid  !important; font-size: 12px; border: 1px solid var(--hexa-darkgrey) !important; }
+.hx-tab-1 .nav-tabs .nav-link.active { font-weight: 600 !important; border-bottom: 1px solid transparent !important; }
 
 .hx-tab-1 .tab-content {
-    /**border: 1px solid #ced4da;**/
-    border-top: none;
+    border: 1px solid var(--hexa-darkgrey);
     border-radius: 4px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     padding: 15px;
-    padding-top: 25px;
+    padding-top: 20px;
     background-color: #fff;
 }
-.hx-tab-1 ul.nav-tabs { border-bottom: unset; margin-bottom: 0; }
+.hx-tab-1 > ul.nav-tabs { border-bottom: unset; margin-bottom: -1px; }
 
-.hx-tab-1 ul {
+.hx-tab-1 > ul {
     margin: 0px;
     padding: 0px;
     overflow: hidden;
@@ -184,9 +184,9 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
     list-style-type: none;
 }
 
-.hx-tab-1 li { float: right; }
+.hx-tab-1 > ul > li { float: right; }
 
-.hx-tab-1 ul li a {
+.hx-tab-1 > ul li a {
     display: block;
     float: right;
     padding: 9px 24px 7px;
@@ -201,52 +201,50 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
     transition: all 250ms ease;
 }
 
-.hx-tab-1 ul li:first-child a { margin-right: 50px; }
+.hx-tab-1 > ul li:first-child a { margin-right: 50px; }
 
-.hx-tab-1 ul * {
+.hx-tab-1 > ul * {
     margin: 0px;
     padding: 0px;
 }
 
 /* tabs: round tabs */
-.hx-tab-1.round ul li a {
+.hx-tab-1.round > ul li a {
   border-radius: 4px 4px 0 0;
 }
-.hx-tab-1.round ul li a:before {
+.hx-tab-1.round > ul li a:before {
   border-radius: 0 4px 0 0;
 }
-.hx-tab-1.round ul li a:after {
+.hx-tab-1.round > ul li a:after {
   border-radius: 4px 0 0 0;
 }
 
-.hx-tab-1 ul li a:before {
+.hx-tab-1 > ul li a:before {
     display: block;
     content: " ";
     position: absolute;
-    top: 0;
-    height: 100%;
+    top: -1px;
+    right: -24px;
+    height: calc(100% + 2px);
     width: 44px;
+    border-top: 1px solid var(--hexa-darkgrey);
+    border-right: 1px solid var(--hexa-darkgrey);
+    border-bottom: 1px solid var(--hexa-darkgrey);
     background-color: #f1f1f1;
+    transform: skew(12deg,0deg);
+    box-shadow: rgb(0 0 0 / 10%) 3px 3px 5px, inset rgb(255 255 255 / 9%) -13px 0;
     transition: all 250ms ease;
 }
 
-.hx-tab-1 ul li a:before {
-    right: -24px;
-    transform: skew(12deg,0deg);
-    box-shadow: rgb(0 0 0 / 10%) 3px 2px 5px, inset rgb(255 255 255 / 9%) -1px 0;
-}
-
-
-.hx-tab-1 ul li a.active {
+.hx-tab-1 > ul li a.active {
     z-index: 3;
 }
 
-.hx-tab-1 ul li a.active, .hx-tab-1 ul li a.active:before {
+.hx-tab-1 > ul li a.active, .hx-tab-1 > ul li a.active:before {
     background-color: #fff;
     color: #333 !important;
+    border-bottom: 1px solid transparent;
 }
-
-
 
 /*hx-tab-2*/
 .hx-tab-2 {
@@ -261,7 +259,7 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
     display: unset;
     flex-wrap: unset;
 }
-.hx-tab-2 .tab-content { border: 1px solid #ced4da; border-top: 4px solid var(--shine-blue); padding: 15px; border-radius: 4px; }
+.hx-tab-2 .tab-content { border: 1px solid var(--hexa-darkgrey); border-top: 4px solid var(--shine-blue); padding: 15px; border-radius: 4px; }
 .hx-tab-2 ul.nav-tabs { border-bottom: unset; margin-bottom: 0; }
 
 .hx-tab-2 ul {
@@ -362,7 +360,7 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
 .hx-nav-tabs-override .nav-item .nav-link { color: white; border: none; }
 .hx-nav-tabs-override .nav-item .nav-link.active { color: #fff !important; background-color: var(--shine-blue); }
 .hx-nav-tabs-override .nav-item .nav-link::after { content: none; }
-.hx-nav-tabs-override .tab-content { border: 1px solid #ced4da; border-top: 0; padding: 20px; border-bottom-left-radius: .25rem; border-bottom-right-radius: .25rem; }
+.hx-nav-tabs-override .tab-content { border: 1px solid var(--hexa-darkgrey); border-top: 0; padding: 20px; border-bottom-left-radius: .25rem; border-bottom-right-radius: .25rem; }
 
 
 /*form fields*/
@@ -552,13 +550,11 @@ img.header-profile-user { background: #fff; }
 
 /* accordion */
 #accordion .card { border: 1px solid #ddd; margin-bottom: 10px; }
-#accordion .card-header { display: flex; justify-content: space-between; align-items: center; border-radius: .25rem; transition: .2s; padding: 7px 14px; }
-#accordion .card-header h5 { font-size: 15px; }
+#accordion .card-header { display: flex; justify-content: space-between; align-items: center; border-radius: .25rem; transition: .2s; padding: 6px 12px; }
+#accordion .card-header h5 { font-size: 14px; }
 #accordion .card-header:hover { background: #eee; transition: .3s; }
 #accordion .card-body { border-top: 1px solid #ddd; }
 #accordion .card-header i { font-size: 24px; color: #aaa; }
-
-
 
 
 
