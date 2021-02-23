@@ -30,9 +30,9 @@
                                     <th>Account</th>
                                     <th>Project</th>
                                     <th>Amount</th> 
-                                    <th>Memo 1</th>
-                                    <th>Memo 2</th>
-                                    <th>Memo 3</th>
+                                    <th>Memo</th>
+                                    <th>Memo</th>
+                                    <th>Memo</th>
                                 </tr>
                             </thead>
                             <tbody class="td-border-bottom-black-2">
