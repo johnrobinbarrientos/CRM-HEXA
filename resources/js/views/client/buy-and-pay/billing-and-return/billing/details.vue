@@ -424,6 +424,31 @@ export default {
                 }
             })
         },
+        cancel: function () {
+            var scope = this
+
+            var URL =  'buy-and-pay/bills/' + scope.bill.uuid + '/cancel';
+
+            window.swal.fire({
+                title: 'Cancel?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#548235',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.value) {
+                    scope.POST(URL, { type: type, bill: scope.bill, expenses: expenses }).then(res => {
+                        if (res.success) {
+                            scope.ROUTE({path: '/buy-and-pay/bills' });
+                        } else {
+                            alert(res.message)
+                        }
+                    })
+                }                              
+            })
+        },
         loadData: function () {
             
         }
@@ -432,7 +457,7 @@ export default {
         var scope = this
 
         var bill_uuid = scope.$route.params.bill_uuid;
-        scope.ACTION = scope.$route.params.action;
+        scope.ACTION = ( scope.$route.params.action) ? scope.$route.params.action : 'edit';
 
         var is_draft = (!bill_uuid) ? true : false
 
