@@ -1018,7 +1018,7 @@ export default {
             scope.formdata.item_uoms = scope.item_uoms
 
 
-            scope.PUT('items/', scope.formdata).then(res => {
+            scope.PUT('items', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -1073,7 +1073,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.PUT('items/', scope.formdata).then(res => {
+                    scope.PUT('items', scope.formdata).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
@@ -1109,7 +1109,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.DELETE('items/' + data.uuid).then(res => {
+                    scope.DELETE('items' + data.uuid).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',

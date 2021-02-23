@@ -514,7 +514,7 @@ export default {
             scope.formdata.with_vat = scope.with_vat
             scope.formdata.with_ewt = scope.with_ewt
 
-            scope.PUT('suppliers/', scope.formdata).then(res => {
+            scope.PUT('suppliers', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -552,7 +552,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.PUT('suppliers/', scope.formdata).then(res => {
+                    scope.PUT('suppliers', scope.formdata).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
