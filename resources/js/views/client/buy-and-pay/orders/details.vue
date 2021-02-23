@@ -226,6 +226,12 @@ export default {
     },
     computed: {
     },
+    watch: {
+        '$route': function(){
+            var scope = this
+            scope.ACTION = scope.$route.params.action;
+        }
+    },
     methods: {
         updateTOTALS: function (data) {
             var scope = this

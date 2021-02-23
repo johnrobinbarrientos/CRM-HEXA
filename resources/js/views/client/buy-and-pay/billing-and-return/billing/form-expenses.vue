@@ -1,16 +1,8 @@
 <template>
     <div>
-        <div style="background:#f5f5f5; border:1px solid #efefef; margin-top:10px; padding:10px; border-radius:3px;">
+        <div>
             <div class="row">
-                <div class="col-12 col-md-3">
-                    <div class="form-group">
-                        <label>Transaction No.</label>
-                        <input type="text" class="form-control" >
-                    </div>
-                </div>
-
-
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-6">
                     <div class="form-group">
                         <label>Supplier</label>
                         <select class="form-select-supplier" v-model="formdata.supplier_uuid" :options="options_supplier" name="supplier"></select>
@@ -18,7 +10,7 @@
                 </div>
 
 
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-6">
                     <div class="form-group">
                         <label>Branch</label>
                         <input type="text" class="form-control disabled" v-model="branch_name" readonly >
@@ -26,7 +18,7 @@
                 </div>
 
 
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-6">
                     <div class="form-group">
                         <label>Total Amount</label>
                         <input v-model="formdata.amount" type="text" class="form-control" >
@@ -34,16 +26,10 @@
                 </div>
                 
 
-                <div class="col-12 col-md-3">
-                    <div class="form-group">
-                        <label>Transaction Date</label>
-                        <date-picker v-model="formdata.transaction_date" :config="{format: 'YYYY-MM-DD'}"></date-picker>
-                    </div>
-                </div>
 
 
 
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-6">
                     <div class="form-group">
                         <label>Location</label>
                         <select class="form-select-branch-location" v-model="formdata.branch_location_uuid" :options="options_branch_location" name="branch-location"></select>
@@ -130,9 +116,9 @@ export default {
     data: function () {
         return {
             formdata: {
+                type: 'Expenses',
                 uuid: null,
                 amount: 0.00,
-                transaction_date: null,
                 supplier_uuid: null,
                 branch_location_uuid: null,
             },
@@ -327,7 +313,9 @@ export default {
         },
         save: function() {
             var scope = this
-
+            var qs = jQuery.param( scope.formdata );
+            scope.ROUTE({path: '/buy-and-pay/bills/create?' + qs })
+            return
             scope.POST('buy-and-pay/bills', {type: 'Expenses', expenses: scope.expenses, data: scope.formdata}).then(res => {
                 if (res.success) {
                     // scope.$refs.items.saveOrderItems()

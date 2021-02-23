@@ -67,9 +67,7 @@ export default {
             })
             .then(response => {
                 var data = response.data
-                if (data.success) {
-                    return data
-                }
+                return data
             })
             .catch(function (error) {
                 var data = error.response.data
@@ -92,9 +90,7 @@ export default {
             })
             .then(response => {
                 var data = response.data
-                if (data.success) {
-                    return data
-                }
+                return data
             })
             .catch(function (error) {
                 var data = error.response.data
@@ -117,9 +113,7 @@ export default {
             })
             .then(response => {
                 var data = response.data
-                if (data.success) {
-                    return data
-                }
+                return data
             })
             .catch(function (error) {
                 var data = error.response.data
@@ -141,9 +135,7 @@ export default {
             })
             .then(response => {
                 var data = response.data
-                if (data.success) {
-                    return data
-                }
+                return data
             })
             .catch(function (error) {
                 var data = error.response.data

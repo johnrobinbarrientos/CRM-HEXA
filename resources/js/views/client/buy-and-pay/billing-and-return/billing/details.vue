@@ -11,28 +11,38 @@
                         <h1 class="title">Billing</h1>
                     </div>
                     <div class="bar-right">
-                        <span v-if ="view_mode">
+                        <span v-if="bill.transaction_type == 'Expenses'">
                             <a @click="ROUTE({path: '/buy-and-pay/bills' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
-                                <!-- <i class="las la-x"></i> --> <span>Back</span>
+                                <span>Back</span>
                             </a>
-                            <a  v-if ="bill.status =='To Receive'" @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Cancel</a>
-                            <a v-if ="bill.status =='To Receive'" @click="ROUTE({path: '/purchase-orders/' + bill.uuid })" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
-                                <!-- <i class="las la-x"></i> --> <span>Bill</span>
+                            <!-- <a v-if ="bill.status =='To Pay'" @click="create()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Cancel</a> -->
+                            <a v-if ="!bill.uuid" @click="ROUTE({path: '/purchase-orders/' + bill.uuid })" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                                <span>Bill</span>
                             </a>
 
+                            <a v-if ="bill.uuid && ACTION == 'edit'"  @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                                <span>Update</span>
+                            </a>
+
+                            <a v-if ="bill.uuid && ACTION == 'view'"  @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/edit'})" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                                <span>Edit</span>
+                            </a>
                         </span>
                         <span v-else>
                             <a @click="ROUTE({path: '/buy-and-pay/bills' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
-                                <!-- <i class="las la-x"></i> --> <span>Back</span>
+                                <span>Back</span>
                             </a>
-                            <a @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
-                                <i class="las la-pluss"></i> <span>Bill</span>
+                            <a v-if ="!bill.uuid"  @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                                <span>Bill</span>
                             </a>
                         </span>
                     </div>
                 </div>
 
                 <form action="#" class="form-validate is-alter">
+                        <div v-if="bill.transaction_type == 'Expenses' && AMOUNT_TO_ALLOCATE < 0" class="alert alert-danger" ><i class="fas fa-exclamation-triangle"></i> 
+                            You exceed the amount to allocate by: <strong>{{ PUT_SEPARATOR(Math.abs(AMOUNT_TO_ALLOCATE.toFixed(2))) }}</strong>
+                        </div>
                         <div class="row">
                             <div class="col-md-9 col-12">
 
@@ -68,6 +78,22 @@
                                                 <input type="text" class="form-control disabled" v-model="bill.supplier.supplier_shortname" readonly>
                                             </div>
                                         </div>
+
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="row">
+                                                <div class="col-md-8 col-12">
+                                                     <div class="form-group">
+                                                        <label class="form-label" for="supplier">Amount</label>
+                                                        <input type="text" class="form-control" v-model="temp_amount" v-bind:class="{'disabled' : ACTION != 'edit'}" :disabled="ACTION != 'edit'">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-12">
+                                                    <button type="button" @click="updateAmount()" style="margin-top:28px;" class="hx-btn hx-btn-shineblue" v-bind:class="{'disabled' : ACTION != 'edit'}" :disabled="ACTION != 'edit'">Apply</button>
+                                                </div>
+                                            </div>
+                                           
+                                        </div>
                                     </div>
 
                                     <div v-if="bill.transaction_type === 'Inventory'" class="row">
@@ -102,7 +128,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3 col-12">
+                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="branch-name">Branch</label>
                                                 <input type="text" class="form-control disabled" v-model="bill.branch.branch_shortname" readonly>
@@ -181,6 +207,10 @@
                                         <div><span>{{ PUT_SEPARATOR(bill.amount) }}</span></div>
                                     </div>
                                     <div style="display:flex; justify-content: space-between; font-weight:900;">
+                                        <div><span>Tax Base</span></div>
+                                        <div><span>{{ PUT_SEPARATOR(TAX_BASE.toFixed(2)) }}</span></div>
+                                    </div>
+                                    <div style="display:flex; justify-content: space-between; font-weight:900;">
                                         <div><span>Input Tax</span></div>
                                         <div><span>{{ PUT_SEPARATOR(INPUT_TAX.toFixed(2)) }}</span></div>
                                     </div>
@@ -188,7 +218,6 @@
                                         <div><span>EWT</span></div>
                                         <div><span>{{ PUT_SEPARATOR(EWT.toFixed(2)) }}</span></div>
                                     </div>
-
                                 </div>
                             
                             </div>
@@ -225,7 +254,7 @@
                         </div>
                     </div>
                     <div v-else>
-                        <expenses :bill="bill"></expenses>
+                        <expenses ref="expenses" :bill="bill" :action="ACTION"></expenses>
                     </div>
                 
                 </form>
@@ -253,7 +282,10 @@ export default {
             is_ready: false,
             bill: null,
             order: null,
+            DRAFT: false,
             ACTION: 'view',
+            AMOUNT_TO_ALLOCATE: 0,
+            temp_amount: 0.00,
             TOTALS: {
                 GROSS: 0.00,
                 SUBTOTAL: 0.00,
@@ -284,8 +316,8 @@ export default {
         TAX_BASE: function () {
             var scope = this
             var vat = scope.bill.supplier.v_a_t;
-            vat = vat.tax_rate / 100
-
+            
+            vat = (vat) ? vat.tax_rate / 100 : 0
             var total = scope.bill.amount / (1 + vat) // e.g 1.12 if VAT = 12%
 
             return total
@@ -293,7 +325,7 @@ export default {
         EWT: function () {
             var scope = this
             var ewt = scope.bill.supplier.e_w_t;
-            ewt = ewt.tax_rate / 100
+            ewt = (ewt) ? ewt.tax_rate / 100 : 0
 
             return (scope.TAX_BASE * ewt)
         },
@@ -303,47 +335,88 @@ export default {
              
         }
     },
+    watch: {
+        '$route': function(){
+            var scope = this
+            scope.ACTION = scope.$route.params.action;
+        }
+    },
     methods: {
+        updateAmount: function () {
+            var scope = this
+            window.swal.fire({
+                title: 'Update?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#548235',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.bill.amount = scope.temp_amount
+                    scope.$refs.expenses.clear();
+                }                              
+            })
+           
+        },
         updateTOTALS: function (data) {
             var scope = this
             scope.TOTALS = data
         },
-        getOrderDetails: function (order_uuid) {
+        updateAmountToAllocate: function () {
             var scope = this
-            var billed = (scope.$route.query.billed && scope.$route.query.billed == 'no') ? scope.$route.query.billed : 'yes'
-            scope.GET('buy-and-pay/bills/' + order_uuid + '?billed=' + billed).then(res => {
-               
-               if (!res) {
+            scope.AMOUNT_TO_ALLOCATE = parseFloat(scope.$refs.expenses.getAmountToAllocate());
+        },
+        getTaxBaseAmount: function () {
+            return this.TAX_BASE
+        },
+        getBillDetails: function (bill_uuid,is_draft = false) {
+            var scope = this
+            var URL = (!is_draft) ? 'buy-and-pay/bills/' + bill_uuid : 'buy-and-pay/bills/draft' + window.location.search;
+
+            scope.GET(URL).then(res => {
+                if (!res) {
                     scope.ROUTE({path: '/buy-and-pay/bills' });
                 }
 
                 scope.bill = res.data
-                scope.memo_po = res.data.memo_po
+                // scope.memo_po = res.data.memo_po
 
-                // check PO status if allowed to enter the page
-                if (!res.success || (scope.bill.transaction_type == 'Inventory' && (!res.data.order || res.data.order .receiving_no == '')) ) {
-                    scope.ROUTE({path: '/buy-and-pay/bills' });
-                    return
-                }
-                
+                scope.bill.transaction_no = (!scope.bill.transaction_no || scope.bill.transaction_no == '') ? 'To be generated' : scope.bill.transaction_no
+                scope.bill.transaction_date = (!scope.bill.transaction_date || scope.bill.transaction_date == '') ? moment() : scope.bill.transaction_date
+
+                scope.temp_amount = parseFloat(scope.bill.amount)
 
                 if (scope.bill.transaction_type == 'Inventory') {
                     scope.order = res.data.order
                     scope.order.term = (scope.order.term == 1) ? scope.order.term + ' Day' : scope.order.term + ' Days' ;
-                    scope.order.transaction_no = (!scope.order.transaction_no || scope.order.transaction_no == '') ? 'To be generated' : scope.order.transaction_no
                     var supplier_uuid = scope.order.supplier_uuid
                 }
-                
-                scope.VAT = res.data.supplier.v_a_t;
+            
                 scope.is_ready = true
             })
         },
         save: function() {
+
             var scope = this
-            scope.POST('buy-and-pay/bills', {type: 'Inventory', order: scope.order}).then(res => {
+            var type = scope.bill.transaction_type
+            var URL = (!scope.bill.uuid) ? 'buy-and-pay/bills' : 'buy-and-pay/bills/' + scope.bill.uuid ;
+            var expenses = [];
+  
+            if (type == 'Expenses') {
+                // for validation purposes
+                expenses = scope.$refs.expenses.getExpensesList();
+            }
+            
+
+            scope.POST(URL, { type: type, bill: scope.bill, expenses: expenses }).then(res => {
                 if (res.success) {
+                    scope.$refs.expenses.saveBillExpenses(res.data.uuid) 
                     // scope.$refs.items.saveOrderItems() 
-                    scope.ROUTE({path: '/buy-and-pay/bills' });
+                    // scope.ROUTE({path: '/buy-and-pay/bills' });
+                } else {
+                    alert(res.message)
                 }
             })
         },
@@ -354,12 +427,15 @@ export default {
     mounted() {
         var scope = this
 
-        var order_uuid = scope.$route.params.order_uuid;
+        var bill_uuid = scope.$route.params.bill_uuid;
         scope.ACTION = scope.$route.params.action;
 
-        scope.getOrderDetails(order_uuid)
+        var is_draft = (!bill_uuid) ? true : false
 
-  
+        scope.DRAFT = is_draft
+        scope.getBillDetails(bill_uuid,is_draft)
+        
+      
        $(document).on('click','.autocomplete-suggestion',function(){
            var barcode = $(this).data('barcode')
            scope.selectItem(barcode) 

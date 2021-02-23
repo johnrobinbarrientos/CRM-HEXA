@@ -1282,6 +1282,7 @@ export default {
         // orders, receipts, bills
         scope.TYPE = scope.type
         scope.VAT_RATE = scope.order.supplier_tax_rate
+        
 
         scope.getOrderSupplierItems(scope.order.uuid)
         

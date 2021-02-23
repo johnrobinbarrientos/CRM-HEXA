@@ -321,7 +321,15 @@ export default new VueRouter({
             meta: { protected: true }
         },
         {
-          path: '/buy-and-pay/bills/:order_uuid/:action',
+          path: '/buy-and-pay/bills/create',
+          name: 'buy-and-pay-bills-create',
+          component: BuyANDPayBillingReturnDetails,
+          props: { view_mode: false },
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/buy-and-pay/bills/:bill_uuid/:action',
           name: 'buy-and-pay-bills-details',
           component: BuyANDPayBillingReturnDetails,
           props: { view_mode: false },

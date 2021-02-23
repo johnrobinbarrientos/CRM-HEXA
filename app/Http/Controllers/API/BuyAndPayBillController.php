@@ -114,16 +114,16 @@ class BuyAndPayBillController extends Controller
         return response()->json(['success' => 1, 'rows' => $lists, 'count' => $count, 'grand_total' => $grand_total, 'offset' => $offset, 'results' => count($lists)], 200);
     }
 
-    public function show($uuid)
+    public function draft()
     {
-        $is_billed = (isset(request()->billed) && request()->billed == 'no') ? false : true ;
-        // if billing is from PO and not "billed" yet, meaning no bill record has been generated yet
-        if (!$is_billed) {
-            $orderUUID = $uuid;
-            $order = PurchaseOrder::where('uuid','=',$orderUUID)->first();
+        $type = request()->type;
+
+        if ($type == 'Inventory') {
+            $orderUUID = request()->order;
+            $order = PurchaseOrder::where('uuid','=',$orderUUID)->where('receiving_status','=','To Bill')->first();
 
             if (!$order) {
-                return response()->json(['success' => 0, 'message' => 'billing not found!'], 200);
+                return response()->json(['success' => 0, 'message' => 'Order not found!'], 200);
             }
 
         
@@ -141,29 +141,77 @@ class BuyAndPayBillController extends Controller
             $data = ['id' => null, 'uuid' => null, 'transaction_type' => 'Inventory', 'supplier' => $supplier, 'branch' => $branch, 'branch_location' => $branch_location];
             $bill = (object) $data;
 
+            $order = ($order) ? $order : PurchaseOrder::where('billing_no','=',$bill->transaction_no)->first();
+            $orderUUID = $order->uuid;
+            
+            
+            $discount_groups = PurchaseOrderBaseDiscountGroup::where('bp_order_uuid','=',$orderUUID)->get();
+            $order->discount_groups = $discount_groups;
+
+            $additional_discounts = PurchaseOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->get();
+            $order->additional_discounts = $additional_discounts;
+
+            $base_discounts =  PurchaseOrderBaseDiscountGroupDetail::where('bp_order_uuid','=',$orderUUID)->get();
+            $order->base_discounts = $base_discounts;
+
+            $price_rule_discounts =  PurchasePriceRule::where('bp_order_uuid','=',$orderUUID)->with('PriceRuleDetail')->get();
+            $order->price_rule_discounts = $price_rule_discounts;
+            
+            $item_group = ItemGroup::find($order->item_group_uuid);
+            $order->item_group = $item_group;
+
+            $asset_group = ItemAssetGroup::find($order->asset_group_uuid);
+            $order->asset_group = $asset_group;
+
+            $order->term = $order->term;
+
+            $branch = CompanyBranch::find($order->branch_uuid);
+            $order->branch = $branch;
+
+            $branch_location = CompanyBranchLocation::find($order->branch_locations_uuid);
+            $order->branch_location = $branch_location;
+
+
+            $bill->order = $order;
+
+            return response()->json(['success' => 1, 'data' => $bill], 200);
         } else {
-            $billingUUID = $uuid;
-            $bill = PurchaseBilling::find($billingUUID);
+            $formdata = (object) request()->all(); 
+            
+            $amount = $formdata->amount;
+            $supplier = SupplierList::with('VAT')->with('EWT')->find($formdata->supplier_uuid);
+            $branch = CompanyBranch::find($formdata->branch_uuid);
+            $branch_location = CompanyBranchLocation::find($formdata->branch_location_uuid);
+    
+            // dummy data for billing for non-existing billing
+            $data = ['id' => null, 'uuid' => null, 'transaction_type' => $type, 'supplier' => $supplier, 'branch' => $branch, 'branch_location' => $branch_location, 'amount' => $amount];
+            $bill = (object) $data;
 
-            if (!$bill) {
-                return response()->json(['success' => 0, 'message' => 'billing not found!'], 200);
-            }
-
-            $supplier = SupplierList::with('VAT')->with('EWT')->find($bill->supplier_uuid);
-            $bill->supplier = $supplier;
-
-            $branch = CompanyBranch::find($bill->branch_uuid);
-            $bill->branch = $branch;
-
-            $branch_location = CompanyBranchLocation::find($bill->branch_locations_uuid);
-            $bill->branch_location = $branch_location;
-
-            $order = PurchaseOrder::where('billing_no','=',$bill->transaction_no)->first();
+            return response()->json(['success' => 1, 'data' => $bill], 200);
         }
+    }
+
+    public function show($uuid)
+    {
+        $billingUUID = $uuid;
+        $bill = PurchaseBilling::find($billingUUID);
+
+        if (!$bill) {
+            return response()->json(['success' => 0, 'message' => 'billing not found!'], 200);
+        }
+
+        $supplier = SupplierList::with('VAT')->with('EWT')->find($bill->supplier_uuid);
+        $bill->supplier = $supplier;
+
+        $branch = CompanyBranch::find($bill->branch_uuid);
+        $bill->branch = $branch;
+
+        $branch_location = CompanyBranchLocation::find($bill->branch_locations_uuid);
+        $bill->branch_location = $branch_location;
 
         if ($bill->transaction_type == 'Inventory') {
       
-            $order = ($order) ? $order : PurchaseOrder::where('billing_no','=',$bill->transaction_no)->first();
+            $order = PurchaseOrder::where('billing_no','=',$bill->transaction_no)->first();
             $orderUUID = $order->uuid;
             
             
@@ -202,19 +250,11 @@ class BuyAndPayBillController extends Controller
     }
 
     
-
     public function store()
     {
         $transaction_type = request()->type;
         $order = null;
 
-        if ($transaction_type == 'Inventory') {
-            $order = (object) request()->order;
-            $order = PurchaseOrder::find($order->uuid);
-        }
-        
-
-    
         $prefix = $this->getCompanyPrefix();
         $type = 'BL';
         $no_of_transactions = $this->getNumberOfTransactions() + 1;
@@ -223,7 +263,15 @@ class BuyAndPayBillController extends Controller
         $day = date('d');
         $created_id = sprintf($type.'_'.$prefix.''.$year.''.$month.''.$day.'%05d',$no_of_transactions);
 
-        if ($transaction_type === 'Inventory' && $order && $order->receiving_status == 'To Bill') {
+        if ($transaction_type === 'Inventory') {
+
+            $order = (object) request()->order;
+            $order = PurchaseOrder::find($order->uuid);
+            
+            // only allowed to bill orders when status is to bill
+            if (!$order || $order->receiving_status != 'To Bill') {
+                return response()->json(['success' => 0, 'message' => 'An error occur while processing...']);
+            }
             
             $total_discount = PurchaseOrderAdditionalDiscount::whereNull('deleted_at')
             ->where('bp_order_uuid','=',$order->uuid)
@@ -258,12 +306,38 @@ class BuyAndPayBillController extends Controller
 
         } else if ($transaction_type == 'Expenses') {
 
-            $formdata = (object) request()->data; 
+            $formdata = (object) request()->bill; 
+            $expenses = request()->expenses;
+
+            $row = 1;
+            $error = 0;
+            $errors = [];
+
+            foreach ($expenses as $expense) {
+                $ex = (object) $expense;
+
+                if (!$ex->coa_uuid || is_null($ex->coa_uuid)) {
+                    $errors[] = $row;
+                }  
+
+                $row++;
+            }
+
+            $count = count($errors);
+            if ($count > 0) {
+                $message = ($count > 1) ? 'ERROR: check rows '.implode(',',$errors) : 'ERROR: check row '.implode(',',$errors);
+                return response()->json(['success' => 0, 'message' => $message], 500);
+            }
+
+            $supplier_uuid = $formdata->supplier['uuid'];
+            $branch_uuid = $formdata->branch['uuid'];
+            $branch_location_uuid = $formdata->branch_location['uuid'];
+
             $bill = new PurchaseBilling;
             $bill->transaction_no =  $created_id;      
-            $bill->supplier_uuid = $formdata->supplier_uuid;        
-            $bill->branch_uuid =  $formdata->branch_uuid;     
-            $bill->branch_location_uuid = $formdata->branch_location_uuid;     
+            $bill->supplier_uuid = $supplier_uuid;        
+            $bill->branch_uuid =  $branch_uuid;     
+            $bill->branch_location_uuid = $branch_location_uuid;     
             $bill->amount = $formdata->amount;    
             $bill->transaction_type = $transaction_type;    
             $bill->transaction_date = date('Y-m-d');  
@@ -271,33 +345,85 @@ class BuyAndPayBillController extends Controller
             $bill->save();
 
             $bill = PurchaseBilling::find($bill->uuid);
-
-            $this->saveExpenses($bill);
-
             return response()->json(['success' => 1, 'message' => 'success', 'data' => $bill], 200);
         } else {
             return response()->json(['success' => 0, 'message' => 'error', 'data' => []], 500);
         }
     }
 
-    private function saveExpenses($bill)
+    public function update($billUUID) {
+
+        $transaction_type = request()->type;
+        $bill = PurchaseBilling::find($billUUID);
+
+        if (!$bill) {
+            return response()->json(['success' => 0, 'message' => 'Could not find the bill']);
+        }
+
+        if ($transaction_type === 'Expenses') {
+
+            $formdata = (object) request()->bill; 
+            $expenses = request()->expenses;
+
+
+            $row = 1;
+            $error = 0;
+            $errors = [];
+
+            foreach ($expenses as $expense) {
+                $ex = (object) $expense;
+
+                if (!$ex->coa_uuid || is_null($ex->coa_uuid)) {
+                    $errors[] = $row;
+                }  
+
+                $row++;
+            }
+
+            $count = count($errors);
+            if ($count > 0) {
+                $message = ($count > 1) ? 'ERROR: check rows '.implode(',',$errors) : 'ERROR: check row '.implode(',',$errors);
+                return response()->json(['success' => 0, 'message' => $message], 500);
+            }
+
+            $bill->amount = $formdata->amount; 
+            $bill->save();
+        }
+
+        return response()->json(['success' => 1, 'message' => 'success', 'data' => $bill], 200);
+    } 
+
+    public function saveExpenses($billUUID)
     {
         $expenses = (is_array(request()->expenses)) ? request()->expenses : [];
 
+        $expenses_uuids = [];
+
+        foreach ($expenses as $expense) {
+            $ex = (object) $expense;
+            $expenses_uuids[] = $ex->uuid;    
+        }
+        
+        $delete = PurchaseBillingExpense::where('purchase_billing_uuid','=',$billUUID)->whereNotIn('uuid',$expenses_uuids)->delete();
+
         foreach ($expenses as $expense) {
             $expense = (object) $expense;
-            $new = new PurchaseBillingExpense;
-            $new->purchase_billing_uuid = $bill->uuid;
+
+            $exists = PurchaseBillingExpense::where('uuid','=',$expense->uuid)->where('purchase_billing_uuid','=',$billUUID)->first();
+
+            $new = ($exists) ? $exists : new PurchaseBillingExpense;
+            $new->purchase_billing_uuid = $billUUID;
             $new->coa_uuid = $expense->coa_uuid;
             $new->project_uuid = $expense->project_uuid;
             $new->amount = $expense->amount;
             $new->memo_1 = $expense->memo_1;
             $new->memo_2 = $expense->memo_2;
             $new->memo_3 = $expense->memo_3;
+            $new->deleted_at = null;
             $new->save();
         }
 
-        return;
+        return response()->json(['success' => 1, 'message' => 'saved!']);
     }
 
     public function getCompanyPrefix()

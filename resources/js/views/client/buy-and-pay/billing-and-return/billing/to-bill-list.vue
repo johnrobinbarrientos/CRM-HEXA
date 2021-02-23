@@ -27,7 +27,7 @@
                         <tr v-for="(purchase) in toBill" :key="purchase.uuid">
                             <template v-if="purchase.po_status !== 'Cancelled'">
                                 <td width="100" style="text-align:center;">
-                                    <b-button @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/view?billed=no'})"  type="button" size ="sm" class="m-2">Bill</b-button>
+                                    <b-button @click="ROUTE({path: '/buy-and-pay/bills/create?type=Inventory&order=' + purchase.uuid })"  type="button" size ="sm" class="m-2">Bill</b-button>
                                 </td>
                                 <td width="100">{{ purchase.item_group.item_group }}</td>
                                 <td width="150">{{ purchase.receiving_no }}</td>

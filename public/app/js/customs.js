@@ -73,7 +73,7 @@ $(document).ready(function(){
         $(document).find('.editable').removeClass('focused');
 
         THIS.closest('.editable').addClass('focused');
-
+ 
         // make sure to place caret at the end
         //var tmpStr = THIS.val();
         //THIS.val('');

@@ -324,8 +324,13 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/bills', 'API\BuyAndPayBillController@index');
         Route::post('/bills', 'API\BuyAndPayBillController@store');
 
+        Route::get('/bills/draft', 'API\BuyAndPayBillController@draft');
         Route::get('/bills/{bill_uuid}', 'API\BuyAndPayBillController@show');
         Route::get('/bills/{bill_uuid}/expenses', 'API\BuyAndPayBillController@getExpenses');
+
+        Route::post('/bills/{bill_uuid}', 'API\BuyAndPayBillController@update');
+
+        Route::post('/bills/{bill_uuid}/expenses', 'API\BuyAndPayBillController@saveExpenses');
     });
 
     Route::group(['prefix' => 'users'], function(){
