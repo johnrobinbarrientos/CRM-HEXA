@@ -70,12 +70,17 @@
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="branch-name">Branch</label>
-                                                <input type="text" class="form-control disabled" v-model="bill.branch.branch_name" readonly>
+                                                <input type="text" class="form-control disabled" v-model="bill.branch.branch_shortname" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="branch-name-location">Location</label>
+                                                <input type="text" class="form-control disabled" v-model="bill.branch_location.location_shortname" readonly>
                                             </div>
                                         </div>
                                         
-                                 
-
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="supplier">Supplier</label>
@@ -386,6 +391,7 @@ export default {
                     scope.ROUTE({path: '/buy-and-pay/bills' });
                 }
 
+                console.log(res.data)
                 scope.bill = res.data
                 // scope.memo_po = res.data.memo_po
 
