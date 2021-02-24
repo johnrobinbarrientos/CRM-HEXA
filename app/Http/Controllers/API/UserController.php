@@ -69,7 +69,7 @@ class UserController extends Controller
     {
         $auth = \Auth::user();
 
-        $branch = EmployeeList::select('branch_name', 'branch_uuid')
+        $branch = EmployeeList::select('branch_name', 'branch_uuid', 'branch_shortname')
         ->leftJoin('company_branch_location', 'employee_list.branch_location_uuid', '=', 'company_branch_location.uuid')
         ->leftJoin('company_branch', 'company_branch_location.branch_uuid', '=', 'company_branch.uuid')
         ->where('user_id', $auth->id)

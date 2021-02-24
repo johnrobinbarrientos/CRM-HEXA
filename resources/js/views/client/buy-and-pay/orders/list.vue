@@ -494,7 +494,7 @@ export default {
         },
         getSupplier: function () {
            var scope = this
-            scope.GET('suppliers/').then(res => {
+            scope.GET('suppliers').then(res => {
 
                 res.rows.forEach(function (data) {
 
