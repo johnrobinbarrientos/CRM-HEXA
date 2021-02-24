@@ -371,7 +371,7 @@ export default {
         },
         getItemGroup: function () {
            var scope = this
-            scope.GET('items/item-group').then(res => {
+            scope.GET('items/item-group/').then(res => {
                 res.rows.forEach(function (data) {
 
                     scope.options_item_group.push({
