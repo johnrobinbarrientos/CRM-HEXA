@@ -1,107 +1,85 @@
 <template>
     <div id="Expenses">
 
-        <div class="hx-tab-2 round">
-    
-                <ul class="nav nav-tabs">
-                    <li>        
-                        <a class="" data-toggle="tab" href="#tax">Tax</a>    
-                    </li> 
-                    <li>        
-                        <a class="active" data-toggle="tab" href="#expense">Expense</a>    
-                    </li> 
-                </ul>
-
-                <div class="clearfix"></div>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="expense">  
-                        
-                        <div style="margin-bottom:10px;" v-if="action == 'edit'">
-                            <div class="text-right">
-                                <button type="button"  @click="add()" class="btn btn-sm hx-btn-shineblue" :disabled="AMOUNT_TO_ALLOCATE <= 0">Add Row</button>
-                            </div>
-                        </div>
-
-                
-                        <table class="table table-bordered mb-0">
-                            <thead class="th-nowrap">
-                                <tr>
-                                    <th width="40" >Action</th>
-                                    <th>Account</th>
-                                    <th>Project</th>
-                                    <th>Amount</th> 
-                                    <th>Memo</th>
-                                    <th>Memo</th>
-                                    <th>Memo</th>
-                                </tr>
-                            </thead>
-                            <tbody class="td-border-bottom-black-2">
-                                <tr v-for="(expense,index) in expenses" :key="'expense-' + index">
-                                    <td class="text-center">
-                                        <b-button @click="removeSelected(index)" type="button" size ="sm" class="m-2" :disabled="action != 'edit'">Delete</b-button>
-                                    </td>
-                                    <td width="250" class="editable">
-                                        <span>{{ getAccountNameByUUID(expense.coa_uuid) }}</span>
-                                        <select v-model="expense.coa_uuid" class="editable-control" :disabled="action != 'edit'">
-                                            <option v-for="chart_of_account in options_chart_of_accounts" :value="chart_of_account.id" :key="'coa-' + chart_of_account.id">
-                                                {{ chart_of_account.text }}
-                                            </option>
-                                        </select>
-                                    </td>
-                                    <td width="250" class="editable">
-                                        <span>{{ getProjectNameByUUID(expense.project_uuid) }}</span>
-                                        <select v-model="expense.project_uuid" class="editable-control" :disabled="action != 'edit'">
-                                            <option v-for="project in options_project" :value="project.id" :key="'project-' + project.id">
-                                                {{ project.text }}
-                                            </option>
-                                        </select>
-                                    </td>
-                                
-                                    <td width="150" class="editable text-right">
-                                        <span>{{ expense.amount }}</span>
-                                        <input v-on:keyup.enter="onEnter(index)" v-model="expense.amount" type="text" class="editable-control" :disabled="action != 'edit'">
-                                    </td>
-
-                                    <td class="editable">
-                                        <span>{{ expense.memo_1 }}</span>
-                                        <input v-model="expense.memo_1" type="text" class="editable-control" :disabled="action != 'edit'">
-                                    </td>
-                                    <td class="editable">
-                                        <span>{{ expense.memo_2 }}</span>
-                                        <input v-model="expense.memo_2" type="text" class="editable-control" :disabled="action != 'edit'">
-                                    </td>
-                                    <td class="editable">
-                                        <span>{{ expense.memo_3 }}</span>
-                                        <input v-model="expense.memo_3" type="text" class="editable-control" :disabled="action != 'edit'">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" class="text-right">Total</td>
-                                    <td v-if="AMOUNT_TO_ALLOCATE >= 0" class="text-right">{{ PUT_SEPARATOR(AMOUNT_ALLOCATED.toFixed(2)) }}</td>
-                                    <td v-if="AMOUNT_TO_ALLOCATE < 0" class="text-right text-danger">{{ PUT_SEPARATOR(AMOUNT_ALLOCATED.toFixed(2)) }}</td>
-                                    <td colspan="3"></td>
-                                    
-                                </tr>
-                                <tr>
-                                    <td colspan="20">
-                                        <div style="margin-bottom:2px;"></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="20">
-                                        <div style="margin-bottom:2px;"></div>
-                                    </td>
-                                </tr>
-                            
-                            </tbody>
-                        </table>
-                </div>
-
-                <div class="tab-pane" id="tax">        
-
-                </div>  
+        <div style="margin-bottom:10px;" v-if="action == 'edit'">
+            <div class="text-right">
+                <button type="button"  @click="add()" class="btn btn-sm hx-btn-shineblue" :disabled="AMOUNT_TO_ALLOCATE <= 0">Add Row</button>
             </div>
         </div>
+
+
+        <table class="table table-bordered mb-0">
+            <thead class="th-nowrap">
+                <tr>
+                    <th width="40" >Action</th>
+                    <th>Account</th>
+                    <th>Project</th>
+                    <th>Amount</th> 
+                    <th>Memo</th>
+                    <th>Memo</th>
+                    <th>Memo</th>
+                </tr>
+            </thead>
+            <tbody class="td-border-bottom-black-2">
+                <tr v-for="(expense,index) in expenses" :key="'expense-' + index">
+                    <td class="text-center">
+                        <b-button @click="removeSelected(index)" type="button" size ="sm" class="m-2" :disabled="action != 'edit'">Delete</b-button>
+                    </td>
+                    <td width="250" class="editable">
+                        <span>{{ getAccountNameByUUID(expense.coa_uuid) }}</span>
+                        <select v-model="expense.coa_uuid" class="editable-control" :disabled="action != 'edit'">
+                            <option v-for="chart_of_account in options_chart_of_accounts" :value="chart_of_account.id" :key="'coa-' + chart_of_account.id">
+                                {{ chart_of_account.text }}
+                            </option>
+                        </select>
+                    </td>
+                    <td width="250" class="editable">
+                        <span>{{ getProjectNameByUUID(expense.project_uuid) }}</span>
+                        <select v-model="expense.project_uuid" class="editable-control" :disabled="action != 'edit'">
+                            <option v-for="project in options_project" :value="project.id" :key="'project-' + project.id">
+                                {{ project.text }}
+                            </option>
+                        </select>
+                    </td>
+                
+                    <td width="150" class="editable text-right">
+                        <span>{{ expense.amount }}</span>
+                        <input v-on:keyup.enter="onEnter(index)" v-model="expense.amount" type="text" class="editable-control" :disabled="action != 'edit'">
+                    </td>
+
+                    <td class="editable">
+                        <span>{{ expense.memo_1 }}</span>
+                        <input v-model="expense.memo_1" type="text" class="editable-control" :disabled="action != 'edit'">
+                    </td>
+                    <td class="editable">
+                        <span>{{ expense.memo_2 }}</span>
+                        <input v-model="expense.memo_2" type="text" class="editable-control" :disabled="action != 'edit'">
+                    </td>
+                    <td class="editable">
+                        <span>{{ expense.memo_3 }}</span>
+                        <input v-model="expense.memo_3" type="text" class="editable-control" :disabled="action != 'edit'">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="text-right">Total</td>
+                    <td v-if="AMOUNT_TO_ALLOCATE >= 0" class="text-right">{{ PUT_SEPARATOR(AMOUNT_ALLOCATED.toFixed(2)) }}</td>
+                    <td v-if="AMOUNT_TO_ALLOCATE < 0" class="text-right text-danger">{{ PUT_SEPARATOR(AMOUNT_ALLOCATED.toFixed(2)) }}</td>
+                    <td colspan="3"></td>
+                    
+                </tr>
+                <tr>
+                    <td colspan="20">
+                        <div style="margin-bottom:2px;"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="20">
+                        <div style="margin-bottom:2px;"></div>
+                    </td>
+                </tr>
+            
+            </tbody>
+        </table>
     </div>
 </template>
 
