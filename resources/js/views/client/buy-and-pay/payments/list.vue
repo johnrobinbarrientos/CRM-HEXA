@@ -27,69 +27,19 @@
 
             <div v-else class="table-responsive;">
 
-                <div class="table-filter">
-                    <div class="table-filter-row">
-                        <div class="select-wrap">
-                            <select @change="getBills()" v-model="selected_item_group">
-                                <option value="">Item Type</option>     
-                                <option v-for="item_type in options_item_group" :value="item_type.id" :key="'option-' + item_type.id ">{{ item_type.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getBills()" v-model="selected_supplier">
-                                <option value="">Supplier</option>
-                                <option v-for="supplier in options_supplier" :value="supplier.id"  :key="'option-' + supplier.id ">{{ supplier.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getBills()" v-model="selected_branch">
-                                <option value="">Branch</option>
-                                <option v-for="branch in options_branch" :value="branch.id"  :key="'option-' + branch.id ">{{ branch.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getBills()" v-model="selected_branch_location">
-                                <option value="">Location</option>
-                                <option v-for="location in options_branch_location" :value="location.id"  :key="'option-' + location.id ">{{ location.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getBills()" v-model="selected_status">
-                                <option value="">Status</option>
-                                <option value="To Receive">To Pay</option>
-                                <option value="Partially Received">Paid</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getBills()" v-model="selected_reason_code_filter">
-                                <option value="">Reason Code</option>
-                                <option v-for="reason_code in options_reason_code" :value="reason_code.id"  :key="'option-' + reason_code.id ">{{ reason_code.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <date-picker class="transaction-from" placeholder="Start Date" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_from" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
-                        </div>
-                        <div class="select-wrap">
-                            <date-picker class="transaction-to"  placeholder="End Date" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_to" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
-                        </div>
-                        <div class="select-wrap options-wrap" style="width:60px !important;">
-                            <b-button @click="reset()" variant="outline-secondary" size="sm">Reset</b-button>
-                        </div>
-                    </div>
-                </div>
+
                 <table class="table table-bordered table-hover table-striped">
                     <thead class="th-nowrap">
                         <tr>
                             <th width="105">Action</th>
-                            <th>Item Type</th>
+                            
                             <th>Transaction No</th>
-                            <th>Supplier Name</th>
-                            <th>Branch</th>
-                            <th>Location</th>
                             <th>Transaction Date</th>
+                            <th>Entry Type</th>
+                            <th>Mode</th>
+                            <th>Supplier Name</th>
                             <th>Amount</th>
                             <th>Status</th> 
-                            <th>Reason Code</th> 
                         </tr>
                     </thead>
                     <tbody class="td-border-bottom-black">
@@ -106,43 +56,43 @@
                                             <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/view' })">View</b-dropdown-item>
                                         </b-dropdown>
                                     </td>
-                                    <td width="100">{{ purchase.transaction_type }}</td>
+                                    
                                     <td width="200">{{ purchase.transaction_no }}</td>
+                                    <td width="150">{{ moment(purchase.date) }}</td>
+                                    <td width="100">{{ purchase.entry_type }}</td>
+                                    <td width="100">{{ purchase.pe_mode }}</td>
                                     <td width="200">{{ purchase.supplier.supplier_name }}</td>
-                                    <td width="100">{{ purchase.branch.branch_shortname.toUpperCase() }}</td>
-                                    <td width="100">{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
-                                    <td width="150">{{ moment(purchase.transaction_date) }}</td>
+                                   
 
-                                    <td width="100" v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
-                                    <td width="100" v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
+                                    <td width="100" v-if="purchase.amount == 0" class="text-right">0.00</td>
+                                    <td width="100" v-else class="text-right">{{ PUT_SEPARATOR(purchase.amount) }}</td>
 
-                                    <td v-if="purchase.status === 'To Pay'" style="text-align;" class="editable" width="150">
-                                        <span class="badge badge-danger font-size-12">To Pay</span>
+                                    <td v-if="purchase.status === 'To Release'" style="text-align;" class="editable" width="150">
+                                        <span class="badge badge-danger font-size-12">To Release</span>
                                     </td>
-                                    <td v-else-if="purchase.status === 'Paid'" style="text-align;" class="editable" width="150">
-                                        <span class="badge badge-success font-size-12">Paid</span>
+                                    <td v-else-if="purchase.status === 'Released'" style="text-align;" class="editable" width="150">
+                                        <span class="badge badge-success font-size-12">Release</span>
                                     </td>
-                                    <td v-else-if="purchase.status === 'Cancelled'" style="text-align;" class="editable" width="150">
-                                        <span class="badge badge-soft-dark font-size-12">Cancelled</span>
+                                    <td v-else-if="purchase.status === 'Reconciled'" style="text-align;" class="editable" width="150">
+                                        <span class="badge badge-success font-size-12">Reconciled</span>
                                     </td>
 
-                                    <td width="150">{{ purchase.receiving_reason_code }}</td>
-
+        
                                 </template>
                             </tr>
                             <tr>
-                                <td colspan="6"></td>
+                                <td colspan="5"></td>
                                 <td style="border-left: 2px solid #eee">
                                     <span><strong>Grand Total:</strong></span>
                                 </td>
                                 <td class="text-right">
                                     <span v-if="grand_total==0"><strong>0.00</strong></span>
-                                    <span v-else><strong>{{putSeparator(grand_total.toFixed(2))}}</strong></span>
+                                    <span v-else><strong>{{PUT_SEPARATOR(grand_total.toFixed(2))}}</strong></span>
                                 </td>
-                                <td colspan="3"></td>
+                                <td></td>
                             </tr>
                             <tr>
-                                <td colspan="13">
+                                <td colspan="8">
                                     <div style="margin-bottom: 2px;"></div>
                                 </td>
                             </tr>
@@ -278,27 +228,10 @@ export default {
         }
     },
     methods: {
-        reset: function () {
-            var scope = this
-            scope.selected_item_group = ""
-            scope.selected_supplier = ""
-            scope.selected_branch = ""
-            scope.selected_branch_location = ""
-            scope.selected_status = ""
-            scope.selected_reason_code_filter = ""
-            scope.transaction_to = ""
-            scope.transaction_from = ""
-            scope.getBills()
-        },
         moment: function (date) {
             return moment(date).format('DD-MMM-YYYY')
         },
-        putSeparator: function(value) {
-            var num_parts = value.toString().split(".");
-            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            return num_parts.join(".");
-        },
-        getBills: function () {
+        getPayments: function () {
            var scope = this
             scope.listLoading = true
             scope.billedOrders = []
@@ -317,7 +250,7 @@ export default {
 
             var str = jQuery.param( params );
 
-            scope.GET('buy-and-pay/bills?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage + '&' + str).then(res => {
+            scope.GET('buy-and-pay/payments?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage + '&' + str).then(res => {
                 scope.billedOrders = res.rows
                 scope.grand_total = res.grand_total
 
@@ -336,7 +269,7 @@ export default {
             }
 
             scope.timer = setTimeout(() => {
-                scope.getBills()
+                scope.getPayments()
             }, 800);
         },
         listPaginate: function(page) {
@@ -358,200 +291,13 @@ export default {
                 return
             }
 
-            scope.getBills()
+            scope.getPayments()
         },
         changeListItemPerPage: function () 
         {
             var scope = this
             scope.listCurrentPage = 1
-            scope.getBills()
-        },
-        getReasonCodes: function () {
-           var scope = this
-
-           scope.options_reason_code.push({
-               id: '',
-               text: 'None'
-           });
-
-            scope.GET('buy-and-pay/order-reason-code').then(res => {
-                
-                res.rows.forEach(function (data) {
-
-                    scope.options_reason_code.push({
-                        id: data.uuid,
-                        text: data.details
-                    })
-                
-                })
-            })
-
-        },
-        getItemGroup: function () {
-           var scope = this
-            scope.GET('items/item-group').then(res => {
-                res.rows.forEach(function (data) {
-
-                    scope.options_item_group.push({
-                        id: data.uuid,
-                        text: data.item_group
-                    })
-                
-                })
-
-                //$(".form-select-item-group").select2({data: scope.options_item_group});
-                //scope.selected_item_group = scope.options_item_group[0].id
-                
-                scope.prerequisite.getItemGroup = true
-            })
-        },
-        getBranch: function () {
-           var scope = this
-            scope.GET('companies/branches').then(res => {
-                res.rows.forEach(function (data) {
-
-                    scope.options_branch.push({
-                        id: data.uuid,
-                        text: data.branch_name
-                    })
-                
-                })
-
-                scope.prerequisite.getBranch = true
-
-            })
-        },
-        getBranchLocations: function () {
-           var scope = this
-            scope.GET('users/get-branch-locations').then(res => {
-                res.rows.forEach(function (data) {
-
-                    scope.options_branch_location.push({
-                        id: data.uuid,
-                        text: data.location_name
-                    })
-                
-                })
-
-                //$(".form-select-branch-location").select2({data: scope.options_branch_location});
-                //scope.selected_branch_location = scope.options_branch_location[0].id
-
-                scope.prerequisite.getBranchLocations = true
-            })
-        },
-        getSupplierDiscountGroup: function (suppier_uuid) {
-            var scope = this
-            scope.options_item_discount_group = []
-            
-
-            scope.GET('suppliers/' + suppier_uuid + '/supplier-base-discount-group').then(res => {
-                res.rows.forEach(function (data) {
-                    scope.options_item_discount_group.push({
-                        id: data.uuid,
-                        text: data.group_name
-                    })
-                })
-
-                $(".form-select-supplier-discount-group").select2();
-                $(".form-select-supplier-discount-group").html('');
-                $(".form-select-supplier-discount-group").select2({data: scope.options_item_discount_group});
-
-                
-                $(".form-select-supplier-discount-group").val(scope.selected_item_discount_group).trigger('change');
-            
-
-                scope.prerequisite.getSupplierDiscountGroup = true
-                    
-            })
-        },
-        getAssetGroup: function () {
-           var scope = this
-           
-           scope.options_asset_group.push({
-               id: '',
-               text: 'NONE'
-           });
-
-            scope.GET('items/item-asset-group').then(res => {
-                
-                res.rows.forEach(function (data) {
-                    scope.options_asset_group.push({
-                        id: data.uuid,
-                        text: data.asset_group
-                    })
-                })
-
-                $(".form-select-asset-group").select2({data: scope.options_asset_group});
-
-                scope.prerequisite.getAssetGroup = true
-            })
-
-        },
-        getOrderReasonCodes: function () {
-           var scope = this
-           
-           scope.options_reason_code.push({
-               id: '',
-               text: 'NONE'
-           });
-
-            scope.GET('buy-and-pay/order-reason-code').then(res => {
-                
-                res.rows.forEach(function (data) {
-                    scope.options_reason_code.push({
-                        id: data.uuid,
-                        text: data.reason_code
-                    })
-                })
-
-                $(".form-select-reason-code").select2({data: scope.options_reason_code});
-
-                scope.prerequisite.getOrderReasonCodes = true
-            })
-
-        },
-        getSupplier: function () {
-           var scope = this
-            scope.GET('suppliers/').then(res => {
-
-                res.rows.forEach(function (data) {
-
-                    scope.options_supplier.push({
-                        id: data.uuid,
-                        text: data.supplier_shortname,
-                        lead_time: data.lead_time,
-                        vat_uuid: data.vat_uuid
-                    })
-                
-                })
-
-                if (scope.options_supplier[0].vat_uuid!==null){
-                    scope.formdata.is_apply_tax = 1
-
-                    scope.GET('company/taxation/' + scope.options_supplier[0].vat_uuid).then(res => {
-                        scope.formdata.supplier_tax_rate = res.rows.tax_rate
-                    })
-                }
-                else{
-                    scope.formdata.is_apply_tax = 0
-                    scope.formdata.supplier_tax_rate = 0
-                }
-                
-                scope.formdata.term = scope.options_supplier[0].lead_time
-                scope.formdata.date_expected = moment().add(parseInt(scope.options_supplier[0].lead_time) ,'days').format('YYYY-MM-DD')
-
-                $(".form-select-supplier").select2({data: scope.options_supplier});
-
-                if (scope.order && scope.order.supplier_uuid) {
-                    $(".form-select-supplier").val(scope.order.supplier_uuid).trigger('change');
-                } else {
-                    $(".form-select-supplier").trigger('change');
-                }
-                
-               
-
-                scope.prerequisite.getSupplier = true
-            })
+            scope.getPayments()
         },
         cancel: function (bill_uuid) {
             var scope = this
@@ -570,7 +316,7 @@ export default {
                 if (result.value) {
                     scope.POST(URL, {}).then(res => {
                         if (res.success) {
-                            scope.getBills()
+                            scope.getPayments()
                         } else {
                             alert(res.message)
                         }
@@ -582,13 +328,7 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getBills()
-
-        scope.getItemGroup()
-        scope.getAssetGroup()
-        scope.getSupplier()
-        scope.getBranchLocations()
-        scope.getBranch()
+        scope.getPayments()
     },
 }
 </script>

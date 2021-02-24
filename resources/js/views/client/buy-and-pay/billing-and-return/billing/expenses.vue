@@ -25,45 +25,41 @@
                     <td class="text-center">
                         <b-button @click="removeSelected(index)" type="button" size ="sm" class="m-2" :disabled="action != 'edit'">Delete</b-button>
                     </td>
-                    <td width="250" class="editable">
-                        <span>{{ getAccountNameByUUID(expense.coa_uuid) }}</span>
-                        <select v-model="expense.coa_uuid" class="editable-control" :disabled="action != 'edit'">
+                    <td width="250">
+                        <select style="width:100%; border:none;" v-model="expense.coa_uuid" class="editable-control" :disabled="action != 'edit'">
+                            <option value="null">Select an Account</option>
                             <option v-for="chart_of_account in options_chart_of_accounts" :value="chart_of_account.id" :key="'coa-' + chart_of_account.id">
                                 {{ chart_of_account.text }}
                             </option>
                         </select>
                     </td>
-                    <td width="250" class="editable">
-                        <span>{{ getProjectNameByUUID(expense.project_uuid) }}</span>
-                        <select v-model="expense.project_uuid" class="editable-control" :disabled="action != 'edit'">
+                    <td width="250">
+                        <select v-model="expense.project_uuid" style="width:100%; border:none;" :disabled="action != 'edit'">
+                            <option value="null">Select a Project</option>
                             <option v-for="project in options_project" :value="project.id" :key="'project-' + project.id">
                                 {{ project.text }}
                             </option>
                         </select>
                     </td>
                 
-                    <td width="150" class="editable text-right">
-                        <span>{{ expense.amount }}</span>
-                        <input v-on:keyup.enter="onEnter(index)" v-model="expense.amount" type="text" class="editable-control" :disabled="action != 'edit'">
+                    <td width="150">
+                        <input v-on:keyup.enter="onEnter(index)" v-model="expense.amount" type="text" style="width:100%; border:none; text-align:right;"  :disabled="action != 'edit'">
                     </td>
 
-                    <td class="editable">
-                        <span>{{ expense.memo_1 }}</span>
-                        <input v-model="expense.memo_1" type="text" class="editable-control" :disabled="action != 'edit'">
+                    <td>
+                        <input v-model="expense.memo_1" type="text" style="width:100%; border:none;" :disabled="action != 'edit'">
                     </td>
-                    <td class="editable">
-                        <span>{{ expense.memo_2 }}</span>
-                        <input v-model="expense.memo_2" type="text" class="editable-control" :disabled="action != 'edit'">
+                    <td>
+                        <input v-model="expense.memo_2" type="text" style="width:100%; border:none;"  :disabled="action != 'edit'">
                     </td>
-                    <td class="editable">
-                        <span>{{ expense.memo_3 }}</span>
-                        <input v-model="expense.memo_3" type="text" class="editable-control" :disabled="action != 'edit'">
+                    <td>
+                        <input v-model="expense.memo_3" type="text" style="width:100%; border:none;"  :disabled="action != 'edit'">
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" class="text-right">Total</td>
-                    <td v-if="AMOUNT_TO_ALLOCATE >= 0" class="text-right">{{ PUT_SEPARATOR(AMOUNT_ALLOCATED.toFixed(2)) }}</td>
-                    <td v-if="AMOUNT_TO_ALLOCATE < 0" class="text-right text-danger">{{ PUT_SEPARATOR(AMOUNT_ALLOCATED.toFixed(2)) }}</td>
+                    <td v-if="AMOUNT_TO_ALLOCATE >= 0" class="text-right"><strong>{{ PUT_SEPARATOR(AMOUNT_ALLOCATED.toFixed(2)) }}</strong></td>
+                    <td v-if="AMOUNT_TO_ALLOCATE < 0" class="text-right text-danger"><strong>{{ PUT_SEPARATOR(AMOUNT_ALLOCATED.toFixed(2)) }}</strong></td>
                     <td colspan="3"></td>
                     
                 </tr>

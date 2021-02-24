@@ -93,40 +93,40 @@
                         </tr>
                     </thead>
                     <tbody class="td-border-bottom-black">
-                        <template v-if="billedOrders.length > 0">
-                            <tr v-for="(purchase) in billedOrders" :key="purchase.uuid">
-                                <template v-if="purchase.po_status !== 'Cancelled'">
+                        <template v-if="bills.length > 0">
+                            <tr v-for="(bill) in bills" :key="bill.uuid">
+                                <template v-if="bill.po_status !== 'Cancelled'">
                                     <td width="100" style="text-align:center;">
-                                        <b-dropdown v-if="purchase.transaction_type == 'Expenses' && purchase.status == 'To Pay'"  split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/edit' })">
-                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/edit'})">Edit</b-dropdown-item>
-                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/view' })">View</b-dropdown-item>
-                                            <b-dropdown-item href="javascript:void(0)" @click="cancel(purchase.uuid)">Cancel</b-dropdown-item>
+                                        <b-dropdown v-if="bill.transaction_type == 'Expenses' && bill.status == 'To Pay'"  split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/edit' })">
+                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/edit'})">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/view' })">View</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="cancel(bill.uuid)">Cancel</b-dropdown-item>
                                         </b-dropdown>
-                                        <b-dropdown v-else  split text="View" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/view' })">
-                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + purchase.uuid + '/view' })">View</b-dropdown-item>
+                                        <b-dropdown v-else  split text="View" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/view' })">
+                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/view' })">View</b-dropdown-item>
                                         </b-dropdown>
                                     </td>
-                                    <td width="100">{{ purchase.transaction_type }}</td>
-                                    <td width="200">{{ purchase.transaction_no }}</td>
-                                    <td width="200">{{ purchase.supplier.supplier_name }}</td>
-                                    <td width="100">{{ purchase.branch.branch_shortname.toUpperCase() }}</td>
-                                    <td width="100">{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
-                                    <td width="150">{{ moment(purchase.transaction_date) }}</td>
+                                    <td width="100">{{ bill.transaction_type }}</td>
+                                    <td width="200">{{ bill.transaction_no }}</td>
+                                    <td width="200">{{ bill.supplier.supplier_name }}</td>
+                                    <td width="100">{{ bill.branch.branch_shortname.toUpperCase() }}</td>
+                                    <td width="100">{{ bill.branch_location.location_shortname.toUpperCase() }}</td>
+                                    <td width="150">{{ moment(bill.transaction_date) }}</td>
 
-                                    <td width="100" v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
-                                    <td width="100" v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
+                                    <td width="100" v-if="bill.po_total_amount == 0" class="text-right">0.00</td>
+                                    <td width="100" v-else class="text-right">{{putSeparator(bill.po_total_amount)}}</td>
 
-                                    <td v-if="purchase.status === 'To Pay'" style="text-align;" class="editable" width="150">
+                                    <td v-if="bill.status === 'To Pay'" style="text-align;" class="editable" width="150">
                                         <span class="badge badge-danger font-size-12">To Pay</span>
                                     </td>
-                                    <td v-else-if="purchase.status === 'Paid'" style="text-align;" class="editable" width="150">
+                                    <td v-else-if="bill.status === 'Paid'" style="text-align;" class="editable" width="150">
                                         <span class="badge badge-success font-size-12">Paid</span>
                                     </td>
-                                    <td v-else-if="purchase.status === 'Cancelled'" style="text-align;" class="editable" width="150">
+                                    <td v-else-if="bill.status === 'Cancelled'" style="text-align;" class="editable" width="150">
                                         <span class="badge badge-soft-dark font-size-12">Cancelled</span>
                                     </td>
 
-                                    <td width="150">{{ purchase.receiving_reason_code }}</td>
+                                    <td width="150">{{ bill.receiving_reason_code }}</td>
 
                                 </template>
                             </tr>
@@ -254,7 +254,7 @@ export default {
             selected_reason_code: null,
             options_reason_code: [],
 
-            billedOrders: [],
+            bills: [],
             grand_total: 0,
 
             listLoading: true,
@@ -301,7 +301,7 @@ export default {
         getBills: function () {
            var scope = this
             scope.listLoading = true
-            scope.billedOrders = []
+            scope.bills = []
 
             var params = {
                 item_group: scope.selected_item_group,
@@ -318,7 +318,7 @@ export default {
             var str = jQuery.param( params );
 
             scope.GET('buy-and-pay/bills?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage + '&' + str).then(res => {
-                scope.billedOrders = res.rows
+                scope.bills = res.rows
                 scope.grand_total = res.grand_total
 
                 scope.listLoading = false

@@ -507,7 +507,7 @@ img.header-profile-user { background: #fff; }
 .collapsed-sidebar .actions-bar   { left: 0; transition: .3s; width: 100%; }
 
 /* main */
-.page-content { padding: calc(70px + 24px) 3px 60px 3px }
+.page-content { padding: calc(70px + 24px) 3px 60px 3px; min-height: calc(100vh - 120px);  }
 .page-content { padding-top: calc(94px + 20px); }
 .page-content.no-actions-bar { padding-top: calc(50px + 24px); }
 
