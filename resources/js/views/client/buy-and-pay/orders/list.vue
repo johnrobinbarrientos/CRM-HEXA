@@ -30,12 +30,12 @@
 
                 <div class="table-filter">
                     <div class="table-filter-row">
-                        <div class="select-wrap">
+                        <!-- <div class="select-wrap">
                             <select @change="getPurchaseOrders()" v-model="selected_item_group">
                                 <option value="">Item Type</option>     
                                 <option v-for="item_type in options_item_group" :value="item_type.id" :key="'option-' + item_type.id ">{{ item_type.text }}</option>
                             </select>
-                        </div>
+                        </div> -->
                         <div class="select-wrap">
                             <select  @change="getPurchaseOrders()" v-model="selected_supplier">
                                 <option value="">Supplier</option>
@@ -371,7 +371,7 @@ export default {
         },
         getItemGroup: function () {
            var scope = this
-            scope.GET('items/item-group/').then(res => {
+            scope.GET('items/item-group').then(res => {
                 res.rows.forEach(function (data) {
 
                     scope.options_item_group.push({
