@@ -1,31 +1,49 @@
 <template>
-    <div class="hx-tab">
-        <ul class="nav nav-tabs">    
+    <div class="hx-tab-1 round">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">    
+
             <li class="nav-item">        
-                <a class="nav-link active" data-toggle="tab" href="#employee-list">Employee List</a>    
-            </li>    
-            <li class="nav-item">        
-                <a class="nav-link" data-toggle="tab" href="#employee-system-user-list">System Users</a>    
-            </li>   
-            <li class="nav-item">        
-                <a class="nav-link" data-toggle="tab" href="#employment-type">Employment Type</a>    
+                <a class="nav-link" data-toggle="tab" href="#employment-status" role="tab">
+                    <span class="d-block d-sm-none"></span>
+                    <span class="d-none d-sm-block">Employment Status</span>    
+                </a>   
             </li>
             <li class="nav-item">        
-                <a class="nav-link" data-toggle="tab" href="#employment-status">Employment Status</a>    
+                <a class="nav-link" data-toggle="tab" href="#employment-type" role="tab">
+                    <span class="d-block d-sm-none"></span>
+                    <span class="d-none d-sm-block">Employment Type</span>    
+                </a>
+            </li>
+            <li class="nav-item">        
+                <a class="nav-link" data-toggle="tab" href="#employee-system-user-list" role="tab">
+                    <span class="d-block d-sm-none"></span>
+                    <span class="d-none d-sm-block">System Users</span>    
+                </a>
+            </li>
+            
+            <li class="nav-item">        
+                <a class="nav-link active" data-toggle="tab" href="#employee-list" role="tab">
+                    <span class="d-block d-sm-none"></span>
+                    <span class="d-none d-sm-block">Employee List</span>    
+                </a>
             </li> 
         </ul>
 
+        <div class="clearfix"></div>
+            <!-- Tab panes -->
+
         <div class="tab-content">    
-            <div class="tab-pane active" id="employee-list">        
+            <div class="tab-pane active" id="employee-list" role="tabpanel">        
                 <list></list>   
             </div>    
-            <div class="tab-pane" id="employee-system-user-list">        
+            <div class="tab-pane" id="employee-system-user-list" role="tabpanel">        
                 <system-user-list></system-user-list>   
             </div>    
-            <div class="tab-pane" id="employment-type">        
+            <div class="tab-pane" id="employment-type" role="tabpanel">        
                 <employment-type></employment-type>    
             </div>
-            <div class="tab-pane" id="employment-status">        
+            <div class="tab-pane" id="employment-status" role="tabpanel">        
                 <employment-status></employment-status> 
             </div> 
         </div>

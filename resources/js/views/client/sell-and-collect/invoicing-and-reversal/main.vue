@@ -1,25 +1,39 @@
 <template>
     <div>
-        <div class="hx-tab">
+        <div class="hx-tab-1 round">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">    
+                <li class="nav-item">        
+                    <a class="nav-link" data-toggle="tab" href="#reason-code" role="tab">
+                        <span class="d-block d-sm-none"></span>
+                        <span class="d-none d-sm-block">Reason Code</span>    
+                    </a> 
+                </li>
 
-            <ul class="nav nav-tabs">    
                 <li class="nav-item">        
-                    <a class="nav-link active" data-toggle="tab" href="#invoicing">Invoicing</a>    
+                    <a class="nav-link" data-toggle="tab" href="#credit-memo" role="tab">
+                        <span class="d-block d-sm-none"></span>
+                        <span class="d-none d-sm-block">Credit Memo</span>    
+                    </a>  
                 </li>
+
                 <li class="nav-item">        
-                    <a class="nav-link" data-toggle="tab" href="#credit-memo">Credit Memo</a>    
-                </li>
-                <li class="nav-item">        
-                    <a class="nav-link" data-toggle="tab" href="#reason-code">Reason Code</a>    
-                </li>     
+                    <a class="nav-link active" data-toggle="tab" href="#invoicing" role="tab">
+                        <span class="d-block d-sm-none"></span>
+                        <span class="d-none d-sm-block">Invoicing</span>    
+                    </a>      
+                </li>    
             </ul>
 
+            <div class="clearfix"></div>
+            <!-- Tab panes -->
+
             <div class="tab-content">    
-                <div class="tab-pane active" id="invoicing">        
+                <div class="tab-pane active" id="invoicing" role="tabpanel">        
                 </div>
-                <div class="tab-pane" id="credit-memo">        
+                <div class="tab-pane" id="credit-memo" role="tabpanel">        
                 </div>
-                <div class="tab-pane" id="reason-code">
+                <div class="tab-pane" id="reason-code" role="tabpanel">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-6 col-12">   

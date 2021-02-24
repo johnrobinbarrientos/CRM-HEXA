@@ -1,19 +1,30 @@
 <template>
-    <div class="hx-tab">
-        <ul class="nav nav-tabs">    
+    <div class="hx-tab-1 round">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">    
+              
             <li class="nav-item">        
-                <a class="nav-link active" data-toggle="tab" href="#customer-list">Customer List</a>    
-            </li>    
+                <a class="nav-link" data-toggle="tab" href="#customer-group" role="tab">
+                    <span class="d-block d-sm-none"></span>
+                    <span class="d-none d-sm-block">Customer Group</span>    
+                </a>  
+            </li>
             <li class="nav-item">        
-                <a class="nav-link" data-toggle="tab" href="#customer-group">Customer Group</a>    
-            </li>   
+                <a class="nav-link active" data-toggle="tab" href="#customer-list" role="tab">
+                    <span class="d-block d-sm-none"></span>
+                    <span class="d-none d-sm-block">Customer List</span>    
+                </a>  
+            </li>  
         </ul>
 
+        <div class="clearfix"></div>
+            <!-- Tab panes -->
+
         <div class="tab-content">    
-            <div class="tab-pane active" id="customer-list">        
+            <div class="tab-pane active" id="customer-list" role="tabpanel">        
                 <list></list>   
             </div>    
-            <div class="tab-pane" id="customer-group">        
+            <div class="tab-pane" id="customer-group" role="tabpanel">        
                 <group></group>    
             </div>   
         </div>  

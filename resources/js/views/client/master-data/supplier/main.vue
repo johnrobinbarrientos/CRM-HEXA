@@ -1,21 +1,30 @@
 <template>
     <div>
-        <div class="hx-tab">
-
-            <ul class="nav nav-tabs">    
+        <div class="hx-tab-1 round">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">    
                 <li class="nav-item">        
-                    <a class="nav-link active" data-toggle="tab" href="#supplier-list">Supplier List</a>    
-                </li>    
+                    <a class="nav-link" data-toggle="tab" href="#supplier-group" role="tab">
+                        <span class="d-block d-sm-none"></span>
+                        <span class="d-none d-sm-block">Supplier Group</span>    
+                    </a>   
+                </li>
                 <li class="nav-item">        
-                    <a class="nav-link" data-toggle="tab" href="#supplier-group">Supplier Group</a>    
-                </li>    
+                    <a class="nav-link active" data-toggle="tab" href="#supplier-list" role="tab">
+                        <span class="d-block d-sm-none"></span>
+                        <span class="d-none d-sm-block">Supplier List</span>    
+                    </a>  
+                </li>   
             </ul>
 
+            <div class="clearfix"></div>
+            <!-- Tab panes -->
+
             <div class="tab-content">    
-                <div class="tab-pane active" id="supplier-list">        
+                <div class="tab-pane active" id="supplier-list" role="tabpanel">        
                     <list></list>   
                 </div>    
-                <div class="tab-pane" id="supplier-group">        
+                <div class="tab-pane" id="supplier-group" role="tabpanel">        
                     <group></group>    
                 </div>    
             </div>
