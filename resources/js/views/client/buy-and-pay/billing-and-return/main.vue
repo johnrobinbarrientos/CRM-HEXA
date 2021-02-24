@@ -35,7 +35,11 @@
                                         </a>
                                     
                                         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                                            <reason-codes-billing></reason-codes-billing>
+                                            <div class="card-body">
+                                                <div class="container-fluid">
+                                                    <reason-codes-billing></reason-codes-billing>
+                                                </div>
+                                            </div>            
                                         </div>
                                     </div>
                                     <div class="card shadow-none">
@@ -46,7 +50,11 @@
                                             </div>
                                         </a>
                                         <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                                            <reason-codes-debit-memo></reason-codes-debit-memo>
+                                            <div class="card-body">
+                                                <div class="container-fluid">
+                                                    <reason-codes-debit-memo></reason-codes-debit-memo>
+                                                </div>
+                                           </div>         
                                         </div>
                                     </div>
                                     

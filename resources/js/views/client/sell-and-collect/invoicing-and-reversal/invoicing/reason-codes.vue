@@ -32,8 +32,8 @@
                         <thead>
                             <tr>
                                 <th width="105">Action</th>
-                                <th>Short Name</th>
-                                <th>Details</th>
+                                <th width="200">Short Name</th>
+                                <th width="300">Details</th>
                             </tr>
                         </thead>
                         <tbody>
