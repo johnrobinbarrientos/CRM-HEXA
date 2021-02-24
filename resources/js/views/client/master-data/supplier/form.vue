@@ -328,6 +328,9 @@ export default {
 
             supplierList: [],
 
+            reference_vat_uuid: '',
+            reference_ewt_uuid: '',
+
             formdata: { 
                 uuid: null,
                 is_draft: 1,
@@ -352,11 +355,107 @@ export default {
         }
     },
     watch: {
+        with_vat: function () {
+            var scope = this
+
+            if (scope.formdata.is_draft == 1){
+
+                if (scope.with_vat == 1){
+                    scope.selected_vat = scope.options_vat[2].id
+                    
+                    $('.form-select-vat').val(scope.selected_vat);
+                    $('.form-select-vat').trigger('change');
+                    
+                }else{
+                    scope.selected_vat = scope.options_vat[0].id
+
+                    $('.form-select-vat').val(scope.selected_vat);
+                    $('.form-select-vat').trigger('change');
+
+                }
+
+            }
+            else {
+
+                if (scope.with_vat == 1){
+                    
+                    if (scope.reference_vat_uuid == null){
+
+                        scope.selected_vat = scope.options_vat[2].id
+
+                        $('.form-select-vat').val(scope.selected_vat);
+                        $('.form-select-vat').trigger('change');
+
+                    }else{
+                        scope.selected_vat = scope.reference_vat_uuid
+                        $('.form-select-vat').val(scope.reference_vat_uuid);
+                        $('.form-select-vat').trigger('change');
+                    }   
+
+                }else{
+                    scope.selected_vat = scope.options_vat[0].id
+
+                    $('.form-select-vat').val(scope.selected_vat);
+                    $('.form-select-vat').trigger('change');
+                }
+
+            }
+        },
+
+        with_ewt: function () {
+            var scope = this
+
+            if (scope.formdata.is_draft == 1){
+
+                if (scope.with_ewt == 1){
+                    scope.selected_ewt = scope.options_ewt[1].id
+                    
+                    $('.form-select-ewt').val(scope.selected_ewt);
+                    $('.form-select-ewt').trigger('change');
+                    
+                }else{
+                    scope.selected_ewt = scope.options_ewt[0].id
+
+                    $('.form-select-ewt').val(scope.selected_ewt);
+                    $('.form-select-ewt').trigger('change');
+
+                }
+
+            }
+            else {
+
+                if (scope.with_vat == 1){
+                    
+                    if (scope.reference_ewt_uuid == null){
+
+                        scope.selected_ewt = scope.options_ewt[1].id
+
+                        $('.form-select-ewt').val(scope.selected_ewt);
+                        $('.form-select-ewt').trigger('change');
+
+                    }else{
+                        scope.selected_ewt = scope.reference_ewt_uuid
+                        $('.form-select-ewt').val(scope.reference_ewt_uuid);
+                        $('.form-select-ewt').trigger('change');
+                    }   
+
+                }else{
+                    scope.selected_ewt = scope.options_ewt[0].id
+
+                    $('.form-select-ewt').val(scope.selected_ewt);
+                    $('.form-select-ewt').trigger('change');
+                }
+
+            }
+        }
 
     },
     components: {
         Discounts,
         CheckPayees
+    },
+    computed: {
+        
     },
     methods: {
         getPayables: function () {
@@ -608,8 +707,12 @@ export default {
                     $('.form-select-vat').val(data.vat_uuid);
                     $('.form-select-vat').trigger('change');
 
+                    scope.reference_vat_uuid = data.vat_uuid;
+
                     $('.form-select-ewt').val(data.ewt_uuid);
                     $('.form-select-ewt').trigger('change');
+
+                    scope.reference_ewt_uuid = data.ewt_uuid;
 
                     $('.form-select-payment-term').val(data.payment_term_uuid);
                     $('.form-select-payment-term').trigger('change');
@@ -654,10 +757,18 @@ export default {
 
         $('.form-select-vat').on("change", function(e) { 
             scope.selected_vat = $('.form-select-vat').val();
+
+            if (scope.selected_vat == ''){
+                scope.with_vat = 0
+            }
         })
 
         $('.form-select-ewt').on("change", function(e) { 
             scope.selected_ewt = $('.form-select-ewt').val();
+
+            if (scope.selected_ewt == ''){
+                scope.with_ewt = 0
+            }
         })
 
         $('.form-select-address-list').on("change", function(e) { 
