@@ -25,14 +25,10 @@
                     </div>
                 </div>
                 
-
-
-
-
                 <div class="col-12 col-md-6">
                     <div class="form-group">
                         <label>Location</label>
-                        <select class="form-select-branch-location" v-model="formdata.branch_location_uuid" :options="options_branch_location" name="branch-location"></select>
+                        <select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="branch-location"></select>
                     </div>
                 </div>
             </div>
@@ -200,10 +196,12 @@ export default {
                 
                 })
 
+                // $(".form-select-branch-location").select2({data: scope.options_branch_location});
+                // scope.selected_branch_location = scope.options_branch_location[0].id
+                // scope.formdata.branch_location_uuid = scope.options_branch_location[0].uuid
+                
                 $(".form-select-branch-location").select2({data: scope.options_branch_location});
                 scope.selected_branch_location = scope.options_branch_location[0].id
-                scope.formdata.branch_location_uuid = scope.options_branch_location[0].uuid
-                // scope.prerequisite.getBranchLocations = true
             })
         },
         getCostCenters: function () {
@@ -313,6 +311,9 @@ export default {
         },
         save: function() {
             var scope = this
+
+            scope.formdata.branch_location_uuid = scope.selected_branch_location
+
             var qs = jQuery.param( scope.formdata );
             scope.ROUTE({path: '/buy-and-pay/bills/create?' + qs })
             return
@@ -340,10 +341,14 @@ export default {
             scope.formdata.supplier_uuid = id
         });
 
-       $(".form-select-branch-location").on('change',function(){
-            var id = $(".form-select-branch-location").val()
-            scope.formdata.branch_location_uuid = id
-        });
+    //    $(".form-select-branch-location").on('change',function(){
+    //         var id = $(".form-select-branch-location").val()
+    //         scope.formdata.branch_location_uuid = id
+    //     });
+
+        $('.form-select-branch-location').on("change", function(e) { 
+            scope.selected_branch_location = $('.form-select-branch-location').val();
+        })
 
         
     },
