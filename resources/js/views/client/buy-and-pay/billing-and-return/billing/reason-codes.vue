@@ -167,7 +167,7 @@ export default {
             var scope = this
             scope.listLoading = true
             scope.reasonCodes = []
-            scope.GET('reason-codes/?type=billing&keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+            scope.GET('reason-codes?type=billing&keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.reasonCodes = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
