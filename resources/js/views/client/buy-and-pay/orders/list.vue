@@ -357,7 +357,7 @@ export default {
                text: 'None'
            });
 
-            scope.GET('reason-codes/?type=purchase-order').then(res => {
+            scope.GET('reason-codes?type=purchase-order').then(res => {
                 res.rows.forEach(function (data) {
 
                     scope.options_reason_code.push({
