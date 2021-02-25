@@ -1,6 +1,5 @@
 <template>
     <div>
- 
         <div class="actions-bar">
             <div class="w-100">
                 <h1 class="title"><i class="las la-list-ul"></i> Project List</h1>
