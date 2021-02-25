@@ -1,6 +1,7 @@
 <template>
     <div id="tax">
-        <div class="col-md-4 col-12">
+        <div v-if="is_ready" class="row">
+            <div class="col-md-4 col-12">
                 <h4>Tax Summary</h4>
                 <table class="table-discount-summary table table-striped table-bordered"> 
                     <thead>
@@ -12,22 +13,24 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <th >
-                                <span>Value Added Tax</span>
-                            </th>
-                            <th>{{ VAT_RATE }}%</th>
-                            <th><div>{{ PUT_SEPARATOR(VAT_AMOUNT.toFixed(2)) }}</div></th>
+                            <td><strong>Tax Base</strong></td>
+                            <td class="text-right">{{ TAXES.VAT.RATE }}%</td>
+                            <td class="text-right">{{ PUT_SEPARATOR(TAXES.AMOUNT.toFixed(2)) }}</td>
                         </tr>
-
+                        <tr>
+                            <td><strong>Input Tax</strong></td>
+                            <td class="text-right">{{ TAXES.VAT.RATE }}%</td>
+                            <td class="text-right">{{ PUT_SEPARATOR(TAXES.VAT.AMOUNT.toFixed(2)) }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>EWT</strong></td>
+                            <td class="text-right">{{ TAXES.EWT.RATE }}%</td>
+                            <td class="text-right">{{ PUT_SEPARATOR(TAXES.EWT.AMOUNT.toFixed(2)) }}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
-            <div style="margin-top:10px; margin-left:15px;" class="form-check">
-                <input @change="recalculateItems()" class="form-check-input" type="checkbox" id="defaultCheck1" v-model="order.is_apply_tax">
-                <label class="form-check-label" for="defaultCheck1">Apply Tax</label>
-            </div>
-    
-
+        </div>
     </div> 
 </template>
 
@@ -44,8 +47,7 @@ export default {
         return {
             is_ready: false,
             view_mode: false,
-            VAT_RATE: 0.00,
-            VAT_AMOUNT: 0.00
+            TAXES: null
         }
     },
     components: {
@@ -55,16 +57,16 @@ export default {
         
     },
     methods: {
-        updateTAXES: function (TAXES) {
+        updateTAXES: function (taxes) {
             var scope = this
-            scope.VAT_RATE = TAXES.VAT_RATE
-            scope.VAT_AMOUNT = TAXES.VAT_AMOUNT
+            console.log(taxes)
+            scope.TAXES = taxes
+
+            scope.is_ready = true
         }
     },
     mounted() {
         var scope = this
-        // scope.$parent.$refs.items.diiiissscccouunnnt();
-        // console.log('__BASE_DISCOUNTS__ ====> ', scope.discounts)
     },
 }
 </script>

@@ -217,15 +217,15 @@
                                     </div>
                                     <div style="display:flex; justify-content: space-between; font-weight:900;">
                                         <div><span>Tax Base</span></div>
-                                        <div><span>{{ PUT_SEPARATOR(TAX_BASE.toFixed(2)) }}</span></div>
+                                        <div><span>{{ PUT_SEPARATOR(TAXES.AMOUNT.toFixed(2)) }}</span></div>
                                     </div>
                                     <div style="display:flex; justify-content: space-between; font-weight:900;">
                                         <div><span>Input Tax</span></div>
-                                        <div><span>{{ PUT_SEPARATOR(INPUT_TAX.toFixed(2)) }}</span></div>
+                                        <div><span>{{ PUT_SEPARATOR(TAXES.VAT.AMOUNT.toFixed(2)) }}</span></div>
                                     </div>
                                     <div style="display:flex; justify-content: space-between; font-weight:900;">
                                         <div><span>EWT</span></div>
-                                        <div><span>{{ PUT_SEPARATOR(EWT.toFixed(2)) }}</span></div>
+                                        <div><span>{{ PUT_SEPARATOR(TAXES.EWT.AMOUNT.toFixed(2)) }}</span></div>
                                     </div>
                                 </div>
                             
@@ -262,8 +262,30 @@
                             </div>   
                         </div>
                     </div>
-                    <div v-else>
-                        <expenses ref="expenses" :bill="bill" :action="ACTION"></expenses>
+                    <div v-else  class="hx-tab-2 tabbed round">
+                        <ul class="nav nav-tabs">    
+                            <li class="nav-item">        
+                                <a data-toggle="tab" href="#tax">Tax</a>    
+                            </li>
+                            <li class="nav-item">        
+                                <a class="active" data-toggle="tab" href="#item-details">Item</a>    
+                            </li>  
+                        </ul>
+
+                        <div class="clearfix"></div>
+                        
+                        
+                        <div class="tab-content">    
+                            <div class="tab-pane active" id="item-details">
+                                <expenses ref="expenses" :bill="bill" :action="ACTION"></expenses>
+                            </div>
+
+                            <div class="tab-pane" id="tax">
+                               <expense-taxes ref="expensetaxes" :action="ACTION"></expense-taxes>
+                            </div>   
+                        </div>
+
+                        
                     </div>
                 
                 </form>
@@ -313,45 +335,64 @@ export default {
                 price_rules: [],
                 additionals: [],
             },
+            TAXES: {
+                EWT: {
+                    RATE: 0.00,
+                    AMOUNT: 0.00
+                },
+                VAT: {
+                    RATE: 0.00,
+                    AMOUNT: 0.00
+                },
+                AMOUNT: 0.00
+            },
             SELECTED_ITEMS: [],
         }
     },
     components: {
         'items' : Items,
         'discounts' : Discounts,
-        'taxes' : Taxes,
+        'taxes' : Taxes,        
         'expenses' : Expenses,
+        'expense-taxes' : ExpenseTaxes,
     },
     computed: {
         TAX_BASE: function () {
-            var scope = this
-            var vat = scope.bill.supplier.v_a_t;
-            
-            vat = (vat) ? vat.tax_rate / 100 : 0
-            var total = scope.bill.amount / (1 + vat) // e.g 1.12 if VAT = 12%
-
-            return total
+            return this.TAXES.AMOUNT
         },
-        EWT: function () {
-            var scope = this
-            var ewt = scope.bill.supplier.e_w_t;
-            ewt = (ewt) ? ewt.tax_rate / 100 : 0
-
-            return (scope.TAX_BASE * ewt)
-        },
-        INPUT_TAX: function() {
-            var scope = this
-            return (scope.bill.amount - scope.TAX_BASE)
-             
-        }
     },
     watch: {
         '$route': function(){
             var scope = this
             scope.ACTION = scope.$route.params.action;
+        },
+        TAX_BASE: function () {
+            var scope = this
+            setTimeout(function(){
+                scope.$refs.expensetaxes.updateTAXES(scope.TAXES);
+            },100);
         }
     },
     methods: {
+        calculateTax: function () {
+            var scope = this
+
+            var scope = this
+            var vat_rate = (scope.bill.supplier.v_a_t) ? scope.bill.supplier.v_a_t.tax_rate : 0.00 ;
+            var ewt_rate = (scope.bill.supplier.e_w_t) ? scope.bill.supplier.e_w_t.tax_rate : 0.00 ;
+
+
+            var vat = vat_rate / 100 // e.g converts 12% to 0.12
+            var ewt = ewt_rate / 100
+
+            var tax_base = scope.bill.amount / (1 + vat) // e.g 1.12 if VAT = 12%
+
+            scope.TAXES.VAT.RATE = vat_rate
+            scope.TAXES.EWT.RATE = ewt_rate
+            scope.TAXES.VAT.AMOUNT = tax_base * vat
+            scope.TAXES.EWT.AMOUNT = tax_base * ewt
+            scope.TAXES.AMOUNT = tax_base
+        },
         updateAmount: function () {
             var scope = this
             window.swal.fire({
@@ -366,7 +407,7 @@ export default {
                 if (result.value) {
                     scope.bill.amount = scope.temp_amount
                     scope.AMOUNT_TO_ALLOCATE = parseFloat(scope.$refs.expenses.getAmountToAllocate());
-                    // scope.$refs.expenses.clear();
+                    scope.calculateTax()
                 }                              
             })
            
@@ -405,7 +446,9 @@ export default {
                     scope.order.term = (scope.order.term == 1) ? scope.order.term + ' Day' : scope.order.term + ' Days' ;
                     var supplier_uuid = scope.order.supplier_uuid
                 }
-            
+
+                scope.calculateTax();
+
                 scope.is_ready = true
             })
         },
@@ -454,9 +497,6 @@ export default {
                     })
                 }                              
             })
-        },
-        loadData: function () {
-            
         }
     },
     mounted() {

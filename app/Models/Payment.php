@@ -24,5 +24,9 @@ class Payment extends Model
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
     }
+
+    public function Supplier(){
+        return $this->belongsTo('App\Models\SupplierList','entity_uuid','uuid');
+    }
    
 }

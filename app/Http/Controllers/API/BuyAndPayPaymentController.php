@@ -8,6 +8,8 @@ use App\Models\CompanyList;
 use App\Models\CompanyBranch;
 use App\Models\CompanyBranchLocation;
 
+use App\Models\PurchaseOrder; 
+
 use App\Models\PurchaseBilling; 
 use App\Models\PurchaseBillingExpense; 
 
@@ -23,9 +25,7 @@ class BuyAndPayPaymentController extends Controller
     public function index()
     {
         $lists = Payment::whereNull('deleted_at')
-            ->with('Supplier')
-            ->with('Branch')
-            ->with('BranchLocation');
+            ->with('Supplier');
 
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;
@@ -37,29 +37,6 @@ class BuyAndPayPaymentController extends Controller
 
         if (!empty(request()->supplier)) {
             $lists = $lists->where('supplier_uuid','=',request()->supplier);
-        }
-
-        if (!empty(request()->reason_code)) {
-            $lists = $lists->where('orders_reason_code_uuid','=',request()->reason_code);
-        }
-
-        if (!empty(request()->branch)) {
-            $lists = $lists->where('branch_uuid','=',request()->branch);
-        }
-
-        if (!empty(request()->branch_location)) {
-            $lists = $lists->where('branch_locations_uuid','=',request()->branch_location);
-        }
-
-        if (!empty(request()->status)) {
-            $lists = $lists->where('po_status','=',request()->status);
-        }
-
-        if (!empty(request()->from) && !empty(request()->to)) {
-            $lists = $lists->where(function ($query) {
-                $query->where('date_purchased','>=',request()->from)
-                    ->where('date_purchased','<=',request()->to);
-            });
         }
 
 
@@ -90,6 +67,72 @@ class BuyAndPayPaymentController extends Controller
     
     public function store()
     {
+       $formdata = (object) request()->all();
+       $bills = (object) $formdata->bills;
+
+
+        $prefix = $this->getCompanyPrefix();
+        $type = 'PE';
+        $no_of_transactions = $this->getNumberOfTransactions() + 1;
+        $year = date('Y');
+        $month = date('m');
+        $day = date('d');
+        $created_id = sprintf($type.'_'.$prefix.''.$year.''.$month.''.$day.'%05d',$no_of_transactions);
+        
+        $row = 1;
+        $errors = [];
+
+        foreach ($bills as $bill) {
+            $bl = PurchaseBilling::where('uuid','=',$bill)->first();
+            
+            if (!$bl) {
+                $errors[] = $row;
+            }
+
+            $row++;
+        }
+
+        if (count($errors) > 0) {
+            $message = ($errors > 1)  ? 'ERROR on rows '.implode(',',$errors) : 'ERROR on row '.implode(',',$errors);
+            return response()->json(['success' => 0, 'message' => $message], 500);
+        }
+
+        $payment = new Payment;
+        $payment->transaction_no = $created_id;
+        $payment->entry_type = $formdata->entry_type;
+        $payment->entity_uuid = $formdata->supplier_uuid;
+        $payment->date = date('Y-m-d');
+        $payment->pe_mode = $formdata->pe_mode;
+        $payment->amount = $formdata->amount;
+        $payment->status = 'To Release';
+        $payment->check_no = $formdata->check_no;
+        $payment->check_date = $formdata->check_date;
+        $payment->save();
+
+
+        foreach ($bills as $bill) {
+            $bl = PurchaseBilling::where('uuid','=',$bill)->first();
+
+            $payment_billing = new PaymentBilling;
+            $payment_billing->payment_uuid = $payment->uuid;
+            $payment_billing->billing_uuid = $bl->uuid;
+            $payment_billing->save();
+
+            $bl->status = 'Paid';
+            $bl->save();
+
+            if ($bl->transaction_type == 'Inventory') {
+                $order = PurchaseOrder::where('billing_no','=',$bl->transaction_no)->first();
+                $order->payment_no = $created_id;
+                $order->payment_status = 'To Release';
+                $order->billing_status = 'Paid';
+                $order->save();
+            }
+        }
+
+        $payment = Payment::find($payment->uuid);
+        return response()->json(['success' => 1, 'message' => 'success', 'data' => $payment], 200);
+
        
     }
  

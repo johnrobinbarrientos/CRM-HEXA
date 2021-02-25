@@ -79,7 +79,7 @@ class BuyAndPayBillController extends Controller
         }
 
         if (!empty(request()->status)) {
-            $lists = $lists->where('po_status','=',request()->status);
+            $lists = $lists->where('status','=',request()->status);
         }
 
         if (!empty(request()->from) && !empty(request()->to)) {
