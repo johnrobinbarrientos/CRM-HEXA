@@ -12,7 +12,7 @@
                 <li class="nav-item">        
                     <a class="nav-link active" data-toggle="tab" href="#supplier-list" role="tab">
                         <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Supplier List</span>    
+                        <span class="d-none d-sm-block">Supplier</span>    
                     </a>  
                 </li>   
             </ul>

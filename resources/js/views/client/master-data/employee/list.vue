@@ -3,7 +3,7 @@
         <div>
             <div class="actions-bar">
                 <div class="w-100">
-                    <h1 class="title"><i class="las la-list-ul"></i> Employee List</h1>
+                    <h1 class="title"><i class="las la-list-ul"></i>Employee List</h1>
                 </div>
                 <div class="bar-right">
                     <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
@@ -32,7 +32,7 @@
                             <th width="105">Action</th>
                             <th>Employee ID</th>
                             <th>Employee Name</th>
-                            <th>Assign Branch</th>
+                            <th>Branch</th>
                             <th>Department</th>
                             <th>Job Title</th>
                             <th>Is Custodian?</th>

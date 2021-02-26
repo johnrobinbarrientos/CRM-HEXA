@@ -18,14 +18,14 @@
             <li class="nav-item">        
                 <a class="nav-link" data-toggle="tab" href="#employee-system-user-list" role="tab">
                     <span class="d-block d-sm-none"></span>
-                    <span class="d-none d-sm-block">System Users</span>    
+                    <span class="d-none d-sm-block">System User</span>    
                 </a>
             </li>
             
             <li class="nav-item">        
                 <a class="nav-link active" data-toggle="tab" href="#employee-list" role="tab">
                     <span class="d-block d-sm-none"></span>
-                    <span class="d-none d-sm-block">Employee List</span>    
+                    <span class="d-none d-sm-block">Employee</span>    
                 </a>
             </li> 
         </ul>
