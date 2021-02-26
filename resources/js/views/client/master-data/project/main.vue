@@ -5,7 +5,7 @@
                 <li class="nav-item">        
                     <a class="nav-link active" data-toggle="tab" href="#project-list" role="tab">
                         <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Project List</span>    
+                        <span class="d-none d-sm-block">Project</span>    
                     </a>     
                 </li>  
             </ul>
