@@ -37,7 +37,7 @@
                             <th>Job Title</th>
                             <th>Is Custodian?</th>
                             <th>Is Driver?</th>
-                            <th>Is Active</th>
+                            <th>Is Active?</th>
                             <th>Is System User?</th>
                             <th>Employment Type</th>
                             <th>Employment Status</th>

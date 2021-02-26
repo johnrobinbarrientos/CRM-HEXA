@@ -33,7 +33,7 @@
                         <th>Project Code</th>
                         <th>Project Name</th>
                         <th>Project Shortname</th>
-                        <th>Date Start</th>
+                        <th>Start Date</th>
                         <th>End Date</th>
                         <th>Cost</th>
                         <th>Is Completed?</th>
