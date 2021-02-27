@@ -6,24 +6,24 @@
                 <table class="table-discount-summary table table-striped table-bordered"> 
                     <thead>
                         <tr>
-                            <th width="150">Tax Type</th>
+                            <th width="200">Tax Type</th>
                             <th>Rate</th>
                             <th>Amount</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <!-- <tr>
                             <td><strong>Tax Base</strong></td>
                             <td class="text-right">{{ TAXES.VAT.RATE }}%</td>
                             <td class="text-right">{{ PUT_SEPARATOR(TAXES.AMOUNT.toFixed(2)) }}</td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td><strong>Input Tax</strong></td>
                             <td class="text-right">{{ TAXES.VAT.RATE }}%</td>
                             <td class="text-right">{{ PUT_SEPARATOR(TAXES.VAT.AMOUNT.toFixed(2)) }}</td>
                         </tr>
                         <tr>
-                            <td><strong>EWT</strong></td>
+                            <td><strong>Expanded Withholding Tax</strong></td>
                             <td class="text-right">{{ TAXES.EWT.RATE }}%</td>
                             <td class="text-right">{{ PUT_SEPARATOR(TAXES.EWT.AMOUNT.toFixed(2)) }}</td>
                         </tr>

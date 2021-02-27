@@ -211,7 +211,7 @@
                                     <hr>
                                 </div>
                                 <div  v-else class="buy-and-pay-summary">
-                                    <div style="display:flex; justify-content: space-between; font-weight:900;">
+                                    <!-- <div style="display:flex; justify-content: space-between; font-weight:900;">
                                         <div><span>Amount Payable</span></div>
                                         <div><span>{{ PUT_SEPARATOR(bill.amount) }}</span></div>
                                     </div>
@@ -226,7 +226,24 @@
                                     <div style="display:flex; justify-content: space-between; font-weight:900;">
                                         <div><span>EWT</span></div>
                                         <div><span>{{ PUT_SEPARATOR(TAXES.EWT.AMOUNT.toFixed(2)) }}</span></div>
+                                    </div> -->
+                                    <h4>Summary:</h4>
+
+                                    <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
+                                        <div><span>Gross</span></div>
+                                        <div><span>{{ PUT_SEPARATOR(TAXES.AMOUNT.toFixed(2)) }}</span></div>
                                     </div>
+                                    <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
+                                        <div><span>Tax</span></div>
+                                        <div><span>{{ PUT_SEPARATOR(TAXES.VAT.AMOUNT.toFixed(2)) }}</span></div>
+                                    </div>
+                                    <hr>
+                                    <div style="display:flex; justify-content: space-between; font-weight:900;">
+                                        <div><span>Amount</span></div>
+                                        <div><span>{{ PUT_SEPARATOR(bill.amount) }}</span></div>
+                                    </div>
+                                    <hr style="margin-bottom: 2px">
+                                    <hr>
                                 </div>
                             
                             </div>
