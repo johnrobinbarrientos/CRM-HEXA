@@ -74,12 +74,12 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3 col-12">
+                                        <!-- <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="branch-name-location">Location</label>
                                                 <input type="text" class="form-control disabled" v-model="bill.branch_location.location_shortname" readonly>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
@@ -285,7 +285,7 @@
                                 <a data-toggle="tab" href="#tax">Tax</a>    
                             </li>
                             <li class="nav-item">        
-                                <a class="active" data-toggle="tab" href="#item-details">Item</a>    
+                                <a class="active" data-toggle="tab" href="#expese-details">Expense</a>    
                             </li>  
                         </ul>
 
@@ -293,7 +293,7 @@
                         
                         
                         <div class="tab-content">    
-                            <div class="tab-pane active" id="item-details">
+                            <div class="tab-pane active" id="expese-details">
                                 <expenses ref="expenses" :bill="bill" :action="ACTION"></expenses>
                             </div>
 
