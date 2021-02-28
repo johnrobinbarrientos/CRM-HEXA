@@ -291,7 +291,6 @@
 
                         <div class="clearfix"></div>
                         
-                        
                         <div class="tab-content">    
                             <div class="tab-pane active" id="expese-details">
                                 <expenses ref="expenses" :bill="bill" :action="ACTION"></expenses>
