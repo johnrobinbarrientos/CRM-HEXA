@@ -134,6 +134,12 @@
                                             <div class="col-md-4 col-12">
 
                                                 <div class="form-group">
+                                                    <label class="form-label" for="expenses">Default Account Expense</label>
+                                                    <select class="form-select-expenses" v-model="selected_expenses" :options="options_expenses" name="expenses" :disabled="view_mode">
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group">
                                                     <label class="form-label" for="payables">Default Account Payable</label>
                                                     <select class="form-select-payables" v-model="selected_payables" :options="options_payables" name="payables" :disabled="view_mode">
                                                     </select>
@@ -303,6 +309,9 @@ export default {
             selected_payables: null,
             options_payables: [],
 
+            selected_expenses: null,
+            options_expenses: [],
+
             selected_supplier_group: null,
             options_supplier_group: [],
 
@@ -344,6 +353,7 @@ export default {
                 ewt_uuid: '',
                 payment_term_uuid: '',
                 coa_payable_account_uuid: '',
+                coa_expense_account_uuid: '',
                 email: '',
                 contact_no: '',
                 global_address_uuid: '',
@@ -474,6 +484,29 @@ export default {
             })
 
         },
+        getExpenses: function () {
+            var scope = this
+
+            scope.options_expenses.push({
+               id: '',
+               text: 'None'
+           });
+
+            scope.GET('company/chart-of-accounts?group=expenses&take=100').then(res => {
+              
+                res.rows.forEach(function (data) {
+                    scope.options_expenses.push({
+                        id: data.uuid,
+                        text: data.account_name
+                    })
+                })
+
+                $(".form-select-expenses").select2({data: scope.options_expenses});
+                
+                scope.selected_expenses = scope.options_expenses[0].id
+
+            })
+        },
         getSupplierGroup: function () {
            var scope = this
             scope.GET('suppliers/supplier-group').then(res => {
@@ -588,6 +621,7 @@ export default {
             })
 
         },
+
         fillAddress: function () {
            var scope = this
             for (var i = 0; i < scope.options_global_address.length; i++) {
@@ -609,6 +643,7 @@ export default {
             scope.formdata.vat_uuid = scope.selected_vat
             scope.formdata.ewt_uuid = scope.selected_ewt
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
+            scope.formdata.coa_expense_account_uuid = scope.selected_expenses
             scope.formdata.global_address_uuid = scope.selected_global_address
             scope.formdata.with_vat = scope.with_vat
             scope.formdata.with_ewt = scope.with_ewt
@@ -637,6 +672,7 @@ export default {
             scope.formdata.vat_uuid = scope.selected_vat
             scope.formdata.ewt_uuid = scope.selected_ewt
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
+            scope.formdata.coa_expense_account_uuid = scope.selected_expenses
             scope.formdata.global_address_uuid = scope.selected_global_address
             scope.formdata.with_vat = scope.with_vat
             scope.formdata.with_ewt = scope.with_ewt
@@ -720,6 +756,9 @@ export default {
                     $('.form-select-payables').val(data.coa_payable_account_uuid);
                     $('.form-select-payables').trigger('change');
 
+                    $('.form-select-expenses').val(data.coa_expense_account_uuid);
+                    $('.form-select-expenses').trigger('change');
+
             
                     $('.form-select-address-list').val(data.global_address_uuid);
                     $('.form-select-address-list').trigger('change');
@@ -734,6 +773,9 @@ export default {
         var scope = this
         
         scope.getPayables()
+
+        scope.getExpenses()
+
         scope.getSupplierGroup()
         scope.getPaymentTerm()
         scope.getVat()
@@ -745,6 +787,10 @@ export default {
 
         $('.form-select-payables').on("change", function(e) { 
             scope.selected_payables = $('.form-select-payables').val();
+        })
+
+        $('.form-select-expenses').on("change", function(e) { 
+            scope.selected_expenses = $('.form-select-expenses').val();
         })
 
         $('.form-select-supplier-group').on("change", function(e) { 
