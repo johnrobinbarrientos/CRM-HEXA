@@ -1,27 +1,40 @@
 <template>
     <div>
-        <div class="hx-tab">
+        <div class="hx-tab-1 round">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">    
 
-            <ul class="nav nav-tabs">    
                 <li class="nav-item">        
-                    <a class="nav-link active" data-toggle="tab" href="#billing-list">Bill</a>    
-                </li>
-                <li class="nav-item">        
-                    <a class="nav-link" data-toggle="tab" href="#debit-memo">Debit Memo</a>    
+                    <a class="nav-link" data-toggle="tab" href="#reason-code" role="tab">
+                        <span class="d-block d-sm-none"></span>
+                        <span class="d-none d-sm-block">Reason Code</span>    
+                    </a> 
                 </li> 
                 <li class="nav-item">        
-                    <a class="nav-link" data-toggle="tab" href="#reason-code">Reason Code</a>    
-                </li>     
+                    <a class="nav-link" data-toggle="tab" href="#debit-memo" role="tab">
+                        <span class="d-block d-sm-none"></span>
+                        <span class="d-none d-sm-block">Debit Memo</span>    
+                    </a> 
+                </li> 
+                <li class="nav-item">        
+                    <a class="nav-link active" data-toggle="tab" href="#billing-list" role="tab">
+                        <span class="d-block d-sm-none"></span>
+                        <span class="d-none d-sm-block">Bill</span>    
+                    </a> 
+                </li> 
             </ul>
 
+            <div class="clearfix"></div>
+            <!-- Tab panes -->
+
             <div class="tab-content">    
-                <div class="tab-pane active" id="billing-list">        
+                <div class="tab-pane active" id="billing-list" role="tabpanel">        
                     <billing-list></billing-list>   
                 </div>
-                <div class="tab-pane" id="debit-memo">        
+                <div class="tab-pane" id="debit-memo" role="tabpanel">        
 
                 </div>
-                <div class="tab-pane" id="reason-code">        
+                <div class="tab-pane" id="reason-code" role="tabpanel">        
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-6 col-12">

@@ -1,6 +1,5 @@
 <template>
     <div>
- 
         <div class="actions-bar">
             <div class="w-100">
                 <h1 class="title"><i class="las la-list-ul"></i> Project List</h1>
@@ -34,7 +33,7 @@
                         <th>Project Code</th>
                         <th>Project Name</th>
                         <th>Project Shortname</th>
-                        <th>Date Start</th>
+                        <th>Start Date</th>
                         <th>End Date</th>
                         <th>Cost</th>
                         <th>Is Completed?</th>

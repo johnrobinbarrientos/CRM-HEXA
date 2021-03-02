@@ -74,12 +74,12 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3 col-12">
+                                        <!-- <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="branch-name-location">Location</label>
                                                 <input type="text" class="form-control disabled" v-model="bill.branch_location.location_shortname" readonly>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
@@ -211,7 +211,7 @@
                                     <hr>
                                 </div>
                                 <div  v-else class="buy-and-pay-summary">
-                                    <div style="display:flex; justify-content: space-between; font-weight:900;">
+                                    <!-- <div style="display:flex; justify-content: space-between; font-weight:900;">
                                         <div><span>Amount Payable</span></div>
                                         <div><span>{{ PUT_SEPARATOR(bill.amount) }}</span></div>
                                     </div>
@@ -226,7 +226,24 @@
                                     <div style="display:flex; justify-content: space-between; font-weight:900;">
                                         <div><span>EWT</span></div>
                                         <div><span>{{ PUT_SEPARATOR(TAXES.EWT.AMOUNT.toFixed(2)) }}</span></div>
+                                    </div> -->
+                                    <h4>Summary:</h4>
+
+                                    <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
+                                        <div><span>Gross</span></div>
+                                        <div><span>{{ PUT_SEPARATOR(TAXES.AMOUNT.toFixed(2)) }}</span></div>
                                     </div>
+                                    <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
+                                        <div><span>Tax</span></div>
+                                        <div><span>{{ PUT_SEPARATOR(TAXES.VAT.AMOUNT.toFixed(2)) }}</span></div>
+                                    </div>
+                                    <hr>
+                                    <div style="display:flex; justify-content: space-between; font-weight:900;">
+                                        <div><span>Amount</span></div>
+                                        <div><span>{{ PUT_SEPARATOR(bill.amount) }}</span></div>
+                                    </div>
+                                    <hr style="margin-bottom: 2px">
+                                    <hr>
                                 </div>
                             
                             </div>
@@ -268,15 +285,14 @@
                                 <a data-toggle="tab" href="#tax">Tax</a>    
                             </li>
                             <li class="nav-item">        
-                                <a class="active" data-toggle="tab" href="#item-details">Item</a>    
+                                <a class="active" data-toggle="tab" href="#expese-details">Expense</a>    
                             </li>  
                         </ul>
 
                         <div class="clearfix"></div>
                         
-                        
                         <div class="tab-content">    
-                            <div class="tab-pane active" id="item-details">
+                            <div class="tab-pane active" id="expese-details">
                                 <expenses ref="expenses" :bill="bill" :action="ACTION"></expenses>
                             </div>
 

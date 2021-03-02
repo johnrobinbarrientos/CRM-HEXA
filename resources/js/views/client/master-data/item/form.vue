@@ -402,7 +402,7 @@
 
                                             <hr>
 
-                                            <div v-show="formdata.is_sales_item">
+                                            <!-- <div v-show="formdata.is_sales_item">
                                                 <div class="d-flex">
                                                     <div class="form-group">
                                                         <label class="form-label" for="mark-up-rate">Markup Rate</label>
@@ -426,7 +426,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             
                                         </div>
                                     </div>
@@ -511,14 +511,14 @@ export default {
             selected_asset_group: null,
             options_asset_group: [],
 
-            selected_customer_group: null,
-            options_customer_group: [],
+            // selected_customer_group: null,
+            // options_customer_group: [],
 
             selected_base_uom: null,
             options_base_uom: [],
 
-            input_markup_rate: '',
-            customer_markup_rate: '',
+            // input_markup_rate: '',
+            // customer_markup_rate: '',
 
             
             compute_selection: 'manual',
@@ -578,25 +578,25 @@ export default {
         }
     },
     computed: {
-      isDisabledManual() {
-        var scope = this
-        if (scope.compute_selection=='manual'){
-            return false
-        }
-        else{
-            scope.input_markup_rate = ''
-            return true
-        }  
-      },
-      isDisabledAuto() {
-        var scope = this
-        if (scope.compute_selection=='auto'){
-            return false
-        }
-        else{
-            return true
-        }  
-      },
+    //   isDisabledManual() {
+    //     var scope = this
+    //     if (scope.compute_selection=='manual'){
+    //         return false
+    //     }
+    //     else{
+    //         scope.input_markup_rate = ''
+    //         return true
+    //     }  
+    //   },
+    //   isDisabledAuto() {
+    //     var scope = this
+    //     if (scope.compute_selection=='auto'){
+    //         return false
+    //     }
+    //     else{
+    //         return true
+    //     }  
+    //   },
       globalUOMs() {
         return this.global_uoms
       }
@@ -897,25 +897,25 @@ export default {
         },
 
 
-        getCustomerGroup: function () {
-           var scope = this
-            scope.GET('customers/customer-group').then(res => {
-                res.rows.forEach(function (data) {
+        // getCustomerGroup: function () {
+        //    var scope = this
+        //     scope.GET('customers/customer-group').then(res => {
+        //         res.rows.forEach(function (data) {
 
-                    scope.options_customer_group.push({
-                        id: data.uuid,
-                        text: parseFloat(data.markup_rate).toFixed(0) + '%' + ' - ' + data.group_name ,
-                        markup_rate: data.markup_rate
-                    })
+        //             scope.options_customer_group.push({
+        //                 id: data.uuid,
+        //                 text: parseFloat(data.markup_rate).toFixed(0) + '%' + ' - ' + data.group_name ,
+        //                 markup_rate: data.markup_rate
+        //             })
                 
-                })
+        //         })
 
-                $(".form-select-customer-group").select2({data: scope.options_customer_group});
+        //         $(".form-select-customer-group").select2({data: scope.options_customer_group});
 
-                $('.form-select-customer-group').val(null);
-                $('.form-select-customer-group').trigger('change');
-            })
-        },
+        //         $('.form-select-customer-group').val(null);
+        //         $('.form-select-customer-group').trigger('change');
+        //     })
+        // },
 
         itemUomExists: function(uuid) {
             var scope = this
@@ -1128,10 +1128,10 @@ export default {
                 }                              
             })
         },
-        computePrice: function () {
-            var scope = this
-            scope.formdata.sales_price = (scope.input_markup_rate/100) * scope.formdata.purchase_price
-        },
+        // computePrice: function () {
+        //     var scope = this
+        //     scope.formdata.sales_price = (scope.input_markup_rate/100) * scope.formdata.purchase_price
+        // },
         setSupplierIDs: function (supplier_ids) {
             this.$refs.itemDiscounts.getSupplierDiscounts(supplier_ids);
         },
@@ -1246,7 +1246,7 @@ export default {
 
         scope.getGlobalBaseUOM()
         
-        scope.getCustomerGroup()
+        // scope.getCustomerGroup()
 
 
         var itemUUID = scope.$route.params.itemUUID
@@ -1315,17 +1315,17 @@ export default {
         })
 
 
-        $('.form-select-customer-group').on("change", function(e) { 
-            scope.selected_customer_group = $('.form-select-customer-group').val();
+        // $('.form-select-customer-group').on("change", function(e) { 
+        //     scope.selected_customer_group = $('.form-select-customer-group').val();
 
-            for (var i = 0; i < scope.options_customer_group.length; i++) {
-                if(scope.options_customer_group[i].id==scope.selected_customer_group){
-                    scope.customer_markup_rate = scope.options_customer_group[i].markup_rate
-                    scope.formdata.sales_price = (scope.customer_markup_rate/100) * scope.formdata.purchase_price
-                }
-            }
+        //     for (var i = 0; i < scope.options_customer_group.length; i++) {
+        //         if(scope.options_customer_group[i].id==scope.selected_customer_group){
+        //             scope.customer_markup_rate = scope.options_customer_group[i].markup_rate
+        //             scope.formdata.sales_price = (scope.customer_markup_rate/100) * scope.formdata.purchase_price
+        //         }
+        //     }
 
-        })
+        // })
     },
 }
 </script>

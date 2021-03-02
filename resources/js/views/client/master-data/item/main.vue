@@ -24,7 +24,7 @@
                 <li class="nav-item">
                     <a class="nav-link active" data-toggle="tab" href="#item-list" role="tab">
                         <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Item List</span>
+                        <span class="d-none d-sm-block">Item</span>
                     </a>
                 </li>
 
@@ -44,7 +44,7 @@
                 <div class="tab-pane" id="categories" role="tabpanel">
                     <div class="actions-bar">
                         <div class="w-100">
-                            <h1 class="title h-36"><i class="las la-layer-group"></i> Categories</h1>
+                            <h1 class="title h-36"><i class="las la-list-ul"></i>Categories</h1>
                         </div>
                         <div class="bar-right"></div>
                     </div>

@@ -32,7 +32,7 @@
                             <th>Action</th>
                             <th>Employee ID</th>
                             <th>Employee Name</th>
-                            <th>Assign Branch</th>
+                            <th>Branch</th>
                             <th>Department</th>
                             <th>Job Title</th>
                             <th>Status</th>

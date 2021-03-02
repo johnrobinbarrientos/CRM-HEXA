@@ -3,7 +3,7 @@
 
             <div class="actions-bar">
                 <div class="w-100">
-                    <h1 class="title">Purchase Orders</h1>
+                    <h1 class="title"><i class="las la-list-ul"></i>Purchase Orders</h1>
                 </div>
                     <div class="bar-right">
                         <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
@@ -149,7 +149,7 @@
                                 </td>
 
                                 <td class="editable" width="150">
-                                    <span v-if="purchase.order_reason_code==null" class="cursor-pointer">None</span>
+                                    <span v-if="purchase.order_reason_code==null" class="cursor-pointer"></span>
                                     <span v-else class="cursor-pointer">{{ purchase.order_reason_code.short_name }}</span>
                                     <select @change="changeReasonCode(purchase.uuid)" v-model="selected_reason_code" type="text" class="editable-control">
                                         <option :value="reasoncode.id " v-for="(reasoncode,index) in options_reason_code" :key="index">{{ reasoncode.text }}</option>
@@ -159,7 +159,7 @@
                             <tr>
                                 <td colspan="7"></td>
                                 <td style="border-left: 2px solid #eee">
-                                    <span><strong>Grand Total:</strong></span>
+                                    <span><strong>Total:</strong></span>
                                 </td>
                                 <td class="text-right">
                                     <span v-if="grand_total==0"><strong>0.00</strong></span>

@@ -78,6 +78,7 @@ class SupplierListController extends Controller
         $supplier->is_transporter = request()->is_transporter;
         $supplier->payment_term_uuid = request()->payment_term_uuid;
         $supplier->coa_payable_account_uuid = request()->coa_payable_account_uuid;
+        $supplier->coa_expense_account_uuid = request()->coa_expense_account_uuid;
         $supplier->email = request()->email;
         $supplier->contact_no = request()->contact_no;
         $supplier->global_address_uuid = request()->global_address_uuid;
