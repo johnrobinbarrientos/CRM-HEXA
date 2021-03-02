@@ -1,6 +1,5 @@
 <template>
     <div>
-
             <div class="actions-bar">
                 <div class="w-100">
                     <h1 class="title"><i class="las la-list-ul"></i>Purchase Orders</h1>
@@ -108,14 +107,14 @@
                                         <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid +'/edit'  })">
                                             <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/edit'})">Edit</b-dropdown-item>
                                             <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid +'/view' })">View</b-dropdown-item>
-                                            <b-dropdown-item href="javascript:void(0)">Reason Code</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalReasonCodePurchase');setReasonCodeData(purchase)">Reason Code</b-dropdown-item>
                                             <b-dropdown-item href="#" @click="cancel()">Cancel</b-dropdown-item>
                                         </b-dropdown>
                                     </span>
                                     <span v-else class="hx-table-actions">
                                         <b-dropdown split text="View" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/view' })">
                                             <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/orders/' + purchase.uuid + '/view' })">View</b-dropdown-item>
-                                            <b-dropdown-item href="javascript:void(0)">Reason Code</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalReasonCodePurchase');setReasonCodeData(purchase)">Reason Code</b-dropdown-item>
                                         </b-dropdown>
                                     </span>
                                 </td>
@@ -151,9 +150,9 @@
                                 <td class="editable" width="150">
                                     <span v-if="purchase.order_reason_code==null" class="cursor-pointer"></span>
                                     <span v-else class="cursor-pointer">{{ purchase.order_reason_code.short_name }}</span>
-                                    <select @change="changeReasonCode(purchase.uuid)" v-model="selected_reason_code" type="text" class="editable-control">
+                                    <!-- <select @change="changeReasonCode(purchase.uuid)" v-model="selected_reason_code" type="text" class="editable-control">
                                         <option :value="reasoncode.id " v-for="(reasoncode,index) in options_reason_code" :key="index">{{ reasoncode.text }}</option>
-                                    </select>
+                                    </select> -->
                                 </td>
                             </tr>
                             <tr>
@@ -207,6 +206,47 @@
 
             </div>
 
+
+            <!-- Modal Group Reason Code -->
+            <div class="modal fade modal-single-form" tabindex="-1" id="modalReasonCodePurchase">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Reason Code</h5>
+                            <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalReasonCodePurchase');" class="close" data-dismiss="modal" aria-label="Close">
+                                <i class="bx bx-x"></i>
+                            </a>
+                        </div>
+                        <div class="modal-body">
+                            <form action="#" class="form-validate is-alter">
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+
+                                        <div class="form-group">
+                                            <label class="form-label" for="po-no">Transaction No.: <strong>{{ po_no }}</strong></label>
+                                            <label class="form-label" for="po-amount">Amount: <strong>{{ po_amount }}</strong></label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label" for="reason-code-po">Reason Code:</label>
+                                            <select class="form-select-reason-code-po" v-model="selected_reason_code_po" :options="options_reason_code_po" name="reason-code-po">
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                    
+                                </div>                                    
+                                
+                            </form>
+                        </div>
+                        <div class="modal-footer bg-light">
+                            <button @click="changeReasonCode()" type="submit" class="btn btn-lg btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
     </div>
 </template>
 
@@ -238,6 +278,11 @@ export default {
             selected_supplier: '',
             options_supplier: [],
 
+
+            selected_reason_code_po: null,
+            options_reason_code_po: [],
+
+
             selected_asset_group: '',
             options_asset_group: [],
 
@@ -256,6 +301,10 @@ export default {
             options_branch_location: [],
 
             selected_status: '',
+
+            po_amount: 0,
+            po_no: '',
+            po_uuid: '',
 
             purchaseOrders: [],
             grand_total: 0,
@@ -298,6 +347,18 @@ export default {
         }
     },
     methods: {
+        setReasonCodeData: function(purchase){
+            var scope = this
+
+            scope.po_no = purchase.po_no
+            scope.po_amount = scope.putSeparator(purchase.po_total_amount.toFixed(2))
+            scope.po_uuid = purchase.uuid
+
+            scope.selected_reason_code_po = purchase.orders_reason_code_uuid
+            $('.form-select-reason-code-po').val(purchase.orders_reason_code_uuid);
+            $('.form-select-reason-code-po').trigger('change');
+
+        },
         reset: function () {
             var scope = this
             scope.selected_item_group = ""
@@ -369,6 +430,32 @@ export default {
             })
 
         },
+
+
+        getReasonCodesPurchase: function () {
+            var scope = this
+
+            scope.options_reason_code_po.push({
+               id: '',
+               text: 'None'
+           });
+
+            scope.GET('reason-codes?type=purchase-order').then(res => {
+              
+                res.rows.forEach(function (data) {
+                    scope.options_reason_code_po.push({
+                        id: data.uuid,
+                        text: data.details
+                    })
+                })
+
+                $(".form-select-reason-code-po").select2({data: scope.options_reason_code_po});
+                
+                scope.selected_reason_code_po = scope.options_reason_code_po[0].id
+
+            })
+        },
+
         getItemGroup: function () {
            var scope = this
             scope.GET('items/item-group').then(res => {
@@ -535,7 +622,39 @@ export default {
                 scope.prerequisite.getSupplier = true
             })
         },
-        changeReasonCode: function (po_uuid) {
+        // changeReasonCode: function (po_uuid) {
+        //     var scope = this
+
+        //     window.swal.fire({
+        //         title: 'Update?',
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#548235',
+        //         cancelButtonColor: '#d33',
+        //         confirmButtonText: 'Yes',
+        //         cancelButtonText: 'Cancel'
+        //     }).then((result) => {
+        //         if (result.value) {
+        //             scope.POST('buy-and-pay/order/reason_code', {uuid: po_uuid, orders_reason_code_uuid: scope.selected_reason_code}).then(res => {
+        //                 if (res.success) {
+        //                     window.swal.fire({
+        //                         position: 'center',
+        //                         icon: 'success',
+        //                         title: 'Updated',
+        //                         showConfirmButton: false,
+        //                         timer: 1500
+        //                     }).then(() => {
+        //                         scope.getPurchaseOrders()
+        //                     })
+        //                 } else {
+        //                     alert('ERROR:' + res.code)
+        //                 }
+        //             })
+        //         }                              
+        //     })
+
+        // },
+        changeReasonCode: function () {
             var scope = this
 
             window.swal.fire({
@@ -548,7 +667,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST('buy-and-pay/order/reason_code', {uuid: po_uuid, orders_reason_code_uuid: scope.selected_reason_code}).then(res => {
+                    scope.POST('buy-and-pay/order/reason_code', {uuid: scope.po_uuid, orders_reason_code_uuid: scope.selected_reason_code_po}).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
@@ -558,6 +677,7 @@ export default {
                                 timer: 1500
                             }).then(() => {
                                 scope.getPurchaseOrders()
+                                scope.CLOSE_MODAL('#modalReasonCodePurchase')
                             })
                         } else {
                             alert('ERROR:' + res.code)
@@ -644,6 +764,8 @@ export default {
         scope.getPurchaseOrders()
         scope.getReasonCodes()
 
+        scope.getReasonCodesPurchase()
+
 
         scope.getItemGroup()
         scope.getAssetGroup()
@@ -652,9 +774,10 @@ export default {
         scope.getBranch()
        
 
-        $('.form-reason-codes').on("change", function(e) { 
-            scope.selected_reason_code = $('.form-reason-codes').val();
+        $('.form-select-reason-code-po').on("change", function(e) { 
+            scope.selected_reason_code_po = $('.form-select-reason-code-po').val();
         })
+
     },
 }
 </script>
