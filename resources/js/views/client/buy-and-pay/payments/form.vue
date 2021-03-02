@@ -14,7 +14,7 @@
                 </div>
             </div>
                     
-            <div class="card hx-card-override no-header">
+            <div class="card hx-card-override no-header card-1200">
                 <div class="card-body">
  
                     <div class="row">

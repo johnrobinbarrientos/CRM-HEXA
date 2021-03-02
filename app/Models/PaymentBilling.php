@@ -24,5 +24,13 @@ class PaymentBilling extends Model
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
     }
-   
+
+
+    public function Payment(){
+        return $this->belongsTo('App\Models\Payment','payment_uuid','uuid');
+    }
+    
+    public function Billings(){
+        return $this->belongsTo('App\Models\PaymentBilling','billing_uuid','uuid');
+    }
 }

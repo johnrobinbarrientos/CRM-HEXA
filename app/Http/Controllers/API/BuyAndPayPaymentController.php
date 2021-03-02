@@ -64,7 +64,53 @@ class BuyAndPayPaymentController extends Controller
         return response()->json(['success' => 1, 'rows' => $lists, 'count' => $count, 'grand_total' => $grand_total, 'offset' => $offset, 'results' => count($lists)], 200);
     }
 
+    public function getBillsByPayment($paymentUUID)
+    {
+        $lists = PaymentBilling::whereNull('deleted_at')
+            ->where('payment_uuid','=',$paymentUUID)
+            ->with('Payment')
+            ->with('Billing');
+
     
+        $count = $lists->count();
+
+        // pagination
+        $take = (is_numeric(request()->take) && request()->take <= 100) ? request()->take: 20;
+        $page = (is_numeric(request()->page)) ? request()->page : 1;
+        $offset = (($page - 1 ) * $take);
+
+        $lists = $lists->take($take);
+        $lists = $lists->offset($offset);
+        $lists = $lists->get();
+
+
+        $x = 0;
+        $grand_total = 0;
+    
+        foreach ($lists as $bill) {
+            $lists[$x]['po_total_amount'] = $bill->amount;
+            $grand_total = $grand_total + $bill->amount;;
+            $x++;
+        }
+        
+        return response()->json(['success' => 1, 'rows' => $lists, 'count' => $count, 'grand_total' => $grand_total, 'offset' => $offset, 'results' => count($lists)], 200);
+    }
+
+    public function show($uuid)
+    {
+        $paymentUUID = $uuid;
+        $payment = Payment::with('Supplier')->find($uuid);
+
+        if (!$payment) {
+            return response()->json(['success' => 0, 'message' => 'billing not found!'], 200);
+        }
+
+        $payment_billing_uuids = PaymentBilling::where('payment_uuid','=',$payment->uuid)->pluck('billing_uuid')->toArray();
+        $billings = PurchaseBilling::whereIn('uuid',$payment_billing_uuids)->get();
+
+        return response()->json(['success' => 1, 'data' => $payment, 'billings' => $billings], 200);
+    }
+
     public function store()
     {
        $formdata = (object) request()->all();

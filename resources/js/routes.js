@@ -48,10 +48,10 @@ import BuyANDPayBillingReturnDetails from './views/client/buy-and-pay/billing-an
 
 import BuyANDPayPayments from './views/client/buy-and-pay/payments/main'
 import BuyANDPayPaymentsForm from './views/client/buy-and-pay/payments/form'
+import BuyANDPayPaymentsDetails from './views/client/buy-and-pay/payments/details'
 
 import SalesOrderMain from './views/client/sell-and-collect/orders/main'
 import InvoiceANDReversalMain from './views/client/sell-and-collect/invoicing-and-reversal/main'
-
 
 
 import PriceRuleMain from './views/client/inventory/price-rule/main'
@@ -351,6 +351,14 @@ export default new VueRouter({
             beforeEnter: checkAuth,
             meta: { protected: true }
         },
+        {
+            path: '/buy-and-pay/payments/:payment_uuid/:action',
+            name: 'buy-and-pay-payments-details',
+            component: BuyANDPayPaymentsDetails,
+            props: { view_mode: false },
+            beforeEnter: checkAuth,
+            meta: { protected: true }
+          },
         {
           path: '/price-rule-main',
           name: 'price-rule-main',

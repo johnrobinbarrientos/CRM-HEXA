@@ -28,5 +28,11 @@ class Payment extends Model
     public function Supplier(){
         return $this->belongsTo('App\Models\SupplierList','entity_uuid','uuid');
     }
+
+
+    public function Billings()
+    {
+        return $this->hasMany('App\Models\PaymentBilling','payment_uuid','uuid');
+    }
    
 }

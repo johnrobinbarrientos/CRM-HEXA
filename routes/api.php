@@ -335,6 +335,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
 
         Route::get('/payments', 'API\BuyAndPayPaymentController@index');
+        Route::get('/payments/{payment_uuid}', 'API\BuyAndPayPaymentController@show');
+        Route::get('/payments/{payment_uuid}/bills', 'API\BuyAndPayPaymentController@getBillsByPayment');
         Route::post('/payments', 'API\BuyAndPayPaymentController@store');
     });
 

@@ -610,6 +610,7 @@ img.header-profile-user { background: #fff; }
 /** === jepyoo styles end === **/
 
 /** === Kenji STYLES START === */
+.card-1200 { max-width:1200px; margin:0px auto; }
 .dropdown.m-2 { margin: 0rem !important; margin-top:2px !important; margin-bottom:2px !important; }
 
 .dropdown .btn-secondary {
