@@ -145,6 +145,17 @@
                             <div class="clearfix"></div>
                             <div class="tab-content">    
                                 <div class="tab-pane active" id="account">
+
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="expenses-cos">Default Account Expense</label>
+                                                    <select class="form-select-expenses-cos" v-model="selected_expenses_cos" :options="options_expenses_cos" name="expenses-cos" :disabled="view_mode">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="row">
                                             <div class="col-lg-4">
                                                 <div class="form-group">
@@ -154,7 +165,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
+
+                                        <!-- <div class="row">
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <div class="custom-control custom-checkbox">
@@ -163,7 +175,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="row">
                                             <div class="col-lg-4">
                                                 <div class="form-group">
@@ -399,6 +411,10 @@ export default {
             selected_coa_recievable: null,
             options_coa_recievable: [],
 
+
+            selected_expenses_cos: null,
+            options_expenses_cos: [],
+
             selected_vat: null,
             options_vat: [],
 
@@ -438,6 +454,7 @@ export default {
                 vat_uuid: '',
                 payment_term_uuid: '',
                 coa_receivable_account_uuid: '',
+                coa_expense_and_cos_account_uuid: '',
                 is_applied_vat: '',
                 email: '',
                 contact_person: '',
@@ -459,7 +476,7 @@ export default {
     methods: {
         getRecievables: function () {
            var scope = this
-            scope.GET('company/chart-of-accounts-recievables').then(res => {
+            scope.GET('company/chart-of-accounts?group1=receivable').then(res => {
                 res.rows.forEach(function (data) {
                     scope.options_coa_recievable.push({
                         id: data.uuid,
@@ -473,6 +490,31 @@ export default {
             })
 
         },
+
+        getExpensesCos: function () {
+            var scope = this
+
+            scope.options_expenses_cos.push({
+               id: '',
+               text: 'None'
+           });
+
+            scope.GET('company/chart-of-accounts?group1=expenses&group2=cost-of-sales&take=100').then(res => {
+              
+                res.rows.forEach(function (data) {
+                    scope.options_expenses_cos.push({
+                        id: data.uuid,
+                        text: data.account_name
+                    })
+                })
+
+                $(".form-select-expenses-cos").select2({data: scope.options_expenses_cos});
+                
+                scope.selected_expenses_cos = scope.options_expenses_cos[0].id
+
+            })
+        },
+
         getCostCenter: function () {
            var scope = this
             scope.GET('globals/cost-center').then(res => {
@@ -647,6 +689,8 @@ export default {
             scope.formdata.vat_uuid = scope.selected_vat
             scope.formdata.payment_term_uuid = scope.selected_payment_term
             scope.formdata.coa_receivable_account_uuid = scope.selected_coa_recievable
+            scope.formdata.coa_expense_and_cos_account_uuid = scope.selected_expenses_cos
+
             scope.formdata.global_address_uuid = scope.selected_global_address
 
             scope.formdata.discounts = scope.tempCustomerDiscounts
@@ -680,6 +724,7 @@ export default {
             scope.formdata.vat_uuid = scope.selected_vat
             scope.formdata.payment_term_uuid = scope.selected_payment_term
             scope.formdata.coa_receivable_account_uuid = scope.selected_coa_recievable
+            scope.formdata.coa_expense_and_cos_account_uuid = scope.selected_expenses_cos
             scope.formdata.global_address_uuid = scope.selected_global_address
 
             window.swal.fire({
@@ -904,6 +949,9 @@ export default {
                     $('.form-select-recievables').val(data.coa_receivable_account_uuid);
                     $('.form-select-recievables').trigger('change');
 
+                    $('.form-select-expenses-cos').val(data.coa_expense_and_cos_account_uuid);
+                    $('.form-select-expenses-cos').trigger('change');
+
                     $('.form-select-address-list').val(data.global_address_uuid);
                     $('.form-select-address-list').trigger('change');
 
@@ -916,6 +964,7 @@ export default {
         var scope = this
 
         scope.getRecievables()
+        scope.getExpensesCos()
         scope.getCustomerType()
         scope.getCustomerChannel()
         scope.getCustomerChain()
@@ -959,6 +1008,10 @@ export default {
 
         $('.form-select-recievables').on("change", function(e) { 
             scope.selected_coa_recievable = $('.form-select-recievables').val();
+        })
+
+        $('.form-select-expenses-cos').on("change", function(e) { 
+            scope.selected_expenses_cos = $('.form-select-expenses-cos').val();
         })
 
 

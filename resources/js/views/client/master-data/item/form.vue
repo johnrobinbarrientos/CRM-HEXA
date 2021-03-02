@@ -642,7 +642,7 @@ export default {
 
         getIncomeAccount: function () {
            var scope = this
-            scope.GET('company/chart-of-accounts-income').then(res => {
+            scope.GET('company/chart-of-accounts?group1=income').then(res => {
                 res.rows.forEach(function (data) {
 
                     scope.options_income_account.push({
@@ -660,7 +660,7 @@ export default {
 
         getCostofSales: function () {
            var scope = this
-            scope.GET('company/chart-of-accounts-cost-of-sales').then(res => {
+            scope.GET('company/chart-of-accounts?group1=cost-of-sales').then(res => {
                 res.rows.forEach(function (data) {
 
                     scope.options_cost_of_sales.push({
