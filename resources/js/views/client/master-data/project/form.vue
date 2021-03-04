@@ -101,12 +101,32 @@
                 </form>     
                 </div>
             </div>
+
+            <br/>
+                <div class="hx-tab-2 round">
+                    <ul class="nav nav-tabs">
+                        <li>
+                            <a class="active" data-toggle="tab" href="#scope">Detail</a>    
+                        </li>    
+                    </ul>
+                    <div class="clearfix"></div>
+
+                    <div class="tab-content">    
+                        <div class="tab-pane active" id="scope">
+                            <scope-of-work v-if="formdata.uuid" :project_uuid="formdata.uuid" :view_mode="view_mode"></scope-of-work>
+                        </div>
+                    </div>  
+
+                </div>
+
+
     </div>
 </template>
 
 <script>
 
 
+import ScopeOfWork from './scope-of-work'
 
 export default {
     name: 'project-form',
@@ -131,6 +151,9 @@ export default {
             }
 
         }
+    },
+    components: {
+        'scope-of-work': ScopeOfWork
     },
     methods: {
 

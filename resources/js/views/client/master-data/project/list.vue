@@ -124,7 +124,7 @@ export default {
             scope.projectList = []
             scope.GET('projects?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.projectList = res.rows
-                console.log(res.rows)
+
                 scope.listLoading = false
                 scope.listCount = res.count
 
