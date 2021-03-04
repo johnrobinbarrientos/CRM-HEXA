@@ -34,7 +34,7 @@ class CompanyChartOfAccountController extends Controller
             }
 
             $group_uuids = CompanyChartOfAccountAccountGroup::where('account_group','=',$group_name1)->orWhere('account_group','=',$group_name2)->pluck('uuid')->toArray();
-            $list->whereIn('coa_group_uuid',$group_uuids);
+            $list->whereIn('coa_group_uuid',$group_uuids)->where('is_default','=',1);
         }
 
         if (!empty(request()->group1) && empty(request()->group2)) {
@@ -56,7 +56,7 @@ class CompanyChartOfAccountController extends Controller
             }
 
             $group_uuids = CompanyChartOfAccountAccountGroup::where('account_group','=',$group_name1)->pluck('uuid')->toArray();
-            $list->whereIn('coa_group_uuid',$group_uuids);
+            $list->whereIn('coa_group_uuid',$group_uuids)->where('is_default','=',1);
         }
 
         
@@ -82,6 +82,7 @@ class CompanyChartOfAccountController extends Controller
         $chartOfAccounts->code = request()->code;
         $chartOfAccounts->account_name = request()->account_name;
         $chartOfAccounts->coa_group_uuid = request()->coa_group_uuid;
+        $chartOfAccounts->is_default = request()->is_default;
         $chartOfAccounts->save();
 
         $chartOfAccounts = CompanyChartOfAccount::find($chartOfAccounts->uuid);
