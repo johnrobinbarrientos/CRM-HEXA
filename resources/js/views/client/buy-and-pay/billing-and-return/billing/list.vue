@@ -111,10 +111,10 @@
                                     <td width="200">{{ bill.supplier.supplier_name }}</td>
                                     <td width="100">{{ bill.branch.branch_shortname.toUpperCase() }}</td>
                                     <td width="100">{{ bill.branch_location.location_shortname.toUpperCase() }}</td>
-                                    <td width="150">{{ moment(bill.transaction_date) }}</td>
+                                    <td width="150">{{ FORMAT_DATE(bill.transaction_date) }}</td>
 
                                     <td width="100" v-if="bill.po_total_amount == 0" class="text-right">0.00</td>
-                                    <td width="100" v-else class="text-right">{{putSeparator(bill.po_total_amount)}}</td>
+                                    <td width="100" v-else class="text-right">{{PUT_SEPARATOR(bill.po_total_amount)}}</td>
 
                                     <td v-if="bill.status === 'To Pay'" style="text-align;" class="editable" width="150">
                                         <span class="badge badge-danger font-size-12">To Pay</span>
@@ -137,7 +137,7 @@
                                 </td>
                                 <td class="text-right">
                                     <span v-if="grand_total==0"><strong>0.00</strong></span>
-                                    <span v-else><strong>{{putSeparator(grand_total.toFixed(2))}}</strong></span>
+                                    <span v-else><strong>{{PUT_SEPARATOR(grand_total.toFixed(2))}}</strong></span>
                                 </td>
                                 <td colspan="3"></td>
                             </tr>
@@ -289,14 +289,6 @@ export default {
             scope.transaction_to = ""
             scope.transaction_from = ""
             scope.getBills()
-        },
-        moment: function (date) {
-            return moment(date).format('DD-MMM-YYYY')
-        },
-        putSeparator: function(value) {
-            var num_parts = value.toString().split(".");
-            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            return num_parts.join(".");
         },
         getBills: function () {
            var scope = this

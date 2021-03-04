@@ -1,4 +1,5 @@
 // Mixins are a flexible way to distribute reusable functionalities for Vue components.
+import moment from 'moment'
 export default {
     name: 'mixins',
     data () {
@@ -9,6 +10,14 @@ export default {
     methods: {
         CHECK_VUE_INSTANCE: function () {
             console.log(this)
+        },
+        FORMAT_DATE: function (date) {
+            return moment(date).format('DD-MMM-YYYY')
+        },
+        PUT_SEPARATOR: function(value) {
+            var num_parts = value.toString().split(".");
+            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return num_parts.join(".");
         },
         UNIQUE: function () {
             let key = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {

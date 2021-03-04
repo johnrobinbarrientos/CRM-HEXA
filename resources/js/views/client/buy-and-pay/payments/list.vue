@@ -58,7 +58,7 @@
                                     </td>
                                     
                                     <td width="200">{{ purchase.transaction_no }}</td>
-                                    <td width="150">{{ moment(purchase.date) }}</td>
+                                    <td width="150">{{ FORMAT_DATE(purchase.date) }}</td>
                                     <td width="100">{{ purchase.entry_type }}</td>
                                     <td width="100">{{ purchase.pe_mode }}</td>
                                     <td width="200">{{ purchase.supplier.supplier_name }}</td>
@@ -228,9 +228,6 @@ export default {
         }
     },
     methods: {
-        moment: function (date) {
-            return moment(date).format('DD-MMM-YYYY')
-        },
         getPayments: function () {
            var scope = this
             scope.listLoading = true
