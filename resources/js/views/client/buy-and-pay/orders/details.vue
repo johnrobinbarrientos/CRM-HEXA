@@ -5,7 +5,7 @@
                 <h5 class="mb-0">General Information</h5>
             </div>
 
-            <div class="card-body" >
+            <div class="card-body">
                 <div class="actions-bar">
                     <div class="w-100">
                         <h1 class="title">Purchase Order {{ ACTION }}</h1>

@@ -77,7 +77,6 @@ class CustomerListController extends Controller
         $customer->vat_uuid = request()->vat_uuid;
         $customer->payment_term_uuid = request()->payment_term_uuid;
         $customer->coa_receivable_account_uuid = request()->coa_receivable_account_uuid;
-        $customer->coa_expense_and_cos_account_uuid = request()->coa_expense_and_cos_account_uuid;
         $customer->is_applied_vat = request()->is_applied_vat;
         $customer->email = request()->email;
         $customer->contact_person = request()->contact_person;

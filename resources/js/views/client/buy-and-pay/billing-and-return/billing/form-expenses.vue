@@ -9,7 +9,6 @@
                     </div>
                 </div>
 
-
                 <div class="col-12 col-md-6">
                     <div class="form-group">
                         <label>Branch</label>
@@ -95,9 +94,12 @@
         </table>
 
         <div style="padding:10px 0px; text-align:right;">
-            <a style="max-width:150px; display:inline-block;" @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+            <!-- <a v-if="formdata.amount>0" style="max-width:150px; display:inline-block;" @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                 <span>Next</span>
-            </a>
+            </a> -->
+            <button v-if="formdata.amount > 0" style="max-width:150px; display:inline-block;"  @click="save()" class="hx-btn hx-btn-shineblue" type="button" data-toggle="modal" href="javascript:void(0)">Next</button>
+            <button v-else style="max-width:150px; display:inline-block;"  class="hx-btn hx-btn-shineblue" type="button" data-toggle="modal" href="javascript:void(0)" disabled="true">Next</button>
+
         </div>
     </div>
 </template>
