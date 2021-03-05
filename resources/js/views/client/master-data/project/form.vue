@@ -102,7 +102,7 @@
                 </div>
             </div>
 
-            <br/>
+            <!-- <br/>
                 <div class="hx-tab-2 round">
                     <ul class="nav nav-tabs">
                         <li>
@@ -113,11 +113,11 @@
 
                     <div class="tab-content">    
                         <div class="tab-pane active" id="scope">
-                            <scope-of-work v-if="formdata.uuid" :project_uuid="formdata.uuid" :view_mode="view_mode"></scope-of-work>
+                           
                         </div>
                     </div>  
 
-                </div>
+                </div> -->
 
 
     </div>
@@ -126,7 +126,7 @@
 <script>
 
 
-import ScopeOfWork from './scope-of-work'
+// import ScopeOfWork from './scope-of-work'
 
 export default {
     name: 'project-form',
@@ -149,12 +149,11 @@ export default {
                 end_date: '',
                 cost: '',
             }
-
         }
     },
-    components: {
-        'scope-of-work': ScopeOfWork
-    },
+    // components: {
+    //     'scope-of-work': ScopeOfWork
+    // },
     methods: {
 
         getProjectType: function () {

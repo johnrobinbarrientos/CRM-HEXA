@@ -40,6 +40,7 @@
                                     <span class="hx-table-actions">
                                         <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalProjectType');setData(projectType)">
                                             <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalProjectType');setData(projectType)">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalScope');setData(projectType)">Scope</b-dropdown-item>
                                             <b-dropdown-item href="javascript:void(0)" @click="remove(projectType)">Delete</b-dropdown-item>
                                         </b-dropdown>
                                     </span>
@@ -75,7 +76,7 @@
             </nav> 
  
 
-        <!-- Modal Form -->
+        <!-- Modal Form Type-->
         <div class="modal fade modal-single-form" tabindex="-1" id="modalProjectType">
             <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
@@ -110,6 +111,23 @@
             </div>
         </div>
 
+        <!-- Modal Form Scope -->
+        <div class="modal fade" tabindex="-1" id="modalScope">
+            <div class="modal-dialog modal-lg" role="document" style="max-width: 1100px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{formdata.type}}</h5>
+                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalScope');resetData()" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="bx bx-x"></i>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <scope-of-work v-if="formdata.uuid" :project_type_uuid="formdata.uuid"></scope-of-work>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
                 
     </div>
@@ -118,6 +136,7 @@
 <script>
 
 import Swal from 'sweetalert2'
+import ScopeOfWork from './scope-of-work'
 
 export default {
     name: 'project-types',
@@ -125,6 +144,7 @@ export default {
     data: function () {
         return {
             projectTypes: [],
+
             listLoading: true,
             listCurrentPage: 1,
             listItemPerPage: 20,
@@ -138,6 +158,9 @@ export default {
                 type: ''
             }
         }
+    },
+    components: {
+        'scope-of-work': ScopeOfWork
     },
     computed: {
         listTotalPages: function () {

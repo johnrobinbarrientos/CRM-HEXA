@@ -12,7 +12,7 @@ class ProjectScopeOfWork extends Model
     protected $table = 'project_scope_of_work';
 
     protected $fillable = [
-        'uuid', 'project_uuid','scope_of_work',
+        'uuid', 'project_type_uuid','scope_of_work',
     ];
 
     protected $primaryKey = 'uuid';
