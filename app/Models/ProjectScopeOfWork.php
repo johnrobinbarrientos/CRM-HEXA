@@ -28,5 +28,9 @@ class ProjectScopeOfWork extends Model
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
     }
+
+    public function ProjectType(){
+        return $this->belongsTo('App\Models\ProjectType','project_type_uuid','uuid');
+    }
    
 }

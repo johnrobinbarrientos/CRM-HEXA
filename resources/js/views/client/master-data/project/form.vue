@@ -60,13 +60,13 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3 col-12">
+                        <!-- <div class="col-md-3 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="main-project-type">Project Type</label>
                                 <select class="form-select-project-type" v-model="selected_project_type" :options="options_project_type" name="main-project-type" :disabled="view_mode">
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="col-md-3 col-12">
                             <div class="form-group">
@@ -102,7 +102,7 @@
                 </div>
             </div>
 
-            <!-- <br/>
+            <br/>
                 <div class="hx-tab-2 round">
                     <ul class="nav nav-tabs">
                         <li>
@@ -117,7 +117,7 @@
                         </div>
                     </div>  
 
-                </div> -->
+                </div>
 
 
     </div>
