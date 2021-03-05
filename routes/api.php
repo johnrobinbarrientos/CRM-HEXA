@@ -140,6 +140,16 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
     Route::group(['prefix' => 'projects'], function(){
 
+        Route::get('/project-type', 'API\ProjectTypeController@index');
+        Route::post('/project-type', 'API\ProjectTypeController@save');
+        Route::delete('/project-type/{project_type_uuid}', 'API\ProjectTypeController@delete');
+
+        Route::get('/{projectUUID}/scope-of-work', 'API\ProjectScopeOfWorkController@index');
+        Route::post('/{projectUUID}/scope-of-work', 'API\ProjectScopeOfWorkController@save');
+
+        Route::get('/{projectscopeUUID}/work-details', 'API\ProjectWorkDetailController@index');
+        Route::post('/{projectscopeUUID}/work-details', 'API\ProjectWorkDetailController@save');
+
         Route::get('/', 'API\ProjectController@index');
         Route::post('/', 'API\ProjectController@store');
         Route::put('/', 'API\ProjectController@update');

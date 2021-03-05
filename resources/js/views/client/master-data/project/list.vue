@@ -32,7 +32,8 @@
                         <th width="105">Action</th>
                         <th>Project Code</th>
                         <th>Project Name</th>
-                        <th>Project Shortname</th>
+                        <th>Shortname</th>
+                        <th>Project Type</th>
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th>Cost</th>
@@ -53,10 +54,11 @@
                         <td>{{project.project_code}}</td>
                         <td>{{project.project_name}}</td>
                         <td>{{project.project_shortname}}</td>
-                        <td>{{ moment(project.date_start)}}</td>
+                        <td>{{project.project_type.type}}</td>
+                        <td>{{ FORMAT_DATE(project.date_start)}}</td>
                         <td v-if="project.end_date == null"></td>
-                        <td v-else>{{ moment(project.end_date)}}</td>
-                        <td>{{project.cost}}</td>
+                        <td v-else>{{ FORMAT_DATE(project.end_date)}}</td>
+                        <td>{{PUT_SEPARATOR(project.cost)}}</td>
                         <td>No</td>
                     </tr>
                 </tbody>
@@ -90,7 +92,6 @@
 
 <script>
 import Swal from 'sweetalert2'
-import moment from 'moment'
 
 export default {
     name: 'project-list',
@@ -117,15 +118,13 @@ export default {
         }
     },
     methods: {
-        moment: function (date) {
-            return moment(date).format('DD-MMM-YYYY')
-        },
         getProjectList: function () {
             var scope = this
             scope.listLoading = true
             scope.projectList = []
             scope.GET('projects?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.projectList = res.rows
+
                 scope.listLoading = false
                 scope.listCount = res.count
 

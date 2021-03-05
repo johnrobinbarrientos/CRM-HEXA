@@ -62,6 +62,14 @@
 
                         <div class="col-md-3 col-12">
                             <div class="form-group">
+                                <label class="form-label" for="main-project-type">Project Type</label>
+                                <select class="form-select-project-type" v-model="selected_project_type" :options="options_project_type" name="main-project-type" :disabled="view_mode">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
                                     <label class="form-label" for="date-start">Date Start</label>
                                     <div class="form-control-wrap">
                                         <date-picker v-model="formdata.date_start" :config="{format: 'DD-MMM-YYYY'}" :disabled="view_mode"></date-picker>
@@ -93,12 +101,32 @@
                 </form>     
                 </div>
             </div>
+
+            <br/>
+                <div class="hx-tab-2 round">
+                    <ul class="nav nav-tabs">
+                        <li>
+                            <a class="active" data-toggle="tab" href="#scope">Detail</a>    
+                        </li>    
+                    </ul>
+                    <div class="clearfix"></div>
+
+                    <div class="tab-content">    
+                        <div class="tab-pane active" id="scope">
+                            <scope-of-work v-if="formdata.uuid" :project_uuid="formdata.uuid" :view_mode="view_mode"></scope-of-work>
+                        </div>
+                    </div>  
+
+                </div>
+
+
     </div>
 </template>
 
 <script>
 
 
+import ScopeOfWork from './scope-of-work'
 
 export default {
     name: 'project-form',
@@ -106,12 +134,17 @@ export default {
 
     data: function () {
         return {
+
+            selected_project_type: null,
+            options_project_type: [],
+
             formdata: { 
                 uuid: null,
                 is_draft: 1,
                 project_code: '',
                 project_name: '', 
-                project_shortname: '', 
+                project_shortname: '',
+                project_type_uuid: '',
                 date_start: '',
                 end_date: '',
                 cost: '',
@@ -119,10 +152,32 @@ export default {
 
         }
     },
+    components: {
+        'scope-of-work': ScopeOfWork
+    },
     methods: {
+
+        getProjectType: function () {
+           var scope = this
+            scope.GET('projects/project-type').then(res => {
+                res.rows.forEach(function (data) {
+                    scope.options_project_type.push({
+                        id: data.uuid,
+                        text: data.type
+                    })
+                })
+
+                $(".form-select-project-type").select2({data: scope.options_project_type});
+                
+                scope.selected_project_type = scope.options_project_type[0].id
+            })
+
+        },
 
         save: function () {
             var scope = this
+
+            scope.formdata.project_type_uuid = scope.selected_project_type
 
             scope.PUT('projects', scope.formdata).then(res => {
                 if (res.success) {
@@ -143,6 +198,8 @@ export default {
 
         update: function () {
             var scope = this
+
+            scope.formdata.project_type_uuid = scope.selected_project_type
             
             window.swal.fire({
                 title: 'Update?',
@@ -190,6 +247,10 @@ export default {
                     scope.formdata.date_start = data.date_start
                     scope.formdata.end_date = data.end_date
                     scope.formdata.cost = data.cost
+
+
+                    $('.form-select-project-type').val(data.project_type_uuid);
+                    $('.form-select-project-type').trigger('change');
                 }
                 
             })
@@ -200,6 +261,12 @@ export default {
 
         var projectUUID = scope.$route.params.projectUUID
         scope.getProjectDetails(projectUUID)
+
+        scope.getProjectType()
+
+        $('.form-select-project-type').on("change", function(e) { 
+            scope.selected_project_type = $('.form-select-project-type').val();
+        })
 
     },
 }

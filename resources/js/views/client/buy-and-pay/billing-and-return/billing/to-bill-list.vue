@@ -34,10 +34,10 @@
                                 <td width="200" class="text-center">{{ purchase.supplier.supplier_shortname }}</td>
                                 <td width="100">{{ purchase.branch.branch_shortname.toUpperCase() }}</td>
                                 <td>{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
-                                <td width="100">{{ moment(purchase.date_purchased) }}</td>
+                                <td width="100">{{ FORMAT_DATE(purchase.date_purchased) }}</td>
 
                                 <td v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
-                                <td v-else class="text-right">{{putSeparator(purchase.po_total_amount)}}</td>
+                                <td v-else class="text-right">{{PUT_SEPARATOR(purchase.po_total_amount)}}</td>
 
                                 <td v-if="purchase.receiving_status === 'To Bill'" style="text-align:center;" class="editable" width="150">
                                     <span class="badge badge-danger font-size-12">To Bill</span>
@@ -58,7 +58,7 @@
                             </td>
                             <td class="text-right">
                                 <span v-if="grand_total==0"><strong>0.00</strong></span>
-                                <span v-else><strong>{{putSeparator(grand_total.toFixed(2))}}</strong></span>
+                                <span v-else><strong>{{PUT_SEPARATOR(grand_total.toFixed(2))}}</strong></span>
                             </td>
                             <td colspan="3"></td>
                         </tr>
@@ -112,14 +112,6 @@ export default {
         }
     },
     methods: {
-        moment: function (date) {
-            return moment(date).format('DD-MMM-YYYY')
-        },
-        putSeparator: function(value) {
-            var num_parts = value.toString().split(".");
-            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            return num_parts.join(".");
-        },
 
         getToBill: function () {
            var scope = this

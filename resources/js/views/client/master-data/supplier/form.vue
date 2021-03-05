@@ -470,7 +470,7 @@ export default {
     methods: {
         getPayables: function () {
            var scope = this
-            scope.GET('company/chart-of-accounts-payables').then(res => {
+            scope.GET('company/chart-of-accounts?group1=accounts-payable').then(res => {
                 res.rows.forEach(function (data) {
                     scope.options_payables.push({
                         id: data.uuid,
@@ -492,7 +492,7 @@ export default {
                text: 'None'
            });
 
-            scope.GET('company/chart-of-accounts?group=expenses&take=100').then(res => {
+            scope.GET('company/chart-of-accounts?group1=expenses&take=100').then(res => {
               
                 res.rows.forEach(function (data) {
                     scope.options_expenses.push({

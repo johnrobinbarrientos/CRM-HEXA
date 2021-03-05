@@ -96,7 +96,7 @@
                             </td>
                             <td>
                                 <span class="text-nowrap">
-                                    {{moment(employee.date_hired)}}
+                                    {{FORMAT_DATE(employee.date_hired)}}
                                 </span>        
                             </td>
                         </tr>
@@ -173,9 +173,6 @@ export default {
                 scope.listOffset = res.offset
                 scope.listResults = res.results
             })
-        },
-        moment: function (date_hired) {
-            return moment(date_hired).format('DD-MMM-YYYY')
         },
 
         create: function () {

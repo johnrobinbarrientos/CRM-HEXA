@@ -12,7 +12,7 @@ class ProjectList extends Model
     protected $table = 'project_list';
 
     protected $fillable = [
-        'uuid', 'project_code', 'project_name', 'project_shortname', 'date_start', 'end_date', 'cost',
+        'uuid', 'project_code', 'project_name', 'project_shortname','project_type_uuid','date_start', 'end_date', 'cost',
     ];
 
     protected $primaryKey = 'uuid';
@@ -27,6 +27,10 @@ class ProjectList extends Model
         static::creating(function (Model $model) {
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
+    }
+
+    public function ProjectType(){
+        return $this->belongsTo('App\Models\ProjectType','project_type_uuid','uuid');
     }
    
 }

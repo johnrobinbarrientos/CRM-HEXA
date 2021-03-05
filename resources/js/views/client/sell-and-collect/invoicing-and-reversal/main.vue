@@ -20,7 +20,7 @@
                 <li class="nav-item">        
                     <a class="nav-link active" data-toggle="tab" href="#invoicing" role="tab">
                         <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Invoicing</span>    
+                        <span class="d-none d-sm-block">Invoice</span>    
                     </a>      
                 </li>    
             </ul>
@@ -29,9 +29,10 @@
             <!-- Tab panes -->
 
             <div class="tab-content">    
-                <div class="tab-pane active" id="invoicing" role="tabpanel">        
+                <div class="tab-pane active" id="invoicing" role="tabpanel">
+                    <invoice-list></invoice-list>  
                 </div>
-                <div class="tab-pane" id="credit-memo" role="tabpanel">        
+                <div class="tab-pane" id="credit-memo" role="tabpanel">
                 </div>
                 <div class="tab-pane" id="reason-code" role="tabpanel">
                     <div class="container-fluid">
@@ -82,12 +83,14 @@
 <script>
 
 import InvoicingReasonCodes from './invoicing/reason-codes'
+import InvoiceList from './invoicing/list'
 import CreditMemoReasonCodes from './credit-memo/reason-codes'
 
 export default {
     components: {
         'reason-codes-invoicing': InvoicingReasonCodes,
-        'reason-codes-credit-memo': CreditMemoReasonCodes
+        'reason-codes-credit-memo': CreditMemoReasonCodes,
+        'invoice-list': InvoiceList
     }
 }
 </script>

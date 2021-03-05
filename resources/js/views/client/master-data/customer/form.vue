@@ -145,6 +145,7 @@
                             <div class="clearfix"></div>
                             <div class="tab-content">    
                                 <div class="tab-pane active" id="account">
+
                                         <div class="row">
                                             <div class="col-lg-4">
                                                 <div class="form-group">
@@ -154,7 +155,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
+
+                                        <!-- <div class="row">
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <div class="custom-control custom-checkbox">
@@ -163,7 +165,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="row">
                                             <div class="col-lg-4">
                                                 <div class="form-group">
@@ -459,7 +461,7 @@ export default {
     methods: {
         getRecievables: function () {
            var scope = this
-            scope.GET('company/chart-of-accounts-recievables').then(res => {
+            scope.GET('company/chart-of-accounts?group1=receivable').then(res => {
                 res.rows.forEach(function (data) {
                     scope.options_coa_recievable.push({
                         id: data.uuid,
@@ -473,6 +475,7 @@ export default {
             })
 
         },
+
         getCostCenter: function () {
            var scope = this
             scope.GET('globals/cost-center').then(res => {
@@ -647,6 +650,7 @@ export default {
             scope.formdata.vat_uuid = scope.selected_vat
             scope.formdata.payment_term_uuid = scope.selected_payment_term
             scope.formdata.coa_receivable_account_uuid = scope.selected_coa_recievable
+
             scope.formdata.global_address_uuid = scope.selected_global_address
 
             scope.formdata.discounts = scope.tempCustomerDiscounts
@@ -916,6 +920,7 @@ export default {
         var scope = this
 
         scope.getRecievables()
+ 
         scope.getCustomerType()
         scope.getCustomerChannel()
         scope.getCustomerChain()

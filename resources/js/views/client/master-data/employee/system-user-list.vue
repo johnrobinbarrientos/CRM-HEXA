@@ -142,9 +142,6 @@ export default {
                 scope.listCount = res.count
             })
         },
-        moment: function (date_hired) {
-            return moment(date_hired).format('DD-MMM-YYYY')
-        },
 
         create: function () {
             var scope = this

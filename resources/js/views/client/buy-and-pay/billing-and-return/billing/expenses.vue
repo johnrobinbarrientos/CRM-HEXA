@@ -140,13 +140,14 @@ export default {
 
             scope.expenses.push({
                 uuid: null,
-                coa_uuid: null,
+                coa_uuid: scope.bill.supplier.coa_expense_account_uuid,
                 project_uuid: null,
                 amount: amount,
                 memo_1: null,
                 memo_2: null,
                 memo_3: null,
             });
+
         },
         clear: function () {
             var scope = this
@@ -215,7 +216,7 @@ export default {
         },
         getChartOfAccountByGroup: function (group) {
             var scope = this
-            scope.GET('company/chart-of-accounts?group=' + group + '&take=100').then(res => {
+            scope.GET('company/chart-of-accounts?group1=' + group + '&take=100').then(res => {
               
                 res.rows.forEach(function (data) {
                     scope.options_chart_of_accounts.push({
@@ -267,6 +268,7 @@ export default {
         scope.getExpenses();
         scope.getProjects();
         scope.getChartOfAccountByGroup('expenses');
+
     },
 }
 </script>

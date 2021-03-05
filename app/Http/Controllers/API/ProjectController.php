@@ -12,7 +12,8 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $list = ProjectList::where('is_draft','=', 0)->whereNull('deleted_at');
+        $list = ProjectList::where('is_draft','=', 0)->whereNull('deleted_at')
+        ->with('ProjectType');
 
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;
@@ -75,6 +76,7 @@ class ProjectController extends Controller
         $project->project_code = $created_id;
         $project->project_name = request()->project_name;
         $project->project_shortname = request()->project_shortname;
+        $project->project_type_uuid = request()->project_type_uuid;
         $project->date_start = date('Y-m-d',strtotime(request()->date_start));
         
         if (request()->end_date == ''){
