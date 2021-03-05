@@ -138,7 +138,7 @@
 import Swal from 'sweetalert2'
 
 export default {
-    name: 'branch-location',
+    name: 'scope-of-work-list',
     props: ['properties'],
     data: function () {
         return {
@@ -194,7 +194,6 @@ export default {
             scope.scopeOfWorks = []
             scope.GET('projects/scope-of-work?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.scopeOfWorks = res.rows
-                console.log(scope.scopeOfWorks)
                 scope.listLoading = false
                 scope.listCount = res.count
 
@@ -353,6 +352,7 @@ export default {
          
         $('.form-select-project-type').on("change", function(e) { 
             scope.selected_project_type = $('.form-select-project-type').val();
+            console.log($('.form-select-project-type').val())
         })
     },
 }

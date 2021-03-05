@@ -53,6 +53,22 @@
                                             </div>            
                                         </div>
                                     </div>
+
+                                    <div class="card shadow-none">
+                                        <a href="#collapseTwo" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                                            <div class="card-header" id="headingTwo">
+                                                <h5 class="m-0">Work Detail</h5>
+                                                <i class="las la-plus-circle fs-30"></i>
+                                            </div>
+                                        </a>
+                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="container-fluid">
+                                                    <work-detail-list></work-detail-list>
+                                                </div>
+                                           </div>         
+                                        </div>
+                                    </div>
                                     
                                 </div>
                             </div>
@@ -68,13 +84,14 @@
 import List from './list'
 import ProjectType from './project-type'
 import ScopeOfWorkList from './scope-of-work-list'
+import WorkDetailList from './work-detail-list'
 
 export default {
     components: {
         'list': List,
         'project-type': ProjectType,
-        'scope-of-work-list': ScopeOfWorkList
-
+        'scope-of-work-list': ScopeOfWorkList,
+        'work-detail-list' : WorkDetailList
     }
 }
 </script>

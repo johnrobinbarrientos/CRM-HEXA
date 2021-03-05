@@ -150,7 +150,10 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/{projectTypeUUID}/scope-of-work', 'API\ProjectScopeOfWorkController@show');
         Route::post('/{projectTypeUUID}/scope-of-work', 'API\ProjectScopeOfWorkController@save');
 
-        Route::get('/{projectscopeUUID}/work-details', 'API\ProjectWorkDetailController@index');
+        Route::get('/work-details', 'API\ProjectWorkDetailController@index');
+        Route::post('/work-details', 'API\ProjectWorkDetailController@saveWorkDetail');
+
+        Route::get('/{projectscopeUUID}/work-details', 'API\ProjectWorkDetailController@show');
         Route::post('/{projectscopeUUID}/work-details', 'API\ProjectWorkDetailController@save');
 
         Route::get('/', 'API\ProjectController@index');

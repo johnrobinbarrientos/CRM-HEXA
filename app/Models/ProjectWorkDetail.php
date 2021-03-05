@@ -12,7 +12,7 @@ class ProjectWorkDetail extends Model
     protected $table = 'project_work_details';
 
     protected $fillable = [
-        'uuid', 'project_scope_uuid','detail',
+        'uuid', 'project_type_uuid','project_scope_uuid','detail',
     ];
 
     protected $primaryKey = 'uuid';
@@ -27,6 +27,14 @@ class ProjectWorkDetail extends Model
         static::creating(function (Model $model) {
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
+    }
+
+    public function ScopeOfWork(){
+        return $this->belongsTo('App\Models\ProjectScopeOfWork','project_scope_uuid','uuid');
+    }
+
+    public function ProjectType(){
+        return $this->belongsTo('App\Models\ProjectType','project_type_uuid','uuid');
     }
    
 }
