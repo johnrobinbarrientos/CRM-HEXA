@@ -1,9 +1,8 @@
 <template>
-    <div>
-
+    <div >
         <div class="actions-bar">
             <div class="w-100">
-                <h1 class="title"><i class="las la-list-ul"></i>Project Types</h1>
+                <h1 class="title"><i class="las la-list-ul"></i>Scope of Works</h1>
             </div>
             <div class="bar-right">
                 <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
@@ -14,44 +13,50 @@
                     <option value="40">40</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
-                </select> 
-                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalProjectType'); resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                </select>
+                <!-- <a href="javascript:void(0)" @click="OPEN_MODAL('#modalScopeOFWork');resetData()" class="btn btn-primary" data-toggle="modal">
+                    <i class="las la-plus"></i> <span>New</span>
+                </a> -->
+                <a @click="OPEN_MODAL('#modalScopeOFWork');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                     <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
         </div>
+        
+
 
         <div v-if="listLoading" class="text-center my-3 text-loader">
             <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
         </div>
 
-            <div class="row">
-                <div class="col-lg-6">
-                    <table class="table table-bordered table-hover table-striped">
-                        <thead>
-                            <tr>
-                                <th width="105">Action</th>
-                                <th>Type</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(projectType) in projectTypes" :key="projectType.uuid">
-                                <td width="65" class="text-center">
-                                    <span class="hx-table-actions">
-                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalProjectType');setData(projectType)">
-                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalProjectType');setData(projectType)">Edit</b-dropdown-item>
-                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalScope');setData(projectType)">Scope</b-dropdown-item>
-                                            <b-dropdown-item href="javascript:void(0)" @click="remove(projectType)">Delete</b-dropdown-item>
-                                        </b-dropdown>
-                                    </span>
-
-                                </td>
-                                <td><span class="">{{ projectType.type }}</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="105">Action</th> 
+                            <th>Project Type</th>
+                            <th>Scope</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(scopeOfWork) in scopeOfWorks" :key="scopeOfWork.uuid" class="tb-tnx-item">
+                            <td width="100">
+                                <span class="hx-table-actions">
+                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalScopeOFWork');setData(scopeOfWork)" >
+                                        <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalScopeOFWork');setData(scopeOfWork)" >Edit</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)" @click="remove(scopeOfWork)">Delete</b-dropdown-item>
+                                    </b-dropdown>
+                                </span>
+                            </td>
+                            <td>{{ scopeOfWork.project_type.type }}</td>
+                            <td>{{ scopeOfWork.scope_of_work }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+        </div> 
+
 
             <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
             <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
@@ -73,16 +78,19 @@
                         <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
                     </li>
                 </ul>
-            </nav> 
- 
+            </nav>
 
-        <!-- Modal Form Type-->
-        <div class="modal fade modal-single-form" tabindex="-1" id="modalProjectType">
+
+                    
+
+
+        <!-- Modal Group Form -->
+        <div class="modal fade modal-single-form" tabindex="-1" id="modalScopeOFWork">
             <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Project Type</h5>
-                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalProjectType');" class="close" data-dismiss="modal" aria-label="Close">
+                        <h5 class="modal-title">Scope Of Work</h5>
+                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalScopeOFWork');" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
                         </a>
                     </div>
@@ -90,15 +98,26 @@
                         <form action="#" class="form-validate is-alter">
 
                             <div class="row">
+
+                                
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="project-type">Type:</label>
+                                        <label class="form-label" for="project-type-scope">Project Type:</label>
+                                            <select class="form-select-project-type" v-model="selected_project_type" :options="options_project_type" name="project-type-scope">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="location-name">Scope:</label>
                                         <div class="form-control-wrap">
-                                            <input v-model="formdata.type" type="text" class="form-control" id="project-type" required>
+                                            <input v-model="formdata.scope_of_work" type="text" class="form-control" id="location-name" required>
                                         </div>
                                     </div>
                                 </div>
-                                
+
+    
                             </div>                                    
                             
                         </form>
@@ -110,41 +129,20 @@
                 </div>
             </div>
         </div>
-
-        <!-- Modal Form Scope -->
-        <div class="modal fade" tabindex="-1" id="modalScope">
-            <div class="modal-dialog modal-lg" role="document" style="max-width: 1100px;">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">{{formdata.type}}</h5>
-                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalScope');resetData()" class="close" data-dismiss="modal" aria-label="Close">
-                            <i class="bx bx-x"></i>
-                        </a>
-                    </div>
-                    <div class="modal-body">
-                        <scope-of-work v-if="formdata.uuid" :project_type_uuid="formdata.uuid"></scope-of-work>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-                
+        
     </div>
 </template>
 
 <script>
 
 import Swal from 'sweetalert2'
-import ScopeOfWork from './scope-of-work'
 
 export default {
-    name: 'project-types',
+    name: 'scope-of-work-list',
     props: ['properties'],
     data: function () {
         return {
-            projectTypes: [],
-
+            scopeOfWorks: [],
             listLoading: true,
             listCurrentPage: 1,
             listItemPerPage: 20,
@@ -154,13 +152,14 @@ export default {
             searchKeyword: '',
             timer: null,
             formdata: { 
-                uuid: null, 
-                type: ''
-            }
+                uuid: null,
+                project_type_uuid: '', 
+                scope_of_work: ''
+            },
+            selected_project_type: null,
+            options_project_type: []
+
         }
-    },
-    components: {
-        'scope-of-work': ScopeOfWork
     },
     computed: {
         listTotalPages: function () {
@@ -170,12 +169,31 @@ export default {
         }
     },
     methods: {
-        getprojectTypes: function () {
+        getProjectType: function () {
+           var scope = this
+            scope.GET('projects/project-type').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_project_type.push({
+                        id: data.uuid,
+                        text: data.type
+                    })
+                
+                })
+
+                $(".form-select-project-type").select2({data: scope.options_project_type});
+                
+                scope.selected_project_type = scope.options_project_type[0].id
+            })
+
+        },
+        getScopeOfWork: function () {
             var scope = this
             scope.listLoading = true
-            scope.projectTypes = []
-            scope.GET('projects/project-type?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
-                scope.projectTypes = res.rows
+            scope.scopeOfWorks = []
+            scope.GET('projects/scope-of-work?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+                scope.scopeOfWorks = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
 
@@ -183,19 +201,26 @@ export default {
                 scope.listResults = res.results
             })
         },
+
         resetData: function () {
             var scope = this
             scope.formdata.uuid = null
-            scope.formdata.type = ''
+            scope.formdata.project_type_uuid = ''
+            scope.formdata.scope_of_work = ''
         },
         setData: function (data) {
             var scope = this
             scope.formdata.uuid = data.uuid
-            scope.formdata.type = data.type
+            scope.formdata.scope_of_work = data.scope_of_work
+
+            $('.form-select-project-type').val(data.project_type_uuid);
+            $('.form-select-project-type').trigger('change');
         },
         save: function () {
             var scope = this
-            scope.POST('projects/project-type', scope.formdata).then(res => {
+            scope.formdata.project_type_uuid = scope.selected_project_type
+
+            scope.POST('projects/scope-of-work', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -204,8 +229,8 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getprojectTypes()
-                        scope.CLOSE_MODAL('#modalProjectType')
+                        scope.getScopeOfWork()
+                        scope.CLOSE_MODAL('#modalScopeOFWork')
                     })
                 } else {
                     alert('ERROR:' + res.code)
@@ -215,6 +240,8 @@ export default {
         },
         update: function () {
             var scope = this
+            scope.formdata.project_type_uuid = scope.selected_project_type
+
             window.swal.fire({
                 title: 'Update?',
                 icon: 'warning',
@@ -225,7 +252,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST('projects/project-type', scope.formdata).then(res => {
+                    scope.POST('projects/scope-of-work', scope.formdata).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
@@ -234,8 +261,8 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                                scope.getprojectTypes()
-                                scope.CLOSE_MODAL('#modalProjectType')
+                                scope.getScopeOfWork()
+                                scope.CLOSE_MODAL('#modalScopeOFWork')
                             })
                         }
                         else{
@@ -258,7 +285,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.DELETE('projects/project-type/' + data.uuid).then(res => {
+                    scope.POST('company/branch-location/delete', data).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
@@ -267,8 +294,8 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            scope.getprojectTypes()
-                            scope.CLOSE_MODAL('#modalProjectType')
+                            scope.getScopeOfWork()
+                            scope.CLOSE_MODAL('#modalScopeOFWork')
                             })
                         }
                         else{
@@ -286,7 +313,7 @@ export default {
             }
 
             scope.timer = setTimeout(() => {
-                scope.getprojectTypes()
+                scope.getScopeOfWork()
             }, 800);
         },
         listPaginate: function(page) {
@@ -308,18 +335,25 @@ export default {
                 return
             }
 
-            scope.getprojectTypes()
+            scope.getScopeOfWork()
         },
         changeListItemPerPage: function () 
         {
             var scope = this
             scope.listCurrentPage = 1
-            scope.getprojectTypes()
+            scope.getScopeOfWork()
         }
     },
+
     mounted() {
         var scope = this
-        scope.getprojectTypes()
+        scope.getProjectType()
+        scope.getScopeOfWork()
+         
+        $('.form-select-project-type').on("change", function(e) { 
+            scope.selected_project_type = $('.form-select-project-type').val();
+            console.log($('.form-select-project-type').val())
+        })
     },
 }
 </script>

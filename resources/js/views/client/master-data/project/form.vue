@@ -60,13 +60,13 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3 col-12">
+                        <!-- <div class="col-md-3 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="main-project-type">Project Type</label>
                                 <select class="form-select-project-type" v-model="selected_project_type" :options="options_project_type" name="main-project-type" :disabled="view_mode">
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="col-md-3 col-12">
                             <div class="form-group">
@@ -113,7 +113,7 @@
 
                     <div class="tab-content">    
                         <div class="tab-pane active" id="scope">
-                            <scope-of-work v-if="formdata.uuid" :project_uuid="formdata.uuid" :view_mode="view_mode"></scope-of-work>
+                           
                         </div>
                     </div>  
 
@@ -126,7 +126,7 @@
 <script>
 
 
-import ScopeOfWork from './scope-of-work'
+// import ScopeOfWork from './scope-of-work'
 
 export default {
     name: 'project-form',
@@ -149,12 +149,11 @@ export default {
                 end_date: '',
                 cost: '',
             }
-
         }
     },
-    components: {
-        'scope-of-work': ScopeOfWork
-    },
+    // components: {
+    //     'scope-of-work': ScopeOfWork
+    // },
     methods: {
 
         getProjectType: function () {

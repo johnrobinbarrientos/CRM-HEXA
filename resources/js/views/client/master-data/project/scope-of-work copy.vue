@@ -18,12 +18,12 @@
                                 <td width="65" class="text-center">
                                     <span class="hx-table-actions">
                                         <template v-if="scopeOfWork.edit !== true">
-                                            <button @click="editScope(scopeOfWork)" class="btn btn-sm btn-shineblue" role="button"><i class="mdi mdi-pencil"></i></button>
-                                            <button class="btn btn-sm btn-danger" role="button"><i class="bx bx-trash-alt"></i></button>
+                                            <button @click="editScope(scopeOfWork)" class="btn btn-sm btn-shineblue" role="button" :disabled="view_mode"><i class="mdi mdi-pencil"></i></button>
+                                            <button class="btn btn-sm btn-danger" role="button" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
                                         </template>
                                         <template v-else>
-                                            <button @click="saveScope(scopeOfWork)" class="btn btn-sm btn-primary" role="button"><i class="bx bx-save"></i></button>
-                                            <button class="btn btn-sm btn-danger" role="button"><i class="bx bx-trash-alt"></i></button>
+                                            <button @click="saveScope(scopeOfWork)" class="btn btn-sm btn-primary" role="button" :disabled="view_mode"><i class="bx bx-save"></i></button>
+                                            <button class="btn btn-sm btn-danger" role="button" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
                                         </template>
                                     </span>
                                 </td>
@@ -41,7 +41,7 @@
                             </template>
                             <tr>
                                 <td class="p-0" colspan="3" >
-                                    <button @click="addNewScope()"  type="button" style="font-weight:600; border-radius: 0; padding-top: 4px; padding-bottom: 4px;" class="hx-btn hx-btn-shineblue w-100"><i class="bx bx-plus"></i>New</button>
+                                    <button @click="addNewScope()"  type="button" style="font-weight:600; border-radius: 0; padding-top: 4px; padding-bottom: 4px;" :disabled="view_mode" class="hx-btn hx-btn-shineblue w-100"><i class="bx bx-plus"></i>New</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -64,12 +64,12 @@
                                 <td width="65" class="text-center">
                                     <span class="hx-table-actions">
                                         <template v-if="work_detail.edit !== true">
-                                            <button @click="editWorkDetail(work_detail)" type="button" class="btn btn-sm btn-shineblue"><i class="mdi mdi-pencil"></i></button>
-                                            <button class="btn btn-sm btn-danger" type="button"><i class="bx bx-trash-alt"></i></button>
+                                            <button @click="editWorkDetail(work_detail)" type="button" class="btn btn-sm btn-shineblue" :disabled="view_mode"><i class="mdi mdi-pencil"></i></button>
+                                            <button class="btn btn-sm btn-danger" type="button" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
                                         </template>
                                         <template v-else>
-                                            <button @click="saveWorkDetail(work_detail)" type="button" class="btn btn-sm btn-primary"><i class="bx bx-save"></i></button>
-                                            <button class="btn btn-sm btn-danger" type="button"><i class="bx bx-trash-alt"></i></button>
+                                            <button @click="saveWorkDetail(work_detail)" type="button" class="btn btn-sm btn-primary" :disabled="view_mode"><i class="bx bx-save"></i></button>
+                                            <button class="btn btn-sm btn-danger" type="button" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
                                         </template>
                                     </span>
                                 </td>
@@ -86,7 +86,7 @@
                             </template>
                             <tr>
                                 <td class="p-0" colspan="4" >
-                                    <button @click="addWorkDetail()" type="button" style="font-weight:600; border-color: transparent; border-radius: 0; padding-top: 4px; padding-bottom: 4px;" class="hx-btn hx-btn-shineblue w-100"><i class="bx bx-plus"></i>New</button>
+                                    <button @click="addWorkDetail()" type="button" style="font-weight:600; border-color: transparent; border-radius: 0; padding-top: 4px; padding-bottom: 4px;" :disabled="view_mode" class="hx-btn hx-btn-shineblue w-100"><i class="bx bx-plus"></i>New</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -103,7 +103,7 @@ import Swal from 'sweetalert2'
 
 export default {
     name: 'scope-of-work',
-    props: ['properties','project_type_uuid'],
+    props: ['properties','project_uuid','view_mode'],
     data: function () {
         return {
             selected_scope: null,
@@ -222,9 +222,9 @@ export default {
        },
        getScopes: function () {
             var scope = this
-            var project_type_uuid = scope.project_type_uuid;
+            var project_uuid = scope.project_uuid;
 
-            scope.GET('projects/' + project_type_uuid + '/scope-of-work').then(res => {
+            scope.GET('projects/' + project_uuid + '/scope-of-work').then(res => {
                 scope.scopes = res.rows
                 // auto select first scope
                 if (res.rows.length > 0) {
@@ -235,8 +235,8 @@ export default {
        },
        saveScope: function (data) {
             var scope = this
-            var project_type_uuid = scope.project_type_uuid;
-            scope.POST('projects/'+ project_type_uuid +'/scope-of-work', data).then(res => {
+            var project_uuid = scope.project_uuid;
+            scope.POST('projects/'+ project_uuid +'/scope-of-work', data).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -259,7 +259,6 @@ export default {
     mounted() {
         var scope = this
         scope.getScopes()
-        console.log(scope.project_type_uuid)
 
         // if(scope.properties) {
         //     scope.table_responsive = scope.properties.table_responsive

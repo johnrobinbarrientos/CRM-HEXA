@@ -178,7 +178,7 @@ export default {
         create: function () {
             var scope = this
 
-            scope.POST('employees/').then(res => {
+            scope.POST('employees').then(res => {
                 if (res.success) {
                    scope.ROUTE({path: '/employees/' + res.data.uuid })
                 }
