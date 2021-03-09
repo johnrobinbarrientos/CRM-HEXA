@@ -50,6 +50,9 @@
 }
 
 
+.table-selected, .table-selected>td, .table-selected>th { background-color: #f8f9fa !important; }
+
+
 
 /* media queries */
 @media (min-width: 1200px) {

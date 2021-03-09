@@ -13,12 +13,18 @@ class SupplierGroupController extends Controller
     {
         $list = SupplierGroup::whereNull('deleted_at');
 
+        if (isset(request()->with) && request()->with == 'suppliers') {
+            $list = $list->with('Suppliers');
+        }
+
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;
             $list = $list->where(function($query) use ($keyword) {
                 $query->where('group_name','LIKE','%'.$keyword.'%');
             });
         }
+
+        
 
         $count = $list->count();
 

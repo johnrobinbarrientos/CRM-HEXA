@@ -28,5 +28,11 @@ class SupplierGroup extends Model
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
     }
+
+    public function Suppliers()
+    {
+        return $this->hasMany('App\Models\SupplierList','supplier_group_uuid','uuid');
+    }
+
    
 }

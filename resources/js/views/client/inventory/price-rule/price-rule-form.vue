@@ -61,7 +61,10 @@
 
                             <div class="form-group">
                                 <label class="form-label" for="applicable-to">Applicable To</label>
-                                <select class="form-select-applicable-to" v-model="selected_applicable_to" :options="options_applicable_to" name="applicable-to">
+                                <select class="form-control" v-model="selected_applicable_to" name="applicable-to">
+                                    <option v-for="option in options_applicable_to" :value="option.id" :key="'option-' + option.id">
+                                        {{ option.text }}
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -102,9 +105,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-                                
                             </span>
                             <span v-else>
                                 <selling-by-group></selling-by-group>
@@ -144,8 +144,8 @@ export default {
             selected_applicable_to: null,
 
             options_applicable_to: [
-            {id: 'Buying', text: 'Buying'},
-            {id: 'Selling', text: 'Selling'}
+                { id: 'Buying', text: 'Buying' },
+                { id: 'Selling', text: 'Selling' }
             ],
 
             formdata: { 

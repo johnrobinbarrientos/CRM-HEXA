@@ -657,6 +657,9 @@ img.header-profile-user { background: #fff; }
 
 .table-hover tbody tr:hover { color: #526484; background-color: rgba(237,245,255,255) !important; }
 
+.table-selected, .table-selected>td, .table-selected>th { background-color: #f8f9fa !important; }
+
+
 .buy-and-pay-summary {
     margin-bottom: 30px;
     padding: 10px;
