@@ -189,7 +189,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
         Route::get('/', 'API\EmployeeListController@index');
         Route::post('/', 'API\EmployeeListController@store');
-        Route::put('/update', 'API\EmployeeListController@update');
+        Route::post('/update', 'API\EmployeeListController@update');
         Route::get('/{employee_uuid}','API\EmployeeListController@show');
 
     });

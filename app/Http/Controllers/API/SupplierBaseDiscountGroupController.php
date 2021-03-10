@@ -14,8 +14,15 @@ class SupplierBaseDiscountGroupController extends Controller
 {
     public function getSupplierBaseDiscountGroups($supplierUUID)
     {
-        $discount_groups = SupplierBaseDiscountGroup::where('supplier_uuid','=',$supplierUUID)->get();
-        return response()->json(['success' => 1, 'rows' => $discount_groups], 200);
+        $list = SupplierBaseDiscountGroup::where('supplier_uuid','=',$supplierUUID);
+
+        if (!empty(request()->discounts) && request()->discounts == 'yes') {
+            $list = $list->with('SupplierBaseDiscountGroupDetails');
+        }
+      
+        $list = $list->get();
+
+        return response()->json(['success' => 1, 'rows' => $list], 200);
     }
 
     public function getSupplierBaseDiscountGroupsMultiple()
@@ -57,14 +64,67 @@ class SupplierBaseDiscountGroupController extends Controller
 
     public function save($supplierUUID)
     {
-        $discountGroup = request()->uuid ? SupplierBaseDiscountGroup::find(request()->uuid) : new SupplierBaseDiscountGroup();
+        $data = request()->all();
+        $discounts = (is_array($data['supplier_base_discount_group_details'])) ? $data['supplier_base_discount_group_details'] : [];
 
+
+        $errors = 0;
+
+        $data['group_name_error'] = false;
+        if (empty($data['group_name'])) {
+            $data['group_name_error'] = true;
+            $errors++;
+        }
+
+        $discount_uuids = [];
+        foreach ($discounts as $key=> $discount) {
+            
+            $discount['discount_name_error'] = false;
+            $discount['discount_rate_error'] = false;
+            
+            $discount_uuids[] = $discount['uuid'];
+
+            if (empty($discount['discount_name'])) {
+                $discount['discount_name_error'] = true;
+                $errors++;
+            }
+
+            if (empty($discount['discount_rate']) || $discount['discount_rate'] <= 0) {
+                $discount['discount_rate_error'] = true;
+                $errors++;
+            }
+
+            $discounts[$key] = $discount;
+        }
+    
+      
+        if ($errors) {
+            $data['supplier_base_discount_group_details'] = $discounts;
+            return response()->json(['success' => 0, 'data' => $data ], 500);
+        }
+
+        $discountGroup = request()->uuid ? SupplierBaseDiscountGroup::find(request()->uuid) : new SupplierBaseDiscountGroup();
         $discountGroup->supplier_uuid = $supplierUUID;
         $discountGroup->group_name = request()->group_name;
         $discountGroup->save();
-        
-        $discountGroup = SupplierBaseDiscountGroup::find($discountGroup->uuid);
 
+        $delete = SupplierBaseDiscountGroupDetail::where('supplier_base_discount_group_uuid','=',$discountGroup->uuid)->whereNotIn('uuid',$discount_uuids)->delete();
+
+        foreach ($discounts as $discount) {
+            
+            $uuid = ($discount['uuid']) ? $discount['uuid'] : '';
+            $data = SupplierBaseDiscountGroupDetail::find($uuid);
+            $data = ($data) ? $data : new SupplierBaseDiscountGroupDetail;
+
+            $data->supplier_base_discount_group_uuid = $discountGroup->uuid;
+            $data->discount_name = $discount['discount_name'];
+            $data->discount_rate = $discount['discount_rate'];
+            $data->save();
+        }
+        
+        $discountGroup = SupplierBaseDiscountGroup::with('SupplierBaseDiscountGroupDetails')->find($discountGroup->uuid);
+
+        
         return response()->json(['success' => 1, 'data' => $discountGroup], 200);
     }
 

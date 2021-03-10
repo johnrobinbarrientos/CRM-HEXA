@@ -851,7 +851,7 @@ export default {
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes',
                 cancelButtonText: 'Cancel'
-            }).then((result) => {
+            }).then((result) => { 
                 if (result.value) {
                     scope.axios.post(window.API_URL + '/' + 'employees/update' , formData, {
                         'headers': {
