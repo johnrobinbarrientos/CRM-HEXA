@@ -23,7 +23,7 @@
                                         <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="editGroup(group)">
                                             <b-dropdown-item href="javascript:void(0)"  @click="editGroup(group)">Edit</b-dropdown-item>
                                             <b-dropdown-item href="javascript:void(0)" @click="viewGroup(group)">View</b-dropdown-item>
-                                            <b-dropdown-item href="javascript:void(0)">Delete</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="removeGroup(group,index)">Delete</b-dropdown-item>
                                         </b-dropdown>
 
                                     
@@ -243,6 +243,9 @@ export default {
            data.view = false
         },
         removeGroup: function (group,index) {
+            var scope = this
+            
+     
             window.swal.fire({
                 title: 'Remove?',
                 icon: 'warning',
@@ -253,7 +256,22 @@ export default {
                 cancelButtonText: 'No'
             }).then((result) => {
                 if (result.value) {
-                    // group.supplier_base_discount_group_details.splice(index,1)
+                    scope.DELETE('suppliers/'+ group.supplier_uuid +'/supplier-base-discount-group/' + group.uuid).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Saved',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.groups.splice(index,1)
+                            })
+                        } else {
+                            alert(res.message);
+                        }
+                        
+                    })
                 }                              
             })
         },

@@ -128,9 +128,9 @@ class SupplierBaseDiscountGroupController extends Controller
         return response()->json(['success' => 1, 'data' => $discountGroup], 200);
     }
 
-    public function delete()
+    public function delete($supplierUUID,$supplierBaseDiscountGroupUUID)
     {
-        $discountGroup = SupplierBaseDiscountGroup::find(request()->uuid)->delete();
+        $discountGroup = SupplierBaseDiscountGroup::find($supplierBaseDiscountGroupUUID)->delete();
 
         return response()->json(['success' => 1, 'message' => 'Deleted!'], 200);
     }
