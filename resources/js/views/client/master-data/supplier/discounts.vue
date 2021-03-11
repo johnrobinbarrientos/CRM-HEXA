@@ -264,7 +264,7 @@ export default {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Saved',
+                                title: 'Deleted',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {

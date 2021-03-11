@@ -145,7 +145,7 @@ export default {
             var supplier_uuid = scope.supplier_uuid;
 
             window.swal.fire({
-                title: 'Remove?',
+                title: 'Delete?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#548235',
@@ -159,7 +159,7 @@ export default {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Saved',
+                                title: 'Deleted',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
