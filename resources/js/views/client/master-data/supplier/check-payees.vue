@@ -2,34 +2,54 @@
     <div>
         <br/>
         <div class="row">
-            <div class="col-md-4 col-12">
-                <div class="card-title" style="margin-left: 12px;">Check Payees</div>
-                <div v-bind:class="{ 'table-responsive': table_responsive }">
-                    <table class="table  table-striped table-bordered table-hover mb-0 table" style="margin-left: 12px;">
+            <div class="col-md-5 col-12">
+                <div class="card-title">
+                    <div class="row">
+                        <div class="col-md-6">Check Payees</div>
+                        <div class="col-md-6">
+                            <div style="text-align:right;">
+                                <button @click="addNewPayee()"  type="button" class="btn-gray-small" :disabled="view_mode">New Payee</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom:80px;" v-bind:class="{ 'table-responsive': table_responsive }">
+                    <table class="table table-bordered ">
                         <thead>
                             <tr>
-                                <th width="90">Action</th>
+                                <th>Action</th>
                                 <th>Name</th>
-                                
                             </tr>
                         </thead>
                         <tbody>
                             <template v-if="payees.length > 0">
-                            <tr @click="selectPayee(payee)" v-bind:class="{'table-success' : (selected_payee && selected_payee.uuid === payee.uuid) }" style="cursor:pointer;" v-for="(payee,index) in payees" :key="index" >
-                                <td>
-                                    <template v-if="payee.edit !== true">
-                                        <button @click="editPayee(payee)" type="button" class="btn btn-sm btn-light" :disabled="view_mode"><i class="bx bx-pencil"></i></button>
-                                        <button type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
-                                    </template>
-                                    <template v-else>
-                                        <button  @click="savePayee(payee)" type="button" class="btn btn-sm btn-primary" :disabled="view_mode"><i class="bx bx-save"></i></button>
-                                        <button  type="button" class="btn btn-sm btn-danger" :disabled="view_mode"><i class="bx bx-trash-alt"></i></button>
-                                    </template>
-                                </td>
-                                <td>
-                                    <strong v-if="payee.edit !== true">{{ payee.check_payee }}</strong>
-                                    <input v-else v-model="payee.check_payee" class="form-control" type="text" placeholder="Enter check payee" :readonly="view_mode">
-                                </td>
+                            <tr @click="selectPayee(payee)"  v-for="(payee,index) in payees" :key="index" >
+                                <template  v-if="!payee.edit">
+                                    <td width="80">
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="edit(payee)">
+                                            <b-dropdown-item href="javascript:void(0)"  @click="edit(payee)">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="remove(payee,index)">Delete</b-dropdown-item>
+                                        </b-dropdown>
+                                    </td>
+                                    <td>
+                                        {{ payee.check_payee }}
+                                    </td>
+                                </template>
+                                <template  v-else>
+                                    <td style="padding:0px;" colspan="2">
+                                        <div style="padding:8px; padding-top:15px; background:#f5f5f5; border:2px solid #ccc;">
+                                            <strong>Check Payee</strong>
+                                            <input v-model="payee.check_payee" class="form-control-gray-medium" type="text" placeholder="Enter check payee">
+
+                                            <div style="margin-top:10px; margin-bottom:10px; text-align:center;">
+                                                <button class="btn-gray-small" @click="save(payee)" type="button">Save</button>
+                                                <button class="btn-gray-small" @click="cancel(payee,index)" type="button" >Cancel</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </template>
+                    
                             </tr>
                             </template>
                             <template v-else>
@@ -37,11 +57,6 @@
                                     <td colspan="3" style="padding:20px; text-align:center; font-weight:600;">No payee has been added yet</td>
                                 </tr>
                             </template>
-                            <tr>
-                                <td style="text-align:center; cursor:pointer; font-weight:600; background:#efefef;" colspan="3" >
-                                    <button @click="addNewPayee()"  type="button" style="font-weight:600; background:transparent; border:none;" :disabled="view_mode"><i class="bx bx-plus"></i>New Payee</button>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                     </div>
@@ -88,14 +103,22 @@ export default {
                 edit: true
            });
         },
-        editPayee: function (data) {
+        edit: function (data) {
            var scope = this
-           
-           if (data.uuid === null) {
-               return;
-           }
 
+           var copy = JSON.parse(JSON.stringify(data))
+           scope.$set(data,'check_payee_copy', copy.check_payee)
            scope.$set(data,'edit', true)
+        },
+        cancel: function (data,index) {
+           var scope = this
+
+           if (!data.uuid) {
+                scope.payees.splice(index,1)
+            }
+
+           data.edit = false
+           scope.$set(data,'check_payee',data.check_payee_copy)
         },
         selectPayee: function (data) {
            var scope = this
@@ -118,7 +141,41 @@ export default {
                 }
             })
        },
-       savePayee: function (data) {
+       remove: function(payee,index) {
+            var scope = this
+            var supplier_uuid = scope.supplier_uuid;
+
+            window.swal.fire({
+                title: 'Remove?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#548235',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.value) {
+                    scope.DELETE('suppliers/'+ supplier_uuid +'/check-payee/' + payee.uuid).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Saved',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                scope.payees.splice(index,1)
+                            })
+                        } else {
+                            alert(res.message);
+                        }
+                        
+                    })
+                    
+                }                              
+            })
+       },
+       save: function (data) {
             var scope = this
             var supplier_uuid = scope.supplier_uuid;
 

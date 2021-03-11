@@ -47,9 +47,9 @@ class SupplierCheckPayeeController extends Controller
         return response()->json(['success' => 1, 'data' => $checkPayee], 200);
     }
 
-    public function delete()
-    {
-        $checkPayee = SupplierCheckPayee::find(request()->uuid)->delete();
+    public function delete($supplierUUID,$checkPayeeUUID) {
+        
+        $checkPayee = SupplierCheckPayee::find($checkPayeeUUID)->delete();
 
         return response()->json(['success' => 1, 'message' => 'Deleted!'], 200);
     }

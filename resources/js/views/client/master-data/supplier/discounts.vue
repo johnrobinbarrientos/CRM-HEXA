@@ -3,7 +3,16 @@
         <br/>
         <div class="row">
             <div class="col-lg-5 col-12" >
-                <div class="card-title">Discount Groups</div>
+                <div class="card-title">
+                    <div class="row">
+                        <div class="col-md-6">Discount Group</div>
+                        <div class="col-md-6">
+                            <div style="text-align:right;">
+                                <button @click="addNewGroup()"  type="button" class="btn-gray-small" :disabled="view_mode">New Discount Group</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div style="margin-bottom:80px;" v-bind:class="{ 'table-responsive': table_responsive }">
                     <table class="table table-bordered table-hover table-striped">
                         <thead>
@@ -17,7 +26,7 @@
                             <template v-if="groups.length > 0">
                                 <template @click="selectGroup(group)" v-bind:class="{'table-success' : (selected_group && selected_group.uuid === group.uuid) }" style="cursor:pointer;" v-for="(group,index) in groups">
                                     <tr v-if="!group.edit && !group.view " :key="'group-' + index">
-                                        <td width="100" class="text-center">
+                                        <td width="80" class="text-center">
 
                                         
                                         <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="editGroup(group)">
@@ -66,10 +75,10 @@
                                                         <tbody>
                                                             <tr style="background:#fff;" v-for="(discount,index2) in group.supplier_base_discount_group_details" :key="'group-discount-' + index + '-' + index2 ">
                                                                 <td width="60"><button class="btn-gray-small" type="button" @click="removeDiscount(group,index2)" :disabled="view_mode">Delete</button></td>
-                                                                <td style="padding:0px;">
+                                                                <td style="padding:0px 2px;">
                                                                     <input class="form-control-gray-small" v-bind:class="{'error' : discount.discount_name_error}" type="text" v-model="discount.discount_name ">
                                                                 </td>
-                                                                <td style="padding:0px;"  width="70">
+                                                                <td style="padding:0px 2px;"  width="70">
                                                                     <input class="form-control-gray-small" v-bind:class="{'error' : discount.discount_rate_error}"  type="text" v-model="discount.discount_rate ">
                                                                 </td>
                                                             </tr>
@@ -119,11 +128,6 @@
                                     <td colspan="3" style="padding:20px; text-align:center; font-weight:600;">No supplier discount group has been added yet</td>
                                 </tr>
                             </template>
-                            <tr>
-                                <td style="padding:0px;" colspan="3" >
-                                    <button @click="addNewGroup()"  type="button" style="margin:0px; font-weight:600; border-radius: 0; padding-top: 4px; padding-bottom: 4px; width:100%; background:#e7e9ec;  color: #495057!important; border:1px solid #ccc;" :disabled="view_mode" class="btn-gray-small"> New Group</button>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                     </div>
