@@ -47,7 +47,7 @@
                                     <tr v-if="group.edit == true" :key="'group-items-' + index">
                                         <td style="padding:0px;"  colspan="3">
                                             <div style="padding:5px; background:#f5f5f5; border: 2px solid #ccc;">
-                                                <p style="font-weight:600; margin:3px; margin-bottom:5px;">Edit Discount Group</p>
+                                                <p style="font-weight:600; margin:3px; margin-bottom:5px;">Discount Group</p>
                                                 <input v-model="group.group_name" class="form-control-gray-medium"  v-bind:class="{'error' : group.group_name_error}" type="text" placeholder="Enter group name">
                                                 
                                                 <div style="padding:8px; padding-bottom:15px; border:1px solid #ccc; background:#fff; margin-top:20px;">

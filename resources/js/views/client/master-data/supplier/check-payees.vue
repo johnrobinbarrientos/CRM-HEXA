@@ -5,7 +5,7 @@
             <div class="col-md-5 col-12">
                 <div class="card-title">
                     <div class="row">
-                        <div class="col-md-6">Check Payees</div>
+                        <div class="col-md-6">Check Payee</div>
                         <div class="col-md-6">
                             <div style="text-align:right;">
                                 <button @click="addNewPayee()"  type="button" class="btn-gray-small" :disabled="view_mode">New Payee</button>
