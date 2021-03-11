@@ -112,7 +112,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::delete('/item-supplier-discounts', 'API\SupplierBaseDiscountGroupItemController@delete');
         Route::delete('/item-supplier-discounts-batch', 'API\SupplierBaseDiscountGroupItemController@deleteBatch');
 
-        Route::get('/{supplierUUID}/check-payee', 'API\SupplierCheckPayeeController@index');
+        Route::get('/{supplierUUID}/check-payee', 'API\SupplierCheckPayeeController@getCheckPayeeBySupplier');
         Route::post('/{supplierUUID}/check-payee', 'API\SupplierCheckPayeeController@save');
         Route::delete('/{supplierUUID}/check-payee/{checkPayeeUUID}', 'API\SupplierCheckPayeeController@delete');
 

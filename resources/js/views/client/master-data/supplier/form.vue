@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="ready">
         <div class="card hx-card-override">
             <div class="card-header">
                 <h5 class="mb-0">General Information</h5>
@@ -202,11 +202,11 @@
                                 </div>
 
                                 <div class="tab-pane" id="discounts">
-                                        <Discounts v-if="formdata.uuid" :supplier_uuid="formdata.uuid" :view_mode="view_mode" :properties="{ table_responsive: false }"></Discounts>
+                                    <Discounts v-if="formdata.uuid" :supplier_uuid="formdata.uuid" :view_mode="view_mode" :properties="{ table_responsive: false }"></Discounts>
                                 </div>
 
                                 <div class="tab-pane" id="check-payees">
-                                        <check-payees :supplier_uuid="formdata.uuid" :view_mode="view_mode" :properties="{ table_responsive: false }"></check-payees>
+                                    <check-payees  v-if="formdata.uuid" :supplier_uuid="formdata.uuid" :view_mode="view_mode" :properties="{ table_responsive: false }"></check-payees>
                                 </div>
 
                                 <div class="tab-pane" id="address">
@@ -306,6 +306,15 @@ export default {
 
     data: function () {
         return {
+            prerequiste: {
+                getPayables: false,
+                getExpenses: false,
+                getSupplierGroup: false,
+                getPaymentTerm: false,
+                getVat: false,
+                getEwt: false,
+                getAddressList: false,
+            },
             selected_payables: null,
             options_payables: [],
 
@@ -465,7 +474,50 @@ export default {
         CheckPayees
     },
     computed: {
-        
+        ready: function () {
+            var scope = this
+
+            if (scope.prerequiste.getPayables && scope.prerequiste.getExpenses && scope.prerequiste.getSupplierGroup && scope.prerequiste.getPaymentTerm 
+                && scope.prerequiste.getVat && scope.prerequiste.getEwt && scope.prerequiste.getAddressList) {
+                return true
+            }
+
+            return false
+        }
+    },
+    watch: {
+        ready: function (val) {
+            var scope = this
+            if (val) {
+                setTimeout(function(){
+                    $(".form-select-expenses").select2({data: scope.options_expenses});
+                    scope.selected_expenses = scope.options_expenses[0].id
+
+                    $(".form-select-supplier-group").select2({data: scope.options_supplier_group});
+                    scope.selected_supplier_group = scope.options_supplier_group[0].id
+                    $('.form-select-supplier-group').trigger('change');
+
+                    $(".form-select-payment-term").select2({data: scope.options_payment_term});
+                    scope.selected_payment_term = scope.options_payment_term[0].id
+                    $(".form-select-payment-term").trigger('change');
+
+                    $(".form-select-ewt").select2({data: scope.options_ewt});
+                    scope.selected_ewt = scope.options_ewt[0].id
+
+                    $(".form-select-vat").select2({data: scope.options_vat});
+                    scope.selected_vat = scope.options_vat[0].id
+
+                    $(".form-select-address-list").select2({data: scope.options_global_address});
+                    scope.selected_global_address = scope.options_global_address[0].id
+                    scope.fillAddress()
+
+                    $(".form-select-payables").select2({data: scope.options_payables});
+                    scope.selected_payables = scope.options_payables[0].id
+                },500)
+                
+            }
+            
+        }
     },
     methods: {
         getPayables: function () {
@@ -478,9 +530,7 @@ export default {
                     })
                 })
 
-                $(".form-select-payables").select2({data: scope.options_payables});
-                
-                scope.selected_payables = scope.options_payables[0].id
+                scope.prerequiste.getPayables = true
             })
 
         },
@@ -501,9 +551,8 @@ export default {
                     })
                 })
 
-                $(".form-select-expenses").select2({data: scope.options_expenses});
                 
-                scope.selected_expenses = scope.options_expenses[0].id
+                scope.prerequiste.getExpenses = true
 
             })
         },
@@ -518,10 +567,7 @@ export default {
                     })
                 })
 
-                
-                $(".form-select-supplier-group").select2({data: scope.options_supplier_group});
-                scope.selected_supplier_group = scope.options_supplier_group[0].id
-                $('.form-select-supplier-group').trigger('change');
+                scope.prerequiste.getSupplierGroup = true
                 
             })
 
@@ -539,9 +585,8 @@ export default {
                 
                 })
 
-                $(".form-select-payment-term").select2({data: scope.options_payment_term});
                 
-                scope.selected_payment_term = scope.options_payment_term[0].id
+                scope.prerequiste.getPaymentTerm = true
             })
 
         },
@@ -564,9 +609,7 @@ export default {
                 
                 })
 
-                $(".form-select-vat").select2({data: scope.options_vat});
-                
-                scope.selected_vat = scope.options_vat[0].id
+                scope.prerequiste.getVat = true
             })
 
         },
@@ -590,9 +633,8 @@ export default {
                 
                 })
 
-                $(".form-select-ewt").select2({data: scope.options_ewt});
                 
-                scope.selected_ewt = scope.options_ewt[0].id
+                scope.prerequiste.getEwt = true
             })
 
         },
@@ -615,9 +657,9 @@ export default {
                 
                 })
 
-                $(".form-select-address-list").select2({data: scope.options_global_address});
-                scope.selected_global_address = scope.options_global_address[0].id
-                scope.fillAddress()
+                
+
+                scope.prerequiste.getAddressList = true
             })
 
         },
@@ -781,7 +823,7 @@ export default {
         scope.getVat()
         scope.getEwt()
         scope.getAddressList()
-
+        
         var supplierUUID = scope.$route.params.supplierUUID
         scope.getSupplierDetails(supplierUUID)
 

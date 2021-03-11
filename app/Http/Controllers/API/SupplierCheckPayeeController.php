@@ -34,6 +34,12 @@ class SupplierCheckPayeeController extends Controller
         return response()->json(['success' => 1, 'rows' => $list, 'count' => $count], 200);
     }
 
+    public function getCheckPayeeBySupplier($supplierUUID)
+    {
+        $list = SupplierCheckPayee::where('supplier_uuid','=',$supplierUUID)->whereNull('deleted_at')->get();
+        return response()->json(['success' => 1, 'rows' => $list], 200);
+    }
+
     public function save()
     {
         $checkPayee = request()->uuid ? SupplierCheckPayee::find(request()->uuid) : new SupplierCheckPayee();

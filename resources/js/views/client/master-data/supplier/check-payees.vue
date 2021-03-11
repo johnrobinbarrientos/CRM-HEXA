@@ -129,10 +129,9 @@ export default {
 
            scope.selected_payee = data
        },
-       getPayees: function () {
+       getPayeesBySupplier: function (supplier_uuid) {
             var scope = this
-            var supplier_uuid = scope.supplier_uuid;
-
+            
             scope.GET('suppliers/' + supplier_uuid + '/check-payee').then(res => {
                 scope.payees = res.rows
                 // auto select first payee
@@ -202,7 +201,11 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getPayees()
+        
+        if(scope.supplier_uuid) {
+            var supplier_uuid = scope.supplier_uuid
+            scope.getPayeesBySupplier(supplier_uuid)
+        }
 
         if(scope.properties) {
             scope.table_responsive = scope.properties.table_responsive
