@@ -100,11 +100,11 @@ class SupplierListController extends Controller
         return response()->json(['success' => 1, 'data' => $supplier], 200);
     }
 
-
-    public function delete()
+    public function delete($supplier_uuid)
     {
-        $supplier = SupplierList::find(request()->uuid)->delete();
-        return response()->json(['success' => 1, 'message' => 'Supplier Deleted!'], 200);
+        $supplier = SupplierList::find($supplier_uuid)->delete();
+
+        return response()->json(['success' => 1, 'message' => 'Deleted!'], 200);
     }
 
     public function getSupplierItems($supplier_uuid)

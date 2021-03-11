@@ -115,11 +115,11 @@
                                     <a class="" data-toggle="tab" href="#address">Address</a>    
                                 </li>
                                 <li>        
-                                    <a class="" data-toggle="tab" href="#check-payees">Check Payees</a>    
+                                    <a class="" data-toggle="tab" href="#check-payees">Check Payee</a>    
                                 </li>
                                 <li>        
-                                    <a v-if="formdata.uuid === null" class="disabled" data-toggle="tab" href="#discounts">Discounts</a> 
-                                    <a v-else class="" data-toggle="tab" href="#discounts">Discounts</a>   
+                                    <a v-if="formdata.uuid === null" class="disabled" data-toggle="tab" href="#discounts">Discount</a> 
+                                    <a v-else class="" data-toggle="tab" href="#discounts">Discount</a>   
                                 </li>
                                 <li>        
                                     <a class="active" data-toggle="tab" href="#account">Financial Account</a>    

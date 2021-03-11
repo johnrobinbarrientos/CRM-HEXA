@@ -120,9 +120,9 @@ class CustomerListController extends Controller
     }
 
 
-    public function delete()
+    public function delete($customer_uuid)
     {
-        $customer = CustomerList::find(request()->uuid)->delete();
+        $customer = CustomerList::find($customer_uuid)->delete();
 
         return response()->json(['success' => 1, 'message' => 'Deleted!'], 200);
     }
