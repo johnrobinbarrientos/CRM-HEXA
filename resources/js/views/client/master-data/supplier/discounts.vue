@@ -37,33 +37,45 @@
                                     </tr>
                                     <tr v-if="group.edit == true" :key="'group-items-' + index">
                                         <td style="padding:0px;"  colspan="3">
-                                            <div style="padding:5px; background:#f5f5f5; border-bottom: 1px solid #ccc;">
+                                            <div style="padding:5px; background:#f5f5f5; border: 2px solid #ccc;">
                                                 <p style="font-weight:600; margin:3px; margin-bottom:5px;">Edit Discount Group</p>
                                                 <input v-model="group.group_name" class="form-control-gray-medium"  v-bind:class="{'error' : group.group_name_error}" type="text" placeholder="Enter group name">
                                                 
-                                                <div style="text-align:right; margin-top:10px;">
-                                                    <button class="btn-gray-small" @click="addNewDiscount(group)" type="button" :disabled="view_mode">Add Discount</button>
+                                                <div style="padding:8px; padding-bottom:15px; border:1px solid #ccc; background:#fff; margin-top:20px;">
+                                                    <div style="margin-top:5px; margin-bottom:5px;">
+                                                        <div class="row">
+                                                            <div class="col-12 col-md-6">
+                                                                <span style="font-weight:600; display:inline-block;">Discount List</span>
+                                                            </div>
+                                                            <div class="col-12 col-md-6">
+                                                                <div style="text-align:right;">
+                                                                    <button class="btn-gray-small" @click="addNewDiscount(group)" type="button" :disabled="view_mode">Add Discount</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <table style="margin-top:5px;" class="table table-bordered table-hover">
+                                                        <thead>
+                                                            <tr style="background:#fff;">
+                                                                <th>Action</th>
+                                                                <th>Name</th>
+                                                                <th>Rate</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr style="background:#fff;" v-for="(discount,index2) in group.supplier_base_discount_group_details" :key="'group-discount-' + index + '-' + index2 ">
+                                                                <td width="60"><button class="btn-gray-small" type="button" @click="removeDiscount(group,index2)" :disabled="view_mode">Delete</button></td>
+                                                                <td style="padding:0px;">
+                                                                    <input class="form-control-gray-small" v-bind:class="{'error' : discount.discount_name_error}" type="text" v-model="discount.discount_name ">
+                                                                </td>
+                                                                <td style="padding:0px;"  width="70">
+                                                                    <input class="form-control-gray-small" v-bind:class="{'error' : discount.discount_rate_error}"  type="text" v-model="discount.discount_rate ">
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
-                                                <table style="margin-top:5px;" class="table table-bordered table-hover">
-                                                    <thead>
-                                                        <tr style="background:#fff;">
-                                                            <th>Action</th>
-                                                            <th>Name</th>
-                                                            <th>Rate</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr style="background:#fff;" v-for="(discount,index2) in group.supplier_base_discount_group_details" :key="'group-discount-' + index + '-' + index2 ">
-                                                            <td width="60"><button class="btn-gray-small" type="button" @click="removeDiscount(group,index2)" :disabled="view_mode">Delete</button></td>
-                                                            <td style="padding:0px;">
-                                                                <input class="form-control-gray-small" v-bind:class="{'error' : discount.discount_name_error}" type="text" v-model="discount.discount_name ">
-                                                            </td>
-                                                            <td style="padding:0px;"  width="70">
-                                                                <input class="form-control-gray-small" v-bind:class="{'error' : discount.discount_rate_error}"  type="text" v-model="discount.discount_rate ">
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
                                                 <div style="margin-top:10px; margin-bottom:15px; text-align:center;">
                                                     <button class="btn-gray-small" @click="saveGroup(group)" type="button" :disabled="view_mode">Save</button>
                                                     <button class="btn-gray-small" @click="cancelEditGroup(group,index)" type="button" :disabled="view_mode">Cancel</button>
@@ -100,9 +112,6 @@
                                             </div>
                                         </td>
                                     </tr>
-
-
-                                    
                                 </template>
                             </template>
                             <template v-else>
