@@ -85,6 +85,9 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/', 'API\ItemListController@store');
         Route::put('/', 'API\ItemListController@update');
         Route::get('/{item_uuid}','API\ItemListController@show');
+        Route::delete('/{item_uuid}', 'API\ItemListController@delete');
+
+        
 
     });
 
@@ -119,7 +122,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/', 'API\SupplierListController@store');
         Route::put('/', 'API\SupplierListController@update');
         Route::get('/{supplier_uuid}','API\SupplierListController@show');
-    
+        Route::delete('/{supplier_uuid}', 'API\SupplierListController@delete');
+        
     });
 
     Route::group(['prefix' => 'customers'], function(){
@@ -137,6 +141,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/create', 'API\CustomerListController@store');
         Route::put('/', 'API\CustomerListController@update');
         Route::get('/{customer_uuid}','API\CustomerListController@show');
+        Route::delete('/{customer_uuid}', 'API\CustomerListController@delete');
 
     });
 
@@ -193,7 +198,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/', 'API\EmployeeListController@store');
         Route::post('/update', 'API\EmployeeListController@update');
         Route::get('/{employee_uuid}','API\EmployeeListController@show');
-
+        Route::delete('/{employee_uuid}', 'API\EmployeeListController@delete');
     });
 
     Route::group(['prefix' => 'companies'], function(){

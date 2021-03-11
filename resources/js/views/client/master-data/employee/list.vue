@@ -51,7 +51,7 @@
                                     <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid })">
                                         <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid })">Edit</b-dropdown-item>
                                         <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid + '/view' })">View</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)">Delete</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)"@click="remove(employee)">Delete</b-dropdown-item>
                                     </b-dropdown>
                                 </span>
                             </td>
@@ -221,8 +221,41 @@ export default {
             var scope = this
             scope.listCurrentPage = 1
             scope.getEmployeeList()
-        }
+        },
 
+        remove: function (data) {
+            var scope = this
+
+            window.swal.fire({
+                title: 'Delete?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.DELETE('employees/' + data.uuid).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Deleted',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                            scope.getEmployeeList()
+                            })
+                        }
+                        else{
+                            alert('ERROR:' + res.code)
+                        }
+                    })            
+                }                              
+            })
+        },
+        
     },
     mounted() {
         // Tooltips

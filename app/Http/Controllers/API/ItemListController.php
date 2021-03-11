@@ -206,10 +206,11 @@ class ItemListController extends Controller
         return response()->json(['success' => 1, 'data' => $item], 200);
     }
 
-    public function delete($itemUUID)
+    public function delete($item_uuid)
     {
-        $item = ItemList::find($itemUUID)->delete();
-        return response()->json(['success' => 1, 'message' => 'Item Deleted!'], 200);
+        $item = ItemList::find($item_uuid)->delete();
+
+        return response()->json(['success' => 1, 'message' => 'Deleted!'], 200);
     }
 
     public function uoms($itemUUID)

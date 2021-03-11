@@ -50,7 +50,7 @@
                                 <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/customers/' + customer.uuid })">
                                     <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/customers/' + customer.uuid })">Edit</b-dropdown-item>
                                     <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/customers/' + customer.uuid + '/view' })">View</b-dropdown-item>
-                                    <b-dropdown-item href="javascript:void(0)">Delete</b-dropdown-item>
+                                    <b-dropdown-item href="javascript:void(0)"@click="remove(customer)">Delete</b-dropdown-item>
                                 </b-dropdown>
                             </span>
                         </td>
@@ -183,7 +183,40 @@ export default {
             var scope = this
             scope.listCurrentPage = 1
             scope.getCustomerList()
-        }
+        },
+
+        remove: function (data) {
+            var scope = this
+
+            window.swal.fire({
+                title: 'Delete?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.DELETE('customers/' + data.uuid).then(res => {
+                        if (res.success) {
+                            window.swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Deleted',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                            scope.getCustomerList()
+                            })
+                        }
+                        else{
+                            alert('ERROR:' + res.code)
+                        }
+                    })            
+                }                              
+            })
+        },
 
     },
     mounted() {

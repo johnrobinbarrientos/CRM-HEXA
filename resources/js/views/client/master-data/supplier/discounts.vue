@@ -3,14 +3,14 @@
         <br/>
         <div class="row">
             <div class="col-lg-5 col-12" >
-                <div class="card-title">Discount Groups</div>
+                <div class="card-title">Discount Group</div>
                 <div style="margin-bottom:80px;" v-bind:class="{ 'table-responsive': table_responsive }">
                     <table class="table table-bordered table-hover table-striped">
                         <thead>
                             <tr>
                                 <th>Action</th>
                                 <th>Name</th>
-                                <th>Discounts</th>
+                                <th>Discount</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,7 +38,7 @@
                                     <tr v-if="group.edit == true" :key="'group-items-' + index">
                                         <td style="padding:0px;"  colspan="3">
                                             <div style="padding:5px; background:#f5f5f5; border-bottom: 1px solid #ccc;">
-                                                <p style="font-weight:600; margin:3px; margin-bottom:5px;">Edit Discount Group</p>
+                                                <p style="font-weight:600; margin:3px; margin-bottom:5px;">Discount Group</p>
                                                 <input v-model="group.group_name" class="form-control-gray-medium"  v-bind:class="{'error' : group.group_name_error}" type="text" placeholder="Enter group name">
                                                 
                                                 <div style="text-align:right; margin-top:10px;">
@@ -75,7 +75,7 @@
                                     <tr v-if="group.view == true" :key="'group-items-' + index">
                                         <td style="padding:0px;"  colspan="3">
                                             <div style="padding:5px; background:#f5f5f5; border-bottom: 1px solid #ccc;">
-                                                <p style="font-weight:600; margin:3px; margin-bottom:5px; color:#333;">{{ group.group_name }} Discounts</p>
+                                                <p style="font-weight:600; margin:3px; margin-bottom:5px; color:#333;">{{ group.group_name }}</p>
                                                 <table style="margin-top:5px;" class="table table-bordered table-hover">
                                                     <thead>
                                                         <tr style="background:#fff;">
@@ -107,7 +107,7 @@
                             </template>
                             <template v-else>
                                 <tr>
-                                    <td colspan="3" style="padding:20px; text-align:center; font-weight:600;">No supplier discount group has been added yet</td>
+                                    <td colspan="3" style="padding:20px; text-align:center; font-weight:600;">No Records</td>
                                 </tr>
                             </template>
                             <tr>
@@ -176,19 +176,9 @@ export default {
         },
         removeDiscount: function (group,index) {
             var scope = this
-            window.swal.fire({
-                title: 'Remove?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#548235',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No'
-            }).then((result) => {
-                if (result.value) {
-                    group.supplier_base_discount_group_details.splice(index,1)
-                }                              
-            })
+
+            group.supplier_base_discount_group_details.splice(index,1)
+                      
         },
         addNewGroup: function () {
            var scope = this
@@ -247,7 +237,7 @@ export default {
             
      
             window.swal.fire({
-                title: 'Remove?',
+                title: 'Delete?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#548235',

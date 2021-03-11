@@ -3,7 +3,7 @@
         <br/>
         <div class="row">
             <div class="col-md-4 col-12">
-                <div class="card-title" style="margin-left: 12px;">Check Payees</div>
+                <div class="card-title" style="margin-left: 12px;">Check Payee</div>
                 <div v-bind:class="{ 'table-responsive': table_responsive }">
                     <table class="table  table-striped table-bordered table-hover mb-0 table" style="margin-left: 12px;">
                         <thead>
@@ -34,7 +34,7 @@
                             </template>
                             <template v-else>
                                 <tr>
-                                    <td colspan="3" style="padding:20px; text-align:center; font-weight:600;">No payee has been added yet</td>
+                                    <td colspan="3" style="padding:20px; text-align:center; font-weight:600;">No Records</td>
                                 </tr>
                             </template>
                             <tr>
