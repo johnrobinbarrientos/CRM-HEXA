@@ -178,10 +178,11 @@ class EmployeeListController extends Controller
         return response()->json(['success' => 1, 'data' => $employee], 200);
     }
 
-    public function delete()
+    public function delete($employee_uuid)
     {
-        $employee = EmployeeList::find(request()->uuid)->delete();
+        $employee = EmployeeList::find($employee_uuid)->delete();
 
         return response()->json(['success' => 1, 'message' => 'Deleted!'], 200);
     }
+
 }

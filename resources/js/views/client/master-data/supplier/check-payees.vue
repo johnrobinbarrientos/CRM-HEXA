@@ -54,7 +54,7 @@
                             </template>
                             <template v-else>
                                 <tr>
-                                    <td colspan="3" style="padding:20px; text-align:center; font-weight:600;">No payee has been added yet</td>
+                                    <td colspan="3" style="padding:20px; text-align:center; font-weight:600;">No Records</td>
                                 </tr>
                             </template>
                         </tbody>
