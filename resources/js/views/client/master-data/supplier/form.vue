@@ -373,7 +373,58 @@ export default {
 
         }
     },
+    components: {
+        Discounts,
+        CheckPayees
+    },
+    computed: {
+        ready: function () {
+            var scope = this
+
+            if (scope.prerequiste.getPayables && scope.prerequiste.getExpenses && scope.prerequiste.getSupplierGroup && scope.prerequiste.getPaymentTerm 
+                && scope.prerequiste.getVat && scope.prerequiste.getEwt && scope.prerequiste.getAddressList) {
+                return true
+            }
+
+            return false
+        }
+    },
     watch: {
+        ready: function (val) {
+            var scope = this
+            if (val) {
+                setTimeout(function(){
+                    $(".form-select-expenses").select2({data: scope.options_expenses});
+                    scope.selected_expenses = scope.options_expenses[0].id
+
+                    $(".form-select-supplier-group").select2({data: scope.options_supplier_group});
+                    scope.selected_supplier_group = scope.options_supplier_group[0].id
+                    $('.form-select-supplier-group').trigger('change');
+
+                    $(".form-select-payment-term").select2({data: scope.options_payment_term});
+                    scope.selected_payment_term = scope.options_payment_term[0].id
+                    $(".form-select-payment-term").trigger('change');
+
+                    $(".form-select-ewt").select2({data: scope.options_ewt});
+                    scope.selected_ewt = scope.options_ewt[0].id
+
+                    $(".form-select-vat").select2({data: scope.options_vat});
+                    scope.selected_vat = scope.options_vat[0].id
+
+                    $(".form-select-address-list").select2({data: scope.options_global_address});
+                    scope.selected_global_address = scope.options_global_address[0].id
+                    scope.fillAddress()
+
+                    $(".form-select-payables").select2({data: scope.options_payables});
+                    scope.selected_payables = scope.options_payables[0].id
+
+                    var supplierUUID = scope.$route.params.supplierUUID
+                    scope.getSupplierDetails(supplierUUID)
+                },500)
+                
+            }
+            
+        },
         with_vat: function () {
             var scope = this
 
@@ -466,57 +517,6 @@ export default {
                 }
 
             }
-        }
-
-    },
-    components: {
-        Discounts,
-        CheckPayees
-    },
-    computed: {
-        ready: function () {
-            var scope = this
-
-            if (scope.prerequiste.getPayables && scope.prerequiste.getExpenses && scope.prerequiste.getSupplierGroup && scope.prerequiste.getPaymentTerm 
-                && scope.prerequiste.getVat && scope.prerequiste.getEwt && scope.prerequiste.getAddressList) {
-                return true
-            }
-
-            return false
-        }
-    },
-    watch: {
-        ready: function (val) {
-            var scope = this
-            if (val) {
-                setTimeout(function(){
-                    $(".form-select-expenses").select2({data: scope.options_expenses});
-                    scope.selected_expenses = scope.options_expenses[0].id
-
-                    $(".form-select-supplier-group").select2({data: scope.options_supplier_group});
-                    scope.selected_supplier_group = scope.options_supplier_group[0].id
-                    $('.form-select-supplier-group').trigger('change');
-
-                    $(".form-select-payment-term").select2({data: scope.options_payment_term});
-                    scope.selected_payment_term = scope.options_payment_term[0].id
-                    $(".form-select-payment-term").trigger('change');
-
-                    $(".form-select-ewt").select2({data: scope.options_ewt});
-                    scope.selected_ewt = scope.options_ewt[0].id
-
-                    $(".form-select-vat").select2({data: scope.options_vat});
-                    scope.selected_vat = scope.options_vat[0].id
-
-                    $(".form-select-address-list").select2({data: scope.options_global_address});
-                    scope.selected_global_address = scope.options_global_address[0].id
-                    scope.fillAddress()
-
-                    $(".form-select-payables").select2({data: scope.options_payables});
-                    scope.selected_payables = scope.options_payables[0].id
-                },500)
-                
-            }
-            
         }
     },
     methods: {
@@ -686,6 +686,8 @@ export default {
             scope.formdata.ewt_uuid = scope.selected_ewt
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
             scope.formdata.coa_expense_account_uuid = scope.selected_expenses
+
+            console.log(scope.formdata.coa_expense_account_uuid)
             scope.formdata.global_address_uuid = scope.selected_global_address
             scope.formdata.with_vat = scope.with_vat
             scope.formdata.with_ewt = scope.with_ewt
@@ -718,6 +720,8 @@ export default {
             scope.formdata.global_address_uuid = scope.selected_global_address
             scope.formdata.with_vat = scope.with_vat
             scope.formdata.with_ewt = scope.with_ewt
+
+            console.log(scope.formdata.coa_expense_account_uuid)
             
             window.swal.fire({
                 title: 'Update?',
@@ -824,26 +828,25 @@ export default {
         scope.getEwt()
         scope.getAddressList()
         
-        var supplierUUID = scope.$route.params.supplierUUID
-        scope.getSupplierDetails(supplierUUID)
+        
 
-        $('.form-select-payables').on("change", function(e) { 
+        $(document).on('change','.form-select-payables', function(e) { 
             scope.selected_payables = $('.form-select-payables').val();
         })
 
-        $('.form-select-expenses').on("change", function(e) { 
+        $(document).on('change','.form-select-expenses', function(e) { 
             scope.selected_expenses = $('.form-select-expenses').val();
         })
 
-        $('.form-select-supplier-group').on("change", function(e) { 
+        $(document).on('change','.form-select-supplier-group', function(e) { 
             scope.selected_supplier_group = $('.form-select-supplier-group').val();
         })
 
-        $('.form-select-payment-term').on("change", function(e) { 
+        $(document).on('change','.form-select-payment-term', function(e) { 
             scope.selected_payment_term = $('.form-select-payment-term').val();
         })
 
-        $('.form-select-vat').on("change", function(e) { 
+        $(document).on('change','.form-select-vat', function(e) { 
             scope.selected_vat = $('.form-select-vat').val();
 
             if (scope.selected_vat == ''){
@@ -851,7 +854,7 @@ export default {
             }
         })
 
-        $('.form-select-ewt').on("change", function(e) { 
+        $(document).on('change','.form-select-ewt', function(e) { 
             scope.selected_ewt = $('.form-select-ewt').val();
 
             if (scope.selected_ewt == ''){
@@ -859,8 +862,9 @@ export default {
             }
         })
 
-        $('.form-select-address-list').on("change", function(e) { 
+        $(document).on('change','.form-select-address-list', function(e) { 
             scope.selected_global_address = $('.form-select-address-list').val();
+
             scope.fillAddress()
         })
     },
