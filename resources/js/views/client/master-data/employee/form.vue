@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="ready">
         <div class="card hx-card-override">
             <div class="card-header">
                 <h5 class="mb-0">General Information</h5>
@@ -484,6 +484,16 @@ export default {
     props: ['properties','view_mode'],
     data: function () {
         return {
+            prerequiste: {
+                getCompanyDepartment: false,
+                getBranchLocation: false,
+                getEmploymentType: false,
+                getEmploymentStatus: false,
+                getCostCenter: false,
+                getEwt: false,
+                getAddressList: false,
+                getSupervisors: false,
+            },
 
             selected_department: null,
             options_department: [],
@@ -571,6 +581,60 @@ export default {
 
         }
     },
+    computed: {
+        ready: function () {
+            var scope = this
+
+            if (scope.prerequiste.getCompanyDepartment && scope.prerequiste.getBranchLocation && scope.prerequiste.getEmploymentType && scope.prerequiste.getEmploymentStatus 
+                && scope.prerequiste.getCostCenter && scope.prerequiste.getEwt && scope.prerequiste.getAddressList && scope.prerequiste.getSupervisors) {
+                return true
+            }
+
+            return false
+        }
+    },
+    watch: {
+        ready: function (val) {
+            var scope = this
+            if (val) {
+                setTimeout(function(){
+
+                    $(".form-select-department").select2({data: scope.options_department});
+                    scope.selected_department = scope.options_department[0].id
+
+                    $(".form-select-branch-location").select2({data: scope.options_branch_location});
+                    scope.selected_branch_location = scope.options_branch_location[0].id
+
+                    $(".form-select-employment-type").select2({data: scope.options_employment_type});
+                    scope.selected_employment_type = scope.options_employment_type[0].id
+
+                    $(".form-select-employment-status").select2({data: scope.options_employment_status});
+                    scope.selected_employment_status = scope.options_employment_status[0].id
+
+                    $(".form-select-cost-center").select2({data: scope.options_cost_center});
+                    scope.selected_cost_center = scope.options_cost_center[0].id
+
+                    $(".form-select-ewt").select2({data: scope.options_ewt});
+                    // scope.selected_ewt = scope.options_ewt[0].id
+
+                    $(".form-select-address-list").select2({data: scope.options_global_address});
+                    scope.selected_global_address= scope.options_global_address[0].id
+                    scope.fillAddress()
+
+                    $(".form-select-supervisor").select2({data: scope.options_supervisor});
+                    scope.selected_supervisor= scope.options_supervisor[0].id
+                    
+
+                    var employeeUUID = scope.$route.params.employeeUUID
+                    scope.getEmployeeDetails(employeeUUID)
+
+                },500)
+                
+            }
+            
+        }
+    },
+
     methods: {
 
         displayImage: function () {
@@ -586,12 +650,21 @@ export default {
 
             reader.readAsDataURL(scope.picture_file)
         },
-        
-        getEmployeeList: function () {
+
+        getCompanyDepartment: function () {
            var scope = this
-            scope.GET('employees').then(res => {
-                scope.employeeList = res.rows
+            scope.GET('company/department').then(res => {
+                res.rows.forEach(function (data) {
+                    scope.options_department.push({
+                        id: data.uuid,
+                        text: data.department.toUpperCase()
+                    })
+                })
+
+                scope.prerequiste.getCompanyDepartment = true
+
             })
+
         },
 
         getBranchLocation: function () {
@@ -604,26 +677,8 @@ export default {
                     })
                 })
 
-                $(".form-select-branch-location").select2({data: scope.options_branch_location});
-                
-                scope.selected_branch_location = scope.options_branch_location[0].id
-            })
+                scope.prerequiste.getBranchLocation = true
 
-        },
-
-        getCompanyDepartment: function () {
-           var scope = this
-            scope.GET('company/department').then(res => {
-                res.rows.forEach(function (data) {
-                    scope.options_department.push({
-                        id: data.uuid,
-                        text: data.department.toUpperCase()
-                    })
-                })
-
-                $(".form-select-department").select2({data: scope.options_department});
-                
-                scope.selected_department = scope.options_department[0].id
             })
 
         },
@@ -638,9 +693,8 @@ export default {
                     })
                 })
 
-                $(".form-select-employment-type").select2({data: scope.options_employment_type});
-                
-                scope.selected_employment_type = scope.options_employment_type[0].id
+                scope.prerequiste.getEmploymentType = true
+
             })
 
         },
@@ -654,10 +708,9 @@ export default {
                         text: data.employment_status.toUpperCase()
                     })
                 })
-
-                $(".form-select-employment-status").select2({data: scope.options_employment_status});
                 
-                scope.selected_employment_status = scope.options_employment_status[0].id
+                scope.prerequiste.getEmploymentStatus = true
+
             })
 
         },
@@ -672,9 +725,8 @@ export default {
                     })
                 })
 
-                $(".form-select-cost-center").select2({data: scope.options_cost_center});
-                
-                scope.selected_cost_center = scope.options_cost_center[0].id
+                scope.prerequiste.getCostCenter = true
+
             })
 
         },
@@ -692,9 +744,8 @@ export default {
                 
                 })
 
-                $(".form-select-ewt").select2({data: scope.options_ewt});
-                
-                scope.selected_ewt = scope.options_ewt[0].id
+                scope.prerequiste.getEwt = true
+
             })
 
         },
@@ -718,14 +769,11 @@ export default {
                 
                 })
 
-                $(".form-select-address-list").select2({data: scope.options_global_address});
-                scope.selected_global_address= scope.options_global_address[0].id
-                scope.fillAddress()
-                
+                scope.prerequiste.getAddressList = true
+
             })
 
         },
-
 
         getSupervisors: function () {
            var scope = this
@@ -750,8 +798,7 @@ export default {
                 
                 })
 
-                $(".form-select-supervisor").select2({data: scope.options_supervisor});
-                scope.selected_supervisor= scope.options_supervisor[0].id
+                scope.prerequiste.getSupervisors = true
                 
             })
 
@@ -907,7 +954,6 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            // scope.getEmployeeList()
                             // scope.toggleForm()
                             })
                         }
@@ -1013,8 +1059,7 @@ export default {
         scope.getAddressList()
         scope.getSupervisors()
 
-        var employeeUUID = scope.$route.params.employeeUUID
-        scope.getEmployeeDetails(employeeUUID)
+        
 
         $(".form-select-gender").select2({data: scope.options_gender});
         scope.selected_gender = scope.options_gender[0].id
@@ -1025,35 +1070,35 @@ export default {
         })
 
 
-        $('.form-select-supervisor').on("change", function(e) { 
+        $(document).on('change','.form-select-supervisor', function(e) { 
             scope.selected_supervisor = $('.form-select-supervisor').val();
         })
 
-        $('.form-select-department').on("change", function(e) { 
+        $(document).on('change','.form-select-department', function(e) { 
             scope.selected_department = $('.form-select-department').val();
         })
 
-        $('.form-select-branch-location').on("change", function(e) { 
+        $(document).on('change','.form-select-branch-location', function(e) { 
             scope.selected_branch_location = $('.form-select-branch-location').val();
         })
-        
-        $('.form-select-employment-type').on("change", function(e) { 
+
+        $(document).on('change','.form-select-employment-type', function(e) { 
             scope.selected_employment_type = $('.form-select-employment-type').val();
         })
 
-        $('.form-select-employment-status').on("change", function(e) { 
+        $(document).on('change','.form-select-employment-status', function(e) { 
             scope.selected_employment_status = $('.form-select-employment-status').val();
         })
 
-        $('.form-select-cost-center').on("change", function(e) { 
+        $(document).on('change','.form-select-cost-center', function(e) { 
             scope.selected_cost_center = $('.form-select-cost-center').val();
         })
 
-        $('.form-select-ewt').on("change", function(e) { 
+        $(document).on('change','.form-select-ewt', function(e) { 
             scope.selected_ewt = $('.form-select-ewt').val();
         })
 
-        $('.form-select-address-list').on("change", function(e) { 
+        $(document).on('change','.form-select-address-list', function(e) { 
             scope.selected_global_address = $('.form-select-address-list').val();
             scope.fillAddress()
         })

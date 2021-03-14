@@ -184,6 +184,7 @@ export default {
     },
     mounted() {
         var scope = this
+        console.log('lasdasd')
     },
 }
 </script>

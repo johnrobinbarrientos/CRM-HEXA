@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="ready">
         <div class="card hx-card-override">
             <div class="card-header">
                 <h5 class="mb-0">General Information</h5>
@@ -383,6 +383,18 @@ export default {
     props: ['properties','view_mode'],
     data: function () {
         return {
+            prerequiste: {
+                getRecievables: false,
+                getCustomerType: false,
+                getCustomerChannel: false,
+                getCustomerChain: false,
+                getCustomerGroup: false,
+                getCostCenter: false,
+                getPaymentTerm: false,
+                getVat: false,
+                getAddressList: false,
+            },
+
             selected_customer_group: null,
             options_customer_group: [],
 
@@ -458,6 +470,63 @@ export default {
 
         }
     },
+    computed: {
+        ready: function () {
+            var scope = this
+
+            if (scope.prerequiste.getRecievables && scope.prerequiste.getCustomerType && scope.prerequiste.getCustomerChannel && scope.prerequiste.getCustomerChain 
+                && scope.prerequiste.getCustomerGroup && scope.prerequiste.getCostCenter && scope.prerequiste.getPaymentTerm && scope.prerequiste.getVat
+                && scope.prerequiste.getAddressList) {
+                return true
+            }
+
+            return false
+        }
+    },
+    watch: {
+        ready: function (val) {
+            var scope = this
+            if (val) {
+                setTimeout(function(){
+
+                    $(".form-select-recievables").select2({data: scope.options_coa_recievable});
+                    scope.selected_coa_recievable = scope.options_coa_recievable[0].id
+
+                    $(".form-select-cost-center").select2({data: scope.options_cost_center});
+                    scope.selected_cost_center = scope.options_cost_center[0].id
+
+                    $(".form-select-customer-type").select2({data: scope.options_customer_type});
+                    scope.selected_customer_type = scope.options_customer_type[0].id
+
+                    $(".form-select-customer-channel").select2({data: scope.options_customer_channel});
+                    scope.selected_customer_channel = scope.options_customer_channel[0].id
+
+                    $(".form-select-customer-chain").select2({data: scope.options_customer_chain});
+                    scope.selected_customer_chain = scope.options_customer_chain[0].id
+
+                    $(".form-select-customer-group").select2({data: scope.options_customer_group});
+                    scope.selected_customer_group = scope.options_customer_group[0].id
+
+                    $(".form-select-payment-term").select2({data: scope.options_payment_term});
+                    scope.selected_payment_term = scope.options_payment_term[0].id
+
+                    $(".form-select-vat").select2({data: scope.options_vat});
+                    scope.selected_vat = scope.options_vat[0].id
+
+                    $(".form-select-address-list").select2({data: scope.options_global_address});
+                    scope.selected_global_address = scope.options_global_address[0].id
+                    scope.fillAddress()
+                    
+
+                    var customerUUID = scope.$route.params.customerUUID
+                    scope.getCustomerDetails(customerUUID)
+
+                },500)
+                
+            }
+            
+        }
+    },
     methods: {
         getRecievables: function () {
            var scope = this
@@ -469,9 +538,8 @@ export default {
                     })
                 })
 
-                $(".form-select-recievables").select2({data: scope.options_coa_recievable});
+                scope.prerequiste.getRecievables = true
                 
-                scope.selected_coa_recievable = scope.options_coa_recievable[0].id
             })
 
         },
@@ -486,9 +554,8 @@ export default {
                     })
                 })
 
-                $(".form-select-cost-center").select2({data: scope.options_cost_center});
+                scope.prerequiste.getCostCenter = true
                 
-                scope.selected_cost_center = scope.options_cost_center[0].id
             })
 
         },
@@ -502,9 +569,8 @@ export default {
                     })
                 })
 
-                $(".form-select-customer-type").select2({data: scope.options_customer_type});
+                scope.prerequiste.getCustomerType = true
                 
-                scope.selected_customer_type = scope.options_customer_type[0].id
             })
 
         },
@@ -518,9 +584,8 @@ export default {
                     })
                 })
 
-                $(".form-select-customer-channel").select2({data: scope.options_customer_channel});
-                
-                scope.selected_customer_channel = scope.options_customer_channel[0].id
+                scope.prerequiste.getCustomerChannel = true
+
             })
 
         },
@@ -534,9 +599,8 @@ export default {
                     })
                 })
 
-                $(".form-select-customer-chain").select2({data: scope.options_customer_chain});
+                scope.prerequiste.getCustomerChain = true
                 
-                scope.selected_customer_chain = scope.options_customer_chain[0].id
             })
 
         },
@@ -549,12 +613,10 @@ export default {
                         id: data.uuid,
                         text: data.group_name
                     })
-                
                 })
 
-                $(".form-select-customer-group").select2({data: scope.options_customer_group});
-                
-                scope.selected_customer_group = scope.options_customer_group[0].id
+                scope.prerequiste.getCustomerGroup = true
+
             })
 
         },
@@ -568,12 +630,10 @@ export default {
                         id: data.uuid,
                         text: data.term
                     })
-                
                 })
 
-                $(".form-select-payment-term").select2({data: scope.options_payment_term});
+                scope.prerequiste.getPaymentTerm = true
                 
-                scope.selected_payment_term = scope.options_payment_term[0].id
             })
 
         },
@@ -596,9 +656,8 @@ export default {
                 
                 })
 
-                $(".form-select-vat").select2({data: scope.options_vat});
+                scope.prerequiste.getVat = true
                 
-                scope.selected_vat = scope.options_vat[0].id
             })
 
         },
@@ -620,9 +679,8 @@ export default {
                 
                 })
 
-                $(".form-select-address-list").select2({data: scope.options_global_address});
-                scope.selected_global_address = scope.options_global_address[0].id
-                scope.fillAddress()
+                scope.prerequiste.getAddressList = true
+
             })
 
         },
@@ -914,7 +972,8 @@ export default {
                 }
                 
             })
-        }
+        },
+
     },
     mounted() {
         var scope = this
@@ -930,44 +989,40 @@ export default {
         scope.getVat()
         scope.getAddressList()
 
-        var customerUUID = scope.$route.params.customerUUID
-        scope.getCustomerDetails(customerUUID)
 
-        
-        $('.form-select-customer-group').on("change", function(e) { 
+        $(document).on('change','.form-select-customer-group', function(e) { 
             scope.selected_customer_group = $('.form-select-customer-group').val();
         })
 
-        $('.form-select-customer-chain').on("change", function(e) { 
+        $(document).on('change','.form-select-customer-chain', function(e) { 
             scope.selected_customer_chain = $('.form-select-customer-chain').val();
         })
 
-        $('.form-select-customer-channel').on("change", function(e) { 
+        $(document).on('change','.form-select-customer-channel', function(e) { 
             scope.selected_customer_channel = $('.form-select-customer-channel').val();
         })
 
-        $('.form-select-customer-type').on("change", function(e) { 
+        $(document).on('change','.form-select-customer-type', function(e) { 
             scope.selected_customer_type = $('.form-select-customer-type').val();
         })
 
-        $('.form-select-cost-center').on("change", function(e) { 
+        $(document).on('change','.form-select-cost-center', function(e) { 
             scope.selected_cost_center = $('.form-select-cost-center').val();
         })
 
-        $('.form-select-vat').on("change", function(e) { 
+        $(document).on('change','.form-select-vat', function(e) { 
             scope.selected_vat = $('.form-select-vat').val();
         })
 
-        $('.form-select-payment-term').on("change", function(e) { 
+        $(document).on('change','.form-select-payment-term', function(e) { 
             scope.selected_payment_term = $('.form-select-payment-term').val();
         })
 
-        $('.form-select-recievables').on("change", function(e) { 
+        $(document).on('change','.form-select-recievables', function(e) { 
             scope.selected_coa_recievable = $('.form-select-recievables').val();
         })
 
-
-        $('.form-select-address-list').on("change", function(e) { 
+        $(document).on('change','.form-select-address-list', function(e) { 
             scope.selected_global_address = $('.form-select-address-list').val();
             scope.fillAddress()
         })

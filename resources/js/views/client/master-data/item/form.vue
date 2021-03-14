@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="ready">
         <div class="card hx-card-override">
             <div class="card-header">
                 <h5 class="mb-0">General Information</h5>
@@ -401,32 +401,6 @@
                                             </div>
 
                                             <hr>
-
-                                            <!-- <div v-show="formdata.is_sales_item">
-                                                <div class="d-flex">
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="mark-up-rate">Markup Rate</label>
-                                                        <div class="custom-control custom-radio">
-                                                            <input v-model="compute_selection" value = "manual" type="radio" id="manual-compute" class="custom-control-input">    
-                                                            <label class="custom-control-label mb-2" for="manual-compute">Manual</label>
-                                                        </div>  
-                                                        <div class="form-control-wrap d-flex">
-                                                            <input v-model="input_markup_rate" :disabled="isDisabledManual" type="text" class="form-control" id="mark-up-rate" :readonly="view_mode" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                                                            <button @click="computePrice()" :disabled="isDisabledManual" type="button" class="btn btn-sm btn-primary" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">Apply</button>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group ml-4">
-                                                        <label class="form-label" for="customer-group">Customer Group</label>
-                                                        <div class="custom-control custom-radio mb-2">    
-                                                            <input v-model="compute_selection" value="auto" type="radio" id="auto-compute" class="custom-control-input">    
-                                                            <label class="custom-control-label" for="auto-compute">Auto</label>
-                                                        </div>  
-                                                        <select class="form-select-customer-group" :disabled="isDisabledAuto" v-model="selected_customer_group" :options="options_customer_group" name="customer-group">
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div> -->
                                             
                                         </div>
                                     </div>
@@ -468,6 +442,27 @@ export default {
     props: ['properties','view_mode'],
     data: function () {
         return {
+            prerequiste: {
+                getItemGroup: false,
+                getSupplier: false,
+                getIncomeAccount: false,
+                getCostofSales: false,
+                getCatDepartment: false,
+                getCatSection: false,
+                getCatCategory: false,
+                getCatManufacturer: false,
+                getCatItemType: false,
+                getCatBrand: false,
+                getCatForm: false,
+                getCatPackingType: false,
+                getCatSizes: false,
+                getAssetGroup: false,
+                getGlobalUoms: false,
+                getGlobalBaseUOM: false,
+                getAssetGroup: false,
+                
+            },
+
             selected_item_group: null,
             options_item_group: [],
 
@@ -511,14 +506,9 @@ export default {
             selected_asset_group: null,
             options_asset_group: [],
 
-            // selected_customer_group: null,
-            // options_customer_group: [],
 
             selected_base_uom: null,
             options_base_uom: [],
-
-            // input_markup_rate: '',
-            // customer_markup_rate: '',
 
             
             compute_selection: 'manual',
@@ -578,29 +568,83 @@ export default {
         }
     },
     computed: {
-    //   isDisabledManual() {
-    //     var scope = this
-    //     if (scope.compute_selection=='manual'){
-    //         return false
-    //     }
-    //     else{
-    //         scope.input_markup_rate = ''
-    //         return true
-    //     }  
-    //   },
-    //   isDisabledAuto() {
-    //     var scope = this
-    //     if (scope.compute_selection=='auto'){
-    //         return false
-    //     }
-    //     else{
-    //         return true
-    //     }  
-    //   },
-      globalUOMs() {
-        return this.global_uoms
-      }
+        ready: function () {
+            var scope = this
+
+            if (scope.prerequiste.getItemGroup && scope.prerequiste.getSupplier && scope.prerequiste.getIncomeAccount && scope.prerequiste.getCostofSales 
+                && scope.prerequiste.getCatDepartment && scope.prerequiste.getCatSection && scope.prerequiste.getCatCategory && scope.prerequiste.getCatManufacturer
+                && scope.prerequiste.getCatItemType && scope.prerequiste.getCatBrand && scope.prerequiste.getCatForm && scope.prerequiste.getCatPackingType
+                && scope.prerequiste.getCatSizes && scope.prerequiste.getAssetGroup && scope.prerequiste.getGlobalUoms && scope.prerequiste.getGlobalBaseUOM) {
+                return true
+            }
+
+            return false
+        },
+        
+        globalUOMs() {
+            return this.global_uoms
+        }
     },
+    watch: {
+        ready: function (val) {
+            var scope = this
+            if (val) {
+                setTimeout(function(){
+
+                    $(".form-select-item-group").select2({data: scope.options_item_group});
+                    scope.selected_item_group = scope.options_item_group[0].id
+
+                    $(".form-select-suppliers").select2({data: scope.options_supplier});
+
+                    $(".form-select-income-account").select2({data: scope.options_income_account});
+                    scope.selected_income_account = scope.options_income_account[0].id
+
+                    $(".form-select-cost-of-sales").select2({data: scope.options_cost_of_sales});
+                    scope.selected_cost_of_sales = scope.options_cost_of_sales[0].id
+
+                    $(".form-select-cat-department").select2({data: scope.options_cat_department});
+                    scope.selected_cat_department = scope.options_cat_department[0].id
+
+                    $(".form-select-cat-section").select2({data: scope.options_cat_section});
+                    scope.selected_cat_section = scope.options_cat_section[0].id
+
+                    $(".form-select-cat-category").select2({data: scope.options_cat_category});
+                    scope.selected_cat_category = scope.options_cat_category[0].id
+
+                    $(".form-select-cat-manufacturer").select2({data: scope.options_cat_manufacturer});
+                    scope.selected_cat_manufacturer = scope.options_cat_manufacturer[0].id
+
+                    $(".form-select-cat-item-type").select2({data: scope.options_cat_item_type});
+                    scope.selected_cat_item_type = scope.options_cat_item_type[0].id
+
+                    $(".form-select-cat-brand").select2({data: scope.options_cat_brand});
+                    scope.selected_cat_brand = scope.options_cat_brand[0].id
+
+                    $(".form-select-cat-form").select2({data: scope.options_cat_form});
+                    scope.selected_cat_form = scope.options_cat_form[0].id
+
+                    $(".form-select-cat-packing-type").select2({data: scope.options_cat_packing_type});
+                    scope.selected_cat_packing_type = scope.options_cat_packing_type[0].id
+
+                    $(".form-select-cat-sizes").select2({data: scope.options_cat_sizes});
+                    scope.selected_cat_sizes = scope.options_cat_sizes[0].id
+
+                    $(".form-select-base-uom").select2({data: scope.options_base_uom});
+                    scope.selected_base_uom = scope.options_base_uom[0].id
+
+                    $(".form-select-asset-group").select2({data: scope.options_asset_group});
+
+
+                    var itemUUID = scope.$route.params.itemUUID
+                    scope.getItemDetails(itemUUID)
+
+                },500)
+                
+            }
+        }
+
+    },
+
     components: {
         'discounts' : Discounts
     },
@@ -615,11 +659,9 @@ export default {
                         id: data.uuid,
                         text: data.item_group
                     })
-                
                 })
 
-                $(".form-select-item-group").select2({data: scope.options_item_group});
-                scope.selected_item_group = scope.options_item_group[0].id
+                scope.prerequiste.getItemGroup = true
                 
             })
         },
@@ -633,10 +675,10 @@ export default {
                         id: data.uuid,
                         text: data.supplier_shortname
                     })
-                
                 })
 
-                $(".form-select-suppliers").select2({data: scope.options_supplier});
+                scope.prerequiste.getSupplier = true
+                
             })
         },
 
@@ -649,11 +691,9 @@ export default {
                         id: data.uuid,
                         text: data.account_name
                     })
-                
                 })
 
-                $(".form-select-income-account").select2({data: scope.options_income_account});
-                scope.selected_income_account = scope.options_income_account[0].id
+                scope.prerequiste.getIncomeAccount = true
                 
             })
         },
@@ -667,11 +707,10 @@ export default {
                         id: data.uuid,
                         text: data.account_name
                     })
-                
                 })
 
-                $(".form-select-cost-of-sales").select2({data: scope.options_cost_of_sales});
-                scope.selected_cost_of_sales = scope.options_cost_of_sales[0].id
+                scope.prerequiste.getCostofSales = true
+
             })
         },
 
@@ -686,11 +725,9 @@ export default {
                         id: data.uuid,
                         text: data.department
                     })
-                
                 })
 
-                $(".form-select-cat-department").select2({data: scope.options_cat_department});
-                scope.selected_cat_department = scope.options_cat_department[0].id
+                scope.prerequiste.getCatDepartment = true
                 
             })
 
@@ -707,11 +744,9 @@ export default {
                         id: data.uuid,
                         text: data.section
                     })
-                
                 })
 
-                $(".form-select-cat-section").select2({data: scope.options_cat_section});
-                scope.selected_cat_section = scope.options_cat_section[0].id
+                scope.prerequiste.getCatSection = true
             })
 
         },
@@ -726,11 +761,10 @@ export default {
                         id: data.uuid,
                         text: data.category
                     })
-                
                 })
 
-                $(".form-select-cat-category").select2({data: scope.options_cat_category});
-                scope.selected_cat_category = scope.options_cat_category[0].id
+                scope.prerequiste.getCatCategory = true
+                
             })
 
         },
@@ -745,11 +779,9 @@ export default {
                         id: data.uuid,
                         text: data.manufacturer
                     })
-                
                 })
 
-                $(".form-select-cat-manufacturer").select2({data: scope.options_cat_manufacturer});
-                scope.selected_cat_manufacturer = scope.options_cat_manufacturer[0].id
+                scope.prerequiste.getCatManufacturer = true
             })
 
         },
@@ -764,11 +796,9 @@ export default {
                         id: data.uuid,
                         text: data.item_type
                     })
-                
                 })
 
-                $(".form-select-cat-item-type").select2({data: scope.options_cat_item_type});
-                scope.selected_cat_item_type = scope.options_cat_item_type[0].id
+                scope.prerequiste.getCatItemType = true
                 
             })
 
@@ -784,11 +814,9 @@ export default {
                         id: data.uuid,
                         text: data.brand
                     })
-                
                 })
 
-                $(".form-select-cat-brand").select2({data: scope.options_cat_brand});
-                scope.selected_cat_brand = scope.options_cat_brand[0].id
+                scope.prerequiste.getCatBrand = true
                 
             })
 
@@ -804,11 +832,9 @@ export default {
                         id: data.uuid,
                         text: data.form
                     })
-                
                 })
 
-                $(".form-select-cat-form").select2({data: scope.options_cat_form});
-                scope.selected_cat_form = scope.options_cat_form[0].id
+                scope.prerequiste.getCatForm = true
                 
             })
 
@@ -824,11 +850,9 @@ export default {
                         id: data.uuid,
                         text: data.packing_type
                     })
-                
                 })
 
-                $(".form-select-cat-packing-type").select2({data: scope.options_cat_packing_type});
-                scope.selected_cat_packing_type = scope.options_cat_packing_type[0].id
+                scope.prerequiste.getCatPackingType = true
                 
             })
 
@@ -844,11 +868,9 @@ export default {
                         id: data.uuid,
                         text: data.sizes
                     })
-                
                 })
 
-                $(".form-select-cat-sizes").select2({data: scope.options_cat_sizes});
-                scope.selected_cat_sizes = scope.options_cat_sizes[0].id
+                scope.prerequiste.getCatSizes = true
                 
             })
 
@@ -864,11 +886,9 @@ export default {
                         id: data.uuid,
                         text: data.uom
                     })
-                
                 })
 
-                $(".form-select-base-uom").select2({data: scope.options_base_uom});
-                scope.selected_base_uom = scope.options_base_uom[0].id
+                scope.prerequiste.getGlobalBaseUOM = true
                 
             })
 
@@ -891,31 +911,11 @@ export default {
                     })
                 })
 
-                $(".form-select-asset-group").select2({data: scope.options_asset_group});
+                scope.prerequiste.getAssetGroup = true
             })
 
         },
 
-
-        // getCustomerGroup: function () {
-        //    var scope = this
-        //     scope.GET('customers/customer-group').then(res => {
-        //         res.rows.forEach(function (data) {
-
-        //             scope.options_customer_group.push({
-        //                 id: data.uuid,
-        //                 text: parseFloat(data.markup_rate).toFixed(0) + '%' + ' - ' + data.group_name ,
-        //                 markup_rate: data.markup_rate
-        //             })
-                
-        //         })
-
-        //         $(".form-select-customer-group").select2({data: scope.options_customer_group});
-
-        //         $('.form-select-customer-group').val(null);
-        //         $('.form-select-customer-group').trigger('change');
-        //     })
-        // },
 
         itemUomExists: function(uuid) {
             var scope = this
@@ -942,7 +942,9 @@ export default {
         getGlobalUoms: function () {
            var scope = this
             scope.GET('globals/uom').then(res => {
-                scope.global_uoms = res.rows 
+                scope.global_uoms = res.rows
+
+                scope.prerequiste.getGlobalUoms = true
             })
         },
 
@@ -1128,10 +1130,7 @@ export default {
                 }                              
             })
         },
-        // computePrice: function () {
-        //     var scope = this
-        //     scope.formdata.sales_price = (scope.input_markup_rate/100) * scope.formdata.purchase_price
-        // },
+
         setSupplierIDs: function (supplier_ids) {
             this.$refs.itemDiscounts.getSupplierDiscounts(supplier_ids);
         },
@@ -1246,86 +1245,69 @@ export default {
 
         scope.getGlobalBaseUOM()
         
-        // scope.getCustomerGroup()
 
-
-        var itemUUID = scope.$route.params.itemUUID
-        scope.getItemDetails(itemUUID)
-
-        $('.form-select-item-group').on("change", function(e) { 
+        $(document).on('change','.form-select-item-group', function(e) { 
             scope.selected_item_group = $('.form-select-item-group').val();
             scope.checkAsset()
         })
 
-        $('.form-select-suppliers').on("change", function(e) { 
+        $(document).on('change','.form-select-suppliers', function(e) { 
             scope.selected_suppliers = $('.form-select-suppliers').val();
             scope.setSupplierIDs(scope.selected_suppliers)
         })
 
-        $('.form-select-income-account').on("change", function(e) { 
+        $(document).on('change','.form-select-income-account', function(e) { 
             scope.selected_income_account = $('.form-select-income-account').val();
         })
 
-        $('.form-select-cost-of-sales').on("change", function(e) { 
+        $(document).on('change','.form-select-cost-of-sales', function(e) { 
             scope.selected_cost_of_sales = $('.form-select-cost-of-sales').val();
         })
 
-        $('.form-select-cat-department').on("change", function(e) { 
+        $(document).on('change','.form-select-cat-department', function(e) { 
             scope.selected_cat_department = $('.form-select-cat-department').val();
         })
 
-        $('.form-select-cat-section').on("change", function(e) { 
+        $(document).on('change','.form-select-cat-section', function(e) { 
             scope.selected_cat_section = $('.form-select-cat-section').val();
         })
 
-        $('.form-select-cat-category').on("change", function(e) { 
+        $(document).on('change','.form-select-cat-category', function(e) { 
             scope.selected_cat_category = $('.form-select-cat-category').val();
         })
 
-        $('.form-select-cat-manufacturer').on("change", function(e) { 
+        $(document).on('change','.form-select-cat-manufacturer', function(e) { 
             scope.selected_cat_manufacturer = $('.form-select-cat-manufacturer').val();
         })
 
-        $('.form-select-cat-item-type').on("change", function(e) { 
+        $(document).on('change','.form-select-cat-item-type', function(e) { 
             scope.selected_cat_item_type = $('.form-select-cat-item-type').val();
         })
 
-        $('.form-select-cat-brand').on("change", function(e) { 
+        $(document).on('change','.form-select-cat-brand', function(e) { 
             scope.selected_cat_brand = $('.form-select-cat-brand').val();
         })
 
-        $('.form-select-cat-form').on("change", function(e) { 
+        $(document).on('change','.form-select-cat-form', function(e) { 
             scope.selected_cat_form = $('.form-select-cat-form').val();
         })
 
-        $('.form-select-cat-packing-type').on("change", function(e) { 
+        $(document).on('change','.form-select-cat-packing-type', function(e) { 
             scope.selected_cat_packing_type = $('.form-select-cat-packing-type').val();
         })
 
-        $('.form-select-cat-sizes').on("change", function(e) { 
+        $(document).on('change','.form-select-cat-sizes', function(e) { 
             scope.selected_cat_sizes = $('.form-select-cat-sizes').val();
         })
 
-        $('.form-select-asset-group').on("change", function(e) { 
+        $(document).on('change','.form-select-asset-group', function(e) { 
             scope.selected_asset_group = $('.form-select-asset-group').val();
         })
 
-        $('.form-select-base-uom').on("change", function(e) { 
+        $(document).on('change','.form-select-base-uom', function(e) { 
             scope.selected_base_uom = $('.form-select-base-uom').val();
         })
 
-
-        // $('.form-select-customer-group').on("change", function(e) { 
-        //     scope.selected_customer_group = $('.form-select-customer-group').val();
-
-        //     for (var i = 0; i < scope.options_customer_group.length; i++) {
-        //         if(scope.options_customer_group[i].id==scope.selected_customer_group){
-        //             scope.customer_markup_rate = scope.options_customer_group[i].markup_rate
-        //             scope.formdata.sales_price = (scope.customer_markup_rate/100) * scope.formdata.purchase_price
-        //         }
-        //     }
-
-        // })
     },
 }
 </script>
