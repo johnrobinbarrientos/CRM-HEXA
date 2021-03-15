@@ -22,8 +22,7 @@ class ItemListController extends Controller
         ->with('CatSection')->with('CatCategory')
         ->with('CatManufacturer')->with('CatItemType')
         ->with('CatBrand')->with('CatForm')
-        ->with('CatPackingType')->with('CatSizes')
-        ->with('AssetGroup');
+        ->with('CatPackingType')->with('AssetGroup');
 
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;
@@ -124,7 +123,7 @@ class ItemListController extends Controller
         $item->cat_brand_uuid = request()->cat_brand_uuid;
         $item->cat_form_uuid = request()->cat_form_uuid;
         $item->cat_packing_type_uuid = request()->cat_packing_type_uuid;
-        $item->cat_sizes_uuid = request()->cat_sizes_uuid;
+        $item->cat_size = request()->cat_size;
         $item->is_draft = 0;
         $item->save();
         

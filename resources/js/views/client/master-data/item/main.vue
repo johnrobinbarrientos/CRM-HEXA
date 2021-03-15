@@ -198,24 +198,6 @@
                                             </div>
                                         </div>
 
-                                        <div class="card shadow-none">
-                                            <a href="#collapseNine" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseNine">
-                                                <div class="card-header" id="headingOne">
-                                                    <h5 class="m-0">Sizes</h5>
-                                                    <i class="las la-plus-circle fs-30"></i>
-                                                </div>
-                                            </a>
-                                            <div id="collapseNine" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                                                <div class="card-body">
-                                                    <div class="container-fluid">
-
-                                                        <cat-sizes></cat-sizes>
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                 </div>
                             </div>
                         </div>
@@ -239,7 +221,6 @@ import CatItemType from './cat-item-type'
 import CatManufacturer from './cat-manufacturer'
 import CatPackingType from './cat-packing-type'
 import CatSection from './cat-section'
-import CatSizes from './cat-sizes'
 
 
 export default {
@@ -260,8 +241,7 @@ export default {
         'cat-item-type': CatItemType,
         'cat-manufacturer': CatManufacturer,
         'cat-packing-type': CatPackingType,
-        'cat-section': CatSection,
-        'cat-sizes': CatSizes
+        'cat-section': CatSection
     },
     methods: {
 

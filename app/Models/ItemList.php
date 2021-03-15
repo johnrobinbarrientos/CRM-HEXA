@@ -16,7 +16,7 @@ class ItemList extends Model
         'is_purchase_item','purchase_price','is_sales_item','sales_price','manual_rate','customer_group_uuid',
         'option_rate','is_expiry','without_vat','is_maintain_stock','is_active','coa_income_account_uuid','coa_cos_account_uuid',
         'reorder_qty','item_asset_group_uuid','cat_department_uuid','cat_section_uuid','cat_category_uuid','cat_manufacturer_uuid','cat_item_type_uuid',
-        'cat_brand_uuid','cat_form_uuid','cat_packing_type_uuid','cat_sizes_uuid',
+        'cat_brand_uuid','cat_form_uuid','cat_packing_type_uuid','cat_size',
     ];
 
     protected $primaryKey = 'uuid';
@@ -81,10 +81,6 @@ class ItemList extends Model
 
     public function CatPackingType(){
         return $this->belongsTo('App\Models\ItemCatPackingType','cat_packing_type_uuid','uuid');
-    }
-
-    public function CatSizes(){
-        return $this->belongsTo('App\Models\ItemCatSizes','cat_sizes_uuid','uuid');
     }
 
     public function AssetGroup(){

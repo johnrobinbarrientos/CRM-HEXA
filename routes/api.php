@@ -77,9 +77,6 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/cat-section', 'API\ItemCatSectionController@save');
         Route::post('/cat-section/delete', 'API\ItemCatSectionController@delete');
 
-        Route::get('/cat-sizes', 'API\ItemCatSizesController@index');
-        Route::post('/cat-sizes', 'API\ItemCatSizesController@save');
-        Route::post('/cat-sizes/delete', 'API\ItemCatSizesController@delete');
 
         Route::get('/', 'API\ItemListController@index');
         Route::post('/', 'API\ItemListController@store');

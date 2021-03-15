@@ -271,9 +271,10 @@
 
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
-                                                <label class="form-label" for="cat-sizes">Sizes</label>
-                                                <select class="form-select-cat-sizes" v-model="selected_cat_sizes" :options="options_cat_sizes" name="cat-sizes" :disabled="view_mode">
-                                                </select>
+                                                <label class="form-label" for="cat-size">Size</label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="formdata.cat_size" type="text" class="form-control" id="cat-size" :readonly="view_mode">
+                                                </div>
                                             </div>
                                         </div>
                                     </div> 
@@ -455,7 +456,6 @@ export default {
                 getCatBrand: false,
                 getCatForm: false,
                 getCatPackingType: false,
-                getCatSizes: false,
                 getAssetGroup: false,
                 getGlobalUoms: false,
                 getGlobalBaseUOM: false,
@@ -498,10 +498,6 @@ export default {
 
             selected_cat_packing_type: null,
             options_cat_packing_type: [],
-
-            selected_cat_sizes: null,
-            options_cat_sizes: [],
-
 
             selected_asset_group: null,
             options_asset_group: [],
@@ -562,7 +558,7 @@ export default {
                 cat_brand_uuid: '',
                 cat_form_uuid: '',
                 cat_packing_type_uuid: '',
-                cat_sizes_uuid: ''
+                cat_size: ''
             }
 
         }
@@ -574,7 +570,7 @@ export default {
             if (scope.prerequiste.getItemGroup && scope.prerequiste.getSupplier && scope.prerequiste.getIncomeAccount && scope.prerequiste.getCostofSales 
                 && scope.prerequiste.getCatDepartment && scope.prerequiste.getCatSection && scope.prerequiste.getCatCategory && scope.prerequiste.getCatManufacturer
                 && scope.prerequiste.getCatItemType && scope.prerequiste.getCatBrand && scope.prerequiste.getCatForm && scope.prerequiste.getCatPackingType
-                && scope.prerequiste.getCatSizes && scope.prerequiste.getAssetGroup && scope.prerequiste.getGlobalUoms && scope.prerequiste.getGlobalBaseUOM) {
+                && scope.prerequiste.getAssetGroup && scope.prerequiste.getGlobalUoms && scope.prerequiste.getGlobalBaseUOM) {
                 return true
             }
 
@@ -625,9 +621,6 @@ export default {
 
                     $(".form-select-cat-packing-type").select2({data: scope.options_cat_packing_type});
                     scope.selected_cat_packing_type = scope.options_cat_packing_type[0].id
-
-                    $(".form-select-cat-sizes").select2({data: scope.options_cat_sizes});
-                    scope.selected_cat_sizes = scope.options_cat_sizes[0].id
 
                     $(".form-select-base-uom").select2({data: scope.options_base_uom});
                     scope.selected_base_uom = scope.options_base_uom[0].id
@@ -858,24 +851,6 @@ export default {
 
         },
 
-        getCatSizes: function () {
-           var scope = this
-            scope.GET('items/cat-sizes').then(res => {
-                
-                res.rows.forEach(function (data) {
-
-                    scope.options_cat_sizes.push({
-                        id: data.uuid,
-                        text: data.sizes
-                    })
-                })
-
-                scope.prerequiste.getCatSizes = true
-                
-            })
-
-        },
-
         getGlobalBaseUOM: function () {
            var scope = this
             scope.GET('globals/base-uom').then(res => {
@@ -1015,7 +990,6 @@ export default {
             scope.formdata.cat_brand_uuid = scope.selected_cat_brand
             scope.formdata.cat_form_uuid = scope.selected_cat_form
             scope.formdata.cat_packing_type_uuid = scope.selected_cat_packing_type
-            scope.formdata.cat_sizes_uuid = scope.selected_cat_sizes
 
             scope.formdata.item_uoms = scope.item_uoms
 
@@ -1061,7 +1035,6 @@ export default {
             scope.formdata.cat_brand_uuid = scope.selected_cat_brand
             scope.formdata.cat_form_uuid = scope.selected_cat_form
             scope.formdata.cat_packing_type_uuid = scope.selected_cat_packing_type
-            scope.formdata.cat_sizes_uuid = scope.selected_cat_sizes
 
             scope.formdata.item_uoms = scope.item_uoms
 
@@ -1162,6 +1135,8 @@ export default {
                     scope.formdata.is_maintain_stock = data.is_maintain_stock
                     scope.formdata.is_active = data.is_active
 
+                    scope.formdata.cat_size = data.cat_size
+
                     scope.getItemUoms()
 
                     var suppliers = [];
@@ -1208,9 +1183,6 @@ export default {
                     $('.form-select-cat-packing-type').val(data.cat_packing_type_uuid);
                     $('.form-select-cat-packing-type').trigger('change');
 
-                     $('.form-select-cat-sizes').val(data.cat_sizes_uuid);
-                    $('.form-select-cat-sizes').trigger('change');
-
                     $('.form-select-asset-group').val(data.item_asset_group_uuid);
                     $('.form-select-asset-group').trigger('change');
 
@@ -1237,7 +1209,6 @@ export default {
         scope.getCatBrand()
         scope.getCatForm()
         scope.getCatPackingType()
-        scope.getCatSizes()
 
         scope.getAssetGroup()
 
@@ -1294,10 +1265,6 @@ export default {
 
         $(document).on('change','.form-select-cat-packing-type', function(e) { 
             scope.selected_cat_packing_type = $('.form-select-cat-packing-type').val();
-        })
-
-        $(document).on('change','.form-select-cat-sizes', function(e) { 
-            scope.selected_cat_sizes = $('.form-select-cat-sizes').val();
         })
 
         $(document).on('change','.form-select-asset-group', function(e) { 
