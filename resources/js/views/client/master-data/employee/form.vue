@@ -434,14 +434,6 @@
 
 
                                         <div class="row">
-
-                                            <div class="col-md-3 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="vat">Withholding Tax</label>
-                                                    <select class="form-select-ewt" v-model="selected_ewt" :options="options_ewt" name="vat" :disabled="view_mode">
-                                                    </select>
-                                                </div>
-                                            </div>
                                             
                                             <div class="col-md-3 col-12">
                                                 <div class="form-group">
@@ -490,7 +482,6 @@ export default {
                 getEmploymentType: false,
                 getEmploymentStatus: false,
                 getCostCenter: false,
-                getEwt: false,
                 getAddressList: false,
                 getSupervisors: false,
             },
@@ -509,9 +500,6 @@ export default {
 
             selected_cost_center: null,
             options_cost_center: [],
-
-            selected_ewt: null,
-            options_ewt: [],
 
             selected_gender: null,
             options_gender: [
@@ -557,7 +545,6 @@ export default {
                 daily_wage: '',
                 global_cost_center_uuid: '',
                 is_applied_tax: '',
-                wt_uuid: '',
                 tax_id: '',
                 sss_id: '',
                 phic_id: '',
@@ -586,7 +573,7 @@ export default {
             var scope = this
 
             if (scope.prerequiste.getCompanyDepartment && scope.prerequiste.getBranchLocation && scope.prerequiste.getEmploymentType && scope.prerequiste.getEmploymentStatus 
-                && scope.prerequiste.getCostCenter && scope.prerequiste.getEwt && scope.prerequiste.getAddressList && scope.prerequiste.getSupervisors) {
+                && scope.prerequiste.getCostCenter && scope.prerequiste.getAddressList && scope.prerequiste.getSupervisors) {
                 return true
             }
 
@@ -613,9 +600,6 @@ export default {
 
                     $(".form-select-cost-center").select2({data: scope.options_cost_center});
                     scope.selected_cost_center = scope.options_cost_center[0].id
-
-                    $(".form-select-ewt").select2({data: scope.options_ewt});
-                    // scope.selected_ewt = scope.options_ewt[0].id
 
                     $(".form-select-address-list").select2({data: scope.options_global_address});
                     scope.selected_global_address= scope.options_global_address[0].id
@@ -733,25 +717,6 @@ export default {
 
         },
 
-        getEwt: function () {
-           var scope = this
-            scope.GET('company/taxation-wt').then(res => {
-                
-                res.rows.forEach(function (data) {
-
-                    scope.options_ewt.push({
-                        id: data.uuid,
-                        text: data.tax_name.toUpperCase()
-                    })
-                
-                })
-
-                scope.prerequiste.getEwt = true
-
-            })
-
-        },
-
         getAddressList: function () {
            var scope = this
             scope.GET('globals/address-list').then(res => {
@@ -826,7 +791,6 @@ export default {
             scope.formdata.employment_type_uuid = scope.selected_employment_type
             scope.formdata.employment_status_uuid = scope.selected_employment_status
             scope.formdata.global_cost_center_uuid = scope.selected_cost_center
-            scope.formdata.wt_uuid = scope.selected_ewt
             scope.formdata.global_address_uuid = scope.selected_global_address
             scope.formdata.supervisor_emp_uuid = scope.selected_supervisor
             scope.formdata.gender = scope.selected_gender
@@ -877,7 +841,6 @@ export default {
             scope.formdata.employment_type_uuid = scope.selected_employment_type
             scope.formdata.employment_status_uuid = scope.selected_employment_status
             scope.formdata.global_cost_center_uuid = scope.selected_cost_center
-            scope.formdata.wt_uuid = scope.selected_ewt
             scope.formdata.global_address_uuid = scope.selected_global_address
             scope.formdata.supervisor_emp_uuid = scope.selected_supervisor
             scope.formdata.gender = scope.selected_gender
@@ -998,7 +961,6 @@ export default {
                     scope.formdata.is_min_wage = data.is_min_wage
                     scope.formdata.daily_wage = data.daily_wage
                     scope.formdata.is_applied_tax = data.is_applied_tax
-                    scope.formdata.wt_uuid = data.wt_uuid
                     scope.formdata.tax_id = data.tax_id
                     scope.formdata.sss_id = data.sss_id
                     scope.formdata.phic_id = data.phic_id
@@ -1027,10 +989,6 @@ export default {
                     $('.form-select-cost-center').val(data.global_cost_center_uuid);
                     $('.form-select-cost-center').trigger('change');
 
-                    $('.form-select-ewt').val(data.wt_uuid);
-                    $('.form-select-ewt').trigger('change');
-
-
                     $('.form-select-address-list').val(data.global_address_uuid);
                     $('.form-select-address-list').trigger('change');
 
@@ -1057,7 +1015,6 @@ export default {
         scope.getEmploymentType()
         scope.getEmploymentStatus()
         scope.getCostCenter()
-        scope.getEwt()
         scope.getAddressList()
         scope.getSupervisors()
 
@@ -1089,10 +1046,6 @@ export default {
 
         $(document).on('change','.form-select-cost-center', function(e) { 
             scope.selected_cost_center = $('.form-select-cost-center').val();
-        })
-
-        $(document).on('change','.form-select-ewt', function(e) { 
-            scope.selected_ewt = $('.form-select-ewt').val();
         })
 
         $(document).on('change','.form-select-address-list', function(e) { 
