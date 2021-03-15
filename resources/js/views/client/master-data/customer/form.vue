@@ -120,6 +120,17 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="col-md-3 col-12">
+                                <div class="form-group" style="margin-top: 30px;">
+                                    <div class="form-control-wrap">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" v-model="formdata.is_active" true-value="1" false-value="0" class="custom-control-input" id="is-active" :disabled="view_mode">
+                                            <label class="custom-control-label" for="is-active">Is Active?</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             
                                 
                         </div>
@@ -453,6 +464,7 @@ export default {
                 payment_term_uuid: '',
                 coa_receivable_account_uuid: '',
                 is_applied_vat: '',
+                is_active: 1,
                 email: '',
                 contact_person: '',
                 contact_no: '',
@@ -928,6 +940,7 @@ export default {
                     scope.formdata.business_shortname = data.business_shortname
                     scope.formdata.tax_id_no = data.tax_id_no
                     scope.formdata.is_applied_vat = data.is_applied_vat
+                    scope.formdata.is_active = data.is_active
                     scope.formdata.email = data.email
                     scope.formdata.contact_person = data.contact_person
                     scope.formdata.contact_no = data.contact_no

@@ -520,7 +520,7 @@ export default {
                 is_custodian: '',
                 is_driver: '',
                 is_system_user: '',
-                is_active: '',
+                is_active: 1,
                 email: '',
                 contact_no: '',
                 emergency_contact: '',

@@ -12,7 +12,7 @@ class CustomerList extends Model
     protected $table = 'customer_list';
 
     protected $fillable = [
-        'uuid','sold_to_name','business_group_name','business_shortname',
+        'uuid','sold_to_name','business_group_name','business_shortname','is_active',
         'tax_id_no','customer_group_uuid','global_customer_chain_uuid','global_customer_channel_uuid',
         'global_customer_type_uuid','vat_uuid','payment_term_uuid','coa_receivable_account_uuid','is_applied_vat',
         'email','contact_person','contact_no','global_address_uuid','address1',

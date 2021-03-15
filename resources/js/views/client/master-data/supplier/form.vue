@@ -104,6 +104,17 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group" style="margin-top: 30px;">
+                                <div class="form-control-wrap">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" v-model="formdata.is_active" true-value="1" false-value="0" class="custom-control-input" id="is-active" :disabled="view_mode">
+                                        <label class="custom-control-label" for="is-active">Is Active?</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         
                                 
                     </div>
@@ -358,6 +369,7 @@ export default {
                 supplier_group_uuid: '',
                 lead_time: '',
                 is_transporter: '',
+                is_active: 1,
                 vat_uuid: '',
                 ewt_uuid: '',
                 payment_term_uuid: '',
@@ -767,6 +779,7 @@ export default {
                     scope.formdata.tax_identification_no = data.tax_identification_no
                     scope.formdata.lead_time = data.lead_time
                     scope.formdata.is_transporter = data.is_transporter
+                    scope.formdata.is_active = data.is_active
                     scope.formdata.email = data.email
                     scope.formdata.contact_no = data.contact_no
                     scope.formdata.address1 = data.address1
@@ -812,7 +825,7 @@ export default {
                 
                 }
                 
-            })
+                })
         }
     },
     mounted() {

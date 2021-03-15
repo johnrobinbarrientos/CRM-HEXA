@@ -76,6 +76,7 @@ class SupplierListController extends Controller
         $supplier->supplier_group_uuid = request()->supplier_group_uuid;
         $supplier->lead_time = request()->lead_time;
         $supplier->is_transporter = request()->is_transporter;
+        $supplier->is_active = request()->is_active;
         $supplier->payment_term_uuid = request()->payment_term_uuid;
         $supplier->coa_payable_account_uuid = request()->coa_payable_account_uuid;
         $supplier->coa_expense_account_uuid = request()->coa_expense_account_uuid;
