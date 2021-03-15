@@ -623,8 +623,10 @@ export default {
 
                     $(".form-select-supervisor").select2({data: scope.options_supervisor});
                     scope.selected_supervisor= scope.options_supervisor[0].id
-                    
 
+                    $(".form-select-gender").select2({data: scope.options_gender});
+                    scope.selected_gender = scope.options_gender[0].id
+                    
                     var employeeUUID = scope.$route.params.employeeUUID
                     scope.getEmployeeDetails(employeeUUID)
 
@@ -1061,14 +1063,9 @@ export default {
 
         
 
-        $(".form-select-gender").select2({data: scope.options_gender});
-        scope.selected_gender = scope.options_gender[0].id
-
-
-        $('.form-select-gender').on("change", function(e) { 
+        $(document).on('change','.form-select-gender', function(e) { 
             scope.selected_gender = $('.form-select-gender').val();
         })
-
 
         $(document).on('change','.form-select-supervisor', function(e) { 
             scope.selected_supervisor = $('.form-select-supervisor').val();
