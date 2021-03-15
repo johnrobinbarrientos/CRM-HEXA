@@ -125,7 +125,6 @@ class EmployeeListController extends Controller
         $employee->is_min_wage = request()->is_min_wage;
         $employee->daily_wage = request()->daily_wage;
         $employee->global_cost_center_uuid = request()->global_cost_center_uuid;
-        $employee->is_applied_tax = request()->is_applied_tax;
         $employee->tax_id = strtoupper(request()->tax_id);
         $employee->sss_id = strtoupper(request()->sss_id);
         $employee->phic_id = strtoupper(request()->phic_id);

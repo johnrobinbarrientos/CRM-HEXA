@@ -401,16 +401,6 @@
 
                                 <div class="tab-pane" id="government">
                                         <div class="row">
-                                            <div class="col-md-3 col-12">
-                                                <div class="h-100 d-flex align-items-center">
-                                                    <div class="form-group">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" v-model="formdata.is_applied_tax" true-value="1" false-value="0" class="custom-control-input" id="is-applied-tax" :disabled="view_mode">
-                                                            <label class="custom-control-label" for="is-applied-tax">Is Applied Tax?</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
 
                                             <div class="col-md-3 col-12">
                                                 <div class="form-group">
@@ -544,7 +534,6 @@ export default {
                 is_min_wage: '',
                 daily_wage: '',
                 global_cost_center_uuid: '',
-                is_applied_tax: '',
                 tax_id: '',
                 sss_id: '',
                 phic_id: '',
@@ -960,7 +949,6 @@ export default {
                     scope.formdata.date_separated = data.date_separated
                     scope.formdata.is_min_wage = data.is_min_wage
                     scope.formdata.daily_wage = data.daily_wage
-                    scope.formdata.is_applied_tax = data.is_applied_tax
                     scope.formdata.tax_id = data.tax_id
                     scope.formdata.sss_id = data.sss_id
                     scope.formdata.phic_id = data.phic_id
