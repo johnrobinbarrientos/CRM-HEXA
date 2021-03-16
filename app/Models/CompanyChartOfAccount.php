@@ -12,7 +12,7 @@ class CompanyChartOfAccount extends Model
     protected $table = 'company_chart_of_accounts';
 
     protected $fillable = [
-        'uuid','code','account_name','coa_group_uuid','is_default',
+        'uuid','code','account_name','coa_group_uuid','is_default','is_default_expense'
     ];
 
     protected $primaryKey = 'uuid';

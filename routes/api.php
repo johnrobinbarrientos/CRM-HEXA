@@ -239,6 +239,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/chart-of-accounts', 'API\CompanyChartOfAccountController@save');
         Route::post('/chart-of-accounts/delete', 'API\CompanyChartOfAccountController@delete');
 
+        Route::get('/chart-of-accounts-expenses', 'API\CompanyChartOfAccountController@getExpenses');
+
         Route::get('/chart-of-accounts-payables', 'API\CompanyChartOfAccountController@getPayables');
         Route::get('/chart-of-accounts-income', 'API\CompanyChartOfAccountController@getIncomeAccounts');
         Route::get('/chart-of-accounts-cost-of-sales', 'API\CompanyChartOfAccountController@getCostOfSales');

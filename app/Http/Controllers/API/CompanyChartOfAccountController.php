@@ -83,6 +83,7 @@ class CompanyChartOfAccountController extends Controller
         $chartOfAccounts->account_name = request()->account_name;
         $chartOfAccounts->coa_group_uuid = request()->coa_group_uuid;
         $chartOfAccounts->is_default = request()->is_default;
+        $chartOfAccounts->is_default_expense = request()->is_default_expense;
         $chartOfAccounts->save();
 
         $chartOfAccounts = CompanyChartOfAccount::find($chartOfAccounts->uuid);
@@ -97,16 +98,15 @@ class CompanyChartOfAccountController extends Controller
         return response()->json(['success' => 1, 'message' => 'Chart Of Accounts Deleted!'], 200);
     }
 
-    // public function getPayables()
-    // {
+    public function getExpenses()
+    {
 
-    //     $payables = CompanyChartOfAccount::select('company_chart_of_accounts.uuid','account_name')
-    //     ->leftJoin('company_chart_of_accounts_account_group', 'company_chart_of_accounts.coa_group_uuid', '=', 'company_chart_of_accounts_account_group.uuid')
-    //     ->where('account_group','Accounts Payable')
-    //     ->get();
+        $expense = CompanyChartOfAccount::select('company_chart_of_accounts.uuid','account_name')
+        ->where('is_default_expense',1)
+        ->get();
 
-    //     return response()->json(['success' => 1, 'rows' => $payables], 200);
-    // }
+        return response()->json(['success' => 1, 'rows' => $expense], 200);
+    }
 
     // public function getIncomeAccounts()
     // {

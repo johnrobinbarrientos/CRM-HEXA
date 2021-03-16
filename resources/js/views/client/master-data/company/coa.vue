@@ -35,6 +35,7 @@
                             <th>Account Name</th>
                             <th>Account Group</th>
                             <th>Is Default?</th>
+                            <th>Is Default Expense?</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,6 +52,8 @@
                             <td>{{ account.account_name }}</td>
                             <td>{{ account.account_group.account_group }}</td>
                             <td v-if="account.is_default == 1">Yes</td>
+                            <td v-else>No</td>
+                            <td v-if="account.is_default_expense == 1">Yes</td>
                             <td v-else>No</td>
 
                         </tr>
@@ -134,6 +137,17 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" v-model="formdata.is_default_expense" true-value="1" false-value="0" class="custom-control-input" id="is-default-expense-coa">
+                                                <label class="custom-control-label" for="is-default-expense-coa">Is Default Expense?</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 
                             </div>                                    
                             
@@ -174,7 +188,8 @@ export default {
                 account_name: '', 
                 coa_group_uuid: '', 
                 account_group: '',
-                is_default: 0
+                is_default: 0,
+                is_default_expense: 0
             },
             selected_account_group: null,
             options_account_group: []
@@ -229,6 +244,7 @@ export default {
             scope.formdata.coa_group_uuid = ''
             scope.formdata.account_group = ''
             scope.formdata.is_default = 0
+            scope.formdata.is_default_expense = 0
         },
         setData: function (data) {
             var scope = this
@@ -237,6 +253,7 @@ export default {
             scope.formdata.account_name = data.account_name
             scope.formdata.coa_group_uuid = data.coa_group_uuid
             scope.formdata.is_default = data.is_default
+            scope.formdata.is_default_expense = data.is_default_expense
     
             $('.form-select-account-group').val(data.coa_group_uuid);
             $('.form-select-account-group').trigger('change');

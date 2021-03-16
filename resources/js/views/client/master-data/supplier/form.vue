@@ -554,7 +554,7 @@ export default {
                text: 'None'
            });
 
-            scope.GET('company/chart-of-accounts?group1=expenses&take=100').then(res => {
+            scope.GET('company/chart-of-accounts-expenses').then(res => {
               
                 res.rows.forEach(function (data) {
                     scope.options_expenses.push({
