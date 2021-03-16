@@ -225,7 +225,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/payment-term', 'API\CompanyPaymentTermController@save');
         Route::post('/payment-term/delete', 'API\CompanyPaymentTermController@delete');
 
-        Route::get('/taxation', 'API\CompanyTaxationController@index');
+        Route::get('/taxation-is-supplier', 'API\CompanyTaxationController@getIsSupplier');
+        Route::get('/taxation-is-item', 'API\CompanyTaxationController@getIsItem');
         Route::post('/taxation', 'API\CompanyTaxationController@save');
         Route::post('/taxation/delete', 'API\CompanyTaxationController@delete');
 

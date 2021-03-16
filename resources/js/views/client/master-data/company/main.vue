@@ -106,8 +106,48 @@
                 <div class="tab-pane" id="payment-terms" role="tabpanel">        
                     <payment-terms></payment-terms>    
                 </div> 
-                <div class="tab-pane" id="taxation-table" role="tabpanel">        
-                    <taxation></taxation>    
+                <div class="tab-pane" id="taxation-table" role="tabpanel">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-6 col-12">
+                                <div id="accordion">
+                                    <div class="card shadow-none">
+                                        <a href="#collapseOne" class="text-dark" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">
+                                            <div class="card-header" id="headingOne">
+                                                <h5 class="m-0">Supplier/Customer</h5>
+                                                <i class="las la-plus-circle fs-30"></i>
+                                            </div>
+                                        </a>
+                                    
+                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="container-fluid">
+                                                    <taxation-supplier></taxation-supplier>
+                                                </div>
+                                            </div>            
+                                        </div>
+                                    </div>
+                                    <div class="card shadow-none">
+                                        <a href="#collapseTwo" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                                            <div class="card-header" id="headingTwo">
+                                                <h5 class="m-0">Item</h5>
+                                                <i class="las la-plus-circle fs-30"></i>
+                                            </div>
+                                        </a>
+                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="container-fluid">
+                                                    <taxation-item></taxation-item> 
+                                                </div>
+                                           </div>         
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>       
+                    <!-- <taxation></taxation>     -->
                 </div> 
                 <div class="tab-pane" id="system-users" role="tabpanel">
                     <!-- <employment-type></employment-type>     -->          
@@ -129,7 +169,8 @@ import ChartOfAccounts from './coa'
 import AccountGroup from './coa-account-group'
 import ReportGroup from './coa-report-group'
 import PaymentTerms from './payment-terms'
-import Taxation from './taxation'
+import TaxationSupplier from './taxation-supplier'
+import TaxationItem from './taxation-item'
 import Department from './department'
 import AccountingPeriod from './accounting-period'
 
@@ -148,7 +189,8 @@ export default {
         'coa-account-group': AccountGroup,
         'coa-report-group': ReportGroup,
         'payment-terms': PaymentTerms,
-        'taxation': Taxation,
+        'taxation-supplier': TaxationSupplier,
+        'taxation-item': TaxationItem,
         'department': Department,
         'accounting-period': AccountingPeriod
 
