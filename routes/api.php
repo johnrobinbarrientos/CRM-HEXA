@@ -232,6 +232,9 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
         Route::get('/taxation/{uuid}', 'API\CompanyTaxationController@getDetails');
 
+        Route::get('/taxation-vat-is-supplier', 'API\CompanyTaxationController@getVATIsSupplier');
+        Route::get('/taxation-vat-is-item', 'API\CompanyTaxationController@getVATIsItem');
+
         Route::get('/taxation-vat', 'API\CompanyTaxationController@getVAT');
         Route::get('/taxation-ewt', 'API\CompanyTaxationController@getEWT');
         Route::get('/taxation-wt', 'API\CompanyTaxationController@getWT');

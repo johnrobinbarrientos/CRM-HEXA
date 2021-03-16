@@ -108,7 +108,7 @@ class ItemListController extends Controller
         $item->customer_group_uuid = request()->customer_group_uuid;
         $item->option_rate = request()->option_rate;
         $item->is_expiry = request()->is_expiry;
-        $item->without_vat = request()->without_vat;
+        $item->vat_uuid = (request()->is_vat) ? request()->vat_uuid : null;
         $item->is_maintain_stock = request()->is_maintain_stock;
         $item->is_active = request()->is_active;
         $item->coa_income_account_uuid = request()->coa_income_account_uuid;
@@ -196,7 +196,7 @@ class ItemListController extends Controller
         ->with('CatSection')->with('CatCategory')
         ->with('CatManufacturer')->with('CatItemType')
         ->with('CatBrand')->with('CatForm')
-        ->with('CatPackingType')->with('CatSizes')
+        ->with('CatPackingType')
         ->with('AssetGroup')->find($itemUUID);
 
         if (!$item) {

@@ -170,13 +170,13 @@
                                                 <div class="form-group">
                                                     <div class="form-control-wrap">
                                                         <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" v-model="with_vat" class="custom-control-input" id="with-vat" :disabled="view_mode">
-                                                            <label class="custom-control-label" for="with-vat">With VAT?</label>
+                                                            <input type="checkbox" v-model="is_vat" class="custom-control-input" id="is-vat-supplier" :disabled="view_mode">
+                                                            <label class="custom-control-label" for="is-vat-supplier">Is VAT?</label>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div v-show="with_vat" class="row">
+                                                <div v-show="is_vat" class="row">
                                                     <div class="col-md-4 col-12">
                                                         <div class="form-group">
                                                             <label class="form-label" for="vat">VAT</label>
@@ -193,13 +193,13 @@
                                                 <div class="form-group">
                                                     <div class="form-control-wrap">
                                                         <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" v-model="with_ewt" value="1" class="custom-control-input" id="with-ewt" :disabled="view_mode">
-                                                            <label class="custom-control-label" for="with-ewt">With EWT?</label>
+                                                            <input type="checkbox" v-model="is_ewt" value="1" class="custom-control-input" id="is-ewt-supplier" :disabled="view_mode">
+                                                            <label class="custom-control-label" for="is-ewt-supplier">Is EWT?</label>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div v-show="with_ewt" class="row">
+                                                <div v-show="is_ewt" class="row">
                                                     <div class="col-md-4 col-12" style="margin-left: 12px;">
                                                         <div class="form-group">
                                                             <label class="form-label" for="ewt">EWT</label>
@@ -347,8 +347,8 @@ export default {
             selected_global_address: null,
             options_global_address: [],
 
-            with_vat: 0,
-            with_ewt: 0,
+            is_vat: 0,
+            is_ewt: 0,
             barangay: '',
             city_municipality: '',
             province: '',
@@ -379,8 +379,8 @@ export default {
                 contact_no: '',
                 global_address_uuid: '',
                 address1: '',
-                with_vat: 0,
-                with_ewt: 0,
+                is_vat: 0,
+                is_ewt: 0,
             }
 
         }
@@ -437,12 +437,12 @@ export default {
             }
             
         },
-        with_vat: function () {
+        is_vat: function () {
             var scope = this
 
             if (scope.formdata.is_draft == 1){
 
-                if (scope.with_vat == 1){
+                if (scope.is_vat == 1){
                     scope.selected_vat = scope.options_vat[2].id
                     
                     $('.form-select-vat').val(scope.selected_vat);
@@ -459,7 +459,7 @@ export default {
             }
             else {
 
-                if (scope.with_vat == 1){
+                if (scope.is_vat == 1){
                     
                     if (scope.reference_vat_uuid == null){
 
@@ -484,12 +484,12 @@ export default {
             }
         },
 
-        with_ewt: function () {
+        is_ewt: function () {
             var scope = this
 
             if (scope.formdata.is_draft == 1){
 
-                if (scope.with_ewt == 1){
+                if (scope.is_ewt == 1){
                     scope.selected_ewt = scope.options_ewt[1].id
                     
                     $('.form-select-ewt').val(scope.selected_ewt);
@@ -506,7 +506,7 @@ export default {
             }
             else {
 
-                if (scope.with_vat == 1){
+                if (scope.is_vat == 1){
                     
                     if (scope.reference_ewt_uuid == null){
 
@@ -610,7 +610,7 @@ export default {
                text: 'None'
            });
 
-            scope.GET('company/taxation-vat').then(res => {
+            scope.GET('company/taxation-vat-is-supplier').then(res => {
                 
                 res.rows.forEach(function (data) {
 
@@ -699,10 +699,9 @@ export default {
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
             scope.formdata.coa_expense_account_uuid = scope.selected_expenses
 
-            console.log(scope.formdata.coa_expense_account_uuid)
             scope.formdata.global_address_uuid = scope.selected_global_address
-            scope.formdata.with_vat = scope.with_vat
-            scope.formdata.with_ewt = scope.with_ewt
+            scope.formdata.is_vat = scope.is_vat
+            scope.formdata.is_ewt = scope.is_ewt
 
             scope.PUT('suppliers', scope.formdata).then(res => {
                 if (res.success) {
@@ -730,8 +729,8 @@ export default {
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
             scope.formdata.coa_expense_account_uuid = scope.selected_expenses
             scope.formdata.global_address_uuid = scope.selected_global_address
-            scope.formdata.with_vat = scope.with_vat
-            scope.formdata.with_ewt = scope.with_ewt
+            scope.formdata.is_vat = scope.is_vat
+            scope.formdata.is_ewt = scope.is_ewt
 
             console.log(scope.formdata.coa_expense_account_uuid)
             
@@ -785,15 +784,15 @@ export default {
                     scope.formdata.address1 = data.address1
 
                     if (data.vat_uuid != null){
-                        scope.with_vat = 1
+                        scope.is_vat = 1
                     }else{
-                        scope.with_vat = 0
+                        scope.is_vat = 0
                     }
 
                     if (data.ewt_uuid != null){
-                        scope.with_ewt = 1
+                        scope.is_ewt = 1
                     }else{
-                        scope.with_ewt = 0
+                        scope.is_ewt = 0
                     }
 
                     $('.form-select-supplier-group').val(data.supplier_group_uuid);
@@ -863,7 +862,7 @@ export default {
             scope.selected_vat = $('.form-select-vat').val();
 
             if (scope.selected_vat == ''){
-                scope.with_vat = 0
+                scope.is_vat = 0
             }
         })
 
@@ -871,7 +870,7 @@ export default {
             scope.selected_ewt = $('.form-select-ewt').val();
 
             if (scope.selected_ewt == ''){
-                scope.with_ewt = 0
+                scope.is_ewt = 0
             }
         })
 

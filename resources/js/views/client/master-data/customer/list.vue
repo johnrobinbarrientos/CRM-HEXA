@@ -37,7 +37,6 @@
                         <th>Group Name</th>
                         <th>Contact Person</th>
                         <th>Contact No</th>
-                        <th>Applied VAT?</th>
                         <th>Payment Term</th>
                         <th>Channel</th>
                         <th>Customer Type</th>
@@ -61,8 +60,6 @@
                         <td>{{customer.customer_group.group_name}}</td>
                         <td>{{customer.contact_person}}</td>
                         <td class="text-right">{{customer.contact_no}}</td>
-                        <td v-if="customer.is_applied_vat === 1">Yes</td>
-                        <td v-else>No</td>
                         <td>{{customer.payment_term.term}}</td>
                         <td>{{customer.customer_channel.channel}}</td>
                         <td>{{customer.customer_type.customer_type}}</td>

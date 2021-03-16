@@ -178,18 +178,31 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="row">
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" v-model="formdata.without_vat" value="1" class="custom-control-input" id="without-vat" :disabled="view_mode">
-                                                        <label class="custom-control-label" for="without-vat">Without VAT</label>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" v-model="is_vat" value="1" class="custom-control-input" id="is-vat" :disabled="view_mode">
+                                                            <label class="custom-control-label" for="is-vat">Is Vat?</label>
+                                                        </div>
                                                     </div>
                                                 </div>
+
+                                                <div v-show="is_vat" class="row">
+                                                    <div class="col-md-4 col-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="vat">VAT</label>
+                                                            <select class="form-select-vat" v-model="selected_vat" :options="options_vat" name="vat" :disabled="view_mode">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
-                                    </div>
+
                             </div>
 
                             <div class="tab-pane" id="category">
@@ -423,7 +436,7 @@
 
 
                             <div class="tab-pane" id="supplier-discounts">
-                                <discounts :properties="{data:formdata}" :view_mode="view_mode" ref="itemDiscounts"></discounts>
+                                <discounts v-if="ready" :properties="{data:formdata}" :view_mode="view_mode" ref="itemDiscounts"></discounts>
                             </div>   
                         </div>
                     </div>
@@ -460,8 +473,16 @@ export default {
                 getGlobalUoms: false,
                 getGlobalBaseUOM: false,
                 getAssetGroup: false,
+                getVat:false,
                 
             },
+
+            selected_vat: null,
+            options_vat: [],
+
+            is_vat: 0,
+
+            reference_vat_uuid: '',
 
             selected_item_group: null,
             options_item_group: [],
@@ -531,8 +552,6 @@ export default {
                 item_description: '',
                 item_shortname: '',
 
-                without_vat: 1,
-
                 supplier_uuid: '',
                 is_purchase_item: 0,
                 purchase_price: '',
@@ -558,7 +577,10 @@ export default {
                 cat_brand_uuid: '',
                 cat_form_uuid: '',
                 cat_packing_type_uuid: '',
-                cat_size: ''
+                cat_size: '',
+                is_vat: 0,
+                vat_uuid: '',
+
             }
 
         }
@@ -570,7 +592,7 @@ export default {
             if (scope.prerequiste.getItemGroup && scope.prerequiste.getSupplier && scope.prerequiste.getIncomeAccount && scope.prerequiste.getCostofSales 
                 && scope.prerequiste.getCatDepartment && scope.prerequiste.getCatSection && scope.prerequiste.getCatCategory && scope.prerequiste.getCatManufacturer
                 && scope.prerequiste.getCatItemType && scope.prerequiste.getCatBrand && scope.prerequiste.getCatForm && scope.prerequiste.getCatPackingType
-                && scope.prerequiste.getAssetGroup && scope.prerequiste.getGlobalUoms && scope.prerequiste.getGlobalBaseUOM) {
+                && scope.prerequiste.getAssetGroup && scope.prerequiste.getGlobalUoms && scope.prerequiste.getGlobalBaseUOM && scope.prerequiste.getVat) {
                 return true
             }
 
@@ -586,6 +608,7 @@ export default {
             var scope = this
             if (val) {
                 setTimeout(function(){
+                    
 
                     $(".form-select-item-group").select2({data: scope.options_item_group});
                     scope.selected_item_group = scope.options_item_group[0].id
@@ -627,6 +650,9 @@ export default {
 
                     $(".form-select-asset-group").select2({data: scope.options_asset_group});
 
+                    $(".form-select-vat").select2({data: scope.options_vat});
+                    scope.selected_vat = scope.options_vat[0].id
+
 
                     var itemUUID = scope.$route.params.itemUUID
                     scope.getItemDetails(itemUUID)
@@ -634,7 +660,54 @@ export default {
                 },500)
                 
             }
-        }
+        },
+
+        is_vat: function () {
+            var scope = this
+
+            if (scope.formdata.is_draft == 1){
+
+                if (scope.is_vat == 1){
+                    scope.selected_vat = scope.options_vat[1].id
+                    
+                    $('.form-select-vat').val(scope.selected_vat);
+                    $('.form-select-vat').trigger('change');
+                    
+                }else{
+                    scope.selected_vat = scope.options_vat[0].id
+
+                    $('.form-select-vat').val(scope.selected_vat);
+                    $('.form-select-vat').trigger('change');
+
+                }
+
+            }
+            else {
+
+                if (scope.is_vat == 1){
+                    
+                    if (scope.reference_vat_uuid == null){
+
+                        scope.selected_vat = scope.options_vat[1].id
+
+                        $('.form-select-vat').val(scope.selected_vat);
+                        $('.form-select-vat').trigger('change');
+
+                    }else{
+                        scope.selected_vat = scope.reference_vat_uuid
+                        $('.form-select-vat').val(scope.reference_vat_uuid);
+                        $('.form-select-vat').trigger('change');
+                    }   
+
+                }else{
+                    scope.selected_vat = scope.options_vat[0].id
+
+                    $('.form-select-vat').val(scope.selected_vat);
+                    $('.form-select-vat').trigger('change');
+                }
+
+            }
+        },
 
     },
 
@@ -642,6 +715,31 @@ export default {
         'discounts' : Discounts
     },
     methods: {
+
+        getVat: function () {
+           var scope = this
+
+           scope.options_vat.push({
+               id: '',
+               text: 'None'
+           });
+
+            scope.GET('company/taxation-vat-is-item').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_vat.push({
+                        id: data.uuid,
+                        text: data.tax_name
+                    })
+                
+                })
+
+                scope.prerequiste.getVat = true
+                
+            })
+
+        },
 
         getItemGroup: function () {
            var scope = this
@@ -991,6 +1089,9 @@ export default {
             scope.formdata.cat_form_uuid = scope.selected_cat_form
             scope.formdata.cat_packing_type_uuid = scope.selected_cat_packing_type
 
+            scope.formdata.is_vat = scope.is_vat
+            scope.formdata.vat_uuid = scope.selected_vat
+
             scope.formdata.item_uoms = scope.item_uoms
 
 
@@ -1035,6 +1136,9 @@ export default {
             scope.formdata.cat_brand_uuid = scope.selected_cat_brand
             scope.formdata.cat_form_uuid = scope.selected_cat_form
             scope.formdata.cat_packing_type_uuid = scope.selected_cat_packing_type
+
+            scope.formdata.is_vat = scope.is_vat
+            scope.formdata.vat_uuid = scope.selected_vat
 
             scope.formdata.item_uoms = scope.item_uoms
 
@@ -1112,6 +1216,8 @@ export default {
             scope.GET('items/' + itemUUID).then(res => {
                 let data = res.data
 
+                console.log('asdasdds')
+
                 scope.formdata.uuid = itemUUID
 
                 if (data.is_draft=== 0) {
@@ -1122,8 +1228,6 @@ export default {
                     scope.formdata.item_description = data.item_description
                     scope.formdata.item_shortname = data.item_shortname
                     scope.formdata.is_purchase_item = data.is_purchase_item
-
-                    scope.formdata.without_vat = data.without_vat
 
                     scope.formdata.purchase_price = data.purchase_price
                     scope.formdata.is_sales_item = data.is_sales_item
@@ -1136,6 +1240,12 @@ export default {
                     scope.formdata.is_active = data.is_active
 
                     scope.formdata.cat_size = data.cat_size
+
+                    if (data.vat_uuid!=null){
+                        scope.is_vat = 1
+                    }else{
+                        scope.is_vat = 0
+                    }
 
                     scope.getItemUoms()
 
@@ -1189,6 +1299,11 @@ export default {
                     $('.form-select-base-uom').val(data.global_base_uom_uuid);
                     $('.form-select-base-uom').trigger('change');
 
+                    $('.form-select-vat').val(data.vat_uuid);
+                    $('.form-select-vat').trigger('change');
+
+                    scope.reference_vat_uuid = data.vat_uuid;
+
                 }
                 
             })
@@ -1196,6 +1311,7 @@ export default {
     },
     mounted() {
         var scope = this
+        scope.getVat()
         scope.getItemGroup()
         scope.getSupplier()
         scope.getIncomeAccount()
@@ -1273,6 +1389,14 @@ export default {
 
         $(document).on('change','.form-select-base-uom', function(e) { 
             scope.selected_base_uom = $('.form-select-base-uom').val();
+        })
+
+        $(document).on('change','.form-select-vat', function(e) { 
+            scope.selected_vat = $('.form-select-vat').val();
+
+            if (scope.selected_vat == ''){
+                scope.is_vat = 0
+            }
         })
 
     },

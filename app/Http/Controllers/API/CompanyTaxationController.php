@@ -90,6 +90,19 @@ class CompanyTaxationController extends Controller
         return response()->json(['success' => 1, 'message' => 'Company Taxation Deleted!'], 200);
     }
 
+    public function getVATIsSupplier()
+    {
+        $vat = CompanyTaxation::whereNull('deleted_at')->where('tax_type','VAT')->where('is_supplier',1)->get();
+        return response()->json(['success' => 1, 'rows' => $vat], 200);
+    }
+
+    public function getVATIsItem()
+    {
+        $vat = CompanyTaxation::whereNull('deleted_at')->where('tax_type','VAT')->where('is_item',1)->get();
+        return response()->json(['success' => 1, 'rows' => $vat], 200);
+    }
+
+
     public function getVAT()
     {
         $vat = CompanyTaxation::whereNull('deleted_at')->where('tax_type','VAT')->get();

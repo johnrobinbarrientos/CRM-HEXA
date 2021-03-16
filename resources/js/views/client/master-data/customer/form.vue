@@ -167,16 +167,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- <div class="row">
-                                            <div class="col-lg-4">
-                                                <div class="form-group">
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" v-model="formdata.is_applied_vat" true-value="1" false-value="0" class="custom-control-input" id="is-applied-vat" :disabled="view_mode">
-                                                        <label class="custom-control-label" for="is-applied-vat">Applied VAT?</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> -->
                                         <div class="row">
                                             <div class="col-lg-4">
                                                 <div class="form-group">
@@ -200,7 +190,7 @@
                                                 <div v-show="is_vat" class="row">
                                                     <div class="col-md-4 col-12">
                                                         <div class="form-group">
-                                                            <label class="form-label" for="vat">Tax</label>
+                                                            <label class="form-label" for="vat">VAT</label>
                                                             <select class="form-select-vat" v-model="selected_vat" :options="options_vat" name="vat" :disabled="view_mode">
                                                             </select>
                                                         </div>
@@ -435,6 +425,8 @@ export default {
 
             show_form: false,
 
+            reference_vat_uuid: '',
+
             is_vat: 0,
             barangay: '',
             city_municipality: '',
@@ -463,13 +455,13 @@ export default {
                 vat_uuid: '',
                 payment_term_uuid: '',
                 coa_receivable_account_uuid: '',
-                is_applied_vat: '',
                 is_active: 1,
                 email: '',
                 contact_person: '',
                 contact_no: '',
                 global_address_uuid: '',
-                address1: ''
+                address1: '',
+                is_vat: 0,
             },
 
             customerDiscountFormData:{
@@ -537,7 +529,54 @@ export default {
                 
             }
             
-        }
+        },
+
+        is_vat: function () {
+            var scope = this
+
+            if (scope.formdata.is_draft == 1){
+
+                if (scope.is_vat == 1){
+                    scope.selected_vat = scope.options_vat[2].id
+                    
+                    $('.form-select-vat').val(scope.selected_vat);
+                    $('.form-select-vat').trigger('change');
+                    
+                }else{
+                    scope.selected_vat = scope.options_vat[0].id
+
+                    $('.form-select-vat').val(scope.selected_vat);
+                    $('.form-select-vat').trigger('change');
+
+                }
+
+            }
+            else {
+
+                if (scope.is_vat == 1){
+                    
+                    if (scope.reference_vat_uuid == null){
+
+                        scope.selected_vat = scope.options_vat[2].id
+
+                        $('.form-select-vat').val(scope.selected_vat);
+                        $('.form-select-vat').trigger('change');
+
+                    }else{
+                        scope.selected_vat = scope.reference_vat_uuid
+                        $('.form-select-vat').val(scope.reference_vat_uuid);
+                        $('.form-select-vat').trigger('change');
+                    }   
+
+                }else{
+                    scope.selected_vat = scope.options_vat[0].id
+
+                    $('.form-select-vat').val(scope.selected_vat);
+                    $('.form-select-vat').trigger('change');
+                }
+
+            }
+        },
     },
     methods: {
         getRecievables: function () {
@@ -654,10 +693,10 @@ export default {
 
            scope.options_vat.push({
                id: '',
-               text: 'NONE'
+               text: 'None'
            });
 
-            scope.GET('company/taxation-vat').then(res => {
+            scope.GET('company/taxation-vat-is-supplier').then(res => {
                 
                 res.rows.forEach(function (data) {
 
@@ -725,6 +764,8 @@ export default {
 
             scope.formdata.discounts = scope.tempCustomerDiscounts
 
+            scope.formdata.is_vat = scope.is_vat
+
             scope.PUT('customers/', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
@@ -755,6 +796,8 @@ export default {
             scope.formdata.payment_term_uuid = scope.selected_payment_term
             scope.formdata.coa_receivable_account_uuid = scope.selected_coa_recievable
             scope.formdata.global_address_uuid = scope.selected_global_address
+
+            scope.formdata.is_vat = scope.is_vat
 
             window.swal.fire({
                 title: 'Update?',
@@ -939,7 +982,6 @@ export default {
                     scope.formdata.business_group_name = data.business_group_name
                     scope.formdata.business_shortname = data.business_shortname
                     scope.formdata.tax_id_no = data.tax_id_no
-                    scope.formdata.is_applied_vat = data.is_applied_vat
                     scope.formdata.is_active = data.is_active
                     scope.formdata.email = data.email
                     scope.formdata.contact_person = data.contact_person
@@ -972,6 +1014,8 @@ export default {
 
                     $('.form-select-vat').val(data.vat_uuid);
                     $('.form-select-vat').trigger('change');
+
+                    scope.reference_vat_uuid = data.vat_uuid;
 
                     $('.form-select-payment-term').val(data.payment_term_uuid);
                     $('.form-select-payment-term').trigger('change');
@@ -1025,6 +1069,10 @@ export default {
 
         $(document).on('change','.form-select-vat', function(e) { 
             scope.selected_vat = $('.form-select-vat').val();
+
+            if (scope.selected_vat == ''){
+                scope.is_vat = 0
+            }
         })
 
         $(document).on('change','.form-select-payment-term', function(e) { 

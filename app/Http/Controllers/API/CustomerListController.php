@@ -74,10 +74,9 @@ class CustomerListController extends Controller
         $customer->global_customer_channel_uuid = request()->global_customer_channel_uuid;
         $customer->global_customer_type_uuid = request()->global_customer_type_uuid;
         $customer->global_cost_center_uuid = request()->global_cost_center_uuid;
-        $customer->vat_uuid = request()->vat_uuid;
+        $customer->vat_uuid = (request()->is_vat) ? request()->vat_uuid : null;
         $customer->payment_term_uuid = request()->payment_term_uuid;
         $customer->coa_receivable_account_uuid = request()->coa_receivable_account_uuid;
-        $customer->is_applied_vat = request()->is_applied_vat;
         $customer->is_active = request()->is_active;
         $customer->email = request()->email;
         $customer->contact_person = request()->contact_person;

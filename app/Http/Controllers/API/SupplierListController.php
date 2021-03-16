@@ -71,8 +71,8 @@ class SupplierListController extends Controller
         $supplier->supplier_name = request()->supplier_name;
         $supplier->supplier_shortname = request()->supplier_shortname;
         $supplier->tax_identification_no = request()->tax_identification_no;
-        $supplier->vat_uuid = (request()->with_vat) ? request()->vat_uuid : null;
-        $supplier->ewt_uuid = (request()->with_ewt) ? request()->ewt_uuid : null;
+        $supplier->vat_uuid = (request()->is_vat) ? request()->vat_uuid : null;
+        $supplier->ewt_uuid = (request()->is_ewt) ? request()->ewt_uuid : null;
         $supplier->supplier_group_uuid = request()->supplier_group_uuid;
         $supplier->lead_time = request()->lead_time;
         $supplier->is_transporter = request()->is_transporter;
