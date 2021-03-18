@@ -14,7 +14,7 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <a @click="OPEN_MODAL('#modalDepartment');resetData();" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalDepartment');resetData();" class="hx-btn hx-btn-shineblue" data-toggle="modal">
                     <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
@@ -31,7 +31,7 @@
                     <thead>
                         <tr>
                             <th width="105">Action</th>
-                            <th>Departments</th>
+                            <th>Department</th>
                             <th>Cost Center</th>
                         </tr>
                     </thead>

@@ -35,7 +35,6 @@
                             <th>Type</th>
                             <th>Name</th>
                             <th>Shortname</th>
-                            <th>Rate</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,7 +50,6 @@
                             <td>{{ tax.tax_type }}</td>
                             <td>{{ tax.tax_name }}</td>
                             <td>{{ tax.shortname }}</td>
-                            <td>{{ tax.tax_rate }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -123,15 +121,6 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="tax-rate">Rate:</label>
-                                        <div class="form-control-wrap">
-                                            <input v-model="formdata.tax_rate" type="text" class="form-control" id="tax-rate" required>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>                                    
                             
                         </form>
@@ -152,7 +141,7 @@
 import Swal from 'sweetalert2'
 
 export default {
-    name: 'taxations',
+    name: 'taxation-item',
     props: ['properties'],
     data: function () {
         return {
@@ -169,9 +158,6 @@ export default {
                 uuid: null, 
                 tax_type: '',
                 tax_name: '',
-                tax_rate: '',
-                is_supplier: 0,
-                is_item: 1,
                 shortname: ''
             }
         }
@@ -184,11 +170,11 @@ export default {
         }
     },
     methods: {
-        getTaxation: function () {
+        getTaxationItem: function () {
             var scope = this
             scope.listLoading = true
             scope.Taxations = []
-            scope.GET('company/taxation-is-item?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+            scope.GET('company/taxation-item?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.Taxations = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
@@ -202,7 +188,6 @@ export default {
             scope.formdata.uuid = null
             scope.formdata.tax_type = ''
             scope.formdata.tax_name = ''
-            scope.formdata.tax_rate = ''
             scope.formdata.shortname = ''
         },
         setData: function (data) {
@@ -210,12 +195,11 @@ export default {
             scope.formdata.uuid = data.uuid
             scope.formdata.tax_type = data.tax_type
             scope.formdata.tax_name = data.tax_name
-            scope.formdata.tax_rate = data.tax_rate
             scope.formdata.shortname = data.shortname
         },
         save: function () {
             var scope = this
-            scope.POST('company/taxation', scope.formdata).then(res => {
+            scope.POST('company/taxation-item', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -224,7 +208,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.getTaxation()
+                        scope.getTaxationItem()
                         scope.CLOSE_MODAL('#modalTaxationItem')
                     })
                 } else {
@@ -245,7 +229,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST('company/taxation', scope.formdata).then(res => {
+                    scope.POST('company/taxation-item', scope.formdata).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
@@ -254,7 +238,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                                scope.getTaxation()
+                                scope.getTaxationItem()
                                 scope.CLOSE_MODAL('#modalTaxationItem')
                             })
                         }
@@ -278,7 +262,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST('company/taxation/delete', data).then(res => {
+                    scope.POST('company/taxation-item/delete', data).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
@@ -287,7 +271,7 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            scope.getTaxation()
+                            scope.getTaxationItem()
                             scope.CLOSE_MODAL('#modalTaxationItem')
                             })
                         }
@@ -307,7 +291,7 @@ export default {
             }
 
             scope.timer = setTimeout(() => {
-                scope.getTaxation()
+                scope.getTaxationItem()
             }, 800);
         },
         listPaginate: function(page) {
@@ -329,18 +313,18 @@ export default {
                 return
             }
 
-            scope.getTaxation()
+            scope.getTaxationItem()
         },
         changeListItemPerPage: function () 
         {
             var scope = this
             scope.listCurrentPage = 1
-            scope.getTaxation()
+            scope.getTaxationItem()
         }
     },
     mounted() {
         var scope = this
-        scope.getTaxation()
+        scope.getTaxationItem()
     },
 }
 </script>

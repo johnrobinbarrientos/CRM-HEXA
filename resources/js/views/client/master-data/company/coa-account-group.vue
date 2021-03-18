@@ -14,8 +14,8 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalAccountGroup');resetData()" class="btn btn-primary" data-toggle="modal">
-                    <em class="icon ni ni-plus"></em> <span>New</span>
+                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalAccountGroup');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                    <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
         </div>
@@ -33,7 +33,7 @@
                     <thead>
                         <tr>
                             <th width="105">Action</th> 
-                            <th>Account Groups</th>
+                            <th>Account Group</th>
                             <th>Report Group</th>
                         </tr>
                     </thead>

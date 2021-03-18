@@ -612,7 +612,7 @@ export default {
         },
         getCustomerType: function () {
            var scope = this
-            scope.GET('globals/customer-type').then(res => {
+            scope.GET('customers/get-customer-types').then(res => {
                 res.rows.forEach(function (data) {
                     scope.options_customer_type.push({
                         id: data.uuid,
@@ -627,7 +627,7 @@ export default {
         },
         getCustomerChannel: function () {
            var scope = this
-            scope.GET('globals/customer-channel').then(res => {
+            scope.GET('customers/get-customer-channels').then(res => {
                 res.rows.forEach(function (data) {
                     scope.options_customer_channel.push({
                         id: data.uuid,
@@ -642,7 +642,7 @@ export default {
         },
         getCustomerChain: function () {
            var scope = this
-            scope.GET('globals/customer-chain').then(res => {
+            scope.GET('customers/get-customer-chains').then(res => {
                 res.rows.forEach(function (data) {
                     scope.options_customer_chain.push({
                         id: data.uuid,
@@ -696,7 +696,7 @@ export default {
                text: 'None'
            });
 
-            scope.GET('company/taxation-vat-is-supplier').then(res => {
+            scope.GET('company/taxation-vat').then(res => {
                 
                 res.rows.forEach(function (data) {
 

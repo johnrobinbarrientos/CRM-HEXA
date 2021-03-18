@@ -82,7 +82,6 @@ class CompanyChartOfAccountController extends Controller
         $chartOfAccounts->code = request()->code;
         $chartOfAccounts->account_name = request()->account_name;
         $chartOfAccounts->coa_group_uuid = request()->coa_group_uuid;
-        $chartOfAccounts->is_default = request()->is_default;
         $chartOfAccounts->is_default_expense = request()->is_default_expense;
         $chartOfAccounts->save();
 

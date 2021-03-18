@@ -610,7 +610,7 @@ export default {
                text: 'None'
            });
 
-            scope.GET('company/taxation-vat-is-supplier').then(res => {
+            scope.GET('company/taxation-vat').then(res => {
                 
                 res.rows.forEach(function (data) {
 

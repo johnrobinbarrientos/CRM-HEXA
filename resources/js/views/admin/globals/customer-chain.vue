@@ -115,7 +115,7 @@
 import Swal from 'sweetalert2'
 
 export default {
-    name: 'customer-chain',
+    name: 'global-customer-chain',
     props: ['properties'],
     data: function () {
         return {

@@ -13,67 +13,67 @@
                 <li class="nav-item">        
                     <a class="nav-link" data-toggle="tab" href="#system-users" role="tab">
                         <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">System Users</span> 
+                        <span class="d-none d-sm-block">System User</span> 
                     </a>  
                 </li>
 
                 <li class="nav-item">        
                     <a class="nav-link" data-toggle="tab" href="#taxation-table" role="tab">
                         <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Taxation Table</span> 
+                        <span class="d-none d-sm-block">Tax Table</span> 
                     </a>  
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#payment-terms" role="tab">
                         <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Payment Terms</span> 
+                        <span class="d-none d-sm-block">Payment Term</span> 
                     </a>     
                 </li>
 
                 <li class="nav-item">        
                     <a class="nav-link" data-toggle="tab" href="#report-group" role="tab">
                         <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Report Groups</span> 
+                        <span class="d-none d-sm-block">Report Group</span> 
                     </a>  
                 </li>
 
                 <li class="nav-item">        
-                    <a class="nav-link" data-toggle="tab" href="#account-group">Account Groups</a>    
+                    <a class="nav-link" data-toggle="tab" href="#account-group">Account Group</a>    
                 </li>
 
                 <li class="nav-item">        
                     <a class="nav-link" data-toggle="tab" href="#chart-of-accounts" role="tab">
                         <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Chart Of Accounts</span> 
+                        <span class="d-none d-sm-block">Chart Of Account</span> 
                     </a> 
                 </li> 
 
                 <li class="nav-item">        
                     <a class="nav-link" data-toggle="tab" href="#company-locations" role="tab">
                         <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Locations</span> 
+                        <span class="d-none d-sm-block">Location</span> 
                     </a>    
                 </li>
 
                 <li class="nav-item">        
                     <a class="nav-link" data-toggle="tab" href="#company-branch" role="tab">
                         <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Branches</span> 
+                        <span class="d-none d-sm-block">Branch</span> 
                     </a> 
                 </li>
 
                 <li class="nav-item"> 
                     <a class="nav-link" data-toggle="tab" href="#department" role="tab">
                         <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Departments</span> 
+                        <span class="d-none d-sm-block">Department</span> 
                     </a>  
                 </li>
 
                 <li class="nav-item">        
                     <a class="nav-link active" data-toggle="tab" href="#company-details" role="tab">
                         <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Company Details</span>    
+                        <span class="d-none d-sm-block">Company Detail</span>    
                     </a> 
                 </li>
             </ul>
@@ -122,7 +122,7 @@
                                         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                             <div class="card-body">
                                                 <div class="container-fluid">
-                                                    <taxation-supplier></taxation-supplier>
+                                                    <taxation></taxation>
                                                 </div>
                                             </div>            
                                         </div>
@@ -169,7 +169,7 @@ import ChartOfAccounts from './coa'
 import AccountGroup from './coa-account-group'
 import ReportGroup from './coa-report-group'
 import PaymentTerms from './payment-terms'
-import TaxationSupplier from './taxation-supplier'
+import Taxation from './taxation'
 import TaxationItem from './taxation-item'
 import Department from './department'
 import AccountingPeriod from './accounting-period'
@@ -189,7 +189,7 @@ export default {
         'coa-account-group': AccountGroup,
         'coa-report-group': ReportGroup,
         'payment-terms': PaymentTerms,
-        'taxation-supplier': TaxationSupplier,
+        'taxation': Taxation,
         'taxation-item': TaxationItem,
         'department': Department,
         'accounting-period': AccountingPeriod

@@ -2,7 +2,7 @@
     <div>
         <div class="actions-bar">
             <div class="w-100">
-                <h1 class="title"><i class="las la-list-ul"></i>Accounting Period</h1>
+                <h1 class="title"><i class="las la-list-ul"></i>Accounting Periods</h1>
             </div>
             <div class="bar-right">
                 <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
@@ -14,8 +14,8 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalAccountingPeriod');resetData()" class="btn btn-primary" data-toggle="modal">
-                    <em class="icon ni ni-plus"></em> <span>New</span>
+                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalAccountingPeriod');resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                    <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
         </div>

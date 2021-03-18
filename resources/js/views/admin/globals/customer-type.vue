@@ -117,7 +117,7 @@
 import Swal from 'sweetalert2'
 
 export default {
-    name: 'customer-type',
+    name: 'global-customer-type',
     props: ['properties'],
     data: function () {
         return {

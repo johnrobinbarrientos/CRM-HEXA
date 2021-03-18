@@ -135,6 +135,21 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/customer-discount-regular', 'API\CustomerDiscountRegularController@save');
         Route::post('/customer-discount-regular/delete', 'API\CustomerDiscountRegularController@delete');
 
+        Route::get('/customer-chain', 'API\CustomerChainController@index');
+        Route::get('/get-customer-chains', 'API\CustomerChainController@getCustomerChain');
+        Route::post('/customer-chain', 'API\CustomerChainController@save');
+        Route::post('/customer-chain/delete', 'API\CustomerChainController@delete');
+
+        Route::get('/customer-channel', 'API\CustomerChannelController@index');
+        Route::get('/get-customer-channels', 'API\CustomerChannelController@getCustomerChannel');
+        Route::post('/customer-channel', 'API\CustomerChannelController@save');
+        Route::post('/customer-channel/delete', 'API\CustomerChannelController@delete');
+
+        Route::get('/customer-type', 'API\CustomerTypeController@index');
+        Route::get('/get-customer-types', 'API\CustomerTypeController@getCustomerType');
+        Route::post('/customer-type', 'API\CustomerTypeController@save');
+        Route::post('/customer-type/delete', 'API\CustomerTypeController@delete');
+
         Route::get('/', 'API\CustomerListController@index');
         Route::post('/create', 'API\CustomerListController@store');
         Route::put('/', 'API\CustomerListController@update');
@@ -225,19 +240,19 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/payment-term', 'API\CompanyPaymentTermController@save');
         Route::post('/payment-term/delete', 'API\CompanyPaymentTermController@delete');
 
-        Route::get('/taxation-is-supplier', 'API\CompanyTaxationController@getIsSupplier');
-        Route::get('/taxation-is-item', 'API\CompanyTaxationController@getIsItem');
+        Route::get('/taxation', 'API\CompanyTaxationController@index');
         Route::post('/taxation', 'API\CompanyTaxationController@save');
         Route::post('/taxation/delete', 'API\CompanyTaxationController@delete');
-
         Route::get('/taxation/{uuid}', 'API\CompanyTaxationController@getDetails');
-
-        Route::get('/taxation-vat-is-supplier', 'API\CompanyTaxationController@getVATIsSupplier');
-        Route::get('/taxation-vat-is-item', 'API\CompanyTaxationController@getVATIsItem');
 
         Route::get('/taxation-vat', 'API\CompanyTaxationController@getVAT');
         Route::get('/taxation-ewt', 'API\CompanyTaxationController@getEWT');
-        Route::get('/taxation-wt', 'API\CompanyTaxationController@getWT');
+
+        Route::get('/taxation-item', 'API\CompanyTaxationItemController@index');
+        Route::post('/taxation-item', 'API\CompanyTaxationItemController@save');
+        Route::post('/taxation-item/delete', 'API\CompanyTaxationItemController@delete');
+        Route::get('/taxation-item/{uuid}', 'API\CompanyTaxationItemController@getDetails');
+        Route::get('/taxation-item-options', 'API\CompanyTaxationItemController@getRecords');
 
         Route::get('/chart-of-accounts', 'API\CompanyChartOfAccountController@index');
         Route::post('/chart-of-accounts', 'API\CompanyChartOfAccountController@save');

@@ -139,10 +139,10 @@
                     <div class="hx-tab-2 round">
                         <ul class="nav nav-tabs">
                             <li>        
-                                <a class="" data-toggle="tab" href="#supplier-discounts">Discounts</a>    
+                                <a class="" data-toggle="tab" href="#supplier-discounts">Discount</a>    
                             </li>  
                             <li v-show="show_asset_group">        
-                                <a class="" data-toggle="tab" href="#asset">Asset 2</a>    
+                                <a class="" data-toggle="tab" href="#asset">Asset</a>    
                             </li> 
                             <li> 
                                 <a class="" data-toggle="tab" href="#pricing">Pricing</a>           
@@ -473,7 +473,7 @@ export default {
                 getGlobalUoms: false,
                 getGlobalBaseUOM: false,
                 getAssetGroup: false,
-                getVat:false,
+                getTaxationItem:false,
                 
             },
 
@@ -592,7 +592,7 @@ export default {
             if (scope.prerequiste.getItemGroup && scope.prerequiste.getSupplier && scope.prerequiste.getIncomeAccount && scope.prerequiste.getCostofSales 
                 && scope.prerequiste.getCatDepartment && scope.prerequiste.getCatSection && scope.prerequiste.getCatCategory && scope.prerequiste.getCatManufacturer
                 && scope.prerequiste.getCatItemType && scope.prerequiste.getCatBrand && scope.prerequiste.getCatForm && scope.prerequiste.getCatPackingType
-                && scope.prerequiste.getAssetGroup && scope.prerequiste.getGlobalUoms && scope.prerequiste.getGlobalBaseUOM && scope.prerequiste.getVat) {
+                && scope.prerequiste.getAssetGroup && scope.prerequiste.getGlobalUoms && scope.prerequiste.getGlobalBaseUOM && scope.prerequiste.getTaxationItem) {
                 return true
             }
 
@@ -716,7 +716,7 @@ export default {
     },
     methods: {
 
-        getVat: function () {
+        getTaxationItem: function () {
            var scope = this
 
            scope.options_vat.push({
@@ -724,7 +724,7 @@ export default {
                text: 'None'
            });
 
-            scope.GET('company/taxation-vat-is-item').then(res => {
+            scope.GET('company/taxation-item-options').then(res => {
                 
                 res.rows.forEach(function (data) {
 
@@ -735,7 +735,7 @@ export default {
                 
                 })
 
-                scope.prerequiste.getVat = true
+                scope.prerequiste.getTaxationItem = true
                 
             })
 
@@ -1311,7 +1311,7 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getVat()
+        scope.getTaxationItem()
         scope.getItemGroup()
         scope.getSupplier()
         scope.getIncomeAccount()
