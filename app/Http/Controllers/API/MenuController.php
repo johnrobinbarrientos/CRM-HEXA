@@ -124,25 +124,6 @@ class MenuController extends Controller
             ]
         ];
 
-        $menus[] = [
-            'text' => 'Globals',
-            'route' => '#has-submenu',
-            'icon' => 'bx bx-globe',
-            'submenus' => [
-                [ 'text' => 'Setup', 'route' => 'globals-main'],
-            ]
-        ];
-
-        $menus[] = [
-            'text' => 'Super Admin',
-            'route' => '#has-submenu',
-            'icon' => 'bx bxs-cog',
-            'submenus' => [
-                [ 'text' => 'Setup', 'route' => 'admin-main'],
-                [ 'text' => 'Users', 'route' => 'users'],
-            ]
-        ];
-
         return $menus;
     }
 
