@@ -116,7 +116,7 @@
                                 <div class="form-control-wrap">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" v-model="formdata.is_maintain_stock" value="1" class="custom-control-input" id="is-maintain-stock" :disabled="view_mode">
-                                        <label class="custom-control-label" for="is-maintain-stock">Maintain Stock?</label>
+                                        <label class="custom-control-label" for="is-maintain-stock">Is Maintain Stock?</label>
                                     </div>
                                 </div>
                             </div>
