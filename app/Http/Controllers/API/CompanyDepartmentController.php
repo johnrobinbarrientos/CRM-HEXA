@@ -11,7 +11,7 @@ class CompanyDepartmentController extends Controller
 {
     public function index()
     {
-        $list = CompanyDepartment::whereNull('deleted_at')->with('GlobalCostCenter');
+        $list = CompanyDepartment::whereNull('deleted_at')->with('CostCenter');
 
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;
@@ -39,7 +39,7 @@ class CompanyDepartmentController extends Controller
         $department = request()->uuid ? CompanyDepartment::find(request()->uuid) : new CompanyDepartment();
 
         $department->department = request()->department;
-        $department->global_cost_center_uuid = request()->global_cost_center_uuid;
+        $department->cost_center_uuid = request()->cost_center_uuid;
         $department->save();
 
         $department = CompanyDepartment::find($department->uuid);

@@ -219,7 +219,7 @@
                                             <div class="col-md-7 col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="address-list">Search Address</label>
-                                                    <strong><select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list" :disabled="view_mode">
+                                                    <strong><select class="form-select-address-list" v-model="selected_address" :options="options_address" name="address-list" :disabled="view_mode">
                                                     </select></strong>
                                                 </div>
                                                 <div class="row">
@@ -497,8 +497,8 @@ export default {
             {id: 'FEMALE', text: 'FEMALE'}
             ],
 
-            selected_global_address: null,
-            options_global_address: [],
+            selected_address: null,
+            options_address: [],
 
             selected_supervisor: null,
             options_supervisor: [],
@@ -533,12 +533,12 @@ export default {
                 date_separated: '',
                 is_min_wage: '',
                 daily_wage: '',
-                global_cost_center_uuid: '',
+                cost_center_uuid: '',
                 tax_id: '',
                 sss_id: '',
                 phic_id: '',
                 hdmf_id: '',
-                global_address_uuid: '',
+                address_uuid: '',
                 address1: '',
                 job_title: '',
                 is_supervisor: '',
@@ -590,8 +590,8 @@ export default {
                     $(".form-select-cost-center").select2({data: scope.options_cost_center});
                     scope.selected_cost_center = scope.options_cost_center[0].id
 
-                    $(".form-select-address-list").select2({data: scope.options_global_address});
-                    scope.selected_global_address= scope.options_global_address[0].id
+                    $(".form-select-address-list").select2({data: scope.options_address});
+                    scope.selected_address= scope.options_address[0].id
                     scope.fillAddress()
 
                     $(".form-select-supervisor").select2({data: scope.options_supervisor});
@@ -692,7 +692,7 @@ export default {
 
         getCostCenter: function () {
            var scope = this
-            scope.GET('globals/cost-center').then(res => {
+            scope.GET('company/cost-center').then(res => {
                 res.rows.forEach(function (data) {
                     scope.options_cost_center.push({
                         id: data.uuid,
@@ -708,11 +708,11 @@ export default {
 
         getAddressList: function () {
            var scope = this
-            scope.GET('globals/address-list').then(res => {
+            scope.GET('company/address-list').then(res => {
                 
                 res.rows.forEach(function (data) {
 
-                    scope.options_global_address.push({
+                    scope.options_address.push({
                         id: data.uuid,
                         text: data.barangay.toUpperCase() + ', ' + data.city_municipality.toUpperCase() + ', ' + data.province.toUpperCase() + ' ' + data.postal_code.toUpperCase() + ' - ' + data.region.toUpperCase(),
                         barangay: data.barangay,
@@ -762,13 +762,13 @@ export default {
 
         fillAddress: function () {
            var scope = this
-            for (var i = 0; i < scope.options_global_address.length; i++) {
-                if(scope.options_global_address[i].id==scope.selected_global_address){
-                    scope.barangay = scope.options_global_address[i].barangay
-                    scope.city_municipality = scope.options_global_address[i].city_municipality
-                    scope.province = scope.options_global_address[i].province
-                    scope.region = scope.options_global_address[i].region
-                    scope.postal_code = scope.options_global_address[i].postal_code
+            for (var i = 0; i < scope.options_address.length; i++) {
+                if(scope.options_address[i].id==scope.selected_address){
+                    scope.barangay = scope.options_address[i].barangay
+                    scope.city_municipality = scope.options_address[i].city_municipality
+                    scope.province = scope.options_address[i].province
+                    scope.region = scope.options_address[i].region
+                    scope.postal_code = scope.options_address[i].postal_code
                 }
             }
         },
@@ -779,8 +779,8 @@ export default {
             scope.formdata.branch_location_uuid = scope.selected_branch_location
             scope.formdata.employment_type_uuid = scope.selected_employment_type
             scope.formdata.employment_status_uuid = scope.selected_employment_status
-            scope.formdata.global_cost_center_uuid = scope.selected_cost_center
-            scope.formdata.global_address_uuid = scope.selected_global_address
+            scope.formdata.cost_center_uuid = scope.selected_cost_center
+            scope.formdata.address_uuid = scope.selected_address
             scope.formdata.supervisor_emp_uuid = scope.selected_supervisor
             scope.formdata.gender = scope.selected_gender
 
@@ -829,8 +829,8 @@ export default {
             scope.formdata.branch_location_uuid = scope.selected_branch_location
             scope.formdata.employment_type_uuid = scope.selected_employment_type
             scope.formdata.employment_status_uuid = scope.selected_employment_status
-            scope.formdata.global_cost_center_uuid = scope.selected_cost_center
-            scope.formdata.global_address_uuid = scope.selected_global_address
+            scope.formdata.cost_center_uuid = scope.selected_cost_center
+            scope.formdata.address_uuid = scope.selected_address
             scope.formdata.supervisor_emp_uuid = scope.selected_supervisor
             scope.formdata.gender = scope.selected_gender
 
@@ -974,10 +974,10 @@ export default {
                     $('.form-select-employment-status').val(data.employment_status_uuid);
                     $('.form-select-employment-status').trigger('change');
 
-                    $('.form-select-cost-center').val(data.global_cost_center_uuid);
+                    $('.form-select-cost-center').val(data.cost_center_uuid);
                     $('.form-select-cost-center').trigger('change');
 
-                    $('.form-select-address-list').val(data.global_address_uuid);
+                    $('.form-select-address-list').val(data.address_uuid);
                     $('.form-select-address-list').trigger('change');
 
                     $('.form-select-department').val(data.department_uuid);
@@ -1037,7 +1037,7 @@ export default {
         })
 
         $(document).on('change','.form-select-address-list', function(e) { 
-            scope.selected_global_address = $('.form-select-address-list').val();
+            scope.selected_address = $('.form-select-address-list').val();
             scope.fillAddress()
         })
         

@@ -276,28 +276,17 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/account-period', 'API\CompanyAccountingPeriodController@index');
         Route::post('/account-period', 'API\CompanyAccountingPeriodController@save');
 
+        Route::get('/cost-center', 'API\CostCenterController@index');
+        Route::post('/cost-center', 'API\CostCenterController@save');
+        Route::post('/cost-center/delete', 'API\CostCenterController@delete');
+
+        Route::get('/address-list', 'API\AddressListController@index');
+        Route::post('/address-list', 'API\AddressListController@save');
+        Route::post('/address-list/delete', 'API\AddressListController@delete');
+
     });
 
     Route::group(['prefix' => 'globals'], function(){
-        Route::get('/address-list', 'API\GlobalAddressListController@index');
-        Route::post('/address-list', 'API\GlobalAddressListController@save');
-        Route::post('/address-list/delete', 'API\GlobalAddressListController@delete');
-
-        Route::get('/customer-chain', 'API\GlobalCustomerChainController@index');
-        Route::post('/customer-chain', 'API\GlobalCustomerChainController@save');
-        Route::post('/customer-chain/delete', 'API\GlobalCustomerChainController@delete');
-
-        Route::get('/cost-center', 'API\GlobalCostCenterController@index');
-        Route::post('/cost-center', 'API\GlobalCostCenterController@save');
-        Route::post('/cost-center/delete', 'API\GlobalCostCenterController@delete');
-
-        Route::get('/customer-channel', 'API\GlobalCustomerChannelController@index');
-        Route::post('/customer-channel', 'API\GlobalCustomerChannelController@save');
-        Route::post('/customer-channel/delete', 'API\GlobalCustomerChannelController@delete');
-
-        Route::get('/customer-type', 'API\GlobalCustomerTypeController@index');
-        Route::post('/customer-type', 'API\GlobalCustomerTypeController@save');
-        Route::post('/customer-type/delete', 'API\GlobalCustomerTypeController@delete');
 
         Route::get('/uom', 'API\GlobalUomController@index');
         Route::post('/uom', 'API\GlobalUomController@save');
@@ -307,6 +296,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/base-uom', 'API\GlobalUomController@getBaseUom');
         Route::get('/packing-uom', 'API\GlobalUomController@getPackingUom');
     });
+
 
     Route::group(['prefix' => 'admin'], function(){
         Route::get('/company-list', 'API\CompanyListController@index');

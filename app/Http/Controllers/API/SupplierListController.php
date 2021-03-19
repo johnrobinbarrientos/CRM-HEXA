@@ -82,7 +82,7 @@ class SupplierListController extends Controller
         $supplier->coa_expense_account_uuid = request()->coa_expense_account_uuid;
         $supplier->email = request()->email;
         $supplier->contact_no = request()->contact_no;
-        $supplier->global_address_uuid = request()->global_address_uuid;
+        $supplier->address_uuid = request()->address_uuid;
         $supplier->address1 = request()->address1;
         $supplier->is_draft = 0;
         $supplier->save();

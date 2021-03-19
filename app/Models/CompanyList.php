@@ -13,7 +13,7 @@ class CompanyList extends Model
 
     protected $fillable = [
         'company_name', 'shortname', 'tagline', 'website', 'email',
-        'contact_no', 'tax_id_no', 'prefix', 'global_address_uuid',
+        'contact_no', 'tax_id_no', 'prefix', 'address_uuid',
     ];
    
     public function users()
@@ -22,6 +22,6 @@ class CompanyList extends Model
     }
 
     public function AddressList(){
-        return $this->belongsTo('App\Models\GlobalAddressList','global_address_uuid','uuid');
+        return $this->belongsTo('App\Models\GlobalAddressList','address_uuid','uuid');
     }
 }

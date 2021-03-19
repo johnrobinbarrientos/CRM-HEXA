@@ -4,14 +4,14 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller; 
 
-use App\Models\GlobalAddressList; 
+use App\Models\AddressList; 
 use Illuminate\Support\Facades\Auth; 
 
-class GlobalAddressListController extends Controller
+class AddressListController extends Controller
 {
     public function index()
     {
-        $list = GlobalAddressList::whereNull('deleted_at');
+        $list = AddressList::whereNull('deleted_at');
 
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;
@@ -41,7 +41,7 @@ class GlobalAddressListController extends Controller
 
     public function save()
     {
-        $addressList = request()->uuid ? GlobalAddressList::find(request()->uuid) : new GlobalAddressList();
+        $addressList = request()->uuid ? AddressList::find(request()->uuid) : new AddressList();
         $auth = \Auth::user();
         $addressList->barangay = request()->barangay;
         $addressList->city_municipality = request()->city_municipality;
@@ -51,14 +51,14 @@ class GlobalAddressListController extends Controller
         $addressList->postal_code = request()->postal_code;
         $addressList->save();
 
-        $addressList = GlobalAddressList::find($addressList->uuid);
+        $addressList = AddressList::find($addressList->uuid);
 
         return response()->json(['success' => 1, 'rows' => $addressList], 200);
     }
 
     public function delete()
     {
-        $addressList = GlobalAddressList::find(request()->uuid)->delete();
+        $addressList = AddressList::find(request()->uuid)->delete();
 
         return response()->json(['success' => 1, 'message' => 'Address Deleted!'], 200);
     }

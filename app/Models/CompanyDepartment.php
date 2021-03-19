@@ -12,7 +12,7 @@ class CompanyDepartment extends Model
     protected $table = 'company_department';
 
     protected $fillable = [
-        'uuid','department','global_cost_center_uuid',
+        'uuid','department','cost_center_uuid',
     ];
 
     protected $primaryKey = 'uuid';
@@ -29,8 +29,8 @@ class CompanyDepartment extends Model
         });
     }
 
-    public function GlobalCostCenter(){
-        return $this->belongsTo('App\Models\GlobalCostCenter','global_cost_center_uuid','uuid');
+    public function CostCenter(){
+        return $this->belongsTo('App\Models\CostCenter','cost_center_uuid','uuid');
     }
    
 }

@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class GlobalCostCenter extends Model
+class AddressList extends Model
 {
     use SoftDeletes;
     
-    protected $table = 'global_cost_center';
+    protected $table = 'address_list';
 
     protected $fillable = [
-        'uuid', 'cost_center_name', 'cost_center_shortname','is_group','cost_center_group',
+        'uuid', 'barangay', 'city_municipality','province','region','country','postal_code',
     ];
 
     protected $primaryKey = 'uuid';

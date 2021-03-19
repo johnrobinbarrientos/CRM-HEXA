@@ -13,9 +13,9 @@ class CustomerList extends Model
 
     protected $fillable = [
         'uuid','sold_to_name','business_group_name','business_shortname','is_active',
-        'tax_id_no','customer_group_uuid','global_customer_chain_uuid','global_customer_channel_uuid',
-        'global_customer_type_uuid','vat_uuid','payment_term_uuid','coa_receivable_account_uuid',
-        'email','contact_person','contact_no','global_address_uuid','address1',
+        'tax_id_no','customer_group_uuid','customer_chain_uuid','customer_channel_uuid',
+        'customer_type_uuid','vat_uuid','payment_term_uuid','coa_receivable_account_uuid',
+        'email','contact_person','contact_no','address_uuid','address1','cost_center_uuid'
     ];
 
     protected $primaryKey = 'uuid';

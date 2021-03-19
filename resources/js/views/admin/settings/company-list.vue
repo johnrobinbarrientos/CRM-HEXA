@@ -115,8 +115,8 @@ export default {
     data: function () {
         return {
             
-            selected_global_address: null,
-            options_global_address: [],
+            selected_address: null,
+            options_address: [],
             companies: [],
             listLoading: true,
             listCurrentPage: 1,
@@ -134,7 +134,7 @@ export default {
                 contact_no: '',
                 tax_id_no: '',
                 prefix: '',
-                global_address_uuid: ''
+                address_uuid: ''
             }
         }
     },
@@ -160,20 +160,20 @@ export default {
 
         getAddressList: function () {
            var scope = this
-            scope.GET('globals/address-list').then(res => {
+            scope.GET('company/address-list').then(res => {
                 
                 res.rows.forEach(function (data) {
 
-                    scope.options_global_address.push({
+                    scope.options_address.push({
                         id: data.uuid,
                         text: data.barangay + ' ' + data.city_municipality + ' ' + data.province + ' ' + data.region
                     })
                 
                 })
 
-                $(".form-select-address-list").select2({data: scope.options_global_address});
+                $(".form-select-address-list").select2({data: scope.options_address});
                 
-                scope.selected_global_address = scope.options_global_address[0].id
+                scope.selected_address = scope.options_address[0].id
             })
         },
         resetData: function () {
@@ -200,12 +200,12 @@ export default {
             scope.formdata.tax_id_no = data.tax_id_no
             scope.formdata.prefix = data.prefix
 
-            $('.form-select-address-list').val(data.global_address_uuid);
+            $('.form-select-address-list').val(data.address_uuid);
             $('.form-select-address-list').trigger('change');
         },
         save: function () {
             var scope = this
-            scope.formdata.global_address_uuid = scope.selected_global_address
+            scope.formdata.address_uuid = scope.selected_address
 
             scope.POST('admin/company-list', scope.formdata).then(res => {
             if (res.success) {
@@ -227,7 +227,7 @@ export default {
 
         update: function () {
             var scope = this
-            scope.formdata.global_address_uuid = scope.selected_global_address
+            scope.formdata.address_uuid = scope.selected_address
 
             window.swal.fire({
                 title: 'Update?',
@@ -339,7 +339,7 @@ export default {
         scope.getAddressList()
 
         $('.form-select-address-list').on("change", function(e) { 
-            scope.selected_global_address = $('.form-select-address-list').val();
+            scope.selected_address = $('.form-select-address-list').val();
         })
 
     },

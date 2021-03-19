@@ -70,10 +70,10 @@ class CustomerListController extends Controller
         $customer->business_shortname = request()->business_shortname;
         $customer->tax_id_no = request()->tax_id_no;
         $customer->customer_group_uuid = request()->customer_group_uuid;
-        $customer->global_customer_chain_uuid = request()->global_customer_chain_uuid;
-        $customer->global_customer_channel_uuid = request()->global_customer_channel_uuid;
-        $customer->global_customer_type_uuid = request()->global_customer_type_uuid;
-        $customer->global_cost_center_uuid = request()->global_cost_center_uuid;
+        $customer->customer_chain_uuid = request()->customer_chain_uuid;
+        $customer->customer_channel_uuid = request()->customer_channel_uuid;
+        $customer->customer_type_uuid = request()->customer_type_uuid;
+        $customer->cost_center_uuid = request()->cost_center_uuid;
         $customer->vat_uuid = (request()->is_vat) ? request()->vat_uuid : null;
         $customer->payment_term_uuid = request()->payment_term_uuid;
         $customer->coa_receivable_account_uuid = request()->coa_receivable_account_uuid;
@@ -81,7 +81,7 @@ class CustomerListController extends Controller
         $customer->email = request()->email;
         $customer->contact_person = request()->contact_person;
         $customer->contact_no = request()->contact_no;
-        $customer->global_address_uuid = request()->global_address_uuid;
+        $customer->address_uuid = request()->address_uuid;
         $customer->address1 = request()->address1;
         $customer->is_draft = 0;
         $customer->save();

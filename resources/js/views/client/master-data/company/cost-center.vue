@@ -194,7 +194,7 @@ export default {
             var scope = this
             scope.listLoading = true
             scope.costCenters = []
-            scope.GET('globals/cost-center?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+            scope.GET('company/cost-center?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.costCenters = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
@@ -221,7 +221,7 @@ export default {
         },
         save: function () {
             var scope = this
-            scope.POST('globals/cost-center', scope.formdata).then(res => {
+            scope.POST('company/cost-center', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -251,7 +251,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST('globals/cost-center', scope.formdata).then(res => {
+                    scope.POST('company/cost-center', scope.formdata).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
@@ -284,7 +284,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST('globals/cost-center/delete', data).then(res => {
+                    scope.POST('company/cost-center/delete', data).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',

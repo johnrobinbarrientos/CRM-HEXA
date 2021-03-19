@@ -124,12 +124,12 @@ class EmployeeListController extends Controller
         $employee->date_separated = request()->date_separated;
         $employee->is_min_wage = request()->is_min_wage;
         $employee->daily_wage = request()->daily_wage;
-        $employee->global_cost_center_uuid = request()->global_cost_center_uuid;
+        $employee->cost_center_uuid = request()->cost_center_uuid;
         $employee->tax_id = strtoupper(request()->tax_id);
         $employee->sss_id = strtoupper(request()->sss_id);
         $employee->phic_id = strtoupper(request()->phic_id);
         $employee->hdmf_id = strtoupper(request()->hdmf_id);
-        $employee->global_address_uuid = request()->global_address_uuid;
+        $employee->address_uuid = request()->address_uuid;
         $employee->address1 = strtoupper(request()->address1);
         $employee->job_title = strtoupper(request()->job_title);
         $employee->is_supervisor = request()->is_supervisor;

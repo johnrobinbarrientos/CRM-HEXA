@@ -211,7 +211,7 @@ export default {
 
             scope.listLoading = true
             scope.addressList = []
-            scope.GET('globals/address-list?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
+            scope.GET('company/address-list?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.addressList = res.rows
                 scope.listLoading = false
                 scope.listCount = res.count
@@ -242,7 +242,7 @@ export default {
         },
         save: function () {
             var scope = this
-            scope.POST('globals/address-list', scope.formdata).then(res => {
+            scope.POST('company/address-list', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -272,7 +272,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST('globals/address-list', scope.formdata).then(res => {
+                    scope.POST('company/address-list', scope.formdata).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',
@@ -305,7 +305,7 @@ export default {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.value) {
-                    scope.POST('globals/address-list/delete', data).then(res => {
+                    scope.POST('company/address-list/delete', data).then(res => {
                         if (res.success) {
                             window.swal.fire({
                                 position: 'center',

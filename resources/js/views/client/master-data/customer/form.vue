@@ -298,7 +298,7 @@
                                             <div class="col-md-6 offset-lg-3 col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="address-list"><strong>Select Address</strong></label>
-                                                    <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list" :disabled="view_mode">
+                                                    <select class="form-select-address-list" v-model="selected_address" :options="options_address" name="address-list" :disabled="view_mode">
                                                     </select>
                                                 </div>
                                             </div>
@@ -420,8 +420,8 @@ export default {
             selected_payment_term: null,
             options_payment_term: [],
 
-            selected_global_address: null,
-            options_global_address: [],
+            selected_address: null,
+            options_address: [],
 
             show_form: false,
 
@@ -448,10 +448,10 @@ export default {
                 business_shortname: '',
                 tax_id_no: '',
                 customer_group_uuid: '',
-                global_customer_chain_uuid: '',
-                global_customer_channel_uuid: '',
-                global_customer_type_uuid: '',
-                global_cost_center_uuid: '',
+                customer_chain_uuid: '',
+                customer_channel_uuid: '',
+                customer_type_uuid: '',
+                cost_center_uuid: '',
                 vat_uuid: '',
                 payment_term_uuid: '',
                 coa_receivable_account_uuid: '',
@@ -459,7 +459,7 @@ export default {
                 email: '',
                 contact_person: '',
                 contact_no: '',
-                global_address_uuid: '',
+                address_uuid: '',
                 address1: '',
                 is_vat: 0,
             },
@@ -517,8 +517,8 @@ export default {
                     $(".form-select-vat").select2({data: scope.options_vat});
                     scope.selected_vat = scope.options_vat[0].id
 
-                    $(".form-select-address-list").select2({data: scope.options_global_address});
-                    scope.selected_global_address = scope.options_global_address[0].id
+                    $(".form-select-address-list").select2({data: scope.options_address});
+                    scope.selected_address = scope.options_address[0].id
                     scope.fillAddress()
                     
 
@@ -597,7 +597,7 @@ export default {
 
         getCostCenter: function () {
            var scope = this
-            scope.GET('globals/cost-center').then(res => {
+            scope.GET('company/cost-center').then(res => {
                 res.rows.forEach(function (data) {
                     scope.options_cost_center.push({
                         id: data.uuid,
@@ -714,11 +714,11 @@ export default {
         },
         getAddressList: function () {
            var scope = this
-            scope.GET('globals/address-list').then(res => {
+            scope.GET('company/address-list').then(res => {
                 
                 res.rows.forEach(function (data) {
 
-                    scope.options_global_address.push({
+                    scope.options_address.push({
                         id: data.uuid,
                         text: data.barangay + ' ' + data.city_municipality + ' ' + data.province + ' ' + data.region + ' ' + data.postal_code,
                         barangay: data.barangay,
@@ -737,13 +737,13 @@ export default {
         },
         fillAddress: function () {
            var scope = this
-            for (var i = 0; i < scope.options_global_address.length; i++) {
-                if(scope.options_global_address[i].id==scope.selected_global_address){
-                    scope.barangay = scope.options_global_address[i].barangay
-                    scope.city_municipality = scope.options_global_address[i].city_municipality
-                    scope.province = scope.options_global_address[i].province
-                    scope.region = scope.options_global_address[i].region
-                    scope.postal_code = scope.options_global_address[i].postal_code
+            for (var i = 0; i < scope.options_address.length; i++) {
+                if(scope.options_address[i].id==scope.selected_address){
+                    scope.barangay = scope.options_address[i].barangay
+                    scope.city_municipality = scope.options_address[i].city_municipality
+                    scope.province = scope.options_address[i].province
+                    scope.region = scope.options_address[i].region
+                    scope.postal_code = scope.options_address[i].postal_code
                 }
             }
         },
@@ -752,15 +752,15 @@ export default {
             var scope = this
             
             scope.formdata.customer_group_uuid = scope.selected_customer_group
-            scope.formdata.global_customer_chain_uuid = scope.selected_customer_chain
-            scope.formdata.global_customer_channel_uuid = scope.selected_customer_channel
-            scope.formdata.global_customer_type_uuid = scope.selected_customer_type
-            scope.formdata.global_cost_center_uuid = scope.selected_cost_center
+            scope.formdata.customer_chain_uuid = scope.selected_customer_chain
+            scope.formdata.customer_channel_uuid = scope.selected_customer_channel
+            scope.formdata.customer_type_uuid = scope.selected_customer_type
+            scope.formdata.cost_center_uuid = scope.selected_cost_center
             scope.formdata.vat_uuid = scope.selected_vat
             scope.formdata.payment_term_uuid = scope.selected_payment_term
             scope.formdata.coa_receivable_account_uuid = scope.selected_coa_recievable
 
-            scope.formdata.global_address_uuid = scope.selected_global_address
+            scope.formdata.address_uuid = scope.selected_address
 
             scope.formdata.discounts = scope.tempCustomerDiscounts
 
@@ -788,14 +788,14 @@ export default {
         update: function () {
             var scope = this
             scope.formdata.customer_group_uuid = scope.selected_customer_group
-            scope.formdata.global_customer_chain_uuid = scope.selected_customer_chain
-            scope.formdata.global_customer_channel_uuid = scope.selected_customer_channel
-            scope.formdata.global_customer_type_uuid = scope.selected_customer_type
-            scope.formdata.global_cost_center_uuid = scope.selected_cost_center
+            scope.formdata.customer_chain_uuid = scope.selected_customer_chain
+            scope.formdata.customer_channel_uuid = scope.selected_customer_channel
+            scope.formdata.customer_type_uuid = scope.selected_customer_type
+            scope.formdata.cost_center_uuid = scope.selected_cost_center
             scope.formdata.vat_uuid = scope.selected_vat
             scope.formdata.payment_term_uuid = scope.selected_payment_term
             scope.formdata.coa_receivable_account_uuid = scope.selected_coa_recievable
-            scope.formdata.global_address_uuid = scope.selected_global_address
+            scope.formdata.address_uuid = scope.selected_address
 
             scope.formdata.is_vat = scope.is_vat
 
@@ -1000,16 +1000,16 @@ export default {
                     $('.form-select-customer-group').val(data.customer_group_uuid);
                     $('.form-select-customer-group').trigger('change');
 
-                    $('.form-select-customer-chain').val(data.global_customer_chain_uuid);
+                    $('.form-select-customer-chain').val(data.customer_chain_uuid);
                     $('.form-select-customer-chain').trigger('change');
 
-                    $('.form-select-customer-channel').val(data.global_customer_channel_uuid);
+                    $('.form-select-customer-channel').val(data.customer_channel_uuid);
                     $('.form-select-customer-channel').trigger('change');
 
-                    $('.form-select-customer-type').val(data.global_customer_type_uuid);
+                    $('.form-select-customer-type').val(data.customer_type_uuid);
                     $('.form-select-customer-type').trigger('change');
 
-                    $('.form-select-cost-center').val(data.global_cost_center_uuid);
+                    $('.form-select-cost-center').val(data.cost_center_uuid);
                     $('.form-select-cost-center').trigger('change');
 
                     $('.form-select-vat').val(data.vat_uuid);
@@ -1023,7 +1023,7 @@ export default {
                     $('.form-select-recievables').val(data.coa_receivable_account_uuid);
                     $('.form-select-recievables').trigger('change');
 
-                    $('.form-select-address-list').val(data.global_address_uuid);
+                    $('.form-select-address-list').val(data.address_uuid);
                     $('.form-select-address-list').trigger('change');
 
                 }
@@ -1084,7 +1084,7 @@ export default {
         })
 
         $(document).on('change','.form-select-address-list', function(e) { 
-            scope.selected_global_address = $('.form-select-address-list').val();
+            scope.selected_address = $('.form-select-address-list').val();
             scope.fillAddress()
         })
         

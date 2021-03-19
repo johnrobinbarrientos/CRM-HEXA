@@ -50,7 +50,7 @@ class CompanyListController extends Controller
         $company->contact_no = request()->contact_no;
         $company->tax_id_no = request()->tax_id_no;
         $company->prefix = request()->prefix;
-        $company->global_address_uuid = request()->global_address_uuid;
+        $company->address_uuid = request()->address_uuid;
         $company->save();
 
         if ($company) {

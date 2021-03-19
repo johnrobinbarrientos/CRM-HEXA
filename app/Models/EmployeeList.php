@@ -16,8 +16,8 @@ class EmployeeList extends Model
         'ext', 'branch_location_uuid', 'is_custodian', 'is_driver', 'is_system_user',
         'is_active', 'email', 'contact_no', 'emergency_contact', 'contact_relation',
         'emergency_contact_no', 'employment_type_uuid', 'date_hired', 'date_regularized',
-        'date_separated', 'is_min_wage', 'daily_wage', 'global_cost_center_uuid',
-        'tax_id', 'sss_id', 'phic_id', 'hdmf_id', 'global_address_uuid', 'address1','job_title',
+        'date_separated', 'is_min_wage', 'daily_wage', 'cost_center_uuid',
+        'tax_id', 'sss_id', 'phic_id', 'hdmf_id', 'address_uuid', 'address1','job_title',
         'is_supervisor','employment_status_uuid','birth_date','department_uuid','gender','profile_pic',
     ];
 

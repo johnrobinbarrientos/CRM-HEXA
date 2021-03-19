@@ -226,7 +226,7 @@
                                             <div class="col-lg-6 offset-lg-3">
                                                 <div class="form-group mb-4">
                                                     <label class="form-label" for="address-list"><strong>Select Address</strong></label>
-                                                    <select class="form-select-address-list" v-model="selected_global_address" :options="options_global_address" name="address-list" :disabled="view_mode">
+                                                    <select class="form-select-address-list" v-model="selected_address" :options="options_address" name="address-list" :disabled="view_mode">
                                                     </select>
                                                 </div>
                                             </div>
@@ -344,8 +344,8 @@ export default {
             selected_ewt: null,
             options_ewt: [],
 
-            selected_global_address: null,
-            options_global_address: [],
+            selected_address: null,
+            options_address: [],
 
             is_vat: 0,
             is_ewt: 0,
@@ -377,7 +377,7 @@ export default {
                 coa_expense_account_uuid: '',
                 email: '',
                 contact_no: '',
-                global_address_uuid: '',
+                address_uuid: '',
                 address1: '',
                 is_vat: 0,
                 is_ewt: 0,
@@ -423,8 +423,8 @@ export default {
                     $(".form-select-vat").select2({data: scope.options_vat});
                     scope.selected_vat = scope.options_vat[0].id
 
-                    $(".form-select-address-list").select2({data: scope.options_global_address});
-                    scope.selected_global_address = scope.options_global_address[0].id
+                    $(".form-select-address-list").select2({data: scope.options_address});
+                    scope.selected_address = scope.options_address[0].id
                     scope.fillAddress()
 
                     $(".form-select-payables").select2({data: scope.options_payables});
@@ -653,11 +653,11 @@ export default {
 
         getAddressList: function () {
             var scope = this
-            scope.GET('globals/address-list').then(res => {
+            scope.GET('company/address-list').then(res => {
                 
                 res.rows.forEach(function (data) {
 
-                    scope.options_global_address.push({
+                    scope.options_address.push({
                         id: data.uuid,
                         text: data.barangay.toUpperCase() + ', ' + data.city_municipality.toUpperCase() + ', ' + data.province.toUpperCase() + ' ' + data.postal_code.toUpperCase() + ' - ' + data.region.toUpperCase(),
                         barangay: data.barangay,
@@ -678,13 +678,13 @@ export default {
 
         fillAddress: function () {
            var scope = this
-            for (var i = 0; i < scope.options_global_address.length; i++) {
-                if(scope.options_global_address[i].id==scope.selected_global_address){
-                    scope.barangay = scope.options_global_address[i].barangay
-                    scope.city_municipality = scope.options_global_address[i].city_municipality
-                    scope.province = scope.options_global_address[i].province
-                    scope.region = scope.options_global_address[i].region
-                    scope.postal_code = scope.options_global_address[i].postal_code
+            for (var i = 0; i < scope.options_address.length; i++) {
+                if(scope.options_address[i].id==scope.selected_address){
+                    scope.barangay = scope.options_address[i].barangay
+                    scope.city_municipality = scope.options_address[i].city_municipality
+                    scope.province = scope.options_address[i].province
+                    scope.region = scope.options_address[i].region
+                    scope.postal_code = scope.options_address[i].postal_code
                 }
             }
         },
@@ -699,7 +699,7 @@ export default {
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
             scope.formdata.coa_expense_account_uuid = scope.selected_expenses
 
-            scope.formdata.global_address_uuid = scope.selected_global_address
+            scope.formdata.address_uuid = scope.selected_address
             scope.formdata.is_vat = scope.is_vat
             scope.formdata.is_ewt = scope.is_ewt
 
@@ -728,7 +728,7 @@ export default {
             scope.formdata.ewt_uuid = scope.selected_ewt
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
             scope.formdata.coa_expense_account_uuid = scope.selected_expenses
-            scope.formdata.global_address_uuid = scope.selected_global_address
+            scope.formdata.address_uuid = scope.selected_address
             scope.formdata.is_vat = scope.is_vat
             scope.formdata.is_ewt = scope.is_ewt
 
@@ -818,7 +818,7 @@ export default {
                     $('.form-select-expenses').trigger('change');
 
             
-                    $('.form-select-address-list').val(data.global_address_uuid);
+                    $('.form-select-address-list').val(data.address_uuid);
                     $('.form-select-address-list').trigger('change');
                 
                 
@@ -875,7 +875,7 @@ export default {
         })
 
         $(document).on('change','.form-select-address-list', function(e) { 
-            scope.selected_global_address = $('.form-select-address-list').val();
+            scope.selected_address = $('.form-select-address-list').val();
 
             scope.fillAddress()
         })

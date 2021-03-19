@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class GlobalCustomerChain extends Model
+class CostCenter extends Model
 {
     use SoftDeletes;
     
-    protected $table = 'global_customer_chain';
+    protected $table = 'cost_center';
 
     protected $fillable = [
-        'uuid', 'chain',
+        'uuid', 'cost_center_name', 'cost_center_shortname','is_group','cost_center_group',
     ];
 
     protected $primaryKey = 'uuid';

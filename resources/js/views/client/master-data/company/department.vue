@@ -46,7 +46,7 @@
                                 </span>
                             </td>
                             <td>{{ department.department }}</td>
-                            <td>{{ department.global_cost_center.cost_center_name }}</td>
+                            <td>{{ department.cost_center.cost_center_name }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -142,7 +142,7 @@ export default {
             formdata: { 
                 uuid: null, 
                 department: '',
-                global_cost_center_uuid: ''
+                cost_center_uuid: ''
             },
             selected_cost_center: null,
             options_cost_center: []
@@ -172,7 +172,7 @@ export default {
 
         getGlobalCostCenter: function () {
            var scope = this
-            scope.GET('globals/cost-center').then(res => {
+            scope.GET('company/cost-center').then(res => {
                 
                 res.rows.forEach(function (data) {
 
@@ -194,20 +194,20 @@ export default {
             var scope = this
             scope.formdata.uuid = null
             scope.formdata.department = ''
-            scope.formdata.global_cost_center_uuid = ''
+            scope.formdata.cost_center_uuid = ''
         },
         setData: function (data) {
             var scope = this
             scope.formdata.uuid = data.uuid
             scope.formdata.department = data.department
 
-            $('.form-select-global-cost-center').val(data.global_cost_center_uuid);
+            $('.form-select-global-cost-center').val(data.cost_center_uuid);
             $('.form-select-global-cost-center').trigger('change');
         },
         save: function () {
             var scope = this
 
-            scope.formdata.global_cost_center_uuid = scope.selected_cost_center
+            scope.formdata.cost_center_uuid = scope.selected_cost_center
 
             scope.POST('company/department', scope.formdata).then(res => {
                 if (res.success) {
@@ -230,7 +230,7 @@ export default {
         update: function () {
             var scope = this
             
-            scope.formdata.global_cost_center_uuid = scope.selected_cost_center
+            scope.formdata.cost_center_uuid = scope.selected_cost_center
 
             window.swal.fire({
                 title: 'Update?',
