@@ -41,15 +41,15 @@ class CustomerList extends Model
     }
 
     public function CustomerChain(){
-        return $this->belongsTo('App\Models\GlobalCustomerChain','global_customer_chain_uuid','uuid');
+        return $this->belongsTo('App\Models\CustomerChain','customer_chain_uuid','uuid');
     }
 
     public function CustomerChannel(){
-        return $this->belongsTo('App\Models\GlobalCustomerChannel','global_customer_channel_uuid','uuid');
+        return $this->belongsTo('App\Models\CustomerChannel','customer_channel_uuid','uuid');
     }
 
     public function CustomerType(){
-        return $this->belongsTo('App\Models\GlobalCustomerType','global_customer_type_uuid','uuid');
+        return $this->belongsTo('App\Models\CustomerType','customer_type_uuid','uuid');
     }
 
     public function PaymentTerm(){
