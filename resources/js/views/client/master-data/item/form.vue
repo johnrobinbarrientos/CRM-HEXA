@@ -299,9 +299,9 @@
                                                 <table class="table table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <th>UOM</th>
-                                                            <th width="100">Barcode</th>
-                                                            <th width="100">Packing</th>
+                                                            <th width="40">UOM</th>
+                                                            <th width="150">Barcode</th>
+                                                            <th width="50">Packing</th>
                                                             <th>Sales Description</th>
                                                             <th>Remarks</th>
                                                             <th width="50">Actions</th>
@@ -324,7 +324,7 @@
                                                                 <input v-model="item_uom.packing" type="text" class="editable-control" :readonly="view_mode">
                                                                 <span>{{ item_uom.packing }}</span>
                                                             </td>
-                                                            <td class="editable text-right">
+                                                            <td class="editable">
                                                                 <input v-model="item_uom.sales_description" type="text" class="editable-control" :readonly="view_mode">
                                                                 <span>{{ item_uom.sales_description }}</span>
                                                             </td>
@@ -335,7 +335,7 @@
                                                     
 
                                                             <td>
-                                                                <button @click="removeItemUom(index)" type="button" class="btn btn-sm btn-danger waves-effect" :disabled="view_mode"><i class="mdi mdi-trash-can"></i></button>
+                                                                <button @click="removeItemUom(index)" type="button" class="hx-btn-single m-1" :disabled="view_mode">Delete</button>
                                                             </td>
                                                         
                                                         </tr>

@@ -50,8 +50,8 @@
                             <td>{{ account.code }}</td>
                             <td>{{ account.account_name }}</td>
                             <td>{{ account.account_group.account_group }}</td>
-                            <td v-if="account.is_default_expense == 1">Yes</td>
-                            <td v-else>No</td>
+                            <td v-if="account.is_default_expense == 1" class="text-center c-success"><i class="fas fa-check"></i></td>
+                            <td v-else class="text-center c-danger"><i class="fas fa-times"></i></td>
 
                         </tr>
                     </tbody>
