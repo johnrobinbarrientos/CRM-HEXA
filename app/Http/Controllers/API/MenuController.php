@@ -117,11 +117,8 @@ class MenuController extends Controller
 
         $menus[] = [
             'text' => 'Settings',
-            'route' => '#has-submenu',
+            'route' => 'company-main',
             'icon' => 'bx bx-cog',
-            'submenus' => [
-                [ 'text' => 'Company', 'route' => 'company-main'],
-            ]
         ];
 
         return $menus;
@@ -208,20 +205,12 @@ class MenuController extends Controller
             ]
         ];
 
-        // $menus[] = [
-        //     'text' => 'Users',
-        //     'route' => 'users',
-        //     'icon' => 'bx bxs-user'
-        // ];
 
         $menus[] = [
-            'text' => 'Settings',
-            'route' => '#has-submenu',
-            'icon' => 'bx bx-cog',
-            'submenus' => [
-                [ 'text' => 'Company', 'route' => 'company-main'],
-            ]
-        ];
+                'text' => 'Settings',
+                'route' => 'company-main',
+                'icon' => 'bx bx-cog',
+            ];
 
         return $menus;
     }

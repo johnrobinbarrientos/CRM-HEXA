@@ -1,7 +1,28 @@
 <template>
     <div>
         <div class="hx-tab-1 round">                   
-            <ul class="nav nav-tabs" role="tablist">    
+            <ul class="nav nav-tabs" role="tablist">
+
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#uom" role="tab">
+                        <span class="d-block d-sm-none"></span>
+                        <span class="d-none d-sm-block">UOM</span> 
+                    </a>      
+                </li> 
+
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#cost-center" role="tab">
+                        <span class="d-block d-sm-none"></span>
+                        <span class="d-none d-sm-block">Cost Center</span> 
+                    </a>      
+                </li> 
+
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#address-list" role="tab">
+                        <span class="d-block d-sm-none"></span>
+                        <span class="d-none d-sm-block">Address List</span> 
+                    </a>      
+                </li> 
                 
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#accounting-period" role="tab">
@@ -155,6 +176,15 @@
                 <div class="tab-pane" id="accounting-period" role="tabpanel">
                     <accounting-period></accounting-period>              
                 </div>
+                <div class="tab-pane" id="address-list" role="tabpanel">
+                    <address-list></address-list>              
+                </div>
+                <div class="tab-pane" id="cost-center" role="tabpanel">
+                    <cost-center></cost-center>              
+                </div>
+                <div class="tab-pane" id="uom" role="tabpanel">
+                    <uom></uom>              
+                </div>
             </div>
 
         </div>   
@@ -173,6 +203,9 @@ import Taxation from './taxation'
 import TaxationItem from './taxation-item'
 import Department from './department'
 import AccountingPeriod from './accounting-period'
+import AddressList from './address-list'
+import CostCenter from './cost-center'
+import UOM from './uom'
 
 
 export default {
@@ -192,7 +225,10 @@ export default {
         'taxation': Taxation,
         'taxation-item': TaxationItem,
         'department': Department,
-        'accounting-period': AccountingPeriod
+        'accounting-period': AccountingPeriod,
+        'address-list': AddressList,
+        'cost-center': CostCenter,
+        'uom': UOM,
 
     },
         mounted() {
