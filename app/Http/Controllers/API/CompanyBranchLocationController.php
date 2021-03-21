@@ -55,4 +55,10 @@ class CompanyBranchLocationController extends Controller
 
         return response()->json(['success' => 1, 'message' => 'Branch Location Deleted!'], 200);
     }
+
+    public function getLocations($branch_uuid)
+    {
+        $branchLocation = CompanyBranchLocation::whereNull('deleted_at')->where('branch_uuid', $branch_uuid)->get();
+        return response()->json(['success' => 1, 'rows' => $branchLocation], 200);
+    }
 }

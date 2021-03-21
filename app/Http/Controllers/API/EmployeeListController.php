@@ -105,7 +105,8 @@ class EmployeeListController extends Controller
         $employee->middle_name = strtoupper(request()->middle_name);
         $employee->last_name = strtoupper(request()->last_name);
         $employee->ext = strtoupper(request()->ext);
-        $employee->branch_location_uuid  = request()->branch_location_uuid ;
+        $employee->branch_uuid  = request()->branch_uuid;
+        $employee->branch_location_uuid  = request()->branch_location_uuid;
         $employee->is_custodian = request()->is_custodian;
         $employee->is_driver = request()->is_driver;
         $employee->is_system_user = request()->is_system_user;
@@ -182,5 +183,9 @@ class EmployeeListController extends Controller
 
         return response()->json(['success' => 1, 'message' => 'Deleted!'], 200);
     }
+
+
+
+    
 
 }

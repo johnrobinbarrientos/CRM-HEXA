@@ -236,6 +236,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/branch-location', 'API\CompanyBranchLocationController@save');
         Route::post('/branch-location/delete', 'API\CompanyBranchLocationController@delete');
 
+        Route::get('/branch-location/{branch_uuid}', 'API\CompanyBranchLocationController@getLocations');
+
         Route::get('/payment-term', 'API\CompanyPaymentTermController@index');
         Route::post('/payment-term', 'API\CompanyPaymentTermController@save');
         Route::post('/payment-term/delete', 'API\CompanyPaymentTermController@delete');
@@ -374,7 +376,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
     Route::group(['prefix' => 'users'], function(){
         Route::get('/get-branch', 'API\UserController@getBranch');
-        Route::get('/get-branch-locations', 'API\UserController@getBranchLocations');
+        Route::get('/get-branch-locations/{branch_uuid}', 'API\UserController@getBranchLocations');
     });
 
 

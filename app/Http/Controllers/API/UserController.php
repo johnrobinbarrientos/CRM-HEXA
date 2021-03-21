@@ -65,13 +65,27 @@ class UserController extends Controller
         return response()->json(['success' => 1, 'data' => $user, 'message' => 'User Updated!'], 200); 
     }
 
+    // public function getBranch()
+    // {
+    //     $auth = \Auth::user();
+
+    //     $branch = EmployeeList::select('branch_name', 'branch_uuid', 'branch_shortname')
+    //     ->leftJoin('company_branch_location', 'employee_list.branch_location_uuid', '=', 'company_branch_location.uuid')
+    //     ->leftJoin('company_branch', 'company_branch_location.branch_uuid', '=', 'company_branch.uuid')
+    //     ->where('user_id', $auth->id)
+    //     ->first();
+
+    //     return response()->json(['success' => 1, 'rows' => $branch], 200);
+
+    // }
+
     public function getBranch()
     {
+
         $auth = \Auth::user();
 
         $branch = EmployeeList::select('branch_name', 'branch_uuid', 'branch_shortname')
-        ->leftJoin('company_branch_location', 'employee_list.branch_location_uuid', '=', 'company_branch_location.uuid')
-        ->leftJoin('company_branch', 'company_branch_location.branch_uuid', '=', 'company_branch.uuid')
+        ->leftJoin('company_branch', 'employee_list.branch_uuid', '=', 'company_branch.uuid')
         ->where('user_id', $auth->id)
         ->first();
 
@@ -79,18 +93,27 @@ class UserController extends Controller
 
     }
 
-    public function getBranchLocations()
+    // public function getBranchLocations()
+    // {
+    //     $auth = \Auth::user();
+
+    //     $branch = EmployeeList::select('branch_uuid')
+    //     ->leftJoin('company_branch_location', 'employee_list.branch_location_uuid', '=', 'company_branch_location.uuid')
+    //     ->leftJoin('company_branch', 'company_branch_location.branch_uuid', '=', 'company_branch.uuid')
+    //     ->where('user_id', $auth->id)
+    //     ->first();
+
+
+    //     $locations= CompanyBranchLocation::where('branch_uuid', $branch->branch_uuid)->get();
+
+    //     return response()->json(['success' => 1, 'rows' => $locations], 200);
+
+    // }
+
+    public function getBranchLocations($branch_uuid)
     {
-        $auth = \Auth::user();
 
-        $branch = EmployeeList::select('branch_uuid')
-        ->leftJoin('company_branch_location', 'employee_list.branch_location_uuid', '=', 'company_branch_location.uuid')
-        ->leftJoin('company_branch', 'company_branch_location.branch_uuid', '=', 'company_branch.uuid')
-        ->where('user_id', $auth->id)
-        ->first();
-
-
-        $locations= CompanyBranchLocation::where('branch_uuid', $branch->branch_uuid)->get();
+        $locations= CompanyBranchLocation::where('branch_uuid', $branch_uuid)->get();
 
         return response()->json(['success' => 1, 'rows' => $locations], 200);
 

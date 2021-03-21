@@ -78,7 +78,12 @@
                         <div class="col-md-3 col-12">
                             <div style="padding-right: 50px;">
                                 <div class="form-group">
-                                    <label class="form-label" for="location">Assign Branch</label>
+                                    <label class="form-label" for="employee-branch">Branch</label>
+                                    <strong><select class="form-select-branch" v-model="selected_branch" :options="options_branch" name="employee-branch" :disabled="view_mode">
+                                    </select></strong>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="location">Assign Location</label>
                                     <strong><select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="location" :disabled="view_mode">
                                     </select></strong>
                                 </div>
@@ -468,7 +473,7 @@ export default {
         return {
             prerequiste: {
                 getCompanyDepartment: false,
-                getBranchLocation: false,
+                getBranch: false,
                 getEmploymentType: false,
                 getEmploymentStatus: false,
                 getCostCenter: false,
@@ -478,6 +483,9 @@ export default {
 
             selected_department: null,
             options_department: [],
+
+            selected_branch: null,
+            options_branch: [],
 
             selected_branch_location: null,
             options_branch_location: [],
@@ -516,6 +524,7 @@ export default {
                 middle_name: '',
                 last_name: '',
                 ext: '',
+                branch_uuid: '',
                 branch_location_uuid: '',
                 is_custodian: '',
                 is_driver: '',
@@ -561,7 +570,7 @@ export default {
         ready: function () {
             var scope = this
 
-            if (scope.prerequiste.getCompanyDepartment && scope.prerequiste.getBranchLocation && scope.prerequiste.getEmploymentType && scope.prerequiste.getEmploymentStatus 
+            if (scope.prerequiste.getCompanyDepartment && scope.prerequiste.getBranch && scope.prerequiste.getEmploymentType && scope.prerequiste.getEmploymentStatus 
                 && scope.prerequiste.getCostCenter && scope.prerequiste.getAddressList && scope.prerequiste.getSupervisors) {
                 return true
             }
@@ -578,8 +587,10 @@ export default {
                     $(".form-select-department").select2({data: scope.options_department});
                     scope.selected_department = scope.options_department[0].id
 
-                    $(".form-select-branch-location").select2({data: scope.options_branch_location});
-                    scope.selected_branch_location = scope.options_branch_location[0].id
+                    $(".form-select-branch").select2({data: scope.options_branch});
+                    scope.selected_branch = scope.options_branch[0].id
+
+                    scope.getBranchLocation(scope.selected_branch)
 
                     $(".form-select-employment-type").select2({data: scope.options_employment_type});
                     scope.selected_employment_type = scope.options_employment_type[0].id
@@ -642,9 +653,28 @@ export default {
 
         },
 
-        getBranchLocation: function () {
+        getBranch: function () {
            var scope = this
-            scope.GET('company/branch-location').then(res => {
+            scope.GET('company/branch').then(res => {
+                res.rows.forEach(function (data) {
+                    scope.options_branch.push({
+                        id: data.uuid,
+                        text: data.branch_name.toUpperCase()
+                    })
+                })
+
+                scope.prerequiste.getBranch = true
+
+            })
+
+        },
+
+        getBranchLocation: function (branch_uuid) {
+           var scope = this
+
+           scope.options_branch_location = []
+
+            scope.GET('company/branch-location/' + branch_uuid).then(res => {
                 res.rows.forEach(function (data) {
                     scope.options_branch_location.push({
                         id: data.uuid,
@@ -652,9 +682,16 @@ export default {
                     })
                 })
 
-                scope.prerequiste.getBranchLocation = true
+                $(".form-select-branch-location").select2();
+                $(".form-select-branch-location").html('');
+                $(".form-select-branch-location").select2({data: scope.options_branch_location});
+
+                
+                $(".form-select-branch-location").val(scope.selected_branch_location.trigger('change'));
 
             })
+
+            console.log('New')
 
         },
 
@@ -776,6 +813,7 @@ export default {
         save: function () {
             var scope = this
             scope.formdata.department_uuid = scope.selected_department
+            scope.formdata.branch_uuid = scope.selected_branch
             scope.formdata.branch_location_uuid = scope.selected_branch_location
             scope.formdata.employment_type_uuid = scope.selected_employment_type
             scope.formdata.employment_status_uuid = scope.selected_employment_status
@@ -826,6 +864,7 @@ export default {
         update: function () {
             var scope = this
             scope.formdata.department_uuid = scope.selected_department
+            scope.formdata.branch_uuid = scope.selected_branch
             scope.formdata.branch_location_uuid = scope.selected_branch_location
             scope.formdata.employment_type_uuid = scope.selected_employment_type
             scope.formdata.employment_status_uuid = scope.selected_employment_status
@@ -965,7 +1004,12 @@ export default {
                     }
 
 
-                    $('.form-select-branch-location').val(data.branch_location_uuid);
+                    $('.form-select-branch').val(data.branch_uuid);
+                    $('.form-select-branch').trigger('change');
+
+                    console.log(data)
+
+                    $(document).find('.form-select-branch-location', data.branch_location_uuid);
                     $('.form-select-branch-location').trigger('change');
 
                     $('.form-select-employment-type').val(data.employment_type_uuid);
@@ -989,6 +1033,8 @@ export default {
                     $('.form-select-gender').val(data.gender);
                     $('.form-select-gender').trigger('change');
 
+                    console.log('update')
+
                 }
                 
             })
@@ -999,7 +1045,7 @@ export default {
         var scope = this
 
         scope.getCompanyDepartment()
-        scope.getBranchLocation()
+        scope.getBranch()
         scope.getEmploymentType()
         scope.getEmploymentStatus()
         scope.getCostCenter()
@@ -1018,6 +1064,11 @@ export default {
 
         $(document).on('change','.form-select-department', function(e) { 
             scope.selected_department = $('.form-select-department').val();
+        })
+
+        $(document).on('change','.form-select-branch', function(e) { 
+            scope.selected_branch = $('.form-select-branch').val();
+            scope.getBranchLocation(scope.selected_branch)
         })
 
         $(document).on('change','.form-select-branch-location', function(e) { 

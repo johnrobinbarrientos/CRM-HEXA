@@ -98,7 +98,7 @@ export default {
             //ready: false,
             prerequisite: {
                 getBranch: false,
-                getBranchLocations: false,
+                // getBranchLocations: false,
                 getSupplierDiscountGroup: false,
                 getAssetGroup: false,
                 getOrderReasonCodes: false,
@@ -148,8 +148,7 @@ export default {
     },
     computed: {
         ready: function () {
-            console.log(this.prerequisite)
-            if (this.prerequisite.getBranch && this.prerequisite.getBranchLocations && this.prerequisite.getSupplierDiscountGroup 
+            if (this.prerequisite.getBranch && this.prerequisite.getSupplierDiscountGroup 
                 && this.prerequisite.getAssetGroup && this.prerequisite.getOrderReasonCodes && this.prerequisite.getItemGroup) {
                 return true
             }
@@ -157,9 +156,6 @@ export default {
         }
     },
     methods: {
-        test: function() {
-            alert(this.formdata.date_purchased)
-        },
         toggleEdit: function () {
             var scope = this
             scope.edit = !scope.edit
@@ -168,7 +164,7 @@ export default {
                 scope.loadFormFields();
             } else {
                 scope.prerequisite.getBranch = false
-                scope.prerequisite.getBranchLocations = false
+                // scope.prerequisite.getBranchLocations = false
                 scope.prerequisite.getSupplierDiscountGroup = false
                 scope.prerequisite.getAssetGroup = false
                 scope.prerequisite.getOrderReasonCodes = false
@@ -184,7 +180,11 @@ export default {
 
                 scope.prerequisite.getBranch = true
 
+                scope.getBranchLocations(res.rows.branch_uuid)
+
             })
+
+            
         },
         getItemGroup: function () {
            var scope = this
@@ -204,9 +204,9 @@ export default {
                 scope.prerequisite.getItemGroup = true
             })
         },
-        getBranchLocations: function () {
+        getBranchLocations: function (branch_uuid) {
            var scope = this
-            scope.GET('users/get-branch-locations').then(res => {
+            scope.GET('users/get-branch-locations/' + branch_uuid).then(res => {
                 res.rows.forEach(function (data) {
 
                     scope.options_branch_location.push({
@@ -219,7 +219,7 @@ export default {
                 $(".form-select-branch-location").select2({data: scope.options_branch_location});
                 scope.selected_branch_location = scope.options_branch_location[0].id
 
-                scope.prerequisite.getBranchLocations = true
+                // scope.prerequisite.getBranchLocations = true
             })
         },
         getSupplierDiscountGroup: function (suppier_uuid) {
@@ -402,13 +402,14 @@ export default {
         },
         loadFormFields: function () {
             var scope = this
+
             scope.getItemGroup()
             scope.getAssetGroup()
             scope.getSupplier()
             scope.getOrderReasonCodes()
 
             scope.getBranch()
-            scope.getBranchLocations()
+            // scope.getBranchLocations()
 
             if (!scope.$props.order) {
                 scope.checkLeadTime()
@@ -429,6 +430,7 @@ export default {
     mounted() {
         var scope = this
 
+        
         scope.loadFormFields();
 
       
