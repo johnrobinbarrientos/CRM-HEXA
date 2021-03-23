@@ -8,7 +8,7 @@
                         <div class="col-md-6">Check Payee</div>
                         <div class="col-md-6">
                             <div style="text-align:right;">
-                                <button @click="addNewPayee()"  type="button" class="btn-gray-small" :disabled="view_mode">New Payee</button>
+                                <button @click="addNewPayee()"  type="button" class="btn-gray-small" :disabled="view_mode">Add</button>
                             </div>
                         </div>
                     </div>
@@ -53,8 +53,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 v-if="selected_payee" class="modal-title">
-                            <span v-if="!selected_payee.id">New Payee</span>
-                            <span v-else>Edit Payee</span>
+                            <span v-if="!selected_payee.id">New</span>
+                            <span v-else>Edit</span>
                         </h5>
                         <a href="javascript:void(0)"  @click="cancel()" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
@@ -66,7 +66,7 @@
                             <div class="row">
                                 <div class="col-md-12 col-12">
                                     <div style="padding:5px;">
-                                        <input v-model="selected_payee.check_payee" class="form-control-gray-medium"  v-bind:class="{'error' : selected_payee.check_payee_error}" type="text" placeholder="Enter payee name">
+                                        <input v-model="selected_payee.check_payee" class="form-control-gray-medium"  v-bind:class="{'error' : selected_payee.check_payee_error}" type="text" placeholder="Payee">
                                     </div>
                                 </div>                                           
                             </div>                                    

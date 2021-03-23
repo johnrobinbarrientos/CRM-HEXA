@@ -131,7 +131,10 @@
 
                     <br/>
                     <div id="suppliers-settings-tab" class="hx-tab-2 round">
-                            <ul class="nav nav-tabs">  
+                            <ul class="nav nav-tabs">
+                                <li>        
+                                    <a data-toggle="tab" href="#contact-tab">Contact</a>    
+                                </li> 
                                 <li>        
                                     <a data-toggle="tab" href="#address-tab">Address</a>    
                                 </li>
@@ -229,10 +232,14 @@
                                     <check-payees ref="payees" :supplier_uuid="formdata.uuid" :view_mode="view_mode" :properties="{ table_responsive: false }"></check-payees>
                                 </div>
 
+                                <div class="tab-pane" id="contact-tab">
+                                    <contacts ref="contacts" :supplier_uuid="formdata.uuid" :view_mode="view_mode" :properties="{ table_responsive: false }"></contacts>
+                                </div>
+
                                 <div class="tab-pane" id="address-tab">
                                         <div class="row">
 
-                                            <div class="col-lg-6 offset-lg-3">
+                                            <div class="col-md-6 col-12">
                                                 <div class="form-group mb-4">
                                                     <label class="form-label" for="address-list"><strong>Select Address</strong></label>
                                                     <select class="form-select-address-list" v-model="selected_address" :options="options_address" name="address-list" :disabled="view_mode">
@@ -319,6 +326,7 @@ import Swal from 'sweetalert2'
 
 import Discounts from './discounts'
 import CheckPayees from './check-payees'
+import Contacts from './contacts'
 
 export default {
     name: 'supplier-list',
@@ -398,7 +406,8 @@ export default {
 
                 children: {
                     discount_groups: [],
-                    payees: []
+                    payees: [],
+                    contacts: []
                 }
             }
 
@@ -406,7 +415,8 @@ export default {
     },
     components: {
         Discounts,
-        CheckPayees
+        CheckPayees,
+        Contacts
     },
     computed: {
         ready: function () {
@@ -733,6 +743,7 @@ export default {
      
             scope.formdata.children.discount_groups = scope.$refs.discounts.getDiscountGroups();
             scope.formdata.children.payees = scope.$refs.payees.getPayees();
+            scope.formdata.children.contacts = scope.$refs.contacts.getContacts();
       
             scope.formdata.supplier_group_uuid = scope.selected_supplier_group
             scope.formdata.payment_term_uuid = scope.selected_payment_term

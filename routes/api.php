@@ -116,6 +116,10 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/{supplierUUID}/check-payee', 'API\SupplierCheckPayeeController@save');
         Route::delete('/{supplierUUID}/check-payee/{checkPayeeUUID}', 'API\SupplierCheckPayeeController@delete');
 
+        Route::get('/{supplierUUID}/contacts', 'API\SupplierContactController@getContactsBySupplier');
+        Route::post('/{supplierUUID}/contacts', 'API\SupplierContactController@save');
+        Route::delete('/{supplierUUID}/contacts/{contactUUID}', 'API\SupplierContactController@delete');
+
         Route::get('/', 'API\SupplierListController@index');
 
         Route::post('/', 'API\SupplierListController@store');

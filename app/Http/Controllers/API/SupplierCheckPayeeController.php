@@ -49,7 +49,7 @@ class SupplierCheckPayeeController extends Controller
 
 
             if (empty($payee['check_payee'])) {
-                $discount['check_payee_error'] = true;
+                $payee['check_payee_error'] = true;
                 $errors++;
             }
 
