@@ -98,6 +98,14 @@
 
                         <div class="col-md-3 col-12">
                             <div class="form-group">
+                                <label class="form-label" for="cost-center">Cost Center</label>
+                                <select class="form-select-cost-center" v-model="selected_cost_center" :options="options_cost_center" name="cost-center" :disabled="view_mode">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
                                 <div class="form-control-wrap">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" v-model="formdata.is_transporter" true-value="1" false-value="0" class="custom-control-input" id="is-transporter" :disabled="view_mode">
@@ -108,7 +116,7 @@
                         </div>
 
                         <div class="col-md-3 col-12">
-                            <div class="form-group" style="margin-top: 30px;">
+                            <div class="form-group">
                                 <div class="form-control-wrap">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" v-model="formdata.is_active" true-value="1" false-value="0" class="custom-control-input" id="is-active" :disabled="view_mode">
@@ -326,6 +334,7 @@ export default {
                 getVat: false,
                 getEwt: false,
                 getAddressList: false,
+                getCostCenter: false,
             },
             selected_payables: null,
             options_payables: [],
@@ -347,6 +356,9 @@ export default {
 
             selected_address: null,
             options_address: [],
+
+            selected_cost_center: null,
+            options_cost_center: [],
 
             is_vat: 0,
             is_ewt: 0,
@@ -380,6 +392,7 @@ export default {
                 contact_no: '',
                 address_uuid: '',
                 address1: '',
+                cost_center_uuid: '',
                 is_vat: 0,
                 is_ewt: 0,
 
@@ -400,7 +413,7 @@ export default {
             var scope = this
 
             if (scope.prerequiste.getPayables && scope.prerequiste.getExpenses && scope.prerequiste.getSupplierGroup && scope.prerequiste.getPaymentTerm 
-                && scope.prerequiste.getVat && scope.prerequiste.getEwt && scope.prerequiste.getAddressList) {
+                && scope.prerequiste.getVat && scope.prerequiste.getEwt && scope.prerequiste.getAddressList && scope.prerequiste.getCostCenter) {
                 return true
             }
 
@@ -435,6 +448,9 @@ export default {
 
                     $(".form-select-payables").select2({data: scope.options_payables});
                     scope.selected_payables = scope.options_payables[0].id
+
+                    $(".form-select-cost-center").select2({data: scope.options_cost_center});
+                    scope.selected_cost_center = scope.options_cost_center[0].id
 
                     
                     scope.getSupplierDetails(scope.formdata.uuid)
@@ -608,6 +624,23 @@ export default {
             })
 
         },
+
+        getCostCenter: function () {
+           var scope = this
+            scope.GET('company/cost-center').then(res => {
+                res.rows.forEach(function (data) {
+                    scope.options_cost_center.push({
+                        id: data.uuid,
+                        text: data.cost_center_name
+                    })
+                })
+
+                scope.prerequiste.getCostCenter = true
+                
+            })
+
+        },
+
         getVat: function () {
            var scope = this
 
@@ -708,6 +741,7 @@ export default {
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
             scope.formdata.coa_expense_account_uuid = scope.selected_expenses
             scope.formdata.address_uuid = scope.selected_address
+            scope.formdata.cost_center_uuid = scope.selected_cost_center
             scope.formdata.is_vat = scope.is_vat
             scope.formdata.is_ewt = scope.is_ewt
 
@@ -828,7 +862,8 @@ export default {
                 $('.form-select-address-list').val(data.address_uuid);
                 $('.form-select-address-list').trigger('change');
                 
-                
+                $('.form-select-cost-center').val(data.cost_center_uuid);
+                $('.form-select-cost-center').trigger('change');
                 
                 
             })
@@ -846,6 +881,7 @@ export default {
         scope.getVat()
         scope.getEwt()
         scope.getAddressList()
+        scope.getCostCenter()
         
         
         scope.formdata.uuid = (scope.$route.params.supplierUUID != 'create') ? scope.$route.params.supplierUUID : null
@@ -886,6 +922,10 @@ export default {
             scope.selected_address = $('.form-select-address-list').val();
 
             scope.fillAddress()
+        })
+
+        $(document).on('change','.form-select-cost-center', function(e) { 
+            scope.selected_cost_center = $('.form-select-cost-center').val();
         })
     },
 }

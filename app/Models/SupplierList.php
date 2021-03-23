@@ -15,6 +15,7 @@ class SupplierList extends Model
         'uuid','supplier_name','supplier_shortname','tax_identification_no','is_active',
         'supplier_group_uuid','lead_time','is_transporter','vat_uuid','ewt_uuid','payment_term_uuid',
         'coa_payable_account_uuid','coa_expense_account_uuid','email','contact_no','address_uuid', 'address1',
+        'cost_center_uuid'
     ];
 
     protected $primaryKey = 'uuid';

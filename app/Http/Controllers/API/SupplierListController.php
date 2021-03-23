@@ -100,6 +100,7 @@ class SupplierListController extends Controller
         $supplier->contact_no = request()->contact_no;
         $supplier->address_uuid = request()->address_uuid;
         $supplier->address1 = request()->address1;
+        $supplier->cost_center_uuid = request()->cost_center_uuid;
         $supplier->is_draft = 0;
         $supplier->save();
 
