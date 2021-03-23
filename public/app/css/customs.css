@@ -349,6 +349,7 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
 /*modal (single field forms)*/
 @media (min-width: 992px) {
 	.modal-single-form .modal-dialog { max-width: 350px; margin-top: 150px; }
+	.modal-md-form .modal-dialog { max-width: 650px; margin-top: 150px; }
 }
 .modal-single-form .modal-dialog button,
 .modal-single-form .modal-dialog input { width: 100%; }
@@ -684,6 +685,11 @@ img.header-profile-user { background: #fff; }
 .btn-gray-small:hover {
     opacity:0.9;
     background: #ccc;
+}
+
+.btn-closer-square { 
+    background: rgb(255, 255, 255); text-align:center; border: 1px solid rgb(204, 204, 204); color: rgb(51, 51, 51); display: inline-block; font-size: 16px; height: 20px;  line-height: 22px;
+    width: 20px;  font-weight: 600; padding: 0px; 
 }
 
 .form-control-gray-medium { width:100%; height:30px; font-size: 12px; line-height: 30px; padding: 0px 10px; min-height: 30px !important; border:1px solid #ccc; }

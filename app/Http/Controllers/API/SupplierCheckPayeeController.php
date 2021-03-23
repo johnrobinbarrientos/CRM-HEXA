@@ -40,7 +40,45 @@ class SupplierCheckPayeeController extends Controller
         return response()->json(['success' => 1, 'rows' => $list], 200);
     }
 
-    public function save()
+    static public function check($payees)
+    {
+        $errors = 0;
+        foreach ($payees as $key => $payee) {
+
+            $payee['check_payee_error'] = false;
+
+
+            if (empty($payee['check_payee'])) {
+                $discount['check_payee_error'] = true;
+                $errors++;
+            }
+
+
+            $payees[$key] = $payee;
+        }
+
+        return ['payees' => $payees, 'errors' => $errors];
+    }
+
+    static public function save($supplier_uuid,$payees)
+    {
+        foreach ($payees as $key => $payee) {
+
+            $uuid = $payee['uuid'];
+            $check_payee = $payee['check_payee'];
+    
+            
+            $data = SupplierCheckPayee::where('uuid','=',$uuid)->first();
+            $data = ($data) ? $data : new  SupplierCheckPayee;
+            $data->supplier_uuid = $supplier_uuid;
+            $data->check_payee = $check_payee;
+            $data->save();
+            
+            $bd_supplier = SupplierCheckPayee::find($data->uuid);
+        }
+    }
+
+    public function saveOld()
     {
         $checkPayee = request()->uuid ? SupplierCheckPayee::find(request()->uuid) : new SupplierCheckPayee();
 
