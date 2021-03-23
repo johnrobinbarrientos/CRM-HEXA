@@ -10,7 +10,16 @@ use App\Models\ItemList;
 use App\Models\ItemSupplier; 
 use App\Models\ItemUom; 
 use App\Models\GlobalUom; 
+
+use App\Models\BDSupplier; 
+use App\Models\BDSupplierDiscount; 
+use App\Models\BDSupplierDiscountExcludedItem; 
+
 use Illuminate\Support\Facades\Auth; 
+
+
+use  App\Http\Controllers\API\BDSupplierController;
+use  App\Http\Controllers\API\SupplierCheckPayeeController;
 
 class SupplierListController extends Controller
 {
@@ -42,31 +51,38 @@ class SupplierListController extends Controller
         return response()->json(['success' => 1, 'rows' => $list, 'count' => $count, 'offset' => $offset, 'results' => count($list)], 200);
     }
 
-
-    public function store() // initialize draft
+    public function store()
     {
-    
-        $supplier =  SupplierList::where('is_draft','=', 1)->first();
-
-        if (!$supplier) {
-
-            $supplier = new SupplierList();
-
-            $supplier->save();
-        }
-
-        $supplier = SupplierList::find($supplier->uuid);
-    
-        return response()->json(['success' => 1, 'data' => $supplier], 200);
+        return $this->save();
     }
 
-    public function update()
+    public function update($uuid) 
     {
-        $supplier =  SupplierList::find(request()->uuid);
-        
-        if (!$supplier) {
-            return response()->json(['success' => 0, 'data' => null, 'Supplier not found'], 500);
+        return $this->save($uuid);
+    }
+
+    public function save($uuid = '')
+    {
+
+        $children = (object) request()->children;
+
+        $groups = (isset($children->discount_groups)) ? $children->discount_groups : [];
+        $check = BDSupplierController::check($groups);
+
+        if ($check['errors'] > 0) {
+           return response()->json(['success' => 0, 'groups' => $check['groups'], 'errors' => $check['errors'], 'tab' => 'discounts' ], 500);
         }
+
+
+        $payees = (isset($children->payees)) ? $children->payees : [];
+        $check = SupplierCheckPayeeController::check($payees);
+
+        if ($check['errors'] > 0) {
+           return response()->json(['success' => 0, 'payees' => $check['payees'], 'errors' => $check['errors'], 'tab' => 'check-payees' ], 500);
+        }
+
+        $supplier =  SupplierList::find($uuid);
+        $supplier = ($supplier) ? $supplier : new SupplierList();
 
         $supplier->supplier_name = request()->supplier_name;
         $supplier->supplier_shortname = request()->supplier_shortname;
@@ -88,8 +104,14 @@ class SupplierListController extends Controller
         $supplier->save();
 
         $supplier = SupplierList::find($supplier->uuid);
+        $bd_groups_save = BDSupplierController::save($supplier->uuid,$groups);
+        $check_payees_save = SupplierCheckPayeeController::save($supplier->uuid,$payees);
+
+       //  $BD_groups = BDSupplier::where('supplier_uuid','=',$supplier->uuid)->with('discounts')->get();
+
         return response()->json(['success' => 1, 'rows' => $supplier], 200);
     }
+
 
     public function show($supplierUUID) // set update records
     {

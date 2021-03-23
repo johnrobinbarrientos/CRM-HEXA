@@ -25,9 +25,11 @@
                             <a @click="ROUTE({path: '/suppliers/' + formdata.uuid })" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Edit</a>
                         </span>
                         <span v-else>
-                            <a @click="ROUTE({path: '/supplier-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)"><span>Cancel</span></a>
-                            <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-shineblue" href="javascript:void(0)"><span>Save</span></a>
-                            <a v-else @click="update()" type="submit" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Update</a>
+                            <a @click="ROUTE({path: '/supplier-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)"><span>Close</span></a>
+                            <a @click="save()" type="button" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">
+                                <template v-if="formdata.uuid">Update</template>
+                                <template v-else>Save</template>
+                            </a>
                         </span> 
                     </div>
                 </div>
@@ -120,27 +122,26 @@
                     </div>
 
                     <br/>
-                    <div class="hx-tab-2 round">
+                    <div id="suppliers-settings-tab" class="hx-tab-2 round">
                             <ul class="nav nav-tabs">  
                                 <li>        
-                                    <a class="" data-toggle="tab" href="#address">Address</a>    
+                                    <a data-toggle="tab" href="#address-tab">Address</a>    
                                 </li>
                                 <li>        
-                                    <a class="" data-toggle="tab" href="#check-payees">Check Payee</a>    
+                                    <a data-toggle="tab" href="#check-payees-tab">Check Payee</a>    
                                 </li>
                                 <li>        
-                                    <a v-if="formdata.uuid === null" class="disabled" data-toggle="tab" href="#discounts">Discount</a> 
-                                    <a v-else class="" data-toggle="tab" href="#discounts">Discount</a>   
+                                    <a data-toggle="tab" href="#discounts-tab">Discount</a>   
                                 </li>
                                 <li>        
-                                    <a class="active" data-toggle="tab" href="#account">Financial Account</a>    
+                                    <a class="active" data-toggle="tab" href="#account-tab">Financial Account</a>    
                                 </li>     
                             </ul>
 
                             <div class="clearfix"></div>
 
                             <div class="tab-content">    
-                                <div class="tab-pane active" id="account">
+                                <div class="tab-pane active" id="account-tab">
                                         <div class="row">
                                             <div class="col-md-4 col-12">
 
@@ -200,7 +201,7 @@
                                                 </div>
 
                                                 <div v-show="is_ewt" class="row">
-                                                    <div class="col-md-4 col-12" style="margin-left: 12px;">
+                                                    <div class="col-md-4 col-12" >
                                                         <div class="form-group">
                                                             <label class="form-label" for="ewt">EWT</label>
                                                             <select class="form-select-ewt" v-model="selected_ewt" :options="options_ewt" name="ewt" :disabled="view_mode">
@@ -212,15 +213,15 @@
                                         </div>
                                 </div>
 
-                                <div class="tab-pane" id="discounts">
-                                    <Discounts v-if="formdata.uuid" :supplier_uuid="formdata.uuid" :view_mode="view_mode" :properties="{ table_responsive: false }"></Discounts>
+                                <div class="tab-pane" id="discounts-tab">
+                                    <Discounts ref="discounts" :supplier_uuid="formdata.uuid" :view_mode="view_mode" :properties="{ table_responsive: false }"></Discounts>
                                 </div>
 
-                                <div class="tab-pane" id="check-payees">
-                                    <check-payees  v-if="formdata.uuid" :supplier_uuid="formdata.uuid" :view_mode="view_mode" :properties="{ table_responsive: false }"></check-payees>
+                                <div class="tab-pane" id="check-payees-tab">
+                                    <check-payees ref="payees" :supplier_uuid="formdata.uuid" :view_mode="view_mode" :properties="{ table_responsive: false }"></check-payees>
                                 </div>
 
-                                <div class="tab-pane" id="address">
+                                <div class="tab-pane" id="address-tab">
                                         <div class="row">
 
                                             <div class="col-lg-6 offset-lg-3">
@@ -381,6 +382,11 @@ export default {
                 address1: '',
                 is_vat: 0,
                 is_ewt: 0,
+
+                children: {
+                    discount_groups: [],
+                    payees: []
+                }
             }
 
         }
@@ -430,8 +436,8 @@ export default {
                     $(".form-select-payables").select2({data: scope.options_payables});
                     scope.selected_payables = scope.options_payables[0].id
 
-                    var supplierUUID = scope.$route.params.supplierUUID
-                    scope.getSupplierDetails(supplierUUID)
+                    
+                    scope.getSupplierDetails(scope.formdata.uuid)
                 },500)
                 
             }
@@ -691,37 +697,10 @@ export default {
 
         save: function () {
             var scope = this
-
-            scope.formdata.supplier_group_uuid = scope.selected_supplier_group
-            scope.formdata.payment_term_uuid = scope.selected_payment_term
-            scope.formdata.vat_uuid = scope.selected_vat
-            scope.formdata.ewt_uuid = scope.selected_ewt
-            scope.formdata.coa_payable_account_uuid = scope.selected_payables
-            scope.formdata.coa_expense_account_uuid = scope.selected_expenses
-
-            scope.formdata.address_uuid = scope.selected_address
-            scope.formdata.is_vat = scope.is_vat
-            scope.formdata.is_ewt = scope.is_ewt
-
-            scope.PUT('suppliers', scope.formdata).then(res => {
-                if (res.success) {
-                    window.swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Saved',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        scope.ROUTE({path: '/supplier-main/'})
-                    })
-                } else {
-                    alert('ERROR:' + res.code)
-                }
-            })
-        },
-        update: function () {
-            var scope = this
-
+     
+            scope.formdata.children.discount_groups = scope.$refs.discounts.getDiscountGroups();
+            scope.formdata.children.payees = scope.$refs.payees.getPayees();
+      
             scope.formdata.supplier_group_uuid = scope.selected_supplier_group
             scope.formdata.payment_term_uuid = scope.selected_payment_term
             scope.formdata.vat_uuid = scope.selected_vat
@@ -732,99 +711,127 @@ export default {
             scope.formdata.is_vat = scope.is_vat
             scope.formdata.is_ewt = scope.is_ewt
 
-            console.log(scope.formdata.coa_expense_account_uuid)
-            
-            window.swal.fire({
-                title: 'Update?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#548235',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.value) {
-                    scope.PUT('suppliers', scope.formdata).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Updated',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.ROUTE({path: '/supplier-main/'})
-                            })
-                        } else {
-                            alert('ERROR:' + res.code)
+            if (scope.formdata.uuid) {
+                window.swal.fire({
+                    title: 'Update?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#548235',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.value) {
+                        scope.PUT('suppliers/' + scope.formdata.uuid, scope.formdata).then(res => {
+                            if (res.success) {
+                                window.swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Updated',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then(() => {
+                                    scope.ROUTE({path: '/supplier-main/'})
+                                })
+                            } else {
+                                if (res.errors > 0 && res.tab == 'discounts') {
+                                    scope.$refs.discounts.updateDiscountGroups(res.groups)
+                                    $('#suppliers-settings-tab .nav-tabs').find('a[href="#discount-tab"]').trigger('click');
+                                }
+                            }
+                        })
+                    }                              
+                })
+            } else {
+                scope.POST('suppliers', scope.formdata).then(res => {
+                    if (res.success) {
+                        window.swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Saved',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            scope.ROUTE({path: '/supplier-main/'})
+                        })
+                    } else {
+                        if (res.errors > 0 && res.tab == 'discounts') {
+                            scope.$refs.discounts.updateDiscountGroups(res.groups)
+                            $('#suppliers-settings-tab .nav-tabs').find('a[href="#discounts-tab"]').trigger('click');
                         }
-                    })
-                }                              
-            })
+                            
+                        
+                    }
+                })
+            }
+            
         },
         getSupplierDetails: function (supplierUUID) {
             var scope = this
+            
+            if (supplierUUID == 'create') {
+                return;
+            } 
+
             scope.GET('suppliers/' + supplierUUID).then(res => {
             
                 let data = res.data
 
                 scope.formdata.uuid = supplierUUID
 
-                if (data.is_draft=== 0) {
+                scope.formdata.is_draft = data.is_draft
+                scope.formdata.supplier_name = data.supplier_name
+                scope.formdata.supplier_shortname = data.supplier_shortname
+                scope.formdata.tax_identification_no = data.tax_identification_no
+                scope.formdata.lead_time = data.lead_time
+                scope.formdata.is_transporter = data.is_transporter
+                scope.formdata.is_active = data.is_active
+                scope.formdata.email = data.email
+                scope.formdata.contact_no = data.contact_no
+                scope.formdata.address1 = data.address1
 
-                    scope.formdata.is_draft = data.is_draft
-                    scope.formdata.supplier_name = data.supplier_name
-                    scope.formdata.supplier_shortname = data.supplier_shortname
-                    scope.formdata.tax_identification_no = data.tax_identification_no
-                    scope.formdata.lead_time = data.lead_time
-                    scope.formdata.is_transporter = data.is_transporter
-                    scope.formdata.is_active = data.is_active
-                    scope.formdata.email = data.email
-                    scope.formdata.contact_no = data.contact_no
-                    scope.formdata.address1 = data.address1
+                if (data.vat_uuid != null){
+                    scope.is_vat = 1
+                }else{
+                    scope.is_vat = 0
+                }
 
-                    if (data.vat_uuid != null){
-                        scope.is_vat = 1
-                    }else{
-                        scope.is_vat = 0
-                    }
+                if (data.ewt_uuid != null){
+                    scope.is_ewt = 1
+                }else{
+                    scope.is_ewt = 0
+                }
 
-                    if (data.ewt_uuid != null){
-                        scope.is_ewt = 1
-                    }else{
-                        scope.is_ewt = 0
-                    }
+                $('.form-select-supplier-group').val(data.supplier_group_uuid);
+                $('.form-select-supplier-group').trigger('change');
 
-                    $('.form-select-supplier-group').val(data.supplier_group_uuid);
-                    $('.form-select-supplier-group').trigger('change');
+                $('.form-select-vat').val(data.vat_uuid);
+                $('.form-select-vat').trigger('change');
 
-                    $('.form-select-vat').val(data.vat_uuid);
-                    $('.form-select-vat').trigger('change');
+                scope.reference_vat_uuid = data.vat_uuid;
 
-                    scope.reference_vat_uuid = data.vat_uuid;
+                $('.form-select-ewt').val(data.ewt_uuid);
+                $('.form-select-ewt').trigger('change');
 
-                    $('.form-select-ewt').val(data.ewt_uuid);
-                    $('.form-select-ewt').trigger('change');
+                scope.reference_ewt_uuid = data.ewt_uuid;
 
-                    scope.reference_ewt_uuid = data.ewt_uuid;
+                $('.form-select-payment-term').val(data.payment_term_uuid);
+                $('.form-select-payment-term').trigger('change');
 
-                    $('.form-select-payment-term').val(data.payment_term_uuid);
-                    $('.form-select-payment-term').trigger('change');
+                $('.form-select-payables').val(data.coa_payable_account_uuid);
+                $('.form-select-payables').trigger('change');
 
-                    $('.form-select-payables').val(data.coa_payable_account_uuid);
-                    $('.form-select-payables').trigger('change');
-
-                    $('.form-select-expenses').val(data.coa_expense_account_uuid);
-                    $('.form-select-expenses').trigger('change');
+                $('.form-select-expenses').val(data.coa_expense_account_uuid);
+                $('.form-select-expenses').trigger('change');
 
             
-                    $('.form-select-address-list').val(data.address_uuid);
-                    $('.form-select-address-list').trigger('change');
+                $('.form-select-address-list').val(data.address_uuid);
+                $('.form-select-address-list').trigger('change');
                 
                 
-                }
                 
-                })
+                
+            })
         }
     },
     mounted() {
@@ -841,6 +848,7 @@ export default {
         scope.getAddressList()
         
         
+        scope.formdata.uuid = (scope.$route.params.supplierUUID != 'create') ? scope.$route.params.supplierUUID : null
 
         $(document).on('change','.form-select-payables', function(e) { 
             scope.selected_payables = $('.form-select-payables').val();

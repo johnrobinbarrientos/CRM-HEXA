@@ -24,13 +24,13 @@
                         </thead>
                         <tbody>
                             <template v-if="groups.length > 0">
-                                <template @click="selectGroup(group)" v-bind:class="{'table-success' : (selected_group && selected_group.uuid === group.uuid) }" style="cursor:pointer;" v-for="(group,index) in groups">
-                                    <tr v-if="!group.edit && !group.view " :key="'group-' + index">
+                                <template v-bind:class="{'table-success' : (selected_group && selected_group.uuid === group.uuid) }" style="cursor:pointer;" v-for="(group,index) in groups">
+                                    <tr :key="'group-' + index">
                                         <td width="80" class="text-center">
 
                                         
-                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="editGroup(group)">
-                                            <b-dropdown-item href="javascript:void(0)"  @click="editGroup(group)">Edit</b-dropdown-item>
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="editGroup(group,index)">
+                                            <b-dropdown-item href="javascript:void(0)"  @click="editGroup(group,index)">Edit</b-dropdown-item>
                                             <b-dropdown-item href="javascript:void(0)" @click="viewGroup(group)">View</b-dropdown-item>
                                             <b-dropdown-item href="javascript:void(0)" @click="removeGroup(group,index)">Delete</b-dropdown-item>
                                         </b-dropdown>
@@ -38,65 +38,23 @@
                                     
                                         </td>
                                         <td>
-                                            <strong >{{ group.group_name }}</strong>
+                                            <strong >{{ group.name }}</strong>
                                         </td>
                                         <td width="20" class="text-right">
-                                            <strong >{{ group.supplier_base_discount_group_details.length }}</strong>
+                                            <strong >{{ group.discounts.length }}</strong>
                                         </td>
                                     </tr>
-                                    <tr v-if="group.edit == true" :key="'group-items-' + index">
-                                        <td style="padding:0px;"  colspan="3">
-                                            <div style="padding:5px; background:#f5f5f5; border: 2px solid #ccc;">
-                                                <p style="font-weight:600; margin:3px; margin-bottom:5px;">Discount Group</p>
-                                                <input v-model="group.group_name" class="form-control-gray-medium"  v-bind:class="{'error' : group.group_name_error}" type="text" placeholder="Enter group name">
-                                                
-                                                <div style="padding:8px; padding-bottom:15px; border:1px solid #ccc; background:#fff; margin-top:20px;">
-                                                    <div style="margin-top:5px; margin-bottom:5px;">
-                                                        <div class="row">
-                                                            <div class="col-12 col-md-6">
-                                                                <span style="font-weight:600; display:inline-block;">Discount List</span>
-                                                            </div>
-                                                            <div class="col-12 col-md-6">
-                                                                <div style="text-align:right;">
-                                                                    <button class="btn-gray-small" @click="addNewDiscount(group)" type="button" :disabled="view_mode">Add Discount</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <table style="margin-top:5px;" class="table table-bordered table-hover">
-                                                        <thead>
-                                                            <tr style="background:#fff;">
-                                                                <th>Action</th>
-                                                                <th>Name</th>
-                                                                <th>Rate</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr style="background:#fff;" v-for="(discount,index2) in group.supplier_base_discount_group_details" :key="'group-discount-' + index + '-' + index2 ">
-                                                                <td width="60"><button class="btn-gray-small" type="button" @click="removeDiscount(group,index2)" :disabled="view_mode">Delete</button></td>
-                                                                <td style="padding:0px 2px;">
-                                                                    <input class="form-control-gray-small" v-bind:class="{'error' : discount.discount_name_error}" type="text" v-model="discount.discount_name ">
-                                                                </td>
-                                                                <td style="padding:0px 2px;"  width="70">
-                                                                    <input class="form-control-gray-small" v-bind:class="{'error' : discount.discount_rate_error}"  type="text" v-model="discount.discount_rate ">
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <div style="margin-top:10px; margin-bottom:15px; text-align:center;">
-                                                    <button class="btn-gray-small" @click="saveGroup(group)" type="button" :disabled="view_mode">Save</button>
-                                                    <button class="btn-gray-small" @click="cancelEditGroup(group,index)" type="button" :disabled="view_mode">Cancel</button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                            
 
                                     <tr v-if="group.view == true" :key="'group-items-' + index">
                                         <td style="padding:0px;"  colspan="3">
                                             <div style="padding:5px; background:#f5f5f5; border-bottom: 1px solid #ccc;">
-                                                <p style="font-weight:600; margin:3px; margin-bottom:5px; color:#333;">{{ group.group_name }}</p>
+                                                <div style="font-weight:600; margin:3px; margin-bottom:10px;">
+                                                    {{ group.name || 'Discount Group' }}
+                                                    <div style="float:right;">
+                                                        <a @click="cancelGroup(group)" href="javascript:void(0);" class="btn-closer-square"><i class="bx bx-x"></i></a>
+                                                    </div>
+                                                </div>
                                                 <table style="margin-top:5px;" class="table table-bordered table-hover">
                                                     <thead>
                                                         <tr style="background:#fff;">
@@ -105,19 +63,16 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr style="background:#fff;" v-for="discount in group.supplier_base_discount_group_details" :key="'group-discount-' + discount.uuid ">
+                                                        <tr style="background:#fff;" v-for="discount,discount_index in group.discounts" :key="'group-discount-' + discount_index ">
                                                             <td style="padding:0px 5px;">
-                                                                {{ discount.discount_name  }}
+                                                                {{ discount.name  }}
                                                             </td>
                                                             <td style="padding:0px 5px;" class="text-right"  width="70">
-                                                                 {{ discount.discount_rate  }}%
+                                                                 {{ discount.rate  }}%
                                                             </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <div style="margin-top:10px; margin-bottom:15px; text-align:center;">
-                                                    <button class="btn-gray-small" @click="cancelViewGroup(group)" type="button" :disabled="view_mode">Close</button>
-                                                </div>
                                             </div>
                                         </td>
                                     </tr>
@@ -132,7 +87,79 @@
                     </table>
                     </div>
             </div>
+        </div>
 
+
+        <div class="modal fade modal-md-form" tabindex="-1" id="modalDiscounts">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 v-if="selected_group" class="modal-title">
+                            <span v-if="!selected_group.id">New Discount Group</span>
+                            <span v-else>Edit Discount Group</span>
+                        </h5>
+                        <a href="javascript:void(0)"  @click="cancelGroup()" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="bx bx-x"></i>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <form v-if="selected_group" action="#" class="form-validate is-alter">
+
+                            <div class="row">
+                                <div class="col-md-12 col-12">
+
+                                    <div style="padding:5px;">
+
+                                        <input v-model="selected_group.name" class="form-control-gray-medium"  v-bind:class="{'error' : selected_group.name_error}" type="text" placeholder="Enter group name">
+                                        
+                                        <div style="padding:8px; padding-bottom:15px; border:1px solid #ccc; background:#fff; margin-top:20px;">
+                                            <div style="margin-top:5px; margin-bottom:5px;">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-6">
+                                                        <span style="font-weight:600; display:inline-block;">Discount List</span>
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <div style="text-align:right;">
+                                                            <button class="btn-gray-small" @click="addNewDiscount(selected_group)" type="button" :disabled="view_mode">Add Discount</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <table style="margin-top:5px;" class="table table-bordered table-hover">
+                                                <thead>
+                                                    <tr style="background:#fff;">
+                                                        <th>Action</th>
+                                                        <th>Name</th>
+                                                        <th>Rate</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr style="background:#fff;" v-for="(discount,discount_index) in selected_group.discounts" :key="'edit-group-discount-' + discount_index ">
+                                                        <td width="60"><button class="btn-gray-small" type="button" @click="removeDiscount(select_group,index2)" :disabled="view_mode">Delete</button></td>
+                                                        <td style="padding:0px 2px;">
+                                                            <input class="form-control-gray-small" v-bind:class="{'error' : discount.name_error}" type="text" v-model="discount.name ">
+                                                        </td>
+                                                        <td style="padding:0px 2px;"  width="70">
+                                                            <input class="form-control-gray-small" v-bind:class="{'error' : discount.rate_error}"  type="text" v-model="discount.rate ">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>                                           
+                            </div>                                    
+                            
+                        </form>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button v-if="selected_group && selected_group.uuid === null" @click="saveGroup()" type="button" class="btn btn-sm btn-primary">Save</button>
+                        <button v-else @click="saveGroup()" type="button" class="btn btn-sm btn-primary">Update</button>
+                        <button  @click="cancelGroup()" type="button" class="btn btn-sm btn-default">Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -151,6 +178,8 @@ export default {
             groups: [],
             table_responsive: true,
             falsee: false,
+            selected_group: null,
+            selected_group_index: null // used for editing
         }
     },
     methods: {
@@ -169,176 +198,128 @@ export default {
 
             return total.toFixed(2)
         },
-        getDiscounts: function () {
-            var scope = this
-            var supplier_discount_group_uuid = scope.selected_group.uuid;
-            scope.discounts = []
-            scope.GET('suppliers/' + supplier_discount_group_uuid + '/supplier-base-discount-group-details').then(res => {
-                scope.discounts = res.rows
-            })
-       },
         addNewDiscount: function (group) {
            var scope = this
-            console.log(group)
-            group.supplier_base_discount_group_details.push({
+            group.discounts.push({
                 id: null,
                 uuid: null,
-                discount_name: '',
-                discount_rate: '',
-           });
+                name: '',
+                rate: '',
+                excluded_items: []
+            });
         },
         removeDiscount: function (group,index) {
             var scope = this
-
-            group.supplier_base_discount_group_details.splice(index,1)
-                      
+            group.discounts.splice(index,1)
         },
         addNewGroup: function () {
-           var scope = this
-
-           scope.groups.push({
+            var scope = this
+            scope.selected_group = {
                 id: null,
                 uuid: null,
-                group_name: '',
+                name: '',
                 edit: true,
                 view: false,
-                supplier_base_discount_group_details: []
-           });
+                new: true,
+                discounts: []
+            }
+            scope.addNewDiscount(scope.selected_group);
+            scope.OPEN_MODAL('#modalDiscounts');
 
-           var index = scope.groups.length - 1
-           var group = scope.groups[index]
-           scope.addNewDiscount(group);
         },
-        editGroup: function (data) {
+        editGroup: function (data,index) {
            var scope = this
-           
-           if (data.uuid === null) {
-               return;
-           }
+            // we will use this when cancelling the edit
+            var copy = JSON.parse(JSON.stringify(data))
+            scope.selected_group = copy
+            scope.selected_group.new = false
+            scope.selected_group.edit = true
+            scope.selected_group_index = index
 
-           scope.$set(data,'edit', true)
-
-           // we will use this when cancelling the edit
-           var copy = JSON.parse(JSON.stringify(data.supplier_base_discount_group_details))
-           scope.$set(data,'supplier_base_discount_group_details_copy', copy)
+           scope.OPEN_MODAL('#modalDiscounts'); 
         },
         viewGroup: function (data) {
            var scope = this
-           
-           if (data.uuid === null) {
-               return;
-           }
-
            scope.$set(data,'view', true)
         },
-        cancelEditGroup: function (data,index) {
-            var scope = this          
-
-            data.supplier_base_discount_group_details = data.supplier_base_discount_group_details_copy
-            
-            if (!data.uuid) {
-                scope.groups.splice(index,1)
-            }
-
-           data.edit = false
-        },
-        cancelViewGroup: function (data) {
-           data.view = false
+        cancelGroup: function () {
+            var scope = this 
+            scope.selected_group = null     
+            scope.CLOSE_MODAL('#modalDiscounts'); 
         },
         removeGroup: function (group,index) {
             var scope = this
-            
-     
-            window.swal.fire({
-                title: 'Delete?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#548235',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No'
-            }).then((result) => {
-                if (result.value) {
-                    scope.DELETE('suppliers/'+ group.supplier_uuid +'/supplier-base-discount-group/' + group.uuid).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Deleted',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.groups.splice(index,1)
-                            })
-                        } else {
-                            alert(res.message);
-                        }
-                        
-                    })
-                }                              
+            scope.groups.splice(index,1)
+        },
+        getGroups: function () {
+            var scope = this
+            var supplier_uuid = scope.supplier_uuid;
+
+            scope.GET('suppliers/' + supplier_uuid + '/base-discounts').then(res => {
+                scope.groups = (res.rows) ? res.rows : []
             })
         },
-        selectGroup: function (data) {
-           var scope = this
-
-           if (data.uuid === null) {
-               return;
-           }
-
-           scope.selected_group = data
-           scope.getDiscounts()
-       },
-       getGroups: function () {
+        getDiscountGroups: function () {
+           return this.groups
+        },
+        updateDiscountGroups: function (data) {
             var scope = this
-            var supplier_uuid = scope.supplier_uuid;
-
-            scope.GET('suppliers/' + supplier_uuid + '/supplier-base-discount-group?discounts=yes').then(res => {
-                scope.groups = res.rows
-                // auto select first group
-                if (res.rows.length > 0) {
-                    scope.selected_group = res.rows[0]
-                    scope.getDiscounts();
-                }
-            })
-       },
+            scope.groups = data
+        },
        saveGroup: function (group) {
             var scope = this
-            var supplier_uuid = scope.supplier_uuid;
-            
-            scope.POST('suppliers/'+ supplier_uuid +'/supplier-base-discount-group', group).then(res => {
-                
-                if (res.success) {
-                    window.swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Saved',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        for (var key in res.data) {
-                            group[key] = res.data[key]
-                        }
-                        group.edit = false
-                    })
-                } else {
 
-                    for (var key in res.data) {
-                        group[key] = res.data[key]
-                    }
+            var error = 0
+
+            scope.$set(scope.selected_group,'name_error',false);
+            if (scope.selected_group.name == '') {
+                error++;
+                scope.selected_group.name_error = true
+            }
+            
+            for (let i = 0; i < scope.selected_group.discounts.length; i++) {
+                var discount = scope.selected_group.discounts[i]
+
+                scope.$set(scope.selected_group.discounts[i],'name_error',false);
+                scope.$set(scope.selected_group.discounts[i],'rate_error',false);
+
+                if (discount.name == '') {
+                    error++;
+                    scope.selected_group.discounts[i].name_error = true
+                } 
+
+                if (discount.rate == '') {
+                    error++;
+                    scope.selected_group.discounts[i].rate_error = true
                 }
-                
-            })
+            }
+
+            if (error) {
+                return
+            }
+
+            scope.selected_group.edit = false
+
+            if (scope.selected_group_index === null) {
+                scope.groups.push(scope.selected_group);
+            } else {
+                scope.groups[scope.selected_group_index] = JSON.parse(JSON.stringify(scope.selected_group)) 
+            }
+
+            scope.selected_group = null
+            scope.selected_group_index = null
+            scope.CLOSE_MODAL('#modalDiscounts');
        }
     },
     mounted() {
         var scope = this
         scope.getGroups()
-
+        
         if(scope.properties) {
             scope.table_responsive = scope.properties.table_responsive
         }
 
-        console.log('test')
+    
         console.log(scope.properties)
         console.log(scope.properties.table_responsive)
 
