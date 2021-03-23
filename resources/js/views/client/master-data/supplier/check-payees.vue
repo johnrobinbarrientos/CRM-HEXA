@@ -136,9 +136,9 @@ export default {
         cancel: function (data,index) {
            var scope = this
 
-
-           data.edit = false
-           scope.$set(data,'check_payee',data.check_payee_copy)
+            scope.selected_payee = null 
+            scope.selected_payee_index = index    
+            scope.CLOSE_MODAL('#modalPayee'); 
         },
         selectPayee: function (data) {
            var scope = this

@@ -244,7 +244,8 @@ export default {
         },
         cancelGroup: function () {
             var scope = this 
-            scope.selected_group = null     
+            scope.selected_group = null   
+            scope.selected_group_index = null  
             scope.CLOSE_MODAL('#modalDiscounts'); 
         },
         removeGroup: function (group,index) {
