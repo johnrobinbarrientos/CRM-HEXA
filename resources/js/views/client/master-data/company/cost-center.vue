@@ -27,7 +27,7 @@
 
 
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-8">
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
                         <tr>
@@ -51,8 +51,8 @@
 
                             <td>{{ costcenter.cost_center_name }}</td>
                             <td>{{ costcenter.cost_center_shortname }}</td>
-                            <td v-if="costcenter.is_group === 1">Yes</td>
-                            <td v-else>No</td>
+                            <td v-if="costcenter.is_group === 1" class="text-center c-success"><i class="fas fa-check"></i></td>
+                            <td v-else class="text-center c-danger"><!-- <i class="fas fa-times"></i> --></td>
                             <td>{{ costcenter.cost_center_group }}</td>
                         </tr>
                     </tbody>
