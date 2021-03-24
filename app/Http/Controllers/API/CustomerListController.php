@@ -8,6 +8,8 @@ use App\Models\CustomerList;
 use App\Models\CustomerDiscountRegular; 
 use Illuminate\Support\Facades\Auth; 
 
+use  App\Http\Controllers\API\CustomerBranchController;
+
 class CustomerListController extends Controller
 {
     public function index()
@@ -38,32 +40,34 @@ class CustomerListController extends Controller
         $list = $list->get();
 
         return response()->json(['success' => 1, 'rows' => $list, 'count' => $count, 'offset' => $offset, 'results' => count($list)], 200);
+
     }
 
-    public function store() // initialize draft
+
+    public function store()
     {
-        $customer =  CustomerList::where('is_draft','=', 1)->first();
-
-        if (!$customer) {
-            $auth = \Auth::user();
-
-            $customer = new CustomerList();
-
-            $customer->save();
-        }
-
-
-        $customer = CustomerList::find($customer->uuid);
-        return response()->json(['success' => 1, 'data' => $customer], 200);
+        return $this->save();
     }
 
-    public function update()
+    public function update($uuid) 
     {
-        $customer =  CustomerList::find(request()->uuid);
-        
-        if (!$customer) {
-            return response()->json(['success' => 0, 'data' => null, 'Not found'], 500);
+        return $this->save($uuid);
+    }
+
+    public function save($uuid = '')
+    {
+
+        $children = (object) request()->children;
+
+        $branches = (isset($children->branches)) ? $children->branches : [];
+        $check = CustomerBranchController::check($branches);
+
+        if ($check['errors'] > 0) {
+           return response()->json(['success' => 0, 'branches' => $check['branches'], 'errors' => $check['errors'], 'tab' => 'check-branches' ], 500);
         }
+
+        $customer =  CustomerList::find($uuid);
+        $customer = ($customer) ? $customer : new CustomerList();
 
         $customer->sold_to_name = request()->sold_to_name;
         $customer->business_group_name = request()->business_group_name;
@@ -86,31 +90,17 @@ class CustomerListController extends Controller
         $customer->is_draft = 0;
         $customer->save();
 
-        
-        if (request()->uuid===null){ 
-
-            $discounts = request()->discounts;
-            
-            foreach ($discounts as $d)
-            {
-                $discount = new CustomerDiscountRegular;
-
-                $discount->customer_uuid = $customer->uuid;
-                $discount->discount_name = $d['discount_name'];
-                $discount->discount_rate = $d['discount_rate'];
-                $discount->save();
-            }
-        }
-
         $customer = CustomerList::find($customer->uuid);
+        $branches_save = CustomerBranchController::save($customer->uuid,$branches);
+
+
         return response()->json(['success' => 1, 'rows' => $customer], 200);
     }
 
+
     public function show($customerUUID) // set update records
     {
-        $customer = CustomerList::with('discounts')
-        ->with('CustomerGroup')->with('CustomerChain')
-        ->with('CustomerChannel')->with('CustomerType')
+        $customer = CustomerList::with('discounts')->with('CustomerGroup')->with('CustomerChain')->with('CustomerChannel')->with('CustomerType')
         ->with('PaymentTerm')->find($customerUUID);
 
         if (!$customer) {

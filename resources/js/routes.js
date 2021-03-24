@@ -167,6 +167,13 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
+          path: '/suppliers/create',
+          name: 'supplier-form',
+          component: SupplierForm,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
           path: '/customer-main',
           name: 'customer-main',
           component: CustomerMain,
@@ -186,6 +193,13 @@ export default new VueRouter({
           component: CustomerForm,
           beforeEnter: checkAuth,
           props: { view_mode: true },
+          meta: { protected: true }
+        },
+        {
+          path: '/customers/create',
+          name: 'customer-form',
+          component: CustomerForm,
+          beforeEnter: checkAuth,
           meta: { protected: true }
         },
         {

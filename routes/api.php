@@ -158,9 +158,15 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/customer-type', 'API\CustomerTypeController@save');
         Route::post('/customer-type/delete', 'API\CustomerTypeController@delete');
 
+        // Route::get('/', 'API\CustomerListController@index');
+        // Route::post('/create', 'API\CustomerListController@store');
+        // Route::put('/', 'API\CustomerListController@save');
+        Route::get('/{customerUUID}/branches', 'API\CustomerBranchController@getBranchesByCustomer');
+
         Route::get('/', 'API\CustomerListController@index');
-        Route::post('/create', 'API\CustomerListController@store');
-        Route::put('/', 'API\CustomerListController@update');
+        Route::post('/', 'API\CustomerListController@store');
+        Route::put('/{uuid}', 'API\CustomerListController@save');
+
         Route::get('/{customer_uuid}','API\CustomerListController@show');
         Route::delete('/{customer_uuid}', 'API\CustomerListController@delete');
 

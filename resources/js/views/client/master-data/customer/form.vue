@@ -25,9 +25,15 @@
                                 <a @click="ROUTE({path: '/customers/' + formdata.uuid })" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Edit</a>
                             </span>
                             <span v-else>
-                                <a @click="ROUTE({path: '/customer-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)">Cancel</a>
+                                <!-- <a @click="ROUTE({path: '/customer-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)">Cancel</a>
                                 <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Save</a>
-                                <a v-else @click="update()" type="submit" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Update</a>
+                                <a v-else @click="update()" type="submit" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Update</a> -->
+                                
+                                <a @click="ROUTE({path: '/customer-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)"><span>Close</span></a>
+                                <a @click="save()" type="button" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">
+                                    <template v-if="formdata.uuid">Update</template>
+                                    <template v-else>Save</template>
+                                </a>
                             </span>
                         </div>
                     </div>
@@ -139,9 +145,9 @@
                         <div class="hx-tab-2 round">
                             <ul class="nav nav-tabs">    
                                    
-                                <!-- <li class="nav-item">        
-                                    <a class="nav-link" data-toggle="tab" href="#discounts">Discounts</a>    
-                                </li> -->
+                                <li>        
+                                    <a class="" data-toggle="tab" href="#branch-tab">Branch</a>    
+                                </li>
                                 <li>        
                                     <a class="" data-toggle="tab" href="#address">Address</a>    
                                 </li>
@@ -201,75 +207,6 @@
                                         </div>            
                                 </div>
 
-                                <!-- <div class="tab-pane" id="discounts">
-                                    
-                                        <div class="row">
-
-                                            <div class="col-lg-3">
-                                                <div style="border: 1px solid #ddd; border-radius: 4px; padding: 15px; background: #eee">
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <div class="form-group">
-                                                                <label class="form-label" for="discount-name">Discount Name</label>
-                                                                <div class="form-control-wrap">
-                                                                    <input v-model="customerDiscountFormData.discount_name" type="text" class="form-control" id="discount-name" :readonly="view_mode">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-lg-12">
-                                                            <div class="form-group">
-                                                                <label class="form-label" for="discount-rate">Discount Rate</label>
-                                                                <div class="form-control-wrap">
-                                                                    <input v-model="customerDiscountFormData.discount_rate" type="text" class="form-control" id="discount-rate" :readonly="view_mode">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12 col-12">
-                                                            <div style="padding:10px 0px; text-align:right;">
-                                                                <button v-if="customerDiscountFormData.uuid !== null" @click="updateCustomerDiscount()" type="button" class="btn btn-primary btn-block font-weight-bold" :disabled="view_mode">UPDATE</button>
-                                                                <button v-if="customerDiscountFormData.uuid === null && customerDiscountFormData.index !== null "  @click="saveTempCustomerDiscount()" type="button" class="btn btn-primary btn-block font-weight-bold" :disabled="view_mode">UPDATE</button>
-                                                                <button v-if="customerDiscountFormData.uuid === null && customerDiscountFormData.index === null " @click="saveTempCustomerDiscount()" type="button" class="btn btn-primary btn-block font-weight-bold hx-btn-shineblue" :disabled="view_mode">ADD</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6 col-12">
-                                                <div class="card card-bordered card-preview">
-                                                        <table class="table table-bordered">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Discount Name</th>
-                                                                    <th>Discount Rate</th>
-                                                                    <th>Actions</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr v-for="(tempCustomerDiscount, index) in tempCustomerDiscounts" :key="index">
-                                                                    <td>{{ tempCustomerDiscount.discount_name }}</td>
-                                                                    <td>{{ tempCustomerDiscount.discount_rate }}</td>
-                                                                    <td width="100"><span class="d-block text-center">
-                                                                        <button @click="editTempCustomerDiscount(index)" type="button" class="btn btn-sm btn-light"><em class="mdi mdi-pen"></em></button>
-                                                                        <button @click="removeTempCustomerDiscount(index)" type="button" class="btn btn-sm btn-danger"><em class="mdi mdi-trash-can"></em></button>
-                                                                    </span></td>
-                                                                </tr>
-                                                                <tr v-for="(customerDiscount, index) in customerDiscounts" :key="index">
-                                                                    <td>{{ customerDiscount.discount_name }}</td>
-                                                                    <td>{{ customerDiscount.discount_rate }}</td>
-                                                                    <td width="100"><span class="d-block text-center">
-                                                                        <button @click="editCustomerDiscount(customerDiscount, index)" class="btn btn-sm hx-btn-shineblue"><em class="mdi mdi-pen"></em></button>
-                                                                        <button @click="removeCustomerDiscount(customerDiscount, index)" class="btn btn-sm btn-danger"><em class="mdi mdi-trash-can"></em></button>
-                                                                    </span></td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                </div> -->
-
                                 <div class="tab-pane" id="classification">
                                         <div class="row">
                                             <div class="col-md-3 col-12">
@@ -289,7 +226,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                </div>   
+                                </div>
+
+                                <div class="tab-pane" id="branch-tab">
+                                    <customer-branch ref="branches" :customer_uuid="formdata.uuid" :view_mode="view_mode" :properties="{ table_responsive: false }"></customer-branch>
+                                </div>
 
                                 
                                 <div class="tab-pane" id="address">
@@ -378,6 +319,7 @@
 <script>
 
 import Swal from 'sweetalert2'
+import Branches from './customer-branch'
 
 export default {
     name: 'customer-list',
@@ -437,8 +379,6 @@ export default {
 
             customerList: [],
 
-            customerDiscounts: [],
-            tempCustomerDiscounts: [],
 
             formdata: { 
                 uuid: null,
@@ -462,6 +402,10 @@ export default {
                 address_uuid: '',
                 address1: '',
                 is_vat: 0,
+
+                children: {
+                    branches: []
+                }
             },
 
             customerDiscountFormData:{
@@ -473,6 +417,9 @@ export default {
             }
 
         }
+    },
+    components: {
+        'customer-branch' : Branches
     },
     computed: {
         ready: function () {
@@ -750,7 +697,10 @@ export default {
 
         save: function () {
             var scope = this
-            
+     
+            //scope.formdata.children.discount_groups = scope.$refs.discounts.getDiscountGroups();
+            scope.formdata.children.branches = scope.$refs.branches.getBranches();
+      
             scope.formdata.customer_group_uuid = scope.selected_customer_group
             scope.formdata.customer_chain_uuid = scope.selected_customer_chain
             scope.formdata.customer_channel_uuid = scope.selected_customer_channel
@@ -762,220 +712,76 @@ export default {
 
             scope.formdata.address_uuid = scope.selected_address
 
-            scope.formdata.discounts = scope.tempCustomerDiscounts
-
             scope.formdata.is_vat = scope.is_vat
 
-            scope.PUT('customers/', scope.formdata).then(res => {
-                if (res.success) {
-                    window.swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Saved',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        scope.ROUTE({path: '/customer-main/'})
-                        scope.tempCustomerDiscounts = []
-                        scope.formdata.discounts = []
-                    })
-                } else {
-                    alert('ERROR:' + res.code)
-                }
-                
-            })
-        },
-        update: function () {
-            var scope = this
-            scope.formdata.customer_group_uuid = scope.selected_customer_group
-            scope.formdata.customer_chain_uuid = scope.selected_customer_chain
-            scope.formdata.customer_channel_uuid = scope.selected_customer_channel
-            scope.formdata.customer_type_uuid = scope.selected_customer_type
-            scope.formdata.cost_center_uuid = scope.selected_cost_center
-            scope.formdata.vat_uuid = scope.selected_vat
-            scope.formdata.payment_term_uuid = scope.selected_payment_term
-            scope.formdata.coa_receivable_account_uuid = scope.selected_coa_recievable
-            scope.formdata.address_uuid = scope.selected_address
-
-            scope.formdata.is_vat = scope.is_vat
-
-            window.swal.fire({
-                title: 'Update?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#548235',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.value) {
-            
-                    scope.PUT('customers/', scope.formdata).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Updated',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.ROUTE({path: '/customer-main/'})
-                            })
-                        } else {
-                            alert('ERROR:' + res.code)
-                        }
-                    })
-
-                }                              
-            })
-
-        },
-        saveTempCustomerDiscount() {
-            var scope = this
-            
-            // this means the customer was previously added, no need to put discounts on temporary array
-            if (scope.formdata.uuid !== null) {
-
-                if (scope.customerDiscountFormData.uuid === null) {
-                    scope.saveCustomerDiscount();
-                } else {
-                    scope.updateCustomerDiscount();
-                } 
-
-                return;
-            }
-
-            if (scope.customerDiscountFormData.uuid == null && scope.customerDiscountFormData.index !== null) {
-                var index = scope.customerDiscountFormData.index
-                scope.tempCustomerDiscounts[index].discount_name = scope.customerDiscountFormData.discount_name
-                scope.tempCustomerDiscounts[index].discount_rate = scope.customerDiscountFormData.discount_rate 
+            if (scope.formdata.uuid) {
+                window.swal.fire({
+                    title: 'Update?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#548235',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.value) {
+                        scope.PUT('customers/' + scope.formdata.uuid, scope.formdata).then(res => {
+                            if (res.success) {
+                                window.swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Updated',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then(() => {
+                                    scope.ROUTE({path: '/customer-main/'})
+                                })
+                            } else {
+                                // if (res.errors > 0 && res.tab == 'discounts') {
+                                //     scope.$refs.discounts.updateDiscountGroups(res.groups)
+                                //     $('#suppliers-settings-tab .nav-tabs').find('a[href="#discount-tab"]').trigger('click');
+                                // }
+                            }
+                        })
+                    }                              
+                })
             } else {
-                scope.tempCustomerDiscounts.push({
-                    discount_name: scope.customerDiscountFormData.discount_name, 
-                    discount_rate: scope.customerDiscountFormData.discount_rate 
+                scope.POST('customers', scope.formdata).then(res => {
+                    if (res.success) {
+                        window.swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Saved',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            scope.ROUTE({path: '/customer-main/'})
+                        })
+                    } else {
+                        // if (res.errors > 0 && res.tab == 'discounts') {
+                        //     scope.$refs.discounts.updateDiscountGroups(res.groups)
+                        //     $('#suppliers-settings-tab .nav-tabs').find('a[href="#discounts-tab"]').trigger('click');
+                        // }
+                        
+                    }
                 })
             }
             
-            // reset form
-            scope.customerDiscountFormData.index = null
-            scope.customerDiscountFormData.uuid  = null
-            scope.customerDiscountFormData.discount_name = ''
-            scope.customerDiscountFormData.discount_rate = ''
         },
-        editTempCustomerDiscount(index) {
-            var scope = this
-            
-            scope.customerDiscountFormData.index = index
-            scope.customerDiscountFormData.uuid = null
-            scope.customerDiscountFormData.discount_name = scope.tempCustomerDiscounts[index].discount_name
-            scope.customerDiscountFormData.discount_rate =  scope.tempCustomerDiscounts[index].discount_rate
-        },
-        editCustomerDiscount(data, index) {
-            var scope = this
-            
-            scope.customerDiscountFormData.index = index
-            scope.customerDiscountFormData.uuid = data.uuid
-            scope.customerDiscountFormData.discount_name = data.discount_name
-            scope.customerDiscountFormData.discount_rate =  data.discount_rate
-        },
-        removeTempCustomerDiscount(index) {
-            var scope = this
-            scope.tempCustomerDiscounts.splice(index, 1)
-        },
-        updateCustomerDiscount: function () {
-            var scope = this
 
-            scope.customerDiscountFormData.customer_uuid = scope.formdata.uuid
-            scope.POST('customers/customer-discount-regular', scope.customerDiscountFormData).then(res => {
-                if (res.success) {
-                    window.swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Discount Successfuly Updated',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        var index = scope.customerDiscountFormData.index
-                        scope.customerDiscounts[index].discount_name = res.data.discount_name
-                        scope.customerDiscounts[index].discount_rate = res.data.discount_rate
 
-                        // reset form
-                        scope.customerDiscountFormData.index = null
-                        scope.customerDiscountFormData.uuid  = null
-                        scope.customerDiscountFormData.discount_name = ''
-                        scope.customerDiscountFormData.discount_rate = ''
-                    })
-                } else {
-                    alert('ERROR:' + res.code)
-                } 
-            })
-        },
-        saveCustomerDiscount: function () {
-            var scope = this
-
-            // append the customer UUID to the request payload
-            scope.customerDiscountFormData.customer_uuid = scope.formdata.uuid
-            scope.POST('customers/customer-discount-regular', scope.customerDiscountFormData).then(res => {
-                if (res.success) {
-                    window.swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Discount Successfuly Added',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                         scope.customerDiscounts.push(res.data)
-
-                        // reset form
-                        scope.customerDiscountFormData.index = null
-                        scope.customerDiscountFormData.uuid  = null
-                        scope.customerDiscountFormData.discount_name = ''
-                        scope.customerDiscountFormData.discount_rate = ''
-                    })
-                } else {
-                    alert('ERROR:' + res.code)
-                } 
-            })
-        },
-        removeCustomerDiscount(data,index) {
-            var scope = this
-            window.swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#548235',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                if (result.value) {
-                    scope.POST('customers/customer-discount-regular/delete', data).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Discount Successfuly Deleted',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.customerDiscounts.splice(index, 1)
-                            })
-                        } else {
-                            alert('ERROR:' + res.code)
-                        } 
-                    })
-                }
-            })
-        },
 
         getCustomerDetails: function (customerUUID) {
             var scope = this
+
+            if (customerUUID == 'create') {
+                return;
+            } 
+
             scope.GET('customers/' + customerUUID).then(res => {
                 let data = res.data
 
                 scope.formdata.uuid = customerUUID
-
-                if (data.is_draft=== 0) {
 
                     scope.formdata.is_draft = data.is_draft
                     scope.formdata.sold_to_name = data.sold_to_name
@@ -994,8 +800,6 @@ export default {
                         scope.is_vat = 0
                     }
 
-                    scope.customerDiscounts = []
-                    scope.customerDiscounts = data.discounts
 
                     $('.form-select-customer-group').val(data.customer_group_uuid);
                     $('.form-select-customer-group').trigger('change');
@@ -1026,7 +830,6 @@ export default {
                     $('.form-select-address-list').val(data.address_uuid);
                     $('.form-select-address-list').trigger('change');
 
-                }
                 
             })
         },
@@ -1045,6 +848,8 @@ export default {
         scope.getPaymentTerm()
         scope.getVat()
         scope.getAddressList()
+
+        scope.formdata.uuid = (scope.$route.params.customerUUID != 'create') ? scope.$route.params.customerUUID : null
 
 
         $(document).on('change','.form-select-customer-group', function(e) { 
