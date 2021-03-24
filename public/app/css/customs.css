@@ -354,7 +354,6 @@ body { background-color: #f6f8f9; font-family: "Roboto",sans-serif; font-weight:
     display: flex;
     background: #fff;
     min-height: 70vh;
-    width: 80%;
 }
 .hx-side-tab > ul {
     display: block;
