@@ -8,6 +8,7 @@ use App\Models\CustomerList;
 use App\Models\CustomerDiscountRegular; 
 use Illuminate\Support\Facades\Auth; 
 
+use  App\Http\Controllers\API\BDCustomerController;
 use  App\Http\Controllers\API\CustomerBranchController;
 
 class CustomerListController extends Controller
@@ -59,6 +60,13 @@ class CustomerListController extends Controller
 
         $children = (object) request()->children;
 
+        $groups = (isset($children->discount_groups)) ? $children->discount_groups : [];
+        $check = BDCustomerController::check($groups);
+
+        if ($check['errors'] > 0) {
+           return response()->json(['success' => 0, 'groups' => $check['groups'], 'errors' => $check['errors'], 'tab' => 'discounts' ], 500);
+        }
+
         $branches = (isset($children->branches)) ? $children->branches : [];
         $check = CustomerBranchController::check($branches);
 
@@ -91,6 +99,9 @@ class CustomerListController extends Controller
         $customer->save();
 
         $customer = CustomerList::find($customer->uuid);
+        
+        $bd_customer_save = BDCustomerController::save($customer->uuid,$groups);
+
         $branches_save = CustomerBranchController::save($customer->uuid,$branches);
 
 

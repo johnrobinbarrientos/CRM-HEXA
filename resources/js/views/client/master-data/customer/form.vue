@@ -143,8 +143,11 @@
 
                         <br/>
                         <div class="hx-tab-2 round">
-                            <ul class="nav nav-tabs">    
-                                   
+                            <ul class="nav nav-tabs">
+
+                                <li>        
+                                    <a class="" data-toggle="tab" href="#discounts-tab">Discount</a>    
+                                </li>   
                                 <li>        
                                     <a class="" data-toggle="tab" href="#branch-tab">Branch</a>    
                                 </li>
@@ -226,6 +229,10 @@
                                                 </div>
                                             </div>
                                         </div>
+                                </div>
+
+                                <div class="tab-pane" id="discounts-tab">
+                                    <Discounts ref="discounts" :customer_uuid="formdata.uuid" :view_mode="view_mode" :properties="{ table_responsive: false }"></Discounts>
                                 </div>
 
                                 <div class="tab-pane" id="branch-tab">
@@ -319,6 +326,7 @@
 <script>
 
 import Swal from 'sweetalert2'
+import Discounts from './discounts'
 import Branches from './customer-branch'
 
 export default {
@@ -404,21 +412,15 @@ export default {
                 is_vat: 0,
 
                 children: {
+                    discount_groups: [],
                     branches: []
                 }
             },
 
-            customerDiscountFormData:{
-                index: null, 
-                uuid: null,
-                customer_uuid: null,
-                discount_name: '',
-                discount_rate: ''
-            }
-
         }
     },
     components: {
+        Discounts,
         'customer-branch' : Branches
     },
     computed: {
@@ -698,7 +700,7 @@ export default {
         save: function () {
             var scope = this
      
-            //scope.formdata.children.discount_groups = scope.$refs.discounts.getDiscountGroups();
+            scope.formdata.children.discount_groups = scope.$refs.discounts.getDiscountGroups();
             scope.formdata.children.branches = scope.$refs.branches.getBranches();
       
             scope.formdata.customer_group_uuid = scope.selected_customer_group

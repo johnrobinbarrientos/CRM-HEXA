@@ -170,6 +170,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/{customer_uuid}','API\CustomerListController@show');
         Route::delete('/{customer_uuid}', 'API\CustomerListController@delete');
 
+        Route::get('/{customer_uuid}/base-discounts', 'API\BDCustomerController@index');
+
     });
 
     Route::group(['prefix' => 'projects'], function(){

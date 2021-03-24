@@ -41,7 +41,7 @@
                                             <strong >{{ group.name }}</strong>
                                         </td>
                                         <td width="20" class="text-right">
-                                            <strong >{{ group.discounts.length }}</strong>
+                                            <strong >{{ totalDiscountGroup(group.discounts) }}</strong>
                                         </td>
                                     </tr>
                             
@@ -184,15 +184,16 @@ export default {
     },
     methods: {
         totalDiscountGroup: function (discounts) {
+
             var total = 0
             for (let i = 0; i < discounts.length; i++) {
                 var current = discounts[i]
 
-                if (current.discount_rate == '' || isNaN(current.discount_rate)) {
+                if (current.rate == '' || isNaN(current.rate)) {
                     continue;
                 }
                 
-                var rate = parseFloat(current.discount_rate)
+                var rate = parseFloat(current.rate)
                 total += rate
             }
 
