@@ -474,6 +474,7 @@ export default {
             prerequiste: {
                 getCompanyDepartment: false,
                 getBranch: false,
+                getBranchLocation: false,
                 getEmploymentType: false,
                 getEmploymentStatus: false,
                 getCostCenter: false,
@@ -501,8 +502,8 @@ export default {
 
             selected_gender: null,
             options_gender: [
-            {id: 'MALE', text: 'MALE'},
-            {id: 'FEMALE', text: 'FEMALE'}
+                {id: 'MALE', text: 'MALE'},
+                {id: 'FEMALE', text: 'FEMALE'}
             ],
 
             selected_address: null,
@@ -570,7 +571,7 @@ export default {
         ready: function () {
             var scope = this
 
-            if (scope.prerequiste.getCompanyDepartment && scope.prerequiste.getBranch && scope.prerequiste.getEmploymentType && scope.prerequiste.getEmploymentStatus 
+            if (scope.prerequiste.getCompanyDepartment && scope.prerequiste.getBranch & scope.prerequiste.getBranchLocation  && scope.prerequiste.getEmploymentType && scope.prerequiste.getEmploymentStatus 
                 && scope.prerequiste.getCostCenter && scope.prerequiste.getAddressList && scope.prerequiste.getSupervisors) {
                 return true
             }
@@ -583,42 +584,91 @@ export default {
             var scope = this
             if (val) {
                 setTimeout(function(){
+                    $('.form-select-branch').val();
+                    $('.form-select-branch').trigger('change');
 
+                    $('.form-select-branch-location').val();
+        
                     $(".form-select-department").select2({data: scope.options_department});
-                    scope.selected_department = scope.options_department[0].id
-
+                    scope.selected_department = (scope.formdata.department_uuid) ? scope.formdata.department_uuid : scope.options_department[0].id
+                    $(".form-select-department").val(scope.selected_department).trigger('change');
+                    
                     $(".form-select-branch").select2({data: scope.options_branch});
-                    scope.selected_branch = scope.options_branch[0].id
+                    scope.selected_branch = (scope.formdata.branch_uuid) ? scope.formdata.branch_uuid : scope.options_branch[0].id
+                    $(".form-select-branch").val(scope.selected_branch).trigger('change');
 
-                    scope.getBranchLocation(scope.selected_branch)
+                    $(".form-select-branch-location").select2({data: scope.options_branch_location});
+                    scope.selected_branch_location = scope.formdata.branch_location_uuid
+                    $(document).find(".form-select-branch-location").val(scope.formdata.branch_location_uuid ).trigger('change')
 
                     $(".form-select-employment-type").select2({data: scope.options_employment_type});
-                    scope.selected_employment_type = scope.options_employment_type[0].id
+                    scope.selected_employment_type = (scope.formdata.employment_type_uuid) ? scope.formdata.employment_type_uuid : scope.options_employment_type[0].id
+                    $(".form-select-employment-type").val(scope.selected_employment_type).trigger('change');
 
                     $(".form-select-employment-status").select2({data: scope.options_employment_status});
-                    scope.selected_employment_status = scope.options_employment_status[0].id
+                    scope.selected_employment_status = (scope.formdata.employment_status_uuid) ? scope.formdata.employment_status_uuid : scope.options_employment_status[0].id
+                    $(".form-select-employment-status").val(scope.selected_employment_status).trigger('change');
 
                     $(".form-select-cost-center").select2({data: scope.options_cost_center});
-                    scope.selected_cost_center = scope.options_cost_center[0].id
+                    scope.selected_cost_center = (scope.formdata.cost_center_uuid) ? scope.formdata.cost_center_uuid : scope.options_cost_center[0].id
+                    $(".form-select-cost-center").val(scope.selected_cost_center).trigger('change');
 
                     $(".form-select-address-list").select2({data: scope.options_address});
-                    scope.selected_address= scope.options_address[0].id
+                    scope.selected_address= (scope.formdata.address_uuid) ? scope.formdata.address_uuid : scope.options_address[0].id
+                    (".form-select-address-list").val(scope.selected_address).trigger('change');
                     scope.fillAddress()
 
                     $(".form-select-supervisor").select2({data: scope.options_supervisor});
-                    scope.selected_supervisor= scope.options_supervisor[0].id
+                    scope.selected_supervisor= (scope.formdata.supervisor_emp_uuid) ? scope.formdata.supervisor_emp_uuid : scope.options_supervisor[0].id
+                    $(".form-select-supervisor").val(scope.selected_supervisor).trigger('change');
 
                     $(".form-select-gender").select2({data: scope.options_gender});
-                    scope.selected_gender = scope.options_gender[0].id
+                    scope.selected_gender = (scope.formdata.gender) ? scope.formdata.gender : scope.options_gender[0].id
+                    $(".form-select-gender").val(scope.selected_gender).trigger('change');
                     
-                    var employeeUUID = scope.$route.params.employeeUUID
-                    scope.getEmployeeDetails(employeeUUID)
 
-                },500)
-                
-            }
-            
-        }
+
+                    $(document).on('change','.form-select-gender', function(e) { 
+                        scope.selected_gender = $('.form-select-gender').val();
+                    })
+
+                    $(document).on('change','.form-select-supervisor', function(e) { 
+                        scope.selected_supervisor = $('.form-select-supervisor').val();
+                    })
+
+                    $(document).on('change','.form-select-department', function(e) { 
+                        scope.selected_department = $('.form-select-department').val();
+                    })
+
+                    $(document).on('change','.form-select-branch', function(e) { 
+                        scope.selected_branch = $('.form-select-branch').val();
+                        scope.getBranchLocation(scope.selected_branch)
+                    })
+
+                    $(document).on('change','.form-select-branch-location', function(e) { 
+                        scope.selected_branch_location = $('.form-select-branch-location').val();
+                    })
+
+                    $(document).on('change','.form-select-employment-type', function(e) { 
+                        scope.selected_employment_type = $('.form-select-employment-type').val();
+                    })
+
+                    $(document).on('change','.form-select-employment-status', function(e) { 
+                        scope.selected_employment_status = $('.form-select-employment-status').val();
+                    })
+
+                    $(document).on('change','.form-select-cost-center', function(e) { 
+                        scope.selected_cost_center = $('.form-select-cost-center').val();
+                    })
+
+                    $(document).on('change','.form-select-address-list', function(e) { 
+                        scope.selected_address = $('.form-select-address-list').val();
+                        scope.fillAddress()
+                    })
+
+                },500) 
+            } 
+        },
     },
 
     methods: {
@@ -629,9 +679,9 @@ export default {
             scope.picture_file = this.$refs.fileInput.files[0]
 
             reader.onload = function () {
-            const image = new Image()
-            image.src = reader.result.toString()
-            scope.fileImage = image.src
+                const image = new Image()
+                image.src = reader.result.toString()
+                scope.fileImage = image.src
             }
 
             reader.readAsDataURL(scope.picture_file)
@@ -652,7 +702,6 @@ export default {
             })
 
         },
-
         getBranch: function () {
            var scope = this
             scope.GET('company/branch').then(res => {
@@ -663,36 +712,36 @@ export default {
                     })
                 })
 
+                scope.getBranchLocation(scope.formdata.branch_uuid)
                 scope.prerequiste.getBranch = true
-
             })
 
         },
-
         getBranchLocation: function (branch_uuid) {
            var scope = this
-
+  
            scope.options_branch_location = []
 
             scope.GET('company/branch-location/' + branch_uuid).then(res => {
+                var branch_location_uuids = [];
                 res.rows.forEach(function (data) {
                     scope.options_branch_location.push({
                         id: data.uuid,
                         text: data.location_name.toUpperCase()
                     })
+                    branch_location_uuids.push(data.uuid);
                 })
 
                 $(".form-select-branch-location").select2();
                 $(".form-select-branch-location").html('');
                 $(".form-select-branch-location").select2({data: scope.options_branch_location});
 
-                
-                $(".form-select-branch-location").val(scope.selected_branch_location.trigger('change'));
+                if (scope.options_branch_location.length > 0) {
+                    // $(document).find(".form-select-branch-location").val(scope.options_branch_location[0].id).trigger('change')
+                }
 
+               scope.prerequiste.getBranchLocation = true
             })
-
-            console.log('New')
-
         },
 
         getEmploymentType: function () {
@@ -872,6 +921,7 @@ export default {
             scope.formdata.address_uuid = scope.selected_address
             scope.formdata.supervisor_emp_uuid = scope.selected_supervisor
             scope.formdata.gender = scope.selected_gender
+            
 
             let formData = new FormData()
 
@@ -963,9 +1013,7 @@ export default {
             scope.GET('employees/' + employeeUUID).then(res => {
                 let data = res.data
 
-                scope.formdata.uuid = employeeUUID
-
-                if (data.is_draft=== 0) {
+                if (data.is_draft === 0) {
                     
                     scope.formdata.is_draft = data.is_draft
                     scope.formdata.emp_id = data.emp_id
@@ -996,21 +1044,32 @@ export default {
                     scope.formdata.job_title = data.job_title
                     scope.formdata.is_supervisor = data.is_supervisor
                     scope.formdata.birth_date = data.birth_date
-
                     scope.formdata.profile_pic = data.profile_pic
+
+                    scope.formdata.branch_uuid = data.branch_uuid
+                    scope.formdata.branch_location_uuid = data.branch_location_uuid
+                    scope.formdata.address_uuid = data.address_uuid
+                    scope.formdata.gender = data.gender
+
 
                     if (data.profile_pic) {
                         scope.fileImage = '/images/employees/' + data.profile_pic
                     }
 
+                    scope.getCompanyDepartment()
+                    scope.getBranch()
+                    scope.getEmploymentType()
+                    scope.getEmploymentStatus()
+                    scope.getCostCenter()
+                    scope.getAddressList()
+                    scope.getSupervisors()
 
+                    /*
                     $('.form-select-branch').val(data.branch_uuid);
                     $('.form-select-branch').trigger('change');
 
-                    console.log(data)
-
-                    $(document).find('.form-select-branch-location', data.branch_location_uuid);
-                    $('.form-select-branch-location').trigger('change');
+                    $('.form-select-branch-location').val(data.branch_location_uuid);
+                    $('.form-select-branch-location').triger('change');
 
                     $('.form-select-employment-type').val(data.employment_type_uuid);
                     $('.form-select-employment-type').trigger('change');
@@ -1032,6 +1091,9 @@ export default {
 
                     $('.form-select-gender').val(data.gender);
                     $('.form-select-gender').trigger('change');
+                    */
+
+
 
                     console.log('update')
 
@@ -1044,54 +1106,9 @@ export default {
     mounted() {
         var scope = this
 
-        scope.getCompanyDepartment()
-        scope.getBranch()
-        scope.getEmploymentType()
-        scope.getEmploymentStatus()
-        scope.getCostCenter()
-        scope.getAddressList()
-        scope.getSupervisors()
+        scope.formdata.uuid = (scope.$route.params.employeeUUID) ? scope.$route.params.employeeUUID : null
+        scope.getEmployeeDetails(scope.formdata.uuid)
 
-        
-
-        $(document).on('change','.form-select-gender', function(e) { 
-            scope.selected_gender = $('.form-select-gender').val();
-        })
-
-        $(document).on('change','.form-select-supervisor', function(e) { 
-            scope.selected_supervisor = $('.form-select-supervisor').val();
-        })
-
-        $(document).on('change','.form-select-department', function(e) { 
-            scope.selected_department = $('.form-select-department').val();
-        })
-
-        $(document).on('change','.form-select-branch', function(e) { 
-            scope.selected_branch = $('.form-select-branch').val();
-            scope.getBranchLocation(scope.selected_branch)
-        })
-
-        $(document).on('change','.form-select-branch-location', function(e) { 
-            scope.selected_branch_location = $('.form-select-branch-location').val();
-        })
-
-        $(document).on('change','.form-select-employment-type', function(e) { 
-            scope.selected_employment_type = $('.form-select-employment-type').val();
-        })
-
-        $(document).on('change','.form-select-employment-status', function(e) { 
-            scope.selected_employment_status = $('.form-select-employment-status').val();
-        })
-
-        $(document).on('change','.form-select-cost-center', function(e) { 
-            scope.selected_cost_center = $('.form-select-cost-center').val();
-        })
-
-        $(document).on('change','.form-select-address-list', function(e) { 
-            scope.selected_address = $('.form-select-address-list').val();
-            scope.fillAddress()
-        })
-        
     },
 }
 </script>

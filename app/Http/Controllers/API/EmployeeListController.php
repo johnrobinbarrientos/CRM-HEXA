@@ -164,8 +164,8 @@ class EmployeeListController extends Controller
     public function show($employeeUUID) // set update records
     {
         $employee = EmployeeList::with('BranchLocation')->with('Department')
-        ->with('EmploymentType')->with('EmploymentStatus')
-        ->find($employeeUUID);
+            ->with('EmploymentType')->with('EmploymentStatus')
+            ->find($employeeUUID);
 
         if($employee->profile_pic){
             $employee->profile_pic .= '?v='. time();

@@ -294,60 +294,7 @@
                             </div>
 
                             <div class="tab-pane" id="unit-of-measure">
-                                    <div class="row">
-                                        <div class="col-md-6 col-12">
-                                                <table class="table table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th width="40">UOM</th>
-                                                            <th width="150">Barcode</th>
-                                                            <th width="50">Packing</th>
-                                                            <th>Sales Description</th>
-                                                            <th>Remarks</th>
-                                                            <th width="50">Actions</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr v-for="(item_uom, index) in item_uoms" :key="item_uom.uuid + '-' + index">
-                                                            <td class="editable">
-                                                                <span>{{ getGlobalUOMName(item_uom.uuid) }}</span>
-                                                                <select v-model="item_uom.uuid" class="editable-control" :disabled="view_mode">
-                                                                    <option v-for="(uom,index_uom) in globalUOMs" :key="'base-' + uom.uuid + '-' + index_uom" :value="uom.uuid">{{ uom.uom}}</option>
-                                                                </select>
-                                                            </td>
-
-                                                            <td class="editable text-right">
-                                                                <input v-model="item_uom.barcode" type="text" class="editable-control" :readonly="view_mode">
-                                                                <span>{{ item_uom.barcode }}</span>
-                                                            </td>
-                                                            <td class="editable text-right">
-                                                                <input v-model="item_uom.packing" type="text" class="editable-control" :readonly="view_mode">
-                                                                <span>{{ item_uom.packing }}</span>
-                                                            </td>
-                                                            <td class="editable">
-                                                                <input v-model="item_uom.sales_description" type="text" class="editable-control" :readonly="view_mode">
-                                                                <span>{{ item_uom.sales_description }}</span>
-                                                            </td>
-                                                            <td class="editable text-right">
-                                                                <input v-model="item_uom.remarks" type="text" class="editable-control" :readonly="view_mode">
-                                                                <span>{{ item_uom.remarks }}</span>
-                                                            </td>
-                                                    
-
-                                                            <td>
-                                                                <button @click="removeItemUom(index)" type="button" class="hx-btn-single m-1" :disabled="view_mode">Delete</button>
-                                                            </td>
-                                                        
-                                                        </tr>
-                                                        <tr>
-                                                            <td style="text-align:center; cursor:pointer; font-weight:600; border-color: var(--shine-blue) !important;" colspan="6" class="p-0">
-                                                                <button @click="addItemUom()" type="button" style="font-weight:600; border:none; width: 100%; padding: 6px;" class="hx-btn-shineblue" :disabled="view_mode"><i class="las la-plus"></i> New UOM</button>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                    </div>
+                                <UOMS v-if="ready"  :itemUUID="formdata.uuid" :view_mode="view_mode" ref="uoms"></UOMS>
                             </div>   
 
                             <div class="tab-pane" id="pricing" style="padding: 0 15px 15px;"> 
@@ -450,6 +397,7 @@
 
 import Swal from 'sweetalert2'
 import Discounts from './discounts'
+import UOMS from './uoms'
 
 export default {
     name: 'item-list',
@@ -598,7 +546,6 @@ export default {
 
             return false
         },
-        
         globalUOMs() {
             return this.global_uoms
         }
@@ -653,15 +600,12 @@ export default {
                     $(".form-select-vat").select2({data: scope.options_vat});
                     scope.selected_vat = scope.options_vat[0].id
 
-
-                    var itemUUID = scope.$route.params.itemUUID
-                    scope.getItemDetails(itemUUID)
+                    scope.getItemDetails(scope.formdata.uuid)
 
                 },500)
                 
             }
-        },
-
+        }, 
         is_vat: function () {
             var scope = this
 
@@ -712,7 +656,8 @@ export default {
     },
 
     components: {
-        'discounts' : Discounts
+        'discounts' : Discounts,
+        'UOMS' : UOMS,
     },
     methods: {
 
@@ -1021,24 +966,6 @@ export default {
             })
         },
 
-        getItemUoms: function () {
-           var scope = this
-             scope.item_uoms = [];
-
-            scope.GET('items/'+ scope.formdata.uuid +'/uoms').then(res => {
-                // we use global UOM UUID as uuid instead
-                res.rows.forEach(function (data) {
-                    scope.item_uoms.push({
-                        uuid: data.global_uom_uuid,
-                        uom: data.global_uom_uuid, 
-                        barcode: data.barcode, 
-                        packing: data.packing_qtty, 
-                        sales_description:  data.sales_description, 
-                        remarks: data.remarks, 
-                    })
-                })
-            })
-        },
 
 
         getGlobalUOMName: function (uuid) {
@@ -1247,7 +1174,6 @@ export default {
                         scope.is_vat = 0
                     }
 
-                    scope.getItemUoms()
 
                     var suppliers = [];
                     
@@ -1311,6 +1237,9 @@ export default {
     },
     mounted() {
         var scope = this
+
+        scope.formdata.uuid = (scope.$route.params.itemUUID != 'create') ? scope.$route.params.itemUUID : null
+
         scope.getTaxationItem()
         scope.getItemGroup()
         scope.getSupplier()
