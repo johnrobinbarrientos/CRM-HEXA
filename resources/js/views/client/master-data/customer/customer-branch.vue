@@ -8,7 +8,7 @@
                         <div class="col-md-6">Branch</div>
                         <div class="col-md-6">
                             <div style="text-align:right;">
-                                <button @click="addNewBranch()"  type="button" class="btn-gray-small" :disabled="view_mode">Add</button>
+                                <button @click="addNewBranch()"  type="button" class="btn-gray-small" :disabled="view_mode">New Branch</button>
                             </div>
                         </div>
                     </div>

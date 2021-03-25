@@ -5,10 +5,10 @@
             <div class="col-lg-5 col-12" >
                 <div class="card-title">
                     <div class="row">
-                        <div class="col-md-6">Discount Group</div>
+                        <div class="col-md-6">Discount</div>
                         <div class="col-md-6">
                             <div style="text-align:right;">
-                                <button @click="addNewGroup()"  type="button" class="btn-gray-small" :disabled="view_mode">New Discount Group</button>
+                                <button @click="addNewGroup()"  type="button" class="btn-gray-small" :disabled="view_mode">New Group</button>
                             </div>
                         </div>
                     </div>
@@ -19,7 +19,7 @@
                             <tr>
                                 <th>Action</th>
                                 <th>Name</th>
-                                <th>Discount</th>
+                                <th>Rate</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -95,8 +95,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 v-if="selected_group" class="modal-title">
-                            <span v-if="!selected_group.id">New Discount Group</span>
-                            <span v-else>Edit Discount Group</span>
+                            <span v-if="!selected_group.id">New</span>
+                            <span v-else>Edit</span>
                         </h5>
                         <a href="javascript:void(0)"  @click="cancelGroup()" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
@@ -110,7 +110,7 @@
 
                                     <div style="padding:5px;">
 
-                                        <input v-model="selected_group.name" class="form-control-gray-medium"  v-bind:class="{'error' : selected_group.name_error}" type="text" placeholder="Enter group name">
+                                        <input v-model="selected_group.name" class="form-control-gray-medium"  v-bind:class="{'error' : selected_group.name_error}" type="text" placeholder="Group Name">
                                         
                                         <div style="padding:8px; padding-bottom:15px; border:1px solid #ccc; background:#fff; margin-top:20px;">
                                             <div style="margin-top:5px; margin-bottom:5px;">

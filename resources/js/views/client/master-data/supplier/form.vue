@@ -8,14 +8,14 @@
                 <div class="actions-bar">
                     <div class="w-100">
                         <span v-if="view_mode">
-                            <h1 class="title">View Supplier Details</h1>
+                            <h1 class="title">View Details</h1>
                         </span>
                         <span v-else>
                             <span v-if="formdata.is_draft">
-                                <h1 class="title">New Supplier Details</h1>
+                                <h1 class="title">New Details</h1>
                             </span>
                             <span v-else>
-                                <h1 class="title">Edit Supplier Details</h1>
+                                <h1 class="title">Edit Details</h1>
                             </span>
                         </span>
                     </div>
@@ -133,11 +133,11 @@
                     <div id="suppliers-settings-tab" class="hx-tab-2 round">
                             <ul class="nav nav-tabs">
                                 <li>        
-                                    <a data-toggle="tab" href="#contact-tab">Contact</a>    
-                                </li> 
-                                <li>        
                                     <a data-toggle="tab" href="#address-tab">Address</a>    
                                 </li>
+                                                                <li>        
+                                    <a data-toggle="tab" href="#contact-tab">Contact</a>    
+                                </li> 
                                 <li>        
                                     <a data-toggle="tab" href="#check-payees-tab">Check Payee</a>    
                                 </li>

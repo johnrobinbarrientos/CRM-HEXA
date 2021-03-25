@@ -8,14 +8,14 @@
                     <div class="actions-bar">
                         <div class="w-100">
                             <span v-if ="view_mode">
-                                <h1 class="title">View Customer Details</h1>
+                                <h1 class="title">View Details</h1>
                             </span>
                             <span v-else>
                                 <span v-if ="formdata.is_draft">
-                                    <h1 class="title">New Customer Details</h1>
+                                    <h1 class="title">New Details</h1>
                                 </span>
                                 <span v-else>
-                                    <h1 class="title">Edit Customer Details</h1>
+                                    <h1 class="title">Edit Details</h1>
                                 </span>
                             </span>
                         </div>
@@ -144,16 +144,15 @@
                         <br/>
                         <div class="hx-tab-2 round">
                             <ul class="nav nav-tabs">
-
                                 <li>        
-                                    <a class="" data-toggle="tab" href="#discounts-tab">Discount</a>    
-                                </li>   
+                                    <a class="" data-toggle="tab" href="#address">Address</a>    
+                                </li>
                                 <li>        
                                     <a class="" data-toggle="tab" href="#branch-tab">Branch</a>    
                                 </li>
                                 <li>        
-                                    <a class="" data-toggle="tab" href="#address">Address</a>    
-                                </li>
+                                    <a class="" data-toggle="tab" href="#discounts-tab">Discount</a>    
+                                </li> 
                                 <li>        
                                     <a class="" data-toggle="tab" href="#classification">Classification</a>    
                                 </li> 

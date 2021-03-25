@@ -8,7 +8,7 @@
                         <div class="col-md-6">Check Payee</div>
                         <div class="col-md-6">
                             <div style="text-align:right;">
-                                <button @click="addNewPayee()"  type="button" class="btn-gray-small" :disabled="view_mode">Add</button>
+                                <button @click="addNewPayee()"  type="button" class="btn-gray-small" :disabled="view_mode">New Payee</button>
                             </div>
                         </div>
                     </div>

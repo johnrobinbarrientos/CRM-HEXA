@@ -8,7 +8,7 @@
                         <div class="col-md-6">Contact</div>
                         <div class="col-md-6">
                             <div style="text-align:right;">
-                                <button @click="addNewContact()"  type="button" class="btn-gray-small" :disabled="view_mode">Add</button>
+                                <button @click="addNewContact()"  type="button" class="btn-gray-small" :disabled="view_mode">New Contact</button>
                             </div>
                         </div>
                     </div>
