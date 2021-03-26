@@ -117,13 +117,12 @@ import Swal from 'sweetalert2'
 
 export default {
     name: 'item-uoms',
-    props: ['properties','itemUUID','view_mode'],
+    props: ['properties','item','view_mode'],
     data: function () {
         return {
             prerequiste: {
                 global_uoms: false
             },
-            item_uuid: null,
             selected_uom: null,
             selected_uom_index: null, // used for editing
             uoms: [],
@@ -169,7 +168,7 @@ export default {
            var scope = this
 
             scope.selected_uom = null 
-            scope.selected_uom_index = index    
+            scope.selected_uom_index = null    
             scope.CLOSE_MODAL('#modalUOM'); 
         },
         selectPayee: function (data) {
@@ -184,9 +183,9 @@ export default {
       
         getItemUoms: function () {
             var scope = this
-            var item_uuid = scope.item_uuid;
+            var item_uuid = scope.item.uuid;
 
-            scope.GET('items/'+ scope.item_uuid +'/uoms').then(res => {
+            scope.GET('items/'+ item_uuid +'/uoms').then(res => {
                 // we use global UOM UUID as uuid instead
                 scope.uoms = res.rows
             })
@@ -194,9 +193,6 @@ export default {
        remove: function(payee,index) {
             var scope = this
             scope.uoms.splice(index,1)
-        },
-        getPayees: function () {
-            return this.uoms
         },
         save: function (data) {
             var scope = this
@@ -220,7 +216,7 @@ export default {
 
             if (scope.selected_uom.packing_qtty == '') {
                 error++;
-                scope.selected_uom.packing_qttyerror = true
+                scope.selected_uom.packing_qtty_error = true
             }
 
         
@@ -252,11 +248,14 @@ export default {
 
             return data[0].uom
         },
+        getUOMS: function () {
+            return this.uoms
+        }
     },
     mounted() {
         var scope = this
 
-        scope.item_uuid = scope.$props.itemUUID
+
         scope.getGlobalUoms();
         scope.getItemUoms();
 

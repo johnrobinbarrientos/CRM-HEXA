@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class BDSupplier extends Model
+class BDSupplierDiscountExcludedItem extends Model
 {
     use SoftDeletes;
     
@@ -25,5 +25,4 @@ class BDSupplier extends Model
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
     }
-   
 }
