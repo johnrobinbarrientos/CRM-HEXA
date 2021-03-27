@@ -11,9 +11,7 @@ class CustomerGroup extends Model
     
     protected $table = 'customer_group';
 
-    protected $fillable = [
-        'uuid','group_name', 'markup_rate',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

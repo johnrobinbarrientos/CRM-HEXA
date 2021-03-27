@@ -11,10 +11,7 @@ class SupplierContact extends Model
     
     protected $table = 'supplier_contacts';
 
-    protected $fillable = [
-        'uuid','supplier_uuid','contact_person','position',
-        'email_address','contact_no',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

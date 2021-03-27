@@ -30,8 +30,7 @@
                 <thead class="th-nowrap">
                     <tr>
                         <th width="105">Action</th>
-                        <th>Sold To Name</th>
-                        <th>Business Group Name</th>
+                        <th>Business Name</th>
                         <th>Business Shortname</th>
                         <th>Chain</th>
                         <th>Group Name</th>
@@ -53,8 +52,7 @@
                                 </b-dropdown>
                             </span>
                         </td>
-                        <td>{{customer.sold_to_name}}</td>
-                        <td>{{customer.business_group_name}}</td>
+                        <td>{{customer.business_name}}</td>
                         <td>{{customer.business_shortname}}</td>
                         <td>{{customer.customer_chain.chain}}</td>
                         <td>{{customer.customer_group.group_name}}</td>

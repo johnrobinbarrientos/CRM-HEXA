@@ -11,10 +11,7 @@ class CustomerBranch extends Model
     
     protected $table = 'customer_branch';
 
-    protected $fillable = [
-        'uuid','customer_uuid','name','contact_person',
-        'address','email_address','contact_no','is_active'
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

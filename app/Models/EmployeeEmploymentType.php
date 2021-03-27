@@ -11,9 +11,7 @@ class EmployeeEmploymentType extends Model
     
     protected $table = 'employee_employment_type';
 
-    protected $fillable = [
-        'uuid','employment_type',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

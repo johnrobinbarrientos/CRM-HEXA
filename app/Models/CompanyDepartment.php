@@ -11,9 +11,7 @@ class CompanyDepartment extends Model
     
     protected $table = 'company_department';
 
-    protected $fillable = [
-        'uuid','department','cost_center_uuid',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

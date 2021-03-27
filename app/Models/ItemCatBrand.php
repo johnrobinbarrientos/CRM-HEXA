@@ -11,9 +11,7 @@ class ItemCatBrand extends Model
     
     protected $table = 'item_cat_brand';
 
-    protected $fillable = [
-        'uuid','brand',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

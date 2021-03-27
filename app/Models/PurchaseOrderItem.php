@@ -11,6 +11,7 @@ class PurchaseOrderItem extends Model
     
     protected $table = 'purchase_order_items';
 
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

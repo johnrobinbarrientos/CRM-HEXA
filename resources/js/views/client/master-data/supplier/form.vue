@@ -11,7 +11,7 @@
                             <h1 class="title">View Details</h1>
                         </span>
                         <span v-else>
-                            <span v-if="formdata.is_draft">
+                            <span v-if="!formdata.uuid">
                                 <h1 class="title">New Details</h1>
                             </span>
                             <span v-else>
@@ -383,7 +383,6 @@ export default {
 
             formdata: { 
                 uuid: null,
-                is_draft: 1,
                 supplier_name: '', 
                 supplier_shortname: '', 
                 tax_identification_no: '',
@@ -472,7 +471,7 @@ export default {
         is_vat: function () {
             var scope = this
 
-            if (scope.formdata.is_draft == 1){
+            if (scope.formdata.uuid == null){
 
                 if (scope.is_vat == 1){
                     scope.selected_vat = scope.options_vat[2].id
@@ -519,7 +518,7 @@ export default {
         is_ewt: function () {
             var scope = this
 
-            if (scope.formdata.is_draft == 1){
+            if (scope.formdata.uuid == null){
 
                 if (scope.is_ewt == 1){
                     scope.selected_ewt = scope.options_ewt[1].id
@@ -824,7 +823,6 @@ export default {
 
                 scope.formdata.uuid = supplierUUID
 
-                scope.formdata.is_draft = data.is_draft
                 scope.formdata.supplier_name = data.supplier_name
                 scope.formdata.supplier_shortname = data.supplier_shortname
                 scope.formdata.tax_identification_no = data.tax_identification_no

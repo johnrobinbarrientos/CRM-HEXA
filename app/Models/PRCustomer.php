@@ -11,7 +11,8 @@ class PRSupplier extends Model
     
     protected $table = 'pr_customers';
 
-
+    protected $fillable = [];
+    
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';
     public $incrementing = false;

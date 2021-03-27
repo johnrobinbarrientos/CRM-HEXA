@@ -11,9 +11,7 @@ class CustomerDiscountRegular extends Model
     
     protected $table = 'customer_discount_regular';
 
-    protected $fillable = [
-        'uuid','customer_uuid','discount_name','discount_rate',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

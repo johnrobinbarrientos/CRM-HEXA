@@ -11,7 +11,7 @@
                                 <h1 class="title">View Details</h1>
                             </span>
                             <span v-else>
-                                <span v-if ="formdata.is_draft">
+                                <span v-if ="!formdata.uuid">
                                     <h1 class="title">New Details</h1>
                                 </span>
                                 <span v-else>
@@ -25,9 +25,6 @@
                                 <a @click="ROUTE({path: '/customers/' + formdata.uuid })" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Edit</a>
                             </span>
                             <span v-else>
-                                <!-- <a @click="ROUTE({path: '/customer-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)">Cancel</a>
-                                <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Save</a>
-                                <a v-else @click="update()" type="submit" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Update</a> -->
                                 
                                 <a @click="ROUTE({path: '/customer-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)"><span>Close</span></a>
                                 <a @click="save()" type="button" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">
@@ -40,20 +37,12 @@
 
                     <form action="#" class="form-validate is-alter">
                         <div class="row">
-                            <div class="col-md-3 col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="sold-to-name">Sold To Name</label>
-                                    <div class="form-control-wrap">
-                                        <input v-model="formdata.sold_to_name" type="text" class="form-control" id="sold-to-name" :readonly="view_mode">
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="business-group-name">Business Group Name</label>
+                                    <label class="form-label" for="business-name">Business Name</label>
                                     <div class="form-control-wrap">
-                                        <input v-model="formdata.business_group_name" type="text" class="form-control" id="business-group-name" :readonly="view_mode">
+                                        <input v-model="formdata.business_name" type="text" class="form-control" id="business-name" :readonly="view_mode">
                                     </div>
                                 </div>
                             </div>
@@ -118,6 +107,8 @@
                                     </select>
                                 </div>
                             </div>
+
+                            
 
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
@@ -231,7 +222,34 @@
                                 </div>
 
                                 <div class="tab-pane" id="discounts-tab">
-                                    <Discounts ref="discounts" :customer_uuid="formdata.uuid" :view_mode="view_mode" :properties="{ table_responsive: false }"></Discounts>
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="base-discount">Base</label>
+                                            <div class="form-control-wrap">
+                                                <input v-model="formdata.base_discount" type="text" class="form-control" id="base-discount" :readonly="view_mode">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="logistic-discount">Logistic</label>
+                                            <div class="form-control-wrap">
+                                                <input v-model="formdata.logistic_discount" type="text" class="form-control" id="logistic-discount" :readonly="view_mode">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="term-discount">Term</label>
+                                            <div class="form-control-wrap">
+                                                <input v-model="formdata.term_discount" type="text" class="form-control" id="term-discount" :readonly="view_mode">
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 <div class="tab-pane" id="branch-tab">
@@ -240,13 +258,15 @@
 
                                 
                                 <div class="tab-pane" id="address">
-
-                                        <div class="row mb-3 mt-2">
-                                            <div class="col-md-6 offset-lg-3 col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="address-list"><strong>Select Address</strong></label>
-                                                    <select class="form-select-address-list" v-model="selected_address" :options="options_address" name="address-list" :disabled="view_mode">
-                                                    </select>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group mb-4">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="address-list"><strong>Select Address</strong></label>
+                                                        <select class="form-select-address-list" v-model="selected_address" :options="options_address" name="address-list" :disabled="view_mode">
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -325,7 +345,6 @@
 <script>
 
 import Swal from 'sweetalert2'
-import Discounts from './discounts'
 import Branches from './customer-branch'
 
 export default {
@@ -389,9 +408,7 @@ export default {
 
             formdata: { 
                 uuid: null,
-                is_draft: 1,
-                sold_to_name: '', 
-                business_group_name: '', 
+                business_name: '', 
                 business_shortname: '',
                 tax_id_no: '',
                 customer_group_uuid: '',
@@ -408,10 +425,12 @@ export default {
                 contact_no: '',
                 address_uuid: '',
                 address1: '',
+                base_discount: '',
+                logistic_discount: '',
+                term_discount: '',
                 is_vat: 0,
 
                 children: {
-                    discount_groups: [],
                     branches: []
                 }
             },
@@ -419,7 +438,6 @@ export default {
         }
     },
     components: {
-        Discounts,
         'customer-branch' : Branches
     },
     computed: {
@@ -482,7 +500,7 @@ export default {
         is_vat: function () {
             var scope = this
 
-            if (scope.formdata.is_draft == 1){
+            if (scope.formdata.uuid == null){
 
                 if (scope.is_vat == 1){
                     scope.selected_vat = scope.options_vat[2].id
@@ -699,7 +717,6 @@ export default {
         save: function () {
             var scope = this
      
-            scope.formdata.children.discount_groups = scope.$refs.discounts.getDiscountGroups();
             scope.formdata.children.branches = scope.$refs.branches.getBranches();
       
             scope.formdata.customer_group_uuid = scope.selected_customer_group
@@ -738,10 +755,7 @@ export default {
                                     scope.ROUTE({path: '/customer-main/'})
                                 })
                             } else {
-                                // if (res.errors > 0 && res.tab == 'discounts') {
-                                //     scope.$refs.discounts.updateDiscountGroups(res.groups)
-                                //     $('#suppliers-settings-tab .nav-tabs').find('a[href="#discount-tab"]').trigger('click');
-                                // }
+
                             }
                         })
                     }                              
@@ -759,10 +773,6 @@ export default {
                             scope.ROUTE({path: '/customer-main/'})
                         })
                     } else {
-                        // if (res.errors > 0 && res.tab == 'discounts') {
-                        //     scope.$refs.discounts.updateDiscountGroups(res.groups)
-                        //     $('#suppliers-settings-tab .nav-tabs').find('a[href="#discounts-tab"]').trigger('click');
-                        // }
                         
                     }
                 })
@@ -784,9 +794,7 @@ export default {
 
                 scope.formdata.uuid = customerUUID
 
-                    scope.formdata.is_draft = data.is_draft
-                    scope.formdata.sold_to_name = data.sold_to_name
-                    scope.formdata.business_group_name = data.business_group_name
+                    scope.formdata.business_name = data.business_name
                     scope.formdata.business_shortname = data.business_shortname
                     scope.formdata.tax_id_no = data.tax_id_no
                     scope.formdata.is_active = data.is_active
@@ -794,6 +802,10 @@ export default {
                     scope.formdata.contact_person = data.contact_person
                     scope.formdata.contact_no = data.contact_no
                     scope.formdata.address1 = data.address1
+
+                    scope.formdata.base_discount = data.base_discount
+                    scope.formdata.logistic_discount = data.logistic_discount
+                    scope.formdata.term_discount = data.term_discount
 
                     if (data.vat_uuid!=null){
                         scope.is_vat = 1

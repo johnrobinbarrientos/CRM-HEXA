@@ -11,9 +11,7 @@ class ProjectType extends Model
     
     protected $table = 'project_types';
 
-    protected $fillable = [
-        'uuid', 'type',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

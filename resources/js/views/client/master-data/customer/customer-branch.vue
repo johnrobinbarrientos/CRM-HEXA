@@ -37,7 +37,7 @@
                                     </b-dropdown>
                                 </td>
                                 <td>
-                                    {{ branch.name }}
+                                    {{ branch.customer_name }}
                                 </td>
                                 <td>
                                     {{ branch.contact_person }}
@@ -85,7 +85,7 @@
                             <div class="row">
                                 <div class="col-md-12 col-12">
                                     <div style="padding:5px;">
-                                        <input v-model="selected_branch.name" class="form-control-gray-medium"  v-bind:class="{'error' : selected_branch.name_error}" type="text" placeholder="Customer Name">
+                                        <input v-model="selected_branch.customer_name" class="form-control-gray-medium"  v-bind:class="{'error' : selected_branch.customer_name_error}" type="text" placeholder="Customer Name">
                                     </div>
                                 </div>                                           
                             </div>
@@ -168,7 +168,7 @@ export default {
             scope.selected_branch  = {
                     id: null,
                     uuid: null,
-                    name: '',
+                    customer_name: '',
                     contact_person: '',
                     address: '',
                     email_address: '',
@@ -257,12 +257,12 @@ export default {
             var scope = this
 
             var error = 0
-            scope.$set(scope.selected_branch,'name_error',false);
+            scope.$set(scope.selected_branch,'customer_name_error',false);
             scope.$set(scope.selected_branch,'contact_no_error',false);
 
-            if (scope.selected_branch.name == '') {
+            if (scope.selected_branch.customer_name == '') {
                 error++;
-                scope.selected_branch.name_error = true
+                scope.selected_branch.customer_name_error = true
             }
 
             if (scope.selected_branch.contact_no == '') {

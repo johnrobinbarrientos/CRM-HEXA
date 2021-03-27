@@ -11,9 +11,7 @@ class CompanyPaymentTerm extends Model
     
     protected $table = 'company_payment_term';
 
-    protected $fillable = [
-        'uuid', 'term',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

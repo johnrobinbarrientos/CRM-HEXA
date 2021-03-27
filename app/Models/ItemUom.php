@@ -11,9 +11,7 @@ class ItemUom extends Model
     
     protected $table = 'item_uom';
 
-    protected $fillable = [
-        'uuid', 'item_uuid','global_uom_uuid','deleted_at'
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

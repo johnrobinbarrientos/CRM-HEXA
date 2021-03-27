@@ -11,10 +11,7 @@ class CompanyList extends Model
 
     protected $table = 'company_list';
 
-    protected $fillable = [
-        'company_name', 'shortname', 'tagline', 'website', 'email',
-        'contact_no', 'tax_id_no', 'prefix', 'address_uuid',
-    ];
+    protected $fillable = [];
    
     public function users()
     {

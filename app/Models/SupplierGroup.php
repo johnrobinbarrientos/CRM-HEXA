@@ -11,9 +11,7 @@ class SupplierGroup extends Model
     
     protected $table = 'supplier_group';
 
-    protected $fillable = [
-        'uuid','group_name',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

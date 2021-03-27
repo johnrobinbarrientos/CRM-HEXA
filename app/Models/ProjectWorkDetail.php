@@ -11,9 +11,7 @@ class ProjectWorkDetail extends Model
     
     protected $table = 'project_work_details';
 
-    protected $fillable = [
-        'uuid', 'project_type_uuid','project_scope_uuid','detail',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

@@ -11,7 +11,8 @@ class BDSupplier extends Model
     
     protected $table = 'bd_suppliers';
 
-
+    protected $fillable = [];
+    
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';
     public $incrementing = false;

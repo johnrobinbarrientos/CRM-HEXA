@@ -11,9 +11,7 @@ class CustomerChain extends Model
     
     protected $table = 'customer_chain';
 
-    protected $fillable = [
-        'uuid', 'chain',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

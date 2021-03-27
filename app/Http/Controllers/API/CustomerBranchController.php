@@ -30,8 +30,8 @@ class CustomerBranchController extends Controller
                 $errors++;
             }
 
-            if (empty($branch['name'])) {
-                $branch['name_error'] = true;
+            if (empty($branch['customer_name'])) {
+                $branch['customer_name_error'] = true;
                 $errors++;
             }
 
@@ -47,7 +47,7 @@ class CustomerBranchController extends Controller
         foreach ($branches as $key => $branch) {
 
             $uuid = $branch['uuid'];
-            $name = $branch['name'];
+            $customer_name = $branch['customer_name'];
             $contact_person = $branch['contact_person'];
             $address = $branch['address'];
             $email_address = $branch['email_address'];
@@ -58,7 +58,7 @@ class CustomerBranchController extends Controller
             $data = CustomerBranch::where('uuid','=',$uuid)->first();
             $data = ($data) ? $data : new  CustomerBranch;
             $data->customer_uuid = $customer_uuid;
-            $data->name = $name;
+            $data->customer_name = $customer_name;
             $data->contact_person = $contact_person;
             $data->address = $address;
             $data->email_address = $email_address;

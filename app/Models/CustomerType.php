@@ -11,9 +11,7 @@ class CustomerType extends Model
     
     protected $table = 'customer_type';
 
-    protected $fillable = [
-        'uuid', 'customer_type',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

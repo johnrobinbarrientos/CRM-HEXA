@@ -27,7 +27,7 @@ class SupplierListController extends Controller
     public function index()
     {
     
-        $list = SupplierList::where('is_draft','=', 0)->whereNull('deleted_at')->with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable');
+        $list = SupplierList::whereNull('deleted_at')->with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable');
 
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;
@@ -109,7 +109,6 @@ class SupplierListController extends Controller
         $supplier->address_uuid = request()->address_uuid;
         $supplier->address1 = request()->address1;
         $supplier->cost_center_uuid = request()->cost_center_uuid;
-        $supplier->is_draft = 0;
         $supplier->save();
 
         $supplier = SupplierList::find($supplier->uuid);

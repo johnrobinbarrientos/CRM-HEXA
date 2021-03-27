@@ -11,9 +11,7 @@ class ItemCatSection extends Model
     
     protected $table = 'item_cat_section';
 
-    protected $fillable = [
-        'uuid','section',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

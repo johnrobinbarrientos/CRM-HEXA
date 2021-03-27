@@ -11,9 +11,7 @@ class CompanyTaxationItem extends Model
     
     protected $table = 'company_taxation_item';
 
-    protected $fillable = [
-        'uuid','tax_type','tax_name','shortname',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

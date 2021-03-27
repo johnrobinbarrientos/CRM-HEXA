@@ -26,8 +26,6 @@ import EmployeeForm from './views/client/master-data/employee/form'
 
 import CompanyMain from './views/client/master-data/company/main'
 
-import CompanyList from './views/admin/settings/company-list'
-import CompanyForm from './views/admin/settings/company-form'
 
 import BuyANDPayOrders from './views/client/buy-and-pay/orders/main'
 import BuyANDPayOrdersForm from './views/client/buy-and-pay/orders/form'
@@ -250,20 +248,6 @@ export default new VueRouter({
           path: '/company-main',
           name: 'company-main',
           component: CompanyMain,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/companies',
-          name: 'company-list',
-          component: CompanyList,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/companies/create',
-          name: 'company-create',
-          component: CompanyForm,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },

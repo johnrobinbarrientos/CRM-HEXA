@@ -8,14 +8,13 @@ use App\Models\CustomerList;
 use App\Models\CustomerDiscountRegular; 
 use Illuminate\Support\Facades\Auth; 
 
-use  App\Http\Controllers\API\BDCustomerController;
 use  App\Http\Controllers\API\CustomerBranchController;
 
 class CustomerListController extends Controller
 {
     public function index()
     {
-        $list = CustomerList::where('is_draft','=', 0)->whereNull('deleted_at')->with('discounts')
+        $list = CustomerList::whereNull('deleted_at')->with('discounts')
         ->with('CustomerGroup')->with('CustomerChain')
         ->with('CustomerChannel')->with('CustomerType')
         ->with('PaymentTerm');
@@ -60,12 +59,6 @@ class CustomerListController extends Controller
 
         $children = (object) request()->children;
 
-        $groups = (isset($children->discount_groups)) ? $children->discount_groups : [];
-        $check = BDCustomerController::check($groups);
-
-        if ($check['errors'] > 0) {
-           return response()->json(['success' => 0, 'groups' => $check['groups'], 'errors' => $check['errors'], 'tab' => 'discounts' ], 500);
-        }
 
         $branches = (isset($children->branches)) ? $children->branches : [];
         $check = CustomerBranchController::check($branches);
@@ -77,8 +70,7 @@ class CustomerListController extends Controller
         $customer =  CustomerList::find($uuid);
         $customer = ($customer) ? $customer : new CustomerList();
 
-        $customer->sold_to_name = request()->sold_to_name;
-        $customer->business_group_name = request()->business_group_name;
+        $customer->business_name = request()->business_name;
         $customer->business_shortname = request()->business_shortname;
         $customer->tax_id_no = request()->tax_id_no;
         $customer->customer_group_uuid = request()->customer_group_uuid;
@@ -95,12 +87,13 @@ class CustomerListController extends Controller
         $customer->contact_no = request()->contact_no;
         $customer->address_uuid = request()->address_uuid;
         $customer->address1 = request()->address1;
-        $customer->is_draft = 0;
+        $customer->base_discount = request()->base_discount;
+        $customer->logistic_discount = request()->logistic_discount;
+        $customer->term_discount = request()->term_discount;
         $customer->save();
 
         $customer = CustomerList::find($customer->uuid);
-        
-        $bd_customer_save = BDCustomerController::save($customer->uuid,$groups);
+
 
         $branches_save = CustomerBranchController::save($customer->uuid,$branches);
 

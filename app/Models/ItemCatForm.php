@@ -11,9 +11,7 @@ class ItemCatForm extends Model
     
     protected $table = 'item_cat_form';
 
-    protected $fillable = [
-        'uuid','form',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

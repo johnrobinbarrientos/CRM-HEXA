@@ -11,12 +11,7 @@ class CompanyAccountingPeriod extends Model
     
     protected $table = 'company_accounting_period';
 
-    protected $fillable = [
-        'uuid','year_name','jan_is_open','feb_is_open',
-        'mar_is_open','apr_is_open','may_is_open','jun_is_open','jul_is_open',
-        'aug_is_open','sep_is_open','oct_is_open','nov_is_open','dec_is_open',
-        
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

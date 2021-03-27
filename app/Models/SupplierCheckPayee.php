@@ -11,9 +11,7 @@ class SupplierCheckPayee extends Model
     
     protected $table = 'supplier_check_payees';
 
-    protected $fillable = [
-        'uuid','supplier_uuid', 'check_payee',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';
