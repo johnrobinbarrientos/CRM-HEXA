@@ -28,27 +28,29 @@
         <div v-else>
             <div class="row">
                 <div class="col-lg-6">
-                    <table class="table table-bordered table-hover table-striped">
-                        <thead>
-                            <tr>
-                                <th width="105">Action</th>
-                                <th>Employment Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(status) in employmentStatus" :key="status.uuid">
-                                <td width="65" class="text-center">
-                                    <span class="hx-table-actions">
-                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalEmploymentStatus'); setData(status)">
-                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalEmploymentStatus'); setData(status)">Edit</b-dropdown-item>
-                                            <b-dropdown-item href="javascript:void(0)" @click="remove(status)">Delete</b-dropdown-item>
-                                        </b-dropdown>
-                                    </span>
-                                </td>
-                                <td>{{ status.employment_status }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="105">Action</th>
+                                    <th>Employment Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(status) in employmentStatus" :key="status.uuid">
+                                    <td width="65" class="text-center">
+                                        <span class="hx-table-actions">
+                                            <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalEmploymentStatus'); setData(status)">
+                                                <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalEmploymentStatus'); setData(status)">Edit</b-dropdown-item>
+                                                <b-dropdown-item href="javascript:void(0)" @click="remove(status)">Delete</b-dropdown-item>
+                                            </b-dropdown>
+                                        </span>
+                                    </td>
+                                    <td>{{ status.employment_status }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

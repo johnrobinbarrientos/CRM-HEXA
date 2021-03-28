@@ -26,30 +26,32 @@
 
         <div class="row">
             <div class="col-lg-6">
-                <table class="table table-bordered table-hover table-striped">
-                    <thead class="th-nowrap">
-                        <tr>
-                            <th width="105">Action</th>
-                            <th data-priority="3">Item Group</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(item) in Groups" :key="item.uuid">
-                            <td width="65" class="text-center">
-                                <span class="hx-table-actions">
-                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalItemGroup');setData(item)">
-                                        <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalItemGroup');setData(item)">Edit</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)" @click="remove(item)">Delete</b-dropdown-item>
-                                    </b-dropdown>
-                                </span>
-                            </td>
-                            <td>
-                                {{ item.item_group }}
-                            </td>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead class="th-nowrap">
+                            <tr>
+                                <th width="105">Action</th>
+                                <th data-priority="3">Item Group</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item) in Groups" :key="item.uuid">
+                                <td width="65" class="text-center">
+                                    <span class="hx-table-actions">
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalItemGroup');setData(item)">
+                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalItemGroup');setData(item)">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="remove(item)">Delete</b-dropdown-item>
+                                        </b-dropdown>
+                                    </span>
+                                </td>
+                                <td>
+                                    {{ item.item_group }}
+                                </td>
 
-                        </tr>
-                    </tbody>
-                </table>         
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>   
             </div>
         </div>
 

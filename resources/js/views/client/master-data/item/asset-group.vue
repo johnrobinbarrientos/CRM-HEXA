@@ -27,28 +27,30 @@
 
             <div class="row">
                 <div class="col-lg-6">
-                    <table class="table table-bordered table-hover table-striped">
-                        <thead>
-                            <tr>
-                                <th width="105">Action</th>
-                                <th>Asset Group</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(asset) in assetGroups" :key="asset.uuid">
-                                <td width="65" class="text-center">
-                                    <span class="hx-table-actions">
-                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalItemAssetGroup');setData(asset)">
-                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalItemAssetGroup');setData(asset)">Edit</b-dropdown-item>
-                                            <b-dropdown-item href="javascript:void(0)" @click="remove(asset)">Delete</b-dropdown-item>
-                                        </b-dropdown>
-                                    </span>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="105">Action</th>
+                                    <th>Asset Group</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(asset) in assetGroups" :key="asset.uuid">
+                                    <td width="65" class="text-center">
+                                        <span class="hx-table-actions">
+                                            <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalItemAssetGroup');setData(asset)">
+                                                <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalItemAssetGroup');setData(asset)">Edit</b-dropdown-item>
+                                                <b-dropdown-item href="javascript:void(0)" @click="remove(asset)">Delete</b-dropdown-item>
+                                            </b-dropdown>
+                                        </span>
 
-                                </td>
-                                <td><span class="">{{ asset.asset_group }}</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    </td>
+                                    <td><span class="">{{ asset.asset_group }}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 

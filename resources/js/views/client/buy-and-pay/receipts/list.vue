@@ -29,140 +29,152 @@
                 <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
             </div>
 
-            <div v-else class="table-responsive;">
-                
-                <div class="table-filter">
-                    <div class="table-filter-row">
-                        <div class="select-wrap">
-                            <select @change="getReceivedOrders()" v-model="selected_item_group">
-                                <option value="">Item Type</option>     
-                                <option v-for="item_type in options_item_group" :value="item_type.id" :key="'option-' + item_type.id ">{{ item_type.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getReceivedOrders()" v-model="selected_supplier">
-                                <option value="">Supplier</option>
-                                <option v-for="supplier in options_supplier" :value="supplier.id"  :key="'option-' + supplier.id ">{{ supplier.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getReceivedOrders()" v-model="selected_branch">
-                                <option value="">Branch</option>
-                                <option v-for="branch in options_branch" :value="branch.id"  :key="'option-' + branch.id ">{{ branch.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getReceivedOrders()" v-model="selected_branch_location">
-                                <option value="">Location</option>
-                                <option v-for="location in options_branch_location" :value="location.id"  :key="'option-' + location.id ">{{ location.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getReceivedOrders()" v-model="selected_status">
-                                <option value="">Status</option>
-                                <option value="To Receive">To Receive</option>
-                                <option value="Partially Received">Partially Received</option>
-                                <option value="Fully Received">Fully Received</option>
-                                <option value="Cancelled">Cancelled</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getReceivedOrders()" v-model="selected_reason_code_filter">
-                                <option value="">Reason Code</option>
-                                <option v-for="reason_code in options_reason_code" :value="reason_code.id"  :key="'option-' + reason_code.id ">{{ reason_code.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <date-picker class="transaction-from" placeholder="Start Date" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_from" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
-                        </div>
-                        <div class="select-wrap">
-                            <date-picker class="transaction-to"  placeholder="End Date" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_to" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
-                        </div>
-                        <div class="select-wrap options-wrap" style="width:60px !important;">
-                            <b-button @click="reset()" variant="outline-secondary" size="sm">Reset</b-button>
+            <div v-else>
+                <div class="table-filter-options">
+                    <button @click="toggleTableFilter('filter')" class="btn btn-outline p-1">
+                        <i class="fas fa-filter mr-1"></i> Filter
+                    </button>
+                </div>
+                <div v-if="tableFilterOptions.filter" class="table-filter-wrapper">
+                    <div class="table-filter">
+                        <div class="table-filter-row">
+                            <div class="select-wrap">
+                                <select @change="getReceivedOrders()" v-model="selected_item_group">
+                                    <option value="">Item Type</option>     
+                                    <option v-for="item_type in options_item_group" :value="item_type.id" :key="'option-' + item_type.id ">{{ item_type.text }}</option>
+                                </select>
+                            </div>
+                            <div class="select-wrap">
+                                <select  @change="getReceivedOrders()" v-model="selected_supplier">
+                                    <option value="">Supplier</option>
+                                    <option v-for="supplier in options_supplier" :value="supplier.id"  :key="'option-' + supplier.id ">{{ supplier.text }}</option>
+                                </select>
+                            </div>
+                            <div class="select-wrap">
+                                <select  @change="getReceivedOrders()" v-model="selected_branch">
+                                    <option value="">Branch</option>
+                                    <option v-for="branch in options_branch" :value="branch.id"  :key="'option-' + branch.id ">{{ branch.text }}</option>
+                                </select>
+                            </div>
+                            <div class="select-wrap">
+                                <select  @change="getReceivedOrders()" v-model="selected_branch_location">
+                                    <option value="">Location</option>
+                                    <option v-for="location in options_branch_location" :value="location.id"  :key="'option-' + location.id ">{{ location.text }}</option>
+                                </select>
+                            </div>
+                            <div class="select-wrap">
+                                <select  @change="getReceivedOrders()" v-model="selected_status">
+                                    <option value="">Status</option>
+                                    <option value="To Receive">To Receive</option>
+                                    <option value="Partially Received">Partially Received</option>
+                                    <option value="Fully Received">Fully Received</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                            <div class="select-wrap">
+                                <select  @change="getReceivedOrders()" v-model="selected_reason_code_filter">
+                                    <option value="">Reason Code</option>
+                                    <option v-for="reason_code in options_reason_code" :value="reason_code.id"  :key="'option-' + reason_code.id ">{{ reason_code.text }}</option>
+                                </select>
+                            </div>
+                            <div class="select-wrap">
+                                <date-picker class="transaction-from" placeholder="Start Date" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_from" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
+                            </div>
+                            <div class="select-wrap">
+                                <date-picker class="transaction-to"  placeholder="End Date" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_to" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
+                            </div>
+                            <div class="select-wrap options-wrap">
+                                <div style="width: 70px;"></div>
+                                <button @click="reset()" class="btn-sm tf-btn-reset">
+                                    <i class="las la-sync"></i> Reset
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <table class="table table-bordered table-hover table-striped">
-                    <thead class="th-nowrap">
-                        <tr>
-                            <th width="105">Action</th>
-                            <th>Item Type</th>
-                            <th>Transaction No</th>
-                            <th>Supplier Name</th>
-                            <th>Branch</th>
-                            <th>Location</th>
-                            <th>Transaction Date</th>
-                            <th>Amount</th>
-                            <th>Status</th> 
-                            <th>Reason Code</th> 
-                        </tr>
-                    </thead>
-                    <tbody class="td-border-bottom-black">
-                        <template v-if="receivedOrders.length > 0">
-                            <tr v-for="(purchase) in receivedOrders" :key="purchase.uuid">
-                                <template v-if="purchase.po_status !== 'Cancelled'">
-                                    <td width="65" class="text-center">
-                                        <span v-if="purchase.receiving_status === 'To Bill'" class="hx-table-actions">
-                                            <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/receipts/' + purchase.uuid + '/edit'})" >
-                                                <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/receipts/' + purchase.uuid + '/edit'})" >Edit</b-dropdown-item>
-                                                <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/receipts/' + purchase.uuid + '/view' })">View</b-dropdown-item>
-                                            </b-dropdown>
-                                        </span>
-                                        <span v-else class="hx-table-actions">
-                                            <b-dropdown split text="View" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/receipts/' + purchase.uuid + '/view' })">
-                                                <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/receipts/' + purchase.uuid + '/view' })">View</b-dropdown-item>
-                                            </b-dropdown>
-                                        </span>
-                                    </td>
-                                    <td width="100">{{ purchase.item_group.item_group }}</td>
-                                    <td width="200">{{ purchase.receiving_no }}</td>
-                                    <td width="200" class="text-nowrap">{{ purchase.supplier.supplier_name }}</td>
-                                    <td width="100" class="text-nowrap">{{ purchase.branch.branch_shortname.toUpperCase() }}</td>
-                                    <td width="100">{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
-                                    <td width="150">{{ FORMAT_DATE(purchase.date_received) }}</td>
 
-                                    <td width="200" v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
-                                    <td width="200" v-else class="text-right">{{PUT_SEPARATOR(purchase.po_total_amount.toFixed(2))}}</td>
-
-                                    <td v-if="purchase.receiving_status === 'To Bill'" class="editable" width="150">
-                                        <span class="badge badge-danger font-size-12">To Bill</span>
-                                    </td>
-                                    <td v-else-if="purchase.receiving_status === 'Billed'" class="editable" width="150">
-                                        <span class="badge badge-success font-size-12">Billed</span>
-                                    </td>
-
-                                    <td width="150">{{ purchase.receiving_reason_code }}</td>
-
-                                </template>
-                            </tr>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead class="th-nowrap">
                             <tr>
-                                <td colspan="6"></td>
-                                <td style="border-left: 2px solid #eee">
-                                    <span><strong>Total:</strong></span>
-                                </td>
-                                <td class="text-right">
-                                    <span v-if="grand_total==0"><strong>0.00</strong></span>
-                                    <span v-else><strong>{{PUT_SEPARATOR(grand_total.toFixed(2))}}</strong></span>
-                                </td>
-                                <td colspan="3"></td>
+                                <th width="105">Action</th>
+                                <th>Item Type</th>
+                                <th>Transaction No</th>
+                                <th>Supplier Name</th>
+                                <th>Branch</th>
+                                <th>Location</th>
+                                <th>Transaction Date</th>
+                                <th>Amount</th>
+                                <th>Status</th> 
+                                <th>Reason Code</th> 
                             </tr>
-                            <tr>
-                                <td colspan="13">
-                                    <div style="margin-bottom: 2px;"></div>
-                                </td>
-                            </tr>
-                        </template>
-                        <template v-else>
-                            <tr>
-                                <td colspan="11" class="text-center">
-                                    <strong style="display: block; height: 30px; line-height: 30px;">No Transactions</strong>
-                                </td>
-                            </tr>
-                        </template>
+                        </thead>
+                        <tbody class="td-border-bottom-black">
+                            <template v-if="receivedOrders.length > 0">
+                                <tr v-for="(purchase) in receivedOrders" :key="purchase.uuid">
+                                    <template v-if="purchase.po_status !== 'Cancelled'">
+                                        <td width="65" class="text-center">
+                                            <span v-if="purchase.receiving_status === 'To Bill'" class="hx-table-actions">
+                                                <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/receipts/' + purchase.uuid + '/edit'})" >
+                                                    <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/receipts/' + purchase.uuid + '/edit'})" >Edit</b-dropdown-item>
+                                                    <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/receipts/' + purchase.uuid + '/view' })">View</b-dropdown-item>
+                                                </b-dropdown>
+                                            </span>
+                                            <span v-else class="hx-table-actions">
+                                                <b-dropdown split text="View" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/receipts/' + purchase.uuid + '/view' })">
+                                                    <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/receipts/' + purchase.uuid + '/view' })">View</b-dropdown-item>
+                                                </b-dropdown>
+                                            </span>
+                                        </td>
+                                        <td width="100">{{ purchase.item_group.item_group }}</td>
+                                        <td width="200">{{ purchase.receiving_no }}</td>
+                                        <td width="200" class="text-nowrap">{{ purchase.supplier.supplier_name }}</td>
+                                        <td width="100" class="text-nowrap">{{ purchase.branch.branch_shortname.toUpperCase() }}</td>
+                                        <td width="100">{{ purchase.branch_location.location_shortname.toUpperCase() }}</td>
+                                        <td width="150">{{ FORMAT_DATE(purchase.date_received) }}</td>
 
-                    </tbody>
-                </table>
+                                        <td width="200" v-if="purchase.po_total_amount == 0" class="text-right">0.00</td>
+                                        <td width="200" v-else class="text-right">{{PUT_SEPARATOR(purchase.po_total_amount.toFixed(2))}}</td>
+
+                                        <td v-if="purchase.receiving_status === 'To Bill'" class="editable" width="150">
+                                            <span class="badge badge-danger font-size-12">To Bill</span>
+                                        </td>
+                                        <td v-else-if="purchase.receiving_status === 'Billed'" class="editable" width="150">
+                                            <span class="badge badge-success font-size-12">Billed</span>
+                                        </td>
+
+                                        <td width="150">{{ purchase.receiving_reason_code }}</td>
+
+                                    </template>
+                                </tr>
+                                <tr>
+                                    <td colspan="6"></td>
+                                    <td style="border-left: 2px solid #eee">
+                                        <span><strong>Total:</strong></span>
+                                    </td>
+                                    <td class="text-right">
+                                        <span v-if="grand_total==0"><strong>0.00</strong></span>
+                                        <span v-else><strong>{{PUT_SEPARATOR(grand_total.toFixed(2))}}</strong></span>
+                                    </td>
+                                    <td colspan="3"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="13">
+                                        <div style="margin-bottom: 2px;"></div>
+                                    </td>
+                                </tr>
+                            </template>
+                            <template v-else>
+                                <tr>
+                                    <td colspan="11" class="text-center">
+                                        <strong style="display: block; height: 30px; line-height: 30px;">No Transactions</strong>
+                                    </td>
+                                </tr>
+                            </template>
+
+                        </tbody>
+                    </table>
+                </div>
 
                 <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
                 <nav style="float:right;" v-if="listTotalPages > 1" class="pagination pagination-rounded mt-4" aria-label="pagination">
@@ -220,7 +232,9 @@ export default {
     props: ['properties'],
     data: function () {
         return {
-
+            tableFilterOptions: {
+                filter: false
+            },
             prerequisite: {
                 getBranch: false,
                 getBranchLocations: false,
@@ -283,6 +297,9 @@ export default {
         }
     },
     methods: {
+        toggleTableFilter: function (option) {
+            this.tableFilterOptions[option] = !this.tableFilterOptions[option]
+        },
         reset: function () {
             var scope = this
             scope.selected_item_group = ""

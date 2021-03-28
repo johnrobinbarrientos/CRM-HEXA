@@ -27,27 +27,29 @@
 
             <div class="row">
                 <div class="col-lg-6">
-                    <table class="table table-hover table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th width="105">Action</th>
-                                <th>Chain</th> 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(chain) in customerChains" :key="chain.uuid" class="tb-tnx-item">
-                                <td width="100">
-                                    <span class="hx-table-actions">
-                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalCustomerChain');setData(chain)">
-                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalCustomerChain');setData(chain)">Edit</b-dropdown-item>
-                                            <b-dropdown-item href="javascript:void(0)" @click="remove(chain)">Delete</b-dropdown-item>
-                                        </b-dropdown>
-                                    </span>
-                                </td>
-                                <td>{{ chain.chain }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="105">Action</th>
+                                    <th>Chain</th> 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(chain) in customerChains" :key="chain.uuid" class="tb-tnx-item">
+                                    <td width="100">
+                                        <span class="hx-table-actions">
+                                            <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalCustomerChain');setData(chain)">
+                                                <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalCustomerChain');setData(chain)">Edit</b-dropdown-item>
+                                                <b-dropdown-item href="javascript:void(0)" @click="remove(chain)">Delete</b-dropdown-item>
+                                            </b-dropdown>
+                                        </span>
+                                    </td>
+                                    <td>{{ chain.chain }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 

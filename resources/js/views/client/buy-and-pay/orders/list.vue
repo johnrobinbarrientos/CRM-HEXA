@@ -79,7 +79,7 @@
                             <div class="select-wrap">
                                 <date-picker class="transaction-to"  placeholder="End Date" :config="{format: 'DD-MMM-YYYY'}" v-model="transaction_to"></date-picker>
                             </div>
-                            <div class="select-wrap options-wrap" style="position: relative; width: 70px !important; padding: 0; border: 0;">
+                            <div class="select-wrap options-wrap">
                                 <div style="width: 70px;"></div>
                                 <button @click="reset()" class="btn-sm tf-btn-reset">
                                     <i class="las la-sync"></i> Reset
@@ -88,7 +88,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="test hx-table-wrap table-responsive">
+                <div class="table-responsive">
                     <table class="table table-bordered table-hover table-striped">
                         <thead class="th-nowrap">
                             <tr>
@@ -792,109 +792,6 @@ export default {
 </script>
 
 <style scoped>
-.table-filter-options {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 2px;
-}
-.table-filter-options button {
-    font-weight: 500;
-    font-size: 12px;
-}
-.table-filter-options button:focus {
-    box-shadow: none;
-}
-.table-filter-wrapper {
-    position: relative;
-    padding: 10px;
-    margin-bottom: 14px;
-    border-radius: 4px;
-    background-color: #f8f9fa;
-    border: 1px solid #ced4da;
-}
-.table-filter-wrapper:before,
-.table-filter-wrapper:after {
-    content: '';
-    position: absolute;
-    top: -2%;
-    right: 25px;
-    width: 12px;
-    height: 12px;
-    transform: rotate(
-45deg
-) translateY(-50%);
-    border-radius: 2px;
-    background-color: #fff;
-    border: 1px solid #ced4da;
-}
-.table-filter-wrapper:after {
-    top: -1%;
-    background-color: #f8f9fa;
-    border-color: transparent;
-}
-
-.table-filter {
-    background:#f9f9f9;
-    border:1px solid #d7d8e0;
-    padding:0px;
-    border-radius: 4px;
-}
-.table-filter-row { display:flex; justify-content: space-evenly; }
-.table-filter .tf-btn-reset {
-    position: absolute;
-    left: 0px;
-    top: -1px;
-    border: 0px;
-    border-radius: 0px;
-    background: var(--shine-blue);
-    color: rgb(255, 255, 255);
-    height: 24px;
-    width: 71px;
-    border-radius: 4px;
-    font-size: 12px;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    z-index: 999;
-}
-
-.select-wrap {
-    background:#fff;
-    padding-right: 5px;
-    border-right:1px solid #d7d8e0;
-    width: 100%;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-}
-.select-wrap:first-child select {
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-}
-
-.select-wrap select {
-    padding: 0;
-    padding-left: 5px;
-    background: #fff;
-    border:none;
-    width:100%;
-    font-size: 12px;
-    height: 22px;
-    line-height: 22px;
-    cursor: pointer;
-}
-.select-wrap .transaction-from,
-.select-wrap .transaction-to {
-    height: auto;
-    padding: 0;
-    border:none;
-    min-height:0px !important;
-    background: #fff !important;
-    font-size: 12px;
-    height: 22px;
-    line-height: 22px;
-    padding-left: 8px;
-    border-radius: 0;
-}
-
 .badge { font-size: 11px; }
 
 .td-border-bottom-black tr:nth-last-child(3) td { border-bottom-color: #495057 !important; }

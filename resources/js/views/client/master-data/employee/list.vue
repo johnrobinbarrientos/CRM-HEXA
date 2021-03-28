@@ -102,32 +102,31 @@
                         </tr>
                     </tbody>
                 </table>
-
-                    <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
-                    <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
-                        <ul class="pagination">
-                            <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
-                                <a href="javascript:void(0)" class="page-link" aria-label="Previous">
-                                    <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-
-                            
-                            <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
-                                <a href="javascript:void(0)" class="page-link">
-                                    {{ page }}
-                                </a>
-                            </li>
-                            
-                            <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
-                                <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
-                            </li>
-                        </ul>
-                    </nav>
-
             </div>
-        </div>
-             
+
+            <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
+            <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
+                <ul class="pagination">
+                    <li @click="listPaginate('prev')"  v-bind:class="{'disabled' : listCurrentPage <= 1}"  class="page-item" >
+                        <a href="javascript:void(0)" class="page-link" aria-label="Previous">
+                            <span aria-hidden="true">‹</span><span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+
+                    
+                    <li @click="listPaginate(page)" v-for="page in listTotalPages" :key="page" class="page-item" v-bind:class="{'active' : page === listCurrentPage}">
+                        <a href="javascript:void(0)" class="page-link">
+                            {{ page }}
+                        </a>
+                    </li>
+                    
+                    <li @click="listPaginate('next')" v-bind:class="{'disabled' : listCurrentPage >= listTotalPages}" class="page-item">
+                        <a href="javascript:void(0)" class="page-link" aria-label="Next"><span aria-hidden="true">›</span><span class="sr-only">Next</span></a>
+                    </li>
+                </ul>
+            </nav>
+
+        </div>     
     </div>
 </template>
 

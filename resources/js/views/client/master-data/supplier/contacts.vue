@@ -77,32 +77,44 @@
 
                             <div class="row">
                                 <div class="col-md-12 col-12">
-                                    <div style="padding:5px;">
-                                        <input v-model="selected_contact.contact_person" class="form-control-gray-medium"  v-bind:class="{'error' : selected_contact.contact_person_error}" type="text" placeholder="Contact Person">
+                                    <div class="form-group">
+                                        <label class="form-label" for="group-name">Contact Person:</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="selected_contact.contact_person" class="form-control"  v-bind:class="{'error' : selected_contact.contact_person_error}" type="text" required>
+                                        </div>
                                     </div>
                                 </div>                                           
                             </div>
 
                             <div class="row">
                                 <div class="col-md-12 col-12">
-                                    <div style="padding:5px;">
-                                        <input v-model="selected_contact.position" class="form-control-gray-medium"  type="text" placeholder="Position">
+                                    <div class="form-group">
+                                        <label class="form-label" for="group-name">Position:</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="selected_contact.position" class="form-control" type="text" required>
+                                        </div>
                                     </div>
                                 </div>                                           
                             </div>
 
                             <div class="row">
                                 <div class="col-md-12 col-12">
-                                    <div style="padding:5px;">
-                                        <input v-model="selected_contact.email_address" class="form-control-gray-medium"  type="text" placeholder="Email Address">
+                                    <div class="form-group">
+                                        <label class="form-label" for="group-name">Email Address:</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="selected_contact.email_address" class="form-control"  type="text" required>
+                                        </div>
                                     </div>
                                 </div>                                           
                             </div> 
 
                             <div class="row">
                                 <div class="col-md-12 col-12">
-                                    <div style="padding:5px;">
-                                        <input v-model="selected_contact.contact_no" class="form-control-gray-medium"  v-bind:class="{'error' : selected_contact.contact_no_error}" type="text" placeholder="Contact No.">
+                                    <div class="form-group">
+                                        <label class="form-label" for="group-name">Contact No.:</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="selected_contact.contact_no" class="form-control"  v-bind:class="{'error' : selected_contact.contact_no_error}" type="text" required>
+                                        </div>
                                     </div>
                                 </div>                                           
                             </div>                                     
@@ -112,7 +124,7 @@
                     <div class="modal-footer bg-light">
                         <button v-if="selected_contact && selected_contact.uuid === null" @click="save()" type="button" class="btn btn-sm btn-primary">Save</button>
                         <button v-else @click="save()" type="button" class="btn btn-sm btn-primary">Update</button>
-                        <button  @click="cancel()" type="button" class="btn btn-sm btn-default">Close</button>
+                        <button  @click="cancel()" type="button" class="btn btn-sm btn-outline-secondary">Close</button>
                     </div>
                 </div>
             </div>

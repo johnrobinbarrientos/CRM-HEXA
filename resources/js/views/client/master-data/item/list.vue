@@ -23,69 +23,71 @@
             <div v-if="listLoading" class="text-center my-3 text-loader">
                 <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
             </div>
-            <div v-else> 
-                <table class="table table-bordered table-hover table-striped">
-                    <thead class="th-nowrap">
-                        <tr>
-                            <th width="105">Action</th>
-                            <th>Item Description</th>
-                            <th>Item Code</th>
-                            <th>Item Barcode</th>
-                            <th>Item Group</th>
-                            <th>ICO</th>
-                            <th>Supplier</th>
-                            <th>Is Expiry?</th>
-                            <th>Purchase Cost</th>
-                            <th>Sales Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(item) in itemList" :key="item.uuid">
-                            <td width="65" class="text-center">
-                                <span class="hx-table-actions">
-                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/items/' + item.uuid })">
-                                        <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/items/' + item.uuid })">Edit</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/items/' + item.uuid + '/view' })">View</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)"@click="remove(item)">Delete</b-dropdown-item>
-                                    </b-dropdown>
-                                </span>
-                            </td>
-                            <td>
-                                {{ item.item_description }}
-                            </td>
-                            <td class="text-right">{{ item.item_code }}</td>
-                            <td class="text-right">
-                                {{ item.item_barcode }}
-                            </td>
-                            <td>
-                                {{ item.item_group.item_group }}
-                            </td>
-                            <td class="text-right">
-                                {{ item.reorder_qty }}
-                            </td>
-                            <td>
-                                <span v-if="item.suppliers.length > 0">
-                                    <span v-for="item_supplier in item.suppliers" :key="item_supplier.uuid">
-                                        <span class="badge badge-dim badge-outline-secondary hx-badge-override">{{ item_supplier.supplier.supplier_shortname }}</span>
+            <div v-else>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead class="th-nowrap">
+                            <tr>
+                                <th width="105">Action</th>
+                                <th>Item Description</th>
+                                <th>Item Code</th>
+                                <th>Item Barcode</th>
+                                <th>Item Group</th>
+                                <th>ICO</th>
+                                <th>Supplier</th>
+                                <th>Is Expiry?</th>
+                                <th>Purchase Cost</th>
+                                <th>Sales Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item) in itemList" :key="item.uuid">
+                                <td width="65" class="text-center">
+                                    <span class="hx-table-actions">
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/items/' + item.uuid })">
+                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/items/' + item.uuid })">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/items/' + item.uuid + '/view' })">View</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)"@click="remove(item)">Delete</b-dropdown-item>
+                                        </b-dropdown>
                                     </span>
-                                </span>
-                                <span v-else>
-                                    Not Specified
-                                </span>
-                            </td>
-                            <td>
-                                <span v-if="item.is_expiry === 1">Yes</span>
-                                <span v-else>No</span>
-                            </td>
-                            <td class="text-right">
-                                {{ item.purchase_price }}
-                            </td>
-                            <td class="text-right">
-                                {{ item.sales_price }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                </td>
+                                <td>
+                                    {{ item.item_description }}
+                                </td>
+                                <td class="text-right">{{ item.item_code }}</td>
+                                <td class="text-right">
+                                    {{ item.item_barcode }}
+                                </td>
+                                <td>
+                                    {{ item.item_group.item_group }}
+                                </td>
+                                <td class="text-right">
+                                    {{ item.reorder_qty }}
+                                </td>
+                                <td>
+                                    <span v-if="item.suppliers.length > 0">
+                                        <span v-for="item_supplier in item.suppliers" :key="item_supplier.uuid">
+                                            <span class="badge badge-dim badge-outline-secondary hx-badge-override">{{ item_supplier.supplier.supplier_shortname }}</span>
+                                        </span>
+                                    </span>
+                                    <span v-else>
+                                        Not Specified
+                                    </span>
+                                </td>
+                                <td>
+                                    <span v-if="item.is_expiry === 1">Yes</span>
+                                    <span v-else>No</span>
+                                </td>
+                                <td class="text-right">
+                                    {{ item.purchase_price }}
+                                </td>
+                                <td class="text-right">
+                                    {{ item.sales_price }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 
                 <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
                 <nav style="float:right;" v-if="listTotalPages > 1" class="pagination pagination-rounded mt-4" aria-label="pagination">

@@ -28,7 +28,7 @@
         <div v-else>
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="test hx-table-wrap table-responsive">
+                    <div class="table-responsive">
                         <table class="table table-bordered table-hover table-striped">
                             <thead>
                                 <tr>

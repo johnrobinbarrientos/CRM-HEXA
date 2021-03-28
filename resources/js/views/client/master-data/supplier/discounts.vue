@@ -110,42 +110,44 @@
 
                                     <div style="padding:5px;">
 
-                                        <input v-model="selected_group.name" class="form-control-gray-medium"  v-bind:class="{'error' : selected_group.name_error}" type="text" placeholder="Group Name">
-                                        
-                                        <div style="padding:8px; padding-bottom:15px; border:1px solid #ccc; background:#fff; margin-top:20px;">
-                                            <div style="margin-top:5px; margin-bottom:5px;">
-                                                <div class="row">
-                                                    <div class="col-12 col-md-6">
-                                                        <span style="font-weight:600; display:inline-block;">Discount List</span>
-                                                    </div>
-                                                    <div class="col-12 col-md-6">
-                                                        <div style="text-align:right;">
-                                                            <button class="btn-gray-small" @click="addNewDiscount(selected_group)" type="button" :disabled="view_mode">Add Discount</button>
-                                                        </div>
-                                                    </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="group-name">Group Name:</label>
+                                            <div class="form-control-wrap">
+                                                <input v-model="selected_group.name" class="form-control" v-bind:class="{'error' : selected_group.name_error}" type="text" placeholder="ie: Chocolates" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="hx-card-small">
+                                            <div class="card-header">
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <span style="font-weight: 600">Discount List</span>
+                                                    <button class="btn-gray-small btn-primary m-0" @click="addNewDiscount(selected_group)" type="button" :disabled="view_mode">
+                                                        <i class="las la-plus"></i> Add Discount
+                                                    </button>
                                                 </div>
                                             </div>
-
-                                            <table style="margin-top:5px;" class="table table-bordered table-hover">
-                                                <thead>
-                                                    <tr style="background:#fff;">
-                                                        <th>Action</th>
-                                                        <th>Name</th>
-                                                        <th>Rate</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr style="background:#fff;" v-for="(discount,discount_index) in selected_group.discounts" :key="'edit-group-discount-' + discount_index ">
-                                                        <td width="60"><button class="btn-gray-small" type="button" @click="removeDiscount(select_group,index2)" :disabled="view_mode">Delete</button></td>
-                                                        <td style="padding:0px 2px;">
-                                                            <input class="form-control-gray-small" v-bind:class="{'error' : discount.name_error}" type="text" v-model="discount.name ">
-                                                        </td>
-                                                        <td style="padding:0px 2px;"  width="70">
-                                                            <input class="form-control-gray-small" v-bind:class="{'error' : discount.rate_error}"  type="text" v-model="discount.rate ">
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                            <div style="padding: 8px 10px;">
+                                                <table style="margin-top:5px;" class="table table-bordered table-hover">
+                                                    <thead>
+                                                        <tr style="background:#fff;">
+                                                            <th>Action</th>
+                                                            <th>Name</th>
+                                                            <th>Rate</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr style="background:#fff;" v-for="(discount,discount_index) in selected_group.discounts" :key="'edit-group-discount-' + discount_index ">
+                                                            <td width="60"><button class="btn-gray-small" type="button" @click="removeDiscount(select_group,index2)" :disabled="view_mode">Delete</button></td>
+                                                            <td style="padding:0px 2px;">
+                                                                <input class="form-control-gray-small" v-bind:class="{'error' : discount.name_error}" type="text" v-model="discount.name ">
+                                                            </td>
+                                                            <td style="padding:0px 2px;"  width="70">
+                                                                <input class="form-control-gray-small" v-bind:class="{'error' : discount.rate_error}"  type="text" v-model="discount.rate ">
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>                                           
@@ -154,9 +156,9 @@
                         </form>
                     </div>
                     <div class="modal-footer bg-light">
+                        <button  @click="cancelGroup()" type="button" class="btn btn-sm btn-outline-secondary">Close</button>
                         <button v-if="selected_group && selected_group.uuid === null" @click="saveGroup()" type="button" class="btn btn-sm btn-primary">Save</button>
                         <button v-else @click="saveGroup()" type="button" class="btn btn-sm btn-primary">Update</button>
-                        <button  @click="cancelGroup()" type="button" class="btn btn-sm btn-default">Close</button>
                     </div>
                 </div>
             </div>

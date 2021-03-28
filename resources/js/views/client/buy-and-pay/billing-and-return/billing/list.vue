@@ -25,7 +25,7 @@
                 <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
             </div>
 
-            <div v-else class="table-responsive;">
+            <div v-else>
 
                 <div class="table-filter">
                     <div class="table-filter-row">
@@ -77,85 +77,88 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-bordered table-hover table-striped">
-                    <thead class="th-nowrap">
-                        <tr>
-                            <th width="105">Action</th>
-                            <th>Item Type</th>
-                            <th>Transaction No</th>
-                            <th>Supplier Name</th>
-                            <th>Branch</th>
-                            <th>Location</th>
-                            <th>Transaction Date</th>
-                            <th>Amount</th>
-                            <th>Status</th> 
-                            <th>Reason Code</th> 
-                        </tr>
-                    </thead>
-                    <tbody class="td-border-bottom-black">
-                        <template v-if="bills.length > 0">
-                            <tr v-for="(bill) in bills" :key="bill.uuid">
-                                <template v-if="bill.po_status !== 'Cancelled'">
-                                    <td width="100" style="text-align:center;">
-                                        <b-dropdown v-if="bill.transaction_type == 'Expenses' && bill.status == 'To Pay'"  split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/edit' })">
-                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/edit'})">Edit</b-dropdown-item>
-                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/view' })">View</b-dropdown-item>
-                                            <b-dropdown-item href="javascript:void(0)" @click="cancel(bill.uuid)">Cancel</b-dropdown-item>
-                                        </b-dropdown>
-                                        <b-dropdown v-else  split text="View" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/view' })">
-                                            <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/view' })">View</b-dropdown-item>
-                                        </b-dropdown>
-                                    </td>
-                                    <td width="100">{{ bill.transaction_type }}</td>
-                                    <td width="200">{{ bill.transaction_no }}</td>
-                                    <td width="200">{{ bill.supplier.supplier_name }}</td>
-                                    <td width="100">{{ bill.branch.branch_shortname.toUpperCase() }}</td>
-                                    <td width="100">{{ bill.branch_location.location_shortname.toUpperCase() }}</td>
-                                    <td width="150">{{ FORMAT_DATE(bill.transaction_date) }}</td>
 
-                                    <td width="100" v-if="bill.po_total_amount == 0" class="text-right">0.00</td>
-                                    <td width="100" v-else class="text-right">{{PUT_SEPARATOR(bill.po_total_amount)}}</td>
-
-                                    <td v-if="bill.status === 'To Pay'" style="text-align;" class="editable" width="150">
-                                        <span class="badge badge-danger font-size-12">To Pay</span>
-                                    </td>
-                                    <td v-else-if="bill.status === 'Paid'" style="text-align;" class="editable" width="150">
-                                        <span class="badge badge-success font-size-12">Paid</span>
-                                    </td>
-                                    <td v-else-if="bill.status === 'Cancelled'" style="text-align;" class="editable" width="150">
-                                        <span class="badge badge-soft-dark font-size-12">Cancelled</span>
-                                    </td>
-
-                                    <td width="150">{{ bill.receiving_reason_code }}</td>
-
-                                </template>
-                            </tr>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead class="th-nowrap">
                             <tr>
-                                <td colspan="6"></td>
-                                <td style="border-left: 2px solid #eee">
-                                    <span><strong>Total:</strong></span>
-                                </td>
-                                <td class="text-right">
-                                    <span v-if="grand_total==0"><strong>0.00</strong></span>
-                                    <span v-else><strong>{{PUT_SEPARATOR(grand_total.toFixed(2))}}</strong></span>
-                                </td>
-                                <td colspan="3"></td>
+                                <th width="105">Action</th>
+                                <th>Item Type</th>
+                                <th>Transaction No</th>
+                                <th>Supplier Name</th>
+                                <th>Branch</th>
+                                <th>Location</th>
+                                <th>Transaction Date</th>
+                                <th>Amount</th>
+                                <th>Status</th> 
+                                <th>Reason Code</th> 
                             </tr>
-                            <tr>
-                                <td colspan="13">
-                                    <div style="margin-bottom: 2px;"></div>
-                                </td>
-                            </tr>
-                        </template>
-                        <template v-else>
-                            <tr>
-                                <td colspan="11" class="text-center">
-                                    <strong style="display: block; height: 30px; line-height: 30px;">No Transactions</strong>
-                                </td>
-                            </tr>
-                        </template>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="td-border-bottom-black">
+                            <template v-if="bills.length > 0">
+                                <tr v-for="(bill) in bills" :key="bill.uuid">
+                                    <template v-if="bill.po_status !== 'Cancelled'">
+                                        <td width="100" style="text-align:center;">
+                                            <b-dropdown v-if="bill.transaction_type == 'Expenses' && bill.status == 'To Pay'"  split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/edit' })">
+                                                <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/edit'})">Edit</b-dropdown-item>
+                                                <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/view' })">View</b-dropdown-item>
+                                                <b-dropdown-item href="javascript:void(0)" @click="cancel(bill.uuid)">Cancel</b-dropdown-item>
+                                            </b-dropdown>
+                                            <b-dropdown v-else  split text="View" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/view' })">
+                                                <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/view' })">View</b-dropdown-item>
+                                            </b-dropdown>
+                                        </td>
+                                        <td width="100">{{ bill.transaction_type }}</td>
+                                        <td width="200">{{ bill.transaction_no }}</td>
+                                        <td width="200">{{ bill.supplier.supplier_name }}</td>
+                                        <td width="100">{{ bill.branch.branch_shortname.toUpperCase() }}</td>
+                                        <td width="100">{{ bill.branch_location.location_shortname.toUpperCase() }}</td>
+                                        <td width="150">{{ FORMAT_DATE(bill.transaction_date) }}</td>
+
+                                        <td width="100" v-if="bill.po_total_amount == 0" class="text-right">0.00</td>
+                                        <td width="100" v-else class="text-right">{{PUT_SEPARATOR(bill.po_total_amount)}}</td>
+
+                                        <td v-if="bill.status === 'To Pay'" style="text-align;" class="editable" width="150">
+                                            <span class="badge badge-danger font-size-12">To Pay</span>
+                                        </td>
+                                        <td v-else-if="bill.status === 'Paid'" style="text-align;" class="editable" width="150">
+                                            <span class="badge badge-success font-size-12">Paid</span>
+                                        </td>
+                                        <td v-else-if="bill.status === 'Cancelled'" style="text-align;" class="editable" width="150">
+                                            <span class="badge badge-soft-dark font-size-12">Cancelled</span>
+                                        </td>
+
+                                        <td width="150">{{ bill.receiving_reason_code }}</td>
+
+                                    </template>
+                                </tr>
+                                <tr>
+                                    <td colspan="6"></td>
+                                    <td style="border-left: 2px solid #eee">
+                                        <span><strong>Total:</strong></span>
+                                    </td>
+                                    <td class="text-right">
+                                        <span v-if="grand_total==0"><strong>0.00</strong></span>
+                                        <span v-else><strong>{{PUT_SEPARATOR(grand_total.toFixed(2))}}</strong></span>
+                                    </td>
+                                    <td colspan="3"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="13">
+                                        <div style="margin-bottom: 2px;"></div>
+                                    </td>
+                                </tr>
+                            </template>
+                            <template v-else>
+                                <tr>
+                                    <td colspan="11" class="text-center">
+                                        <strong style="display: block; height: 30px; line-height: 30px;">No Transactions</strong>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
 
                 <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
                 <nav style="float:right;" v-if="listTotalPages > 1" class="pagination pagination-rounded mt-4" aria-label="pagination">

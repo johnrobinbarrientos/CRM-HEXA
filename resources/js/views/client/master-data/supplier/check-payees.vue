@@ -65,8 +65,11 @@
 
                             <div class="row">
                                 <div class="col-md-12 col-12">
-                                    <div style="padding:5px;">
-                                        <input v-model="selected_payee.check_payee" class="form-control-gray-medium"  v-bind:class="{'error' : selected_payee.check_payee_error}" type="text" placeholder="Payee">
+                                    <div class="form-group">
+                                        <label class="form-label" for="group-name">Payee:</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="selected_payee.check_payee" class="form-control" v-bind:class="{'error' : selected_payee.check_payee_error}" type="text" required>
+                                        </div>
                                     </div>
                                 </div>                                           
                             </div>                                    
@@ -76,7 +79,7 @@
                     <div class="modal-footer bg-light">
                         <button v-if="selected_payee && selected_payee.uuid === null" @click="save()" type="button" class="btn btn-sm btn-primary">Save</button>
                         <button v-else @click="save()" type="button" class="btn btn-sm btn-primary">Update</button>
-                        <button  @click="cancel()" type="button" class="btn btn-sm btn-default">Close</button>
+                        <button  @click="cancel()" type="button" class="btn btn-sm btn-outline-secondary">Close</button>
                     </div>
                 </div>
             </div>

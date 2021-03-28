@@ -25,44 +25,46 @@
                 <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
         </div>
 
-        <div v-else class="table-responsive"> 
-            <table class="table table-bordered table-hover table-striped">
-                <thead class="th-nowrap">
-                    <tr>
-                        <th width="105">Action</th>
-                        <th>Project Code</th>
-                        <th>Project Name</th>
-                        <th>Shortname</th>
-                        <th>Project Type</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Cost</th>
-                        <th>Is Completed?</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(project) in projectList" :key="project.uuid">
-                        <td width="65" class="text-center">
-                            <span class="hx-table-actions">
-                                <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/projects/' + project.uuid })">
-                                    <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/projects/' + project.uuid })">Edit</b-dropdown-item>
-                                    <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/projects/' + project.uuid + '/view' })">View</b-dropdown-item>
-                                    <b-dropdown-item href="javascript:void(0)">Delete</b-dropdown-item>
-                                </b-dropdown>
-                            </span>
-                        </td>
-                        <td>{{project.project_code}}</td>
-                        <td>{{project.project_name}}</td>
-                        <td>{{project.project_shortname}}</td>
-                        <td>{{project.project_type.type}}</td>
-                        <td>{{ FORMAT_DATE(project.date_start)}}</td>
-                        <td v-if="project.end_date == null"></td>
-                        <td v-else>{{ FORMAT_DATE(project.end_date)}}</td>
-                        <td>{{PUT_SEPARATOR(project.cost)}}</td>
-                        <td>No</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div v-else>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead class="th-nowrap">
+                        <tr>
+                            <th width="105">Action</th>
+                            <th>Project Code</th>
+                            <th>Project Name</th>
+                            <th>Shortname</th>
+                            <th>Project Type</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Cost</th>
+                            <th>Is Completed?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(project) in projectList" :key="project.uuid">
+                            <td width="65" class="text-center">
+                                <span class="hx-table-actions">
+                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/projects/' + project.uuid })">
+                                        <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/projects/' + project.uuid })">Edit</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/projects/' + project.uuid + '/view' })">View</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)">Delete</b-dropdown-item>
+                                    </b-dropdown>
+                                </span>
+                            </td>
+                            <td>{{project.project_code}}</td>
+                            <td>{{project.project_name}}</td>
+                            <td>{{project.project_shortname}}</td>
+                            <td>{{project.project_type.type}}</td>
+                            <td>{{ FORMAT_DATE(project.date_start)}}</td>
+                            <td v-if="project.end_date == null"></td>
+                            <td v-else>{{ FORMAT_DATE(project.end_date)}}</td>
+                            <td>{{PUT_SEPARATOR(project.cost)}}</td>
+                            <td>No</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             
             <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
             <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">

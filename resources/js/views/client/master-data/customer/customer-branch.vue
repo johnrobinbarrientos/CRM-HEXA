@@ -72,7 +72,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 v-if="selected_branch" class="modal-title">
-                            <span v-if="!selected_branch.id">New</span>
+                            <span v-if="!selected_branch.id">New Branch</span>
                             <span v-else>Edit</span>
                         </h5>
                         <a href="javascript:void(0)"  @click="cancel()" class="close" data-dismiss="modal" aria-label="Close">
@@ -84,61 +84,75 @@
 
                             <div class="row">
                                 <div class="col-md-12 col-12">
-                                    <div style="padding:5px;">
-                                        <input v-model="selected_branch.customer_name" class="form-control-gray-medium"  v-bind:class="{'error' : selected_branch.customer_name_error}" type="text" placeholder="Customer Name">
+                                    <div class="form-group">
+                                        <label class="form-label" for="group-name">Customer Name:</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="selected_branch.customer_name" class="form-control" v-bind:class="{'error' : selected_branch.customer_name_error}" type="text" required>
+                                        </div>
                                     </div>
                                 </div>                                           
                             </div>
 
                             <div class="row">
                                 <div class="col-md-12 col-12">
-                                    <div style="padding:5px;">
-                                        <input v-model="selected_branch.contact_person" class="form-control-gray-medium"  type="text" placeholder="Contact Person">
+                                    <div class="form-group">
+                                        <label class="form-label" for="group-name">Contact Person:</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="selected_branch.contact_person" class="form-control"  type="text" required>
+                                        </div>
                                     </div>
                                 </div>                                           
                             </div>
 
                             <div class="row">
                                 <div class="col-md-12 col-12">
-                                    <div style="padding:5px;">
-                                        <input v-model="selected_branch.address" class="form-control-gray-medium"  type="text" placeholder="Address">
+                                    <div class="form-group">
+                                        <label class="form-label" for="group-name">Address:</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="selected_branch.address" class="form-control"  type="text" required>
+                                        </div>
                                     </div>
                                 </div>                                           
                             </div>
 
                             <div class="row">
                                 <div class="col-md-12 col-12">
-                                    <div style="padding:5px;">
-                                        <input v-model="selected_branch.email_address" class="form-control-gray-medium"  type="text" placeholder="Email Address">
+                                    <div class="form-group">
+                                        <label class="form-label" for="group-name">Email Address:</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="selected_branch.email_address" class="form-control" type="text" required>
+                                        </div>
                                     </div>
                                 </div>                                           
                             </div> 
 
                             <div class="row">
                                 <div class="col-md-12 col-12">
-                                    <div style="padding:5px;">
-                                        <input v-model="selected_branch.contact_no" class="form-control-gray-medium"  v-bind:class="{'error' : selected_branch.contact_no_error}" type="text" placeholder="Contact No.">
+                                    <div class="form-group">
+                                        <label class="form-label" for="group-name">Contact No.:</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="selected_branch.contact_no" class="form-control"  v-bind:class="{'error' : selected_branch.contact_no_error}" type="text" required>
+                                        </div>
                                     </div>
                                 </div>                                           
                             </div>
 
-                            <div class="col-md-12 col-12">
-                                <div class="form-group">
-                                    <div class="form-control-wrap">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" v-model="selected_branch.is_active" true-value="1" false-value="0" class="custom-control-input" id="is-active-branch" :disabled="view_mode">
-                                            <label class="custom-control-label" for="is-active-branch">Is Active?</label>
-                                        </div>
+
+                            <div class="form-group mt-2">
+                                <div class="form-control-wrap">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" v-model="selected_branch.is_active" true-value="1" false-value="0" class="custom-control-input" id="is-active-branch" :disabled="view_mode">
+                                        <label class="custom-control-label" for="is-active-branch">Is Active?</label>
                                     </div>
                                 </div>
-                            </div>                                     
+                            </div>                                  
                             
                         </form>
                     </div>
                     <div class="modal-footer bg-light">
                         <button v-if="selected_branch && selected_branch.uuid === null" @click="save()" type="button" class="btn btn-sm btn-primary">Save</button>
                         <button v-else @click="save()" type="button" class="btn btn-sm btn-primary">Update</button>
-                        <button  @click="cancel()" type="button" class="btn btn-sm btn-default">Close</button>
+                        <button  @click="cancel()" type="button" class="btn btn-sm btn-outline-secondary">Close</button>
                     </div>
                 </div>
             </div>
