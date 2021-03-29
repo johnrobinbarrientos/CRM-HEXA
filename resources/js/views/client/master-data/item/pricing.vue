@@ -158,7 +158,11 @@ export default {
     methods: {
         edit: function (data,index) {
             var scope = this
-   
+
+            if (!data.selected) {
+                return;
+            }
+
             scope.$set(data,'edit', true)
             var copy = JSON.parse(JSON.stringify(data))
            

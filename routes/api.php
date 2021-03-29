@@ -408,7 +408,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/', 'API\PriceRuleController@index');
         Route::get('/{uuid}', 'API\PriceRuleController@show');
         Route::post('/', 'API\PriceRuleController@store');
-        Route::put('/', 'API\PriceRuleController@update');
+        Route::put('/{uuid}', 'API\PriceRuleController@update');
         Route::post('/delete', 'API\PriceRuleController@delete');
     });
 

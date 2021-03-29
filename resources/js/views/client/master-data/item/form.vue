@@ -11,7 +11,7 @@
                             <h1 class="title">View Item Details</h1>
                         </span>
                         <span v-else>
-                            <span v-if ="formdata.is_draft">
+                            <span v-if="formdata.uuid">
                                 <h1 class="title">New Item Details</h1>
                             </span>
                             <span v-else>
@@ -26,8 +26,10 @@
                         </span>
                         <span v-else>
                             <a @click="ROUTE({path: '/item-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)">Cancel</a>
-                            <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Save</a>
-                            <a v-else @click="update()" type="submit" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Update</a>
+                            <a  @click="save()" type="submit" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">
+                                <template v-if="!formdata.uuid">Save</template>
+                                <template v-else>Update</template>
+                            </a>
                         </span>
                     </div>
                 </div>
@@ -412,12 +414,11 @@ export default {
 
             global_uoms: [],
             item_uoms: [],
-
+ 
             transfer_price: '',
 
             formdata: { 
                 uuid: null,
-                is_draft: 1,
                 item_group_uuid: '', 
                 item_code: '', 
                 item_barcode: '',
@@ -532,7 +533,7 @@ export default {
         is_vat: function () {
             var scope = this
 
-            if (scope.formdata.is_draft == 1){
+            if (scope.formdata.uuid){
 
                 if (scope.is_vat == 1){
                     scope.selected_vat = scope.options_vat[1].id
@@ -904,7 +905,7 @@ export default {
                 }
             }
         },
-        update: function () {
+        save: function () {
             var scope = this
 
             scope.formdata.suppliers =  this.$refs.pricing.getSelectedSuppliers()
@@ -1025,12 +1026,17 @@ export default {
         },
         getItemDetails: function (itemUUID) {
             var scope = this
+
+            if (!itemUUID) {
+                scope.prerequiste.getItemDetails = true
+                return;
+            } 
+
             scope.GET('items/' + itemUUID).then(res => {
                 let data = res.data
 
                 scope.formdata.uuid = itemUUID
 
-                scope.formdata.is_draft = data.is_draft
                 scope.formdata.item_code = data.item_code
                 scope.formdata.item_barcode = data.item_barcode
                 scope.formdata.item_description = data.item_description

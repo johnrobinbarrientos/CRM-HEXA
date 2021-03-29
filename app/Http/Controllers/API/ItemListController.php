@@ -18,14 +18,29 @@ class ItemListController extends Controller
 {
     public function index()
     {
-        $list = ItemList::where('is_draft','=', 0)->whereNull('deleted_at')
-        ->with('ItemGroup')->with('Suppliers')
-        ->with('IncomeAccount')->with('CosAccount')
-        ->with('CatDepartment')
-        ->with('CatSection')->with('CatCategory')
-        ->with('CatManufacturer')->with('CatItemType')
-        ->with('CatBrand')->with('CatForm')
-        ->with('CatPackingType')->with('AssetGroup');
+        $list = ItemList::whereNull('deleted_at');
+
+
+        // add "children" to request to disable getting all item children details, add "none" to disable all
+        if (!isset(request()->children) || request()->children == '') {
+            $list = $list->with('ItemGroup')
+            ->with('Suppliers')
+            ->with('IncomeAccount')
+            ->with('CosAccount')
+            ->with('CatDepartment')
+            ->with('CatSection')
+            ->with('CatCategory')
+            ->with('CatManufacturer')->with('CatItemType')
+            ->with('CatBrand')
+            ->with('CatForm')
+            ->with('CatPackingType')->with('AssetGroup');
+        }
+        
+
+        if (isset($_GET['is_sales_item']) && $_GET['is_sales_item'] == 'yes' ) {
+            $list = $list->where('is_sales_item','=',true);
+        }
+
 
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;
@@ -80,7 +95,7 @@ class ItemListController extends Controller
         }
 
         $item =  ItemList::find($uuid);
-        $item = ($item) ? $item : new SupplierList();
+        $item = ($item) ? $item : new ItemList();
         
         $item->item_group_uuid = request()->item_group_uuid;
         $item->item_code = request()->item_code;
@@ -159,4 +174,5 @@ class ItemListController extends Controller
 
         return response()->json(['success' => 1, 'rows' => $uoms], 200);
     }
+    
 }

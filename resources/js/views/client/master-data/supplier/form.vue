@@ -11,7 +11,7 @@
                             <h1 class="title">View Supplier Details</h1>
                         </span>
                         <span v-else>
-                            <span v-if="formdata.is_draft">
+                            <span v-if="formdata.uuid">
                                 <h1 class="title">New Supplier Details</h1>
                             </span>
                             <span v-else>

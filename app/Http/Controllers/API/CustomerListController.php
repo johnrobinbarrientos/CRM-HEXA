@@ -12,7 +12,7 @@ class CustomerListController extends Controller
 {
     public function index()
     {
-        $list = CustomerList::where('is_draft','=', 0)->whereNull('deleted_at')->with('discounts')
+        $list = CustomerList::whereNull('deleted_at')->with('discounts')
         ->with('CustomerGroup')->with('CustomerChain')
         ->with('CustomerChannel')->with('CustomerType')
         ->with('PaymentTerm');
@@ -83,7 +83,6 @@ class CustomerListController extends Controller
         $customer->contact_no = request()->contact_no;
         $customer->address_uuid = request()->address_uuid;
         $customer->address1 = request()->address1;
-        $customer->is_draft = 0;
         $customer->save();
 
         

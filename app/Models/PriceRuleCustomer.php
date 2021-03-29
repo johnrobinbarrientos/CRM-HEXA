@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PRSupplier extends Model
+class PriceRuleCustomer extends Model
 {
     use SoftDeletes;
     
-    protected $table = 'pr_customer_item_excluded_customers';
+    protected $table = 'price_rule_customers';
 
 
     protected $primaryKey = 'uuid';

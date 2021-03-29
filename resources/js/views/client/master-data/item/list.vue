@@ -14,7 +14,7 @@
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
-                    <a @click="create()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                    <a @click="ROUTE({path: '/items/create'})" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                         <i class="las la-plus"></i> <span>New</span>
                     </a>
                 </div>
@@ -151,15 +151,6 @@ export default {
                 scope.listCount = res.count
                 scope.listOffset = res.offset
                 scope.listResults = res.results
-            })
-        },
-        create: function () {
-            var scope = this
-
-            scope.POST('items').then(res => {
-                if (res.success) {
-                   scope.ROUTE({path: '/items/' + res.data.uuid })
-                }
             })
         },
         search: function () {
