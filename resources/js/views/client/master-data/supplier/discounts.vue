@@ -9,6 +9,7 @@
                         <div class="col-md-6">
                             <div style="text-align:right;">
                                 <button @click="addNewGroup()"  type="button" class="btn-gray-small" :disabled="view_mode">New Group</button>
+                                <button @click="test()"  type="button" class="btn-gray-small" :disabled="view_mode">Test</button>
                             </div>
                         </div>
                     </div>
@@ -25,57 +26,63 @@
                         <tbody>
                             <template v-if="groups.length > 0">
                                 <template v-bind:class="{'table-success' : (selected_group && selected_group.uuid === group.uuid) }" style="cursor:pointer;" v-for="(group,index) in groups">
-                                    <tr :key="'group-' + index">
-                                        <td width="80" class="text-center">
-
-                                        
-                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="editGroup(group,index)">
-                                            <b-dropdown-item href="javascript:void(0)"  @click="editGroup(group,index)">Edit</b-dropdown-item>
-                                            <b-dropdown-item href="javascript:void(0)" @click="viewGroup(group)">View</b-dropdown-item>
-                                            <b-dropdown-item href="javascript:void(0)" @click="removeGroup(group,index)">Delete</b-dropdown-item>
-                                        </b-dropdown>
-
                                     
-                                        </td>
-                                        <td>
-                                            <strong >{{ group.name }}</strong>
-                                        </td>
-                                        <td width="20" class="text-right">
-                                            <strong >{{ totalDiscountGroup(group.discounts) }}</strong>
-                                        </td>
-                                    </tr>
+                                        <tr :key="'group-' + index">
+                                            <template v-if="group.deleted_at==null">
+                                                <td width="80" class="text-center">
+
+                                                
+                                                <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="editGroup(group,index)">
+                                                    <b-dropdown-item href="javascript:void(0)"  @click="editGroup(group,index)">Edit</b-dropdown-item>
+                                                    <b-dropdown-item href="javascript:void(0)" @click="viewGroup(group)">View</b-dropdown-item>
+                                                    <b-dropdown-item href="javascript:void(0)" @click="removeGroup(group,index)">Delete</b-dropdown-item>
+                                                </b-dropdown>
+
+                                            
+                                                </td>
+                                                <td>
+                                                    <strong >{{ group.name }}</strong>
+                                                </td>
+                                                <td width="20" class="text-right">
+                                                    <strong >{{ totalDiscountGroup(group.discounts) }}</strong>
+                                                </td>
+                                            </template>
+                                        </tr>
+                                    
                             
 
-                                    <tr v-if="group.view == true" :key="'group-items-' + index">
-                                        <td style="padding:0px;"  colspan="3">
-                                            <div style="padding:5px; background:#f5f5f5; border-bottom: 1px solid #ccc;">
-                                                <div style="font-weight:600; margin:3px; margin-bottom:10px;">
-                                                    {{ group.name || 'Discount Group' }}
-                                                    <div style="float:right;">
-                                                        <a @click="cancelGroup(group)" href="javascript:void(0);" class="btn-closer-square"><i class="bx bx-x"></i></a>
+                                        <tr v-if="group.view == true" :key="'group-items-' + index">
+                                            <td style="padding:0px;"  colspan="3">
+                                                <div style="padding:5px; background:#f5f5f5; border-bottom: 1px solid #ccc;">
+                                                    <div style="font-weight:600; margin:3px; margin-bottom:10px;">
+                                                        {{ group.name || 'Discount Group' }}
+                                                        <div style="float:right;">
+                                                            <a @click="cancelGroup(group)" href="javascript:void(0);" class="btn-closer-square"><i class="bx bx-x"></i></a>
+                                                        </div>
                                                     </div>
+                                                    <table style="margin-top:5px;" class="table table-bordered table-hover">
+                                                        <thead>
+                                                            <tr style="background:#fff;">
+                                                                <th>Name</th>
+                                                                <th>Rate</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr style="background:#fff;" v-for="discount,discount_index in group.discounts" :key="'group-discount-' + discount_index ">
+                                                                <td style="padding:0px 5px;">
+                                                                    {{ discount.name  }}
+                                                                </td>
+                                                                <td style="padding:0px 5px;" class="text-right"  width="70">
+                                                                    {{ discount.rate  }}%
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
-                                                <table style="margin-top:5px;" class="table table-bordered table-hover">
-                                                    <thead>
-                                                        <tr style="background:#fff;">
-                                                            <th>Name</th>
-                                                            <th>Rate</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr style="background:#fff;" v-for="discount,discount_index in group.discounts" :key="'group-discount-' + discount_index ">
-                                                            <td style="padding:0px 5px;">
-                                                                {{ discount.name  }}
-                                                            </td>
-                                                            <td style="padding:0px 5px;" class="text-right"  width="70">
-                                                                 {{ discount.rate  }}%
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
+
+                                    
                                 </template>
                             </template>
                             <template v-else>
@@ -137,13 +144,15 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr style="background:#fff;" v-for="(discount,discount_index) in selected_group.discounts" :key="'edit-group-discount-' + discount_index ">
-                                                            <td width="60"><button class="btn-gray-small" type="button" @click="removeDiscount(select_group,index2)" :disabled="view_mode">Delete</button></td>
-                                                            <td style="padding:0px 2px;">
-                                                                <input class="form-control-gray-small" v-bind:class="{'error' : discount.name_error}" type="text" v-model="discount.name ">
-                                                            </td>
-                                                            <td style="padding:0px 2px;"  width="70">
-                                                                <input class="form-control-gray-small" v-bind:class="{'error' : discount.rate_error}"  type="text" v-model="discount.rate ">
-                                                            </td>
+                                                            <template v-if="discount.deleted_at==null">
+                                                                <td width="60"><button class="btn-gray-small" type="button" @click="removeDiscount(selected_group_index,discount,discount_index)" :disabled="view_mode">Delete</button></td>
+                                                                <td style="padding:0px 2px;">
+                                                                    <input class="form-control-gray-small" v-bind:class="{'error' : discount.name_error}" type="text" v-model="discount.name ">
+                                                                </td>
+                                                                <td style="padding:0px 2px;"  width="70">
+                                                                    <input class="form-control-gray-small" v-bind:class="{'error' : discount.rate_error}"  type="text" v-model="discount.rate ">
+                                                                </td>
+                                                            </template>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -169,6 +178,7 @@
 <script>
 
 import Swal from 'sweetalert2'
+import moment from 'moment'
 
 export default {
     name: 'supplier-group',
@@ -180,11 +190,14 @@ export default {
             groups: [],
             table_responsive: true,
             falsee: false,
-            selected_group: null,
             selected_group_index: null // used for editing
         }
     },
     methods: {
+        test: function () {
+           var scope = this
+            console.log(scope.groups)
+        },
         totalDiscountGroup: function (discounts) {
 
             var total = 0
@@ -208,12 +221,24 @@ export default {
                 uuid: null,
                 name: '',
                 rate: '',
-                excluded_items: []
+                excluded_items: [],
+                deleted_at: null
             });
         },
-        removeDiscount: function (group,index) {
+        removeDiscount: function (group_index,discount,discount_index) {
             var scope = this
-            group.discounts.splice(index,1)
+
+            if (discount.uuid == null) {
+
+            scope.selected_group.discounts.splice(discount_index,1)
+
+            scope.groups[group_index].discounts.splice(discount_index,1)
+            }
+            else {
+                scope.$set(discount,'deleted_at', moment())
+                scope.$set(scope.groups[group_index].discounts[discount_index],'deleted_at', moment())
+            }
+
         },
         addNewGroup: function () {
             var scope = this
@@ -224,7 +249,8 @@ export default {
                 edit: true,
                 view: false,
                 new: true,
-                discounts: []
+                discounts: [],
+                deleted_at: null
             }
             scope.addNewDiscount(scope.selected_group);
             scope.OPEN_MODAL('#modalDiscounts');
@@ -253,7 +279,23 @@ export default {
         },
         removeGroup: function (group,index) {
             var scope = this
-            scope.groups.splice(index,1)
+
+            if (group.uuid == null) {
+                scope.groups.splice(index, 1)
+            }else{
+                console.log('aaaa')
+                scope.$set(group,'deleted_at', moment())
+
+                for (let i = 0; i < group.discounts.length; i++) {
+                    if (group.discounts[i].uuid == null){
+                        scope.groups[index].discounts.splice(i, 1)
+                    }
+                    else {
+                        scope.groups[index].discounts[i].deleted_at = moment()
+                    }
+                }
+            }
+
         },
         getGroups: function () {
             var scope = this
@@ -313,6 +355,8 @@ export default {
             scope.selected_group = null
             scope.selected_group_index = null
             scope.CLOSE_MODAL('#modalDiscounts');
+            console.log('save group')
+            console.log(scope.groups)
        }
     },
     mounted() {

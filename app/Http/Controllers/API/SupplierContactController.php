@@ -51,18 +51,24 @@ class SupplierContactController extends Controller
             $position = $contact['position'];
             $email_address = $contact['email_address'];
             $contact_no = $contact['contact_no'];
+            $deleted_at = $contact['deleted_at'];
     
             
-            $data = SupplierContact::where('uuid','=',$uuid)->first();
-            $data = ($data) ? $data : new  SupplierContact;
-            $data->supplier_uuid = $supplier_uuid;
-            $data->contact_person = $contact_person;
-            $data->position = $position;
-            $data->email_address = $email_address;
-            $data->contact_no = $contact_no;
-            $data->save();
+            if ($deleted_at == null){
+                $data = SupplierContact::where('uuid','=',$uuid)->first();
+                $data = ($data) ? $data : new  SupplierContact;
+                $data->supplier_uuid = $supplier_uuid;
+                $data->contact_person = $contact_person;
+                $data->position = $position;
+                $data->email_address = $email_address;
+                $data->contact_no = $contact_no;
+                $data->save();
+            }
+            else {
+                $data = SupplierContact::find($uuid)->delete(); 
+            }
             
-            $bd_supplier = SupplierContact::find($data->uuid);
+            
         }
     }
 

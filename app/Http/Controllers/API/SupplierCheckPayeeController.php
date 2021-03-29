@@ -62,39 +62,26 @@ class SupplierCheckPayeeController extends Controller
 
     static public function save($supplier_uuid,$payees)
     {
+
         foreach ($payees as $key => $payee) {
 
             $uuid = $payee['uuid'];
             $check_payee = $payee['check_payee'];
+            $deleted_at = $payee['deleted_at'];
     
+            if ($deleted_at == null){
+                $data = SupplierCheckPayee::where('uuid','=',$uuid)->first();
+                $data = ($data) ? $data : new  SupplierCheckPayee;
+                $data->supplier_uuid = $supplier_uuid;
+                $data->check_payee = $check_payee;
+                $data->save();
+            }
+            else {
+                $data = SupplierCheckPayee::find($uuid)->delete(); 
+            }
             
-            $data = SupplierCheckPayee::where('uuid','=',$uuid)->first();
-            $data = ($data) ? $data : new  SupplierCheckPayee;
-            $data->supplier_uuid = $supplier_uuid;
-            $data->check_payee = $check_payee;
-            $data->save();
             
-            $bd_supplier = SupplierCheckPayee::find($data->uuid);
         }
     }
 
-    public function saveOld()
-    {
-        $checkPayee = request()->uuid ? SupplierCheckPayee::find(request()->uuid) : new SupplierCheckPayee();
-
-        $checkPayee->supplier_uuid = request()->supplier_uuid;
-        $checkPayee->check_payee = request()->check_payee;
-        $checkPayee->save();
-
-        $checkPayee = SupplierCheckPayee::find($checkPayee->uuid);
-
-        return response()->json(['success' => 1, 'data' => $checkPayee], 200);
-    }
-
-    public function delete($supplierUUID,$checkPayeeUUID) {
-        
-        $checkPayee = SupplierCheckPayee::find($checkPayeeUUID)->delete();
-
-        return response()->json(['success' => 1, 'message' => 'Deleted!'], 200);
-    }
 }

@@ -24,17 +24,19 @@
                         </thead>
                         <tbody>
                             <template v-if="payees.length > 0">
-                            <tr @click="selectPayee(payee)"  v-for="(payee,index) in payees" :key="index" >
-                                <td width="80">
-                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="edit(payee,index)">
-                                        <b-dropdown-item href="javascript:void(0)"  @click="edit(payee,index)">Edit</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)" @click="remove(payee,index)">Delete</b-dropdown-item>
-                                    </b-dropdown>
-                                </td>
-                                <td>
-                                    {{ payee.check_payee }}
-                                </td>
-                            </tr>
+                                <tr @click="selectPayee(payee)"  v-for="(payee,index) in payees" :key="index" >
+                                    <template v-if="payee.deleted_at==null">
+                                        <td width="80">
+                                            <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="edit(payee,index)">
+                                                <b-dropdown-item href="javascript:void(0)"  @click="edit(payee,index)">Edit</b-dropdown-item>
+                                                <b-dropdown-item href="javascript:void(0)" @click="remove(payee,index)">Delete</b-dropdown-item>
+                                            </b-dropdown>
+                                        </td>
+                                        <td>
+                                            {{ payee.check_payee }}
+                                        </td>
+                                    </template>
+                                </tr>
                             </template>
                             <template v-else>
                                 <tr>
@@ -90,6 +92,7 @@
 <script>
 
 import Swal from 'sweetalert2'
+import moment from 'moment'
 
 export default {
     name: 'supplier-check-payee',
@@ -102,6 +105,13 @@ export default {
             table_responsive: true,
         }
     },
+    computed: {
+        check_payees: function () {
+            return this.payees.filter(function (payee) {
+            return payee.deleted_at == null
+            })
+        }
+    },
     methods: {
         addNewPayee: function () {
            var scope = this
@@ -110,19 +120,9 @@ export default {
                     id: null,
                     uuid: null,
                     check_payee: '',
-                    edit: true
+                    edit: true,
+                    deleted_at: null
             }
-
-            /*
-            scope.payees.push({
-                    id: null,
-                    uuid: null,
-                    check_payee: '',
-                    edit: true
-            });
-            */
-
-           
 
            scope.OPEN_MODAL('#modalPayee');
         },
@@ -165,37 +165,13 @@ export default {
        },
        remove: function(payee,index) {
             var scope = this
-            var supplier_uuid = scope.supplier_uuid;
 
-            window.swal.fire({
-                title: 'Delete?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#548235',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No'
-            }).then((result) => {
-                if (result.value) {
-                    scope.DELETE('suppliers/'+ supplier_uuid +'/check-payee/' + payee.uuid).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Deleted',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.payees.splice(index,1)
-                            })
-                        } else {
-                            alert(res.message);
-                        }
-                        
-                    })
-                    
-                }                              
-            })
+            if (payee.uuid == null) {
+                scope.payees.splice(index, 1)
+            }else{
+                scope.$set(payee,'deleted_at', moment())
+            }
+            
         },
         getPayees: function () {
             return this.payees
@@ -227,6 +203,7 @@ export default {
             scope.selected_payee = null
             scope.selected_payee_index = null
             scope.CLOSE_MODAL('#modalPayee');
+ 
         }
     },
     mounted() {

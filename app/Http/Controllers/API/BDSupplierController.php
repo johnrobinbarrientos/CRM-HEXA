@@ -44,21 +44,36 @@ class BDSupplierController extends Controller
 
     static public function save($supplier_uuid,$groups)
     {
+        
         foreach ($groups as $key => $group) {
+            
 
             $uuid = $group['uuid'];
             $name = $group['name'];
+            $deleted_at = $group['deleted_at'];
     
-            
-            $data = BDSupplier::where('uuid','=',$uuid)->first();
-            $data = ($data) ? $data : new  BDSupplier;
-            $data->supplier_uuid = $supplier_uuid;
-            $data->name = $name;
-            $data->save();
-            
-            $bd_supplier = BDSupplier::find($data->uuid);
+            if ($deleted_at == null){
+                $data = BDSupplier::where('uuid','=',$uuid)->first();
+                $data = ($data) ? $data : new  BDSupplier;
+                $data->supplier_uuid = $supplier_uuid;
+                $data->name = $name;
+                $data->save();
 
-            $BD_group_discounts = BDSupplierDiscountController::save($bd_supplier->uuid,$group['discounts']);
+                $bd_supplier = BDSupplier::find($data->uuid);
+                
+                $BD_group_discounts = BDSupplierDiscountController::save($bd_supplier->uuid,$group['discounts']);
+
+            }
+            else {
+                $bd_supplier = BDSupplier::find($uuid)->delete();
+
+                $BD_group_discounts = BDSupplierDiscountController::save($uuid,$group['discounts']);
+            }
+            
+            // var_dump($group['uuid']);
+            // die();
+
+            
         }
     }
 

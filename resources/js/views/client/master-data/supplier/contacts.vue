@@ -27,26 +27,28 @@
                         </thead>
                         <tbody>
                             <template v-if="contacts.length > 0">
-                            <tr @click="selectContact(contact)"  v-for="(contact,index) in contacts" :key="index" >
-                                <td width="80">
-                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="edit(contact,index)">
-                                        <b-dropdown-item href="javascript:void(0)"  @click="edit(contact,index)">Edit</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)" @click="remove(contact,index)">Delete</b-dropdown-item>
-                                    </b-dropdown>
-                                </td>
-                                <td>
-                                    {{ contact.contact_person }}
-                                </td>
-                                <td>
-                                    {{ contact.position }}
-                                </td>
-                                <td>
-                                    {{ contact.email_address }}
-                                </td>
-                                <td>
-                                    {{ contact.contact_no }}
-                                </td>
-                            </tr>
+                                <tr @click="selectContact(contact)"  v-for="(contact,index) in contacts" :key="index" >
+                                    <template v-if="contact.deleted_at==null">
+                                        <td width="80">
+                                            <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="edit(contact,index)">
+                                                <b-dropdown-item href="javascript:void(0)"  @click="edit(contact,index)">Edit</b-dropdown-item>
+                                                <b-dropdown-item href="javascript:void(0)" @click="remove(contact,index)">Delete</b-dropdown-item>
+                                            </b-dropdown>
+                                        </td>
+                                        <td>
+                                            {{ contact.contact_person }}
+                                        </td>
+                                        <td>
+                                            {{ contact.position }}
+                                        </td>
+                                        <td>
+                                            {{ contact.email_address }}
+                                        </td>
+                                        <td>
+                                            {{ contact.contact_no }}
+                                        </td>
+                                    </template>
+                                </tr>
                             </template>
                             <template v-else>
                                 <tr>
@@ -135,6 +137,7 @@
 <script>
 
 import Swal from 'sweetalert2'
+import moment from 'moment'
 
 export default {
     name: 'supplier-contacts',
@@ -158,7 +161,8 @@ export default {
                     position: '',
                     email_address: '',
                     contact_no: '',
-                    edit: true
+                    edit: true,
+                    deleted_at: null
             }
 
            scope.OPEN_MODAL('#modalContact');
@@ -202,37 +206,13 @@ export default {
        },
        remove: function(contact,index) {
             var scope = this
-            var supplier_uuid = scope.supplier_uuid;
+            
+            if (contact.uuid == null) {
+                scope.contacts.splice(index, 1)
+            }else{
+                scope.$set(contact,'deleted_at', moment())
+            }
 
-            window.swal.fire({
-                title: 'Delete?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#548235',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No'
-            }).then((result) => {
-                if (result.value) {
-                    scope.DELETE('suppliers/'+ supplier_uuid +'/contacts/' + contact.uuid).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Deleted',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.contacts.splice(index,1)
-                            })
-                        } else {
-                            alert(res.message);
-                        }
-                        
-                    })
-                    
-                }                              
-            })
         },
         getContacts: function () {
             return this.contacts

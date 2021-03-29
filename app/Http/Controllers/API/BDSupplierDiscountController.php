@@ -46,13 +46,20 @@ class BDSupplierDiscountController extends Controller
             $uuid = $discount['uuid'];
             $name = $discount['name'];
             $rate = $discount['rate'];
+            $deleted_at = $discount['deleted_at'];
             
-            $data = BDSupplierDiscount::where('uuid','=',$uuid)->first();
-            $data = ($data) ? $data : new  BDSupplierDiscount;
-            $data->bd_supplier_uuid = $bd_supplier_uuid;
-            $data->name = $name;
-            $data->rate = $rate;
-            $data->save();
+            if ($deleted_at == null){
+                $data = BDSupplierDiscount::where('uuid','=',$uuid)->first();
+                $data = ($data) ? $data : new  BDSupplierDiscount;
+                $data->bd_supplier_uuid = $bd_supplier_uuid;
+                $data->name = $name;
+                $data->rate = $rate;
+                $data->save();
+            }
+            else {
+                $data = BDSupplierDiscount::find($uuid)->delete(); 
+            }
+
         }
     }
 }
