@@ -28,26 +28,26 @@
                         <tbody>
                             <template v-if="contacts.length > 0">
                                 <tr @click="selectContact(contact)"  v-for="(contact,index) in contacts" :key="index" >
-                                    <template v-if="contact.deleted_at==null">
-                                        <td width="80">
-                                            <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="edit(contact,index)">
-                                                <b-dropdown-item href="javascript:void(0)"  @click="edit(contact,index)">Edit</b-dropdown-item>
-                                                <b-dropdown-item href="javascript:void(0)" @click="remove(contact,index)">Delete</b-dropdown-item>
-                                            </b-dropdown>
-                                        </td>
-                                        <td>
-                                            {{ contact.contact_person }}
-                                        </td>
-                                        <td>
-                                            {{ contact.position }}
-                                        </td>
-                                        <td>
-                                            {{ contact.email_address }}
-                                        </td>
-                                        <td>
-                                            {{ contact.contact_no }}
-                                        </td>
-                                    </template>
+                         
+                                    <td width="80">
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="edit(contact,index)">
+                                            <b-dropdown-item href="javascript:void(0)"  @click="edit(contact,index)">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="remove(index)">Delete</b-dropdown-item>
+                                        </b-dropdown>
+                                    </td>
+                                    <td>
+                                        {{ contact.contact_person }}
+                                    </td>
+                                    <td>
+                                        {{ contact.position }}
+                                    </td>
+                                    <td>
+                                        {{ contact.email_address }}
+                                    </td>
+                                    <td>
+                                        {{ contact.contact_no }}
+                                    </td>
+                             
                                 </tr>
                             </template>
                             <template v-else>
@@ -204,15 +204,9 @@ export default {
                 }
             })
        },
-       remove: function(contact,index) {
+       remove: function(index) {
             var scope = this
-            
-            if (contact.uuid == null) {
-                scope.contacts.splice(index, 1)
-            }else{
-                scope.$set(contact,'deleted_at', moment())
-            }
-
+            scope.contacts.splice(index, 1)
         },
         getContacts: function () {
             return this.contacts

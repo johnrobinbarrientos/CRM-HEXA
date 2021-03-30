@@ -35,7 +35,7 @@
                                                 <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="editGroup(group,index)">
                                                     <b-dropdown-item href="javascript:void(0)"  @click="editGroup(group,index)">Edit</b-dropdown-item>
                                                     <b-dropdown-item href="javascript:void(0)" @click="viewGroup(group)">View</b-dropdown-item>
-                                                    <b-dropdown-item href="javascript:void(0)" @click="removeGroup(group,index)">Delete</b-dropdown-item>
+                                                    <b-dropdown-item href="javascript:void(0)" @click="removeGroup(index)">Delete</b-dropdown-item>
                                                 </b-dropdown>
 
                                             
@@ -144,15 +144,15 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr style="background:#fff;" v-for="(discount,discount_index) in selected_group.discounts" :key="'edit-group-discount-' + discount_index ">
-                                                            <template v-if="discount.deleted_at==null">
-                                                                <td width="60"><button class="btn-gray-small" type="button" @click="removeDiscount(selected_group_index,discount,discount_index)" :disabled="view_mode">Delete</button></td>
-                                                                <td style="padding:0px 2px;">
-                                                                    <input class="form-control-gray-small" v-bind:class="{'error' : discount.name_error}" type="text" v-model="discount.name ">
-                                                                </td>
-                                                                <td style="padding:0px 2px;"  width="70">
-                                                                    <input class="form-control-gray-small" v-bind:class="{'error' : discount.rate_error}"  type="text" v-model="discount.rate ">
-                                                                </td>
-                                                            </template>
+                                                          
+                                                            <td width="60"><button class="btn-gray-small" type="button" @click="removeDiscount(selected_group.discounts,discount_index)" :disabled="view_mode">Delete</button></td>
+                                                            <td style="padding:0px 2px;">
+                                                                <input class="form-control-gray-small" v-bind:class="{'error' : discount.name_error}" type="text" v-model="discount.name ">
+                                                            </td>
+                                                            <td style="padding:0px 2px;"  width="70">
+                                                                <input class="form-control-gray-small" v-bind:class="{'error' : discount.rate_error}"  type="text" v-model="discount.rate ">
+                                                            </td>
+                                                      
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -225,19 +225,9 @@ export default {
                 deleted_at: null
             });
         },
-        removeDiscount: function (group_index,discount,discount_index) {
+        removeDiscount: function (discounts,discount_index) {
             var scope = this
-
-            if (discount.uuid == null) {
-
-            scope.selected_group.discounts.splice(discount_index,1)
-
-            scope.groups[group_index].discounts.splice(discount_index,1)
-            }
-            else {
-                scope.$set(discount,'deleted_at', moment())
-                scope.$set(scope.groups[group_index].discounts[discount_index],'deleted_at', moment())
-            }
+            discounts.splice(discount_index,1)
         },
         addNewGroup: function () {
             var scope = this
@@ -276,25 +266,9 @@ export default {
             scope.selected_group_index = null  
             scope.CLOSE_MODAL('#modalDiscounts'); 
         },
-        removeGroup: function (group,index) {
+        removeGroup: function (index) {
             var scope = this
-
-            if (group.uuid == null) {
-                scope.groups.splice(index, 1)
-            }else{
-                console.log('aaaa')
-                scope.$set(group,'deleted_at', moment())
-
-                for (let i = 0; i < group.discounts.length; i++) {
-                    if (group.discounts[i].uuid == null){
-                        scope.groups[index].discounts.splice(i, 1)
-                    }
-                    else {
-                        scope.groups[index].discounts[i].deleted_at = moment()
-                    }
-                }
-            }
-
+            scope.groups.splice(index, 1)
         },
         getGroups: function () {
             var scope = this
@@ -354,8 +328,6 @@ export default {
             scope.selected_group = null
             scope.selected_group_index = null
             scope.CLOSE_MODAL('#modalDiscounts');
-            console.log('save group')
-            console.log(scope.groups)
        }
     },
     mounted() {

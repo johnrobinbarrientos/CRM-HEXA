@@ -892,7 +892,7 @@ export default {
         scope.getAddressList()
         scope.getCostCenter()
         
-        
+
         scope.formdata.uuid = (scope.$route.params.supplierUUID != 'create') ? scope.$route.params.supplierUUID : null
 
         $(document).on('change','.form-select-payables', function(e) { 

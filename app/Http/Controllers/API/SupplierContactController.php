@@ -44,6 +44,14 @@ class SupplierContactController extends Controller
 
     static public function save($supplier_uuid,$contacts)
     {
+        $contact_uuids = [];
+        foreach ($contacts as $key => $contact) {
+            $contact_uuids[] = $contact['uuid'];
+        }
+
+        // delete payees
+        SupplierContact::where('supplier_uuid','=',$supplier_uuid)->whereNotIn('uuid',$contact_uuids)->delete();
+
         foreach ($contacts as $key => $contact) {
 
             $uuid = $contact['uuid'];
@@ -51,22 +59,16 @@ class SupplierContactController extends Controller
             $position = $contact['position'];
             $email_address = $contact['email_address'];
             $contact_no = $contact['contact_no'];
-            $deleted_at = $contact['deleted_at'];
-    
+
             
-            if ($deleted_at == null){
-                $data = SupplierContact::where('uuid','=',$uuid)->first();
-                $data = ($data) ? $data : new  SupplierContact;
-                $data->supplier_uuid = $supplier_uuid;
-                $data->contact_person = $contact_person;
-                $data->position = $position;
-                $data->email_address = $email_address;
-                $data->contact_no = $contact_no;
-                $data->save();
-            }
-            else {
-                $data = SupplierContact::find($uuid)->delete(); 
-            }
+            $data = SupplierContact::where('uuid','=',$uuid)->first();
+            $data = ($data) ? $data : new  SupplierContact;
+            $data->supplier_uuid = $supplier_uuid;
+            $data->contact_person = $contact_person;
+            $data->position = $position;
+            $data->email_address = $email_address;
+            $data->contact_no = $contact_no;
+            $data->save();
             
             
         }

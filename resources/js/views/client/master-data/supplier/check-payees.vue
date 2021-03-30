@@ -25,17 +25,17 @@
                         <tbody>
                             <template v-if="payees.length > 0">
                                 <tr @click="selectPayee(payee)"  v-for="(payee,index) in payees" :key="index" >
-                                    <template v-if="payee.deleted_at==null">
-                                        <td width="80">
-                                            <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="edit(payee,index)">
-                                                <b-dropdown-item href="javascript:void(0)"  @click="edit(payee,index)">Edit</b-dropdown-item>
-                                                <b-dropdown-item href="javascript:void(0)" @click="remove(payee,index)">Delete</b-dropdown-item>
-                                            </b-dropdown>
-                                        </td>
-                                        <td>
-                                            {{ payee.check_payee }}
-                                        </td>
-                                    </template>
+                           
+                                    <td width="80">
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="edit(payee,index)">
+                                            <b-dropdown-item href="javascript:void(0)"  @click="edit(payee,index)">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="remove(index)">Delete</b-dropdown-item>
+                                        </b-dropdown>
+                                    </td>
+                                    <td>
+                                        {{ payee.check_payee }}
+                                    </td>
+                            
                                 </tr>
                             </template>
                             <template v-else>
@@ -163,15 +163,9 @@ export default {
                 }
             })
        },
-       remove: function(payee,index) {
+       remove: function(index) {
             var scope = this
-
-            if (payee.uuid == null) {
-                scope.payees.splice(index, 1)
-            }else{
-                scope.$set(payee,'deleted_at', moment())
-            }
-            
+            scope.payees.splice(index, 1)
         },
         getPayees: function () {
             return this.payees

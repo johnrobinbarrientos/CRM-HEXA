@@ -62,25 +62,26 @@ class SupplierCheckPayeeController extends Controller
 
     static public function save($supplier_uuid,$payees)
     {
+        $payee_uuids = [];
+        
+        foreach ($payees as $key => $payee) {
+            $payee_uuids[] = $payee['uuid'];
+        }
+        
+        // delete payees
+        SupplierCheckPayee::where('supplier_uuid','=',$supplier_uuid)->whereNotIn('uuid',$payee_uuids)->delete();
 
         foreach ($payees as $key => $payee) {
 
             $uuid = $payee['uuid'];
             $check_payee = $payee['check_payee'];
-            $deleted_at = $payee['deleted_at'];
-    
-            if ($deleted_at == null){
-                $data = SupplierCheckPayee::where('uuid','=',$uuid)->first();
-                $data = ($data) ? $data : new  SupplierCheckPayee;
-                $data->supplier_uuid = $supplier_uuid;
-                $data->check_payee = $check_payee;
-                $data->save();
-            }
-            else {
-                $data = SupplierCheckPayee::find($uuid)->delete(); 
-            }
-            
-            
+
+            $data = SupplierCheckPayee::where('uuid','=',$uuid)->first();
+            $data = ($data) ? $data : new  SupplierCheckPayee;
+            $data->supplier_uuid = $supplier_uuid;
+            $data->check_payee = $check_payee;
+            $data->save();
+
         }
     }
 
