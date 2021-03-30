@@ -81,7 +81,7 @@
                         <div class="col-md-4 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="suppliers">Supplier</label>
-                                <select :disabled="formdata.uuid" class="form-select-suppliers" v-model="formdata.supplier_uuid" :options="options_supplier" name="suppliers">
+                                <select :disabled="formdata.uuid && formdata.is_locked" class="form-select-suppliers" v-model="formdata.supplier_uuid" :options="options_supplier" name="suppliers">
                                 </select>
                             </div>
                         </div>
@@ -243,7 +243,8 @@ export default {
                 initital_items: [],
                 initital_customers: [],
                 selected_items: [],
-                selected_customers: []
+                selected_customers: [],
+                is_locked: false,
             },
             options_supplier: [],
             options_customer: [],
@@ -283,11 +284,23 @@ export default {
                 setTimeout(function(){
                     $(".form-select-suppliers").select2({data: scope.options_supplier});
                     scope.formdata.supplier_uuid = (!scope.formdata.supplier_uuid) ? scope.options_supplier[0].id : scope.formdata.supplier_uuid
-                    scope.getSupplierItems(scope.formdata.supplier_uuid);
+                    
+                    $(".form-select-suppliers").val(scope.formdata.supplier_uuid).trigger('change')
+
+                    
                 },500)
                 
             }
-        }
+        },
+        'prerequiste.getPriceRuleDetails': function (val) {
+            var scope = this
+            if (val) {
+                setTimeout(function(){
+                    scope.getSuppliers()
+                    scope.getCustomers()
+                },1000)
+            }
+        },
     }, 
     methods: {
         getPriceRuleDetails: function (price_rule_uuid) {
@@ -306,9 +319,14 @@ export default {
                     scope.formdata.date_start = res.data.date_start
                     scope.formdata.date_end = res.data.date_end
                     scope.formdata.mechanics = res.data.mechanics
-                    scope.formdata.initital_items = res.data.items
-                    scope.formdata.initital_customers = res.data.customers
+                    scope.formdata.initital_items = (res.data.items) ? res.data.items : []
+                    scope.formdata.initital_customers = (res.data.customers) ? res.data.customers : []
                     scope.formdata.applicable_to = res.data.applicable_to
+                    scope.formdata.is_locked = res.data.is_locked
+
+                    if (res.data.applicable_to == 'Buying') {
+                        scope.formdata.supplier_uuid = res.data.supplier_uuid
+                    }
 
                     scope.prerequiste.getPriceRuleDetails = true
                 }
@@ -389,13 +407,11 @@ export default {
 
                 res.rows.forEach(function (data) {
                     var customer = data
-
                     if (scope.formdata.initital_customers.includes(customer.uuid)) {
                         customer.selected = true
                     } else {
                         customer.selected = false
                     }
-                    
                     scope.customers.push(customer)
                 })
 
@@ -542,18 +558,16 @@ export default {
         var scope = this
         scope.formdata.uuid = (scope.$route.params.priceRuleUUID != 'create') ? scope.$route.params.priceRuleUUID : null
         scope.getPriceRuleDetails(scope.formdata.uuid)
-        scope.getSuppliers()
-        scope.getCustomers()
         scope.getCustomerGroups()
         scope.getCustomerChains()
        
 
-        $(document).on('change','.form-select-suppliers', function(e) { 
+        $('.form-select-suppliers').on('change',function(e) { 
             scope.formdata.supplier_uuid = $('.form-select-suppliers').val();
             scope.getSupplierItems(scope.formdata.supplier_uuid);
         })
 
-        $(document).on('change','.form-select-applicable-to', function(e) { 
+        $('.form-select-applicable-to').on('change',function(e) { 
             if (scope.formdata.applicable_to == 'Selling') {
                 scope. getSalesItems();
             }
