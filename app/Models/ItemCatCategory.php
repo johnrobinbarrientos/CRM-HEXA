@@ -11,9 +11,7 @@ class ItemCatCategory extends Model
     
     protected $table = 'item_cat_category';
 
-    protected $fillable = [
-        'uuid','category',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

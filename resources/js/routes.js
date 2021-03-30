@@ -26,8 +26,6 @@ import EmployeeForm from './views/client/master-data/employee/form'
 
 import CompanyMain from './views/client/master-data/company/main'
 
-import CompanyList from './views/admin/settings/company-list'
-import CompanyForm from './views/admin/settings/company-form'
 
 import BuyANDPayOrders from './views/client/buy-and-pay/orders/main'
 import BuyANDPayOrdersForm from './views/client/buy-and-pay/orders/form'
@@ -167,6 +165,13 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
+          path: '/suppliers/create',
+          name: 'supplier-form',
+          component: SupplierForm,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
           path: '/customer-main',
           name: 'customer-main',
           component: CustomerMain,
@@ -186,6 +191,13 @@ export default new VueRouter({
           component: CustomerForm,
           beforeEnter: checkAuth,
           props: { view_mode: true },
+          meta: { protected: true }
+        },
+        {
+          path: '/customers/create',
+          name: 'customer-form',
+          component: CustomerForm,
+          beforeEnter: checkAuth,
           meta: { protected: true }
         },
         {
@@ -236,20 +248,6 @@ export default new VueRouter({
           path: '/company-main',
           name: 'company-main',
           component: CompanyMain,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/companies',
-          name: 'company-list',
-          component: CompanyList,
-          beforeEnter: checkAuth,
-          meta: { protected: true }
-        },
-        {
-          path: '/companies/create',
-          name: 'company-create',
-          component: CompanyForm,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },

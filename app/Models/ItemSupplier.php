@@ -11,9 +11,7 @@ class ItemSupplier extends Model
     
     protected $table = 'item_suppliers';
 
-    protected $fillable = [
-        'uuid', 'supplier_uuid','deleted_at'
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

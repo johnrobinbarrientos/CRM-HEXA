@@ -44,6 +44,15 @@ class BDSupplierController extends Controller
 
     static public function save($supplier_uuid,$groups)
     {
+        $group_uuids = [];
+        
+        foreach ($groups as $key => $group) {
+            $group_uuids[] = $group['uuid'];
+        }
+        
+        // delete group
+        BDSupplier::where('supplier_uuid','=',$supplier_uuid)->whereNotIn('uuid',$group_uuids)->delete();
+
         foreach ($groups as $key => $group) {
 
             $uuid = $group['uuid'];

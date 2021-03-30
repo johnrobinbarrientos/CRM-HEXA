@@ -8,14 +8,14 @@
                 <div class="actions-bar">
                     <div class="w-100">
                         <span v-if="view_mode">
-                            <h1 class="title">View Supplier Details</h1>
+                            <h1 class="title">View Details</h1>
                         </span>
                         <span v-else>
-                            <span v-if="formdata.uuid">
-                                <h1 class="title">New Supplier Details</h1>
+                            <span v-if="!formdata.uuid">
+                                <h1 class="title">New Supplier</h1>
                             </span>
                             <span v-else>
-                                <h1 class="title">Edit Supplier Details</h1>
+                                <h1 class="title">Edit Supplier</h1>
                             </span>
                         </span>
                     </div>
@@ -98,6 +98,14 @@
 
                         <div class="col-md-3 col-12">
                             <div class="form-group">
+                                <label class="form-label" for="cost-center">Cost Center</label>
+                                <select class="form-select-cost-center" v-model="selected_cost_center" :options="options_cost_center" name="cost-center" :disabled="view_mode">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group">
                                 <div class="form-control-wrap">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" v-model="formdata.is_transporter" true-value="1" false-value="0" class="custom-control-input" id="is-transporter" :disabled="view_mode">
@@ -108,7 +116,7 @@
                         </div>
 
                         <div class="col-md-3 col-12">
-                            <div class="form-group" style="margin-top: 30px;">
+                            <div class="form-group">
                                 <div class="form-control-wrap">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" v-model="formdata.is_active" true-value="1" false-value="0" class="custom-control-input" id="is-active" :disabled="view_mode">
@@ -123,10 +131,13 @@
 
                     <br/>
                     <div id="suppliers-settings-tab" class="hx-tab-2 round">
-                            <ul class="nav nav-tabs">  
+                            <ul class="nav nav-tabs">
                                 <li>        
                                     <a data-toggle="tab" href="#address-tab">Address</a>    
                                 </li>
+                                                                <li>        
+                                    <a data-toggle="tab" href="#contact-tab">Contact</a>    
+                                </li> 
                                 <li>        
                                     <a data-toggle="tab" href="#check-payees-tab">Check Payee</a>    
                                 </li>
@@ -221,10 +232,14 @@
                                     <check-payees ref="payees" :supplier_uuid="formdata.uuid" :view_mode="view_mode" :properties="{ table_responsive: false }"></check-payees>
                                 </div>
 
+                                <div class="tab-pane" id="contact-tab">
+                                    <contacts ref="contacts" :supplier_uuid="formdata.uuid" :view_mode="view_mode" :properties="{ table_responsive: false }"></contacts>
+                                </div>
+
                                 <div class="tab-pane" id="address-tab">
                                         <div class="row">
 
-                                            <div class="col-lg-6 offset-lg-3">
+                                            <div class="col-md-6 col-12">
                                                 <div class="form-group mb-4">
                                                     <label class="form-label" for="address-list"><strong>Select Address</strong></label>
                                                     <select class="form-select-address-list" v-model="selected_address" :options="options_address" name="address-list" :disabled="view_mode">
@@ -311,6 +326,7 @@ import Swal from 'sweetalert2'
 
 import Discounts from './discounts'
 import CheckPayees from './check-payees'
+import Contacts from './contacts'
 
 export default {
     name: 'supplier-list',
@@ -326,6 +342,7 @@ export default {
                 getVat: false,
                 getEwt: false,
                 getAddressList: false,
+                getCostCenter: false,
             },
             selected_payables: null,
             options_payables: [],
@@ -348,6 +365,9 @@ export default {
             selected_address: null,
             options_address: [],
 
+            selected_cost_center: null,
+            options_cost_center: [],
+
             is_vat: 0,
             is_ewt: 0,
             barangay: '',
@@ -363,7 +383,6 @@ export default {
 
             formdata: { 
                 uuid: null,
-                is_draft: 1,
                 supplier_name: '', 
                 supplier_shortname: '', 
                 tax_identification_no: '',
@@ -380,12 +399,14 @@ export default {
                 contact_no: '',
                 address_uuid: '',
                 address1: '',
+                cost_center_uuid: '',
                 is_vat: 0,
                 is_ewt: 0,
 
                 children: {
                     discount_groups: [],
-                    payees: []
+                    payees: [],
+                    contacts: []
                 }
             }
 
@@ -393,14 +414,15 @@ export default {
     },
     components: {
         Discounts,
-        CheckPayees
+        CheckPayees,
+        Contacts
     },
     computed: {
         ready: function () {
             var scope = this
 
             if (scope.prerequiste.getPayables && scope.prerequiste.getExpenses && scope.prerequiste.getSupplierGroup && scope.prerequiste.getPaymentTerm 
-                && scope.prerequiste.getVat && scope.prerequiste.getEwt && scope.prerequiste.getAddressList) {
+                && scope.prerequiste.getVat && scope.prerequiste.getEwt && scope.prerequiste.getAddressList && scope.prerequiste.getCostCenter) {
                 return true
             }
 
@@ -436,6 +458,9 @@ export default {
                     $(".form-select-payables").select2({data: scope.options_payables});
                     scope.selected_payables = scope.options_payables[0].id
 
+                    $(".form-select-cost-center").select2({data: scope.options_cost_center});
+                    scope.selected_cost_center = scope.options_cost_center[0].id
+
                     
                     scope.getSupplierDetails(scope.formdata.uuid)
                 },500)
@@ -446,7 +471,7 @@ export default {
         is_vat: function () {
             var scope = this
 
-            if (scope.formdata.is_draft == 1){
+            if (scope.formdata.uuid == null){
 
                 if (scope.is_vat == 1){
                     scope.selected_vat = scope.options_vat[2].id
@@ -493,7 +518,7 @@ export default {
         is_ewt: function () {
             var scope = this
 
-            if (scope.formdata.is_draft == 1){
+            if (scope.formdata.uuid == null){
 
                 if (scope.is_ewt == 1){
                     scope.selected_ewt = scope.options_ewt[1].id
@@ -608,6 +633,23 @@ export default {
             })
 
         },
+
+        getCostCenter: function () {
+           var scope = this
+            scope.GET('company/cost-center').then(res => {
+                res.rows.forEach(function (data) {
+                    scope.options_cost_center.push({
+                        id: data.uuid,
+                        text: data.cost_center_name
+                    })
+                })
+
+                scope.prerequiste.getCostCenter = true
+                
+            })
+
+        },
+
         getVat: function () {
            var scope = this
 
@@ -700,6 +742,7 @@ export default {
      
             scope.formdata.children.discount_groups = scope.$refs.discounts.getDiscountGroups();
             scope.formdata.children.payees = scope.$refs.payees.getPayees();
+            scope.formdata.children.contacts = scope.$refs.contacts.getContacts();
       
             scope.formdata.supplier_group_uuid = scope.selected_supplier_group
             scope.formdata.payment_term_uuid = scope.selected_payment_term
@@ -708,6 +751,7 @@ export default {
             scope.formdata.coa_payable_account_uuid = scope.selected_payables
             scope.formdata.coa_expense_account_uuid = scope.selected_expenses
             scope.formdata.address_uuid = scope.selected_address
+            scope.formdata.cost_center_uuid = scope.selected_cost_center
             scope.formdata.is_vat = scope.is_vat
             scope.formdata.is_ewt = scope.is_ewt
 
@@ -779,7 +823,6 @@ export default {
 
                 scope.formdata.uuid = supplierUUID
 
-                scope.formdata.is_draft = data.is_draft
                 scope.formdata.supplier_name = data.supplier_name
                 scope.formdata.supplier_shortname = data.supplier_shortname
                 scope.formdata.tax_identification_no = data.tax_identification_no
@@ -828,7 +871,8 @@ export default {
                 $('.form-select-address-list').val(data.address_uuid);
                 $('.form-select-address-list').trigger('change');
                 
-                
+                $('.form-select-cost-center').val(data.cost_center_uuid);
+                $('.form-select-cost-center').trigger('change');
                 
                 
             })
@@ -846,6 +890,7 @@ export default {
         scope.getVat()
         scope.getEwt()
         scope.getAddressList()
+        scope.getCostCenter()
         
         
         scope.formdata.uuid = (scope.$route.params.supplierUUID != 'create') ? scope.$route.params.supplierUUID : null
@@ -886,6 +931,10 @@ export default {
             scope.selected_address = $('.form-select-address-list').val();
 
             scope.fillAddress()
+        })
+
+        $(document).on('change','.form-select-cost-center', function(e) { 
+            scope.selected_cost_center = $('.form-select-cost-center').val();
         })
     },
 }

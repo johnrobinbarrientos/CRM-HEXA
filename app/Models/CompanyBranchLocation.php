@@ -11,9 +11,7 @@ class CompanyBranchLocation extends Model
     
     protected $table = 'company_branch_location';
 
-    protected $fillable = [
-        'uuid','branch_uuid', 'location_name', 'location_shortname',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

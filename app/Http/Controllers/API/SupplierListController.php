@@ -20,16 +20,14 @@ use Illuminate\Support\Facades\Auth;
 
 use  App\Http\Controllers\API\BDSupplierController;
 use  App\Http\Controllers\API\SupplierCheckPayeeController;
+use  App\Http\Controllers\API\SupplierContactController;
 
 class SupplierListController extends Controller
 {
     public function index()
     {
     
-        $list = SupplierList::whereNull('deleted_at')
-            ->with('SupplierGroup')
-            ->with('PaymentTerm')
-            ->with('AccountPayable');
+        $list = SupplierList::whereNull('deleted_at')->with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable');
 
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;
@@ -89,6 +87,13 @@ class SupplierListController extends Controller
            return response()->json(['success' => 0, 'payees' => $check['payees'], 'errors' => $check['errors'], 'tab' => 'check-payees' ], 500);
         }
 
+        $contacts = (isset($children->contacts)) ? $children->contacts : [];
+        $check = SupplierContactController::check($contacts);
+
+        if ($check['errors'] > 0) {
+           return response()->json(['success' => 0, 'contacts' => $check['contacts'], 'errors' => $check['errors'], 'tab' => 'check-contacts' ], 500);
+        }
+
         $supplier =  SupplierList::find($uuid);
         $supplier = ($supplier) ? $supplier : new SupplierList();
 
@@ -108,11 +113,13 @@ class SupplierListController extends Controller
         $supplier->contact_no = request()->contact_no;
         $supplier->address_uuid = request()->address_uuid;
         $supplier->address1 = request()->address1;
+        $supplier->cost_center_uuid = request()->cost_center_uuid;
         $supplier->save();
 
         $supplier = SupplierList::find($supplier->uuid);
         $bd_groups_save = BDSupplierController::save($supplier->uuid,$groups);
         $check_payees_save = SupplierCheckPayeeController::save($supplier->uuid,$payees);
+        $contacts_save = SupplierContactController::save($supplier->uuid,$contacts);
 
        //  $BD_groups = BDSupplier::where('supplier_uuid','=',$supplier->uuid)->with('discounts')->get();
 

@@ -11,9 +11,7 @@ class ItemAssetGroup extends Model
     
     protected $table = 'item_asset_group';
 
-    protected $fillable = [
-        'uuid','asset_group',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

@@ -53,8 +53,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 v-if="selected_payee" class="modal-title">
-                            <span v-if="!selected_payee.id">New Payee</span>
-                            <span v-else>Edit Payee</span>
+                            <span v-if="!selected_payee.id">New</span>
+                            <span v-else>Edit</span>
                         </h5>
                         <a href="javascript:void(0)"  @click="cancel()" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
@@ -65,8 +65,11 @@
 
                             <div class="row">
                                 <div class="col-md-12 col-12">
-                                    <div style="padding:5px;">
-                                        <input v-model="selected_payee.check_payee" class="form-control-gray-medium"  v-bind:class="{'error' : selected_payee.check_payee_error}" type="text" placeholder="Enter payee name">
+                                    <div class="form-group">
+                                        <label class="form-label" for="group-name">Payee:</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="selected_payee.check_payee" class="form-control" v-bind:class="{'error' : selected_payee.check_payee_error}" type="text" required>
+                                        </div>
                                     </div>
                                 </div>                                           
                             </div>                                    
@@ -76,7 +79,7 @@
                     <div class="modal-footer bg-light">
                         <button v-if="selected_payee && selected_payee.uuid === null" @click="save()" type="button" class="btn btn-sm btn-primary">Save</button>
                         <button v-else @click="save()" type="button" class="btn btn-sm btn-primary">Update</button>
-                        <button  @click="cancel()" type="button" class="btn btn-sm btn-default">Close</button>
+                        <button  @click="cancel()" type="button" class="btn btn-sm btn-outline-secondary">Close</button>
                     </div>
                 </div>
             </div>

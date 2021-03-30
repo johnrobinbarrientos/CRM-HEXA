@@ -11,9 +11,7 @@ class CompanyChartOfAccountReportGroup extends Model
     
     protected $table = 'company_chart_of_accounts_report_group';
 
-    protected $fillable = [
-        'uuid','coa_report_name',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

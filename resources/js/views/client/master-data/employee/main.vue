@@ -15,12 +15,6 @@
                     <span class="d-none d-sm-block">Employment Type</span>    
                 </a>
             </li>
-            <li class="nav-item">        
-                <a class="nav-link" data-toggle="tab" href="#employee-system-user-list" role="tab">
-                    <span class="d-block d-sm-none"></span>
-                    <span class="d-none d-sm-block">System User</span>    
-                </a>
-            </li>
             
             <li class="nav-item">        
                 <a class="nav-link active" data-toggle="tab" href="#employee-list" role="tab">
@@ -36,10 +30,7 @@
         <div class="tab-content">    
             <div class="tab-pane active" id="employee-list" role="tabpanel">        
                 <list></list>   
-            </div>    
-            <div class="tab-pane" id="employee-system-user-list" role="tabpanel">        
-                <system-user-list></system-user-list>   
-            </div>    
+            </div>     
             <div class="tab-pane" id="employment-type" role="tabpanel">        
                 <employment-type></employment-type>    
             </div>

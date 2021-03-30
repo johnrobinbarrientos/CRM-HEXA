@@ -11,9 +11,7 @@ class GlobalUom extends Model
     
     protected $table = 'global_uom';
 
-    protected $fillable = [
-        'uuid', 'uom', 'type',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

@@ -11,7 +11,7 @@ class PurchaseBillingExpense extends Model
     
     protected $table = 'purchase_billing_expenses';
 
-
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

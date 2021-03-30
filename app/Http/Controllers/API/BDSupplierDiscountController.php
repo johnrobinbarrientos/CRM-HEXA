@@ -41,6 +41,15 @@ class BDSupplierDiscountController extends Controller
 
     static public function save($bd_supplier_uuid,$discounts)
     {
+        $discount_uuids = [];
+        
+        foreach ($discounts as $key => $discount) {
+            $discount_uuids[] = $discount['uuid'];
+        }
+
+        // delete discounts
+        BDSupplierDiscount::where('bd_supplier_uuid','=',$bd_supplier_uuid)->whereNotIn('uuid',$discount_uuids)->delete();
+
         foreach ($discounts as $key => $discount) {
 
             $uuid = $discount['uuid'];

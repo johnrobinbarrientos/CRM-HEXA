@@ -30,6 +30,10 @@ Route::group(['middleware' => ['auth:api'] ], function(){
     Route::post('/users','API\UserController@store');
     Route::put('/users','API\UserController@update');
 
+    Route::group(['prefix' => 'users'], function(){
+        Route::get('/get-branch', 'API\UserController@getBranch');
+        Route::get('/get-branch-locations/{branch_uuid}', 'API\UserController@getBranchLocations');
+    });
 
     Route::group(['prefix' => 'items'], function(){
 
@@ -77,7 +81,6 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/cat-section', 'API\ItemCatSectionController@save');
         Route::post('/cat-section/delete', 'API\ItemCatSectionController@delete');
 
-
         Route::get('/', 'API\ItemListController@index');
         Route::post('/', 'API\ItemListController@store');
         Route::put('/{item_uuid}', 'API\ItemListController@update');
@@ -97,30 +100,17 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/supplier-group', 'API\SupplierGroupController@save');
         Route::post('/supplier-group/delete', 'API\SupplierGroupController@delete');
 
-        Route::get('/multiple/supplier-base-discount-group', 'API\SupplierBaseDiscountGroupController@getSupplierBaseDiscountGroupsMultiple');
-        Route::get('/{supplierUUID}/supplier-base-discount-group', 'API\SupplierBaseDiscountGroupController@getSupplierBaseDiscountGroups');
-        
-        Route::post('/{supplierUUID}/supplier-base-discount-group', 'API\SupplierBaseDiscountGroupController@save');
-
-        Route::delete('/{supplierUUID}/supplier-base-discount-group/{supplierBaseDiscountGroupUUID}', 'API\SupplierBaseDiscountGroupController@delete');
-
-        Route::get('/{supplierDiscountUUID}/supplier-base-discount-group-details', 'API\SupplierBaseDiscountGroupDetailController@index');
-        Route::post('/{supplierDiscountUUID}/supplier-base-discount-group-details', 'API\SupplierBaseDiscountGroupDetailController@save');
-
-        Route::post('/item-supplier-discounts', 'API\SupplierBaseDiscountGroupItemController@save');
-
-        Route::delete('/item-supplier-discounts', 'API\SupplierBaseDiscountGroupItemController@delete');
-        Route::delete('/item-supplier-discounts-batch', 'API\SupplierBaseDiscountGroupItemController@deleteBatch');
-
         Route::get('/{supplierUUID}/check-payee', 'API\SupplierCheckPayeeController@getCheckPayeeBySupplier');
         Route::post('/{supplierUUID}/check-payee', 'API\SupplierCheckPayeeController@save');
         Route::delete('/{supplierUUID}/check-payee/{checkPayeeUUID}', 'API\SupplierCheckPayeeController@delete');
 
-        Route::get('/', 'API\SupplierListController@index');
+        Route::get('/{supplierUUID}/contacts', 'API\SupplierContactController@getContactsBySupplier');
+        Route::post('/{supplierUUID}/contacts', 'API\SupplierContactController@save');
+        Route::delete('/{supplierUUID}/contacts/{contactUUID}', 'API\SupplierContactController@delete');
 
+        Route::get('/', 'API\SupplierListController@index');
         Route::post('/', 'API\SupplierListController@store');
         Route::put('/{uuid}', 'API\SupplierListController@save');
-
         Route::get('/{supplier_uuid}','API\SupplierListController@show');
         Route::delete('/{supplier_uuid}', 'API\SupplierListController@delete');
 
@@ -154,9 +144,12 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/customer-type', 'API\CustomerTypeController@save');
         Route::post('/customer-type/delete', 'API\CustomerTypeController@delete');
 
+
+        Route::get('/{customerUUID}/branches', 'API\CustomerBranchController@getBranchesByCustomer');
+
         Route::get('/', 'API\CustomerListController@index');
-        Route::post('/create', 'API\CustomerListController@store');
-        Route::put('/', 'API\CustomerListController@update');
+        Route::post('/', 'API\CustomerListController@store');
+        Route::put('/{uuid}', 'API\CustomerListController@save');
         Route::get('/{customer_uuid}','API\CustomerListController@show');
         Route::delete('/{customer_uuid}', 'API\CustomerListController@delete');
 
@@ -304,29 +297,6 @@ Route::group(['middleware' => ['auth:api'] ], function(){
     });
 
 
-    Route::group(['prefix' => 'admin'], function(){
-        Route::get('/company-list', 'API\CompanyListController@index');
-        Route::post('/company-list', 'API\CompanyListController@save');
-        Route::post('/company-list/delete', 'API\CompanyListController@delete');
-
-        Route::get('/coa-report-group', 'API\AdminCOAReportGroupController@index');
-        Route::post('/coa-report-group', 'API\AdminCOAReportGroupController@save');
-        Route::post('/coa-report-group/delete', 'API\AdminCOAReportGroupController@delete');
-
-        Route::get('/coa-account-group', 'API\AdminCOAAccountGroupController@index');
-        Route::post('/coa-account-group', 'API\AdminCOAAccountGroupController@save');
-        Route::post('/coa-account-group/delete', 'API\AdminCOAAccountGroupController@delete');
-
-        Route::get('/chart-of-accounts', 'API\AdminChartOfAccountController@index');
-        Route::post('/chart-of-accounts', 'API\AdminChartOfAccountController@save');
-        Route::post('/chart-of-accounts/delete', 'API\AdminChartOfAccountController@delete');
-
-        Route::get('/cost-center', 'API\AdminCostCenterController@index');
-        Route::post('/cost-center', 'API\AdminCostCenterController@save');
-        Route::post('/cost-center/delete', 'API\AdminCostCenterController@delete');
-
-    });
-
     Route::group(['prefix' => 'buy-and-pay'], function(){
         
         Route::get('/orders', 'API\BuyAndPayOrderController@index');
@@ -378,16 +348,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/payments', 'API\BuyAndPayPaymentController@store');
     });
 
-    Route::group(['prefix' => 'users'], function(){
-        Route::get('/get-branch', 'API\UserController@getBranch');
-        Route::get('/get-branch-locations/{branch_uuid}', 'API\UserController@getBranchLocations');
-    });
+    
 
-
-    Route::group(['prefix' => 'inventory'], function(){
-
-
-    });
 
     Route::group(['prefix' => 'price-rule'], function(){
         Route::get('/supplier', 'API\PriceRuleSupplierController@getPriceRuleSuppliers');

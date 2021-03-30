@@ -11,6 +11,7 @@ class EmployeeSystemInvitation extends Model
     
     protected $table = 'employee_system_invitations';
 
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

@@ -11,9 +11,7 @@ class ItemGroup extends Model
     
     protected $table = 'item_group';
 
-    protected $fillable = [
-        'uuid','item_group',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

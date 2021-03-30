@@ -11,9 +11,7 @@ class ItemCatDepartment extends Model
     
     protected $table = 'item_cat_department';
 
-    protected $fillable = [
-        'uuid','department',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

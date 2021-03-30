@@ -11,9 +11,7 @@ class CostCenter extends Model
     
     protected $table = 'cost_center';
 
-    protected $fillable = [
-        'uuid', 'cost_center_name', 'cost_center_shortname','is_group','cost_center_group',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

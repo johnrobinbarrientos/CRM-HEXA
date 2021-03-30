@@ -11,9 +11,7 @@ class CustomerChannel extends Model
     
     protected $table = 'customer_channel';
 
-    protected $fillable = [
-        'uuid', 'channel',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

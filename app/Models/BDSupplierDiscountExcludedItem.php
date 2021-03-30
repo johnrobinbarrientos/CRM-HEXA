@@ -11,6 +11,7 @@ class BDSupplierDiscountExcludedItem extends Model
     
     protected $table = 'bd_supplier_discount_excluded_items';
 
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

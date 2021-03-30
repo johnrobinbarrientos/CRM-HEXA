@@ -28,6 +28,7 @@
    
         <link href="/app/css/fonts.css" rel="stylesheet" />
         <link href="/app/css/customs.css?v={{ time() }}" rel="stylesheet" />
+        <link href="/app/css/reset.css?v={{ time() }}" rel="stylesheet" />
         <link href="/app/css/color-palette.css?v={{ time() }}" rel="stylesheet" />
 
    

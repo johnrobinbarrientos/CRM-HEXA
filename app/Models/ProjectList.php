@@ -11,9 +11,7 @@ class ProjectList extends Model
     
     protected $table = 'project_list';
 
-    protected $fillable = [
-        'uuid', 'project_code', 'project_name', 'project_shortname','project_type_uuid','date_start', 'end_date', 'cost',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

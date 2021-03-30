@@ -11,6 +11,7 @@ class PriceRuleCustomer extends Model
     
     protected $table = 'price_rule_customers';
 
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

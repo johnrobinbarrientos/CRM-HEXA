@@ -11,9 +11,7 @@ class ItemCatPackingType extends Model
     
     protected $table = 'item_cat_packing_type';
 
-    protected $fillable = [
-        'uuid','packing_type',
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

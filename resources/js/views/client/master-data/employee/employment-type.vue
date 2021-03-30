@@ -29,27 +29,29 @@
 
             <div class="row">
                 <div class="col-lg-6">
-                    <table class="table table-bordered table-hover table-striped">
-                        <thead>
-                            <tr>
-                                <th width="105">Action</th>
-                                <th>Employment Type</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(type) in employmentTypes" :key="type.uuid">
-                                <td width="65" class="text-center">
-                                    <span class="hx-table-actions">
-                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalEmploymentType'); setData(type)">
-                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalEmploymentType'); setData(type)">Edit</b-dropdown-item>
-                                            <b-dropdown-item href="javascript:void(0)" @click="remove(type)">Delete</b-dropdown-item>
-                                        </b-dropdown>
-                                    </span>
-                                </td>
-                                <td>{{ type.employment_type }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="105">Action</th>
+                                    <th>Employment Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(type) in employmentTypes" :key="type.uuid">
+                                    <td width="65" class="text-center">
+                                        <span class="hx-table-actions">
+                                            <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalEmploymentType'); setData(type)">
+                                                <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalEmploymentType'); setData(type)">Edit</b-dropdown-item>
+                                                <b-dropdown-item href="javascript:void(0)" @click="remove(type)">Delete</b-dropdown-item>
+                                            </b-dropdown>
+                                        </span>
+                                    </td>
+                                    <td>{{ type.employment_type }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 

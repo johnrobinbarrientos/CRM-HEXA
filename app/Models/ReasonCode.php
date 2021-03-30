@@ -11,9 +11,7 @@ class ReasonCode extends Model
     
     protected $table = 'reason_codes';
 
-    protected $fillable = [
-        'uuid','short_name','details','type'
-    ];
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

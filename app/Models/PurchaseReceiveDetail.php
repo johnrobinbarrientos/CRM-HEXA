@@ -11,6 +11,7 @@ class PurchaseReceiveDetail extends Model
     
     protected $table = 'purchase_receive_details';
 
+    protected $fillable = [];
 
     protected $primaryKey = 'uuid';
     protected $keyType = 'string';

@@ -27,30 +27,32 @@
 
         <div class="row">
             <div class="col-lg-6">
-                <table class="table table-bordered table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th width="105">Action</th>
-                            <th>Group Name</th>
-                            <th>Markup Rate</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(group) in Groups" :key="group.uuid">
-                            <td width="65" class="text-center">
-                                <span class="hx-table-actions">
-                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalCustomerGroup');setData(group)">
-                                        <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalCustomerGroup');setData(group)">Edit</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)" @click="remove(group)">Delete</b-dropdown-item>
-                                    </b-dropdown>
-                                </span>
-                            </td>
-                            <td>{{ group.group_name }}</td>
-                            <td>{{ group.markup_rate }}</td>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th width="105">Action</th>
+                                <th>Group Name</th>
+                                <th>Markup Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(group) in Groups" :key="group.uuid">
+                                <td width="65" class="text-center">
+                                    <span class="hx-table-actions">
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalCustomerGroup');setData(group)">
+                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalCustomerGroup');setData(group)">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="remove(group)">Delete</b-dropdown-item>
+                                        </b-dropdown>
+                                    </span>
+                                </td>
+                                <td>{{ group.group_name }}</td>
+                                <td>{{ group.markup_rate }}</td>
 
-                        </tr>
-                    </tbody>
-                </table>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 

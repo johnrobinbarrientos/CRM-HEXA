@@ -1,107 +1,94 @@
 <template>
     <div>
-        <div class="hx-tab-1 round">                   
-            <ul class="nav nav-tabs" role="tablist">
-
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#uom" role="tab">
-                        <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">UOM</span> 
-                    </a>      
-                </li> 
-
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#cost-center" role="tab">
-                        <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Cost Center</span> 
-                    </a>      
-                </li> 
-
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#address-list" role="tab">
-                        <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Address List</span> 
-                    </a>      
-                </li> 
-                
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#accounting-period" role="tab">
-                        <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Accounting Period</span> 
-                    </a>      
-                </li>
-
-                <li class="nav-item">        
-                    <a class="nav-link" data-toggle="tab" href="#system-users" role="tab">
-                        <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">System User</span> 
-                    </a>  
-                </li>
-
-                <li class="nav-item">        
-                    <a class="nav-link" data-toggle="tab" href="#taxation-table" role="tab">
-                        <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Tax Table</span> 
-                    </a>  
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#payment-terms" role="tab">
-                        <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Payment Term</span> 
-                    </a>     
-                </li>
-
-                <li class="nav-item">        
-                    <a class="nav-link" data-toggle="tab" href="#report-group" role="tab">
-                        <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Report Group</span> 
-                    </a>  
-                </li>
-
-                <li class="nav-item">        
-                    <a class="nav-link" data-toggle="tab" href="#account-group">Account Group</a>    
-                </li>
-
-                <li class="nav-item">        
-                    <a class="nav-link" data-toggle="tab" href="#chart-of-accounts" role="tab">
-                        <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Chart Of Account</span> 
-                    </a> 
-                </li> 
-
-                <li class="nav-item">        
-                    <a class="nav-link" data-toggle="tab" href="#company-locations" role="tab">
-                        <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Location</span> 
-                    </a>    
-                </li>
-
-                <li class="nav-item">        
-                    <a class="nav-link" data-toggle="tab" href="#company-branch" role="tab">
-                        <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Branch</span> 
-                    </a> 
-                </li>
-
-                <li class="nav-item"> 
-                    <a class="nav-link" data-toggle="tab" href="#department" role="tab">
-                        <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Department</span> 
-                    </a>  
-                </li>
-
+        <div class="hx-side-tab">                   
+            <ul class="nav" role="tablist">
                 <li class="nav-item">        
                     <a class="nav-link active" data-toggle="tab" href="#company-details" role="tab">
-                        <span class="d-block d-sm-none"></span>
-                        <span class="d-none d-sm-block">Company Detail</span>    
+                        <span>Company Detail</span>
+                        <i class="fas fa-angle-right"></i>
                     </a> 
                 </li>
+                <li class="nav-item"> 
+                    <a class="nav-link" data-toggle="tab" href="#department" role="tab">
+                        <span>Department</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>  
+                </li>
+                <li class="nav-item">        
+                    <a class="nav-link" data-toggle="tab" href="#company-branch" role="tab">
+                        <span>Branch</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a> 
+                </li>
+                <li class="nav-item">        
+                    <a class="nav-link" data-toggle="tab" href="#company-locations" role="tab">
+                        <span>Location</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>    
+                </li>
+                <li class="nav-item">        
+                    <a class="nav-link" data-toggle="tab" href="#chart-of-accounts" role="tab">
+                        <span>Chart Of Account</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a> 
+                </li>
+                <li class="nav-item">        
+                    <a class="nav-link" data-toggle="tab" href="#account-group">
+                        <span>Account Group</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </li>
+                <li class="nav-item">        
+                    <a class="nav-link" data-toggle="tab" href="#report-group" role="tab">
+                        <span>Report Group</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>  
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#payment-terms" role="tab">
+                        <span>Payment Term</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>     
+                </li>
+                <li class="nav-item">        
+                    <a class="nav-link" data-toggle="tab" href="#taxation-table" role="tab">
+                        <span>Tax Table</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>  
+                </li>
+                <li class="nav-item">        
+                    <a class="nav-link" data-toggle="tab" href="#system-users" role="tab">
+                        <span>System User</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>  
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#accounting-period" role="tab">
+                        <span>Accounting Period</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>      
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#address-list" role="tab">
+                        <span>Address List</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>      
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#cost-center" role="tab">
+                        <span>Cost Center</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>      
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#uom" role="tab">
+                        <span>UOM</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>      
+                </li> 
             </ul>
 
-            <div class="clearfix"></div>
             <!-- Tab panes -->
-
             <div class="tab-content">    
                 <div class="tab-pane active" id="company-details" role="tabpanel">        
                     <details></details>   
@@ -128,46 +115,41 @@
                     <payment-terms></payment-terms>    
                 </div> 
                 <div class="tab-pane" id="taxation-table" role="tabpanel">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-lg-6 col-12">
-                                <div id="accordion">
-                                    <div class="card shadow-none">
-                                        <a href="#collapseOne" class="text-dark" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">
-                                            <div class="card-header" id="headingOne">
-                                                <h5 class="m-0">Supplier/Customer</h5>
-                                                <i class="las la-plus-circle fs-30"></i>
-                                            </div>
-                                        </a>
-                                    
-                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                                            <div class="card-body">
-                                                <div class="container-fluid">
-                                                    <taxation></taxation>
-                                                </div>
-                                            </div>            
+
+                    <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <div id="accordion">
+                                <div class="card shadow-none">
+                                    <a href="#collapseOne" class="text-dark" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne">
+                                        <div class="card-header" id="headingOne">
+                                            <h5 class="m-0">Supplier/Customer</h5>
+                                            <i class="las la-plus-circle fs-30"></i>
                                         </div>
+                                    </a>
+                                
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                        <div class="card-body">
+                                            <taxation></taxation>
+                                        </div>            
                                     </div>
-                                    <div class="card shadow-none">
-                                        <a href="#collapseTwo" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
-                                            <div class="card-header" id="headingTwo">
-                                                <h5 class="m-0">Item</h5>
-                                                <i class="las la-plus-circle fs-30"></i>
-                                            </div>
-                                        </a>
-                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                                            <div class="card-body">
-                                                <div class="container-fluid">
-                                                    <taxation-item></taxation-item> 
-                                                </div>
-                                           </div>         
-                                        </div>
-                                    </div>
-                                    
                                 </div>
+                                <div class="card shadow-none">
+                                    <a href="#collapseTwo" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTwo">
+                                        <div class="card-header" id="headingTwo">
+                                            <h5 class="m-0">Item</h5>
+                                            <i class="las la-plus-circle fs-30"></i>
+                                        </div>
+                                    </a>
+                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                        <div class="card-body">
+                                            <taxation-item></taxation-item> 
+                                        </div>         
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
-                    </div>       
+                    </div>  
                     <!-- <taxation></taxation>     -->
                 </div> 
                 <div class="tab-pane" id="system-users" role="tabpanel">

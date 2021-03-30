@@ -14,7 +14,7 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <a @click="create()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                <a @click="ROUTE({path: '/customers/create'})" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                     <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
@@ -25,47 +25,47 @@
                 <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
         </div>
 
-        <div v-else class="table-responsive"> 
-            <table class="table table-bordered table-hover table-striped">
-                <thead class="th-nowrap">
-                    <tr>
-                        <th width="105">Action</th>
-                        <th>Sold To Name</th>
-                        <th>Business Group Name</th>
-                        <th>Business Shortname</th>
-                        <th>Chain</th>
-                        <th>Group Name</th>
-                        <th>Contact Person</th>
-                        <th>Contact No</th>
-                        <th>Payment Term</th>
-                        <th>Channel</th>
-                        <th>Customer Type</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(customer) in customerList" :key="customer.uuid">
-                        <td width="65" class="text-center">
-                            <span class="hx-table-actions">
-                                <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/customers/' + customer.uuid })">
-                                    <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/customers/' + customer.uuid })">Edit</b-dropdown-item>
-                                    <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/customers/' + customer.uuid + '/view' })">View</b-dropdown-item>
-                                    <b-dropdown-item href="javascript:void(0)"@click="remove(customer)">Delete</b-dropdown-item>
-                                </b-dropdown>
-                            </span>
-                        </td>
-                        <td>{{customer.sold_to_name}}</td>
-                        <td>{{customer.business_group_name}}</td>
-                        <td>{{customer.business_shortname}}</td>
-                        <td>{{customer.customer_chain.chain}}</td>
-                        <td>{{customer.customer_group.group_name}}</td>
-                        <td>{{customer.contact_person}}</td>
-                        <td class="text-right">{{customer.contact_no}}</td>
-                        <td>{{customer.payment_term.term}}</td>
-                        <td>{{customer.customer_channel.channel}}</td>
-                        <td>{{customer.customer_type.customer_type}}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div v-else> 
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead class="th-nowrap">
+                        <tr>
+                            <th width="105">Action</th>
+                            <th>Business Name</th>
+                            <th>Business Shortname</th>
+                            <th>Chain</th>
+                            <th>Group Name</th>
+                            <th>Contact Person</th>
+                            <th>Contact No</th>
+                            <th>Payment Term</th>
+                            <th>Channel</th>
+                            <th>Customer Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(customer) in customerList" :key="customer.uuid">
+                            <td width="65" class="text-center">
+                                <span class="hx-table-actions">
+                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/customers/' + customer.uuid })">
+                                        <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/customers/' + customer.uuid })">Edit</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/customers/' + customer.uuid + '/view' })">View</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)"@click="remove(customer)">Delete</b-dropdown-item>
+                                    </b-dropdown>
+                                </span>
+                            </td>
+                            <td>{{customer.business_name}}</td>
+                            <td>{{customer.business_shortname}}</td>
+                            <td>{{customer.customer_chain.chain}}</td>
+                            <td>{{customer.customer_group.group_name}}</td>
+                            <td>{{customer.contact_person}}</td>
+                            <td class="text-right">{{customer.contact_no}}</td>
+                            <td>{{customer.payment_term.term}}</td>
+                            <td>{{customer.customer_channel.channel}}</td>
+                            <td>{{customer.customer_type.customer_type}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             
             <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
             <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
@@ -134,15 +134,15 @@ export default {
                 scope.listResults = res.results
             })
         },
-        create: function () {
-            var scope = this
+        // create: function () {
+        //     var scope = this
 
-            scope.POST('customers/create').then(res => {
-                if (res.success) {
-                   scope.ROUTE({path: '/customers/' + res.data.uuid })
-                }
-            })
-        },
+        //     scope.POST('customers/create').then(res => {
+        //         if (res.success) {
+        //            scope.ROUTE({path: '/customers/' + res.data.uuid })
+        //         }
+        //     })
+        // },
         search: function () {
             var scope = this
             if (scope.timer) {

@@ -8,14 +8,14 @@
                 <div class="actions-bar">
                     <div class="w-100">
                         <span v-if ="view_mode">
-                            <h1 class="title">View Employee Details</h1>
+                            <h1 class="title">View Details</h1>
                         </span>
                         <span v-else>
                             <span v-if ="formdata.is_draft">
-                                <h1 class="title">New Employee Details</h1>
+                                <h1 class="title">New Details</h1>
                             </span>
                             <span v-else>
-                                <h1 class="title">Edit Employee Details</h1>
+                                <h1 class="title">Edit Details</h1>
                             </span>
                         </span>
                     </div>

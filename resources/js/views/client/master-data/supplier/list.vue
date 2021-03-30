@@ -23,55 +23,57 @@
         <div v-if="listLoading" class="text-center my-3 text-loader">
             <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
         </div>
-        <div v-else class="table table-bordered table-hover table-striped"> 
-            <table class="table table-bordered">
-                <thead class="th-nowrap">
-                    <tr>
-                        <th width="105">Action</th>
-                        <th>Supplier Name</th>
-                        <th>Supplier Shortname</th>
-                        <th>Is Transporter?</th>
-                        <th>Lead Time (Days)</th>
-                        <th>Group Name</th>
-                        <th>Contact No</th>
-                        <th>Payment Term</th>
-                        <th>Tax Identification No</th>
-                        <th>Account Payable</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(supplier) in supplierList" :key="supplier.uuid">
-                        <td width="65" class="text-center">
-                            <span class="hx-table-actions">
-                                <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/suppliers/' + supplier.uuid })">
-                                    <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/suppliers/' + supplier.uuid })">Edit</b-dropdown-item>
-                                    <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/suppliers/' + supplier.uuid + '/view' })">View</b-dropdown-item>
-                                    <b-dropdown-item href="javascript:void(0)"@click="remove(supplier)">Delete</b-dropdown-item>
-                                </b-dropdown>
-                            </span>
-                        </td>
-                        <td><span class="">{{supplier.supplier_name}}</span></td>
-                        <td><span class="">{{supplier.supplier_shortname}}</span></td>
-                        <td v-if="supplier.is_transporter === 1">Yes</td>
-                        <td v-else>No</td>
-                        <td class="text-right">{{supplier.lead_time}}</td>
-                        <td>
-                            <span v-if="supplier.supplier_group">{{supplier.supplier_group.group_name }}</span>
-                            <span v-else></span>
-                        </td>
-                        <td class="text-right">{{supplier.contact_no}}</td>
-                        <td>
-                            <span v-if="supplier.payment_term">{{supplier.payment_term.term }}</span>
-                            <span v-else></span>
-                        </td>
-                        <td class="text-right">{{supplier.tax_identification_no}}</td>
-                        <td>
-                            <span v-if="supplier.account_payable">{{supplier.account_payable.account_name }}</span>
-                            <span v-else></span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div v-else>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead class="th-nowrap">
+                        <tr>
+                            <th width="105">Action</th>
+                            <th>Supplier Name</th>
+                            <th>Supplier Shortname</th>
+                            <th>Is Transporter?</th>
+                            <th>Lead Time (Days)</th>
+                            <th>Group Name</th>
+                            <th>Contact No</th>
+                            <th>Payment Term</th>
+                            <th>Tax Identification No</th>
+                            <th>Account Payable</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(supplier) in supplierList" :key="supplier.uuid">
+                            <td width="65" class="text-center">
+                                <span class="hx-table-actions">
+                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/suppliers/' + supplier.uuid })">
+                                        <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/suppliers/' + supplier.uuid })">Edit</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/suppliers/' + supplier.uuid + '/view' })">View</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)"@click="remove(supplier)">Delete</b-dropdown-item>
+                                    </b-dropdown>
+                                </span>
+                            </td>
+                            <td><span class="">{{supplier.supplier_name}}</span></td>
+                            <td><span class="">{{supplier.supplier_shortname}}</span></td>
+                            <td v-if="supplier.is_transporter === 1">Yes</td>
+                            <td v-else>No</td>
+                            <td class="text-right">{{supplier.lead_time}}</td>
+                            <td>
+                                <span v-if="supplier.supplier_group">{{supplier.supplier_group.group_name }}</span>
+                                <span v-else></span>
+                            </td>
+                            <td class="text-right">{{supplier.contact_no}}</td>
+                            <td>
+                                <span v-if="supplier.payment_term">{{supplier.payment_term.term }}</span>
+                                <span v-else></span>
+                            </td>
+                            <td class="text-right">{{supplier.tax_identification_no}}</td>
+                            <td>
+                                <span v-if="supplier.account_payable">{{supplier.account_payable.account_name }}</span>
+                                <span v-else></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <div style="padding:10px; padding-top:20px; padding-bottom:0px;"> Showing {{ listOffset + 1  }} to {{ listOffset +  listResults }} of  {{ listCount }} entries</div>
             <nav v-if="listTotalPages > 1" class="pagination pagination-rounded justify-content-center mt-4" aria-label="pagination">
