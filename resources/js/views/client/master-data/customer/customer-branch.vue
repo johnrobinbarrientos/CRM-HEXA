@@ -33,7 +33,7 @@
                                 <td width="80">
                                     <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="edit(branch,index)">
                                         <b-dropdown-item href="javascript:void(0)"  @click="edit(branch,index)">Edit</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)" @click="remove(branch,index)">Delete</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)" @click="remove(index)">Delete</b-dropdown-item>
                                     </b-dropdown>
                                 </td>
                                 <td>
@@ -230,39 +230,9 @@ export default {
                 }
             })
        },
-       remove: function(branch,index) {
+       remove: function(index) {
             var scope = this
-            var customer_uuid = scope.customer_uuid;
-
-            window.swal.fire({
-                title: 'Delete?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#548235',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No'
-            }).then((result) => {
-                if (result.value) {
-                    scope.DELETE('customers/'+ customer_uuid +'/branches/' + branch.uuid).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Deleted',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.branches.splice(index,1)
-                            })
-                        } else {
-                            alert(res.message);
-                        }
-                        
-                    })
-                    
-                }                              
-            })
+            scope.branches.splice(index, 1)
         },
         getBranches: function () {
             return this.branches

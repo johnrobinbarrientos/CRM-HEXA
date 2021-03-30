@@ -161,8 +161,7 @@ export default {
                     position: '',
                     email_address: '',
                     contact_no: '',
-                    edit: true,
-                    deleted_at: null
+                    edit: true
             }
 
            scope.OPEN_MODAL('#modalContact');

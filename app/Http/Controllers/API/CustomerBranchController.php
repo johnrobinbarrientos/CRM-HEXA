@@ -44,6 +44,19 @@ class CustomerBranchController extends Controller
 
     static public function save($customer_uuid,$branches)
     {
+
+        $branch_uuids = [];
+        
+        foreach ($branches as $key => $branch) {
+            if ( is_null($branch['uuid'])) {
+                continue;
+            }
+            $branch_uuids[] = $branch['uuid'];
+        }
+        
+        // delete payees
+        CustomerBranch::where('customer_uuid','=',$customer_uuid)->whereNotIn('uuid',$branch_uuids)->delete();
+
         foreach ($branches as $key => $branch) {
 
             $uuid = $branch['uuid'];
@@ -70,11 +83,4 @@ class CustomerBranchController extends Controller
         }
     }
 
-
-    public function delete($customerUUID,$branchUUID) {
-        
-        $branchUUID = CustomerBranch::find($branchUUID)->delete();
-
-        return response()->json(['success' => 1, 'message' => 'Deleted!'], 200);
-    }
 }

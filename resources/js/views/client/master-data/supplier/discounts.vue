@@ -214,8 +214,7 @@ export default {
                 uuid: null,
                 name: '',
                 rate: '',
-                excluded_items: [],
-                deleted_at: null
+                excluded_items: []
             });
         },
         removeDiscount: function (discounts,discount_index) {
@@ -231,8 +230,7 @@ export default {
                 edit: true,
                 view: false,
                 new: true,
-                discounts: [],
-                deleted_at: null
+                discounts: []
             }
             scope.addNewDiscount(scope.selected_group);
             scope.OPEN_MODAL('#modalDiscounts');
