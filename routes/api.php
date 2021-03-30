@@ -82,7 +82,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
         Route::get('/', 'API\ItemListController@index');
         Route::post('/', 'API\ItemListController@store');
-        Route::put('/', 'API\ItemListController@update');
+        Route::put('/{item_uuid}', 'API\ItemListController@update');
         Route::get('/{item_uuid}','API\ItemListController@show');
         Route::delete('/{item_uuid}', 'API\ItemListController@delete');
 
@@ -369,7 +369,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/', 'API\PriceRuleController@index');
         Route::get('/{uuid}', 'API\PriceRuleController@show');
         Route::post('/', 'API\PriceRuleController@store');
-        Route::put('/', 'API\PriceRuleController@update');
+        Route::put('/{uuid}', 'API\PriceRuleController@update');
         Route::post('/delete', 'API\PriceRuleController@delete');
     });
 

@@ -26,5 +26,9 @@ class BDSupplierDiscount extends Model
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
     }
+
+    public function ExludedItems(){
+        return $this->hasMany('App\Models\BDSupplierDiscountExcludedItem','bd_supplier_discount_uuid','uuid');
+    }
    
 }

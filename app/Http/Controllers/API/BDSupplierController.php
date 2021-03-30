@@ -47,7 +47,6 @@ class BDSupplierController extends Controller
         
         foreach ($groups as $key => $group) {
             
-
             $uuid = $group['uuid'];
             $name = $group['name'];
             $deleted_at = $group['deleted_at'];

@@ -238,7 +238,6 @@ export default {
                 scope.$set(discount,'deleted_at', moment())
                 scope.$set(scope.groups[group_index].discounts[discount_index],'deleted_at', moment())
             }
-
         },
         addNewGroup: function () {
             var scope = this

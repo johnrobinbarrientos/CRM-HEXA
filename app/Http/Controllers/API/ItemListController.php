@@ -11,18 +11,36 @@ use App\Models\GlobalUom;
 use App\Models\SupplierList; 
 use Illuminate\Support\Facades\Auth; 
 
+use  App\Http\Controllers\API\ItemSupplierController;
+use  App\Http\Controllers\API\ItemUOMController;
+
 class ItemListController extends Controller
 {
     public function index()
     {
-        $list = ItemList::where('is_draft','=', 0)->whereNull('deleted_at')
-        ->with('ItemGroup')->with('Suppliers')
-        ->with('IncomeAccount')->with('CosAccount')
-        ->with('CatDepartment')
-        ->with('CatSection')->with('CatCategory')
-        ->with('CatManufacturer')->with('CatItemType')
-        ->with('CatBrand')->with('CatForm')
-        ->with('CatPackingType')->with('AssetGroup');
+        $list = ItemList::whereNull('deleted_at');
+
+
+        // add "children" to request to disable getting all item children details, add "none" to disable all
+        if (!isset(request()->children) || request()->children == '') {
+            $list = $list->with('ItemGroup')
+            ->with('Suppliers')
+            ->with('IncomeAccount')
+            ->with('CosAccount')
+            ->with('CatDepartment')
+            ->with('CatSection')
+            ->with('CatCategory')
+            ->with('CatManufacturer')->with('CatItemType')
+            ->with('CatBrand')
+            ->with('CatForm')
+            ->with('CatPackingType')->with('AssetGroup');
+        }
+        
+
+        if (isset($_GET['is_sales_item']) && $_GET['is_sales_item'] == 'yes' ) {
+            $list = $list->where('is_sales_item','=',true);
+        }
+
 
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;
@@ -48,51 +66,36 @@ class ItemListController extends Controller
         return response()->json(['success' => 1, 'rows' => $list, 'count' => $count, 'offset' => $offset, 'results' => count($list)], 200);
     }
 
-    public function store() // initialize draft
+    public function store()
     {
-        $item =  ItemList::where('is_draft','=', 1)->first();
-
-        if (!$item) {
-            $auth = \Auth::user();
-
-            $item = new ItemList();
-
-            $item->save();
-        }
-
-
-        $item = ItemList::find($item->uuid);
-        return response()->json(['success' => 1, 'data' => $item], 200);
+        return $this->save();
     }
 
-    public function update()
+    public function update($uuid) 
     {
-        $item =  ItemList::find(request()->uuid);
-        
-        if (!$item) {
-            return response()->json(['success' => 0, 'data' => null, 'Item not found'], 500);
-        }
+        return $this->save($uuid);
+    }
 
-        $uoms = request()->item_uoms;
-        $existing_barcodes = [];
-        //dd($uoms);
+    public function save($uuid = '')
+    {
 
-        foreach ($uoms as $uom) {
-            $barcode = $uom['barcode'];
-            $global_uom_uuid = $uom['uom']; // global_uom_uuid
-            $exists = ItemUom::where('barcode','=',$barcode)->first();
+        $suppliers = (isset(request()->suppliers)) ? request()->suppliers : [];
+        $check = ItemSupplierController::check($suppliers);
 
-            if ($exists && $exists->global_uom_uuid != $global_uom_uuid) {
-                $existing_barcodes[] = $barcode;
-            }
+        if ($check['errors'] > 0) {
+           return response()->json(['success' => 0, 'suppliers' => $check['suppliers'], 'errors' => $check['errors'], 'tab' => 'pricing' ], 500);
         }
 
 
-        if (count($existing_barcodes) >= 1) {
-            $barcodes = implode(',',$existing_barcodes);
-            $message = (count($existing_barcodes) > 1) ? 'The following barcodes '.$barcodes.' already exists!' : 'The barcode "'.$barcodes.'" already exists!';
-            return response()->json(['success' => 0, 'message' => $message], 500);
+        $uoms = (isset(request()->uoms)) ? request()->uoms : [];
+        $check = ItemUOMController::check($uoms);
+
+        if ($check['errors'] > 0) {
+           return response()->json(['success' => 0, 'uoms' => $check['uoms'], 'errors' => $check['errors'], 'tab' => 'uoms' ], 500);
         }
+
+        $item =  ItemList::find($uuid);
+        $item = ($item) ? $item : new ItemList();
         
         $item->item_group_uuid = request()->item_group_uuid;
         $item->item_code = request()->item_code;
@@ -128,76 +131,29 @@ class ItemListController extends Controller
         $item->save();
         
 
-        $supplier_uuids = request()->supplier_uuids;
-        $item_suppliers = ItemSupplier::where('item_uuid', '=', $item->uuid)->delete();
-        foreach ($supplier_uuids as $supplier_uuid) {
-            
-            // make sure the suppier belongs to the company
-            $exists = SupplierList::where('uuid','=',$supplier_uuid)->first();
-            
-            if (!$exists) {
-                continue;
-            }
-
-            $item_supplier = ItemSupplier::where('item_uuid','=',$item->uuid)->where('supplier_uuid','=',$supplier_uuid)->withTrashed()->first();
-            $item_supplier = (!$item_supplier) ? new ItemSupplier : $item_supplier;
-            $item_supplier->item_uuid = $item->uuid;
-            $item_supplier->supplier_uuid = $supplier_uuid;
-            $item_supplier->deleted_at = null;
-            $item_supplier->save();
-        }
-
-       
-        // mark all current item uom as deleted
-        $item_uom = ItemUom::where('item_uuid','=',$item->uuid)->delete();
-
-        foreach ($uoms as $uom) {
-
-            $packing = $uom['packing'];
-            $global_uom_uuid = $uom['uuid'];
-            $barcode = $uom['barcode'];
-            $sales_description = $uom['sales_description'];
-            $remarks = $uom['remarks'];
-
-            if (!is_numeric($packing) || $packing < 1) {
-                continue;
-            }
-            
-            // check if valid UOM (meaning the uuid exist on global)
-            $exist = GlobalUom::find($global_uom_uuid);
-
-            if (!$exist ) {
-                continue;
-            }
-            
-            $item_uom = ItemUom::where('item_uuid','=',$item->uuid)->where('global_uom_uuid','=',$global_uom_uuid)->where('barcode','=',$barcode)->withTrashed()->first();
-            $item_uom = ($item_uom) ? $item_uom :  new ItemUom;
-
-            $item_uom->item_uuid = $item->uuid;
-            $item_uom->global_uom_uuid = $global_uom_uuid;
-            $item_uom->packing_qtty = $packing;
-            $item_uom->barcode = $barcode;
-            $item_uom->sales_description =  $sales_description;
-            $item_uom->remarks =  $remarks;
-
-            $item_uom->deleted_at = null;
-            $item_uom->save();
-            
-        }
         $item = ItemList::find($item->uuid);
+        $suppliers_save = ItemSupplierController::save($item->uuid,$suppliers);
+        $uoms_save = ItemUOMController::save($item->uuid,$uoms);
+
         return response()->json(['success' => 1, 'rows' => $item], 200);
     }
 
     public function show($itemUUID) // set update records
     {
-        $item = ItemList::with('ItemGroup')->with('Suppliers')
-        ->with('IncomeAccount')->with('CosAccount')
+        $item = ItemList::with('ItemGroup')
+        ->with('Suppliers')
+        ->with('IncomeAccount')
+        ->with('CosAccount')
         ->with('CatDepartment')
-        ->with('CatSection')->with('CatCategory')
-        ->with('CatManufacturer')->with('CatItemType')
-        ->with('CatBrand')->with('CatForm')
+        ->with('CatSection')
+        ->with('CatCategory')
+        ->with('CatManufacturer')
+        ->with('CatItemType')
+        ->with('CatBrand')
+        ->with('CatForm')
         ->with('CatPackingType')
-        ->with('AssetGroup')->find($itemUUID);
+        ->with('AssetGroup')
+        ->find($itemUUID);
 
         if (!$item) {
             return response()->json(['success' => 0, 'data' => null, 'Item not found'], 500);
@@ -218,4 +174,5 @@ class ItemListController extends Controller
 
         return response()->json(['success' => 1, 'rows' => $uoms], 200);
     }
+    
 }

@@ -11,8 +11,8 @@
                             <h1 class="title">View Details</h1>
                         </span>
                         <span v-else>
-                            <span v-if ="formdata.is_draft">
-                                <h1 class="title">New Details</h1>
+                            <span v-if="formdata.uuid">
+                                <h1 class="title">New Item Details</h1>
                             </span>
                             <span v-else>
                                 <h1 class="title">Edit Details</h1>
@@ -26,8 +26,10 @@
                         </span>
                         <span v-else>
                             <a @click="ROUTE({path: '/item-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)">Cancel</a>
-                            <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Save</a>
-                            <a v-else @click="update()" type="submit" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Update</a>
+                            <a  @click="save()" type="submit" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">
+                                <template v-if="!formdata.uuid">Save</template>
+                                <template v-else>Update</template>
+                            </a>
                         </span>
                     </div>
                 </div>
@@ -84,14 +86,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="supplier">Supplier Name</label>
-                                <select class="form-select-suppliers" v-model="selected_suppliers" :options="options_supplier" name="supplier"  multiple="multiple" :disabled="view_mode">
-                                </select>
-                            </div>
-                        </div>
-                        
+
                         <div class="col-md-3 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="reorder-qty">ICO</label>
@@ -152,7 +147,7 @@
                             </li>
                             <li>
                                 <a class="" data-toggle="tab" href="#category">Category</a>    
-                            </li>
+                            </li> 
                             <li>
                                 <a class="active" data-toggle="tab" href="#account">Financial Account</a>    
                             </li>    
@@ -294,132 +289,11 @@
                             </div>
 
                             <div class="tab-pane" id="unit-of-measure">
-                                    <div class="row">
-                                        <div class="col-md-6 col-12">
-                                                <table class="table table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th width="40">UOM</th>
-                                                            <th width="150">Barcode</th>
-                                                            <th width="50">Packing</th>
-                                                            <th>Sales Description</th>
-                                                            <th>Remarks</th>
-                                                            <th width="50">Actions</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr v-for="(item_uom, index) in item_uoms" :key="item_uom.uuid + '-' + index">
-                                                            <td class="editable">
-                                                                <span>{{ getGlobalUOMName(item_uom.uuid) }}</span>
-                                                                <select v-model="item_uom.uuid" class="editable-control" :disabled="view_mode">
-                                                                    <option v-for="(uom,index_uom) in globalUOMs" :key="'base-' + uom.uuid + '-' + index_uom" :value="uom.uuid">{{ uom.uom}}</option>
-                                                                </select>
-                                                            </td>
-
-                                                            <td class="editable text-right">
-                                                                <input v-model="item_uom.barcode" type="text" class="editable-control" :readonly="view_mode">
-                                                                <span>{{ item_uom.barcode }}</span>
-                                                            </td>
-                                                            <td class="editable text-right">
-                                                                <input v-model="item_uom.packing" type="text" class="editable-control" :readonly="view_mode">
-                                                                <span>{{ item_uom.packing }}</span>
-                                                            </td>
-                                                            <td class="editable">
-                                                                <input v-model="item_uom.sales_description" type="text" class="editable-control" :readonly="view_mode">
-                                                                <span>{{ item_uom.sales_description }}</span>
-                                                            </td>
-                                                            <td class="editable text-right">
-                                                                <input v-model="item_uom.remarks" type="text" class="editable-control" :readonly="view_mode">
-                                                                <span>{{ item_uom.remarks }}</span>
-                                                            </td>
-                                                    
-
-                                                            <td>
-                                                                <button @click="removeItemUom(index)" type="button" class="hx-btn-single m-1" :disabled="view_mode">Delete</button>
-                                                            </td>
-                                                        
-                                                        </tr>
-                                                        <tr>
-                                                            <td style="text-align:center; cursor:pointer; font-weight:600; border-color: var(--shine-blue) !important;" colspan="6" class="p-0">
-                                                                <button @click="addItemUom()" type="button" style="font-weight:600; border:none; width: 100%; padding: 6px;" class="hx-btn-shineblue" :disabled="view_mode"><i class="las la-plus"></i> New UOM</button>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                    </div>
+                                <UOMS v-if="ready"  :item="formdata" :view_mode="view_mode" ref="uoms"></UOMS>
                             </div>   
 
                             <div class="tab-pane" id="pricing" style="padding: 0 15px 15px;"> 
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        
-                                        <div class="d-flex">
-                                            <div>
-                                                <div class="form-group" style="height: 100%; margin: 0 !important; display: flex; align-items: center;">
-                                                    <div class="form-control-wrap">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" v-model="formdata.is_purchase_item" value="1" class="custom-control-input" id="is-purchase-item" :disabled="view_mode">
-                                                            <label class="custom-control-label" for="is-purchase-item">Is Purchase Item?</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div v-show="formdata.is_purchase_item">
-                                                <div class="d-flex">
-                                                    <div class="d-flex align-items-center ml-3 mr-3">
-                                                        <i class="fas fa-long-arrow-alt-right" style="font-size: 24px; color: var(--warning);"></i>
-                                                    </div>
-                                                    <div class="form-group" style="display: flex; align-items: center; margin:0 !important;">
-                                                        <label class="form-label m-0 mr-2" for="purchase-price">Price <small style="color: red; font-style: italic">(*required):</small></label>
-                                                        <div class="form-control-wrap">
-                                                            <input v-model="formdata.purchase_price" type="text" class="form-control" id="purchase-price" :readonly="view_mode" required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div v-show="formdata.is_purchase_item">
-                                            <hr>
-                                            <div class="d-flex">
-                                                <div class="form-group" style="display: flex; align-items: center; margin: 0 !important;">
-                                                    <div class="form-control-wrap">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" v-model="formdata.is_sales_item" value="1" class="custom-control-input" id="is-sales-item" :disabled="view_mode">
-                                                            <label class="custom-control-label" for="is-sales-item">Is Sales Item?</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div v-show="formdata.is_sales_item">
-                                                    <div class="d-flex">
-                                                        <div class="d-flex align-items-center ml-3 mr-3">
-                                                            <i class="fas fa-long-arrow-alt-right" style="font-size: 24px; color: var(--warning);"></i>
-                                                        </div>
-                                                        <div class="form-group" style="display: flex; align-items: center; margin: 0 !important;">
-                                                            <label class="form-label m-0 mr-2" for="sales-price">Sales Price <small style="color: #999; font-style: italic">(optional)</small>:</label>
-                                                            <div class="form-control-wrap">
-                                                                <input v-model="formdata.sales_price" type="text" class="form-control" id="sales-price" :readonly="view_mode">
-                                                            </div>
-                                                        </div>
-                                                   
-                                                        <div class="form-group pl-3" style="margin: 0 !important; display: flex; align-items: center;">
-                                                            <label class="form-label m-0 mr-2" for="transfer-price">Transfer Price:</label>
-                                                            <div class="form-control-wrap">
-                                                                <input v-model="formdata.sales_price" type="text" class="form-control" id="transfer-price" readonly="disabled">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <hr>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-
+                                <pricing v-if="ready" :item="formdata"  ref="pricing"></pricing>
                             </div>    
 
 
@@ -450,6 +324,8 @@
 
 import Swal from 'sweetalert2'
 import Discounts from './discounts'
+import UOMS from './uoms'
+import pricing from './pricing'
 
 export default {
     name: 'item-list',
@@ -458,7 +334,6 @@ export default {
         return {
             prerequiste: {
                 getItemGroup: false,
-                getSupplier: false,
                 getIncomeAccount: false,
                 getCostofSales: false,
                 getCatDepartment: false,
@@ -474,6 +349,7 @@ export default {
                 getGlobalBaseUOM: false,
                 getAssetGroup: false,
                 getTaxationItem:false,
+                getItemDetails: false
                 
             },
 
@@ -487,8 +363,7 @@ export default {
             selected_item_group: null,
             options_item_group: [],
 
-            selected_suppliers: [],
-            options_supplier: [],
+
 
             selected_income_account: null,
             options_income_account: [],
@@ -539,12 +414,11 @@ export default {
 
             global_uoms: [],
             item_uoms: [],
-
+ 
             transfer_price: '',
 
             formdata: { 
                 uuid: null,
-                is_draft: 1,
                 item_group_uuid: '', 
                 item_code: '', 
                 item_barcode: '',
@@ -580,7 +454,8 @@ export default {
                 cat_size: '',
                 is_vat: 0,
                 vat_uuid: '',
-
+                suppliers: [],
+                uoms: []
             }
 
         }
@@ -589,7 +464,7 @@ export default {
         ready: function () {
             var scope = this
 
-            if (scope.prerequiste.getItemGroup && scope.prerequiste.getSupplier && scope.prerequiste.getIncomeAccount && scope.prerequiste.getCostofSales 
+            if (scope.prerequiste.getItemDetails && scope.prerequiste.getItemGroup && scope.prerequiste.getIncomeAccount && scope.prerequiste.getCostofSales 
                 && scope.prerequiste.getCatDepartment && scope.prerequiste.getCatSection && scope.prerequiste.getCatCategory && scope.prerequiste.getCatManufacturer
                 && scope.prerequiste.getCatItemType && scope.prerequiste.getCatBrand && scope.prerequiste.getCatForm && scope.prerequiste.getCatPackingType
                 && scope.prerequiste.getAssetGroup && scope.prerequiste.getGlobalUoms && scope.prerequiste.getGlobalBaseUOM && scope.prerequiste.getTaxationItem) {
@@ -598,7 +473,6 @@ export default {
 
             return false
         },
-        
         globalUOMs() {
             return this.global_uoms
         }
@@ -613,7 +487,7 @@ export default {
                     $(".form-select-item-group").select2({data: scope.options_item_group});
                     scope.selected_item_group = scope.options_item_group[0].id
 
-                    $(".form-select-suppliers").select2({data: scope.options_supplier});
+
 
                     $(".form-select-income-account").select2({data: scope.options_income_account});
                     scope.selected_income_account = scope.options_income_account[0].id
@@ -652,20 +526,14 @@ export default {
 
                     $(".form-select-vat").select2({data: scope.options_vat});
                     scope.selected_vat = scope.options_vat[0].id
-
-
-                    var itemUUID = scope.$route.params.itemUUID
-                    scope.getItemDetails(itemUUID)
-
                 },500)
                 
             }
-        },
-
+        }, 
         is_vat: function () {
             var scope = this
 
-            if (scope.formdata.is_draft == 1){
+            if (scope.formdata.uuid){
 
                 if (scope.is_vat == 1){
                     scope.selected_vat = scope.options_vat[1].id
@@ -673,16 +541,14 @@ export default {
                     $('.form-select-vat').val(scope.selected_vat);
                     $('.form-select-vat').trigger('change');
                     
-                }else{
+                } else {
                     scope.selected_vat = scope.options_vat[0].id
-
                     $('.form-select-vat').val(scope.selected_vat);
                     $('.form-select-vat').trigger('change');
 
                 }
 
-            }
-            else {
+            } else {
 
                 if (scope.is_vat == 1){
                     
@@ -712,10 +578,11 @@ export default {
     },
 
     components: {
-        'discounts' : Discounts
+        'discounts' : Discounts,
+        'UOMS' : UOMS,
+        'pricing' : pricing,
     },
     methods: {
-
         getTaxationItem: function () {
            var scope = this
 
@@ -757,21 +624,7 @@ export default {
             })
         },
 
-        getSupplier: function () {
-           var scope = this
-            scope.GET('suppliers').then(res => {
-                res.rows.forEach(function (data) {
 
-                    scope.options_supplier.push({
-                        id: data.uuid,
-                        text: data.supplier_shortname
-                    })
-                })
-
-                scope.prerequiste.getSupplier = true
-                
-            })
-        },
 
         getIncomeAccount: function () {
            var scope = this
@@ -1021,24 +874,6 @@ export default {
             })
         },
 
-        getItemUoms: function () {
-           var scope = this
-             scope.item_uoms = [];
-
-            scope.GET('items/'+ scope.formdata.uuid +'/uoms').then(res => {
-                // we use global UOM UUID as uuid instead
-                res.rows.forEach(function (data) {
-                    scope.item_uoms.push({
-                        uuid: data.global_uom_uuid,
-                        uom: data.global_uom_uuid, 
-                        barcode: data.barcode, 
-                        packing: data.packing_qtty, 
-                        sales_description:  data.sales_description, 
-                        remarks: data.remarks, 
-                    })
-                })
-            })
-        },
 
 
         getGlobalUOMName: function (uuid) {
@@ -1072,8 +907,13 @@ export default {
         },
         save: function () {
             var scope = this
+
+            scope.formdata.suppliers =  this.$refs.pricing.getSelectedSuppliers()
+            scope.formdata.uoms =  this.$refs.uoms.getUOMS()
+
             scope.formdata.item_group_uuid = scope.selected_item_group
-            scope.formdata.supplier_uuids = scope.selected_suppliers
+            
+
             scope.formdata.coa_income_account_uuid = scope.selected_income_account
             scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
             scope.formdata.item_asset_group_uuid = scope.selected_asset_group
@@ -1094,90 +934,67 @@ export default {
 
             scope.formdata.item_uoms = scope.item_uoms
 
-
-            scope.PUT('items', scope.formdata).then(res => {
-                if (res.success) {
-                    window.swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Saved',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        scope.ROUTE({path: '/item-main/'})
-                        scope.tempItemUOMs = []
-                        scope.formdata.uoms = []
-                    })
-                } else {
-                    //alert('ERROR:' + res.code)
-                    window.swal.fire({
-                        icon: "error",
-                        message: res.message
-                    })
-                }
-                
-            })
-        },
-        update: function () {
-            var scope = this
-            scope.formdata.item_group_uuid = scope.selected_item_group
-            scope.formdata.supplier_uuids = scope.selected_suppliers
-            scope.formdata.coa_income_account_uuid = scope.selected_income_account
-            scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
-            scope.formdata.item_asset_group_uuid = scope.selected_asset_group
-
-            scope.formdata.global_base_uom_uuid = scope.selected_base_uom
-
-            scope.formdata.cat_department_uuid = scope.selected_cat_department
-            scope.formdata.cat_section_uuid = scope.selected_cat_section
-            scope.formdata.cat_category_uuid = scope.selected_cat_category
-            scope.formdata.cat_manufacturer_uuid = scope.selected_cat_manufacturer
-            scope.formdata.cat_item_type_uuid = scope.selected_cat_item_type
-            scope.formdata.cat_brand_uuid = scope.selected_cat_brand
-            scope.formdata.cat_form_uuid = scope.selected_cat_form
-            scope.formdata.cat_packing_type_uuid = scope.selected_cat_packing_type
-
-            scope.formdata.is_vat = scope.is_vat
-            scope.formdata.vat_uuid = scope.selected_vat
-
-            scope.formdata.item_uoms = scope.item_uoms
-
-            window.swal.fire({
-                title: 'Update?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#548235',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.value) {
-                    scope.PUT('items', scope.formdata).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Updated',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.ROUTE({path: '/item-main/'})
-                            })
-                        } else{
-                            console.log(res)
-                            window.swal.fire({
-                                icon: "error",
-                                text: res.message
-                            })
+            if (scope.formdata.uuid) {
+                window.swal.fire({
+                    title: 'Update?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#548235',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.value) {
+                        scope.PUT('items/' + scope.formdata.uuid, scope.formdata).then(res => {
+                            if (res.success) {
+                                window.swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Updated',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then(() => {
+                                    scope.ROUTE({path: '/item-main/'})
+                                })
+                            } else {
+                                alert('ERROR')
+                                /*
+                                if (res.errors > 0 && res.tab == 'discounts') {
+                                    scope.$refs.discounts.updateDiscountGroups(res.groups)
+                                    $('#suppliers-settings-tab .nav-tabs').find('a[href="#discount-tab"]').trigger('click');
+                                }
+                                */
+                            }
+                        })
+                    }                              
+                })
+            } else {
+                scope.POST('items', scope.formdata).then(res => {
+                    if (res.success) {
+                        window.swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Saved',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            scope.ROUTE({path: '/item-main/'})
+                        })
+                    } else {
+                        alert('ERROR')
+                        /*
+                        if (res.errors > 0 && res.tab == 'discounts') {
+                            scope.$refs.discounts.updateDiscountGroups(res.groups)
+                            $('#suppliers-settings-tab .nav-tabs').find('a[href="#discount-tab"]').trigger('click');
                         }
-                    })            
-                }                              
-            })
+                        */  
+                    }
+                })
+            }
             
         },
         remove: function (data) {
             var scope = this
-
             window.swal.fire({
                 title: 'Delete?',
                 icon: 'warning',
@@ -1207,113 +1024,102 @@ export default {
                 }                              
             })
         },
-
-        setSupplierIDs: function (supplier_ids) {
-            this.$refs.itemDiscounts.getSupplierDiscounts(supplier_ids);
-        },
         getItemDetails: function (itemUUID) {
             var scope = this
+
+            if (!itemUUID) {
+                scope.prerequiste.getItemDetails = true
+                return;
+            } 
+
             scope.GET('items/' + itemUUID).then(res => {
                 let data = res.data
 
-                console.log('asdasdds')
-
                 scope.formdata.uuid = itemUUID
 
-                if (data.is_draft=== 0) {
+                scope.formdata.item_code = data.item_code
+                scope.formdata.item_barcode = data.item_barcode
+                scope.formdata.item_description = data.item_description
+                scope.formdata.item_shortname = data.item_shortname
+                scope.formdata.is_purchase_item = data.is_purchase_item
 
-                    scope.formdata.is_draft = data.is_draft
-                    scope.formdata.item_code = data.item_code
-                    scope.formdata.item_barcode = data.item_barcode
-                    scope.formdata.item_description = data.item_description
-                    scope.formdata.item_shortname = data.item_shortname
-                    scope.formdata.is_purchase_item = data.is_purchase_item
+                scope.formdata.purchase_price = data.purchase_price
+                scope.formdata.is_sales_item = data.is_sales_item
 
-                    scope.formdata.purchase_price = data.purchase_price
-                    scope.formdata.is_sales_item = data.is_sales_item
+                scope.formdata.sales_price = data.sales_price
+                scope.formdata.is_expiry = data.is_expiry
+                scope.formdata.reorder_qty = data.reorder_qty
 
-                    scope.formdata.sales_price = data.sales_price
-                    scope.formdata.is_expiry = data.is_expiry
-                    scope.formdata.reorder_qty = data.reorder_qty
+                scope.formdata.is_maintain_stock = data.is_maintain_stock
+                scope.formdata.is_active = data.is_active
 
-                    scope.formdata.is_maintain_stock = data.is_maintain_stock
-                    scope.formdata.is_active = data.is_active
+                scope.formdata.cat_size = data.cat_size
 
-                    scope.formdata.cat_size = data.cat_size
+                scope.formdata.suppliers = data.suppliers
 
-                    if (data.vat_uuid!=null){
-                        scope.is_vat = 1
-                    }else{
-                        scope.is_vat = 0
-                    }
-
-                    scope.getItemUoms()
-
-                    var suppliers = [];
-                    
-
-                    for(var i = 0; i < data.suppliers.length; i++) {
-                        suppliers.push(data.suppliers[i].supplier_uuid)
-                    }
-                    
-
-                    $('.form-select-item-group').val(data.item_group_uuid);
-                    $('.form-select-item-group').trigger('change');
-
-                    $('.form-select-suppliers').val(suppliers);
-                    $('.form-select-suppliers').trigger('change');
-
-                    $('.form-select-income-account').val(data.coa_income_account_uuid);
-                    $('.form-select-income-account').trigger('change');
-                    
-                    $('.form-select-cost-of-sales').val(data.coa_cos_account_uuid);
-                    $('.form-select-cost-of-sales').trigger('change');
-
-                    $('.form-select-cat-department').val(data.cat_department_uuid);
-                    $('.form-select-cat-department').trigger('change');
-
-                    $('.form-select-cat-section').val(data.cat_section_uuid);
-                    $('.form-select-cat-section').trigger('change');
-
-                    $('.form-select-cat-category').val(data.cat_category_uuid);
-                    $('.form-select-cat-category').trigger('change');
-
-                    $('.form-select-cat-manufacturer').val(data.cat_manufacturer_uuid);
-                    $('.form-select-cat-manufacturer').trigger('change');
-
-                    $('.form-select-cat-item-type').val(data.cat_item_type_uuid);
-                    $('.form-select-cat-item-type').trigger('change');
-
-                    $('.form-select-cat-brand').val(data.cat_brand_uuid);
-                    $('.form-select-cat-brand').trigger('change');
-
-                    $('.form-select-cat-form').val(data.cat_form_uuid);
-                    $('.form-select-cat-form').trigger('change');
-
-                    $('.form-select-cat-packing-type').val(data.cat_packing_type_uuid);
-                    $('.form-select-cat-packing-type').trigger('change');
-
-                    $('.form-select-asset-group').val(data.item_asset_group_uuid);
-                    $('.form-select-asset-group').trigger('change');
-
-                    $('.form-select-base-uom').val(data.global_base_uom_uuid);
-                    $('.form-select-base-uom').trigger('change');
-
-                    $('.form-select-vat').val(data.vat_uuid);
-                    $('.form-select-vat').trigger('change');
-
-                    scope.reference_vat_uuid = data.vat_uuid;
-
+                if (data.vat_uuid!=null){
+                    scope.is_vat = 1
+                } else {
+                    scope.is_vat = 0
                 }
+
+                $('.form-select-item-group').val(data.item_group_uuid);
+                $('.form-select-item-group').trigger('change');
+
+
+                $('.form-select-income-account').val(data.coa_income_account_uuid);
+                $('.form-select-income-account').trigger('change');
+                
+                $('.form-select-cost-of-sales').val(data.coa_cos_account_uuid);
+                $('.form-select-cost-of-sales').trigger('change');
+
+                $('.form-select-cat-department').val(data.cat_department_uuid);
+                $('.form-select-cat-department').trigger('change');
+
+                $('.form-select-cat-section').val(data.cat_section_uuid);
+                $('.form-select-cat-section').trigger('change');
+
+                $('.form-select-cat-category').val(data.cat_category_uuid);
+                $('.form-select-cat-category').trigger('change');
+
+                $('.form-select-cat-manufacturer').val(data.cat_manufacturer_uuid);
+                $('.form-select-cat-manufacturer').trigger('change');
+
+                $('.form-select-cat-item-type').val(data.cat_item_type_uuid);
+                $('.form-select-cat-item-type').trigger('change');
+
+                $('.form-select-cat-brand').val(data.cat_brand_uuid);
+                $('.form-select-cat-brand').trigger('change');
+
+                $('.form-select-cat-form').val(data.cat_form_uuid);
+                $('.form-select-cat-form').trigger('change');
+
+                $('.form-select-cat-packing-type').val(data.cat_packing_type_uuid);
+                $('.form-select-cat-packing-type').trigger('change');
+
+                $('.form-select-asset-group').val(data.item_asset_group_uuid);
+                $('.form-select-asset-group').trigger('change');
+
+                $('.form-select-base-uom').val(data.global_base_uom_uuid);
+                $('.form-select-base-uom').trigger('change');
+
+                $('.form-select-vat').val(data.vat_uuid);
+                $('.form-select-vat').trigger('change');
+
+                scope.reference_vat_uuid = data.vat_uuid;
+
+                scope.prerequiste.getItemDetails = true
                 
             })
         }
     },
     mounted() {
         var scope = this
+
+        scope.formdata.uuid = (scope.$route.params.itemUUID != 'create') ? scope.$route.params.itemUUID : null
+
         scope.getTaxationItem()
         scope.getItemGroup()
-        scope.getSupplier()
         scope.getIncomeAccount()
         scope.getCostofSales()
 
@@ -1327,10 +1133,10 @@ export default {
         scope.getCatPackingType()
 
         scope.getAssetGroup()
-
         scope.getGlobalUoms()
-
         scope.getGlobalBaseUOM()
+
+        scope.getItemDetails(scope.formdata.uuid)
         
 
         $(document).on('change','.form-select-item-group', function(e) { 
@@ -1338,10 +1144,7 @@ export default {
             scope.checkAsset()
         })
 
-        $(document).on('change','.form-select-suppliers', function(e) { 
-            scope.selected_suppliers = $('.form-select-suppliers').val();
-            scope.setSupplierIDs(scope.selected_suppliers)
-        })
+
 
         $(document).on('change','.form-select-income-account', function(e) { 
             scope.selected_income_account = $('.form-select-income-account').val();

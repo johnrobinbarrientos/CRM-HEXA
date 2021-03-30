@@ -14,7 +14,7 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <a @click="create()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                <a @click="ROUTE({path: '/price-rule/create' })" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                     <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
@@ -47,7 +47,7 @@
                                 </b-dropdown>
                             </span>
                         </td>
-                        <td>{{ price_rule.rule_name }}</td>
+                        <td>{{ price_rule.name }}</td>
                         <td>{{ price_rule.date_start }}</td>
                         <td>{{ price_rule.date_end }}</td>
                         <td class="text-right">{{ price_rule.rate }}</td>

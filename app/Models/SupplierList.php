@@ -48,5 +48,8 @@ class SupplierList extends Model
         return $this->hasOne('App\Models\CompanyTaxation','uuid','ewt_uuid');
     }
    
-    
+    public function DiscountGroups()
+    {
+        return $this->hasMany('App\Models\BDSupplier','supplier_uuid','uuid');
+    }
 }
