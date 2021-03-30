@@ -65,6 +65,9 @@ class SupplierCheckPayeeController extends Controller
         $payee_uuids = [];
         
         foreach ($payees as $key => $payee) {
+            if ( is_null($payee['uuid'])) {
+                continue;
+            }
             $payee_uuids[] = $payee['uuid'];
         }
         

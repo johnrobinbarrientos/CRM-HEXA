@@ -46,6 +46,9 @@ class SupplierContactController extends Controller
     {
         $contact_uuids = [];
         foreach ($contacts as $key => $contact) {
+            if ( is_null($contact['uuid'])) {
+                continue;
+            }
             $contact_uuids[] = $contact['uuid'];
         }
 

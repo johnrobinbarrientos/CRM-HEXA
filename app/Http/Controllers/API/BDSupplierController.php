@@ -47,6 +47,9 @@ class BDSupplierController extends Controller
         $group_uuids = [];
         
         foreach ($groups as $key => $group) {
+            if ( is_null($group['uuid'])) {
+                continue;
+            }
             $group_uuids[] = $group['uuid'];
         }
         

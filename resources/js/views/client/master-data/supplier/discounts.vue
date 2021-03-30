@@ -9,7 +9,6 @@
                         <div class="col-md-6">
                             <div style="text-align:right;">
                                 <button @click="addNewGroup()"  type="button" class="btn-gray-small" :disabled="view_mode">New Group</button>
-                                <button @click="test()"  type="button" class="btn-gray-small" :disabled="view_mode">Test</button>
                             </div>
                         </div>
                     </div>
@@ -28,9 +27,7 @@
                                 <template v-bind:class="{'table-success' : (selected_group && selected_group.uuid === group.uuid) }" style="cursor:pointer;" v-for="(group,index) in groups">
                                     
                                         <tr :key="'group-' + index">
-                                            <template v-if="group.deleted_at==null">
                                                 <td width="80" class="text-center">
-
                                                 
                                                 <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="editGroup(group,index)">
                                                     <b-dropdown-item href="javascript:void(0)"  @click="editGroup(group,index)">Edit</b-dropdown-item>
@@ -46,7 +43,7 @@
                                                 <td width="20" class="text-right">
                                                     <strong >{{ totalDiscountGroup(group.discounts) }}</strong>
                                                 </td>
-                                            </template>
+     
                                         </tr>
                                     
                             
@@ -194,10 +191,6 @@ export default {
         }
     },
     methods: {
-        test: function () {
-           var scope = this
-            console.log(scope.groups)
-        },
         totalDiscountGroup: function (discounts) {
 
             var total = 0
