@@ -28,31 +28,33 @@
 
         <div class="row">
             <div class="col-lg-6">
-                <table class="table table-striped table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th width="105">Action</th> 
-                            <th>Location</th>
-                            <th>Shortname</th>
-                            <th>Branch</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(location) in branchLocations" :key="location.uuid" class="tb-tnx-item">
-                            <td width="100">
-                                <span class="hx-table-actions">
-                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalBranchLocation');setData(location)" >
-                                        <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalBranchLocation');setData(location)" >Edit</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)" @click="remove(location)">Delete</b-dropdown-item>
-                                    </b-dropdown>
-                                </span>
-                            </td>
-                            <td>{{ location.location_name }}</td>
-                            <td>{{ location.location_shortname }}</td>
-                            <td>{{ location.branch.branch_name }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="105">Action</th> 
+                                <th>Location</th>
+                                <th>Shortname</th>
+                                <th>Branch</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(location) in branchLocations" :key="location.uuid" class="tb-tnx-item">
+                                <td width="100">
+                                    <span class="hx-table-actions">
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalBranchLocation');setData(location)" >
+                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalBranchLocation');setData(location)" >Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="remove(location)">Delete</b-dropdown-item>
+                                        </b-dropdown>
+                                    </span>
+                                </td>
+                                <td>{{ location.location_name }}</td>
+                                <td>{{ location.location_shortname }}</td>
+                                <td>{{ location.branch.branch_name }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div> 
 

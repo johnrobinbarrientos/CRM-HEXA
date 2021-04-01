@@ -107,7 +107,7 @@
                                 <th>Reason Code</th> 
                             </tr>
                         </thead>
-                        <tbody class="td-border-bottom-black">
+                        <tbody>
                             <template v-if="purchaseOrders.length > 0">
                                 
                                 <tr v-for="(purchase) in purchaseOrders" :key="purchase.uuid">
@@ -164,10 +164,13 @@
                                         </select> -->
                                     </td>
                                 </tr>
+                                <tr class="line-total">
+                                    <td colspan="12"></td>
+                                </tr>
                                 <tr>
                                     <td colspan="7"></td>
-                                    <td style="border-left: 2px solid #eee">
-                                        <span><strong>Total:</strong></span>
+                                    <td>
+                                        <span><strong>Total</strong></span>
                                     </td>
                                     <td class="text-right">
                                         <span v-if="grand_total==0"><strong>0.00</strong></span>
@@ -175,15 +178,16 @@
                                     </td>
                                     <td colspan="3"></td>
                                 </tr>
-                                <tr>
-                                    <td colspan="13">
-                                        <div style="margin-bottom: 2px;"></div>
-                                    </td>
+                                <tr class="line-total">
+                                    <td colspan="12"></td>
+                                </tr>
+                                <tr class="line-total last-line">
+                                    <td colspan="12"></td>
                                 </tr>
                             </template>
                             <template v-else>
                                 <tr>
-                                    <td colspan="13" class="text-center">
+                                    <td colspan="12" class="text-center">
                                         <strong style="display: block; height: 30px; line-height: 30px;">No Transactions</strong>
                                     </td>
                                 </tr>
@@ -793,8 +797,4 @@ export default {
 
 <style scoped>
 .badge { font-size: 11px; }
-
-.td-border-bottom-black tr:nth-last-child(3) td { border-bottom-color: #495057 !important; }
-.td-border-bottom-black tr:nth-last-child(2) td { border-bottom-color: #495057 !important; }
-.td-border-bottom-black tr:nth-last-child(1) td { border-bottom-color: #495057 !important; }
 </style>

@@ -550,14 +550,35 @@ body { background-color: #f6f8f9; font-weight: normal; }
     margin-bottom: 2px;
     border-radius: 4px;
     font-size: 12px;
+    cursor: pointer;
 }
-.hx-side-tab .nav-link.active,
+.hx-side-tab .nav-link.active:not(.has-submenu),
 .hx-side-tab .nav-link:hover,
 .hx-side-tab .nav-link:focus {
     color: #fff;
     background: var(--shine-blue);
 }
+.hx-side-tab .nav-options {
+    display: none;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.hx-side-tab .nav-options span {
+    display: block;
+    padding: .2rem 1rem !important;
+    padding-left: 1.5rem !important;
+    font-size: 12px;
+}
 
+.hx-side-tab .nav-item.active .nav-options {
+    display: block;
+}
+.hx-side-tab .nav-item .nav-link i { transition: .1s; }
+.hx-side-tab .nav-item.active .nav-link { margin-bottom: 0; }
+.hx-side-tab .nav-item.active .nav-link i {
+    transform: rotate(90deg);
+    transition: .1s;
+}
 
 /* b-dropdown 'dissappearing carret on hover & click' fix */
 .b-dropdown.dropdown { background-color: #e7e9ec; }
@@ -591,13 +612,15 @@ body { background-color: #f6f8f9; font-weight: normal; }
 
 /*form fields*/
 .form-control, .select2-container, .select2-selection, .select2-container .select2-selection--single, .select2-container .select2-selection--multiple { min-height:34px !important;  }
-
 .form-control.disabled { opacity:0.7; }
+
 /*navtabs*/
 .nav.nav-tabs { margin-bottom: 1rem; }
 .nav.nav-tabs .nav-link.active { font-weight: 700; color: #333; }
+
 /*badge*/
 .noti-icon .badge { top: 17px; right: 3px; }
+
 /*scrollbar*/
 .simplebar-scrollbar { width: 10px; }
 .simplebar-track.simplebar-vertical { width: 12px; }
@@ -619,6 +642,22 @@ body { background-color: #f6f8f9; font-weight: normal; }
     background: var(--shine-blue);
     border-color: var(--shine-blue);
 }
+/*tr line-total*/
+tr.line-total > td {
+    position: relative;
+    border: 0 !important;
+    padding: 0 !important;
+}
+tr.line-total > td:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-bottom: 1px solid #495057;
+}
+tr.line-total.last-line > td { height: 2px; }
+tr.line-total.last-line > td:before { bottom: -1px; }
 
 /** HEXA in-house modules (custom modules) **/
 
@@ -982,7 +1021,6 @@ img.header-profile-user { background: #fff; }
     border:1px solid #74788d;
     margin-top: 2px;
     margin-bottom: 3px;
-<<<<<<< HEAD
     border-radius:3px;
     min-width: 51px;
     height: 21px;
@@ -991,10 +1029,6 @@ img.header-profile-user { background: #fff; }
 
 .btn-gray-small.disabled {
     opacity:0.6;
-=======
-    border-radius:4px;
-    transition: .3s;
->>>>>>> master
 }
 
 .btn-gray-small:not(.disabled):hover {

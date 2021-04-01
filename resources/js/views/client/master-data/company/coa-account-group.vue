@@ -29,30 +29,32 @@
 
         <div class="row">
             <div class="col-lg-6">
-                <table class="table table-striped table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th width="105">Action</th> 
-                            <th>Account Group</th>
-                            <th>Report Group</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(account) in accountGroups" :key="account.uuid" class="tb-tnx-item">
-                            <td width="100">
-                                <span class="hx-table-actions">
-                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalAccountGroup');setData(account)">
-                                        <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalAccountGroup');setData(account)">Edit</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)" @click="remove(account)">Delete</b-dropdown-item>
-                                    </b-dropdown>
-                                </span>
-                            </td>
-                            <td>{{ account.account_group }}</td>
-                            <td>{{ account.report_group.coa_report_name }}</td>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="105">Action</th> 
+                                <th>Account Group</th>
+                                <th>Report Group</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(account) in accountGroups" :key="account.uuid" class="tb-tnx-item">
+                                <td width="100">
+                                    <span class="hx-table-actions">
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalAccountGroup');setData(account)">
+                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalAccountGroup');setData(account)">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="remove(account)">Delete</b-dropdown-item>
+                                        </b-dropdown>
+                                    </span>
+                                </td>
+                                <td>{{ account.account_group }}</td>
+                                <td>{{ account.report_group.coa_report_name }}</td>
 
-                        </tr>
-                    </tbody>
-                </table>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div> 
 

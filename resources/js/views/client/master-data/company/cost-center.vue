@@ -28,35 +28,37 @@
 
         <div class="row">
             <div class="col-lg-8">
-                <table class="table table-striped table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th width="105">Action</th>
-                            <th>Cost Center Name</th>
-                            <th>Shortname</th>
-                            <th>Is Group</th>
-                            <th>Cost Center Group</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(costcenter) in costCenters" :key="costcenter.uuid" class="tb-tnx-item">
-                            <td width="100">
-                                <span class="hx-table-actions">
-                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalCostCenter');setData(costcenter)" >
-                                        <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalCostCenter');setData(costcenter)">Edit</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)" @click="remove(costcenter)">Delete</b-dropdown-item>
-                                    </b-dropdown>
-                                </span>
-                            </td>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="105">Action</th>
+                                <th>Cost Center Name</th>
+                                <th>Shortname</th>
+                                <th>Is Group</th>
+                                <th>Cost Center Group</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(costcenter) in costCenters" :key="costcenter.uuid" class="tb-tnx-item">
+                                <td width="100">
+                                    <span class="hx-table-actions">
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalCostCenter');setData(costcenter)" >
+                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalCostCenter');setData(costcenter)">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="remove(costcenter)">Delete</b-dropdown-item>
+                                        </b-dropdown>
+                                    </span>
+                                </td>
 
-                            <td>{{ costcenter.cost_center_name }}</td>
-                            <td>{{ costcenter.cost_center_shortname }}</td>
-                            <td v-if="costcenter.is_group === 1" class="text-center c-success"><i class="fas fa-check"></i></td>
-                            <td v-else class="text-center c-danger"><!-- <i class="fas fa-times"></i> --></td>
-                            <td>{{ costcenter.cost_center_group }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                                <td>{{ costcenter.cost_center_name }}</td>
+                                <td>{{ costcenter.cost_center_shortname }}</td>
+                                <td v-if="costcenter.is_group === 1" class="text-center c-success"><i class="fas fa-check"></i></td>
+                                <td v-else class="text-center c-danger"><!-- <i class="fas fa-times"></i> --></td>
+                                <td>{{ costcenter.cost_center_group }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 

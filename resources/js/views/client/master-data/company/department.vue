@@ -27,29 +27,31 @@
 
         <div class="row">
             <div class="col-lg-6">
-                <table class="table table-striped table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th width="105">Action</th>
-                            <th>Department</th>
-                            <th>Cost Center</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(department) in companyDepartments" :key="department.uuid">
-                            <td width="100">
-                                <span class="hx-table-actions">
-                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalDepartment');setData(department)">
-                                        <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalDepartment');setData(department)">Edit</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)" @click="remove(department)">Delete</b-dropdown-item>
-                                    </b-dropdown>
-                                </span>
-                            </td>
-                            <td>{{ department.department }}</td>
-                            <td>{{ department.cost_center.cost_center_name }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="105">Action</th>
+                                <th>Department</th>
+                                <th>Cost Center</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(department) in companyDepartments" :key="department.uuid">
+                                <td width="100">
+                                    <span class="hx-table-actions">
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalDepartment');setData(department)">
+                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalDepartment');setData(department)">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="remove(department)">Delete</b-dropdown-item>
+                                        </b-dropdown>
+                                    </span>
+                                </td>
+                                <td>{{ department.department }}</td>
+                                <td>{{ department.cost_center.cost_center_name }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div> 
 

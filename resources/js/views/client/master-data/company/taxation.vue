@@ -28,31 +28,33 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <table class="table table-striped table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th width="105">Action</th>
-                            <th>Type</th>
-                            <th>Name</th>
-                            <th>Rate</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(tax) in Taxations" :key="tax.uuid">
-                            <td width="100">
-                                <span class="hx-table-actions">
-                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalTaxation');setData(tax)">
-                                        <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalTaxation');setData(tax)">Edit</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)" @click="remove(tax)">Delete</b-dropdown-item>
-                                    </b-dropdown>
-                                </span>
-                            </td>
-                            <td>{{ tax.tax_type }}</td>
-                            <td>{{ tax.tax_name }}</td>
-                            <td>{{ tax.tax_rate }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="105">Action</th>
+                                <th>Type</th>
+                                <th>Name</th>
+                                <th>Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(tax) in Taxations" :key="tax.uuid">
+                                <td width="100">
+                                    <span class="hx-table-actions">
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalTaxation');setData(tax)">
+                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalTaxation');setData(tax)">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="remove(tax)">Delete</b-dropdown-item>
+                                        </b-dropdown>
+                                    </span>
+                                </td>
+                                <td>{{ tax.tax_type }}</td>
+                                <td>{{ tax.tax_name }}</td>
+                                <td>{{ tax.tax_rate }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div> 
 
