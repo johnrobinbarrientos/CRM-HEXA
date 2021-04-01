@@ -24,6 +24,16 @@ export default {
         FOCUS_INPUT: function (id) {
           $(id).focus()
         },
+
+        // used for .hx-side-tab
+        TOGGLE_SUBMENU: function (selector) {
+          var element = document.getElementById(selector);
+          element.classList.toggle('active');
+        },
+        OPEN_TAB: function (selector) {
+          var element = document.getElementById(selector);
+          element.classList.toggle('active');
+        }
     }
 }
   
