@@ -160,17 +160,9 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/project-type', 'API\ProjectTypeController@save');
         Route::delete('/project-type/{project_type_uuid}', 'API\ProjectTypeController@delete');
 
-        Route::get('/scope-of-work', 'API\ProjectScopeOfWorkController@index');
-        Route::post('/scope-of-work', 'API\ProjectScopeOfWorkController@saveScope');
+        Route::get('/project-scope', 'API\ProjectScopeController@index');
+        Route::post('/project-scope', 'API\ProjectScopeController@save');
 
-        Route::get('/{projectTypeUUID}/scope-of-work', 'API\ProjectScopeOfWorkController@show');
-        Route::post('/{projectTypeUUID}/scope-of-work', 'API\ProjectScopeOfWorkController@save');
-
-        Route::get('/work-details', 'API\ProjectWorkDetailController@index');
-        Route::post('/work-details', 'API\ProjectWorkDetailController@saveWorkDetail');
-
-        Route::get('/{projectscopeUUID}/work-details', 'API\ProjectWorkDetailController@show');
-        Route::post('/{projectscopeUUID}/work-details', 'API\ProjectWorkDetailController@save');
 
         Route::get('/', 'API\ProjectController@index');
         Route::post('/', 'API\ProjectController@store');
@@ -205,9 +197,17 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
         Route::get('/', 'API\EmployeeListController@index');
         Route::post('/', 'API\EmployeeListController@store');
-        Route::post('/update', 'API\EmployeeListController@update');
+        //Route::post('/update', 'API\EmployeeListController@update');
+        Route::post('/{uuid}/update', 'API\EmployeeListController@update');
         Route::get('/{employee_uuid}','API\EmployeeListController@show');
         Route::delete('/{employee_uuid}', 'API\EmployeeListController@delete');
+
+        // Route::get('/', 'API\CustomerListController@index');
+        // Route::post('/', 'API\CustomerListController@store');
+        // Route::put('/{uuid}', 'API\CustomerListController@save');
+        // Route::get('/{customer_uuid}','API\CustomerListController@show');
+        // Route::delete('/{customer_uuid}', 'API\CustomerListController@delete');
+
     });
 
     Route::group(['prefix' => 'companies'], function(){

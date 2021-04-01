@@ -11,7 +11,7 @@
                             <h1 class="title">View Details</h1>
                         </span>
                         <span v-else>
-                            <span v-if="formdata.uuid">
+                            <span v-if="!formdata.uuid">
                                 <h1 class="title">New Item Details</h1>
                             </span>
                             <span v-else>

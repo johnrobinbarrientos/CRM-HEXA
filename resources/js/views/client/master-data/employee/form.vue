@@ -11,7 +11,7 @@
                             <h1 class="title">View Details</h1>
                         </span>
                         <span v-else>
-                            <span v-if ="formdata.is_draft">
+                            <span v-if ="!formdata.uuid">
                                 <h1 class="title">New Details</h1>
                             </span>
                             <span v-else>
@@ -21,15 +21,16 @@
                     </div>
                     <div class="bar-right">
                         <span v-if ="view_mode">
-                            <a @click="ROUTE({path: '/employee-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)"><span>Close</span></a>
-                            <a @click="ROUTE({path: '/employees/' + formdata.uuid })" class="hx-btn hx-btn-shineblue" href="javascript:void(0)"><span>Edit</span></a>
+                            <a @click="ROUTE({path: '/employee-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)">Close</a>
+                            <a @click="ROUTE({path: '/employees/' + formdata.uuid })" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">Edit</a>
                         </span>
                         <span v-else>
-                            <a @click="ROUTE({path: '/employee-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)"><span>Cancel</span></a>  
-                            <a v-if="formdata.is_draft" @click="save()" type="submit" class="hx-btn hx-btn-shineblue" href="javascript:void(0)"><span>Save</span></a>
-                            <a v-else @click="update()" type="submit" class="hx-btn hx-btn-shineblue" href="javascript:void(0)"><span>Update</span></a>
+                            <a @click="ROUTE({path: '/employee-main/' })" class="hx-btn hx-btn-gray" href="javascript:void(0)">Cancel</a>
+                            <a  @click="save()" type="submit" class="hx-btn hx-btn-shineblue" href="javascript:void(0)">
+                                <template v-if="!formdata.uuid">Save</template>
+                                <template v-else>Update</template>
+                            </a>
                         </span>
-    
                     </div>
                 </div>
 
@@ -480,6 +481,7 @@ export default {
                 getCostCenter: false,
                 getAddressList: false,
                 getSupervisors: false,
+                getEmployeeDetails: false
             },
 
             selected_department: null,
@@ -519,7 +521,6 @@ export default {
 
             formdata: { 
                 uuid: null,
-                is_draft: 1,
                 emp_id: '', 
                 first_name: '', 
                 middle_name: '',
@@ -571,7 +572,7 @@ export default {
         ready: function () {
             var scope = this
 
-            if (scope.prerequiste.getCompanyDepartment && scope.prerequiste.getBranch & scope.prerequiste.getBranchLocation  && scope.prerequiste.getEmploymentType && scope.prerequiste.getEmploymentStatus 
+            if (scope.prerequiste.getEmployeeDetails && scope.prerequiste.getCompanyDepartment && scope.prerequiste.getBranch & scope.prerequiste.getBranchLocation  && scope.prerequiste.getEmploymentType && scope.prerequiste.getEmploymentStatus 
                 && scope.prerequiste.getCostCenter && scope.prerequiste.getAddressList && scope.prerequiste.getSupervisors) {
                 return true
             }
@@ -598,9 +599,11 @@ export default {
                     $(".form-select-branch").val(scope.selected_branch).trigger('change');
 
                     $(".form-select-branch-location").select2({data: scope.options_branch_location});
-                    scope.selected_branch_location = scope.formdata.branch_location_uuid
-                    $(document).find(".form-select-branch-location").val(scope.formdata.branch_location_uuid ).trigger('change')
-
+                    if (scope.options_branch_location.hasOwnProperty('id')){ // select if list has values
+                        scope.selected_branch_location = (scope.formdata.branch_location_uuid) ? scope.formdata.branch_location_uuid : scope.options_branch_location[0].id
+                        $(document.body).find(".form-select-branch-location").val(scope.selected_branch_location).trigger('change')
+                    }
+                    
                     $(".form-select-employment-type").select2({data: scope.options_employment_type});
                     scope.selected_employment_type = (scope.formdata.employment_type_uuid) ? scope.formdata.employment_type_uuid : scope.options_employment_type[0].id
                     $(".form-select-employment-type").val(scope.selected_employment_type).trigger('change');
@@ -613,11 +616,6 @@ export default {
                     scope.selected_cost_center = (scope.formdata.cost_center_uuid) ? scope.formdata.cost_center_uuid : scope.options_cost_center[0].id
                     $(".form-select-cost-center").val(scope.selected_cost_center).trigger('change');
 
-                    $(".form-select-address-list").select2({data: scope.options_address});
-                    scope.selected_address= (scope.formdata.address_uuid) ? scope.formdata.address_uuid : scope.options_address[0].id
-                    (".form-select-address-list").val(scope.selected_address).trigger('change');
-                    scope.fillAddress()
-
                     $(".form-select-supervisor").select2({data: scope.options_supervisor});
                     scope.selected_supervisor= (scope.formdata.supervisor_emp_uuid) ? scope.formdata.supervisor_emp_uuid : scope.options_supervisor[0].id
                     $(".form-select-supervisor").val(scope.selected_supervisor).trigger('change');
@@ -625,8 +623,13 @@ export default {
                     $(".form-select-gender").select2({data: scope.options_gender});
                     scope.selected_gender = (scope.formdata.gender) ? scope.formdata.gender : scope.options_gender[0].id
                     $(".form-select-gender").val(scope.selected_gender).trigger('change');
-                    
 
+                    $(".form-select-address-list").select2({data: scope.options_address});
+                    scope.selected_address= (scope.formdata.address_uuid) ? scope.formdata.address_uuid : scope.options_address[0].id
+                    $(".form-select-address-list").val(scope.selected_address).trigger('change');
+                    scope.fillAddress()
+                    
+                    
 
                     $(document).on('change','.form-select-gender', function(e) { 
                         scope.selected_gender = $('.form-select-gender').val();
@@ -701,6 +704,7 @@ export default {
 
             })
 
+
         },
         getBranch: function () {
            var scope = this
@@ -712,18 +716,30 @@ export default {
                     })
                 })
 
-                scope.getBranchLocation(scope.formdata.branch_uuid)
+                // scope.getBranchLocation(scope.formdata.branch_uuid)
+
+                scope.getBranchLocation((scope.formdata.branch_uuid) ? scope.formdata.branch_uuid : scope.options_branch[0].id)
+                
+
                 scope.prerequiste.getBranch = true
             })
+
+
 
         },
         getBranchLocation: function (branch_uuid) {
            var scope = this
-  
+
            scope.options_branch_location = []
+
+           console.log('branch_uuid')
+           console.log(branch_uuid)
 
             scope.GET('company/branch-location/' + branch_uuid).then(res => {
                 var branch_location_uuids = [];
+
+                console.log(res.rows)
+
                 res.rows.forEach(function (data) {
                     scope.options_branch_location.push({
                         id: data.uuid,
@@ -735,13 +751,11 @@ export default {
                 $(".form-select-branch-location").select2();
                 $(".form-select-branch-location").html('');
                 $(".form-select-branch-location").select2({data: scope.options_branch_location});
-
-                if (scope.options_branch_location.length > 0) {
-                    // $(document).find(".form-select-branch-location").val(scope.options_branch_location[0].id).trigger('change')
-                }
-
+               
                scope.prerequiste.getBranchLocation = true
             })
+
+
         },
 
         getEmploymentType: function () {
@@ -756,7 +770,9 @@ export default {
 
                 scope.prerequiste.getEmploymentType = true
 
+
             })
+
 
         },
 
@@ -774,6 +790,7 @@ export default {
 
             })
 
+
         },
 
         getCostCenter: function () {
@@ -789,6 +806,7 @@ export default {
                 scope.prerequiste.getCostCenter = true
 
             })
+
 
         },
 
@@ -812,6 +830,7 @@ export default {
                 })
 
                 scope.prerequiste.getAddressList = true
+
 
             })
 
@@ -881,69 +900,53 @@ export default {
                 formData.append('picture_file', scope.picture_file)
             }
 
-            scope.axios.post(window.API_URL + '/' + 'employees/update' , formData, {
-                'headers': {
-                'Content-Type': 'multipart/form-data',
-                'X-Requested-With': 'XMLHttpRequest',
-                'Authorization': 'Bearer ' + localStorage.getItem(window.TOKEN_KEY)
-                }
-            })
-            .then(response => {
-                if (response.data.success) {
-                    window.swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Saved',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        scope.ROUTE({path: '/employee-main/'})
-                    })
-                } else{
-                    alert('ERROR:' + response.code)
-                }
-            }).catch(error => {
-                if (error.response.status == 411){
-                    // console.log('asdsadasdsdd')
-                    // console.log(error.response)
-                }
-            })     
 
-        },
-        update: function () {
-            var scope = this
-            scope.formdata.department_uuid = scope.selected_department
-            scope.formdata.branch_uuid = scope.selected_branch
-            scope.formdata.branch_location_uuid = scope.selected_branch_location
-            scope.formdata.employment_type_uuid = scope.selected_employment_type
-            scope.formdata.employment_status_uuid = scope.selected_employment_status
-            scope.formdata.cost_center_uuid = scope.selected_cost_center
-            scope.formdata.address_uuid = scope.selected_address
-            scope.formdata.supervisor_emp_uuid = scope.selected_supervisor
-            scope.formdata.gender = scope.selected_gender
-            
+            if (scope.formdata.uuid) {
 
-            let formData = new FormData()
+                window.swal.fire({
+                    title: 'Update?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#548235',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => { 
+                    if (result.value) {
+                        scope.axios.post(window.API_URL + '/' + 'employees/'+ scope.formdata.uuid + '/update' , formData, {
+                            'headers': {
+                            'Content-Type': 'multipart/form-data',
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Authorization': 'Bearer ' + localStorage.getItem(window.TOKEN_KEY)
+                            }
+                        })
+                        .then(response => {
+                            if (response.data.success) {
+                                window.swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Updated',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then(() => {
+                                    scope.ROUTE({path: '/employee-main/'})
+                                })
+                            }
+                            else{
+                                alert('ERROR:' + response.code)
+                            }
+                        }).catch(error => {
+                            if (error.response.status == 411){
+   
+                            }
+                        })            
+                    }                              
+                })
 
-            $.each(scope.formdata, function(index, value) {
-                formData.append(index,value)
-            })
-
-            if (scope.picture_file) {
-                formData.append('picture_file', scope.picture_file)
             }
 
-            window.swal.fire({
-                title: 'Update?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#548235',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'Cancel'
-            }).then((result) => { 
-                if (result.value) {
-                    scope.axios.post(window.API_URL + '/' + 'employees/update' , formData, {
+            else{
+                    scope.axios.post(window.API_URL + '/' + 'employees' , formData, {
                         'headers': {
                         'Content-Type': 'multipart/form-data',
                         'X-Requested-With': 'XMLHttpRequest',
@@ -955,25 +958,24 @@ export default {
                             window.swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Updated',
+                                title: 'Saved',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
                                 scope.ROUTE({path: '/employee-main/'})
                             })
-                        }
-                        else{
+                        } else{
                             alert('ERROR:' + response.code)
                         }
                     }).catch(error => {
                         if (error.response.status == 411){
-                        // console.log('asdsadasdsdd')
-                        // console.log(error.response)
-                }
-                    })            
-                }                              
-            })
+
+                        }
+                    })
+                } 
+
         },
+
 
         remove: function (data) {
             var scope = this
@@ -997,7 +999,6 @@ export default {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
-                            // scope.toggleForm()
                             })
                         }
                         else{
@@ -1010,12 +1011,24 @@ export default {
 
         getEmployeeDetails: function (employeeUUID) {
             var scope = this
+
+            if (!employeeUUID) {
+                scope.getCompanyDepartment()
+                scope.getBranch()
+                scope.getEmploymentType()
+                scope.getEmploymentStatus()
+                scope.getCostCenter()
+                scope.getAddressList()
+                scope.getSupervisors()
+
+                scope.prerequiste.getEmployeeDetails = true
+                return;
+            } 
+
             scope.GET('employees/' + employeeUUID).then(res => {
                 let data = res.data
 
-                if (data.is_draft === 0) {
-                    
-                    scope.formdata.is_draft = data.is_draft
+                    scope.formdata.uuid = data.uuid
                     scope.formdata.emp_id = data.emp_id
                     scope.formdata.first_name = data.first_name
                     scope.formdata.middle_name = data.middle_name
@@ -1031,6 +1044,7 @@ export default {
                     scope.formdata.contact_relation = data.contact_relation
                     scope.formdata.emergency_contact_no = data.emergency_contact_no
                     scope.formdata.employment_type_uuid = data.employment_type_uuid
+                    scope.formdata.employment_status_uuid = data.employment_status_uuid
                     scope.formdata.date_hired = data.date_hired
                     scope.formdata.date_regularized = data.date_regularized
                     scope.formdata.date_separated = data.date_separated
@@ -1047,6 +1061,8 @@ export default {
                     scope.formdata.profile_pic = data.profile_pic
 
                     scope.formdata.branch_uuid = data.branch_uuid
+                    console.log('details')
+                    console.log(scope.formdata.branch_uuid)
                     scope.formdata.branch_location_uuid = data.branch_location_uuid
                     scope.formdata.address_uuid = data.address_uuid
                     scope.formdata.gender = data.gender
@@ -1064,49 +1080,18 @@ export default {
                     scope.getAddressList()
                     scope.getSupervisors()
 
-                    /*
-                    $('.form-select-branch').val(data.branch_uuid);
-                    $('.form-select-branch').trigger('change');
+                    scope.prerequiste.getEmployeeDetails = true
 
-                    $('.form-select-branch-location').val(data.branch_location_uuid);
-                    $('.form-select-branch-location').triger('change');
-
-                    $('.form-select-employment-type').val(data.employment_type_uuid);
-                    $('.form-select-employment-type').trigger('change');
-
-                    $('.form-select-employment-status').val(data.employment_status_uuid);
-                    $('.form-select-employment-status').trigger('change');
-
-                    $('.form-select-cost-center').val(data.cost_center_uuid);
-                    $('.form-select-cost-center').trigger('change');
-
-                    $('.form-select-address-list').val(data.address_uuid);
-                    $('.form-select-address-list').trigger('change');
-
-                    $('.form-select-department').val(data.department_uuid);
-                    $('.form-select-department').trigger('change');
-
-                    $('.form-select-supervisor').val(data.supervisor_emp_uuid);
-                    $('.form-select-supervisor').trigger('change');
-
-                    $('.form-select-gender').val(data.gender);
-                    $('.form-select-gender').trigger('change');
-                    */
-
-
-
-                    console.log('update')
-
-                }
-                
+                   
             })
+
         }
 
     },
     mounted() {
         var scope = this
 
-        scope.formdata.uuid = (scope.$route.params.employeeUUID) ? scope.$route.params.employeeUUID : null
+        scope.formdata.uuid = (scope.$route.params.employeeUUID != 'create') ? scope.$route.params.employeeUUID : null
         scope.getEmployeeDetails(scope.formdata.uuid)
 
     },

@@ -245,6 +245,13 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
+          path: '/employees/create',
+          name: 'employee-form',
+          component: EmployeeForm,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
           path: '/company-main',
           name: 'company-main',
           component: CompanyMain,
