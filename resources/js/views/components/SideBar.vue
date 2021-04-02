@@ -90,10 +90,10 @@
         },
     },
     mounted() {
-        this.$nextTick(function () {
+        setTimeout(function () {
             $('.metismenu > li:first-child > ul').addClass('mm-show');
             $('.metismenu > li:first-child > ul > li:first-child').addClass('link-active');
-        })
+        }, 0)
     }
 }
 </script>
