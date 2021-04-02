@@ -90,7 +90,10 @@
         },
     },
     mounted() {
-        var scope = this
+        this.$nextTick(function () {
+            $('.metismenu > li:first-child > ul').addClass('mm-show');
+            $('.metismenu > li:first-child > ul > li:first-child').addClass('link-active');
+        })
     }
 }
 </script>

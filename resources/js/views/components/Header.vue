@@ -2,21 +2,21 @@
     <header id="page-topbar">
         <div class="navbar-header">
             <div class="d-flex justify-content-between w-100">
-                <div class="navbar-brand-box">
-                    <a @click="$store.commit('toggleSideNav')" type="button" class="hx-hexagon-burger" id="vertical-menu-btn">
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-hexagon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M14 4.577L8 1 2 4.577v6.846L8 15l6-3.577V4.577zM8.5.134a1 1 0 0 0-1 0l-6 3.577a1 1 0 0 0-.5.866v6.846a1 1 0 0 0 .5.866l6 3.577a1 1 0 0 0 1 0l6-3.577a1 1 0 0 0 .5-.866V4.577a1 1 0 0 0-.5-.866L8.5.134z"/>
-                        </svg>
+                <div class="d-flex align-items-center">
+                    <div class="navbar-brand-box">
+                        <a @click="link('dashboard')" href="javascript:void(0);" class="w-100 font-size-22">
+                            <!-- <img :src="logo" style="height:50px;"> -->
+                            <span style="font-weight: 700; font-family: Nunito; letter-spacing: 1px;">
+                                HEXA<i style="font-weight: 400; font-family: Roboto;">suite</i>
+                            </span>
+                        </a>
+                    </div>
+                    <a @click="$store.commit('toggleSideNav')" type="button" id="vertical-menu-btn" class="btn btn-sm pr-2 font-size-16 waves-effect">
                         <i class="mdi mdi-menu"></i>
                     </a>
-                    <a @click="link('dashboard')" href="javascript:void(0);">
-                        <!-- <img :src="logo" style="height:50px;"> -->
-                        <span style="font-weight: 700; font-family: Nunito; letter-spacing: 1px;">HEXA<i style="font-weight: 400; font-family: Roboto;">suite</i>
-                        </span>
-                    </a>
-
-                    <span class="client-name">{{company_name}}</span>
+                    <span class="client-name pl-0 ml-0">{{company_name}}</span>
                 </div>
+
                 <div class="d-flex align-items-center">
                     <form class="app-search d-none d-lg-block">
                         <div class="position-relative"><input type="text" class="form-control" placeholder="HEXA Search..."><span class="bx bx-search-alt"></span></div>
