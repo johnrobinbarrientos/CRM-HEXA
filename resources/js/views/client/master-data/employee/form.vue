@@ -15,7 +15,13 @@
                                 <h1 class="title">New Details</h1>
                             </span>
                             <span v-else>
-                                <h1 class="title">Edit Details</h1>
+                                <h1 class="title">
+                                    <i class="bx bx-data" @click="ROUTE({path: '/employee-main/' })"></i>
+                                    <i class="las la-angle-right"></i>
+                                    <span @click="ROUTE({path: '/employee-main/' })">Employee List</span>
+                                    <i class="las la-angle-right ml-5px"></i>
+                                    Form
+                                </h1>
                             </span>
                         </span>
                     </div>
