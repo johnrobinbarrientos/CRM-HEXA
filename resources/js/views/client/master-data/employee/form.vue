@@ -12,15 +12,21 @@
                         </span>
                         <span v-else>
                             <span v-if ="!formdata.uuid">
-                                <h1 class="title">New Details</h1>
+                                <h1 class="title">
+                                    <i class="bx bx-data" @click="ROUTE({path: '/employee-main/' })"></i>
+                                    <span @click="ROUTE({path: '/employee-main/' })">Employee</span>
+                                    <!-- <i class="las la-angle-right ml-5px"></i> -->
+                                    <i class="las la-angle-right"></i>
+                                    New
+                                </h1>
                             </span>
                             <span v-else>
                                 <h1 class="title">
                                     <i class="bx bx-data" @click="ROUTE({path: '/employee-main/' })"></i>
+                                    <span @click="ROUTE({path: '/employee-main/' })">Employee</span>
+                                    <!-- <i class="las la-angle-right ml-5px"></i> -->
                                     <i class="las la-angle-right"></i>
-                                    <span @click="ROUTE({path: '/employee-main/' })">Employee List</span>
-                                    <i class="las la-angle-right ml-5px"></i>
-                                    Form
+                                    Update
                                 </h1>
                             </span>
                         </span>

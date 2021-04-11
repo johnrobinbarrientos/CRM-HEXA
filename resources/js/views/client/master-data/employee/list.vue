@@ -5,8 +5,9 @@
                 <div class="w-100">
                     <h1 class="title">
                         <i class="bx bx-data"></i>
+                        <span @click="ROUTE({path: '/employee-main/' })">Employee</span>
                         <i class="las la-angle-right"></i>
-                        <span @click="ROUTE({path: '/employee-main/' })">Employee List</span>
+                        <span>List</span>
                     </h1>
                 </div>
                 <div class="bar-right">
@@ -55,7 +56,7 @@
                                     <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid })">
                                         <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid })">Edit</b-dropdown-item>
                                         <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid + '/view' })">View</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)"@click="remove(employee)">Delete</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)" @click="remove(employee)">Delete</b-dropdown-item>
                                     </b-dropdown>
                                 </span>
                             </td>
