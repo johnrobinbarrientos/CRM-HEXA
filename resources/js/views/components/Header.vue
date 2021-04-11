@@ -6,8 +6,9 @@
                     <div class="navbar-brand-box">
                         <a @click="link('dashboard')" href="javascript:void(0);" class="w-100 font-size-22">
                             <!-- <img :src="logo" style="height:50px;"> -->
-                            <span style="font-weight: 700; font-family: Nunito; letter-spacing: 1px;">
-                                HEXA<i style="font-weight: 400; font-family: Roboto;">suite</i>
+                            <span class="hexasuite-logo-wrap">
+                                <img :src="avatar" class="hexasuite-logo" alt="Header Avatar">
+                                <span class="hexasuite-text">HEXA<i>suite</i></span>
                             </span>
                         </a>
                     </div>
