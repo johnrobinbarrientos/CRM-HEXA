@@ -166,6 +166,7 @@ body { background-color: #f6f8f9; font-weight: normal; }
     height: 22px;
     line-height: 22px;
     cursor: pointer;
+    color: #495057 !important;
 }
 .select-wrap .transaction-from,
 .select-wrap .transaction-to {
@@ -292,7 +293,10 @@ body { background-color: #f6f8f9; font-weight: normal; }
 }
 
 /*card override*/
-.hx-card-override { box-shadow: 0px 0.5px 10px #e5e4e2; }
+.hx-card-override {
+    box-shadow: 0px 0.5px 10px #e5e4e2; 
+    margin-bottom: 0;
+}
 .hx-card-override > .card-header {
     padding: 13px 20px;
     background-color: #f9f9f9;
@@ -311,6 +315,8 @@ body { background-color: #f6f8f9; font-weight: normal; }
     border-top: none;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
+    height: calc(100vh - 225px);
+    overflow-y: auto;
 }
 
 .hx-card-override.no-header {
@@ -554,6 +560,8 @@ body { background-color: #f6f8f9; font-weight: normal; }
 }
 .hx-side-tab .tab-content {
     width: calc(100% - 200px);
+    height: calc(100vh - 180px);
+    overflow-y: auto;
     border-top: 0;
     border-radius: 0;
     border: 1px solid var(--hexa-darkgrey);
@@ -884,13 +892,16 @@ img.header-profile-user { background: var(--hexa-darkgrey); }
 	z-index: 999;
 	box-shadow: 0px 0.5px 10px #eee;
 }
-.actions-bar h1.title   { font-size: 20px; display: flex; align-items: center; margin-bottom: 0; }
-.actions-bar h1.title i { font-size: 24px; margin-right: 5px; display: none; }
+.actions-bar h1.title   { display: flex; align-items: center; margin-bottom: 0; }
+.actions-bar h1.title i { font-size: 24px; margin-right: 5px; }
+.actions-bar h1.title i.la-angle-right { font-size: 14px; }
 .actions-bar .bar-right { display: flex; gap: 5px; justify-content: flex-end; width: 100%; }
 .actions-bar .bar-right a { padding-left: 10px; padding-right: 10px; line-height: 1; }
 .actions-bar .bar-right span { display: flex; gap: 5px; justify-content: flex-end; width: 100%; }
 .actions-bar .bar-right input { width: 220px; }
 .actions-bar .form-control { height: unset; min-height: unset !important; padding: 0; padding-left: 10px; }
+.actions-bar h1,
+.actions-bar span { cursor: pointer; font-size: 18px;  }
 
 /* utilities (helpers) */
 .h-36 { height: 36px; }
@@ -902,6 +913,7 @@ img.header-profile-user { background: var(--hexa-darkgrey); }
 .fs-26 { font-size: 26px; }
 .c-danger { color: var(--danger); }
 .c-success { color: var(--success); }
+.ml-5px { margin-left: 5px; }
 
 /* footer */
 /*.footer { background-image: linear-gradient(-45deg,var(--shine-blue) 0%,var(--hexa-blue) 80%) !important; height: unset; padding: 5px; }*/
