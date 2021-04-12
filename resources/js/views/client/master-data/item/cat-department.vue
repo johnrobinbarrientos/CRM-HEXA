@@ -4,10 +4,6 @@
             <div class="w-100">
                 <h1 class="title">
                     <i class="las la-list-ul"></i>
-                    <span>Item</span>
-                    <i class="las la-angle-right"></i>
-                    <span>Categories</span>
-                    <i class="las la-angle-right"></i>
                     <span>Departments</span>
                 </h1>
             </div>

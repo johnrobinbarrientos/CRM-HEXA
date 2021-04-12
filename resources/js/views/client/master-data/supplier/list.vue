@@ -4,9 +4,7 @@
             <div class="w-100">
                 <h1 class="title">
                     <i class="las la-list-ul"></i>
-                    <span @click="ROUTE({path: '/supplier-main/' })">Supplier</span>
-                    <i class="las la-angle-right"></i>
-                    <span>List</span>
+                    <span @click="ROUTE({path: '/supplier-main/' })">Supplier List</span>
                 </h1>
             </div>
             <div class="bar-right">

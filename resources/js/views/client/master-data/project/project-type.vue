@@ -4,9 +4,7 @@
             <div class="w-100">
                 <h1 class="title">
                     <i class="las la-list-ul"></i>
-                    <span>Project</span>
-                    <i class="las la-angle-right"></i>
-                    <span>Types</span>
+                    <span>Project Types</span>
                 </h1>
             </div>
             <div class="bar-right">

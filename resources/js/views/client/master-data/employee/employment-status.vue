@@ -5,9 +5,7 @@
                 <!-- <h1 class="title"><i class="las la-list-ul"></i>Employment Status</h1> -->
                 <h1 class="title">
                     <i class="las la-list-ul"></i>
-                    <span>Employment </span>
-                    <i class="las la-angle-right"></i>
-                    <span>Status</span>
+                    <span>Employment Status</span>
                 </h1>
             </div>
             <div class="bar-right">
