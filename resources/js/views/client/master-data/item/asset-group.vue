@@ -3,7 +3,12 @@
 
         <div class="actions-bar">
             <div class="w-100">
-                <h1 class="title"><i class="las la-list-ul"></i>Asset Groups</h1>
+                <h1 class="title">
+                    <i class="las la-list-ul"></i>
+                    <span>Item</span>
+                    <i class="las la-angle-right"></i>
+                    <span>Asset Groups</span>
+                </h1>
             </div>
             <div class="bar-right">
                 <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">

@@ -8,7 +8,12 @@
                 <div class="actions-bar">
                     <div class="w-100">
                         <span v-if ="view_mode">
-                            <h1 class="title">View Details</h1>
+                            <h1 class="title">
+                                <i class="bx bx-data" @click="ROUTE({path: '/employee-main/' })"></i>
+                                <span @click="ROUTE({path: '/employee-main/' })">Employee</span>
+                                <i class="las la-angle-right"></i>
+                                View
+                            </h1>
                         </span>
                         <span v-else>
                             <span v-if ="!formdata.uuid">
@@ -26,7 +31,7 @@
                                     <span @click="ROUTE({path: '/employee-main/' })">Employee</span>
                                     <!-- <i class="las la-angle-right ml-5px"></i> -->
                                     <i class="las la-angle-right"></i>
-                                    Update
+                                    Edit
                                 </h1>
                             </span>
                         </span>

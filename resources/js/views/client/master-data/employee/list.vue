@@ -4,7 +4,7 @@
             <div class="actions-bar">
                 <div class="w-100">
                     <h1 class="title">
-                        <i class="bx bx-data"></i>
+                        <i class="las la-list-ul"></i>
                         <span @click="ROUTE({path: '/employee-main/' })">Employee</span>
                         <i class="las la-angle-right"></i>
                         <span>List</span>

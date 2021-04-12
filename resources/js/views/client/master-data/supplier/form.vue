@@ -8,14 +8,29 @@
                 <div class="actions-bar">
                     <div class="w-100">
                         <span v-if="view_mode">
-                            <h1 class="title">View Details</h1>
+                            <h1 class="title">
+                                <i class="bx bx-data" @click="ROUTE({path: '/supplier-main/' })"></i>
+                                <span @click="ROUTE({path: '/supplier-main/' })">Supplier</span>
+                                <i class="las la-angle-right"></i>
+                                View
+                            </h1>
                         </span>
                         <span v-else>
                             <span v-if="!formdata.uuid">
-                                <h1 class="title">New Supplier</h1>
+                                <h1 class="title">
+                                    <i class="bx bx-data" @click="ROUTE({path: '/supplier-main/' })"></i>
+                                    <span @click="ROUTE({path: '/supplier-main/' })">Supplier</span>
+                                    <i class="las la-angle-right"></i>
+                                    New
+                                </h1>
                             </span>
                             <span v-else>
-                                <h1 class="title">Edit Supplier</h1>
+                                <h1 class="title">
+                                    <i class="bx bx-data" @click="ROUTE({path: '/supplier-main/' })"></i>
+                                    <span @click="ROUTE({path: '/supplier-main/' })">Supplier</span>
+                                    <i class="las la-angle-right"></i>
+                                    Edit
+                                </h1>
                             </span>
                         </span>
                     </div>

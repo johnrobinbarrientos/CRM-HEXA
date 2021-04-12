@@ -4,8 +4,8 @@
             <div class="w-100">
                 <!-- <h1 class="title"><i class="las la-list-ul"></i>Employment Types</h1> -->
                 <h1 class="title">
-                    <i class="bx bx-data"></i>
-                    <span>Employment </span>
+                    <i class="las la-list-ul"></i>
+                    <span>Employment</span>
                     <i class="las la-angle-right"></i>
                     <span>Types</span>
                 </h1>
