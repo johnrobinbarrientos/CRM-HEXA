@@ -11,7 +11,7 @@ class ProjectScopeController extends Controller
 {
     public function index()
     {
-        $list = ProjectScope::whereNull('deleted_at');
+        $list = ProjectScope::whereNull('deleted_at')->with('ScopeDetails');
 
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;

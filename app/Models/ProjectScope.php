@@ -27,6 +27,10 @@ class ProjectScope extends Model
         });
     }
 
+    public function ScopeDetails(){
+        return $this->hasMany('App\Models\ProjectScopeDetail','project_scope_uuid','uuid');
+    }
+
     // public function ProjectType(){
     //     return $this->belongsTo('App\Models\ProjectType','project_type_uuid','uuid');
     // }

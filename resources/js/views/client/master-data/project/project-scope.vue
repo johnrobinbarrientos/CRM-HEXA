@@ -17,15 +17,15 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select> 
-                <a href="javascript:void(0)" @click="OPEN_MODAL('#modalProjectScope'); resetData()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                <a href="javascript:void(0)" @click="addNewScope()" class="hx-btn hx-btn-shineblue" data-toggle="modal">
                     <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
         </div>
 
-        <div v-if="listLoading" class="text-center my-3 text-loader">
+        <!-- <div v-if="listLoading" class="text-center my-3 text-loader">
             <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
-        </div>
+        </div> -->
 
             <div class="row">
                 <div class="col-lg-6">
@@ -38,18 +38,32 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(projectscope) in projectScopes" :key="projectscope.uuid">
-                                    <td width="65" class="text-center">
-                                        <span class="hx-table-actions">
-                                            <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalProjectScope');setData(projectscope)">
-                                                <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalProjectScope');setData(projectscope)">Edit</b-dropdown-item>
-                                                <b-dropdown-item href="javascript:void(0)" @click="remove(projectscope)">Delete</b-dropdown-item>
-                                            </b-dropdown>
-                                        </span>
+                                <template v-if="projectScopes.length > 0">
+                                    <template v-bind:class="{'table-success' : (selected_scope && selected_scope.uuid === projectScopes.uuid) }" style="cursor:pointer;" v-for="(projectscope,index) in projectScopes">
+                                        
+                                            <tr :key="'projectscope-' + index">
+                                                    <td width="80" class="text-center">
+                                                    
+                                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="editScope(projectscope,index)">
+                                                        <b-dropdown-item href="javascript:void(0)"  @click="editScope(projectscope,index)">Edit</b-dropdown-item>
+                                                        <b-dropdown-item href="javascript:void(0)" @click="removeScope(index)">Delete</b-dropdown-item>
+                                                    </b-dropdown>
+                                                
+                                                    </td>
+                                                    <td>
+                                                        <strong >{{ projectscope.scope_of_work }}</strong>
+                                                    </td>
+        
+                                            </tr>
 
-                                    </td>
-                                    <td><span class="">{{ projectscope.scope_of_work }}</span></td>
-                                </tr>
+                                        
+                                    </template>
+                                </template>
+                                <template v-else>
+                                    <tr>
+                                        <td colspan="3" style="padding:20px; text-align:center; font-weight:600;">No Records</td>
+                                    </tr>
+                                </template>
                             </tbody>
                         </table>
                     </div>
@@ -78,44 +92,83 @@
                 </ul>
             </nav> 
  
-
-        <!-- Modal Form Type-->
-        <div class="modal fade modal-single-form" tabindex="-1" id="modalProjectScope">
+        <div class="modal fade modal-md-form" tabindex="-1" id="modalprojectScope">
             <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Project Scope</h5>
-                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalProjectScope');" class="close" data-dismiss="modal" aria-label="Close">
+                        <h5 v-if="selected_scope" class="modal-title">
+                            <span v-if="!selected_scope.id">New</span>
+                            <span v-else>Edit</span>
+                        </h5>
+                        <a href="javascript:void(0)"  @click="cancelScope()" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
                         </a>
                     </div>
                     <div class="modal-body">
-                        <form action="#" class="form-validate is-alter">
+                        <form v-if="selected_scope" action="#" class="form-validate is-alter">
 
                             <div class="row">
                                 <div class="col-md-12 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="project-scope">Scope:</label>
-                                        <div class="form-control-wrap">
-                                            <input v-model="formdata.scope_of_work" type="text" class="form-control" id="project-scope" required>
+
+                                    <div style="padding:5px;">
+
+                                        <div class="form-group">
+                                            <label class="form-label" for="group-name">Group Name:</label>
+                                            <div class="form-control-wrap">
+                                                <input v-model="selected_scope.name" class="form-control" v-bind:class="{'error' : selected_scope.name_error}" type="text" placeholder="ie: Chocolates" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="hx-card-small">
+                                            <div class="card-header">
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <span style="font-weight: 600">Discount List</span>
+                                                    <button class="btn-gray-small btn-primary m-0" @click="addNewDetails(selected_scope)" type="button" :disabled="view_mode">
+                                                        <i class="las la-plus"></i> Add Discount
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div style="padding: 8px 10px;">
+                                                <table style="margin-top:5px;" class="table table-bordered table-hover">
+                                                    <thead>
+                                                        <tr style="background:#fff;">
+                                                            <th>Action</th>
+                                                            <th>Name</th>
+                                                            <th>Rate</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr style="background:#fff;" v-for="(discount,discount_index) in selected_scope.discounts" :key="'edit-group-discount-' + discount_index ">
+                                                          
+                                                            <td width="60"><button class="btn-gray-small" type="button" @click="removeDetails(selected_scope.discounts,discount_index)" :disabled="view_mode">Delete</button></td>
+                                                            <td style="padding:0px 2px;">
+                                                                <input class="form-control-gray-small" v-bind:class="{'error' : discount.name_error}" type="text" v-model="discount.name ">
+                                                            </td>
+                                                            <td style="padding:0px 2px;"  width="70">
+                                                                <input class="form-control-gray-small" v-bind:class="{'error' : discount.rate_error}"  type="text" v-model="discount.rate ">
+                                                            </td>
+                                                      
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                
+                                </div>                                           
                             </div>                                    
                             
                         </form>
                     </div>
                     <div class="modal-footer bg-light">
-                        <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
-                        <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Update</button>
+                        <button  @click="cancelScope()" type="button" class="btn btn-sm btn-outline-secondary">Close</button>
+                        <button v-if="selected_scope && selected_scope.uuid === null" @click="saveScope()" type="button" class="btn btn-sm btn-primary">Save</button>
+                        <button v-else @click="saveScope()" type="button" class="btn btn-sm btn-primary">Update</button>
                     </div>
                 </div>
             </div>
         </div>
+  
 
-
-                
     </div>
 </template>
 
@@ -124,11 +177,15 @@
 import Swal from 'sweetalert2'
 
 export default {
-    name: 'project-types',
+    name: 'project-scope',
     props: ['properties'],
     data: function () {
         return {
+            selected_scope: null,
+            scopeDetails: [],
             projectScopes: [],
+
+            selected_scope_index: null, // used for editing
 
             listLoading: true,
             listCurrentPage: 1,
@@ -138,10 +195,6 @@ export default {
             listResults: 0,
             searchKeyword: '',
             timer: null,
-            formdata: { 
-                uuid: null, 
-                scope_of_work: ''
-            }
         }
     },
     computed: {
@@ -152,12 +205,67 @@ export default {
         }
     },
     methods: {
-        getProjectScopes: function () {
+        addNewDetails: function (projectScope) {
+           var scope = this
+            projectScope.scope_details.push({
+                id: null,
+                uuid: null,
+                name: '',
+                rate: '',
+                excluded_items: []
+            });
+        },
+        removeDetails: function (details,details_index) {
+            var scope = this
+            details.splice(details_index,1)
+        },
+        addNewScope: function () {
+            var scope = this
+            scope.selected_scope = {
+                id: null,
+                uuid: null,
+                name: '',
+                edit: true,
+                view: false,
+                new: true,
+                scope_details: []
+            }
+            scope.addNewDetails(scope.selected_scope);
+            scope.OPEN_MODAL('#modalprojectScope');
+
+        },
+        editScope: function (data,index) {
+           var scope = this
+            // we will use this when cancelling the edit
+            var copy = JSON.parse(JSON.stringify(data))
+            scope.selected_scope = copy
+            scope.selected_scope.new = false
+            scope.selected_scope.edit = true
+            scope.selected_scope_index = index
+
+           scope.OPEN_MODAL('#modalprojectScope'); 
+        },
+        cancelScope: function () {
+            var scope = this 
+            scope.selected_scope = null   
+            scope.selected_scope_index = null  
+            scope.CLOSE_MODAL('#modalprojectScope'); 
+        },
+        removeScope: function (index) {
+            var scope = this
+            scope.projectScopes.splice(index, 1)
+        },
+        getProjectScope: function () {
             var scope = this
             scope.listLoading = true
             scope.projectScopes = []
+
             scope.GET('projects/project-scope?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
-                scope.projectScopes = res.rows
+
+                scope.projectScopes = (res.rows) ? res.rows : []
+                console.log('asdasdsad')
+                console.log(res.rows)
+
                 scope.listLoading = false
                 scope.listCount = res.count
 
@@ -165,101 +273,50 @@ export default {
                 scope.listResults = res.results
             })
         },
-        resetData: function () {
-            var scope = this
-            scope.formdata.uuid = null
-            scope.formdata.scope_of_work = ''
-        },
-        setData: function (data) {
-            var scope = this
-            scope.formdata.uuid = data.uuid
-            scope.formdata.scope_of_work = data.scope_of_work
-        },
-        save: function () {
-            var scope = this
-            scope.POST('projects/project-type', scope.formdata).then(res => {
-                if (res.success) {
-                    window.swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Saved',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        scope.getProjectScopes()
-                        scope.CLOSE_MODAL('#modalProjectScope')
-                    })
-                } else {
-                    alert('ERROR:' + res.code)
-                }
-                
-            })
-        },
-        update: function () {
-            var scope = this
-            window.swal.fire({
-                title: 'Update?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.value) {
-                    scope.POST('projects/project-type', scope.formdata).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Updated',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                scope.getProjectScopes()
-                                scope.CLOSE_MODAL('#modalProjectScope')
-                            })
-                        }
-                        else{
-                            alert('ERROR:' + res.code)
-                        }
-                    })            
-                }                              
-            })
-        },
-        remove: function (data) {
+       saveScope: function () {
             var scope = this
 
-            window.swal.fire({
-                title: 'Delete?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.value) {
-                    scope.DELETE('projects/project-type/' + data.uuid).then(res => {
-                        if (res.success) {
-                            window.swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Deleted',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                            scope.getProjectScopes()
-                            scope.CLOSE_MODAL('#modalProjectScope')
-                            })
-                        }
-                        else{
-                            alert('ERROR:' + res.code)
-                        }
-                    })            
-                }                              
-            })
-        },
+            var error = 0
+
+            scope.$set(scope.selected_scope,'name_error',false);
+            if (scope.selected_scope.name == '') {
+                error++;
+                scope.selected_scope.name_error = true
+            }
+            
+            for (let i = 0; i < scope.selected_scope.discounts.length; i++) {
+                var discount = scope.selected_scope.discounts[i]
+
+                scope.$set(scope.selected_scope.discounts[i],'name_error',false);
+                scope.$set(scope.selected_scope.discounts[i],'rate_error',false);
+
+                if (discount.name == '') {
+                    error++;
+                    scope.selected_scope.discounts[i].name_error = true
+                } 
+
+                if (discount.rate == '') {
+                    error++;
+                    scope.selected_scope.discounts[i].rate_error = true
+                }
+            }
+
+            if (error) {
+                return
+            }
+
+            scope.selected_scope.edit = false
+
+            if (scope.selected_scope_index === null) {
+                scope.projectScopes.push(scope.selected_scope);
+            } else {
+                scope.projectScopes[scope.selected_scope_index] = JSON.parse(JSON.stringify(scope.selected_scope)) 
+            }
+
+            scope.selected_scope = null
+            scope.selected_scope_index = null
+            scope.CLOSE_MODAL('#modalprojectScope');
+       },
         search: function () {
             var scope = this
             if (scope.timer) {
@@ -268,7 +325,7 @@ export default {
             }
 
             scope.timer = setTimeout(() => {
-                scope.getProjectScopes()
+                scope.getProjectScope()
             }, 800);
         },
         listPaginate: function(page) {
@@ -290,18 +347,18 @@ export default {
                 return
             }
 
-            scope.getProjectScopes()
+            scope.getProjectScope()
         },
         changeListItemPerPage: function () 
         {
             var scope = this
             scope.listCurrentPage = 1
-            scope.getProjectScopes()
+            scope.getProjectScope()
         }
     },
     mounted() {
         var scope = this
-        scope.getProjectScopes()
+        scope.getProjectScope()
     },
 }
 </script>
