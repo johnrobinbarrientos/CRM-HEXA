@@ -40,20 +40,39 @@ class ProjectScopeDetailController extends Controller
         return response()->json(['success' => 1, 'rows' => $workDetails], 200);
     }
 
-    public function save($projectscopeUUID)
+    static public function save($project_scope_uuid,$scope_details)
     {
 
-        $workDetails = request()->uuid ? ProjectScopeDetail::find(request()->uuid) : new ProjectScopeDetail();
+        $details_uuids = [];
+        
+        foreach ($scope_details as $key => $detail) {
+            if ( is_null($detail['uuid'])) {
+                continue;
+            }
+            $details_uuids[] = $detail['uuid'];
+        }
 
-        $projectType = ProjectScopeOfWork::find(request()->projectscopeUUID);
+        // delete details
+        ProjectScopeDetail::where('project_scope_uuid','=',$project_scope_uuid)->whereNotIn('uuid',$details_uuids)->delete();
 
-        $workDetails->project_scope_uuid = $projectscopeUUID;
-        $workDetails->detail = request()->detail;
-        $workDetails->save();
+        foreach ($scope_details as $key => $detail) {
 
-        $workDetails = ProjectScopeDetail::find($workDetails->uuid);
+            $uuid = $detail['uuid'];
+            $detail = $detail['detail'];
+            
+            if (isset($detail['deleted_at']) == false){
+                $data = ProjectScopeDetail::where('uuid','=',$uuid)->first();
+                $data = ($data) ? $data : new  ProjectScopeDetail;
+                $data->project_scope_uuid = $project_scope_uuid;
+                $data->detail = $detail;
+                $data->save();
+            }
+            else {
+                $data = ProjectScopeDetail::find($uuid)->delete(); 
+            }
 
-        return response()->json(['success' => 1, 'data' => $workDetails], 200);
+        }
+
     }
 
 

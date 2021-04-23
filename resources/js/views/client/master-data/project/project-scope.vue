@@ -38,24 +38,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <template v-if="projectScopes.length > 0">
-                                    <template v-bind:class="{'table-success' : (selected_scope && selected_scope.uuid === projectScopes.uuid) }" style="cursor:pointer;" v-for="(projectscope,index) in projectScopes">
+                                <template v-if="prjScopes.length > 0">
+                                    <template v-bind:class="{'table-success' : (selected_scope && selected_scope.uuid === prjScopes.uuid) }" style="cursor:pointer;" v-for="(projectscope,index) in prjScopes">
                                         
                                             <tr :key="'projectscope-' + index">
-                                                    <td width="80" class="text-center">
-                                                    
-                                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="editScope(projectscope,index)">
-                                                        <b-dropdown-item href="javascript:void(0)"  @click="editScope(projectscope,index)">Edit</b-dropdown-item>
-                                                        <b-dropdown-item href="javascript:void(0)" @click="removeScope(index)">Delete</b-dropdown-item>
-                                                    </b-dropdown>
-                                                
+                                                    <td width="65" class="text-center">
+                                                        <span class="hx-table-actions">
+                                                            <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="editScope(projectscope,index)">
+                                                                <b-dropdown-item href="javascript:void(0)"  @click="editScope(projectscope,index)">Edit</b-dropdown-item>
+                                                                <b-dropdown-item href="javascript:void(0)" @click="removeScope(index)">Delete</b-dropdown-item>
+                                                            </b-dropdown>
+                                                        </span>
                                                     </td>
                                                     <td>
-                                                        <strong >{{ projectscope.scope_of_work }}</strong>
+                                                        {{ projectscope.scope_of_work }}
                                                     </td>
-        
                                             </tr>
-
                                         
                                     </template>
                                 </template>
@@ -113,18 +111,18 @@
                                     <div style="padding:5px;">
 
                                         <div class="form-group">
-                                            <label class="form-label" for="group-name">Group Name:</label>
+                                            <label class="form-label" for="group-name">Scope</label>
                                             <div class="form-control-wrap">
-                                                <input v-model="selected_scope.name" class="form-control" v-bind:class="{'error' : selected_scope.name_error}" type="text" placeholder="ie: Chocolates" required>
+                                                <input v-model="selected_scope.scope_of_work" class="form-control" v-bind:class="{'error' : selected_scope.scope_error}" type="text" placeholder="ie: Sites" required>
                                             </div>
                                         </div>
 
                                         <div class="hx-card-small">
                                             <div class="card-header">
                                                 <div class="d-flex align-items-center justify-content-between">
-                                                    <span style="font-weight: 600">Discount List</span>
-                                                    <button class="btn-gray-small btn-primary m-0" @click="addNewDetails(selected_scope)" type="button" :disabled="view_mode">
-                                                        <i class="las la-plus"></i> Add Discount
+                                                    <span style="font-weight: 600">Details</span>
+                                                    <button class="btn-gray-small btn-primary m-0" @click="addNewDetails(selected_scope)" type="button">
+                                                        <i class="las la-plus"></i> Add Detail
                                                     </button>
                                                 </div>
                                             </div>
@@ -134,20 +132,16 @@
                                                         <tr style="background:#fff;">
                                                             <th>Action</th>
                                                             <th>Name</th>
-                                                            <th>Rate</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr style="background:#fff;" v-for="(discount,discount_index) in selected_scope.discounts" :key="'edit-group-discount-' + discount_index ">
+                                                        <tr style="background:#fff;" v-for="(details,detail_index) in selected_scope.scope_details" :key="'edit-group-detail-' + detail_index ">
                                                           
-                                                            <td width="60"><button class="btn-gray-small" type="button" @click="removeDetails(selected_scope.discounts,discount_index)" :disabled="view_mode">Delete</button></td>
+                                                            <td width="60"><button class="btn-gray-small" type="button" @click="removeDetails(selected_scope.scope_details,detail_index)">Delete</button></td>
                                                             <td style="padding:0px 2px;">
-                                                                <input class="form-control-gray-small" v-bind:class="{'error' : discount.name_error}" type="text" v-model="discount.name ">
+                                                                <input class="form-control-gray-small" v-bind:class="{'error' : details.detail_error}" type="text" v-model="details.detail ">
                                                             </td>
-                                                            <td style="padding:0px 2px;"  width="70">
-                                                                <input class="form-control-gray-small" v-bind:class="{'error' : discount.rate_error}"  type="text" v-model="discount.rate ">
-                                                            </td>
-                                                      
+                                                    
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -161,8 +155,8 @@
                     </div>
                     <div class="modal-footer bg-light">
                         <button  @click="cancelScope()" type="button" class="btn btn-sm btn-outline-secondary">Close</button>
-                        <button v-if="selected_scope && selected_scope.uuid === null" @click="saveScope()" type="button" class="btn btn-sm btn-primary">Save</button>
-                        <button v-else @click="saveScope()" type="button" class="btn btn-sm btn-primary">Update</button>
+                        <button v-if="selected_scope && selected_scope.uuid === null" @click="checkScope()" type="button" class="btn btn-sm btn-primary">Save</button>
+                        <button v-else @click="checkScope()" type="button" class="btn btn-sm btn-primary">Update</button>
                     </div>
                 </div>
             </div>
@@ -183,7 +177,7 @@ export default {
         return {
             selected_scope: null,
             scopeDetails: [],
-            projectScopes: [],
+            prjScopes: [],
 
             selected_scope_index: null, // used for editing
 
@@ -210,9 +204,7 @@ export default {
             projectScope.scope_details.push({
                 id: null,
                 uuid: null,
-                name: '',
-                rate: '',
-                excluded_items: []
+                detail: '',
             });
         },
         removeDetails: function (details,details_index) {
@@ -224,9 +216,8 @@ export default {
             scope.selected_scope = {
                 id: null,
                 uuid: null,
-                name: '',
+                scope_of_work: '',
                 edit: true,
-                view: false,
                 new: true,
                 scope_details: []
             }
@@ -253,18 +244,18 @@ export default {
         },
         removeScope: function (index) {
             var scope = this
-            scope.projectScopes.splice(index, 1)
+            scope.prjScopes.splice(index, 1)
         },
         getProjectScope: function () {
             var scope = this
             scope.listLoading = true
-            scope.projectScopes = []
+            scope.prjScopes = []
 
             scope.GET('projects/project-scope?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
 
-                scope.projectScopes = (res.rows) ? res.rows : []
-                console.log('asdasdsad')
-                console.log(res.rows)
+                scope.prjScopes = (res.rows) ? res.rows : []
+                // console.log('asdasdsad')
+                // console.log(res.rows)
 
                 scope.listLoading = false
                 scope.listCount = res.count
@@ -273,32 +264,28 @@ export default {
                 scope.listResults = res.results
             })
         },
-       saveScope: function () {
+       checkScope: function () {
             var scope = this
 
             var error = 0
 
-            scope.$set(scope.selected_scope,'name_error',false);
-            if (scope.selected_scope.name == '') {
+            scope.$set(scope.selected_scope,'scope_error',false);
+
+            if (scope.selected_scope.scope_of_work == '') {
                 error++;
-                scope.selected_scope.name_error = true
+                scope.selected_scope.scope_error = true
             }
             
-            for (let i = 0; i < scope.selected_scope.discounts.length; i++) {
-                var discount = scope.selected_scope.discounts[i]
+            for (let i = 0; i < scope.selected_scope.scope_details.length; i++) {
+                var scopeDetail = scope.selected_scope.scope_details[i]
 
-                scope.$set(scope.selected_scope.discounts[i],'name_error',false);
-                scope.$set(scope.selected_scope.discounts[i],'rate_error',false);
+                scope.$set(scope.selected_scope.scope_details[i],'detail_error',false);
 
-                if (discount.name == '') {
+                if (scopeDetail.detail == '') {
                     error++;
-                    scope.selected_scope.discounts[i].name_error = true
+                    scope.selected_scope.scope_details[i].detail_error = true
                 } 
 
-                if (discount.rate == '') {
-                    error++;
-                    scope.selected_scope.discounts[i].rate_error = true
-                }
             }
 
             if (error) {
@@ -308,15 +295,56 @@ export default {
             scope.selected_scope.edit = false
 
             if (scope.selected_scope_index === null) {
-                scope.projectScopes.push(scope.selected_scope);
+                scope.prjScopes.push(scope.selected_scope);
             } else {
-                scope.projectScopes[scope.selected_scope_index] = JSON.parse(JSON.stringify(scope.selected_scope)) 
+                scope.prjScopes[scope.selected_scope_index] = JSON.parse(JSON.stringify(scope.selected_scope)) 
             }
 
-            scope.selected_scope = null
-            scope.selected_scope_index = null
-            scope.CLOSE_MODAL('#modalprojectScope');
+
+            if (scope.prjScopes[scope.selected_scope_index].uuid == null){
+                scope.saveScope('Saved')
+            }else{
+
+                window.swal.fire({
+                    title: 'Update?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#548235',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.value) {
+                        scope.saveScope('Updated')
+                    }
+                })
+                
+            }
+
        },
+
+       saveScope: function (swalTitle) {
+           var scope = this
+
+            scope.POST('projects/project-scope', scope.prjScopes[scope.selected_scope_index]).then(res => {
+                if (res.success) {
+                    window.swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: swalTitle,
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        scope.selected_scope = null
+                        scope.selected_scope_index = null
+                        scope.CLOSE_MODAL('#modalprojectScope')
+                    })
+                }  
+            })
+
+       },
+
+
         search: function () {
             var scope = this
             if (scope.timer) {

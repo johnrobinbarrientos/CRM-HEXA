@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ProjectType extends Model
+class ProjectTypeScope extends Model
 {
     use SoftDeletes;
     
-    protected $table = 'project_types';
+    protected $table = 'project_type_scopes';
 
     protected $fillable = [];
 
@@ -27,8 +27,8 @@ class ProjectType extends Model
         });
     }
 
-    public function TypeScopes(){
-        return $this->hasMany('App\Models\ProjectTypeScope','project_type_uuid','uuid')->with('TypeScope');
+    public function TypeScope(){
+        return $this->belongsTo('App\Models\ProjectScope','project_scope_uuid','uuid');
     }
    
 }

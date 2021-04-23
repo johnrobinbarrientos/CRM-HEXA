@@ -161,6 +161,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::delete('/project-type/{project_type_uuid}', 'API\ProjectTypeController@delete');
 
         Route::get('/project-scope', 'API\ProjectScopeController@index');
+        Route::get('/project-scope-all', 'API\ProjectScopeController@getAll');
         Route::post('/project-scope', 'API\ProjectScopeController@save');
 
 
