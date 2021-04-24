@@ -176,7 +176,7 @@ export default {
     data: function () {
         return {
             selected_scope: null,
-            scopeDetails: [],
+
             prjScopes: [],
 
             selected_scope_index: null, // used for editing
@@ -254,8 +254,7 @@ export default {
             scope.GET('projects/project-scope?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
 
                 scope.prjScopes = (res.rows) ? res.rows : []
-                // console.log('asdasdsad')
-                // console.log(res.rows)
+
 
                 scope.listLoading = false
                 scope.listCount = res.count
