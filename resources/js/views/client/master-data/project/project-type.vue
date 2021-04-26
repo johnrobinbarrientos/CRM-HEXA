@@ -105,7 +105,7 @@
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="project-scope">Project Scope:</label>
-                                        <select class="form-select-scopes" v-model="selected_scope" :options="options_scope" name="project-scope"  multiple="multiple">
+                                        <select class="form-select-scopes" v-model="selected_scopes" :options="options_scope" name="project-scope"  multiple="multiple">
                                         </select>
                                     </div>
                                 </div>
@@ -138,7 +138,7 @@ export default {
         return {
             projectTypes: [],
 
-            selected_scope: [],
+            selected_scopes: [],
             options_scope: [],
 
             listLoading: true,
@@ -201,9 +201,6 @@ export default {
         },
         setData: function (data) {
             var scope = this
-            // console.log('set')
-            // console.log(data)
-            scope.selected_scope = [];
 
             scope.formdata.uuid = data.uuid
             scope.formdata.type = data.type
@@ -356,11 +353,11 @@ export default {
 
         $('.form-select-scopes').on("change", function(e) { 
             scope.selected_scopes = $('.form-select-scopes').val();
-            console.log(scope.selected_scopes)
-            // scope.setSupplierIDs(scope.selected_suppliers)
         })
+
     },
 }
+
 </script>
 
 <style scoped>
