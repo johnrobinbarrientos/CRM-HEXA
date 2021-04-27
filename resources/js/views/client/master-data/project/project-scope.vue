@@ -23,9 +23,9 @@
             </div>
         </div>
 
-        <!-- <div v-if="listLoading" class="text-center my-3 text-loader">
+        <div v-if="listLoading" class="text-center my-3 text-loader">
             <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more 
-        </div> -->
+        </div>
 
             <div class="row">
                 <div class="col-lg-6">
@@ -113,7 +113,7 @@
                                         <div class="form-group">
                                             <label class="form-label" for="group-name">Scope</label>
                                             <div class="form-control-wrap">
-                                                <input v-model="selected_scope.scope_of_work" class="form-control" v-bind:class="{'error' : selected_scope.scope_error}" type="text" placeholder="ie: Sites" required>
+                                                <input v-model="selected_scope.scope_of_work" class="form-control" v-bind:class="{'error' : selected_scope.scope_error}" type="text" placeholder="ie: Sites">
                                             </div>
                                         </div>
 
@@ -155,8 +155,8 @@
                     </div>
                     <div class="modal-footer bg-light">
                         <button  @click="cancelScope()" type="button" class="btn btn-sm btn-outline-secondary">Close</button>
-                        <button v-if="selected_scope && selected_scope.uuid === null" @click="checkScope()" type="button" class="btn btn-sm btn-primary">Save</button>
-                        <button v-else @click="checkScope()" type="button" class="btn btn-sm btn-primary">Update</button>
+                        <button v-if="selected_scope && selected_scope.uuid === null" @click="Trap()" type="button" class="btn btn-sm btn-primary">Save</button>
+                        <button v-else @click="Trap()" type="button" class="btn btn-sm btn-primary">Update</button>
                     </div>
                 </div>
             </div>
@@ -176,10 +176,11 @@ export default {
     data: function () {
         return {
             selected_scope: null,
+            selected_scope_index: null, // used for editing
 
             prjScopes: [],
 
-            selected_scope_index: null, // used for editing
+            
 
             listLoading: true,
             listCurrentPage: 1,
@@ -221,7 +222,6 @@ export default {
                 new: true,
                 scope_details: []
             }
-            scope.addNewDetails(scope.selected_scope);
             scope.OPEN_MODAL('#modalprojectScope');
 
         },
@@ -263,7 +263,8 @@ export default {
                 scope.listResults = res.results
             })
         },
-       checkScope: function () {
+
+       Trap: function () {
             var scope = this
 
             var error = 0
@@ -291,46 +292,26 @@ export default {
                 return
             }
 
-            scope.selected_scope.edit = false
 
-            if (scope.selected_scope_index === null) {
-                scope.prjScopes.push(scope.selected_scope);
-            } else {
-                scope.prjScopes[scope.selected_scope_index] = JSON.parse(JSON.stringify(scope.selected_scope)) 
-            }
-
-
-            if (scope.prjScopes[scope.selected_scope_index].uuid == null){
-                scope.saveScope('Saved')
+            if (scope.selected_scope.uuid == null){
+                scope.saveScope()
             }else{
-
-                window.swal.fire({
-                    title: 'Update?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#548235',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes',
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    if (result.value) {
-                        scope.saveScope('Updated')
-                    }
-                })
-                
+                scope.updateScope()
             }
 
        },
 
-       saveScope: function (swalTitle) {
-           var scope = this
+       saveScope: function () {
+            var scope = this
 
-            scope.POST('projects/project-scope', scope.prjScopes[scope.selected_scope_index]).then(res => {
+            scope.prjScopes.push(scope.selected_scope);
+
+            scope.POST('projects/project-scope', scope.prjScopes[scope.prjScopes.length - 1]).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: swalTitle,
+                        title: 'Saved',
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
@@ -341,6 +322,41 @@ export default {
                 }  
             })
 
+       },
+
+        updateScope: function () {
+            var scope = this
+
+            window.swal.fire({
+                        title: 'Update?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#548235',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.value) {
+
+                            scope.prjScopes[scope.selected_scope_index] = JSON.parse(JSON.stringify(scope.selected_scope)) 
+
+                            scope.POST('projects/project-scope', scope.prjScopes[scope.selected_scope_index]).then(res => {
+                                if (res.success) {
+                                    window.swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: 'Updated',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then(() => {
+                                        scope.selected_scope = null
+                                        scope.selected_scope_index = null
+                                        scope.CLOSE_MODAL('#modalprojectScope')
+                                    })
+                                }  
+                            })
+                        }
+                    })
        },
 
 
