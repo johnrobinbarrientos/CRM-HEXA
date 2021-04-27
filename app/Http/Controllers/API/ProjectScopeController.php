@@ -7,11 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Models\ProjectScope; 
 use Illuminate\Support\Facades\Auth; 
 
+use  App\Http\Controllers\API\ProjectScopeDetailController;
+
 class ProjectScopeController extends Controller
 {
     public function index()
     {
-        $list = ProjectScope::whereNull('deleted_at');
+        $list = ProjectScope::whereNull('deleted_at')->with('ScopeDetails');
 
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;
@@ -34,14 +36,21 @@ class ProjectScopeController extends Controller
         return response()->json(['success' => 1, 'rows' => $list, 'count' => $count, 'offset' => $offset, 'results' => count($list)], 200);
     }
 
+    public function getAll()
+    {
+        $list = ProjectScope::whereNull('deleted_at')->get();
+        return response()->json(['success' => 1, 'rows' => $list], 200);
+    }
+
     public function show($projectTypeUUID)
     {
         $scopeOfWork = ProjectScope::where('project_type_uuid','=',$projectTypeUUID)->get();
         return response()->json(['success' => 1, 'rows' => $scopeOfWork], 200);
     }
 
-    public function save($projectTypeUUID)
+    public function save()
     {
+
         $scopeOfWork = request()->uuid ? ProjectScope::find(request()->uuid) : new ProjectScope();
 
         $scopeOfWork->scope_of_work = request()->scope_of_work;
@@ -49,7 +58,11 @@ class ProjectScopeController extends Controller
         
         $scopeOfWork = ProjectScope::find($scopeOfWork->uuid);
 
-        return response()->json(['success' => 1, 'data' => $scopeOfWork], 200);
+
+        $save_details = ProjectScopeDetailController::save($scopeOfWork->uuid,request()->scope_details);
+
+        return response()->json(['success' => 1], 200);
+
     }
 
 }
