@@ -248,7 +248,12 @@ export default {
         },
         getProjectScope: function () {
             var scope = this
+
             scope.listLoading = true
+
+            scope.selected_scope = null
+            scope.selected_scope_index = null
+
             scope.prjScopes = []
 
             scope.GET('projects/project-scope?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
@@ -315,8 +320,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        scope.selected_scope = null
-                        scope.selected_scope_index = null
+                        scope.getProjectScope()
                         scope.CLOSE_MODAL('#modalprojectScope')
                     })
                 }  
@@ -349,8 +353,7 @@ export default {
                                         showConfirmButton: false,
                                         timer: 1500
                                     }).then(() => {
-                                        scope.selected_scope = null
-                                        scope.selected_scope_index = null
+                                        scope.getProjectScope()
                                         scope.CLOSE_MODAL('#modalprojectScope')
                                     })
                                 }  
