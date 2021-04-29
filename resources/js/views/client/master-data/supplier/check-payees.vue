@@ -105,13 +105,6 @@ export default {
             table_responsive: true,
         }
     },
-    computed: {
-        check_payees: function () {
-            return this.payees.filter(function (payee) {
-            return payee.deleted_at == null
-            })
-        }
-    },
     methods: {
         addNewPayee: function () {
            var scope = this
@@ -120,8 +113,7 @@ export default {
                     id: null,
                     uuid: null,
                     check_payee: '',
-                    edit: true,
-                    deleted_at: null
+                    edit: true
             }
 
            scope.OPEN_MODAL('#modalPayee');

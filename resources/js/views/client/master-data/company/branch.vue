@@ -2,7 +2,10 @@
     <div>
         <div class="actions-bar">
             <div class="w-100">
-                <h1 class="title"><i class="las la-list-ul"></i>Branches</h1>
+                <h1 class="title">
+                    <i class="las la-list-ul"></i>
+                    <span>Branches</span>
+                </h1>
             </div>
             <div class="bar-right">
                 <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
@@ -26,29 +29,31 @@
         
         <div class="row">
             <div class="col-lg-6">
-                <table class="table table-striped table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th width="105">Action</th>
-                            <th>Branch</th>
-                            <th>Shortname</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(branch) in Branches" :key="branch.uuid">
-                            <td width="100">
-                                <span class="hx-table-actions">
-                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalBranch');setData(branch)" >
-                                        <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalBranch');setData(branch)" >Edit</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)" @click="remove(branch)">Delete</b-dropdown-item>
-                                    </b-dropdown>
-                                </span>
-                            </td>
-                            <td>{{ branch.branch_name }}</td>
-                            <td>{{ branch.branch_shortname }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="105">Action</th>
+                                <th>Branch</th>
+                                <th>Shortname</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(branch) in Branches" :key="branch.uuid">
+                                <td width="100">
+                                    <span class="hx-table-actions">
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalBranch');setData(branch)" >
+                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalBranch');setData(branch)" >Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="remove(branch)">Delete</b-dropdown-item>
+                                        </b-dropdown>
+                                    </span>
+                                </td>
+                                <td>{{ branch.branch_name }}</td>
+                                <td>{{ branch.branch_shortname }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div> 
 

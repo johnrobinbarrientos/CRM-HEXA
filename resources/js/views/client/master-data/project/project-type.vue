@@ -1,9 +1,11 @@
 <template>
     <div>
-
         <div class="actions-bar">
             <div class="w-100">
-                <h1 class="title"><i class="las la-list-ul"></i>Project Types</h1>
+                <h1 class="title">
+                    <i class="las la-list-ul"></i>
+                    <span>Project Types</span>
+                </h1>
             </div>
             <div class="bar-right">
                 <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
@@ -41,7 +43,6 @@
                                         <span class="hx-table-actions">
                                             <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalProjectType');setData(projectType)">
                                                 <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalProjectType');setData(projectType)">Edit</b-dropdown-item>
-                                                <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalScope');setData(projectType)">Scope</b-dropdown-item>
                                                 <b-dropdown-item href="javascript:void(0)" @click="remove(projectType)">Delete</b-dropdown-item>
                                             </b-dropdown>
                                         </span>
@@ -100,6 +101,14 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="project-scope">Project Scope:</label>
+                                        <select class="form-select-scopes" v-model="selected_scopes" :options="options_scope" name="project-scope"  multiple="multiple">
+                                        </select>
+                                    </div>
+                                </div>
                                 
                             </div>                                    
                             
@@ -113,23 +122,6 @@
             </div>
         </div>
 
-        <!-- Modal Form Scope -->
-        <div class="modal fade" tabindex="-1" id="modalScope">
-            <div class="modal-dialog modal-lg" role="document" style="max-width: 1100px;">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">{{formdata.type}}</h5>
-                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalScope');resetData()" class="close" data-dismiss="modal" aria-label="Close">
-                            <i class="bx bx-x"></i>
-                        </a>
-                    </div>
-                    <div class="modal-body">
-                        <scope-of-work v-if="formdata.uuid" :project_type_uuid="formdata.uuid"></scope-of-work>
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
                 
     </div>
@@ -138,7 +130,6 @@
 <script>
 
 import Swal from 'sweetalert2'
-import ScopeOfWork from './scope-of-work'
 
 export default {
     name: 'project-types',
@@ -146,6 +137,9 @@ export default {
     data: function () {
         return {
             projectTypes: [],
+
+            selected_scopes: [],
+            options_scope: [],
 
             listLoading: true,
             listCurrentPage: 1,
@@ -161,9 +155,6 @@ export default {
             }
         }
     },
-    components: {
-        'scope-of-work': ScopeOfWork
-    },
     computed: {
         listTotalPages: function () {
             var scope = this
@@ -178,6 +169,7 @@ export default {
             scope.projectTypes = []
             scope.GET('projects/project-type?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.projectTypes = res.rows
+                // console.log(scope.projectTypes)
                 scope.listLoading = false
                 scope.listCount = res.count
 
@@ -185,6 +177,23 @@ export default {
                 scope.listResults = res.results
             })
         },
+
+        getScopes: function () {
+           var scope = this
+            scope.GET('projects/project-scope-all').then(res => {
+                res.rows.forEach(function (data) {
+                    
+                    scope.options_scope.push({
+                        id: data.uuid,
+                        text: data.scope_of_work
+                    })
+                
+                })
+
+                $(".form-select-scopes").select2({data: scope.options_scope});
+            })
+        },
+
         resetData: function () {
             var scope = this
             scope.formdata.uuid = null
@@ -192,11 +201,26 @@ export default {
         },
         setData: function (data) {
             var scope = this
+
             scope.formdata.uuid = data.uuid
             scope.formdata.type = data.type
+
+            var typeScopes = [];
+                    
+
+            for(var i = 0; i < data.type_scopes.length; i++) {
+                typeScopes.push(data.type_scopes[i].project_scope_uuid)
+            }
+
+            $('.form-select-scopes').val(typeScopes);
+            $('.form-select-scopes').trigger('change');
+
         },
         save: function () {
             var scope = this
+
+            scope.formdata.scope_uuids = scope.selected_scopes
+
             scope.POST('projects/project-type', scope.formdata).then(res => {
                 if (res.success) {
                     window.swal.fire({
@@ -217,6 +241,9 @@ export default {
         },
         update: function () {
             var scope = this
+
+            scope.formdata.scope_uuids = scope.selected_scopes
+
             window.swal.fire({
                 title: 'Update?',
                 icon: 'warning',
@@ -322,8 +349,15 @@ export default {
     mounted() {
         var scope = this
         scope.getprojectTypes()
+        scope.getScopes()
+
+        $('.form-select-scopes').on("change", function(e) { 
+            scope.selected_scopes = $('.form-select-scopes').val();
+        })
+
     },
 }
+
 </script>
 
 <style scoped>

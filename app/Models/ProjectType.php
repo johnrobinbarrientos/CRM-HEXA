@@ -26,5 +26,9 @@ class ProjectType extends Model
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
     }
+
+    public function TypeScopes(){
+        return $this->hasMany('App\Models\ProjectTypeScope','project_type_uuid','uuid')->with('TypeScope');
+    }
    
 }

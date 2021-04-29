@@ -1,9 +1,11 @@
 <template>
     <div>
-
         <div class="actions-bar">
             <div class="w-100">
-                <h1 class="title"><i class="las la-list-ul"></i>Global Cost Center</h1>
+                <h1 class="title">
+                    <i class="las la-list-ul"></i>
+                    <span>Cost Centers</span>
+                </h1>
             </div>
             <div class="bar-right">
                 <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
@@ -28,35 +30,37 @@
 
         <div class="row">
             <div class="col-lg-8">
-                <table class="table table-striped table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th width="105">Action</th>
-                            <th>Cost Center Name</th>
-                            <th>Shortname</th>
-                            <th>Is Group</th>
-                            <th>Cost Center Group</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(costcenter) in costCenters" :key="costcenter.uuid" class="tb-tnx-item">
-                            <td width="100">
-                                <span class="hx-table-actions">
-                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalCostCenter');setData(costcenter)" >
-                                        <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalCostCenter');setData(costcenter)">Edit</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)" @click="remove(costcenter)">Delete</b-dropdown-item>
-                                    </b-dropdown>
-                                </span>
-                            </td>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="105">Action</th>
+                                <th>Cost Center Name</th>
+                                <th>Shortname</th>
+                                <th>Is Group</th>
+                                <th>Cost Center Group</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(costcenter) in costCenters" :key="costcenter.uuid" class="tb-tnx-item">
+                                <td width="100">
+                                    <span class="hx-table-actions">
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="OPEN_MODAL('#modalCostCenter');setData(costcenter)" >
+                                            <b-dropdown-item href="javascript:void(0)" @click="OPEN_MODAL('#modalCostCenter');setData(costcenter)">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="remove(costcenter)">Delete</b-dropdown-item>
+                                        </b-dropdown>
+                                    </span>
+                                </td>
 
-                            <td>{{ costcenter.cost_center_name }}</td>
-                            <td>{{ costcenter.cost_center_shortname }}</td>
-                            <td v-if="costcenter.is_group === 1" class="text-center c-success"><i class="fas fa-check"></i></td>
-                            <td v-else class="text-center c-danger"><!-- <i class="fas fa-times"></i> --></td>
-                            <td>{{ costcenter.cost_center_group }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                                <td>{{ costcenter.cost_center_name }}</td>
+                                <td>{{ costcenter.cost_center_shortname }}</td>
+                                <td v-if="costcenter.is_group === 1" class="text-center c-success"><i class="fas fa-check"></i></td>
+                                <td v-else class="text-center c-danger"><!-- <i class="fas fa-times"></i> --></td>
+                                <td>{{ costcenter.cost_center_group }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 

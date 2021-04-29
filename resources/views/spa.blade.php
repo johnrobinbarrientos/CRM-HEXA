@@ -33,7 +33,7 @@
 
    
     </head>
-    <body data-sidebar="dark" data-sidebar-size="" data-topbar="light" data-layout-size="fluid" class="">
+    <body data-sidebar="light" data-sidebar-size="" data-topbar="light" data-layout-size="fluid" class="">
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <div id="root">
             <div id="preloader" style="display: none;">

@@ -16,7 +16,7 @@ class EmployeeListController extends Controller
 {
     public function index()
     {
-        $list = EmployeeList::where('is_draft','=', 0)->whereNull('deleted_at')->with('BranchLocation')->with('Department')
+        $list = EmployeeList::whereNull('deleted_at')->with('BranchLocation')->with('Department')
             ->with('EmploymentType')->with('EmploymentStatus');
 
         if (isset(request()->system) && request()->system == 'yes') {
@@ -51,55 +51,28 @@ class EmployeeListController extends Controller
     public function getSupervisors()
     {
 
-        $list = EmployeeList::where('is_draft','=', 0)->whereNull('deleted_at')->where('is_supervisor', 1)->where('uuid','!=', request()->emp_uuid)
+        $list = EmployeeList::whereNull('deleted_at')->where('is_supervisor', 1)->where('uuid','!=', request()->emp_uuid)
         ->get();
 
         return response()->json(['success' => 1, 'rows' => $list], 200);
     }
 
-    public function store() // initialize draft
+    public function store()
     {
-        $employee =  EmployeeList::where('is_draft','=', 1)->first();
-
-        if (!$employee) {
-            $auth = \Auth::user();
-
-            $employee = new EmployeeList();
-
-            $employee->save();
-        }
-
-
-        $employee = EmployeeList::find($employee->uuid);
-        return response()->json(['success' => 1, 'data' => $employee], 200);
+        return $this->save();
     }
 
-
-    public function update()
+    public function update($uuid) 
     {
-        // $messages = [
-        //     'first_name' => 'First Name is required',
-        //     'last_name' => 'Last Name required',
-        // ];
+        return $this->save($uuid);
+    }
 
-        // $rules = [
-        //     'first_name' => ['required'],
-        //     'last_name' => ['required']
-        // ];
+    public function save($uuid = '')
+    {
 
-        // $validator = Validator::make(request()->all(), $rules, $messages);
-
-        // if ($validator->fails()) {
-        //     return response()->json($validator->errors(), 411);
-        // }
-
-        $employee =  EmployeeList::find(request()->uuid);
+        $employee =  EmployeeList::find($uuid);
+        $employee = ($employee) ? $employee : new EmployeeList();
         
-        if (!$employee) {
-            return response()->json(['success' => 0, 'data' => null, 'Not found'], 500);
-        }
-
-
         $employee->emp_id = request()->emp_id;
         $employee->first_name = strtoupper(request()->first_name);
         $employee->middle_name = strtoupper(request()->middle_name);
@@ -138,7 +111,6 @@ class EmployeeListController extends Controller
         $employee->department_uuid = request()->department_uuid;
         $employee->supervisor_emp_uuid = request()->supervisor_emp_uuid;
         $employee->gender = strtoupper(request()->gender);
-        $employee->is_draft = 0;
 
 
         if (request()->hasfile('picture_file')) {
@@ -153,13 +125,13 @@ class EmployeeListController extends Controller
         }
 
         $employee->save();
+        
 
         $employee = EmployeeList::find($employee->uuid);
 
         return response()->json(['success' => 1, 'rows' => $employee], 200);
-
-
     }
+
 
     public function show($employeeUUID) // set update records
     {

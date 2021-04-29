@@ -1,5 +1,15 @@
 $(document).ready(function(){
-   
+
+    $(document).on('click','#vertical-menu-btn', function() {
+        var BUTTON = $(this);
+        
+        if ($(document).find('body').hasClass('sidebar-enable vertical-collpsed')) {
+            $(document).find('body').removeClass('sidebar-enable vertical-collpsed');
+        } else {
+            $(document).find('body').addClass('sidebar-enable vertical-collpsed')
+        }
+    });
+
     $(document).on('click','#page-header-user-dropdown',function() {
         var BUTTON = $(this)
         var DROPDOWN = BUTTON.closest('.dropdown');
@@ -17,7 +27,9 @@ $(document).ready(function(){
         var BUTTON = $(this);
 
         $(document).find('.link-active').removeClass('link-active');
+        $(document).find('.has-link-active').removeClass('has-link-active');
         BUTTON.closest('li').addClass('link-active');
+        BUTTON.parents('li').addClass('has-link-active')
     });
 
     $(document).on('click','#sidebar-menu  ul  li  .has-arrow',function() {

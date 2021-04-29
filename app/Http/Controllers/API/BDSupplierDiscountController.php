@@ -44,6 +44,9 @@ class BDSupplierDiscountController extends Controller
         $discount_uuids = [];
         
         foreach ($discounts as $key => $discount) {
+            if ( is_null($discount['uuid'])) {
+                continue;
+            }
             $discount_uuids[] = $discount['uuid'];
         }
 

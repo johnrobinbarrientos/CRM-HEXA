@@ -2,7 +2,10 @@
     <div>
         <div class="actions-bar">
             <div class="w-100">
-                <h1 class="title"><i class="las la-list-ul"></i>Customer List</h1>
+                <h1 class="title">
+                    <i class="las la-list-ul"></i>
+                    <span @click="ROUTE({path: '/customer-main/' })">Customer List</span>
+                </h1>
             </div>
             <div class="bar-right">
                 <input @keyup="search()" v-model="searchKeyword" type="text" class="form-control border-transparent form-focus-none" placeholder="Search">
@@ -49,7 +52,7 @@
                                     <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/customers/' + customer.uuid })">
                                         <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/customers/' + customer.uuid })">Edit</b-dropdown-item>
                                         <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/customers/' + customer.uuid + '/view' })">View</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)"@click="remove(customer)">Delete</b-dropdown-item>
+                                        <b-dropdown-item href="javascript:void(0)" @click="remove(customer)">Delete</b-dropdown-item>
                                     </b-dropdown>
                                 </span>
                             </td>
