@@ -63,11 +63,13 @@ class SupplierCheckPayeeController extends Controller
     static public function save($supplier_uuid,$payees)
     {
         $payee_uuids = [];
-        
+      
         foreach ($payees as $key => $payee) {
+            if ( is_null($payee['uuid'])) {
+                continue;
+            }
             $payee_uuids[] = $payee['uuid'];
         }
-        
         // delete payees
         SupplierCheckPayee::where('supplier_uuid','=',$supplier_uuid)->whereNotIn('uuid',$payee_uuids)->delete();
 

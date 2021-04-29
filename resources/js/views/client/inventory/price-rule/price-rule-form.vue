@@ -455,6 +455,7 @@ export default {
         getSalesItems: function () {
             var scope = this
             scope.items = []
+            scope.selected_items = []
             scope.is_loaded_items = false
             scope.GET('items?is_sales_item=yes&children=none&take=500').then(res => {
                  res.rows.forEach(function (data) {
