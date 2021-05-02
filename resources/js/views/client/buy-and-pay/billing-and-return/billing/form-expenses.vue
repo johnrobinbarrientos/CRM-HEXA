@@ -180,7 +180,7 @@ export default {
         },
         getBranches: function () {
            var scope = this
-            scope.GET('users/get-branch').then(res => {
+            scope.GET('company/branch').then(res => {
                 //scope.formdata.branch_uuid = res.rows.branch_uuid
                 scope.branch_name = res.rows.branch_name
                 scope.formdata.branch_uuid = res.rows.branch_uuid
@@ -188,7 +188,7 @@ export default {
         },
         getBranchLocations: function () {
            var scope = this
-            scope.GET('users/get-branch-locations').then(res => {
+            scope.GET('company/branch-location').then(res => {
                 res.rows.forEach(function (data) {
 
                     scope.options_branch_location.push({

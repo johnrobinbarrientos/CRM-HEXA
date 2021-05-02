@@ -36,8 +36,28 @@ class SupplierList extends Model
         return $this->belongsTo('App\Models\CompanyPaymentTerm','payment_term_uuid','uuid');
     }
 
+    public function CostCenter(){
+        return $this->belongsTo('App\Models\CostCenter','cost_center_uuid','uuid');
+    }
+
+    public function AddressList(){
+        return $this->belongsTo('App\Models\AddressList','address_uuid','uuid');
+    }
+
     public function AccountPayable(){
         return $this->belongsTo('App\Models\CompanyChartOfAccount','coa_payable_account_uuid','uuid');
+    }
+
+    public function AccountExpense(){
+        return $this->belongsTo('App\Models\CompanyChartOfAccount','coa_expense_account_uuid','uuid');
+    }
+
+    public function SupplierVAT(){
+        return $this->belongsTo('App\Models\CompanyTaxation','vat_uuid','uuid');
+    }
+
+    public function SupplierEWT(){
+        return $this->belongsTo('App\Models\CompanyTaxation','ewt_uuid','uuid');
     }
 
     public function vat(){

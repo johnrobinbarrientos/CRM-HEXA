@@ -106,14 +106,12 @@
 
                             <div class="row">
                                 <div class="col-md-12 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="group-name">Address:</label>
-                                        <div class="form-control-wrap">
-                                            <input v-model="selected_branch.address" class="form-control"  type="text" required>
-                                        </div>
-                                    </div>
+                                    <multiselect v-model="selected_address" :options="options_address" track-by="uuid" label="text" :preselectFirst="true">
+                                        <span slot="noResult">No Results</span>
+                                    </multiselect>
                                 </div>                                           
                             </div>
+                            <br/>
 
                             <div class="row">
                                 <div class="col-md-12 col-12">
@@ -169,6 +167,13 @@ export default {
     props: ['properties','customer_uuid','view_mode'],
     data: function () {
         return {
+
+            selected_address: null,
+            options_address: [],
+
+            selected_supplier_group: null,
+            options_supplier_group: [],
+
             selected_branch: null,
             selected_branch_index: null, // used for editing
             branches: [],
@@ -184,7 +189,7 @@ export default {
                     uuid: null,
                     customer_name: '',
                     contact_person: '',
-                    address: '',
+                    address_uuid: '',
                     email_address: '',
                     contact_no: '',
                     is_active: 1,
@@ -193,6 +198,24 @@ export default {
 
            scope.OPEN_MODAL('#modalBranches');
         },
+
+        getAddressList: function () {
+           var scope = this
+            scope.GET('company/address-list-all').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_address.push({
+                        uuid: data.uuid,
+                        text: data.barangay,
+                    })
+                
+                })
+
+            })
+
+        },
+
         edit: function (data,index) {
             var scope = this
 
@@ -201,6 +224,8 @@ export default {
            
             scope.selected_branch_index = index
             scope.selected_branch = copy
+
+
             scope.OPEN_MODAL('#modalBranches');
         },
         cancel: function (data,index) {
@@ -278,6 +303,8 @@ export default {
     },
     mounted() {
         var scope = this
+
+        scope.getAddressList()
         
         if(scope.customer_uuid) {
             var customer_uuid = scope.customer_uuid
@@ -287,6 +314,8 @@ export default {
         if(scope.properties) {
             scope.table_responsive = scope.properties.table_responsive
         }
+
+
     },
 }
 </script>

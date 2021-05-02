@@ -67,12 +67,12 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3 col-12">
+                                        <!-- <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="branch-name">Branch</label>
                                                 <input type="text" class="form-control disabled" v-model="bill.branch.branch_shortname" readonly>
                                             </div>
-                                        </div>
+                                        </div> -->
 
                                         <!-- <div class="col-md-3 col-12">
                                             <div class="form-group">

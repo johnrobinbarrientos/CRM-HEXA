@@ -280,6 +280,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/cost-center/delete', 'API\CostCenterController@delete');
 
         Route::get('/address-list', 'API\AddressListController@index');
+        Route::get('/address-list-all', 'API\AddressListController@getAll');
+        
         Route::post('/address-list', 'API\AddressListController@save');
         Route::post('/address-list/delete', 'API\AddressListController@delete');
 

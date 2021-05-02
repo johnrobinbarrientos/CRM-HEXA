@@ -62,7 +62,7 @@ class CustomerBranchController extends Controller
             $uuid = $branch['uuid'];
             $customer_name = $branch['customer_name'];
             $contact_person = $branch['contact_person'];
-            $address = $branch['address'];
+            $address_uuid = $branch['address_uuid'];
             $email_address = $branch['email_address'];
             $contact_no = $branch['contact_no'];
             $is_active = $branch['is_active'];
