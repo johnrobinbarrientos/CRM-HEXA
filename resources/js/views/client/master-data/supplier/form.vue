@@ -436,11 +436,13 @@ export default {
 
     },
     methods: {
+
         getPayables: function () {
            var scope = this
 
             scope.GET('company/chart-of-accounts?group1=accounts-payable').then(res => {
                 res.rows.forEach(function (data) {
+
                     scope.options_payables.push({
                         uuid: data.uuid,
                         text: data.account_name
@@ -451,12 +453,13 @@ export default {
             })
 
         },
+
         getExpenses: function () {
             var scope = this
 
             scope.GET('company/chart-of-accounts-expenses').then(res => {
-              
                 res.rows.forEach(function (data) {
+
                     scope.options_expenses.push({
                         uuid: data.uuid,
                         text: data.account_name
@@ -466,12 +469,13 @@ export default {
                 scope.prerequiste.getExpenses = true
             })
         },
+
         getSupplierGroup: function () {
            var scope = this
 
             scope.GET('suppliers/supplier-group').then(res => {
-
                 res.rows.forEach(function (data) {
+
                     scope.options_supplier_group.push({
                         uuid: data.uuid,
                         text: data.group_name
@@ -480,13 +484,12 @@ export default {
 
                 scope.prerequiste.getSupplierGroup = true
             })
-
         },
+
         getPaymentTerm: function () {
            var scope = this
 
             scope.GET('company/payment-term').then(res => {
-                
                 res.rows.forEach(function (data) {
 
                     scope.options_payment_term.push({
@@ -498,7 +501,6 @@ export default {
  
                 scope.prerequiste.getPaymentTerm = true
             })
-
         },
 
         getCostCenter: function () {
@@ -514,7 +516,6 @@ export default {
 
                 scope.prerequiste.getCostCenter = true
             })
-
         },
 
         getVat: function () {
@@ -532,7 +533,6 @@ export default {
 
                 scope.prerequiste.getVat = true
             })
-
         },
 
         getEwt: function () {
@@ -550,7 +550,6 @@ export default {
                 
                 scope.prerequiste.getEwt = true
             })
-
         },
 
         getAddressList: function () {
@@ -573,7 +572,6 @@ export default {
 
                 scope.prerequiste.getAddressList = true
             })
-
         },
 
         fillAddress: function () {

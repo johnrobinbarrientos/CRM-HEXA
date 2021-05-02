@@ -415,9 +415,6 @@ export default {
             scope.table_responsive = scope.properties.table_responsive
         }
 
-        console.log('test')
-        console.log(scope.properties)
-        console.log(scope.properties.table_responsive)
 
     },
 }

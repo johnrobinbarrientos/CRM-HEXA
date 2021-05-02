@@ -169,7 +169,7 @@ export default {
             scope.employeeList = []
             scope.GET('employees?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.employeeList = res.rows
-                console.log(scope.employeeList)
+
                 scope.listLoading = false
                 scope.listCount = res.count
 

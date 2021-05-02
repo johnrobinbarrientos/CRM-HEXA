@@ -330,10 +330,6 @@ export default {
             scope.table_responsive = scope.properties.table_responsive
         }
 
-    
-        console.log(scope.properties)
-        console.log(scope.properties.table_responsive)
-
     },
 }
 </script>

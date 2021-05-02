@@ -241,8 +241,6 @@ export default {
             }
 
 
-            console.log(scope.selected_contact)
-
 
             scope.selected_contact = null
             scope.selected_contact_index = null

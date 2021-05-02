@@ -1006,7 +1006,6 @@ export default {
                         scope.fileImage = '/images/employees/' + data.profile_pic
                     }
 
-                    // console.log(data)
 
                     if (data.employment_type !== null){
                         scope.selected_employment_type = {

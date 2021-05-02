@@ -743,8 +743,6 @@ export default {
                     scope.formdata.logistic_discount = data.logistic_discount
                     scope.formdata.term_discount = data.term_discount
 
-                    console.log(data)
-
                     if (data.customer_group !== null){
                         scope.selected_customer_group = {
                                 uuid: data.customer_group.uuid,
