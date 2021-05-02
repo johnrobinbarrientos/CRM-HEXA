@@ -226,20 +226,19 @@ export default {
             var scope = this
             scope.options_item_discount_group = []
             
-
-            scope.GET('suppliers/' + suppier_uuid + '/supplier-base-discount-group').then(res => {
+            $(".form-select-supplier-discount-group").select2();
+            $(".form-select-supplier-discount-group").html('');
+      
+            scope.GET('suppliers/' + suppier_uuid + '/base-discounts').then(res => {
                 res.rows.forEach(function (data) {
                     scope.options_item_discount_group.push({
                         id: data.uuid,
-                        text: data.group_name
+                        text: data.name
                     })
                 })
 
-                $(".form-select-supplier-discount-group").select2();
-                $(".form-select-supplier-discount-group").html('');
-                $(".form-select-supplier-discount-group").select2({data: scope.options_item_discount_group});
-
                 
+                $(".form-select-supplier-discount-group").select2({data: scope.options_item_discount_group});
                 $(".form-select-supplier-discount-group").val(scope.selected_item_discount_group).trigger('change');
             
 
