@@ -83,12 +83,12 @@ export default {
           }
         })
         .catch(function (error) {
-            var data = error.response.data
-            var code = error.response.status
-            if (code === 401) {
-                //router.push({name: 'auth'})
-                localStorage.clear()
-            }
+            // var data = error.response.data
+            // var code = error.response.status
+            // if (code === 401) {
+            //     //router.push({name: 'auth'})
+            //     localStorage.clear()
+            // }
         })
     },
   },

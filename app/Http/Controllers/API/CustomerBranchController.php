@@ -73,7 +73,7 @@ class CustomerBranchController extends Controller
             $data->customer_uuid = $customer_uuid;
             $data->customer_name = $customer_name;
             $data->contact_person = $contact_person;
-            $data->address = $address;
+            $data->address_uuid = $address_uuid;
             $data->email_address = $email_address;
             $data->contact_no = $contact_no;
             $data->is_active = $is_active;
