@@ -79,7 +79,9 @@ class EmployeeListController extends Controller
         $employee->last_name = strtoupper(request()->last_name);
         $employee->ext = strtoupper(request()->ext);
         $employee->branch_uuid  = request()->branch_uuid;
-        $employee->branch_location_uuid  = request()->branch_location_uuid;
+
+        $employee->branch_location_uuid  = (request()->branch_location_uuid == 'undefined') ? Null : request()->branch_location_uuid;
+
         $employee->is_custodian = request()->is_custodian;
         $employee->is_driver = request()->is_driver;
         $employee->is_system_user = request()->is_system_user;
@@ -132,11 +134,11 @@ class EmployeeListController extends Controller
         return response()->json(['success' => 1, 'rows' => $employee], 200);
     }
 
-
     public function show($employeeUUID) // set update records
     {
         $employee = EmployeeList::with('BranchLocation')->with('Department')
-            ->with('EmploymentType')->with('EmploymentStatus')
+            ->with('EmploymentType')->with('EmploymentStatus')->with('CostCenter')
+            ->with('Supervisor')->with('AddressList')->with('Branch')
             ->find($employeeUUID);
 
         if($employee->profile_pic){

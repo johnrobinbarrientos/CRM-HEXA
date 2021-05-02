@@ -65,9 +65,9 @@
                                 </span>
                             </td>
                             <td>
-                                <span style="text-transform: uppercase" class="text-nowrap">
+                                <!-- <span style="text-transform: uppercase" class="text-nowrap">
                                     {{employee.branch_location.location_name}}
-                                </span>        
+                                </span>         -->
                             </td>
                             <td>
                                 <span style="text-transform: uppercase" class="text-nowrap">
@@ -169,6 +169,7 @@ export default {
             scope.employeeList = []
             scope.GET('employees?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.employeeList = res.rows
+                console.log(scope.employeeList)
                 scope.listLoading = false
                 scope.listCount = res.count
 
@@ -177,15 +178,6 @@ export default {
             })
         },
 
-        // create: function () {
-        //     var scope = this
-
-        //     scope.POST('employees').then(res => {
-        //         if (res.success) {
-        //            scope.ROUTE({path: '/employees/' + res.data.uuid })
-        //         }
-        //     })
-        // },
         search: function () {
             var scope = this
             if (scope.timer) {

@@ -417,11 +417,6 @@ export default {
         }
     },
     watch: {
-        selected_address: function () {
-            var scope = this
-            scope.fillAddress()
-
-        },
         ready: function (val) {
             var scope = this
             if (val) {
@@ -430,9 +425,13 @@ export default {
                     scope.getSupplierDetails(scope.formdata.uuid)
 
                 },500)
-                
             }
-            
+        },
+        
+        selected_address: function () {
+            var scope = this
+            scope.fillAddress()
+
         },
 
     },
@@ -755,8 +754,6 @@ export default {
                         }
                 }
 
-
-                console.log(data)
                 
             })
         }
