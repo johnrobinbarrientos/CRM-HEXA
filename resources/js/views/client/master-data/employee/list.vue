@@ -36,6 +36,7 @@
                             <th>Employee ID</th>
                             <th>Employee Name</th>
                             <th>Branch</th>
+                            <th>Location</th>
                             <th>Department</th>
                             <th>Job Title</th>
                             <th>Is Custodian?</th>
@@ -65,9 +66,14 @@
                                 </span>
                             </td>
                             <td>
-                                <!-- <span style="text-transform: uppercase" class="text-nowrap">
+                                <span style="text-transform: uppercase" class="text-nowrap">
+                                    {{employee.branch.branch_shortname}}
+                                </span>    
+                            </td>
+                            <td>
+                                <span v-if="employee.branch_location != null" style="text-transform: uppercase" class="text-nowrap">
                                     {{employee.branch_location.location_name}}
-                                </span>         -->
+                                </span>
                             </td>
                             <td>
                                 <span style="text-transform: uppercase" class="text-nowrap">
@@ -169,6 +175,8 @@ export default {
             scope.employeeList = []
             scope.GET('employees?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.employeeList = res.rows
+
+                console.log(scope.employeeList)
 
                 scope.listLoading = false
                 scope.listCount = res.count

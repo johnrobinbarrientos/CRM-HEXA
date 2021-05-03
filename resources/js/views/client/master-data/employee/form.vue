@@ -499,7 +499,6 @@ export default {
             prerequiste: {
                 getCompanyDepartment: false,
                 getBranch: false,
-                getBranchLocation: false,
                 getEmploymentType: false,
                 getEmploymentStatus: false,
                 getCostCenter: false,

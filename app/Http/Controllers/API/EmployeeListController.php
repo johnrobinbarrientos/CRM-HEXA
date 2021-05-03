@@ -16,8 +16,8 @@ class EmployeeListController extends Controller
 {
     public function index()
     {
-        $list = EmployeeList::whereNull('deleted_at')->with('BranchLocation')->with('Department')
-            ->with('EmploymentType')->with('EmploymentStatus');
+        $list = EmployeeList::whereNull('deleted_at')->with('BranchLocation')
+                ->with('Branch')->with('Department')->with('EmploymentType')->with('EmploymentStatus');
 
         if (isset(request()->system) && request()->system == 'yes') {
             $list = $list->where('is_system_user','=',true)
