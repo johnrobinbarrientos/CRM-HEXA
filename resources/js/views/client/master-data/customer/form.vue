@@ -726,7 +726,10 @@ export default {
             } 
 
             scope.GET('customers/' + customerUUID).then(res => {
+                
                 let data = res.data
+
+                scope.customer_new_mode = false
 
                 scope.formdata.uuid = customerUUID
 

@@ -195,7 +195,8 @@
                         </a>
                     </div>
                     <div class="modal-body">
-                        <search-to-bill></search-to-bill>
+                        <!-- <search-to-bill></search-to-bill> -->
+                        <billing-tabs></billing-tabs>
                     </div>
                 </div>
             </div>
@@ -209,6 +210,7 @@
 import Swal from 'sweetalert2'
 import moment from 'moment'
 import SearchToBill from './form'
+import BillingTabs from './billing-tabs'
 
 export default {
     name: 'purchase-order',
@@ -271,7 +273,8 @@ export default {
         }
     },
     components: {
-        'search-to-bill': SearchToBill
+        'search-to-bill': SearchToBill,
+        'billing-tabs': BillingTabs
     },
     computed: {
         listTotalPages: function () {

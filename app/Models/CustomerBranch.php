@@ -26,5 +26,9 @@ class CustomerBranch extends Model
             $model->setAttribute($model->getKeyName(), \Uuid::generate(4));
         });
     }
+
+    public function AddressList(){
+        return $this->belongsTo('App\Models\AddressList','address_uuid','uuid');
+    }
    
 }
