@@ -5,17 +5,17 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
 
 use App\Models\SupplierList; 
-use App\Models\BDSupplier; 
-use App\Models\BDSupplierDiscount; 
-use App\Models\BDSupplierDiscountExcludedItem; 
+use App\Models\BDGroupSupplier; 
+use App\Models\BDGroupSupplierDiscount; 
+use App\Models\BDGroupSupplierDiscountExcludedItem; 
 
-use  App\Http\Controllers\API\BDSupplierDiscountController;
+use  App\Http\Controllers\API\BDGroupSupplierDiscountController;
 
-class BDSupplierController extends Controller
+class BDGroupSupplierController extends Controller
 {
     public function index($supplier_uuid)
     {
-        $groups = BDSupplier::where('supplier_uuid','=',$supplier_uuid)->with('discounts')->get();
+        $groups = BDGroupSupplier::where('supplier_uuid','=',$supplier_uuid)->with('discounts')->get();
         return response()->json(['success' => 1, 'rows' => $groups], 200);
     }
 
@@ -31,7 +31,7 @@ class BDSupplierController extends Controller
                 $errors++;
             }
 
-            $response =  BDSupplierDiscountController::check($group['discounts']);
+            $response =  BDGroupSupplierDiscountController::check($group['discounts']);
 
             $group['discounts'] = $response['discounts'];
             $errors += $response['errors'];
@@ -54,7 +54,7 @@ class BDSupplierController extends Controller
         }
         
         // delete group
-        BDSupplier::where('supplier_uuid','=',$supplier_uuid)->whereNotIn('uuid',$group_uuids)->delete();
+        BDGroupSupplier::where('supplier_uuid','=',$supplier_uuid)->whereNotIn('uuid',$group_uuids)->delete();
 
         foreach ($groups as $key => $group) {
 
@@ -62,15 +62,15 @@ class BDSupplierController extends Controller
             $name = $group['name'];
     
             
-            $data = BDSupplier::where('uuid','=',$uuid)->first();
-            $data = ($data) ? $data : new  BDSupplier;
+            $data = BDGroupSupplier::where('uuid','=',$uuid)->first();
+            $data = ($data) ? $data : new  BDGroupSupplier;
             $data->supplier_uuid = $supplier_uuid;
             $data->name = $name;
             $data->save();
             
-            $bd_supplier = BDSupplier::find($data->uuid);
+            $bd_supplier = BDGroupSupplier::find($data->uuid);
 
-            $BD_group_discounts = BDSupplierDiscountController::save($bd_supplier->uuid,$group['discounts']);
+            $BD_group_discounts = BDGroupSupplierDiscountController::save($bd_supplier->uuid,$group['discounts']);
         }
     }
 

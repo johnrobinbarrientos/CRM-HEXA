@@ -160,7 +160,7 @@ class BuyAndPayOrderController extends Controller
         $order->branch_location = $branch_location;
 
         /*
-        $discount_groups = BDSupplier::where('bp_order_uuid','=',$orderUUID)->get();
+        $discount_groups = BDGroupSupplier::where('bp_order_uuid','=',$orderUUID)->get();
         $order->discount_groups = $discount_groups;
         */
 
@@ -333,20 +333,20 @@ class BuyAndPayOrderController extends Controller
     {
         $auth = \Auth::user();
         $bd_supplier_uuids = (isset(request()->selected_supplier_discount_groups)) ? request()->selected_supplier_discount_groups : [];
-        $po_bd_supplier_uuids_uuids = PurchaseOrderBaseDiscountGroup::where('bp_order_uuid','=',$order->uuid)->pluck('bd_supplier_uuid')->toArray();
+        $po_bd_supplier_uuids_uuids = POBDGroupSupplier::where('bp_order_uuid','=',$order->uuid)->pluck('bd_group_supplier_uuid')->toArray();
         
         $bd_supplier_uuids = array_merge($bd_supplier_uuids, $po_bd_supplier_uuids_uuids);
         
-        $master_bd_suppliers = BDSupplier::whereIn('uuid',$bd_supplier_uuids)->get();
+        $master_bd_suppliers = BDGroupSupplier::whereIn('uuid',$bd_supplier_uuids)->get();
 
         foreach ($master_bd_suppliers as $master_bd_supplier) {
-            $po_bd_supplier  = POBDSupplier::where('bp_order_uuid','=',$order->uuid)
+            $po_bd_supplier  = POBDGroupSupplier::where('bp_order_uuid','=',$order->uuid)
                 ->where('bd_supplier_uuid','=',$master_bd_supplier->uuid)
                 ->withTrashed()
                 ->first();
 
 
-            $po_bd_supplier = ($po_bd_supplier) ? $po_bd_supplier : new POBDSupplier;
+            $po_bd_supplier = ($po_bd_supplier) ? $po_bd_supplier : new POBDGroupSupplier;
             $po_bd_supplier->bp_order_uuid = $order->uuid;
             $po_bd_supplier->supplier_uuid = $master_bd_supplier->supplier_uuid;
             $po_bd_supplier->bd_supplier_uuid = $master_bd_supplier->uuid;
@@ -354,10 +354,10 @@ class BuyAndPayOrderController extends Controller
             $po_bd_supplier->deleted_at = null;
             $po_bd_supplier->save();
 
-            $master_bd_supplier_discounts = BDSupplierDiscount::where('bd_supplier_uuid','=',$master_bd_supplier->uuid)->get();
+            $master_bd_supplier_discounts = BDGroupSupplierDiscount::where('bd_supplier_uuid','=',$master_bd_supplier->uuid)->get();
 
             foreach ($master_bd_supplier_discounts as $master_bd_supplier_discount) {
-                $po_bd_supplier_discount = POBDSupplierDiscount::where('bp_order_uuid','=', $order->uuid)
+                $po_bd_supplier_discount = POBDGroupSupplierDiscount::where('bp_order_uuid','=', $order->uuid)
                     ->where('bd_supplier_uuid','=', $master_bd_supplier->uuid)
                     ->where('bd_supplier_discount','=', $master_bd_supplier_discount->uuid)
                     ->withTrashed()
@@ -365,7 +365,7 @@ class BuyAndPayOrderController extends Controller
 
 
 
-                $po_bd_supplier_discount = ($po_bd_supplier_discount) ? $po_bd_supplier_discount : new POBDSupplierDiscount;
+                $po_bd_supplier_discount = ($po_bd_supplier_discount) ? $po_bd_supplier_discount : new POBDGroupSupplierDiscount;
                 $po_bd_supplier_discount->order_uuid = $order->uuid;
                 $po_bd_supplier_discount->supplier_uuid = $master_bd_supplier->bd_supplier_uuid;
                 $po_bd_supplier_discount->bd_supplier_uuid = $master_bd_supplier_discount->bd_supplier_uuid;
@@ -375,16 +375,16 @@ class BuyAndPayOrderController extends Controller
                 $po_bd_supplier_discount->save();
 
 
-                $master_bd_supplier_discount_excluded_items = BDSupplierDiscountExcludedItem::where('bd_supplier_uuid','=',$master_bd_supplier_discount->supplier_base_discount_group_uuid)->get();
+                $master_bd_supplier_discount_excluded_items = BDGroupSupplierDiscountExcludedItem::where('bd_supplier_uuid','=',$master_bd_supplier_discount->supplier_base_discount_group_uuid)->get();
 
                 foreach ($master_bd_supplier_discount_excluded_items as $master_bd_supplier_discount_excluded_item) {
 
-                    $buy_and_pay_order_base_discount_group_item = POBDSupplierExcludedItem::where('bp_order_uuid','=', $order->uuid)
+                    $buy_and_pay_order_base_discount_group_item = POBDGroupSupplierExcludedItem::where('bp_order_uuid','=', $order->uuid)
                         ->where('bp_order_base_discount_group_detail_uuid','=',$buy_and_pay_order_base_discount_group_detail->uuid)
                         ->withTrashed()
                         ->first();
 
-                    $buy_and_pay_order_base_discount_group_item = new POBDSupplierExcludedItem;
+                    $buy_and_pay_order_base_discount_group_item = new POBDGroupSupplierExcludedItem;
 
                     $buy_and_pay_order_base_discount_group_item->bp_order_uuid = $order->uuid;
                     $buy_and_pay_order_base_discount_group_item->item_uuid = $supplier_base_discount_group_item->item_uuid;

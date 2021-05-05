@@ -5,12 +5,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
 
 use App\Models\SupplierList; 
-use App\Models\BDSupplier; 
-use App\Models\BDSupplierDiscount; 
-use App\Models\BDSupplierDiscountExcludedItem; 
+use App\Models\BDGroupSupplier; 
+use App\Models\BDGroupSupplierDiscount; 
+use App\Models\BDGroupSupplierDiscountExcludedItem; 
 
 
-class BDSupplierDiscountController extends Controller
+class BDGroupSupplierDiscountController extends Controller
 {
     static public function check($discounts)
     {
@@ -51,7 +51,7 @@ class BDSupplierDiscountController extends Controller
         }
 
         // delete discounts
-        BDSupplierDiscount::where('bd_supplier_uuid','=',$bd_supplier_uuid)->whereNotIn('uuid',$discount_uuids)->delete();
+        BDGroupSupplierDiscount::where('bd_supplier_uuid','=',$bd_supplier_uuid)->whereNotIn('uuid',$discount_uuids)->delete();
 
         foreach ($discounts as $key => $discount) {
 
@@ -61,15 +61,15 @@ class BDSupplierDiscountController extends Controller
             $deleted_at = $discount['deleted_at'];
             
             if ($deleted_at == null){
-                $data = BDSupplierDiscount::where('uuid','=',$uuid)->first();
-                $data = ($data) ? $data : new  BDSupplierDiscount;
+                $data = BDGroupSupplierDiscount::where('uuid','=',$uuid)->first();
+                $data = ($data) ? $data : new  BDGroupSupplierDiscount;
                 $data->bd_supplier_uuid = $bd_supplier_uuid;
                 $data->name = $name;
                 $data->rate = $rate;
                 $data->save();
             }
             else {
-                $data = BDSupplierDiscount::find($uuid)->delete(); 
+                $data = BDGroupSupplierDiscount::find($uuid)->delete(); 
             }
 
         }

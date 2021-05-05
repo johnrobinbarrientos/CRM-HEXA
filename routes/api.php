@@ -113,7 +113,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/{supplier_uuid}','API\SupplierListController@show');
         Route::delete('/{supplier_uuid}', 'API\SupplierListController@delete');
 
-        Route::get('/{supplier_uuid}/base-discounts', 'API\BDSupplierController@index');
+        Route::get('/{supplier_uuid}/base-discounts', 'API\BDGroupSupplierController@index');
         
     });
 

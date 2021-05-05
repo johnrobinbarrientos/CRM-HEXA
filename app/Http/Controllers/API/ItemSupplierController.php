@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\ItemList; 
 use App\Models\ItemSupplier; 
-use App\Models\BDSupplier; 
+use App\Models\BDGroupSupplier; 
 use Illuminate\Support\Facades\Auth; 
 
 class ItemSupplierController extends Controller
@@ -26,7 +26,7 @@ class ItemSupplierController extends Controller
 
             if (!empty($supplier['bd_supplier_uuid']) || !is_null($supplier['bd_supplier_uuid'])) {
 
-                $exists = BDSupplier::where('uuid','=',$supplier['bd_supplier_uuid'])
+                $exists = BDGroupSupplier::where('uuid','=',$supplier['bd_supplier_uuid'])
                     ->where('supplier_uuid','=',$supplier['uuid'])
                     ->first();
 
