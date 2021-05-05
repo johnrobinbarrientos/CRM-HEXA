@@ -83,8 +83,9 @@
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
                                     <label class="form-label" for="customer-group">Customer Group</label>
-                                    <select class="form-select-customer-group" v-model="selected_customer_group" :options="options_customer_group" name="customer-group" :disabled="view_mode">
-                                    </select>
+                                    <multiselect  v-model="selected_customer_group" :options="options_customer_group" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="customer_new_mode">
+                                        <span slot="noResult">No Results</span>
+                                    </multiselect>
                                 </div>
                             </div>
 
@@ -118,18 +119,18 @@
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
                                     <label class="form-label" for="customer-chain">Customer Chain</label>
-                                    <select class="form-select-customer-chain" v-model="selected_customer_chain" :options="options_customer_chain" name="customer-chain" :disabled="view_mode">
-                                    </select>
+                                    <multiselect  v-model="selected_customer_chain" :options="options_customer_chain" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="customer_new_mode">
+                                        <span slot="noResult">No Results</span>
+                                    </multiselect>
                                 </div>
                             </div>
-
-                            
 
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
                                     <label class="form-label" for="cost-center">Cost Center</label>
-                                    <select class="form-select-cost-center" v-model="selected_cost_center" :options="options_cost_center" name="cost-center" :disabled="view_mode">
-                                    </select>
+                                    <multiselect  v-model="selected_cost_center" :options="options_cost_center" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="customer_new_mode">
+                                        <span slot="noResult">No Results</span>
+                                    </multiselect>
                                 </div>
                             </div>
 
@@ -175,8 +176,9 @@
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label class="form-label" for="recievables">Default Account Receivable</label>
-                                                    <select class="form-select-recievables" v-model="selected_coa_recievable" :options="options_coa_recievable" name="recievables" :disabled="view_mode">
-                                                    </select>
+                                                    <multiselect  v-model="selected_coa_recievable" :options="options_coa_recievable" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="customer_new_mode">
+                                                        <span slot="noResult">No Results</span>
+                                                    </multiselect>
                                                 </div>
                                             </div>
                                         </div>
@@ -185,34 +187,24 @@
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label class="form-label" for="payment-term">Payment Term</label>
-                                                    <select class="form-select-payment-term" v-model="selected_payment_term" :options="options_payment_term" name="payment-term" :disabled="view_mode">
-                                                    </select>
+                                                    <multiselect  v-model="selected_payment_term" :options="options_payment_term" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="customer_new_mode">
+                                                        <span slot="noResult">No Results</span>
+                                                    </multiselect>
                                                 </div>
                                             </div>
                                         </div>
+                                        
                                         <div class="row">
-                                            <div class="col-12">
+                                            <div class="col-lg-4">
                                                 <div class="form-group">
-                                                    <div class="form-control-wrap">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" v-model="is_vat" value="1" class="custom-control-input" id="is-vat" :disabled="view_mode">
-                                                            <label class="custom-control-label" for="is-vat">Is Vat?</label>
-                                                        </div>
-                                                    </div>
+                                                    <label class="form-label" for="vat">VAT</label>
+                                                    <multiselect  v-model="selected_vat" :options="options_vat" track-by="uuid" label="text" deselect-label="Deselect" selectLabel="Select">
+                                                        <span slot="noResult">No Results</span>
+                                                    </multiselect>
                                                 </div>
-
-                                                <div v-show="is_vat" class="row">
-                                                    <div class="col-md-4 col-12">
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="vat">VAT</label>
-                                                            <select class="form-select-vat" v-model="selected_vat" :options="options_vat" name="vat" :disabled="view_mode">
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
                                             </div>
-                                        </div>            
+                                        </div>
+
                                 </div>
 
                                 <div class="tab-pane" id="classification">
@@ -220,8 +212,9 @@
                                             <div class="col-md-3 col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="customer-channel">Customer Channel</label>
-                                                    <select class="form-select-customer-channel" v-model="selected_customer_channel" :options="options_customer_channel" name="customer-channel" :disabled="view_mode">
-                                                    </select>
+                                                    <multiselect  v-model="selected_customer_channel" :options="options_customer_channel" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="customer_new_mode">
+                                                        <span slot="noResult">No Results</span>
+                                                    </multiselect>
                                                 </div>
                                             </div>
                                         </div>
@@ -229,8 +222,9 @@
                                             <div class="col-md-3 col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="customer-type">Customer Type</label>
-                                                    <select class="form-select-customer-type" v-model="selected_customer_type" :options="options_customer_type" name="customer-type" :disabled="view_mode">
-                                                    </select>
+                                                    <multiselect  v-model="selected_customer_type" :options="options_customer_type" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="customer_new_mode">
+                                                        <span slot="noResult">No Results</span>
+                                                    </multiselect>
                                                 </div>
                                             </div>
                                         </div>
@@ -279,8 +273,9 @@
                                                 <div class="form-group mb-4">
                                                     <div class="form-group">
                                                         <label class="form-label" for="address-list"><strong>Select Address</strong></label>
-                                                        <select class="form-select-address-list" v-model="selected_address" :options="options_address" name="address-list" :disabled="view_mode">
-                                                        </select>
+                                                        <multiselect  v-model="selected_address" :options="options_address" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="customer_new_mode">
+                                                            <span slot="noResult">No Results</span>
+                                                        </multiselect>
                                                     </div>
                                                 </div>
                                             </div>
@@ -379,38 +374,36 @@ export default {
                 getAddressList: false,
             },
 
-            selected_customer_group: null,
+            customer_new_mode: true,
+
+            selected_customer_group: [],
             options_customer_group: [],
 
-            selected_customer_chain: null,
+            selected_customer_chain: [],
             options_customer_chain: [],
 
-            selected_customer_channel: null,
+            selected_customer_channel: [],
             options_customer_channel: [],
 
-            selected_customer_type: null,
+            selected_customer_type: [],
             options_customer_type: [],
 
-            selected_cost_center: null,
+            selected_cost_center: [],
             options_cost_center: [],
 
-            selected_coa_recievable: null,
+            selected_coa_recievable: [],
             options_coa_recievable: [],
 
-            selected_vat: null,
+            selected_vat: [],
             options_vat: [],
 
-            selected_payment_term: null,
+            selected_payment_term: [],
             options_payment_term: [],
 
-            selected_address: null,
+            selected_address: [],
             options_address: [],
 
-            show_form: false,
 
-            reference_vat_uuid: '',
-
-            is_vat: 0,
             barangay: '',
             city_municipality: '',
             province: '',
@@ -443,7 +436,6 @@ export default {
                 base_discount: '',
                 logistic_discount: '',
                 term_discount: '',
-                is_vat: 0,
 
                 children: {
                     branches: []
@@ -474,233 +466,158 @@ export default {
             if (val) {
                 setTimeout(function(){
 
-                    $(".form-select-recievables").select2({data: scope.options_coa_recievable});
-                    scope.selected_coa_recievable = scope.options_coa_recievable[0].id
-
-                    $(".form-select-cost-center").select2({data: scope.options_cost_center});
-                    scope.selected_cost_center = scope.options_cost_center[0].id
-
-                    $(".form-select-customer-type").select2({data: scope.options_customer_type});
-                    scope.selected_customer_type = scope.options_customer_type[0].id
-
-                    $(".form-select-customer-channel").select2({data: scope.options_customer_channel});
-                    scope.selected_customer_channel = scope.options_customer_channel[0].id
-
-                    $(".form-select-customer-chain").select2({data: scope.options_customer_chain});
-                    scope.selected_customer_chain = scope.options_customer_chain[0].id
-
-                    $(".form-select-customer-group").select2({data: scope.options_customer_group});
-                    scope.selected_customer_group = scope.options_customer_group[0].id
-
-                    $(".form-select-payment-term").select2({data: scope.options_payment_term});
-                    scope.selected_payment_term = scope.options_payment_term[0].id
-
-                    $(".form-select-vat").select2({data: scope.options_vat});
-                    scope.selected_vat = scope.options_vat[0].id
-
-                    $(".form-select-address-list").select2({data: scope.options_address});
-                    scope.selected_address = scope.options_address[0].id
-                    scope.fillAddress()
-                    
-
-                    var customerUUID = scope.$route.params.customerUUID
-                    scope.getCustomerDetails(customerUUID)
+                    scope.getCustomerDetails(scope.formdata.uuid)
 
                 },500)
-                
             }
-            
         },
 
-        is_vat: function () {
+        selected_address: function () {
             var scope = this
+            scope.fillAddress()
 
-            if (scope.formdata.uuid == null){
-
-                if (scope.is_vat == 1){
-                    scope.selected_vat = scope.options_vat[2].id
-                    
-                    $('.form-select-vat').val(scope.selected_vat);
-                    $('.form-select-vat').trigger('change');
-                    
-                }else{
-                    scope.selected_vat = scope.options_vat[0].id
-
-                    $('.form-select-vat').val(scope.selected_vat);
-                    $('.form-select-vat').trigger('change');
-
-                }
-
-            }
-            else {
-
-                if (scope.is_vat == 1){
-                    
-                    if (scope.reference_vat_uuid == null){
-
-                        scope.selected_vat = scope.options_vat[2].id
-
-                        $('.form-select-vat').val(scope.selected_vat);
-                        $('.form-select-vat').trigger('change');
-
-                    }else{
-                        scope.selected_vat = scope.reference_vat_uuid
-                        $('.form-select-vat').val(scope.reference_vat_uuid);
-                        $('.form-select-vat').trigger('change');
-                    }   
-
-                }else{
-                    scope.selected_vat = scope.options_vat[0].id
-
-                    $('.form-select-vat').val(scope.selected_vat);
-                    $('.form-select-vat').trigger('change');
-                }
-
-            }
         },
+
     },
     methods: {
+
         getRecievables: function () {
            var scope = this
+
             scope.GET('company/chart-of-accounts?group1=receivable').then(res => {
                 res.rows.forEach(function (data) {
+
                     scope.options_coa_recievable.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.account_name
                     })
                 })
 
                 scope.prerequiste.getRecievables = true
-                
             })
-
         },
 
         getCostCenter: function () {
            var scope = this
+
             scope.GET('company/cost-center').then(res => {
                 res.rows.forEach(function (data) {
+
                     scope.options_cost_center.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.cost_center_name
                     })
                 })
 
                 scope.prerequiste.getCostCenter = true
-                
             })
-
         },
+
         getCustomerType: function () {
            var scope = this
+
             scope.GET('customers/get-customer-types').then(res => {
                 res.rows.forEach(function (data) {
+
                     scope.options_customer_type.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.customer_type
                     })
                 })
 
                 scope.prerequiste.getCustomerType = true
-                
             })
-
         },
+
         getCustomerChannel: function () {
            var scope = this
+
             scope.GET('customers/get-customer-channels').then(res => {
                 res.rows.forEach(function (data) {
+
                     scope.options_customer_channel.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.channel
                     })
                 })
 
                 scope.prerequiste.getCustomerChannel = true
-
             })
-
         },
+
         getCustomerChain: function () {
            var scope = this
+
             scope.GET('customers/get-customer-chains').then(res => {
                 res.rows.forEach(function (data) {
+
                     scope.options_customer_chain.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.chain
                     })
                 })
 
                 scope.prerequiste.getCustomerChain = true
-                
             })
-
         },
+
         getCustomerGroup: function () {
            var scope = this
+
             scope.GET('customers/customer-group').then(res => {
                 res.rows.forEach(function (data) {
 
                     scope.options_customer_group.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.group_name
                     })
                 })
 
                 scope.prerequiste.getCustomerGroup = true
-
             })
-
         },
+
         getPaymentTerm: function () {
            var scope = this
+
             scope.GET('company/payment-term').then(res => {
-                
                 res.rows.forEach(function (data) {
 
                     scope.options_payment_term.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.term
                     })
                 })
 
                 scope.prerequiste.getPaymentTerm = true
-                
             })
-
         },
+
         getVat: function () {
            var scope = this
 
-           scope.options_vat.push({
-               id: '',
-               text: 'None'
-           });
-
             scope.GET('company/taxation-vat').then(res => {
-                
                 res.rows.forEach(function (data) {
 
                     scope.options_vat.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.tax_name
                     })
                 
                 })
 
                 scope.prerequiste.getVat = true
-                
             })
-
         },
+
         getAddressList: function () {
            var scope = this
+
             scope.GET('company/address-list').then(res => {
-                
                 res.rows.forEach(function (data) {
 
                     scope.options_address.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.barangay + ' ' + data.city_municipality + ' ' + data.province + ' ' + data.region + ' ' + data.postal_code,
                         barangay: data.barangay,
                         city_municipality: data.city_municipality,
@@ -712,14 +629,14 @@ export default {
                 })
 
                 scope.prerequiste.getAddressList = true
-
             })
-
         },
+
         fillAddress: function () {
            var scope = this
+
             for (var i = 0; i < scope.options_address.length; i++) {
-                if(scope.options_address[i].id==scope.selected_address){
+                if(scope.options_address[i].uuid==scope.selected_address.uuid){
                     scope.barangay = scope.options_address[i].barangay
                     scope.city_municipality = scope.options_address[i].city_municipality
                     scope.province = scope.options_address[i].province
@@ -733,19 +650,25 @@ export default {
             var scope = this
      
             scope.formdata.children.branches = scope.$refs.branches.getBranches();
-      
-            scope.formdata.customer_group_uuid = scope.selected_customer_group
-            scope.formdata.customer_chain_uuid = scope.selected_customer_chain
-            scope.formdata.customer_channel_uuid = scope.selected_customer_channel
-            scope.formdata.customer_type_uuid = scope.selected_customer_type
-            scope.formdata.cost_center_uuid = scope.selected_cost_center
-            scope.formdata.vat_uuid = scope.selected_vat
-            scope.formdata.payment_term_uuid = scope.selected_payment_term
-            scope.formdata.coa_receivable_account_uuid = scope.selected_coa_recievable
 
-            scope.formdata.address_uuid = scope.selected_address
+            scope.formdata.customer_group_uuid= (scope.selected_customer_group == null) ? null : scope.selected_customer_group.uuid
 
-            scope.formdata.is_vat = scope.is_vat
+            scope.formdata.customer_chain_uuid= (scope.selected_customer_chain == null) ? null : scope.selected_customer_chain.uuid
+
+            scope.formdata.cost_center_uuid= (scope.selected_cost_center == null) ? null : scope.selected_cost_center.uuid
+
+            scope.formdata.customer_channel_uuid= (scope.selected_customer_channel == null) ? null : scope.selected_customer_channel.uuid
+
+            scope.formdata.customer_type_uuid= (scope.selected_customer_type == null) ? null : scope.selected_customer_type.uuid
+
+            scope.formdata.vat_uuid= (scope.selected_vat == null) ? null : scope.selected_vat.uuid
+
+            scope.formdata.payment_term_uuid= (scope.selected_payment_term == null) ? null : scope.selected_payment_term.uuid
+
+            scope.formdata.coa_receivable_account_uuid= (scope.selected_coa_recievable == null) ? null : scope.selected_coa_recievable.uuid
+
+            scope.formdata.address_uuid= (scope.selected_address == null) ? null : scope.selected_address.uuid
+
 
             if (scope.formdata.uuid) {
                 window.swal.fire({
@@ -795,17 +718,18 @@ export default {
             
         },
 
-
-
         getCustomerDetails: function (customerUUID) {
             var scope = this
 
-            if (customerUUID == 'create') {
+            if (customerUUID == null) {
                 return;
             } 
 
             scope.GET('customers/' + customerUUID).then(res => {
+                
                 let data = res.data
+
+                scope.customer_new_mode = false
 
                 scope.formdata.uuid = customerUUID
 
@@ -822,42 +746,68 @@ export default {
                     scope.formdata.logistic_discount = data.logistic_discount
                     scope.formdata.term_discount = data.term_discount
 
-                    if (data.vat_uuid!=null){
-                        scope.is_vat = 1
-                    }else{
-                        scope.is_vat = 0
+                    if (data.customer_group !== null){
+                        scope.selected_customer_group = {
+                                uuid: data.customer_group.uuid,
+                                text: data.customer_group.group_name
+                            }
                     }
 
+                    if (data.customer_chain !== null){
+                        scope.selected_customer_chain = {
+                                uuid: data.customer_chain.uuid,
+                                text: data.customer_chain.chain
+                            }
+                    }
 
-                    $('.form-select-customer-group').val(data.customer_group_uuid);
-                    $('.form-select-customer-group').trigger('change');
+                    if (data.cost_center !== null){
+                        scope.selected_cost_center = {
+                                uuid: data.cost_center.uuid,
+                                text: data.cost_center.cost_center_name
+                            }
+                    }
 
-                    $('.form-select-customer-chain').val(data.customer_chain_uuid);
-                    $('.form-select-customer-chain').trigger('change');
+                    if (data.payment_term !== null){
+                        scope.selected_payment_term = {
+                                uuid: data.payment_term.uuid,
+                                text: data.payment_term.term
+                            }
+                    }
 
-                    $('.form-select-customer-channel').val(data.customer_channel_uuid);
-                    $('.form-select-customer-channel').trigger('change');
+                    if (data.account_receivable !== null){
+                        scope.selected_coa_recievable = {
+                                uuid: data.account_receivable.uuid,
+                                text: data.account_receivable.account_name
+                            }
+                    }
 
-                    $('.form-select-customer-type').val(data.customer_type_uuid);
-                    $('.form-select-customer-type').trigger('change');
+                    if (data.customer_v_a_t !== null){
+                        scope.selected_vat = {
+                                uuid: data.customer_v_a_t.uuid,
+                                text: data.customer_v_a_t.tax_name
+                            }
+                    }
 
-                    $('.form-select-cost-center').val(data.cost_center_uuid);
-                    $('.form-select-cost-center').trigger('change');
+                    if (data.customer_channel !== null){
+                        scope.selected_customer_channel = {
+                                uuid: data.customer_channel.uuid,
+                                text: data.customer_channel.channel
+                            }
+                    }
 
-                    $('.form-select-vat').val(data.vat_uuid);
-                    $('.form-select-vat').trigger('change');
+                    if (data.customer_type !== null){
+                        scope.selected_customer_type = {
+                                uuid: data.customer_type.uuid,
+                                text: data.customer_type.customer_type
+                            }
+                    }
 
-                    scope.reference_vat_uuid = data.vat_uuid;
-
-                    $('.form-select-payment-term').val(data.payment_term_uuid);
-                    $('.form-select-payment-term').trigger('change');
-
-                    $('.form-select-recievables').val(data.coa_receivable_account_uuid);
-                    $('.form-select-recievables').trigger('change');
-
-                    $('.form-select-address-list').val(data.address_uuid);
-                    $('.form-select-address-list').trigger('change');
-
+                    if (data.address_list !== null){
+                        scope.selected_address = {
+                                uuid: data.address_list.uuid,
+                                text: data.address_list.barangay.toUpperCase() + ', ' + data.address_list.city_municipality.toUpperCase() + ', ' + data.address_list.province.toUpperCase() + ' ' + data.address_list.postal_code.toUpperCase() + ' - ' + data.address_list.region.toUpperCase()
+                            }
+                    }
                 
             })
         },
@@ -867,7 +817,6 @@ export default {
         var scope = this
 
         scope.getRecievables()
- 
         scope.getCustomerType()
         scope.getCustomerChannel()
         scope.getCustomerChain()
@@ -879,48 +828,6 @@ export default {
 
         scope.formdata.uuid = (scope.$route.params.customerUUID != 'create') ? scope.$route.params.customerUUID : null
 
-
-        $(document).on('change','.form-select-customer-group', function(e) { 
-            scope.selected_customer_group = $('.form-select-customer-group').val();
-        })
-
-        $(document).on('change','.form-select-customer-chain', function(e) { 
-            scope.selected_customer_chain = $('.form-select-customer-chain').val();
-        })
-
-        $(document).on('change','.form-select-customer-channel', function(e) { 
-            scope.selected_customer_channel = $('.form-select-customer-channel').val();
-        })
-
-        $(document).on('change','.form-select-customer-type', function(e) { 
-            scope.selected_customer_type = $('.form-select-customer-type').val();
-        })
-
-        $(document).on('change','.form-select-cost-center', function(e) { 
-            scope.selected_cost_center = $('.form-select-cost-center').val();
-        })
-
-        $(document).on('change','.form-select-vat', function(e) { 
-            scope.selected_vat = $('.form-select-vat').val();
-
-            if (scope.selected_vat == ''){
-                scope.is_vat = 0
-            }
-        })
-
-        $(document).on('change','.form-select-payment-term', function(e) { 
-            scope.selected_payment_term = $('.form-select-payment-term').val();
-        })
-
-        $(document).on('change','.form-select-recievables', function(e) { 
-            scope.selected_coa_recievable = $('.form-select-recievables').val();
-        })
-
-        $(document).on('change','.form-select-address-list', function(e) { 
-            scope.selected_address = $('.form-select-address-list').val();
-            scope.fillAddress()
-        })
-        
     },
 }
 </script>

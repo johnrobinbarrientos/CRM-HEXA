@@ -50,5 +50,21 @@ class CustomerList extends Model
     public function PaymentTerm(){
         return $this->belongsTo('App\Models\CompanyPaymentTerm','payment_term_uuid','uuid');
     }
+
+    public function CostCenter(){
+        return $this->belongsTo('App\Models\CostCenter','cost_center_uuid','uuid');
+    }
+
+    public function AccountReceivable(){
+        return $this->belongsTo('App\Models\CompanyChartOfAccount','coa_receivable_account_uuid','uuid');
+    }
+
+    public function CustomerVAT(){
+        return $this->belongsTo('App\Models\CompanyTaxation','vat_uuid','uuid');
+    }
+
+    public function AddressList(){
+        return $this->belongsTo('App\Models\AddressList','address_uuid','uuid');
+    }
    
 }

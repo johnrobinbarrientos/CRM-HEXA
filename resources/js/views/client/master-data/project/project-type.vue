@@ -80,12 +80,12 @@
  
 
         <!-- Modal Form Type-->
-        <div class="modal fade modal-single-form" tabindex="-1" id="modalProjectType">
+        <div class="modal fade modal-md-form" tabindex="-1" id="modalProjectType">
             <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Project Type</h5>
-                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalProjectType');" class="close" data-dismiss="modal" aria-label="Close">
+                        <a href="javascript:void(0)"  @click="cancelType()" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
                         </a>
                     </div>
@@ -105,8 +105,9 @@
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="project-scope">Project Scope:</label>
-                                        <select class="form-select-scopes" v-model="selected_scopes" :options="options_scope" name="project-scope"  multiple="multiple">
-                                        </select>
+                                        <multiselect v-model="selected_scopes" :options="options_scope" track-by="uuid" :multiple="true" label="text" :close-on-select="false">
+                                            <span slot="noResult">No Results</span>
+                                        </multiselect>
                                     </div>
                                 </div>
                                 
@@ -115,13 +116,13 @@
                         </form>
                     </div>
                     <div class="modal-footer bg-light">
+                        <button  @click="cancelType()" type="button" class="btn btn-sm btn-outline-secondary">Close</button>
                         <button v-if="formdata.uuid === null" @click="save()" type="submit" class="btn btn-lg btn-primary">Save</button>
                         <button v-else @click="update()" type="submit" class="btn btn-lg btn-primary">Update</button>
                     </div>
                 </div>
             </div>
         </div>
-
 
                 
     </div>
@@ -130,6 +131,7 @@
 <script>
 
 import Swal from 'sweetalert2'
+
 
 export default {
     name: 'project-types',
@@ -163,13 +165,14 @@ export default {
         }
     },
     methods: {
+
         getprojectTypes: function () {
             var scope = this
             scope.listLoading = true
             scope.projectTypes = []
             scope.GET('projects/project-type?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage).then(res => {
                 scope.projectTypes = res.rows
-                // console.log(scope.projectTypes)
+
                 scope.listLoading = false
                 scope.listCount = res.count
 
@@ -184,14 +187,19 @@ export default {
                 res.rows.forEach(function (data) {
                     
                     scope.options_scope.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.scope_of_work
                     })
                 
                 })
 
-                $(".form-select-scopes").select2({data: scope.options_scope});
             })
+        },
+
+        cancelType: function () {
+            var scope = this 
+            scope.selected_scopes = []     
+            scope.CLOSE_MODAL('#modalProjectType'); 
         },
 
         resetData: function () {
@@ -204,16 +212,15 @@ export default {
 
             scope.formdata.uuid = data.uuid
             scope.formdata.type = data.type
-
-            var typeScopes = [];
                     
 
             for(var i = 0; i < data.type_scopes.length; i++) {
-                typeScopes.push(data.type_scopes[i].project_scope_uuid)
+                scope.selected_scopes.push({
+                        uuid: data.type_scopes[i].type_scope.uuid,
+                        text: data.type_scopes[i].type_scope.scope_of_work
+                    })
             }
 
-            $('.form-select-scopes').val(typeScopes);
-            $('.form-select-scopes').trigger('change');
 
         },
         save: function () {
@@ -231,6 +238,7 @@ export default {
                         timer: 1500
                     }).then(() => {
                         scope.getprojectTypes()
+                        scope.selected_scopes = []   
                         scope.CLOSE_MODAL('#modalProjectType')
                     })
                 } else {
@@ -264,6 +272,7 @@ export default {
                                 timer: 1500
                             }).then(() => {
                                 scope.getprojectTypes()
+                                scope.selected_scopes = []   
                                 scope.CLOSE_MODAL('#modalProjectType')
                             })
                         }
@@ -351,9 +360,6 @@ export default {
         scope.getprojectTypes()
         scope.getScopes()
 
-        $('.form-select-scopes').on("change", function(e) { 
-            scope.selected_scopes = $('.form-select-scopes').val();
-        })
 
     },
 }

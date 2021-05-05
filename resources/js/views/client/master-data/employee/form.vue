@@ -20,7 +20,6 @@
                                 <h1 class="title">
                                     <i class="bx bx-data" @click="ROUTE({path: '/employee-main/' })"></i>
                                     <span @click="ROUTE({path: '/employee-main/' })">Employee</span>
-                                    <!-- <i class="las la-angle-right ml-5px"></i> -->
                                     <i class="las la-angle-right"></i>
                                     New
                                 </h1>
@@ -29,7 +28,6 @@
                                 <h1 class="title">
                                     <i class="bx bx-data" @click="ROUTE({path: '/employee-main/' })"></i>
                                     <span @click="ROUTE({path: '/employee-main/' })">Employee</span>
-                                    <!-- <i class="las la-angle-right ml-5px"></i> -->
                                     <i class="las la-angle-right"></i>
                                     Edit
                                 </h1>
@@ -97,13 +95,15 @@
                             <div style="padding-right: 50px;">
                                 <div class="form-group">
                                     <label class="form-label" for="employee-branch">Branch</label>
-                                    <strong><select class="form-select-branch" v-model="selected_branch" :options="options_branch" name="employee-branch" :disabled="view_mode">
-                                    </select></strong>
+                                    <multiselect  v-model="selected_branch" :options="options_branch" @input="getBranchLocation(null)" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="employee_new_mode">
+                                        <span slot="noResult">No Results</span>
+                                    </multiselect>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="location">Assign Location</label>
-                                    <strong><select class="form-select-branch-location" v-model="selected_branch_location" :options="options_branch_location" name="location" :disabled="view_mode">
-                                    </select></strong>
+                                    <multiselect  v-model="selected_branch_location" :options="options_branch_location"  track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="employee_new_mode">
+                                        <span slot="noResult">No Results</span>
+                                    </multiselect>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="job-title">Job Title</label>
@@ -113,13 +113,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="department">Department</label>
-                                    <strong><select class="form-select-department" v-model="selected_department" :options="options_department" name="department" :disabled="view_mode">
-                                    </select></strong>
+                                    <multiselect  v-model="selected_department" :options="options_department" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="employee_new_mode">
+                                        <span slot="noResult">No Results</span>
+                                    </multiselect>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="supervisor">Supervisor Name</label>
-                                    <strong><select class="form-select-supervisor" v-model="selected_supervisor" :options="options_supervisor" name="supervisor" :disabled="view_mode">
-                                    </select></strong>
+                                    <multiselect  v-model="selected_supervisor" :options="options_supervisor" track-by="uuid" label="text" deselect-label="Deselect" selectLabel="Select">
+                                        <span slot="noResult">No Results</span>
+                                    </multiselect>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="birth-date">Birth Date</label>
@@ -136,8 +138,9 @@
 
                                 <div class="form-group" style="margin-bottom: 40px;">
                                     <label class="form-label" for="gender">Gender</label>
-                                    <strong><select class="form-select-gender" v-model="selected_gender" :options="options_gender" name="gender" :disabled="view_mode">
-                                    </select></strong>
+                                    <multiselect  v-model="selected_gender" :options="options_gender" track-by="value" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="employee_new_mode">
+                                        <span slot="noResult">No Results</span>
+                                    </multiselect>
                                 </div>
 
                                 <div class="form-group" style="margin-top: 30px;">
@@ -242,8 +245,9 @@
                                             <div class="col-md-7 col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="address-list">Search Address</label>
-                                                    <strong><select class="form-select-address-list" v-model="selected_address" :options="options_address" name="address-list" :disabled="view_mode">
-                                                    </select></strong>
+                                                    <multiselect  v-model="selected_address" :options="options_address" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="employee_new_mode">
+                                                        <span slot="noResult">No Results</span>
+                                                    </multiselect>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-6">
@@ -343,15 +347,17 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label class="form-label" for="employment-type">Employment Type</label>
-                                                            <strong><select class="form-select-employment-type" v-model="selected_employment_type" :options="options_employment_type" name="employment-type" :disabled="view_mode">
-                                                            </select></strong>
+                                                            <multiselect  v-model="selected_employment_type" :options="options_employment_type" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="employee_new_mode">
+                                                                <span slot="noResult">No Results</span>
+                                                            </multiselect>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label class="form-label" for="employment-status">Employment Status</label>
-                                                            <strong><select class="form-select-employment-status" v-model="selected_employment_status" :options="options_employment_status" name="employment-status" :disabled="view_mode">
-                                                            </select></strong>
+                                                            <multiselect  v-model="selected_employment_status" :options="options_employment_status" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="employee_new_mode">
+                                                                <span slot="noResult">No Results</span>
+                                                            </multiselect>
                                                         </div>
                                                     </div>
                                                 
@@ -415,8 +421,9 @@
                                             <div class="col-lg-3 col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="cost-center">Cost Center</label>
-                                                    <strong><select class="form-select-cost-center" v-model="selected_cost_center" :options="options_cost_center" name="cost-center" :disabled="view_mode">
-                                                    </select></strong>
+                                                    <multiselect  v-model="selected_cost_center" :options="options_cost_center" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="employee_new_mode">
+                                                        <span slot="noResult">No Results</span>
+                                                    </multiselect>
                                                 </div>
                                             </div>
                                         </div>
@@ -492,7 +499,6 @@ export default {
             prerequiste: {
                 getCompanyDepartment: false,
                 getBranch: false,
-                getBranchLocation: false,
                 getEmploymentType: false,
                 getEmploymentStatus: false,
                 getCostCenter: false,
@@ -501,36 +507,39 @@ export default {
                 getEmployeeDetails: false
             },
 
-            selected_department: null,
+            employee_new_mode: true,
+
+            selected_department: [],
             options_department: [],
 
-            selected_branch: null,
+            selected_branch: [],
             options_branch: [],
 
-            selected_branch_location: null,
+            selected_branch_location: [],
             options_branch_location: [],
 
-            selected_employment_type: null,
+            selected_employment_type: [],
             options_employment_type: [],
 
-            selected_employment_status: null,
+            selected_employment_status: [],
             options_employment_status: [],
 
-            selected_cost_center: null,
+            selected_cost_center: [],
             options_cost_center: [],
 
-            selected_gender: null,
-            options_gender: [
-                {id: 'MALE', text: 'MALE'},
-                {id: 'FEMALE', text: 'FEMALE'}
-            ],
-
-            selected_address: null,
-            options_address: [],
-
-            selected_supervisor: null,
+            selected_supervisor: [],
             options_supervisor: [],
 
+            selected_address: [],
+            options_address: [],
+
+            selected_gender: [],
+            options_gender: [
+                {text: 'MALE', value: 'MALE'},
+                {text: 'FEMALE', value: 'FEMALE'}
+            ],
+
+            
             employeeList: [],
 
             picture_file: null,
@@ -589,7 +598,7 @@ export default {
         ready: function () {
             var scope = this
 
-            if (scope.prerequiste.getEmployeeDetails && scope.prerequiste.getCompanyDepartment && scope.prerequiste.getBranch & scope.prerequiste.getBranchLocation  && scope.prerequiste.getEmploymentType && scope.prerequiste.getEmploymentStatus 
+            if (scope.prerequiste.getCompanyDepartment && scope.prerequiste.getBranch  && scope.prerequiste.getEmploymentType && scope.prerequiste.getEmploymentStatus 
                 && scope.prerequiste.getCostCenter && scope.prerequiste.getAddressList && scope.prerequiste.getSupervisors) {
                 return true
             }
@@ -602,93 +611,18 @@ export default {
             var scope = this
             if (val) {
                 setTimeout(function(){
-                    $('.form-select-branch').val();
-                    $('.form-select-branch').trigger('change');
 
-                    $('.form-select-branch-location').val();
-        
-                    $(".form-select-department").select2({data: scope.options_department});
-                    scope.selected_department = (scope.formdata.department_uuid) ? scope.formdata.department_uuid : scope.options_department[0].id
-                    $(".form-select-department").val(scope.selected_department).trigger('change');
-                    
-                    $(".form-select-branch").select2({data: scope.options_branch});
-                    scope.selected_branch = (scope.formdata.branch_uuid) ? scope.formdata.branch_uuid : scope.options_branch[0].id
-                    $(".form-select-branch").val(scope.selected_branch).trigger('change');
-
-                    $(".form-select-branch-location").select2({data: scope.options_branch_location});
-                    if (scope.options_branch_location.hasOwnProperty('id')){ // select if list has values
-                        scope.selected_branch_location = (scope.formdata.branch_location_uuid) ? scope.formdata.branch_location_uuid : scope.options_branch_location[0].id
-                        $(document.body).find(".form-select-branch-location").val(scope.selected_branch_location).trigger('change')
-                    }
-                    
-                    $(".form-select-employment-type").select2({data: scope.options_employment_type});
-                    scope.selected_employment_type = (scope.formdata.employment_type_uuid) ? scope.formdata.employment_type_uuid : scope.options_employment_type[0].id
-                    $(".form-select-employment-type").val(scope.selected_employment_type).trigger('change');
-
-                    $(".form-select-employment-status").select2({data: scope.options_employment_status});
-                    scope.selected_employment_status = (scope.formdata.employment_status_uuid) ? scope.formdata.employment_status_uuid : scope.options_employment_status[0].id
-                    $(".form-select-employment-status").val(scope.selected_employment_status).trigger('change');
-
-                    $(".form-select-cost-center").select2({data: scope.options_cost_center});
-                    scope.selected_cost_center = (scope.formdata.cost_center_uuid) ? scope.formdata.cost_center_uuid : scope.options_cost_center[0].id
-                    $(".form-select-cost-center").val(scope.selected_cost_center).trigger('change');
-
-                    $(".form-select-supervisor").select2({data: scope.options_supervisor});
-                    scope.selected_supervisor= (scope.formdata.supervisor_emp_uuid) ? scope.formdata.supervisor_emp_uuid : scope.options_supervisor[0].id
-                    $(".form-select-supervisor").val(scope.selected_supervisor).trigger('change');
-
-                    $(".form-select-gender").select2({data: scope.options_gender});
-                    scope.selected_gender = (scope.formdata.gender) ? scope.formdata.gender : scope.options_gender[0].id
-                    $(".form-select-gender").val(scope.selected_gender).trigger('change');
-
-                    $(".form-select-address-list").select2({data: scope.options_address});
-                    scope.selected_address= (scope.formdata.address_uuid) ? scope.formdata.address_uuid : scope.options_address[0].id
-                    $(".form-select-address-list").val(scope.selected_address).trigger('change');
-                    scope.fillAddress()
-                    
-                    
-
-                    $(document).on('change','.form-select-gender', function(e) { 
-                        scope.selected_gender = $('.form-select-gender').val();
-                    })
-
-                    $(document).on('change','.form-select-supervisor', function(e) { 
-                        scope.selected_supervisor = $('.form-select-supervisor').val();
-                    })
-
-                    $(document).on('change','.form-select-department', function(e) { 
-                        scope.selected_department = $('.form-select-department').val();
-                    })
-
-                    $(document).on('change','.form-select-branch', function(e) { 
-                        scope.selected_branch = $('.form-select-branch').val();
-                        scope.getBranchLocation(scope.selected_branch)
-                    })
-
-                    $(document).on('change','.form-select-branch-location', function(e) { 
-                        scope.selected_branch_location = $('.form-select-branch-location').val();
-                    })
-
-                    $(document).on('change','.form-select-employment-type', function(e) { 
-                        scope.selected_employment_type = $('.form-select-employment-type').val();
-                    })
-
-                    $(document).on('change','.form-select-employment-status', function(e) { 
-                        scope.selected_employment_status = $('.form-select-employment-status').val();
-                    })
-
-                    $(document).on('change','.form-select-cost-center', function(e) { 
-                        scope.selected_cost_center = $('.form-select-cost-center').val();
-                    })
-
-                    $(document).on('change','.form-select-address-list', function(e) { 
-                        scope.selected_address = $('.form-select-address-list').val();
-                        scope.fillAddress()
-                    })
+                    scope.getEmployeeDetails(scope.formdata.uuid)
 
                 },500) 
             } 
         },
+
+        selected_address: function () {
+            var scope = this
+            scope.fillAddress()
+        },
+
     },
 
     methods: {
@@ -709,122 +643,110 @@ export default {
 
         getCompanyDepartment: function () {
            var scope = this
+
             scope.GET('company/department').then(res => {
                 res.rows.forEach(function (data) {
                     scope.options_department.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.department.toUpperCase()
                     })
                 })
 
                 scope.prerequiste.getCompanyDepartment = true
-
             })
-
-
         },
+
         getBranch: function () {
            var scope = this
+
             scope.GET('company/branch').then(res => {
                 res.rows.forEach(function (data) {
                     scope.options_branch.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.branch_name.toUpperCase()
                     })
                 })
 
-                // scope.getBranchLocation(scope.formdata.branch_uuid)
-
-                scope.getBranchLocation((scope.formdata.branch_uuid) ? scope.formdata.branch_uuid : scope.options_branch[0].id)
-                
-
                 scope.prerequiste.getBranch = true
             })
-
-
-
         },
-        getBranchLocation: function (branch_uuid) {
+
+
+        getBranchLocation: function (pass_data) {
            var scope = this
 
            scope.options_branch_location = []
-
-           console.log('branch_uuid')
-           console.log(branch_uuid)
-
-            scope.GET('company/branch-location/' + branch_uuid).then(res => {
-                var branch_location_uuids = [];
-
-                console.log(res.rows)
+           
+            scope.GET('company/branch-location/' + scope.selected_branch.uuid).then(res => {
 
                 res.rows.forEach(function (data) {
                     scope.options_branch_location.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.location_name.toUpperCase()
                     })
-                    branch_location_uuids.push(data.uuid);
                 })
+                
+                if (pass_data !== null){
+                    scope.selected_branch_location = {
+                        uuid: pass_data.uuid,
+                        text: pass_data.location_name.toUpperCase()
+                    }
 
-                $(".form-select-branch-location").select2();
-                $(".form-select-branch-location").html('');
-                $(".form-select-branch-location").select2({data: scope.options_branch_location});
-               
-               scope.prerequiste.getBranchLocation = true
+                }else{
+                    scope.selected_branch_location = (scope.options_branch_location.length < 1) ? [] : {
+                        uuid: scope.options_branch_location[0].uuid,
+                        text: scope.options_branch_location[0].text.toUpperCase()
+                    }
+
+                }
+
+
             })
-
-
         },
 
         getEmploymentType: function () {
            var scope = this
+
             scope.GET('employees/employment-type').then(res => {
                 res.rows.forEach(function (data) {
                     scope.options_employment_type.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.employment_type.toUpperCase()
                     })
                 })
 
                 scope.prerequiste.getEmploymentType = true
-
-
             })
-
-
         },
 
         getEmploymentStatus: function () {
            var scope = this
+
             scope.GET('employees/employment-status').then(res => {
                 res.rows.forEach(function (data) {
                     scope.options_employment_status.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.employment_status.toUpperCase()
                     })
                 })
                 
                 scope.prerequiste.getEmploymentStatus = true
-
             })
-
-
         },
 
         getCostCenter: function () {
            var scope = this
+
             scope.GET('company/cost-center').then(res => {
                 res.rows.forEach(function (data) {
                     scope.options_cost_center.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.cost_center_name.toUpperCase()
                     })
                 })
 
                 scope.prerequiste.getCostCenter = true
-
             })
-
-
         },
 
         getAddressList: function () {
@@ -834,7 +756,7 @@ export default {
                 res.rows.forEach(function (data) {
 
                     scope.options_address.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.barangay.toUpperCase() + ', ' + data.city_municipality.toUpperCase() + ', ' + data.province.toUpperCase() + ' ' + data.postal_code.toUpperCase() + ' - ' + data.region.toUpperCase(),
                         barangay: data.barangay,
                         city_municipality: data.city_municipality,
@@ -847,19 +769,11 @@ export default {
                 })
 
                 scope.prerequiste.getAddressList = true
-
-
             })
-
         },
 
         getSupervisors: function () {
            var scope = this
-
-           scope.options_supervisor.push({
-               id: '',
-               text: 'NONE'
-           });
 
             scope.GET('employees/supervisors-list', {emp_uuid: scope.$route.params.employeeUUID}).then(res => {
                 
@@ -869,23 +783,21 @@ export default {
                     var last_name = (data.last_name) ? data.last_name : '';
 
                     scope.options_supervisor.push({
-                        id: data.uuid,
-
+                        uuid: data.uuid,
                         text: first_name.toUpperCase() + ' ' + middle_name.toUpperCase() + ' ' + last_name.toUpperCase()
                     })
                 
                 })
 
                 scope.prerequiste.getSupervisors = true
-                
             })
-
         },
 
         fillAddress: function () {
            var scope = this
+
             for (var i = 0; i < scope.options_address.length; i++) {
-                if(scope.options_address[i].id==scope.selected_address){
+                if(scope.options_address[i].uuid==scope.selected_address.uuid){
                     scope.barangay = scope.options_address[i].barangay
                     scope.city_municipality = scope.options_address[i].city_municipality
                     scope.province = scope.options_address[i].province
@@ -897,16 +809,27 @@ export default {
 
         save: function () {
             var scope = this
-            scope.formdata.department_uuid = scope.selected_department
-            scope.formdata.branch_uuid = scope.selected_branch
-            scope.formdata.branch_location_uuid = scope.selected_branch_location
-            scope.formdata.employment_type_uuid = scope.selected_employment_type
-            scope.formdata.employment_status_uuid = scope.selected_employment_status
-            scope.formdata.cost_center_uuid = scope.selected_cost_center
-            scope.formdata.address_uuid = scope.selected_address
-            scope.formdata.supervisor_emp_uuid = scope.selected_supervisor
-            scope.formdata.gender = scope.selected_gender
 
+
+            scope.formdata.branch_location_uuid = (scope.selected_branch_location == null) ? null : scope.selected_branch_location.uuid
+
+            scope.formdata.branch_uuid = (scope.selected_branch == null) ? null : scope.selected_branch.uuid
+
+            scope.formdata.department_uuid = (scope.selected_department == null) ? null : scope.selected_department.uuid
+
+            scope.formdata.employment_type_uuid = (scope.selected_employment_type == null) ? null : scope.selected_employment_type.uuid
+
+            scope.formdata.employment_status_uuid = (scope.selected_employment_status == null) ? null : scope.selected_employment_status.uuid
+
+            scope.formdata.cost_center_uuid = (scope.selected_cost_center == null) ? null : scope.selected_cost_center.uuid
+
+            scope.formdata.address_uuid = (scope.selected_address == null) ? null : scope.selected_address.uuid
+
+            scope.formdata.supervisor_emp_uuid = (scope.selected_supervisor == null) ? null : scope.selected_supervisor.uuid
+
+            scope.formdata.gender = scope.selected_gender.value
+
+            
             let formData = new FormData()
 
             $.each(scope.formdata, function(index, value) {
@@ -1029,23 +952,19 @@ export default {
         getEmployeeDetails: function (employeeUUID) {
             var scope = this
 
-            if (!employeeUUID) {
-                scope.getCompanyDepartment()
-                scope.getBranch()
-                scope.getEmploymentType()
-                scope.getEmploymentStatus()
-                scope.getCostCenter()
-                scope.getAddressList()
-                scope.getSupervisors()
 
-                scope.prerequiste.getEmployeeDetails = true
+            if (employeeUUID == null) {
                 return;
             } 
 
             scope.GET('employees/' + employeeUUID).then(res => {
-                let data = res.data
+                    
+                    let data = res.data
+
+                    scope.employee_new_mode = false
 
                     scope.formdata.uuid = data.uuid
+
                     scope.formdata.emp_id = data.emp_id
                     scope.formdata.first_name = data.first_name
                     scope.formdata.middle_name = data.middle_name
@@ -1060,8 +979,8 @@ export default {
                     scope.formdata.emergency_contact = data.emergency_contact
                     scope.formdata.contact_relation = data.contact_relation
                     scope.formdata.emergency_contact_no = data.emergency_contact_no
-                    scope.formdata.employment_type_uuid = data.employment_type_uuid
-                    scope.formdata.employment_status_uuid = data.employment_status_uuid
+
+
                     scope.formdata.date_hired = data.date_hired
                     scope.formdata.date_regularized = data.date_regularized
                     scope.formdata.date_separated = data.date_separated
@@ -1078,28 +997,91 @@ export default {
                     scope.formdata.profile_pic = data.profile_pic
 
                     scope.formdata.branch_uuid = data.branch_uuid
-                    console.log('details')
-                    console.log(scope.formdata.branch_uuid)
                     scope.formdata.branch_location_uuid = data.branch_location_uuid
                     scope.formdata.address_uuid = data.address_uuid
-                    scope.formdata.gender = data.gender
-
+ 
 
                     if (data.profile_pic) {
                         scope.fileImage = '/images/employees/' + data.profile_pic
                     }
 
-                    scope.getCompanyDepartment()
-                    scope.getBranch()
-                    scope.getEmploymentType()
-                    scope.getEmploymentStatus()
-                    scope.getCostCenter()
-                    scope.getAddressList()
-                    scope.getSupervisors()
 
-                    scope.prerequiste.getEmployeeDetails = true
+                    if (data.employment_type !== null){
+                        scope.selected_employment_type = {
+                            uuid: data.employment_type.uuid,
+                            text: data.employment_type.employment_type.toUpperCase()
+                        }
+                    }
 
-                   
+                    if (data.employment_status !== null){
+                        scope.selected_employment_status = {
+                            uuid: data.employment_status.uuid,
+                            text: data.employment_status.employment_status.toUpperCase()
+                        }
+                    }
+
+                    if (data.cost_center !== null){
+                        scope.selected_cost_center = {
+                            uuid: data.cost_center.uuid,
+                            text: data.cost_center.cost_center_name.toUpperCase()
+                        }
+                    }
+
+                    if (data.department !== null){
+                        scope.selected_department = {
+                            uuid: data.department.uuid,
+                            text: data.department.department.toUpperCase()
+                        }
+                    }
+
+                    if (data.department !== null){
+                        scope.selected_department = {
+                            uuid: data.department.uuid,
+                            text: data.department.department.toUpperCase()
+                        }
+                    }
+
+                    if (data.branch !== null){
+                        scope.selected_branch = {
+                            uuid: data.branch.uuid,
+                            text: data.branch.branch_name.toUpperCase()
+                        }
+                    }
+                    
+                    if (data.branch_location !== null){
+
+                        scope.getBranchLocation(data.branch_location)
+
+                        scope.selected_branch_location = {
+                            uuid: data.branch_location.uuid,
+                            text: data.branch_location.location_name.toUpperCase()
+                        }
+                    }
+
+                    if (data.supervisor !== null){
+
+                        var first_name = (data.supervisor.first_name) ? data.supervisor.first_name : '';
+                        var middle_name = (data.supervisor.middle_name) ? data.supervisor.middle_name : '';
+                        var last_name = (data.supervisor.last_name) ? data.supervisor.last_name : '';
+
+                        scope.selected_supervisor = {
+                            uuid: data.supervisor.uuid,
+                            text: first_name.toUpperCase() + ' ' + middle_name.toUpperCase() + ' ' + last_name.toUpperCase()
+                        }
+                    }
+
+                    if (data.address_list !== null){
+                        scope.selected_address = {
+                                uuid: data.address_list.uuid,
+                                text: data.address_list.barangay.toUpperCase() + ', ' + data.address_list.city_municipality.toUpperCase() + ', ' + data.address_list.province.toUpperCase() + ' ' + data.address_list.postal_code.toUpperCase() + ' - ' + data.address_list.region.toUpperCase()
+                            }
+                    }
+
+                    scope.selected_gender = {
+                            text: data.gender,
+                            value: data.gender
+                        }
+                    
             })
 
         }
@@ -1108,8 +1090,16 @@ export default {
     mounted() {
         var scope = this
 
+        scope.getCompanyDepartment()
+        scope.getBranch()
+        scope.getEmploymentType()
+        scope.getEmploymentStatus()
+        scope.getCostCenter()
+        scope.getAddressList()
+        scope.getSupervisors()
+
         scope.formdata.uuid = (scope.$route.params.employeeUUID != 'create') ? scope.$route.params.employeeUUID : null
-        scope.getEmployeeDetails(scope.formdata.uuid)
+        
 
     },
 }

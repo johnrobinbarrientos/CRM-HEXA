@@ -31,6 +31,10 @@ class EmployeeList extends Model
         return $this->belongsTo('App\Models\CompanyBranchLocation','branch_location_uuid','uuid');
     }
 
+    public function Branch(){
+        return $this->belongsTo('App\Models\CompanyBranch','branch_uuid','uuid');
+    }
+
     public function Department(){
         return $this->belongsTo('App\Models\CompanyDepartment','department_uuid','uuid');
     }
@@ -39,6 +43,18 @@ class EmployeeList extends Model
     }
     public function EmploymentStatus(){
         return $this->belongsTo('App\Models\EmployeeEmploymentStatus','employment_status_uuid','uuid');
+    }
+
+    public function CostCenter(){
+        return $this->belongsTo('App\Models\CostCenter','cost_center_uuid','uuid');
+    }
+
+    public function Supervisor(){
+        return $this->belongsTo('App\Models\EmployeeList','supervisor_emp_uuid','uuid');
+    }
+
+    public function AddressList(){
+        return $this->belongsTo('App\Models\AddressList','address_uuid','uuid');
     }
 
     public function SystemInvitation(){

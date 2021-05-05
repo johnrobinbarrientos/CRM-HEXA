@@ -27,7 +27,7 @@ class SupplierListController extends Controller
     public function index()
     {
     
-        $list = SupplierList::whereNull('deleted_at')->with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable');
+        $list = SupplierList::whereNull('deleted_at')->with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable')->with('AccountExpense');
 
         if (!empty(request()->keyword)) {
             $keyword = request()->keyword;
@@ -100,8 +100,8 @@ class SupplierListController extends Controller
         $supplier->supplier_name = request()->supplier_name;
         $supplier->supplier_shortname = request()->supplier_shortname;
         $supplier->tax_identification_no = request()->tax_identification_no;
-        $supplier->vat_uuid = (request()->is_vat) ? request()->vat_uuid : null;
-        $supplier->ewt_uuid = (request()->is_ewt) ? request()->ewt_uuid : null;
+        $supplier->vat_uuid = request()->vat_uuid;
+        $supplier->ewt_uuid = request()->ewt_uuid;
         $supplier->supplier_group_uuid = request()->supplier_group_uuid;
         $supplier->lead_time = request()->lead_time;
         $supplier->is_transporter = request()->is_transporter;
@@ -129,7 +129,8 @@ class SupplierListController extends Controller
 
     public function show($supplierUUID) // set update records
     {
-        $supplier = SupplierList::with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable')->find($supplierUUID);
+        $supplier = SupplierList::with('SupplierGroup')->with('PaymentTerm')->with('AccountPayable')->with('AccountExpense')
+        ->with('CostCenter')->with('AddressList')->with('SupplierVAT')->with('SupplierEWT')->find($supplierUUID);
 
         if (!$supplier) {
             return response()->json(['success' => 0, 'data' => null, 'Supplier not found'], 500);

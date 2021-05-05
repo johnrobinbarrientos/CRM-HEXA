@@ -128,7 +128,7 @@ export default new VueRouter({
         },
         {
           path: '/items/:itemUUID',
-          name: 'item-form',
+          name: 'item-form-edit',
           component: ItemForm,
           beforeEnter: checkAuth,
           props: { view_mode: false },
@@ -136,7 +136,7 @@ export default new VueRouter({
         },
         {
           path: '/items/:itemUUID/view',
-          name: 'item-form',
+          name: 'item-form-view',
           component: ItemForm,
           beforeEnter: checkAuth,
           props: { view_mode: true },
@@ -151,14 +151,14 @@ export default new VueRouter({
         },
         {
           path: '/suppliers/:supplierUUID',
-          name: 'supplier-form',
+          name: 'supplier-form-edit',
           component: SupplierForm,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
         {
           path: '/suppliers/:supplierUUID/view',
-          name: 'supplier-form',
+          name: 'supplier-form-view',
           component: SupplierForm,
           beforeEnter: checkAuth,
           props: { view_mode: true },
@@ -180,14 +180,14 @@ export default new VueRouter({
         },
         {
           path: '/customers/:customerUUID',
-          name: 'customer-form',
+          name: 'customer-form-edit',
           component: CustomerForm,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
         {
           path: '/customers/:customerUUID/view',
-          name: 'customer-form',
+          name: 'customer-form-view',
           component: CustomerForm,
           beforeEnter: checkAuth,
           props: { view_mode: true },
@@ -195,7 +195,7 @@ export default new VueRouter({
         },
         {
           path: '/customers/create',
-          name: 'customer-form',
+          name: 'customer-form-create',
           component: CustomerForm,
           beforeEnter: checkAuth,
           meta: { protected: true }
@@ -209,14 +209,14 @@ export default new VueRouter({
         },
         {
           path: '/projects/:projectUUID',
-          name: 'project-form',
+          name: 'project-form-edit',
           component: ProjectForm,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
         {
           path: '/projects/:projectUUID/view',
-          name: 'project-form',
+          name: 'project-form-view',
           component: ProjectForm,
           beforeEnter: checkAuth,
           props: { view_mode: true },
@@ -231,14 +231,14 @@ export default new VueRouter({
         },
         {
           path: '/employees/:employeeUUID',
-          name: 'employee-form',
+          name: 'employee-form-edit',
           component: EmployeeForm,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },
         {
           path: '/employees/:employeeUUID/view',
-          name: 'employee-form',
+          name: 'employee-form-view',
           component: EmployeeForm,
           beforeEnter: checkAuth,
           props: { view_mode: true },
@@ -246,7 +246,7 @@ export default new VueRouter({
         },
         {
           path: '/employees/create',
-          name: 'employee-form',
+          name: 'employee-form-create',
           component: EmployeeForm,
           beforeEnter: checkAuth,
           meta: { protected: true }

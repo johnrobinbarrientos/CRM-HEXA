@@ -43,22 +43,21 @@ class ProjectTypeController extends Controller
         $projectType->type = request()->type;
         $projectType->save();
 
+
         $projectType = ProjectType::find($projectType->uuid);
-
-
+        
         $scope_uuids = request()->scope_uuids;
         $type_scopes = ProjectTypeScope::where('project_type_uuid', '=', $projectType->uuid)->delete();
 
         foreach ($scope_uuids as $scope_uuid) {
-            $type_scope = ProjectTypeScope::where('project_type_uuid','=',$projectType->uuid)->where('project_scope_uuid','=',$scope_uuid)->withTrashed()->first();
+
+            $type_scope = ProjectTypeScope::where('project_type_uuid','=',$projectType->uuid)->where('project_scope_uuid','=',$scope_uuid['uuid'])->withTrashed()->first();
             $type_scope = (!$type_scope) ? new ProjectTypeScope : $type_scope;
             $type_scope->project_type_uuid = $projectType->uuid;
-            $type_scope->project_scope_uuid = $scope_uuid;
+            $type_scope->project_scope_uuid = $scope_uuid['uuid'];
             $type_scope->deleted_at = null;
             $type_scope->save();
         }
-
-        // $projectType = ProjectType::find($item->uuid);
 
         return response()->json(['success' => 1, 'rows' => $projectType], 200);
     }

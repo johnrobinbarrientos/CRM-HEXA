@@ -39,6 +39,12 @@ class AddressListController extends Controller
         return response()->json(['success' => 1, 'rows' => $list, 'count' => $count, 'offset' => $offset, 'results' => count($list)], 200);
     }
 
+    public function getAll()
+    {
+        $list = AddressList::whereNull('deleted_at')->get();
+        return response()->json(['success' => 1, 'rows' => $list], 200);
+    }
+
     public function save()
     {
         $addressList = request()->uuid ? AddressList::find(request()->uuid) : new AddressList();

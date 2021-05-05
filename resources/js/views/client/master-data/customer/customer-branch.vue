@@ -21,6 +21,7 @@
                                 <th>Action</th>
                                 <th>Customer Name</th>
                                 <th>Contact Person</th>
+                                <th>Purok/Street/Zone</th>
                                 <th>Address</th>
                                 <th>Email</th>
                                 <th>Contact No.</th>
@@ -43,7 +44,12 @@
                                     {{ branch.contact_person }}
                                 </td>
                                 <td>
-                                    {{ branch.address }}
+                                    {{ branch.address1 }}
+                                </td>
+                                <td>
+                                    <span v-if="branch.address_list!=null">
+                                        {{ branch.address_list.barangay }} {{ branch.address_list.city_municipality }} {{ branch.address_list.province }} {{ branch.address_list.region }} {{ branch.address_list.postal_code }}
+                                    </span>
                                 </td>
                                 <td>
                                     {{ branch.email_address }}
@@ -67,7 +73,7 @@
         </div>
 
 
-        <div class="modal fade modal-single-form" tabindex="-1" id="modalBranches">
+        <div class="modal fade modal-md-form" tabindex="-1" id="modalBranches">
             <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -107,13 +113,23 @@
                             <div class="row">
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="group-name">Address:</label>
+                                        <label class="form-label" for="group-name">Purok/Street/Zone:</label>
                                         <div class="form-control-wrap">
-                                            <input v-model="selected_branch.address" class="form-control"  type="text" required>
+                                            <input v-model="selected_branch.address1" class="form-control" type="text" required>
                                         </div>
                                     </div>
                                 </div>                                           
                             </div>
+
+                            <label class="form-label" for="group-name">Address:</label>
+                            <div class="row">
+                                <div class="col-md-12 col-12">
+                                    <multiselect v-model="selected_address" :options="options_address" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="branch_new_mode">
+                                        <span slot="noResult">No Results</span>
+                                    </multiselect>
+                                </div>                                           
+                            </div>
+                            <br/>
 
                             <div class="row">
                                 <div class="col-md-12 col-12">
@@ -136,7 +152,6 @@
                                     </div>
                                 </div>                                           
                             </div>
-
 
                             <div class="form-group mt-2">
                                 <div class="form-control-wrap">
@@ -169,30 +184,92 @@ export default {
     props: ['properties','customer_uuid','view_mode'],
     data: function () {
         return {
+
+            selected_address: [],
+            options_address: [],
+
+            selected_supplier_group: null,
+            options_supplier_group: [],
+
+            branch_new_mode: true,
+
             selected_branch: null,
             selected_branch_index: null, // used for editing
             branches: [],
             table_responsive: true,
+
+            barangay: '',
+            city_municipality: '',
+            province: '',
+            region: '',
+            postal_code: ''
         }
     },
+
+    watch: {
+        selected_address: function () {
+            var scope = this
+            scope.fillAddress()
+        },
+
+    },
+
     methods: {
         addNewBranch: function () {
            var scope = this
+
+           scope.branch_new_mode = true
 
             scope.selected_branch  = {
                     id: null,
                     uuid: null,
                     customer_name: '',
                     contact_person: '',
-                    address: '',
+                    address1: '',
+                    address_uuid: '',
+                    address_list: [],
                     email_address: '',
                     contact_no: '',
                     is_active: 1,
                     edit: true
             }
 
+            scope.selected_address = (scope.options_address.length < 1) ? [] : {
+                            uuid: scope.options_address[0].uuid,
+                            text: scope.options_address[0].text
+                        }
+
+
            scope.OPEN_MODAL('#modalBranches');
         },
+
+        getAddressList: function () {
+           var scope = this
+            scope.GET('company/address-list-all').then(res => {
+                
+                res.rows.forEach(function (data) {
+
+                    scope.options_address.push({
+                        uuid: data.uuid,
+                        text: data.barangay + ' ' + data.city_municipality + ' ' + data.province + ' ' + data.region + ' ' + data.postal_code,
+                        barangay: data.barangay,
+                        city_municipality: data.city_municipality,
+                        province: data.province,
+                        region: data.region,
+                        postal_code: data.postal_code
+                    })
+                
+
+                    scope.selected_address = (scope.options_address.length < 1) ? [] : {
+                            uuid: scope.options_address[0].uuid,
+                            text: scope.options_address[0].text
+                        }
+                    })
+
+            })
+
+        },
+
         edit: function (data,index) {
             var scope = this
 
@@ -201,13 +278,24 @@ export default {
            
             scope.selected_branch_index = index
             scope.selected_branch = copy
+
+            scope.branch_new_mode = false
+
+            if (scope.selected_branch.address_list !== null){
+                scope.selected_address = {
+                        uuid: scope.selected_branch.address_list.uuid,
+                        text: scope.selected_branch.address_list.barangay + ', ' + scope.selected_branch.address_list.city_municipality + ', ' + scope.selected_branch.address_list.province + ', ' + scope.selected_branch.address_list.postal_code + ', ' + scope.selected_branch.address_list.region
+                    }
+            }
+
+
             scope.OPEN_MODAL('#modalBranches');
         },
-        cancel: function (data,index) {
+        cancel: function () {
            var scope = this
 
             scope.selected_branch = null 
-            scope.selected_branch_index = index    
+            scope.selected_branch_index = null    
             scope.CLOSE_MODAL('#modalBranches'); 
         },
         selectBranch: function (data) {
@@ -219,6 +307,22 @@ export default {
 
            scope.selected_branch = data
        },
+
+       fillAddress: function () {
+           var scope = this
+
+            for (var i = 0; i < scope.options_address.length; i++) {
+                if(scope.options_address[i].uuid==scope.selected_address.uuid){
+                    scope.barangay = scope.options_address[i].barangay
+                    scope.city_municipality = scope.options_address[i].city_municipality
+                    scope.province = scope.options_address[i].province
+                    scope.region = scope.options_address[i].region
+                    scope.postal_code = scope.options_address[i].postal_code
+                }
+            }
+                       
+        },
+
        getBranchByCustomer: function (customer_uuid) {
             var scope = this
             
@@ -260,15 +364,27 @@ export default {
 
             scope.selected_branch.edit = false
 
+            scope.selected_branch.address_uuid = (scope.selected_address == null) ? null : scope.selected_address.uuid
+
+                scope.selected_branch.address_list = {
+                    uuid: scope.selected_address.uuid,
+                    barangay: scope.barangay,
+                    city_municipality: scope.city_municipality,
+                    postal_code: scope.postal_code,
+                    province: scope.province,
+                    region: scope.region
+                }
+
+
             if (scope.selected_branch_index === null) {
-                 scope.branches.push(scope.selected_branch);
+                scope.branches.push(scope.selected_branch);
+
             } else {
+
                 var copy = JSON.parse(JSON.stringify(scope.selected_branch))
+
                 scope.branches[scope.selected_branch_index] = copy
             }
-
-
-            console.log(scope.selected_branch)
 
 
             scope.selected_branch = null
@@ -278,6 +394,8 @@ export default {
     },
     mounted() {
         var scope = this
+
+        scope.getAddressList()
         
         if(scope.customer_uuid) {
             var customer_uuid = scope.customer_uuid
@@ -287,6 +405,8 @@ export default {
         if(scope.properties) {
             scope.table_responsive = scope.properties.table_responsive
         }
+
+
     },
 }
 </script>

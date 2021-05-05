@@ -9,6 +9,9 @@ import datePicker from 'vue-bootstrap-datetimepicker';
 import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 
 
+import Multiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.min.css'
+
 
 
 // CSS 
@@ -41,6 +44,8 @@ window.API_URL = '//'+ window.location.host +'/api'
 
 
 
+
+
 import BootstrapVue from 'bootstrap-vue'
 //import '../css/boostrap-app.scss'
 Vue.use(BootstrapVue)
@@ -52,6 +57,8 @@ Vue.use(Notifications)
 Vue.mixin(customs)
 Vue.mixin(mixins)
 Vue.mixin(require('./assets'));
+
+Vue.component('multiselect', Multiselect)
 
 window.swal = require('sweetalert2')
 
