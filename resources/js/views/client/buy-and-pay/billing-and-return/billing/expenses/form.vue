@@ -19,14 +19,13 @@
                     </div>
                 </div>
 
-
                 <div class="col-12 col-md-6">
                     <div class="form-group">
                         <label>Amount payable</label>
                         <input v-model="formdata.amount" type="text" class="form-control" >
                     </div>
                 </div>
-                
+
                 <div class="col-12 col-md-6">
                     <div class="form-group">
                         <label>Location</label>
@@ -35,6 +34,16 @@
                         </multiselect>
                     </div>
                 </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="form-group mb-4">
+                        <label class="form-label" for="project-list"><strong>Project</strong></label>
+                        <multiselect  v-model="selected_project" :options="options_projects" track-by="uuid" label="text" deselect-label="Deselect" selectLabel="Select">
+                            <span slot="noResult">No Results</span>
+                        </multiselect>
+                    </div>
+                </div>
+
             </div>
         </div>
         <br/>
@@ -55,10 +64,12 @@ export default {
     data: function () {
         return {
             formdata: {
+                type: 'Expenses',
                 uuid: null,
                 amount: 0.00,
                 supplier_uuid: null,
                 branch_location_uuid: null,
+                project_uuid: null
             },
 
             selected_supplier: [],
@@ -66,6 +77,9 @@ export default {
 
             selected_branch_location: null,
             options_branch_location: [],
+
+            selected_project: null,
+            options_projects: [],
 
             branch_name: '',
             preselect: true
@@ -107,6 +121,23 @@ export default {
             })
         },
 
+        getProjects: function () {
+            var scope = this
+            scope.GET('projects').then(res => {
+
+                console.log(res.rows)
+              
+                res.rows.forEach(function (data) {
+
+                    scope.options_projects.push({
+                        uuid: data.uuid,
+                        text: data.project_name
+                    })
+                
+                })
+            })
+        },
+
         getSupplier: function () {
            var scope = this
 
@@ -135,6 +166,7 @@ export default {
 
             scope.formdata.supplier_uuid = (scope.selected_supplier == null) ? null : scope.selected_supplier.uuid
             scope.formdata.branch_location_uuid = (scope.selected_branch_location == null) ? null : scope.selected_branch_location.uuid
+            scope.formdata.project_uuid = (scope.selected_project == null) ? null : scope.selected_project.uuid
 
             var qs = jQuery.param( scope.formdata );
             scope.ROUTE({path: '/buy-and-pay/bills/create-expense?' + qs })
@@ -145,8 +177,10 @@ export default {
     mounted() {
         var scope = this
 
-        scope.getSupplier();
         scope.getUserBranch();
+
+        scope.getSupplier();
+        scope.getProjects();
     },
 }
 </script>

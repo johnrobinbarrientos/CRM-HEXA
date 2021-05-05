@@ -40,6 +40,8 @@ use App\Models\PurchasePriceRuleItem;
 use App\Models\PurchaseBilling; 
 use App\Models\PurchaseBillingExpense; 
 
+use App\Models\ProjectList;
+
 
 
 use Illuminate\Support\Facades\Auth; 
@@ -182,9 +184,11 @@ class BuyAndPayBillController extends Controller
             $supplier = SupplierList::with('VAT')->with('EWT')->find($formdata->supplier_uuid);
             $branch = CompanyBranch::find($formdata->branch_uuid);
             $branch_location = CompanyBranchLocation::find($formdata->branch_location_uuid);
+
+            $project = ProjectList::find($formdata->project_uuid);
     
             // dummy data for billing for non-existing billing
-            $data = ['id' => null, 'uuid' => null, 'transaction_type' => $type, 'supplier' => $supplier, 'branch' => $branch, 'branch_location' => $branch_location, 'amount' => $amount];
+            $data = ['id' => null, 'uuid' => null, 'transaction_type' => $type, 'supplier' => $supplier, 'branch' => $branch, 'branch_location' => $branch_location, 'project' => $project, 'amount' => $amount];
             $bill = (object) $data;
 
             return response()->json(['success' => 1, 'data' => $bill], 200);

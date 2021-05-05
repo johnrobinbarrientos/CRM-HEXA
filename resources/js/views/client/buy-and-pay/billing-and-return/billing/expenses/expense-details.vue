@@ -1,5 +1,5 @@
 <template>
-<div v-if="is_ready">
+<div v-if="ready">
         <div class="card hx-card-override">
             <div class="card-header">
                 <h5 class="mb-0">General Information</h5>
@@ -15,7 +15,7 @@
                                 <span>Back</span>
                             </a>
                             
-                            <!-- <a v-if ="!bill.uuid" @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                            <a v-if ="!bill.uuid" @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                                 <span>Bill</span>
                             </a>
 
@@ -27,7 +27,7 @@
 
                             <a v-if="bill.uuid &&  bill.status =='To Pay' && ACTION == 'view'"  @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/edit'})" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                                 <span>Edit</span>
-                            </a> -->
+                            </a>
 
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                                         </div>
 
 
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-3 col-12">
                                             <div class="row">
                                                 <div class="col-md-8 col-12">
                                                      <div class="form-group">
@@ -76,8 +76,16 @@
                                                     <button type="button" @click="updateAmount()" style="margin-top:28px;" class="hx-btn hx-btn-shineblue" v-bind:class="{'disabled' : ACTION != 'edit'}" :disabled="ACTION != 'edit'">Apply</button>
                                                 </div>
                                             </div>
-                                           
                                         </div>
+
+                                        <div v-if="bill.project != null" class="col-md-3 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="project">Project</label>
+                                                <input type="text" class="form-control disabled" v-model="bill.project.project_name" readonly>
+                                            </div>
+                                        </div>
+
+
                                     </div>
                                 
                             </div>
@@ -132,12 +140,11 @@
                                 </div>
 
 
-                                <table class="table table-bordered mb-0">
+                                <table v-if="bill.project == null" class="table table-bordered mb-0">
                                     <thead class="th-nowrap">
                                         <tr>
                                             <th width="40" >Action</th>
                                             <th>Account</th>
-                                            <th>Project</th>
                                             <th>Amount</th> 
                                             <th>Memo</th>
                                             <th>Memo</th>
@@ -152,19 +159,12 @@
                                             <td width="250">
                                                 <select style="width:100%; border:none;" v-model="expense.coa_uuid" class="editable-control" :disabled="ACTION != 'edit'">
                                                     <option value="null">Select an Account</option>
-                                                    <option v-for="chart_of_account in options_chart_of_accounts" :value="chart_of_account.id" :key="'coa-' + chart_of_account.id">
-                                                        {{ chart_of_account.text }}
+                                                    <option v-for="coa_expense in options_coa_expense" :value="coa_expense.id" :key="'coa-' + coa_expense.id">
+                                                        {{ coa_expense.text }}
                                                     </option>
                                                 </select>
                                             </td>
-                                            <td width="250">
-                                                <select v-model="expense.project_uuid" style="width:100%; border:none;" :disabled="ACTION != 'edit'">
-                                                    <option value="null">Select a Project</option>
-                                                    <option v-for="project in options_project" :value="project.id" :key="'project-' + project.id">
-                                                        {{ project.text }}
-                                                    </option>
-                                                </select>
-                                            </td>
+
                                         
                                             <td width="150">
                                                 <input v-on:keyup.enter="onEnter(index)" v-model="expense.amount" type="text" style="width:100%; border:none; text-align:right;"  :disabled="ACTION != 'edit'">
@@ -181,10 +181,10 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="3" class="text-right">Total</td>
+                                            <td colspan="2" class="text-right">Total</td>
                                             <td v-if="AMOUNT_TO_ALLOCATE >= 0" class="text-right"><strong>{{ PUT_SEPARATOR(AMOUNT_ALLOCATED.toFixed(2)) }}</strong></td>
                                             <td v-if="AMOUNT_TO_ALLOCATE < 0" class="text-right text-danger"><strong>{{ PUT_SEPARATOR(AMOUNT_ALLOCATED.toFixed(2)) }}</strong></td>
-                                            <td colspan="3"></td>
+                                            <td colspan="2"></td>
                                             
                                         </tr>
                                         <tr>
@@ -200,6 +200,68 @@
                                     
                                     </tbody>
                                 </table>
+
+                                <table v-else class="table table-bordered mb-0">
+                                    <thead class="th-nowrap">
+                                        <tr>
+                                            <th width="40" >Action</th>
+                                            <th>Account</th>
+                                            <th>Amount</th> 
+                                            <th>Project Scope</th>
+                                            <th>Details</th>
+                                            <th>Memo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="td-border-bottom-black-2">
+                                        <tr v-for="(expense,index) in expenses" :key="'expense-' + index">
+                                            <td class="text-center">
+                                                <b-button @click="removeSelected(index)" type="button" size ="sm" class="m-2" :disabled="ACTION != 'edit'">Delete</b-button>
+                                            </td>
+                                            <td width="250">
+                                                <select style="width:100%; border:none;" v-model="expense.coa_uuid" class="editable-control" :disabled="ACTION != 'edit'">
+                                                    <option value="null">Select an Account</option>
+                                                    <option v-for="coa_expense in options_coa_expense" :value="coa_expense.id" :key="'coa-' + coa_expense.id">
+                                                        {{ coa_expense.text }}
+                                                    </option>
+                                                </select>
+                                            </td>
+
+                                        
+                                            <td width="150">
+                                                <input v-on:keyup.enter="onEnter(index)" v-model="expense.amount" type="text" style="width:100%; border:none; text-align:right;"  :disabled="ACTION != 'edit'">
+                                            </td>
+
+                                            <td>
+                                                <input v-model="expense.memo_1" type="text" style="width:100%; border:none;" :disabled="ACTION != 'edit'">
+                                            </td>
+                                            <td>
+                                                <input v-model="expense.memo_2" type="text" style="width:100%; border:none;"  :disabled="ACTION != 'edit'">
+                                            </td>
+                                            <td>
+                                                <input v-model="expense.memo_3" type="text" style="width:100%; border:none;"  :disabled="ACTION != 'edit'">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="text-right">Total</td>
+                                            <td v-if="AMOUNT_TO_ALLOCATE >= 0" class="text-right"><strong>{{ PUT_SEPARATOR(AMOUNT_ALLOCATED.toFixed(2)) }}</strong></td>
+                                            <td v-if="AMOUNT_TO_ALLOCATE < 0" class="text-right text-danger"><strong>{{ PUT_SEPARATOR(AMOUNT_ALLOCATED.toFixed(2)) }}</strong></td>
+                                            <td colspan="2"></td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td colspan="20">
+                                                <div style="margin-bottom:2px;"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="20">
+                                                <div style="margin-bottom:2px;"></div>
+                                            </td>
+                                        </tr>
+                                    
+                                    </tbody>
+                                </table>
+
                             </div>
 
                             <div class="tab-pane" id="tax">
@@ -251,46 +313,21 @@ export default {
     name: 'expenses-list',
     data: function () {
         return {
-            is_ready: false,
+            prerequiste: {
+                getBillDetails: false,
+                getCOAExpense: false
+            },
+
             bill: [],
-            // order: null,
             DRAFT: true,
             ACTION: 'view',
-            //AMOUNT_TO_ALLOCATE: 0,
-            // temp_amount: 0.00,
-            // TOTALS: {
-            //     GROSS: 0.00,
-            //     SUBTOTAL: 0.00,
-            //     RATE: 0.00,
-            //     DISCOUNT_AMOUNT: 0.00,
-            //     DISCOUNT_RATE: 0.00,
-            //     NET: 0.00,
-            //     VAT: 0.00,
-            //     AMOUNT: 0.00,
-            //     QUANTITY: 0.00,
-            //     PACKING: 0.00,
-            // },
 
+            temp_amount: 0.00,
             expenses: [],
-            selected_supplier: [],
-            options_supplier: [],
-
-            selected_branch: [],
-            options_branch: [],
-
-            selected_branch_location: null,
-            options_branch_location: [],
-
-            selected_cost_center: null,
-            options_cost_center: [],
 
             selected_chart_of_accounts: null,
-            options_chart_of_accounts: [],
+            options_coa_expense: [],
 
-            selected_project: null,
-            options_project: [],
-
-            branch_name: '',
 
             TAXES: {
                 EWT: {
@@ -304,13 +341,31 @@ export default {
                 AMOUNT: 0.00
             },
 
-            SELECTED_ITEMS: [],
         }
     },
-    components: {
+    watch: {
+        ready: function (val) {
+            var scope = this
+            if (val) {
+                setTimeout(function(){
 
+                    scope.getExpenses()
+                    
+                    
+                },500)
+            }
+        },
     },
     computed: {
+        ready: function () {
+            var scope = this
+
+            if (scope.prerequiste.getBillDetails) {
+                return true
+            }
+
+            return false
+        },
         AMOUNT_ALLOCATED: function () {
             var scope = this
             return scope.expenses.reduce(function (r, a) {
@@ -319,8 +374,8 @@ export default {
         },
         AMOUNT_TO_ALLOCATE: function () {
             var scope = this
-            // var amount = scope.$parent.getTaxBaseAmount()
-            var amount = scope.TAXES
+            var amount = scope.TAXES.AMOUNT
+
             amount  = parseFloat(amount)
             amount = amount - scope.AMOUNT_ALLOCATED
             amount = amount.toFixed(2)
@@ -354,12 +409,9 @@ export default {
             var URL = (!scope.DRAFT) ? 'buy-and-pay/bills/' + bill_uuid : 'buy-and-pay/bills/draft' + window.location.search;
 
             scope.GET(URL).then(res => {
-                if (!res) {
-                    scope.ROUTE({path: '/buy-and-pay/bills' });
-                }
 
-                console.log(res)
                 scope.bill = res.data
+                console.log(scope.bill)
 
                 scope.bill.transaction_no = (!scope.bill.transaction_no || scope.bill.transaction_no == '') ? 'To be generated' : scope.bill.transaction_no
                 scope.bill.transaction_date = (!scope.bill.transaction_date || scope.bill.transaction_date == '') ? moment() : scope.bill.transaction_date
@@ -368,9 +420,11 @@ export default {
 
                 scope.calculateTax();
 
-                scope.is_ready = true
+
+                scope.prerequiste.getBillDetails = true
             })
         },
+
         add: function () {
             var scope = this;
 
@@ -379,7 +433,6 @@ export default {
             scope.expenses.push({
                 uuid: null,
                 coa_uuid: scope.bill.supplier.coa_expense_account_uuid,
-                project_uuid: null,
                 amount: amount,
                 memo_1: null,
                 memo_2: null,
@@ -387,12 +440,14 @@ export default {
             });
 
         },
+
         clear: function () {
             var scope = this
             scope.expenses = []
             scope.add();
             scope.$parent.updateAmountToAllocate()
         },
+
         onEnter: function (index) { 
             var scope = this
             var current = index + 1
@@ -403,16 +458,12 @@ export default {
 
             scope.$parent.updateAmountToAllocate()
         },
+
         removeSelected: function (i) {
             var scope = this
             scope.expenses.splice(i, 1);
         },
-        getAmountToAllocate: function () {
-            return  this.AMOUNT_TO_ALLOCATE;
-        },
-        getExpensesList: function () {
-            return this.expenses;
-        },
+
         getExpenses: function() {
             var scope = this
             scope.GET('buy-and-pay/bills/' + scope.bill.uuid + '/expenses').then(res => {
@@ -422,49 +473,23 @@ export default {
                 }
             })
         },
-        getProjects: function () {
+
+        getCOAExpense: function () {
             var scope = this
-            scope.GET('projects').then(res => {
+            scope.GET('company/chart-of-accounts-expenses').then(res => {
+                console.log(res.rows)
               
                 res.rows.forEach(function (data) {
-
-                    scope.options_project.push({
+                    scope.options_coa_expense.push({
                         id: data.uuid,
-                        text: data.project_name
+                        text: data.account_name
                     })
-                
+
+                    scope.prerequiste.getCOAExpense = true
                 })
             })
         },
 
-        // getChartOfAccountByGroup: function (group) {
-        //     var scope = this
-        //     scope.GET('company/chart-of-accounts?group1=' + group + '&take=100').then(res => {
-              
-        //         res.rows.forEach(function (data) {
-        //             scope.options_chart_of_accounts.push({
-        //                 id: data.uuid,
-        //                 text: data.account_name
-        //             })
-        //         })
-        //     })
-        // },
-        getAccountNameByUUID: function (uuid) {
-            var scope = this
-            var result = scope.options_chart_of_accounts.filter(obj => {
-                return obj.id === uuid
-            })
-
-            return (result.length > 0) ? result[0].text : ''
-        },
-        getProjectNameByUUID: function (uuid) {
-            var scope = this
-            var result = scope.options_project.filter(obj => {
-                return obj.id === uuid
-            })
-
-            return (result.length > 0) ? result[0].text : ''
-        },
         saveBillExpenses: function (bill_uuid) {
             var scope = this
             var URL = 'buy-and-pay/bills/' + bill_uuid + '/expenses'
@@ -488,25 +513,16 @@ export default {
     },
     mounted() {
         var scope = this
-        scope.getExpenses();
-        // scope.getProjects();
-        // scope.getChartOfAccountByGroup('expenses');
 
         var bill_uuid = scope.$route.params.bill_uuid;
 
         scope.ACTION = ( scope.$route.params.action) ? scope.$route.params.action : 'edit';
         scope.DRAFT = (!bill_uuid) ? true : false
 
-        console.log(scope.DRAFT)
 
         scope.getBillDetails(bill_uuid)
-        
-      
-       $(document).on('click','.autocomplete-suggestion',function(){
-           var barcode = $(this).data('barcode')
-           scope.selectItem(barcode) 
-        })
 
+        scope.getCOAExpense()
     },
 }
 </script>
