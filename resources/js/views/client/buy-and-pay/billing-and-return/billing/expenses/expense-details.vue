@@ -14,6 +14,10 @@
                             <a @click="ROUTE({path: '/buy-and-pay/bills' });" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
                                 <span>Back</span>
                             </a>
+
+                            <a @click="test()" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
+                                <span>Test</span>
+                            </a>
                             
                             <a v-if ="!bill.uuid" @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                                 <span>Bill</span>
@@ -214,9 +218,11 @@
                                     </thead>
                                     <tbody class="td-border-bottom-black-2">
                                         <tr v-for="(expense,index) in expenses" :key="'expense-' + index">
+
                                             <td class="text-center">
                                                 <b-button @click="removeSelected(index)" type="button" size ="sm" class="m-2" :disabled="ACTION != 'edit'">Delete</b-button>
                                             </td>
+
                                             <td width="250">
                                                 <select style="width:100%; border:none;" v-model="expense.coa_uuid" class="editable-control" :disabled="ACTION != 'edit'">
                                                     <option value="null">Select an Account</option>
@@ -232,13 +238,23 @@
                                             </td>
 
                                             <td>
-                                                <input v-model="expense.memo_1" type="text" style="width:100%; border:none;" :disabled="ACTION != 'edit'">
+                                                <select style="width:100%; border:none;" v-model="expense.project_scope_uuid" @change="getScopeDetails(expense,index)" class="editable-control" :disabled="ACTION != 'edit'">
+                                                    <option value="null">Select an Scope</option>
+                                                    <option v-for="prj_scope in options_project_scope" :value="prj_scope.id" :key="'prj_scope-' + prj_scope.id">
+                                                        {{ prj_scope.text }}
+                                                    </option>
+                                                </select>
                                             </td>
                                             <td>
-                                                <input v-model="expense.memo_2" type="text" style="width:100%; border:none;"  :disabled="ACTION != 'edit'">
+                                                <select style="width:100%; border:none;" v-model="expense.scope_details_uuid" class="editable-control" :disabled="ACTION != 'edit'">
+                                                    <option value="null">Select Details</option>
+                                                    <option v-for="scope_detail in expense.scope_details" :value="scope_detail.id" :key="'scope_detail-' + scope_detail.id">
+                                                        {{ scope_detail.text }}
+                                                    </option>
+                                                </select>
                                             </td>
                                             <td>
-                                                <input v-model="expense.memo_3" type="text" style="width:100%; border:none;"  :disabled="ACTION != 'edit'">
+                                                <input v-model="expense.memo_1" type="text" style="width:100%; border:none;"  :disabled="ACTION != 'edit'">
                                             </td>
                                         </tr>
                                         <tr>
@@ -325,8 +341,13 @@ export default {
             temp_amount: 0.00,
             expenses: [],
 
-            selected_chart_of_accounts: null,
+            
             options_coa_expense: [],
+
+            selected_project_scope_uuid: null,
+            options_project_scope: [],
+
+            options_scope_detail: [],
 
 
             TAXES: {
@@ -350,11 +371,16 @@ export default {
                 setTimeout(function(){
 
                     scope.getExpenses()
+
+                    if(scope.bill.project != null){
+                        scope.getProjectScopes()
+                    }
                     
                     
                 },500)
             }
         },
+        
     },
     computed: {
         ready: function () {
@@ -411,7 +437,7 @@ export default {
             scope.GET(URL).then(res => {
 
                 scope.bill = res.data
-                console.log(scope.bill)
+                // console.log(scope.bill)
 
                 scope.bill.transaction_no = (!scope.bill.transaction_no || scope.bill.transaction_no == '') ? 'To be generated' : scope.bill.transaction_no
                 scope.bill.transaction_date = (!scope.bill.transaction_date || scope.bill.transaction_date == '') ? moment() : scope.bill.transaction_date
@@ -425,19 +451,44 @@ export default {
             })
         },
 
+        test: function () {
+            var scope = this;
+            console.log(scope.expenses)
+
+        },
+
+
         add: function () {
             var scope = this;
 
             var amount = scope.AMOUNT_TO_ALLOCATE
 
-            scope.expenses.push({
-                uuid: null,
-                coa_uuid: scope.bill.supplier.coa_expense_account_uuid,
-                amount: amount,
-                memo_1: null,
-                memo_2: null,
-                memo_3: null,
-            });
+            if (scope.bill.project == null) {
+                            
+                scope.expenses.push({
+                    uuid: null,
+                    coa_uuid: scope.bill.supplier.coa_expense_account_uuid,
+                    amount: amount,
+                    memo_1: null,
+                    memo_2: null,
+                    memo_3: null,
+                })
+            
+            }else{
+                
+                scope.expenses.push({
+                    uuid: null,
+                    coa_uuid: scope.bill.supplier.coa_expense_account_uuid,
+                    amount: amount,
+                    project_scope_uuid: null,
+                    scope_details_uuid: null,
+                    scope_details: [],
+                    memo_1: null,
+                })
+                
+            }
+
+
 
         },
 
@@ -477,7 +528,7 @@ export default {
         getCOAExpense: function () {
             var scope = this
             scope.GET('company/chart-of-accounts-expenses').then(res => {
-                console.log(res.rows)
+                // console.log(res.rows)
               
                 res.rows.forEach(function (data) {
                     scope.options_coa_expense.push({
@@ -486,6 +537,43 @@ export default {
                     })
 
                     scope.prerequiste.getCOAExpense = true
+                })
+            })
+        },
+
+        getProjectScopes: function () {
+            var scope = this
+            scope.GET('projects/project-type-scope/' + scope.bill.project.project_type_uuid).then(res => {
+                // console.log(res.rows)
+              
+                res.rows.forEach(function (data) {
+                    scope.options_project_scope.push({
+                        id: data.type_scope.uuid,
+                        text: data.type_scope.scope_of_work
+                    })
+
+                })
+            })
+        },
+
+
+        getScopeDetails: function (expense,index) {
+            var scope = this
+
+            console.log(expense)
+
+            scope.options_scope_detail = []
+            
+            scope.GET('projects/project-scope-details/' + expense.project_scope_uuid).then(res => {
+                console.log(res.rows)
+              
+                res.rows.forEach(function (data) {
+                    scope.options_scope_detail.push({
+                        id: data.uuid,
+                        text: data.detail
+                    })
+
+                    scope.expenses[index].scope_details = scope.options_scope_detail
                 })
             })
         },

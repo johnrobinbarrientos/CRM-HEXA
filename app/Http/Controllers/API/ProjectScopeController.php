@@ -8,6 +8,7 @@ use App\Models\ProjectScope;
 use Illuminate\Support\Facades\Auth; 
 
 use  App\Http\Controllers\API\ProjectScopeDetailController;
+use  App\Http\Controllers\API\ProjectTypeController;
 
 class ProjectScopeController extends Controller
 {
@@ -42,11 +43,7 @@ class ProjectScopeController extends Controller
         return response()->json(['success' => 1, 'rows' => $list], 200);
     }
 
-    public function show($projectTypeUUID)
-    {
-        $scopeOfWork = ProjectScope::where('project_type_uuid','=',$projectTypeUUID)->get();
-        return response()->json(['success' => 1, 'rows' => $scopeOfWork], 200);
-    }
+
 
     public function save()
     {
