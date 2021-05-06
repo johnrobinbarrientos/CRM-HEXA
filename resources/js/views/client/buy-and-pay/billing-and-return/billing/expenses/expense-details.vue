@@ -239,7 +239,7 @@
 
                                             <td>
                                                 <select style="width:100%; border:none;" v-model="expense.project_scope_uuid" @change="getScopeDetails(expense,index)" class="editable-control" :disabled="ACTION != 'edit'">
-                                                    <option value="null">Select an Scope</option>
+                                                    <option value="null" disabled selected hidden>Select an Scope</option>
                                                     <option v-for="prj_scope in options_project_scope" :value="prj_scope.id" :key="'prj_scope-' + prj_scope.id">
                                                         {{ prj_scope.text }}
                                                     </option>
@@ -247,7 +247,7 @@
                                             </td>
                                             <td>
                                                 <select style="width:100%; border:none;" v-model="expense.scope_details_uuid" class="editable-control" :disabled="ACTION != 'edit'">
-                                                    <option value="null">Select Details</option>
+                                                    <option value="null" disabled selected hidden>Select Details</option>
                                                     <option v-for="scope_detail in expense.scope_details" :value="scope_detail.id" :key="'scope_detail-' + scope_detail.id">
                                                         {{ scope_detail.text }}
                                                     </option>
