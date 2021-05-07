@@ -15,9 +15,9 @@
                                 <span>Back</span>
                             </a>
 
-                            <a @click="test()" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
+                            <!-- <a @click="test()" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
                                 <span>Test</span>
-                            </a>
+                            </a> -->
                             
                             <a v-if ="!bill.uuid" @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                                 <span>Bill</span>
@@ -441,7 +441,7 @@ export default {
                 scope.temp_amount = parseFloat(scope.bill.amount)
 
                 scope.calculateTax();
-                // console.log(scope.bill)
+                console.log(scope.bill)
 
 
                 scope.prerequiste.getBillDetails = true
