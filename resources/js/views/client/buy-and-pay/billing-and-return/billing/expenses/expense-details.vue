@@ -322,11 +322,10 @@
 
 <script>
 
-import Swal from 'sweetalert2'
 import moment from 'moment'
 
 export default {
-    name: 'expenses-list',
+    name: 'expenses-details',
     data: function () {
         return {
             prerequiste: {
@@ -496,7 +495,6 @@ export default {
             var scope = this
             scope.expenses = []
             scope.add();
-            scope.$parent.updateAmountToAllocate()
         },
 
         onEnter: function (index) { 
@@ -506,8 +504,6 @@ export default {
             if (current >= scope.expenses.length && scope.AMOUNT_TO_ALLOCATE > 0) {
                 scope.add();
             } 
-
-            scope.$parent.updateAmountToAllocate()
         },
 
         removeSelected: function (i) {
@@ -517,6 +513,7 @@ export default {
 
         getExpenses: function() {
             var scope = this
+
             scope.GET('buy-and-pay/bills/' + scope.bill.uuid + '/expenses').then(res => {
                 scope.expenses = res.rows
                 if (scope.expenses.length < 1) {
@@ -527,9 +524,8 @@ export default {
 
         getCOAExpense: function () {
             var scope = this
+
             scope.GET('company/chart-of-accounts-expenses').then(res => {
-                // console.log(res.rows)
-              
                 res.rows.forEach(function (data) {
                     scope.options_coa_expense.push({
                         id: data.uuid,
@@ -543,9 +539,9 @@ export default {
 
         getProjectScopes: function () {
             var scope = this
+
             scope.GET('projects/project-type-scope/' + scope.bill.project.project_type_uuid).then(res => {
-                // console.log(res.rows)
-              
+
                 res.rows.forEach(function (data) {
                     scope.options_project_scope.push({
                         id: data.type_scope.uuid,
@@ -560,13 +556,9 @@ export default {
         getScopeDetails: function (expense,index) {
             var scope = this
 
-            console.log(expense)
-
             scope.options_scope_detail = []
             
             scope.GET('projects/project-scope-details/' + expense.project_scope_uuid).then(res => {
-                console.log(res.rows)
-              
                 res.rows.forEach(function (data) {
                     scope.options_scope_detail.push({
                         id: data.uuid,
