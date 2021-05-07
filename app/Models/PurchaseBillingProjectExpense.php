@@ -36,9 +36,5 @@ class PurchaseBillingProjectExpense extends Model
         return $this->belongsTo('App\Models\CompanyChartOfAccount','coa_uuid','uuid');
     }
 
-    public function Project()
-    {
-        return $this->belongsTo('App\Models\ProjectList','project_uuid','uuid');
-    }
 
 }

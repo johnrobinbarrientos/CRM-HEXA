@@ -99,8 +99,9 @@
                                 <tr v-for="(bill) in bills" :key="bill.uuid">
                                     <template v-if="bill.po_status !== 'Cancelled'">
                                         <td width="100" style="text-align:center;">
-                                            <b-dropdown v-if="bill.transaction_type == 'Expenses' && bill.status == 'To Pay'"  split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/edit' })">
-                                                <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/edit'})">Edit</b-dropdown-item>
+                                            <b-dropdown v-if="bill.transaction_type == 'Expenses' && bill.status == 'To Pay'"  split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="edit(bill)">
+                                                <!-- <b-dropdown-item href="javascript:void(0)" @click="ROUTE({ path: '/buy-and-pay/bills/' + bill.uuid + '/edit'})">Edit</b-dropdown-item> -->
+                                                <b-dropdown-item href="javascript:void(0)" @click="edit(bill)">Edit</b-dropdown-item>
                                                 <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/view' })">View</b-dropdown-item>
                                                 <b-dropdown-item href="javascript:void(0)" @click="cancel(bill.uuid)">Cancel</b-dropdown-item>
                                             </b-dropdown>
@@ -282,6 +283,15 @@ export default {
         }
     },
     methods: {
+        edit: function (bill) {
+            var scope = this
+
+            if (bill.transaction_type == 'Expenses'){
+                scope.ROUTE({ path: '/buy-and-pay/bills/expenses/' + bill.uuid + '/edit'})
+            }else{
+                scope.ROUTE({ path: '/buy-and-pay/bills/' + bill.uuid + '/edit'})
+            }
+        },
         reset: function () {
             var scope = this
             scope.selected_item_group = ""
@@ -315,6 +325,7 @@ export default {
 
             scope.GET('buy-and-pay/bills?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage + '&' + str).then(res => {
                 scope.bills = res.rows
+                //console.log(scope.bills)
                 scope.grand_total = res.grand_total
 
                 scope.listLoading = false

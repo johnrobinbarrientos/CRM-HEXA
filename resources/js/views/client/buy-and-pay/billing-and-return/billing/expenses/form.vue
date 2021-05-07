@@ -167,7 +167,7 @@ export default {
             scope.formdata.project_uuid = (scope.selected_project == null) ? null : scope.selected_project.uuid
 
             var qs = jQuery.param( scope.formdata );
-            scope.ROUTE({path: '/buy-and-pay/bills/create-expense?' + qs })
+            scope.ROUTE({path: '/buy-and-pay/bills/create-expenses?' + qs })
             return
 
         },

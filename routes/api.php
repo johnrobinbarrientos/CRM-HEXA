@@ -336,13 +336,16 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/{type}/{order_uuid}/items', 'API\BuyAndPayItemController@index');
         Route::post('/{type}/{order_uuid}/items', 'API\BuyAndPayItemController@save');
 
-
         Route::get('/bills', 'API\BuyAndPayBillController@index');
         Route::post('/bills', 'API\BuyAndPayBillController@store');
 
         Route::get('/bills/draft', 'API\BuyAndPayBillController@draft');
         Route::get('/bills/{bill_uuid}', 'API\BuyAndPayBillController@show');
-        Route::get('/bills/{bill_uuid}/expenses', 'API\BuyAndPayBillController@getExpenses');
+
+        Route::get('/bills/{bill_uuid}/expenses', 'API\BuyAndPayBillController@showExpenses');
+
+        Route::get('/bills/{bill_uuid}/expenses/details', 'API\BuyAndPayBillController@getExpenses');
+        Route::get('/bills/{bill_uuid}/project-expenses/details', 'API\BuyAndPayBillController@getProjectExpenses');
 
         Route::post('/bills/expenses', 'API\BuyAndPayBillController@saveBillingExpenses');
         Route::post('/bills/project-expenses', 'API\BuyAndPayBillController@saveBillingProjectExpenses');
@@ -353,6 +356,8 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         
         // Route::post('/bills/{bill_uuid}/expenses', 'API\BuyAndPayBillController@saveExpenses');
         Route::post('/bills/{bill_uuid}/cancel', 'API\BuyAndPayBillController@cancel');
+
+        
 
 
         Route::get('/payments', 'API\BuyAndPayPaymentController@index');

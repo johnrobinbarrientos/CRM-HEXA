@@ -365,10 +365,11 @@ export default {
             if (val) {
                 setTimeout(function(){
 
-                    scope.getExpenses()
-
                     if(scope.bill.project != null){
                         scope.getProjectScopes()
+                        scope.getProjectExpenses()
+                    }else{
+                        scope.getExpenses()
                     }
                     
                     
@@ -428,7 +429,7 @@ export default {
 
         getBillDetails: function (bill_uuid) {
             var scope = this
-            var URL = (!scope.DRAFT) ? 'buy-and-pay/bills/' + bill_uuid : 'buy-and-pay/bills/draft' + window.location.search;
+            var URL = (!scope.DRAFT) ? 'buy-and-pay/bills/' + bill_uuid + '/expenses' : 'buy-and-pay/bills/draft' + window.location.search;
 
             scope.GET(URL).then(res => {
 
@@ -523,8 +524,31 @@ export default {
         getExpenses: function() {
             var scope = this
 
-            scope.GET('buy-and-pay/bills/' + scope.bill.uuid + '/expenses').then(res => {
+            scope.GET('buy-and-pay/bills/' + scope.bill.uuid + '/expenses/details').then(res => {
                 scope.expenses = res.rows
+                if (scope.expenses.length < 1) {
+                    scope.add();
+                }
+            })
+        },
+
+        getProjectExpenses: function() {
+            var scope = this
+            var x = 0
+
+            console.log('dasdsa')
+
+            scope.GET('buy-and-pay/bills/' + scope.bill.uuid + '/project-expenses/details').then(res => {
+                console.log(res.rows)
+                scope.expenses = res.rows
+
+                res.rows.forEach(function (data) {
+                    data.scopeDetails.forEach(function (detail) {
+                        scope.expenses[x].scope_details.push({ id: detail.uuid,text: detail.detail})
+                    })
+                    x++
+                })
+
                 if (scope.expenses.length < 1) {
                     scope.add();
                 }
