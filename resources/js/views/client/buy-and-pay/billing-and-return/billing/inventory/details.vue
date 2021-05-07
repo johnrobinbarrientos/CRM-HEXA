@@ -409,25 +409,7 @@ export default {
             scope.TAXES.EWT.AMOUNT = tax_base * ewt
             scope.TAXES.AMOUNT = tax_base
         },
-        updateAmount: function () {
-            var scope = this
-            window.swal.fire({
-                title: 'Update?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#548235',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.value) {
-                    scope.bill.amount = scope.temp_amount
-                    scope.AMOUNT_TO_ALLOCATE = parseFloat(scope.$refs.expenses.getAmountToAllocate());
-                    scope.calculateTax()
-                }                              
-            })
-           
-        },
+
         updateTOTALS: function (data) {
             var scope = this
             scope.TOTALS = data

@@ -344,9 +344,14 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/bills/{bill_uuid}', 'API\BuyAndPayBillController@show');
         Route::get('/bills/{bill_uuid}/expenses', 'API\BuyAndPayBillController@getExpenses');
 
+        Route::post('/bills/expenses', 'API\BuyAndPayBillController@saveBillingExpense');
+        Route::post('/bills/project-expenses', 'API\BuyAndPayBillController@saveBillingProjectExpense');
+
+
         Route::post('/bills/{bill_uuid}', 'API\BuyAndPayBillController@update');
 
-        Route::post('/bills/{bill_uuid}/expenses', 'API\BuyAndPayBillController@saveExpenses');
+        
+        // Route::post('/bills/{bill_uuid}/expenses', 'API\BuyAndPayBillController@saveExpenses');
         Route::post('/bills/{bill_uuid}/cancel', 'API\BuyAndPayBillController@cancel');
 
 

@@ -124,8 +124,6 @@ export default {
         getProjects: function () {
             var scope = this
             scope.GET('projects').then(res => {
-
-                console.log(res.rows)
               
                 res.rows.forEach(function (data) {
 

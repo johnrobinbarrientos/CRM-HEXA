@@ -522,18 +522,18 @@ export default {
                 })
 
                 if (scope.options_supplier[0].vat_uuid!==null){
-                    scope.formdata.is_apply_tax = 1
+                    // scope.formdata.is_apply_tax = 1
 
                     scope.GET('company/taxation/' + scope.options_supplier[0].vat_uuid).then(res => {
-                        scope.formdata.supplier_tax_rate = res.rows.tax_rate
+                        // scope.formdata.supplier_tax_rate = res.rows.tax_rate
                     })
                 }
                 else{
-                    scope.formdata.is_apply_tax = 0
-                    scope.formdata.supplier_tax_rate = 0
+                    // scope.formdata.is_apply_tax = 0
+                    // scope.formdata.supplier_tax_rate = 0
                 }
                 
-                scope.formdata.term = scope.options_supplier[0].lead_time
+                // scope.formdata.term = scope.options_supplier[0].lead_time
                 scope.formdata.date_expected = moment().add(parseInt(scope.options_supplier[0].lead_time) ,'days').format('YYYY-MM-DD')
 
                 $(".form-select-supplier").select2({data: scope.options_supplier});
@@ -582,9 +582,9 @@ export default {
 
         scope.getItemGroup()
         scope.getAssetGroup()
-        scope.getSupplier()
-        scope.getBranchLocations()
-        scope.getBranch()
+        //scope.getSupplier()
+        //scope.getBranchLocations()
+        //scope.getBranch()
     },
 }
 </script>

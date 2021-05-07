@@ -38,7 +38,7 @@
 
                 <form action="#" class="form-validate is-alter">
                         <div v-if="AMOUNT_TO_ALLOCATE < 0" class="alert alert-danger" ><i class="fas fa-exclamation-triangle"></i> 
-                            You exceed the amount to allocate by: <strong>{{ PUT_SEPARATOR(Math.abs(AMOUNT_TO_ALLOCATE.toFixed(2))) }}</strong>
+                            You exceed the amount to allocate by: <strong>{{ PUT_SEPARATOR(Math.abs(AMOUNT_TO_ALLOCATE)) }}</strong>
                         </div>
                         <div class="row">
                             <div class="col-md-9 col-12">
@@ -77,7 +77,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12">
-                                                    <button type="button" @click="updateAmount()" style="margin-top:28px;" class="hx-btn hx-btn-shineblue" v-bind:class="{'disabled' : ACTION != 'edit'}" :disabled="ACTION != 'edit'">Apply</button>
+                                                    <button type="button" @click="updateAmountPayable()" style="margin-top:28px;" class="hx-btn hx-btn-shineblue" v-bind:class="{'disabled' : ACTION != 'edit'}" :disabled="ACTION != 'edit'">Apply</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -239,7 +239,7 @@
 
                                             <td>
                                                 <select style="width:100%; border:none;" v-model="expense.project_scope_uuid" @change="getScopeDetails(expense,index)" class="editable-control" :disabled="ACTION != 'edit'">
-                                                    <option value="null" disabled selected hidden>Select an Scope</option>
+                                                    <option value="null" disabled selected hidden>Select Scope</option>
                                                     <option v-for="prj_scope in options_project_scope" :value="prj_scope.id" :key="'prj_scope-' + prj_scope.id">
                                                         {{ prj_scope.text }}
                                                     </option>
@@ -338,16 +338,12 @@ export default {
             ACTION: 'view',
 
             temp_amount: 0.00,
+
             expenses: [],
 
-            
             options_coa_expense: [],
-
-            selected_project_scope_uuid: null,
             options_project_scope: [],
-
             options_scope_detail: [],
-
 
             TAXES: {
                 EWT: {
@@ -420,6 +416,7 @@ export default {
             var vat = vat_rate / 100 // e.g converts 12% to 0.12
             var ewt = ewt_rate / 100
 
+
             var tax_base = scope.bill.amount / (1 + vat) // e.g 1.12 if VAT = 12%
 
             scope.TAXES.VAT.RATE = vat_rate
@@ -436,7 +433,7 @@ export default {
             scope.GET(URL).then(res => {
 
                 scope.bill = res.data
-                // console.log(scope.bill)
+                
 
                 scope.bill.transaction_no = (!scope.bill.transaction_no || scope.bill.transaction_no == '') ? 'To be generated' : scope.bill.transaction_no
                 scope.bill.transaction_date = (!scope.bill.transaction_date || scope.bill.transaction_date == '') ? moment() : scope.bill.transaction_date
@@ -444,6 +441,7 @@ export default {
                 scope.temp_amount = parseFloat(scope.bill.amount)
 
                 scope.calculateTax();
+                // console.log(scope.bill)
 
 
                 scope.prerequiste.getBillDetails = true
@@ -486,16 +484,27 @@ export default {
                 })
                 
             }
-
-
-
         },
 
-        clear: function () {
+        updateAmountPayable: function () {
             var scope = this
-            scope.expenses = []
-            scope.add();
+            window.swal.fire({
+                title: 'Update Allocated?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#548235',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.bill.amount = scope.temp_amount
+                    scope.calculateTax()
+                }                              
+            })
+           
         },
+
 
         onEnter: function (index) { 
             var scope = this
@@ -570,11 +579,11 @@ export default {
             })
         },
 
-        saveBillExpenses: function (bill_uuid) {
+        save: function () {
             var scope = this
-            var URL = 'buy-and-pay/bills/' + bill_uuid + '/expenses'
-            
-            scope.POST(URL, {expenses: scope.expenses }).then(res => {
+
+            var URL = (scope.bill.project==null) ? 'buy-and-pay/bills/expenses': 'buy-and-pay/bills/project-expenses';
+            scope.POST(URL, {bill: scope.bill, expenses: scope.expenses }).then(res => {
                 if (res.success) {
                     window.swal.fire({
                         position: 'center',
@@ -586,10 +595,11 @@ export default {
                         scope.ROUTE({path: '/buy-and-pay/bills'});
                     })
                 } else {
-                    alert('ERROR:' + res.code)
+                    // alert('ERROR:' + res.code)
                 } 
             })
         }
+
     },
     mounted() {
         var scope = this
@@ -598,7 +608,6 @@ export default {
 
         scope.ACTION = ( scope.$route.params.action) ? scope.$route.params.action : 'edit';
         scope.DRAFT = (!bill_uuid) ? true : false
-
 
         scope.getBillDetails(bill_uuid)
 
