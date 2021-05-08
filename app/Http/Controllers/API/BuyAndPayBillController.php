@@ -359,30 +359,40 @@ class BuyAndPayBillController extends Controller
 
     public function saveBillingExpenses()
     {
-        $prefix = $this->getCompanyPrefix();
-        $type = 'BL';
-        $no_of_transactions = $this->getNumberOfTransactions() + 1;
-        $year = date('Y');
-        $month = date('m');
-        $day = date('d');
-        $created_id = sprintf($type.'_'.$prefix.''.$year.''.$month.''.$day.'%05d',$no_of_transactions);
-
-
+        
         $formdata = (object) request()->bill; 
 
+        $bill_uuid = $formdata->uuid;
         $supplier_uuid = $formdata->supplier['uuid'];
         $branch_uuid = $formdata->branch['uuid'];
         $branch_location_uuid = $formdata->branch_location['uuid'];
 
-        $bill = new PurchaseBilling;
-        $bill->transaction_no =  $created_id;      
-        $bill->supplier_uuid = $supplier_uuid;        
-        $bill->branch_uuid =  $branch_uuid;     
-        $bill->branch_location_uuid = $branch_location_uuid;     
-        $bill->amount = $formdata->amount;    
-        $bill->transaction_type = 'Expenses';    
-        $bill->transaction_date = date('Y-m-d');  
-        $bill->status = 'To Pay';
+        $bill = PurchaseBilling::find($bill_uuid);
+        $is_new =  ($bill) ? false : true ;
+        $bill = ($bill) ? $bill : new PurchaseBilling;
+
+        if ($is_new){
+
+            $prefix = $this->getCompanyPrefix();
+            $type = 'BL';
+            $no_of_transactions = $this->getNumberOfTransactions() + 1;
+            $year = date('Y');
+            $month = date('m');
+            $day = date('d');
+            $created_id = sprintf($type.'_'.$prefix.''.$year.''.$month.''.$day.'%05d',$no_of_transactions);
+
+            $bill->transaction_no =  $created_id;      
+            $bill->supplier_uuid = $supplier_uuid;        
+            $bill->branch_uuid =  $branch_uuid;     
+            $bill->branch_location_uuid = $branch_location_uuid;     
+            
+            $bill->transaction_type = 'Expenses';    
+            $bill->transaction_date = date('Y-m-d');  
+            $bill->status = 'To Pay';
+        }
+        
+
+        $bill->amount = $formdata->amount;
         $bill->save();
 
         $bill = PurchaseBilling::find($bill->uuid);
@@ -420,31 +430,42 @@ class BuyAndPayBillController extends Controller
 
     public function saveBillingProjectExpenses()
     {
-        $prefix = $this->getCompanyPrefix();
-        $type = 'BL';
-        $no_of_transactions = $this->getNumberOfTransactions() + 1;
-        $year = date('Y');
-        $month = date('m');
-        $day = date('d');
-        $created_id = sprintf($type.'_'.$prefix.''.$year.''.$month.''.$day.'%05d',$no_of_transactions);
 
-        $formdata = (object) request()->bill; 
+        $formdata = (object) request()->bill;
 
+        $bill_uuid = $formdata->uuid;
         $supplier_uuid = $formdata->supplier['uuid'];
         $branch_uuid = $formdata->branch['uuid'];
         $branch_location_uuid = $formdata->branch_location['uuid'];
         $project_uuid = $formdata->project['uuid'];
 
-        $bill = new PurchaseBilling;
-        $bill->transaction_no =  $created_id;      
-        $bill->supplier_uuid = $supplier_uuid;        
-        $bill->branch_uuid =  $branch_uuid;     
-        $bill->branch_location_uuid = $branch_location_uuid;     
-        $bill->amount = $formdata->amount;    
-        $bill->transaction_type = 'Expenses';
-        $bill->project_uuid = $project_uuid;       
-        $bill->transaction_date = date('Y-m-d');  
-        $bill->status = 'To Pay';
+
+        $bill = PurchaseBilling::find($bill_uuid);
+        $is_new =  ($bill) ? false : true ;
+        $bill = ($bill) ? $bill : new PurchaseBilling;
+
+        if ($is_new){
+
+            $prefix = $this->getCompanyPrefix();
+            $type = 'BL';
+            $no_of_transactions = $this->getNumberOfTransactions() + 1;
+            $year = date('Y');
+            $month = date('m');
+            $day = date('d');
+            $created_id = sprintf($type.'_'.$prefix.''.$year.''.$month.''.$day.'%05d',$no_of_transactions);
+
+
+            $bill->transaction_no =  $created_id;      
+            $bill->supplier_uuid = $supplier_uuid;        
+            $bill->branch_uuid =  $branch_uuid;     
+            $bill->branch_location_uuid = $branch_location_uuid;     
+            $bill->project_uuid = $project_uuid;       
+            $bill->transaction_date = date('Y-m-d');  
+            $bill->status = 'To Pay';
+            $bill->transaction_type = 'Expenses';
+        }
+
+        $bill->amount = $formdata->amount;  
         $bill->save();
 
         $bill = PurchaseBilling::find($bill->uuid);

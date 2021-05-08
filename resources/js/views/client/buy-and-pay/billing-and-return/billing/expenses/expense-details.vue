@@ -442,7 +442,7 @@ export default {
                 scope.temp_amount = parseFloat(scope.bill.amount)
 
                 scope.calculateTax();
-                console.log(scope.bill)
+                //console.log(scope.bill)
 
 
                 scope.prerequiste.getBillDetails = true
@@ -536,15 +536,12 @@ export default {
             var scope = this
             var x = 0
 
-            console.log('dasdsa')
-
             scope.GET('buy-and-pay/bills/' + scope.bill.uuid + '/project-expenses/details').then(res => {
-                console.log(res.rows)
                 scope.expenses = res.rows
 
                 res.rows.forEach(function (data) {
-                    data.scopeDetails.forEach(function (detail) {
-                        scope.expenses[x].scope_details.push({ id: detail.uuid,text: detail.detail})
+                    data.scopeDetails.forEach(function (details) {
+                        scope.expenses[x].scope_details.push({ id: details.uuid,text: details.detail})
                     })
                     x++
                 })
@@ -607,21 +604,58 @@ export default {
             var scope = this
 
             var URL = (scope.bill.project==null) ? 'buy-and-pay/bills/expenses': 'buy-and-pay/bills/project-expenses';
-            scope.POST(URL, {bill: scope.bill, expenses: scope.expenses }).then(res => {
-                if (res.success) {
-                    window.swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Saved',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        scope.ROUTE({path: '/buy-and-pay/bills'});
-                    })
-                } else {
-                    // alert('ERROR:' + res.code)
-                } 
-            })
+
+            if (scope.bill.uuid){
+
+                window.swal.fire({
+                    title: 'Update?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#548235',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.value) {
+
+                        scope.POST(URL, {bill: scope.bill, expenses: scope.expenses }).then(res => {
+                            if (res.success) {
+                                window.swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Saved',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then(() => {
+                                    scope.ROUTE({path: '/buy-and-pay/bills'});
+                                })
+                            } else {
+                                alert('ERROR:' + res.code)
+                            } 
+                        })
+                    }                              
+                })
+            }else{
+
+                scope.POST(URL, {bill: scope.bill, expenses: scope.expenses }).then(res => {
+                    if (res.success) {
+                        window.swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Saved',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            scope.ROUTE({path: '/buy-and-pay/bills'});
+                        })
+                    } else {
+                        alert('ERROR:' + res.code)
+                    } 
+                })
+
+            }
+
+
         }
 
     },
