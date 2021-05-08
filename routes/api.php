@@ -321,7 +321,6 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/to-bill', 'API\PurchaseBillingController@getToBill');
         Route::post('/billing/{order_uuid}/details', 'API\PurchaseBillingController@save');
         
-
         Route::post('/receipts/{order_uuid}', 'API\BuyAndPayReceiveController@save');
 
         Route::get('/receipts/{order_uuid}', 'API\BuyAndPayReceiveController@show');

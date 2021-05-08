@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class BDGroupSupplierDiscount extends Model
+class POBDGroupSupplierDiscount extends Model
 {
     use SoftDeletes;
     
-    protected $table = 'bd_group_supplier_discounts';
+    protected $table = 'pobd_group_supplier_discounts';
 
     protected $fillable = [];
 
@@ -28,7 +28,11 @@ class BDGroupSupplierDiscount extends Model
     }
 
     public function ExludedItems(){
-        return $this->hasMany('App\Models\BDGroupSupplierDiscountExcludedItem','bd_group_supplier_discount_uuid','uuid');
+        return $this->hasMany('App\Models\POBDGroupSupplierDiscountExcludedItem','pobd_group_supplier_discount_uuid','uuid');
+    }
+
+    public function POBDGroupSupplier(){
+       return $this->belongsTo('App\Models\POBDGroupSupplier','pobd_group_supplier_uuid','uuid');
     }
    
 }

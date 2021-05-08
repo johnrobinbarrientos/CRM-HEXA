@@ -91,7 +91,7 @@
         
                                 <div style="margin-top:10px;">
                                     <strong>Discount Group</strong>
-                                    <select v-model="selected_supplier.bd_supplier_uuid" class="form-control-gray-medium"  v-bind:class="{'error' : selected_supplier.bd_supplier_uuid_error}" placeholder="Enter Purchase Price">
+                                    <select v-model="selected_supplier.bd_group_supplier_uuid" class="form-control-gray-medium"  v-bind:class="{'error' : selected_supplier.bd_group_supplier_uuid_error}" placeholder="Enter Purchase Price">
                                         <option :value="null">Select Discount Group</option>
                                         <option v-for="discount_group,index in selected_supplier.discount_groups" :key="'option-discount-group-' + index" :value="discount_group.uuid">
                                             {{ discount_group.name }}
@@ -99,7 +99,7 @@
                                     </select>
                                 </div>
 
-                                <div v-if="selected_supplier.bd_supplier_uuid" style="padding:10px; padding-bottom:20px; margin-top:15px; background:#fafafa; border:1px solid #efefef;">
+                                <div v-if="selected_supplier.bd_group_supplier_uuid" style="padding:10px; padding-bottom:20px; margin-top:15px; background:#fafafa; border:1px solid #efefef;">
                                     
                                     <span style="font-weight:600; display:inline-block;">Discount List</span>
                                     <table style="margin-top:5px;" class="table table-bordered table-hover">
@@ -110,7 +110,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr style="background:#fff;" v-for="(discount,discount_index) in getSelectedDiscountGroupDetails(selected_supplier.bd_supplier_uuid,selected_supplier.discount_groups).discounts " :key="'edit-group-discount-' + discount_index ">
+                                            <tr style="background:#fff;" v-for="(discount,discount_index) in getSelectedDiscountGroupDetails(selected_supplier.bd_group_supplier_uuid,selected_supplier.discount_groups).discounts " :key="'edit-group-discount-' + discount_index ">
 
                                                 <td style="padding:0px 2px;">
                                                     {{ discount.name }}
@@ -195,18 +195,18 @@ export default {
             }
 
             if (scope.selected_supplier_index === null) {
-                var bd_supplier_uuid = scope.selected_supplier.bd_supplier_uuid
+                var bd_group_supplier_uuid = scope.selected_supplier.bd_group_supplier_uuid
                 var discount_groups = scope.selected_supplier.discount_groups
 
-                scope.selected_supplier.selected_discount_group = scope.getSelectedDiscountGroupDetails(bd_supplier_uuid,discount_groups)
+                scope.selected_supplier.selected_discount_group = scope.getSelectedDiscountGroupDetails(bd_group_supplier_uuid,discount_groups)
 
                 scope.suppliers.push(scope.selected_supplier);
             } else {
 
-                var bd_supplier_uuid = scope.selected_supplier.bd_supplier_uuid
+                var bd_group_supplier_uuid = scope.selected_supplier.bd_group_supplier_uuid
                 var discount_groups = scope.selected_supplier.discount_groups
 
-                scope.selected_supplier.selected_discount_group = scope.getSelectedDiscountGroupDetails(bd_supplier_uuid,discount_groups)
+                scope.selected_supplier.selected_discount_group = scope.getSelectedDiscountGroupDetails(bd_group_supplier_uuid,discount_groups)
                 
                 var copy = JSON.parse(JSON.stringify(scope.selected_supplier))
                 scope.suppliers[scope.selected_supplier_index] = copy
@@ -225,20 +225,20 @@ export default {
                     var selected_supplier = scope.findSelectedSuppliers(data)
                     if (selected_supplier !== false){
                         scope.$set(data,'selected',true)
-                        scope.$set(data,'bd_supplier_uuid',selected_supplier.bd_supplier_uuid)
+                        scope.$set(data,'bd_group_supplier_uuid',selected_supplier.bd_group_supplier_uuid)
                         scope.$set(data,'purchase_price',selected_supplier.purchase_price)
 
-                        var bd_supplier_uuid = data.bd_supplier_uuid
+                        var bd_group_supplier_uuid = data.bd_group_supplier_uuid
                         var discount_groups = data.discount_groups
-                        scope.$set(data,'selected_discount_group',scope.getSelectedDiscountGroupDetails(bd_supplier_uuid,discount_groups))
+                        scope.$set(data,'selected_discount_group',scope.getSelectedDiscountGroupDetails(bd_group_supplier_uuid,discount_groups))
                     } else {
                         scope.$set(data,'selected',false)
-                        scope.$set(data,'bd_supplier_uuid',null)
+                        scope.$set(data,'bd_group_supplier_uuid',null)
                         scope.$set(data,'purchase_price',null)
 
-                        var bd_supplier_uuid = data.bd_supplier_uuid
+                        var bd_group_supplier_uuid = data.bd_group_supplier_uuid
                         var discount_groups = data.discount_groups
-                        scope.$set(data,'selected_discount_group',scope.getSelectedDiscountGroupDetails(bd_supplier_uuid,discount_groups))
+                        scope.$set(data,'selected_discount_group',scope.getSelectedDiscountGroupDetails(bd_group_supplier_uuid,discount_groups))
                     }
                 })
             })
@@ -257,14 +257,14 @@ export default {
 
             return exists
         },
-        getSelectedDiscountGroupDetails: function (bd_supplier_uuid, haystack = []) {
+        getSelectedDiscountGroupDetails: function (bd_group_supplier_uuid, haystack = []) {
             var scope = this
 
             var details = {name: '', total_rate: '', discounts: []}
             for (let i = 0; i < haystack.length; i++) {
                 var current = haystack[i]
 
-                if (current.uuid == bd_supplier_uuid) {
+                if (current.uuid == bd_group_supplier_uuid) {
                     var total_rate = scope.calculateDiscountGroupTotalRate(current.discounts);
 
                     details.name = current.name

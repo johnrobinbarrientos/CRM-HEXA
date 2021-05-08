@@ -29,9 +29,14 @@ use App\Models\PurchaseOrderItem;
 use App\Models\PurchaseOrderSupplierBaseDiscountGroup;
 
 use App\Models\PurchaseOrderAdditionalDiscount; 
-use App\Models\PurchaseOrderBaseDiscountGroup; 
-use App\Models\PurchaseOrderBaseDiscountGroupDetail; 
-use App\Models\PurchaseOrderBaseDiscountGroupItem; 
+
+//use App\Models\PurchaseOrderBaseDiscountGroup; 
+//use App\Models\PurchaseOrderBaseDiscountGroupDetail; 
+//use App\Models\PurchaseOrderBaseDiscountGroupItem; 
+
+use App\Models\POBDGroupSupplier; 
+use App\Models\POBDGroupSupplierDiscount; 
+use App\Models\POBDGroupSupplierDiscountExcludedItem; 
 
 use App\Models\PurchasePriceRule;  
 use App\Models\PurchasePriceRuleDetail;  
@@ -51,27 +56,28 @@ class BuyAndPayItemController extends Controller
 
         $po_date = date('Y-m-d',strtotime($order->date_purchased));
 
-        $base_discounts = PurchaseOrderBaseDiscountGroupDetail::where('bp_order_uuid',$order->uuid)
-            ->with('PurchaseOrderBaseDiscountGroup')
+        $pobd_group_suppliers = POBDGroupSupplier::where('purchase_order_uuid',$order->uuid)
+            ->with('Discounts')
             ->get();
 
+        dd($pobd_group_suppliers);
 
-        foreach ($base_discounts as $base_discount) {
-            $purchase_order_base_discount_group = PurchaseOrderBaseDiscountGroup::find($base_discount->bp_order_base_discount_group_uuid);
-            $supplier_base_discount_group_uuid = $purchase_order_base_discount_group->supplier_base_discount_group_uuid;
 
-            $base_discount->purchase_order_base_discount_group = $purchase_order_base_discount_group;
-            $base_discount_group_items = SupplierBaseDiscountGroupItem::where('supplier_base_discount_group_uuid','=',$supplier_base_discount_group_uuid)->pluck('item_uuid')->toArray();
-            $base_discount->items = $base_discount_group_items;
-            $base_discount->discount_amount = 0.00;
+        foreach ($pobd_group_suppliers as $pobd_group_supplier) {
+            //$base_discount->purchase_order_base_discount_group = $purchase_order_base_discount_group;
+            $base_discount_group_items = ItemSupplier::where('bd_group_supplier_uuid','=',$pobd_group_supplier->reference_uuid)->pluck('item_uuid')->toArray();
+            $pobd_group_supplier->items = $base_discount_group_items;
+            $pobd_group_supplier->amount = 0.00;
         }
      
-
+    
+        
+        /*
         $price_rule_supplier_uuids = PriceRuleSupplier::where('date_start','<=',$po_date)
             ->where('date_end','>=',$po_date)
             ->pluck('uuid')
             ->toArray();
-
+       
 
         $price_rules = PriceRuleSupplierDetail::whereIn('price_rule_supplier_uuid',$price_rule_supplier_uuids)
             ->with('PriceRuleSupplier')
@@ -82,6 +88,7 @@ class BuyAndPayItemController extends Controller
             $price_rule->items = $price_rule_items;
         }
 
+         */
         $additional_discounts = PurchaseOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->get();
 
         foreach ($items as $item) {
@@ -128,8 +135,9 @@ class BuyAndPayItemController extends Controller
             'rows' => $items, 
             'selected_items' => $selected_items, 
             'additional_discounts' => $additional_discounts, 
-            'base_discounts' => $base_discounts, 
-            'price_rules' => $price_rules
+            'base_discounts' => $pobd_group_suppliers, 
+            //'price_rules' => $price_rules
+            'price_rules' =>[]
         ], 200);
     }
 
@@ -211,18 +219,21 @@ class BuyAndPayItemController extends Controller
         $orderUUID = $order->uuid;
 
         if ($type === 'orders') {
-            $supplier_base_discount_group_uuids = PurchaseOrderBaseDiscountGroup::where('bp_order_uuid','=',$orderUUID)
-            ->pluck('supplier_base_discount_group_uuid')
+            $bd_group_supplier_uuids = POBDGroupSupplier::where('purchase_order_uuid','=',$orderUUID)
+            ->pluck('reference_uuid')
             ->toArray();
 
-            if (count($supplier_base_discount_group_uuids) > 0) {
-                // only get items on selected supplier discount groups table
-                $item_uuids = SupplierBaseDiscountGroupItem::whereIn('supplier_base_discount_group_uuid',$supplier_base_discount_group_uuids)
+            // IF "Discount Group" is specified, only get items on selected "bd_group_suppliers"
+            if (count($bd_group_supplier_uuids) > 0) {
+                
+                $item_uuids = ItemSupplier::whereIn('bd_group_supplier_uuid',$bd_group_supplier_uuids)
+                    ->where('supplier_uuid','=',$order->supplier_uuid)
                     ->pluck('item_uuid')
                     ->toArray();
 
                 $items = ItemList::whereIn('uuid',$item_uuids)->orderBy('item_description')->get();
             } else {
+                // ELSE get all items of the selected supplier
                 $item_uuids = ItemSupplier::where('supplier_uuid','=',$order->supplier_uuid)->pluck('item_uuid')->toArray();
                 $items = ItemList::whereIn('uuid',$item_uuids)->orderBy('item_description')->get();
             }
