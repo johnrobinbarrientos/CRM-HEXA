@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="ready">
         <div class="card hx-card-override">
             <div class="card-header">
                 <h5 class="mb-0">General Information</h5>
@@ -78,10 +78,14 @@
                         <div class="col-md-3 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="main-project-type">Project Type</label>
-                                <select class="form-select-project-type" v-model="selected_project_type" :options="options_project_type" name="main-project-type" :disabled="view_mode">
-                                </select>
+                                <!-- <select class="form-select-project-type" v-model="selected_project_type" :options="options_project_type" name="main-project-type" :disabled="view_mode">
+                                </select> -->
+                                <multiselect  v-model="selected_project_type" :options="options_project_type" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="project_new_mode">
+                                    <span slot="noResult">No Results</span>
+                                </multiselect>
                             </div>
                         </div>
+
 
                         <div class="col-md-3 col-12">
                             <div class="form-group">
@@ -132,8 +136,13 @@ export default {
 
     data: function () {
         return {
+            prerequiste: {
+                getProjectType: false,
+            },
 
-            selected_project_type: null,
+            project_new_mode: true,
+
+            selected_project_type: [],
             options_project_type: [],
 
             formdata: { 
@@ -149,24 +158,49 @@ export default {
             }
         }
     },
-    // components: {
-    //     'scope-of-work': ScopeOfWork
-    // },
+
+    computed: {
+        ready: function () {
+            var scope = this
+
+            if (scope.prerequiste.getProjectType) {
+                return true
+            }
+
+            return false
+        }
+    },
+
+    watch: {
+        ready: function (val) {
+            var scope = this
+            if (val) {
+                setTimeout(function(){
+
+                var projectUUID = scope.$route.params.projectUUID
+                scope.getProjectDetails(projectUUID)
+
+                },100) 
+            } 
+        },
+
+    },
+
     methods: {
 
         getProjectType: function () {
            var scope = this
+
             scope.GET('projects/project-type').then(res => {
                 res.rows.forEach(function (data) {
+
                     scope.options_project_type.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.type
                     })
                 })
 
-                $(".form-select-project-type").select2({data: scope.options_project_type});
-                
-                scope.selected_project_type = scope.options_project_type[0].id
+                scope.prerequiste.getProjectType = true
             })
 
         },
@@ -174,7 +208,7 @@ export default {
         save: function () {
             var scope = this
 
-            scope.formdata.project_type_uuid = scope.selected_project_type
+            scope.formdata.project_type_uuid = (scope.selected_project_type == null) ? null : scope.selected_project_type.uuid
 
             scope.PUT('projects', scope.formdata).then(res => {
                 if (res.success) {
@@ -196,7 +230,7 @@ export default {
         update: function () {
             var scope = this
 
-            scope.formdata.project_type_uuid = scope.selected_project_type
+            scope.formdata.project_type_uuid = (scope.selected_project_type == null) ? null : scope.selected_project_type.uuid
             
             window.swal.fire({
                 title: 'Update?',
@@ -236,7 +270,11 @@ export default {
                 scope.formdata.uuid = projectUUID
                 scope.formdata.project_code = "To be generated"
 
+
                 if (data.is_draft=== 0) {
+
+                    scope.project_new_mode = false
+
                     scope.formdata.is_draft = data.is_draft
                     scope.formdata.project_code = data.project_code
                     scope.formdata.project_name = data.project_name
@@ -246,8 +284,14 @@ export default {
                     scope.formdata.cost = data.cost
 
 
-                    $('.form-select-project-type').val(data.project_type_uuid);
-                    $('.form-select-project-type').trigger('change');
+                    if (data.project_type !== null){
+                        scope.selected_project_type = {
+                            uuid: data.project_type.uuid,
+                            text: data.project_type.type
+                        }
+                    }
+
+
                 }
                 
             })
@@ -256,14 +300,7 @@ export default {
     mounted() {
         var scope = this
 
-        var projectUUID = scope.$route.params.projectUUID
-        scope.getProjectDetails(projectUUID)
-
-        scope.getProjectType()
-
-        $('.form-select-project-type').on("change", function(e) { 
-            scope.selected_project_type = $('.form-select-project-type').val();
-        })
+        scope.getProjectType()        
 
     },
 }

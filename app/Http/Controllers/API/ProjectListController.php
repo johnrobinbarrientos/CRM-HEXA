@@ -8,7 +8,7 @@ use App\Models\CompanyList;
 use App\Models\ProjectList;
 use Illuminate\Support\Facades\Auth; 
 
-class ProjectController extends Controller
+class ProjectListController extends Controller
 {
     public function index()
     {
@@ -95,7 +95,7 @@ class ProjectController extends Controller
 
     public function show($projectUUID) // set update records
     {
-        $project = ProjectList::find($projectUUID);
+        $project = ProjectList::with('ProjectType')->find($projectUUID);
 
         if (!$project) {
             return response()->json(['success' => 0, 'data' => null, 'Not found'], 500);

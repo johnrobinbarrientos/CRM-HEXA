@@ -171,10 +171,10 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         
 
         
-        Route::get('/', 'API\ProjectController@index');
-        Route::post('/', 'API\ProjectController@store');
-        Route::put('/', 'API\ProjectController@update');
-        Route::get('/{project_uuid}','API\ProjectController@show');
+        Route::get('/', 'API\ProjectListController@index');
+        Route::post('/', 'API\ProjectListController@store');
+        Route::put('/', 'API\ProjectListController@update');
+        Route::get('/{project_uuid}','API\ProjectListController@show');
 
     });
 
