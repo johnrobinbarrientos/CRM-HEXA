@@ -158,7 +158,7 @@
 
                                             <div class="col-lg-3">
                                                 <div class="form-group">
-                                                    <label class="form-label" for="tax-charge">Tax Charge</label>
+                                                    <label class="form-label" for="tax-charge">Tax/Charge</label>
                                                     <div class="form-control-wrap">
                                                         <input v-model="formdata.tax_charge" style="text-transform: uppercase;  font-weight: bold; " type="text" class="form-control" id="tax-charge" :readonly="view_mode">
                                                     </div>

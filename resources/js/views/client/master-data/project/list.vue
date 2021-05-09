@@ -147,7 +147,7 @@ export default {
 
             scope.timer = setTimeout(() => {
                 scope.getProjectList()
-            }, 800);
+            }, 100);
         },
         listPaginate: function(page) {
             var scope = this
