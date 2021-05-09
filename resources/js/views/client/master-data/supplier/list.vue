@@ -148,15 +148,6 @@ export default {
                 scope.listResults = res.results
             })
         },
-        create: function () {
-            var scope = this
-
-            scope.POST('suppliers').then(res => {
-                if (res.success) {
-                   scope.ROUTE({path: '/suppliers/' + res.data.uuid })
-                }
-            })
-        },
         search: function () {
             var scope = this
             if (scope.timer) {

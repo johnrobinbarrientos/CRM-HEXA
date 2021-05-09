@@ -12,6 +12,9 @@ import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 import Multiselect from 'vue-multiselect'
 import 'vue-multiselect/dist/vue-multiselect.min.css'
 
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+
 
 
 // CSS 
@@ -59,6 +62,8 @@ Vue.mixin(mixins)
 Vue.mixin(require('./assets'));
 
 Vue.component('multiselect', Multiselect)
+
+Vue.component('DatePicker', DatePicker)
 
 window.swal = require('sweetalert2')
 

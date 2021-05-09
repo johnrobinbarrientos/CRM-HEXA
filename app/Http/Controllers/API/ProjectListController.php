@@ -12,7 +12,7 @@ class ProjectListController extends Controller
 {
     public function index()
     {
-        $list = ProjectList::where('is_draft','=', 0)->whereNull('deleted_at')
+        $list = ProjectList::whereNull('deleted_at')
         ->with('ProjectType');
 
         if (!empty(request()->keyword)) {
@@ -38,45 +38,30 @@ class ProjectListController extends Controller
         return response()->json(['success' => 1, 'rows' => $list, 'count' => $count, 'offset' => $offset, 'results' => count($list)], 200);
     }
 
-    public function store() // initialize draft
-    {
-        $project =  ProjectList::where('is_draft','=', 1)->first();
 
-        if (!$project) {
-
-            $project = new ProjectList();
-
-            $project->save();
-        }
-
-
-        $project = ProjectList::find($project->uuid);
-        return response()->json(['success' => 1, 'data' => $project], 200);
-    }
-
-    public function update()
+    public function save()
     {
         $project =  ProjectList::find(request()->uuid);
-        
-        if (!$project) {
-            return response()->json(['success' => 0, 'data' => null, 'Not found'], 500);
-        }
+        $is_new =  ($project) ? false : true ;
+        $project = ($project) ? $project : new ProjectList();
 
-        $prefix = $this->getCompanyPrefix();
-        $type = 'PR';
-        $no_of_transactions = $this->getNumberOfTransactions(request()->uuid) + 1;
-        $year = date('Y');
-        $month = date('m');
-        $day = date('d');
-        $created_id = sprintf($type.'_'.$prefix.''.$year.''.$month.''.$day.'%05d',$no_of_transactions);
+        if ($is_new){
+            $prefix = $this->getCompanyPrefix();
+            $type = 'PR';
+            $no_of_transactions = $this->getNumberOfTransactions(request()->uuid) + 1;
+            $year = date('Y');
+            $month = date('m');
+            $day = date('d');
+            $created_id = sprintf($type.'_'.$prefix.''.$year.''.$month.''.$day.'%05d',$no_of_transactions);
+
+            $project->project_code = $created_id;
+        }
         
-        //var_dump(request()->date_start);
-        //die();
-        
-        $project->project_code = $created_id;
         $project->project_name = request()->project_name;
         $project->project_shortname = request()->project_shortname;
         $project->project_type_uuid = request()->project_type_uuid;
+        $project->cost = (request()->cost == null)? 0 : request()->cost;
+        
         $project->date_start = date('Y-m-d',strtotime(request()->date_start));
         
         if (request()->end_date == ''){
@@ -85,8 +70,7 @@ class ProjectListController extends Controller
             $project->end_date = date('Y-m-d',strtotime(request()->end_date));
         }
         
-        $project->cost = request()->cost;
-        $project->is_draft = 0;
+
         $project->save();
 
         $project = ProjectList::find($project->uuid);

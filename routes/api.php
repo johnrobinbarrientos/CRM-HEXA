@@ -172,8 +172,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
         
         Route::get('/', 'API\ProjectListController@index');
-        Route::post('/', 'API\ProjectListController@store');
-        Route::put('/', 'API\ProjectListController@update');
+        Route::post('/', 'API\ProjectListController@save');
         Route::get('/{project_uuid}','API\ProjectListController@show');
 
     });
