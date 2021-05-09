@@ -60,7 +60,12 @@ class ProjectListController extends Controller
         $project->project_name = request()->project_name;
         $project->project_shortname = request()->project_shortname;
         $project->project_type_uuid = request()->project_type_uuid;
+
         $project->cost = (request()->cost == null)? 0 : request()->cost;
+        $project->profit = (request()->profit == null)? 0 : request()->profit;
+        $project->ocm = (request()->ocm == null)? 0 : request()->ocm;
+        $project->tax_charge = (request()->tax_charge == null)? 0 : request()->tax_charge;
+        $project->other = (request()->other == null)? 0 : request()->other;
         
         $project->date_start = date('Y-m-d',strtotime(request()->date_start));
         

@@ -117,7 +117,70 @@
                          
                     </div>
 
-                </form>     
+                </form>
+
+                    <br/>
+                    <div class="hx-tab-2 round">
+                            <ul class="nav nav-tabs">
+                                <li>        
+                                    <a class="active" data-toggle="tab" href="#charges">Charges</a>    
+                                </li>
+                            </ul>
+
+                            <div class="clearfix"></div>
+
+                            <div class="tab-content">
+
+                                <div class="tab-pane active" id="charges">
+
+                                    <div class="row">
+
+                                            <div class="col-lg-3">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="profit">Profit</label>
+                                                    <div class="form-control-wrap">
+                                                        <input v-model="formdata.profit" style="text-transform: uppercase;  font-weight: bold; " type="text" class="form-control" id="profit" :readonly="view_mode">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="ocm">OCM</label>
+                                                    <div class="form-control-wrap">
+                                                        <input v-model="formdata.ocm" style="text-transform: uppercase; font-weight: bold;" type="text" class="form-control" id="ocm" :readonly="view_mode">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+
+                                    <div class="row">
+
+                                            <div class="col-lg-3">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="tax-charge">Tax Charge</label>
+                                                    <div class="form-control-wrap">
+                                                        <input v-model="formdata.tax_charge" style="text-transform: uppercase;  font-weight: bold; " type="text" class="form-control" id="tax-charge" :readonly="view_mode">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="other">Other</label>
+                                                    <div class="form-control-wrap">
+                                                        <input v-model="formdata.other" style="text-transform: uppercase;  font-weight: bold; " type="text" class="form-control" id="other" :readonly="view_mode">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                    </div> 
+
+                                </div>
+                            </div>
+                    </div>
+
+
                 </div>
             </div>
 
@@ -155,6 +218,10 @@ export default {
                 date_start: moment(Date.now()).format('DD-MMM-YYYY'),
                 end_date: '',
                 cost: '',
+                profit: '',
+                ocm: '',
+                tax_charge: '',
+                other: '',
             }
         }
     },
@@ -282,6 +349,11 @@ export default {
                 scope.formdata.date_start = moment(data.date_start).format('DD-MMM-YYYY')
                 scope.formdata.end_date =  moment(data.end_date).format('DD-MMM-YYYY')
                 scope.formdata.cost = data.cost
+
+                scope.formdata.profit = data.profit
+                scope.formdata.ocm = data.ocm
+                scope.formdata.tax_charge = data.tax_charge
+                scope.formdata.other = data.other
 
 
                 if (data.project_type !== null){
