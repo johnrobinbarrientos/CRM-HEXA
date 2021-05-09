@@ -191,7 +191,6 @@
 <script>
 
 
-// import ScopeOfWork from './scope-of-work'
 import moment from 'moment'
 
 export default {
