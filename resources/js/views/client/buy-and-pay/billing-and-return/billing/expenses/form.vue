@@ -38,7 +38,7 @@
                 <div class="col-12 col-md-6">
                     <div class="form-group mb-4">
                         <label class="form-label" for="project-list"><strong>Project</strong></label>
-                        <multiselect  v-model="selected_project" :options="options_projects" track-by="uuid" label="text" deselect-label="Deselect" selectLabel="Select">
+                        <multiselect  v-model="selected_project" :options="options_projects" :multiple="true" track-by="uuid" label="text" deselect-label="Deselect" selectLabel="Select">
                             <span slot="noResult">No Results</span>
                         </multiselect>
                     </div>
@@ -69,7 +69,7 @@ export default {
                 amount: 0.00,
                 supplier_uuid: null,
                 branch_location_uuid: null,
-                project_uuid: null
+                projects: []
             },
 
             selected_supplier: [],
@@ -162,9 +162,21 @@ export default {
         save: function() {
             var scope = this
 
+            console.log(scope.selected_project)
+
             scope.formdata.supplier_uuid = (scope.selected_supplier == null) ? null : scope.selected_supplier.uuid
             scope.formdata.branch_location_uuid = (scope.selected_branch_location == null) ? null : scope.selected_branch_location.uuid
-            scope.formdata.project_uuid = (scope.selected_project == null) ? null : scope.selected_project.uuid
+
+            scope.selected_project.forEach(function (data) {
+                    scope.formdata.projects.push({
+                        uuid: data.uuid,
+                    })
+
+                })
+
+                // scope.formdata.projects = scope.selected_project
+
+            console.log(scope.formdata.projects)
 
             var qs = jQuery.param( scope.formdata );
             scope.ROUTE({path: '/buy-and-pay/bills/create-expenses?' + qs })

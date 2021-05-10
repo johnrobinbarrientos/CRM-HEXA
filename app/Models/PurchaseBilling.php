@@ -47,6 +47,9 @@ class PurchaseBilling extends Model
         return $this->belongsTo('App\Models\CompanyBranchLocation','branch_location_uuid','uuid');
     }
 
+    public function BillingProjects(){
+        return $this->belongsTo('App\Models\PurchaseBillingProject','purchase_billing_uuid','uuid');
+    }
 
-   
+
 }

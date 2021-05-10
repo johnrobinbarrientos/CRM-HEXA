@@ -187,10 +187,17 @@ class BuyAndPayBillController extends Controller
             $branch = CompanyBranch::find($formdata->branch_uuid);
             $branch_location = CompanyBranchLocation::find($formdata->branch_location_uuid);
 
-            $project = ProjectList::find($formdata->project_uuid);
+            // $project = ProjectList::find($formdata->projects);
+
+            $x = 0;
+            foreach ($formdata->projects as $project) {
+                $project = (object) $project;
+                $projects[$x] = ProjectList::find($project->uuid);
+                $x++;
+            }
     
             // dummy data for billing for non-existing billing
-            $data = ['id' => null, 'uuid' => null, 'transaction_type' => $type, 'supplier' => $supplier, 'branch' => $branch, 'branch_location' => $branch_location, 'project' => $project, 'amount' => $amount];
+            $data = ['id' => null, 'uuid' => null, 'transaction_type' => $type, 'supplier' => $supplier, 'branch' => $branch, 'branch_location' => $branch_location, 'projects' => $projects, 'amount' => $amount];
             $bill = (object) $data;
 
             return response()->json(['success' => 1, 'data' => $bill], 200);

@@ -82,10 +82,13 @@
                                             </div>
                                         </div>
 
-                                        <div v-if="bill.project != null" class="col-md-3 col-12">
+                                        <div v-if="bill.projects != null" class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="project">Project</label>
-                                                <input type="text" class="form-control disabled" v-model="bill.project.project_name" readonly>
+                                                <!-- <input type="text" class="form-control disabled" v-model="bill.project.project_name" readonly> -->
+                                                <multiselect  v-model="selected_projects" :options="options_projects" :multiple="true" track-by="uuid" label="text" deselect-label="Deselect" selectLabel="Select" :disabled="true">
+                                                    <span slot="noResult">No Results</span>
+                                                </multiselect>
                                             </div>
                                         </div>
 
@@ -144,7 +147,7 @@
                                 </div>
 
 
-                                <table v-if="bill.project == null" class="table table-bordered mb-0">
+                                <table v-if="bill.projects == null" class="table table-bordered mb-0">
                                     <thead class="th-nowrap">
                                         <tr>
                                             <th width="40" >Action</th>
@@ -334,6 +337,7 @@ export default {
             },
 
             bill: [],
+
             DRAFT: true,
             ACTION: 'view',
 
@@ -344,6 +348,9 @@ export default {
             options_coa_expense: [],
             options_project_scope: [],
             options_scope_detail: [],
+
+            selected_projects: [],
+            options_projects: [],
 
             TAXES: {
                 EWT: {
@@ -365,8 +372,8 @@ export default {
             if (val) {
                 setTimeout(function(){
 
-                    if(scope.bill.project != null){
-                        scope.getProjectScopes()
+                    if(scope.bill.projects != null){
+                        scope.getProjectScopes(scope.bill.projects[0].project_type_uuid)
                         scope.getProjectExpenses()
                     }else{
                         scope.getExpenses()
@@ -434,16 +441,29 @@ export default {
             scope.GET(URL).then(res => {
 
                 scope.bill = res.data
+
+                console.log(scope.bill)
                 
 
                 scope.bill.transaction_no = (!scope.bill.transaction_no || scope.bill.transaction_no == '') ? 'To be generated' : scope.bill.transaction_no
                 scope.bill.transaction_date = (!scope.bill.transaction_date || scope.bill.transaction_date == '') ? moment() : scope.bill.transaction_date
-
                 scope.temp_amount = parseFloat(scope.bill.amount)
 
-                scope.calculateTax();
-                //console.log(scope.bill)
+                scope.bill.projects.forEach(function (data) {
+                    scope.options_projects.push({
+                        uuid: data.uuid,
+                        text: data.project_name,
+                    })
 
+                    scope.selected_projects.push({
+                        uuid: data.uuid,
+                        text: data.project_name
+                    })
+                
+                })
+
+                
+                scope.calculateTax();
 
                 scope.prerequiste.getBillDetails = true
             })
@@ -567,10 +587,10 @@ export default {
             })
         },
 
-        getProjectScopes: function () {
+        getProjectScopes: function (project_type_uuid) {
             var scope = this
 
-            scope.GET('projects/project-type-scope/' + scope.bill.project.project_type_uuid).then(res => {
+            scope.GET('projects/project-type-scope/' + project_type_uuid).then(res => {
 
                 res.rows.forEach(function (data) {
                     scope.options_project_scope.push({
