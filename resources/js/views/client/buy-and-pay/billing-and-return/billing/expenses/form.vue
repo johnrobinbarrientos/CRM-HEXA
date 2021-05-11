@@ -162,8 +162,6 @@ export default {
         save: function() {
             var scope = this
 
-            console.log(scope.selected_project)
-
             scope.formdata.supplier_uuid = (scope.selected_supplier == null) ? null : scope.selected_supplier.uuid
             scope.formdata.branch_location_uuid = (scope.selected_branch_location == null) ? null : scope.selected_branch_location.uuid
 
@@ -173,10 +171,6 @@ export default {
                     })
 
                 })
-
-                // scope.formdata.projects = scope.selected_project
-
-            console.log(scope.formdata.projects)
 
             var qs = jQuery.param( scope.formdata );
             scope.ROUTE({path: '/buy-and-pay/bills/create-expenses?' + qs })

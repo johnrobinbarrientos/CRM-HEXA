@@ -15,9 +15,9 @@
                                 <span>Back</span>
                             </a>
 
-                            <!-- <a @click="test()" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
+                            <a @click="test()" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
                                 <span>Test</span>
-                            </a> -->
+                            </a>
                             
                             <a v-if ="!bill.uuid" @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                                 <span>Bill</span>
@@ -213,7 +213,8 @@
                                         <tr>
                                             <th width="40" >Action</th>
                                             <th>Account</th>
-                                            <th>Amount</th> 
+                                            <th>Amount</th>
+                                            <th>Project</th>
                                             <th>Project Scope</th>
                                             <th>Details</th>
                                             <th>Memo</th>
@@ -241,17 +242,23 @@
                                             </td>
 
                                             <td>
+                                                <select style="width:100%; border:none;" v-model="expense.project_uuid" @change="getProjectScopes(expense,index)" class="editable-control" :disabled="ACTION != 'edit'">
+                                                    <option v-for="project in options_projects" :value="project.id" :key="'project-' + project.id">
+                                                        {{ project.text }}
+                                                    </option>
+                                                </select>
+                                            </td>
+
+                                            <td>
                                                 <select style="width:100%; border:none;" v-model="expense.project_scope_uuid" @change="getScopeDetails(expense,index)" class="editable-control" :disabled="ACTION != 'edit'">
-                                                    <option value="null" disabled selected hidden>Select Scope</option>
-                                                    <option v-for="prj_scope in options_project_scope" :value="prj_scope.id" :key="'prj_scope-' + prj_scope.id">
+                                                    <option v-for="prj_scope in expense.prjScopes" :value="prj_scope.id" :key="'prj_scope-' + prj_scope.id">
                                                         {{ prj_scope.text }}
                                                     </option>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select style="width:100%; border:none;" v-model="expense.scope_details_uuid" class="editable-control" :disabled="ACTION != 'edit'">
-                                                    <option value="null" disabled selected hidden>Select Details</option>
-                                                    <option v-for="scope_detail in expense.scope_details" :value="scope_detail.id" :key="'scope_detail-' + scope_detail.id">
+                                                    <option v-for="scope_detail in expense.prjScopeDetails" :value="scope_detail.id" :key="'scope_detail-' + scope_detail.id">
                                                         {{ scope_detail.text }}
                                                     </option>
                                                 </select>
@@ -373,7 +380,6 @@ export default {
                 setTimeout(function(){
 
                     if(scope.bill.projects != null){
-                        scope.getProjectScopes(scope.bill.projects[0].project_type_uuid)
                         scope.getProjectExpenses()
                     }else{
                         scope.getExpenses()
@@ -451,13 +457,14 @@ export default {
 
                 scope.bill.projects.forEach(function (data) {
                     scope.options_projects.push({
-                        uuid: data.uuid,
+                        id: data.uuid,
                         text: data.project_name,
+                        project_type_uuid: data.project_type_uuid
                     })
 
                     scope.selected_projects.push({
-                        uuid: data.uuid,
-                        text: data.project_name
+                        id: data.uuid,
+                        text: data.project_name,
                     })
                 
                 })
@@ -471,7 +478,7 @@ export default {
 
         test: function () {
             var scope = this;
-            console.log(scope.expenses)
+            console.log(scope.bill)
 
         },
 
@@ -481,7 +488,7 @@ export default {
 
             var amount = scope.AMOUNT_TO_ALLOCATE
 
-            if (scope.bill.project == null) {
+            if (scope.bill.projects == null) {
                             
                 scope.expenses.push({
                     uuid: null,
@@ -493,16 +500,21 @@ export default {
                 })
             
             }else{
-                
+
                 scope.expenses.push({
                     uuid: null,
                     coa_uuid: scope.bill.supplier.coa_expense_account_uuid,
                     amount: amount,
+                    project_uuid: (scope.options_projects!= null) ? scope.options_projects[0].id : null,
                     project_scope_uuid: null,
                     scope_details_uuid: null,
-                    scope_details: [],
+                    prjScopes:[],
+                    prjScopeDetails: [],
                     memo_1: null,
                 })
+
+
+                scope.getProjectScopes(scope.expenses[scope.expenses.length -1], scope.expenses.length -1, true)
                 
             }
         },
@@ -558,10 +570,11 @@ export default {
 
             scope.GET('buy-and-pay/bills/' + scope.bill.uuid + '/project-expenses/details').then(res => {
                 scope.expenses = res.rows
-
+                // console.log('scope.expenses')
+                // console.log(scope.expenses)
                 res.rows.forEach(function (data) {
                     data.scopeDetails.forEach(function (details) {
-                        scope.expenses[x].scope_details.push({ id: details.uuid,text: details.detail})
+                        scope.expenses[x].prjScopeDetails.push({ id: details.uuid,text: details.detail})
                     })
                     x++
                 })
@@ -587,8 +600,19 @@ export default {
             })
         },
 
-        getProjectScopes: function (project_type_uuid) {
+        getProjectScopes: function (expense, index) {
             var scope = this
+
+            var project_type_uuid = null
+            scope.options_project_scope = []
+
+            scope.bill.projects.forEach(function (project) {
+                if (project.uuid == expense.project_uuid){
+                    project_type_uuid = project.project_type_uuid
+                    
+                }
+            })
+
 
             scope.GET('projects/project-type-scope/' + project_type_uuid).then(res => {
 
@@ -598,12 +622,30 @@ export default {
                         text: data.type_scope.scope_of_work
                     })
 
+                    scope.expenses[index].prjScopes = scope.options_project_scope
                 })
+
+
+                if(scope.options_project_scope.length < 1){
+                    
+                    scope.expenses[index].project_scope_uuid  = null
+                    scope.expenses[index].prjScopes = []
+
+                }else{
+                    
+                    scope.expenses[index].project_scope_uuid  = scope.options_project_scope[0].id
+
+                }
+
+                scope.getScopeDetails(scope.expenses[index], index)
+                
             })
+
+            
         },
 
 
-        getScopeDetails: function (expense,index) {
+        getScopeDetails: function (expense, index) {
             var scope = this
 
             scope.options_scope_detail = []
@@ -615,15 +657,26 @@ export default {
                         text: data.detail
                     })
 
-                    scope.expenses[index].scope_details = scope.options_scope_detail
+                    scope.expenses[index].prjScopeDetails = scope.options_scope_detail
                 })
+
+                if(scope.options_scope_detail.length < 1){
+                    
+                    scope.expenses[index].scope_details_uuid  = null
+                    scope.expenses[index].prjScopeDetails = []
+
+                }else{
+                    
+                    scope.expenses[index].scope_details_uuid  = scope.options_scope_detail[0].id
+                }
+
             })
         },
 
         save: function () {
             var scope = this
 
-            var URL = (scope.bill.project==null) ? 'buy-and-pay/bills/expenses': 'buy-and-pay/bills/project-expenses';
+            var URL = (scope.bill.projects==null) ? 'buy-and-pay/bills/expenses': 'buy-and-pay/bills/project-expenses';
 
             if (scope.bill.uuid){
 

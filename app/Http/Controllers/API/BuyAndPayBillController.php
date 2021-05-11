@@ -39,6 +39,7 @@ use App\Models\PurchasePriceRuleItem;
 
 use App\Models\PurchaseBilling; 
 use App\Models\PurchaseBillingExpense;
+use App\Models\PurchaseBillingProject;
 use App\Models\PurchaseBillingProjectExpense;
 
 use App\Models\ProjectList;
@@ -444,8 +445,10 @@ class BuyAndPayBillController extends Controller
         $supplier_uuid = $formdata->supplier['uuid'];
         $branch_uuid = $formdata->branch['uuid'];
         $branch_location_uuid = $formdata->branch_location['uuid'];
-        $project_uuid = $formdata->project['uuid'];
+        $projects = $formdata->projects;
 
+        // var_dump($formdata->projects);
+        // die();
 
         $bill = PurchaseBilling::find($bill_uuid);
         $is_new =  ($bill) ? false : true ;
@@ -465,8 +468,7 @@ class BuyAndPayBillController extends Controller
             $bill->transaction_no =  $created_id;      
             $bill->supplier_uuid = $supplier_uuid;        
             $bill->branch_uuid =  $branch_uuid;     
-            $bill->branch_location_uuid = $branch_location_uuid;     
-            $bill->project_uuid = $project_uuid;       
+            $bill->branch_location_uuid = $branch_location_uuid;        
             $bill->transaction_date = date('Y-m-d');  
             $bill->status = 'To Pay';
             $bill->transaction_type = 'Expenses';
@@ -474,11 +476,22 @@ class BuyAndPayBillController extends Controller
 
         $bill->amount = $formdata->amount;  
         $bill->save();
-
         $bill = PurchaseBilling::find($bill->uuid);
 
-        $expenses = (is_array(request()->expenses)) ? request()->expenses : [];
+        if ($is_new){
+            foreach ($projects as $project) {
+                $prj = (object) $project;
+                $new = new PurchaseBillingProject;
+                $new->purchase_billing_uuid = $bill->uuid;
+                // var_dump($prj->uuid);
+                // die();
+                $new->project_uuid = $prj->uuid;
+                $new->save();
+            }
+        }
 
+
+        $expenses = (is_array(request()->expenses)) ? request()->expenses : [];
         $expenses_uuids = [];
 
         foreach ($expenses as $expense) {
@@ -497,6 +510,7 @@ class BuyAndPayBillController extends Controller
             $new->purchase_billing_uuid = $bill->uuid;
             $new->coa_uuid = $expense->coa_uuid;
             $new->amount = $expense->amount;
+            $new->project_uuid = $expense->project_uuid;
             $new->project_scope_uuid = $expense->project_scope_uuid;
             $new->scope_details_uuid = $expense->scope_details_uuid;
             $new->memo_1 = $expense->memo_1;
@@ -551,10 +565,10 @@ class BuyAndPayBillController extends Controller
 
             $expense = (object) $expense;
 
-            $scope_details = ProjectScopeDetail::where('project_scope_uuid','=',$expense->project_scope_uuid)->get();
+            $scopeDetails = ProjectScopeDetail::where('project_scope_uuid','=',$expense->project_scope_uuid)->get();
 
-            $expenses[$x]['scopeDetails'] = $scope_details;
-            $expenses[$x]['scope_details'] = [];
+            $expenses[$x]['scopeDetails'] = $scopeDetails;
+            $expenses[$x]['prjScopeDetails'] = [];
 
             $x++;
         }
