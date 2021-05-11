@@ -478,7 +478,7 @@ export default {
 
         test: function () {
             var scope = this;
-            console.log(scope.bill)
+            console.log(scope.expenses)
 
         },
 
@@ -570,12 +570,17 @@ export default {
 
             scope.GET('buy-and-pay/bills/' + scope.bill.uuid + '/project-expenses/details').then(res => {
                 scope.expenses = res.rows
-                // console.log('scope.expenses')
-                // console.log(scope.expenses)
+
                 res.rows.forEach(function (data) {
+                    
                     data.scopeDetails.forEach(function (details) {
                         scope.expenses[x].prjScopeDetails.push({ id: details.uuid,text: details.detail})
                     })
+
+                    data.porjectScopes.forEach(function (prjScope) {
+                        scope.expenses[x].prjScopes.push({ id: prjScope.type_scope.uuid, text: prjScope.type_scope.scope_of_work})
+                    })
+
                     x++
                 })
 

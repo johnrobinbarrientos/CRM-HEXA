@@ -45,6 +45,7 @@ use App\Models\PurchaseBillingProjectExpense;
 use App\Models\ProjectList;
 use App\Models\ProjectScope;
 use App\Models\ProjectScopeDetail;
+use App\Models\ProjectTypeScope;
 
 
 use Illuminate\Support\Facades\Auth; 
@@ -222,6 +223,7 @@ class BuyAndPayBillController extends Controller
 
         $branch_location = CompanyBranchLocation::find($bill->branch_locations_uuid);
         $bill->branch_location = $branch_location;
+
 
         if ($bill->transaction_type == 'Inventory') {
       
@@ -541,10 +543,20 @@ class BuyAndPayBillController extends Controller
         $bill->branch_location = $branch_location;
 
 
-        if($bill->project_uuid!=null){
-            $project = ProjectList::find($bill->project_uuid);
-            $bill->project = $project;
+        $billingProjects = PurchaseBillingProject::where('purchase_billing_uuid','=',$billingUUID)->get();
+
+        $x = 0;
+        $projects = [];
+
+        foreach ($billingProjects as $billingProject) {
+            $billingProject = (object) $billingProject;
+
+            $projects[$x] = ProjectList::find($billingProject->project_uuid);
+            $x++;
         }
+
+
+        $bill['projects'] = $projects;
 
         return response()->json(['success' => 1, 'data' => $bill], 200);
     }
@@ -570,6 +582,13 @@ class BuyAndPayBillController extends Controller
             $expenses[$x]['scopeDetails'] = $scopeDetails;
             $expenses[$x]['prjScopeDetails'] = [];
 
+            $project =  ProjectList::find($expense->project_uuid);
+
+            $porjectScopes = ProjectTypeScope::where('project_type_uuid','=',$project->project_type_uuid)->with('TypeScope')->get();
+
+            $expenses[$x]['porjectScopes'] = $porjectScopes;
+            $expenses[$x]['prjScopes'] = [];
+            
             $x++;
         }
 
