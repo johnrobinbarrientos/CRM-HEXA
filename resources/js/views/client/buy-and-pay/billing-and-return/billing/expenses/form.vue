@@ -15,7 +15,7 @@
                 <div class="col-12 col-md-6">
                     <div class="form-group">
                         <label>Branch</label>
-                        <input type="text" class="form-control disabled" v-model="branch_name" readonly >
+                        <input type="text" class="form-control disabled" v-model="user_branch" readonly >
                     </div>
                 </div>
 
@@ -68,6 +68,7 @@ export default {
                 uuid: null,
                 amount: 0.00,
                 supplier_uuid: null,
+                branch_uuid: null,
                 branch_location_uuid: null,
                 projects: []
             },
@@ -81,7 +82,9 @@ export default {
             selected_project: null,
             options_projects: [],
 
-            branch_name: '',
+            user_branch: '',
+            user_location: '',
+            user_location_uuid: null,
             preselect: true
         }
     },
@@ -89,15 +92,23 @@ export default {
       
     },
     methods: {
-        getUserBranch: function () {
+        
+        getUser: function () {
            var scope = this
 
-            scope.GET('users/get-branch').then(res => {
+            scope.GET('users/get-user').then(res => {
 
-                scope.branch_name = res.rows.branch_name
-                scope.formdata.branch_uuid = res.rows.branch_uuid
+                let data = res.data
 
-                scope.getBranchLocations(res.rows.branch_uuid);
+                scope.user_location = data.branch_location.location_name
+                scope.user_location_uuid = data.branch_location.uuid
+                scope.user_branch = data.branch.branch_name
+
+                scope.formdata.branch_uuid = data.branch.uuid
+                scope.getBranchLocations(data.branch.uuid);
+
+                console.log(data)
+
             })
         },
 
@@ -113,8 +124,8 @@ export default {
                     })
 
                     scope.selected_branch_location = (scope.options_branch_location.length < 1) ? [] : {
-                            uuid: scope.options_branch_location[0].uuid,
-                            text: scope.options_branch_location[0].text
+                            uuid: scope.user_location_uuid,
+                            text: scope.user_location
                         }
                 
                 })
@@ -165,12 +176,17 @@ export default {
             scope.formdata.supplier_uuid = (scope.selected_supplier == null) ? null : scope.selected_supplier.uuid
             scope.formdata.branch_location_uuid = (scope.selected_branch_location == null) ? null : scope.selected_branch_location.uuid
 
-            scope.selected_project.forEach(function (data) {
+            console.log(scope.selected_project)
+            if (scope.selected_project != null){
+                scope.selected_project.forEach(function (data) {
                     scope.formdata.projects.push({
                         uuid: data.uuid,
                     })
 
                 })
+
+            }
+
 
             var qs = jQuery.param( scope.formdata );
             scope.ROUTE({path: '/buy-and-pay/bills/create-expenses?' + qs })
@@ -181,7 +197,7 @@ export default {
     mounted() {
         var scope = this
 
-        scope.getUserBranch();
+        scope.getUser();
 
         scope.getSupplier();
         scope.getProjects();

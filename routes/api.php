@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
 
     Route::group(['prefix' => 'users'], function(){
         Route::get('/get-branch', 'API\UserController@getBranch');
+        Route::get('/get-user', 'API\UserController@getUserInfo');
         Route::get('/get-branch-locations/{branch_uuid}', 'API\UserController@getBranchLocations');
     });
 

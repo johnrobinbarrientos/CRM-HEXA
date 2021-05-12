@@ -181,7 +181,9 @@ class BuyAndPayBillController extends Controller
             $bill->order = $order;
 
             return response()->json(['success' => 1, 'data' => $bill], 200);
+
         } else {
+
             $formdata = (object) request()->all(); 
             
             $amount = $formdata->amount;
@@ -189,13 +191,18 @@ class BuyAndPayBillController extends Controller
             $branch = CompanyBranch::find($formdata->branch_uuid);
             $branch_location = CompanyBranchLocation::find($formdata->branch_location_uuid);
 
-            // $project = ProjectList::find($formdata->projects);
+            if (isset($formdata->projects) == true) {
 
-            $x = 0;
-            foreach ($formdata->projects as $project) {
-                $project = (object) $project;
-                $projects[$x] = ProjectList::find($project->uuid);
-                $x++;
+                $x = 0;
+                
+                foreach ($formdata->projects as $project) {
+                    $project = (object) $project;
+                    $projects[$x] = ProjectList::find($project->uuid);
+                    $x++;
+                }
+
+            }else{
+                $projects = [];
             }
     
             // dummy data for billing for non-existing billing

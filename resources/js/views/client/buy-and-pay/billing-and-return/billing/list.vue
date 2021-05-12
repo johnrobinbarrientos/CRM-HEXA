@@ -27,50 +27,58 @@
 
             <div v-else>
 
-                <div class="table-filter">
-                    <div class="table-filter-row">
-                        <div class="select-wrap">
-                            <select @change="getBills()" v-model="selected_item_group">
-                                <option value="">Item Type</option>     
-                                <option v-for="item_type in options_item_group" :value="item_type.id" :key="'option-' + item_type.id ">{{ item_type.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getBills()" v-model="selected_supplier">
-                                <option value="">Supplier</option>
-                                <option v-for="supplier in options_supplier" :value="supplier.id"  :key="'option-' + supplier.id ">{{ supplier.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getBills()" v-model="selected_branch">
-                                <option value="">Branch</option>
-                                <option v-for="branch in options_branch" :value="branch.id"  :key="'option-' + branch.id ">{{ branch.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getBills()" v-model="selected_branch_location">
-                                <option value="">Location</option>
-                                <option v-for="location in options_branch_location" :value="location.id"  :key="'option-' + location.id ">{{ location.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getBills()" v-model="selected_status">
-                                <option value="">Status</option>
-                                <option value="To Receive">To Pay</option>
-                                <option value="Partially Received">Paid</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getBills()" v-model="selected_reason_code_filter">
-                                <option value="">Reason Code</option>
-                                <option v-for="reason_code in options_reason_code" :value="reason_code.id"  :key="'option-' + reason_code.id ">{{ reason_code.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <DatePicker v-model="transaction_from_to" valueType="format" :placeholder="'From  -  To'" :range="true" :format="'DD-MMM-YYYY'"></DatePicker>
-                        </div>
-                        <div class="select-wrap options-wrap" style="width:60px !important;">
-                            <b-button @click="reset()" variant="outline-secondary" size="sm">Reset</b-button>
+                <div class="table-filter-options">
+                    <button @click="toggleTableFilter('filter')" class="btn btn-outline p-1">
+                        <i class="fas fa-filter mr-1"></i> Filter
+                    </button>
+                </div>
+
+                <div v-if="tableFilterOptions.filter" class="table-filter-wrapper">
+                    <div class="table-filter">
+                        <div class="table-filter-row">
+                            <div class="select-wrap">
+                                <select @change="getBills()" v-model="selected_item_group">
+                                    <option value="">Item Type</option>     
+                                    <option v-for="item_type in options_item_group" :value="item_type.id" :key="'option-' + item_type.id ">{{ item_type.text }}</option>
+                                </select>
+                            </div>
+                            <div class="select-wrap">
+                                <select  @change="getBills()" v-model="selected_supplier">
+                                    <option value="">Supplier</option>
+                                    <option v-for="supplier in options_supplier" :value="supplier.id"  :key="'option-' + supplier.id ">{{ supplier.text }}</option>
+                                </select>
+                            </div>
+                            <div class="select-wrap">
+                                <select  @change="getBills()" v-model="selected_branch">
+                                    <option value="">Branch</option>
+                                    <option v-for="branch in options_branch" :value="branch.id"  :key="'option-' + branch.id ">{{ branch.text }}</option>
+                                </select>
+                            </div>
+                            <div class="select-wrap">
+                                <select  @change="getBills()" v-model="selected_branch_location">
+                                    <option value="">Location</option>
+                                    <option v-for="location in options_branch_location" :value="location.id"  :key="'option-' + location.id ">{{ location.text }}</option>
+                                </select>
+                            </div>
+                            <div class="select-wrap">
+                                <select  @change="getBills()" v-model="selected_status">
+                                    <option value="">Status</option>
+                                    <option value="To Receive">To Pay</option>
+                                    <option value="Partially Received">Paid</option>
+                                </select>
+                            </div>
+                            <div class="select-wrap">
+                                <select  @change="getBills()" v-model="selected_reason_code_filter">
+                                    <option value="">Reason Code</option>
+                                    <option v-for="reason_code in options_reason_code" :value="reason_code.id"  :key="'option-' + reason_code.id ">{{ reason_code.text }}</option>
+                                </select>
+                            </div>
+                            <div class="select-wrap">
+                                <DatePicker v-model="transaction_from_to" valueType="format" :placeholder="'From  -  To'" :range="true" :format="'DD-MMM-YYYY'"></DatePicker>
+                            </div>
+                            <div class="select-wrap options-wrap" style="width:60px !important;">
+                                <b-button @click="reset()" variant="outline-secondary" size="sm">Reset</b-button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -214,6 +222,10 @@ export default {
     props: ['properties'],
     data: function () {
         return {
+            
+            tableFilterOptions: {
+                filter: false
+            },
 
             prerequisite: {
                 getBranch: false,
@@ -285,6 +297,9 @@ export default {
         }
     },
     methods: {
+        toggleTableFilter: function (option) {
+            this.tableFilterOptions[option] = !this.tableFilterOptions[option]
+        },
         edit: function (bill) {
             var scope = this
 

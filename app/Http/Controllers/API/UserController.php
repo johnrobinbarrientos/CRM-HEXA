@@ -93,6 +93,17 @@ class UserController extends Controller
 
     }
 
+    public function getUserInfo()
+    {
+
+        $auth = \Auth::user();
+
+        $user = EmployeeList::where('user_id', $auth->id)->with('Branch')->with('BranchLocation')->first();
+
+        return response()->json(['success' => 1, 'data' => $user], 200);
+
+    }
+
     // public function getBranchLocations()
     // {
     //     $auth = \Auth::user();

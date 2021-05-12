@@ -15,9 +15,9 @@
                                 <span>Back</span>
                             </a>
 
-                            <a @click="test()" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
+                            <!-- <a @click="test()" class="hx-btn hx-btn-gray" data-toggle="modal" href="javascript:void(0)">
                                 <span>Test</span>
-                            </a>
+                            </a> -->
                             
                             <a v-if ="!bill.uuid" @click="save()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                                 <span>Bill</span>
@@ -82,10 +82,9 @@
                                             </div>
                                         </div>
 
-                                        <div v-if="bill.projects != null" class="col-md-3 col-12">
+                                        <div v-if="bill.projects.length > 0" class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="project">Project</label>
-                                                <!-- <input type="text" class="form-control disabled" v-model="bill.project.project_name" readonly> -->
                                                 <multiselect  v-model="selected_projects" :options="options_projects" :multiple="true" track-by="uuid" label="text" deselect-label="Deselect" selectLabel="Select" :disabled="true">
                                                     <span slot="noResult">No Results</span>
                                                 </multiselect>
@@ -147,7 +146,7 @@
                                 </div>
 
 
-                                <table v-if="bill.projects == null" class="table table-bordered mb-0">
+                                <table v-if="bill.projects.length < 1" class="table table-bordered mb-0">
                                     <thead class="th-nowrap">
                                         <tr>
                                             <th width="40" >Action</th>
@@ -379,10 +378,10 @@ export default {
             if (val) {
                 setTimeout(function(){
 
-                    if(scope.bill.projects != null){
-                        scope.getProjectExpenses()
-                    }else{
+                    if(scope.bill.projects.length < 1 ){
                         scope.getExpenses()
+                    }else{
+                        scope.getProjectExpenses()
                     }
                     
                     
@@ -442,32 +441,36 @@ export default {
 
         getBillDetails: function (bill_uuid) {
             var scope = this
+  
             var URL = (!scope.DRAFT) ? 'buy-and-pay/bills/' + bill_uuid + '/expenses' : 'buy-and-pay/bills/draft' + window.location.search;
 
             scope.GET(URL).then(res => {
 
                 scope.bill = res.data
 
-                console.log(scope.bill)
-                
-
                 scope.bill.transaction_no = (!scope.bill.transaction_no || scope.bill.transaction_no == '') ? 'To be generated' : scope.bill.transaction_no
                 scope.bill.transaction_date = (!scope.bill.transaction_date || scope.bill.transaction_date == '') ? moment() : scope.bill.transaction_date
                 scope.temp_amount = parseFloat(scope.bill.amount)
 
-                scope.bill.projects.forEach(function (data) {
-                    scope.options_projects.push({
-                        id: data.uuid,
-                        text: data.project_name,
-                        project_type_uuid: data.project_type_uuid
-                    })
 
-                    scope.selected_projects.push({
-                        id: data.uuid,
-                        text: data.project_name,
+                if(scope.bill.projects.length > 0){
+                    scope.bill.projects.forEach(function (data) {
+                        scope.options_projects.push({
+                            id: data.uuid,
+                            text: data.project_name,
+                            project_type_uuid: data.project_type_uuid
+                        })
+
+                        scope.selected_projects.push({
+                            id: data.uuid,
+                            text: data.project_name,
+                        })
+                    
                     })
-                
-                })
+                }
+
+
+                // console.log(scope.bill)
 
                 
                 scope.calculateTax();
@@ -476,11 +479,10 @@ export default {
             })
         },
 
-        test: function () {
-            var scope = this;
-            console.log(scope.expenses)
-
-        },
+        // test: function () {
+        //     var scope = this;
+        //     console.log(scope.expenses)
+        // },
 
 
         add: function () {
@@ -488,7 +490,7 @@ export default {
 
             var amount = scope.AMOUNT_TO_ALLOCATE
 
-            if (scope.bill.projects == null) {
+            if (scope.bill.projects.length < 1) {
                             
                 scope.expenses.push({
                     uuid: null,
@@ -566,6 +568,7 @@ export default {
 
         getProjectExpenses: function() {
             var scope = this
+            
             var x = 0
 
             scope.GET('buy-and-pay/bills/' + scope.bill.uuid + '/project-expenses/details').then(res => {
@@ -681,7 +684,7 @@ export default {
         save: function () {
             var scope = this
 
-            var URL = (scope.bill.projects==null) ? 'buy-and-pay/bills/expenses': 'buy-and-pay/bills/project-expenses';
+            var URL = (scope.bill.projects.length < 1) ? 'buy-and-pay/bills/expenses': 'buy-and-pay/bills/project-expenses';
 
             if (scope.bill.uuid){
 
