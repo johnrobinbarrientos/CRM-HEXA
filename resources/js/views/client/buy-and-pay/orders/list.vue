@@ -74,10 +74,7 @@
                                 </select>
                             </div>
                             <div class="select-wrap">
-                                <date-picker class="transaction-from" placeholder="Start Date" :config="{format: 'DD-MMM-YYYY'}" v-model="transaction_from"></date-picker>
-                            </div>
-                            <div class="select-wrap">
-                                <date-picker class="transaction-to"  placeholder="End Date" :config="{format: 'DD-MMM-YYYY'}" v-model="transaction_to"></date-picker>
+                                <DatePicker v-model="transaction_from_to" valueType="format" :placeholder="'From  -  To'" :range="true" :format="'DD-MMM-YYYY'"></DatePicker>
                             </div>
                             <div class="select-wrap options-wrap">
                                 <div style="width: 70px;"></div>
@@ -286,8 +283,7 @@ export default {
                 getSupplier: false,
             },
 
-            transaction_from: null,
-            transaction_to: null,
+            transaction_from_to: [null, null],
 
             selected_item_group: '',
             options_item_group: [],
@@ -339,14 +335,10 @@ export default {
         'reason-codes': ReasonCodes,
     },
     watch: {
-        transaction_from: function () {
+        transaction_from_to: function () {
             var scope = this
             scope.getPurchaseOrders()
         },
-        transaction_to: function () {
-            var scope = this
-            scope.getPurchaseOrders()
-        }
     },
     computed: {
         listTotalPages: function () {
@@ -387,8 +379,6 @@ export default {
             scope.selected_branch_location = ""
             scope.selected_status = ""
             scope.selected_reason_code_filter = ""
-            scope.transaction_to = ""
-            scope.transaction_from = ""
             scope.getPurchaseOrders()
         },
 
@@ -398,6 +388,8 @@ export default {
             scope.listLoading = true
             scope.purchaseOrders = []
 
+            // console.log(scope.transaction_from_to)
+
             var params = {
                 item_group: scope.selected_item_group,
                 supplier: scope.selected_supplier,
@@ -406,8 +398,8 @@ export default {
                 branch: scope.selected_branch,
                 branch_location: scope.selected_branch_location,
                 status: scope.selected_status,
-                from: scope.transaction_from,
-                to: scope.transaction_to,
+                from: scope.transaction_from_to[0],
+                to: scope.transaction_from_to[1],
             }
 
             var str = jQuery.param( params );

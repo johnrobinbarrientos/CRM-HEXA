@@ -38,8 +38,14 @@ use App\Models\PurchasePriceRuleDetail;
 use App\Models\PurchasePriceRuleItem; 
 
 use App\Models\PurchaseBilling; 
-use App\Models\PurchaseBillingExpense; 
+use App\Models\PurchaseBillingExpense;
+use App\Models\PurchaseBillingProject;
+use App\Models\PurchaseBillingProjectExpense;
 
+use App\Models\ProjectList;
+use App\Models\ProjectScope;
+use App\Models\ProjectScopeDetail;
+use App\Models\ProjectTypeScope;
 
 
 use Illuminate\Support\Facades\Auth; 
@@ -175,16 +181,32 @@ class BuyAndPayBillController extends Controller
             $bill->order = $order;
 
             return response()->json(['success' => 1, 'data' => $bill], 200);
+
         } else {
+
             $formdata = (object) request()->all(); 
             
             $amount = $formdata->amount;
             $supplier = SupplierList::with('VAT')->with('EWT')->find($formdata->supplier_uuid);
             $branch = CompanyBranch::find($formdata->branch_uuid);
             $branch_location = CompanyBranchLocation::find($formdata->branch_location_uuid);
+
+            if (isset($formdata->projects) == true) {
+
+                $x = 0;
+                
+                foreach ($formdata->projects as $project) {
+                    $project = (object) $project;
+                    $projects[$x] = ProjectList::find($project->uuid);
+                    $x++;
+                }
+
+            }else{
+                $projects = [];
+            }
     
             // dummy data for billing for non-existing billing
-            $data = ['id' => null, 'uuid' => null, 'transaction_type' => $type, 'supplier' => $supplier, 'branch' => $branch, 'branch_location' => $branch_location, 'amount' => $amount];
+            $data = ['id' => null, 'uuid' => null, 'transaction_type' => $type, 'supplier' => $supplier, 'branch' => $branch, 'branch_location' => $branch_location, 'projects' => $projects, 'amount' => $amount];
             $bill = (object) $data;
 
             return response()->json(['success' => 1, 'data' => $bill], 200);
@@ -208,6 +230,7 @@ class BuyAndPayBillController extends Controller
 
         $branch_location = CompanyBranchLocation::find($bill->branch_locations_uuid);
         $bill->branch_location = $branch_location;
+
 
         if ($bill->transaction_type == 'Inventory') {
       
@@ -351,6 +374,276 @@ class BuyAndPayBillController extends Controller
         }
     }
 
+    public function saveBillingExpenses()
+    {
+        
+        $formdata = (object) request()->bill; 
+
+        $bill_uuid = $formdata->uuid;
+        $supplier_uuid = $formdata->supplier['uuid'];
+        $branch_uuid = $formdata->branch['uuid'];
+        $branch_location_uuid = $formdata->branch_location['uuid'];
+
+        $bill = PurchaseBilling::find($bill_uuid);
+        $is_new =  ($bill) ? false : true ;
+        $bill = ($bill) ? $bill : new PurchaseBilling;
+
+        if ($is_new){
+
+            $prefix = $this->getCompanyPrefix();
+            $type = 'BL';
+            $no_of_transactions = $this->getNumberOfTransactions() + 1;
+            $year = date('Y');
+            $month = date('m');
+            $day = date('d');
+            $created_id = sprintf($type.'_'.$prefix.''.$year.''.$month.''.$day.'%05d',$no_of_transactions);
+
+            $bill->transaction_no =  $created_id;      
+            $bill->supplier_uuid = $supplier_uuid;        
+            $bill->branch_uuid =  $branch_uuid;     
+            $bill->branch_location_uuid = $branch_location_uuid;     
+            
+            $bill->transaction_type = 'Expenses';    
+            $bill->transaction_date = date('Y-m-d');  
+            $bill->status = 'To Pay';
+        }
+        
+
+        $bill->amount = $formdata->amount;
+        $bill->save();
+
+        $bill = PurchaseBilling::find($bill->uuid);
+
+        $expenses = (is_array(request()->expenses)) ? request()->expenses : [];
+
+        $expenses_uuids = [];
+
+        foreach ($expenses as $expense) {
+            $ex = (object) $expense;
+            $expenses_uuids[] = $ex->uuid;    
+        }
+        
+        $delete = PurchaseBillingExpense::where('purchase_billing_uuid','=',$bill->uuid)->whereNotIn('uuid',$expenses_uuids)->delete();
+
+        foreach ($expenses as $expense) {
+            $expense = (object) $expense;
+
+            $exists = PurchaseBillingExpense::where('uuid','=',$expense->uuid)->where('purchase_billing_uuid','=',$bill->uuid)->first();
+
+            $new = ($exists) ? $exists : new PurchaseBillingExpense;
+            $new->purchase_billing_uuid = $bill->uuid;
+            $new->coa_uuid = $expense->coa_uuid;
+            $new->amount = $expense->amount;
+            $new->memo_1 = $expense->memo_1;
+            $new->memo_2 = $expense->memo_2;
+            $new->memo_3 = $expense->memo_3;
+            $new->deleted_at = null;
+            $new->save();
+        }
+
+        return response()->json(['success' => 1, 'message' => 'success', 'data' => $bill], 200);
+
+    }
+
+    public function saveBillingProjectExpenses()
+    {
+
+        $formdata = (object) request()->bill;
+
+        $bill_uuid = $formdata->uuid;
+        $supplier_uuid = $formdata->supplier['uuid'];
+        $branch_uuid = $formdata->branch['uuid'];
+        $branch_location_uuid = $formdata->branch_location['uuid'];
+        $projects = $formdata->projects;
+
+        // var_dump($formdata->projects);
+        // die();
+
+        $bill = PurchaseBilling::find($bill_uuid);
+        $is_new =  ($bill) ? false : true ;
+        $bill = ($bill) ? $bill : new PurchaseBilling;
+
+        if ($is_new){
+
+            $prefix = $this->getCompanyPrefix();
+            $type = 'BL';
+            $no_of_transactions = $this->getNumberOfTransactions() + 1;
+            $year = date('Y');
+            $month = date('m');
+            $day = date('d');
+            $created_id = sprintf($type.'_'.$prefix.''.$year.''.$month.''.$day.'%05d',$no_of_transactions);
+
+
+            $bill->transaction_no =  $created_id;      
+            $bill->supplier_uuid = $supplier_uuid;        
+            $bill->branch_uuid =  $branch_uuid;     
+            $bill->branch_location_uuid = $branch_location_uuid;        
+            $bill->transaction_date = date('Y-m-d');  
+            $bill->status = 'To Pay';
+            $bill->transaction_type = 'Expenses';
+        }
+
+        $bill->amount = $formdata->amount;  
+        $bill->save();
+        $bill = PurchaseBilling::find($bill->uuid);
+
+        if ($is_new){
+            foreach ($projects as $project) {
+                $prj = (object) $project;
+                $new = new PurchaseBillingProject;
+                $new->purchase_billing_uuid = $bill->uuid;
+                // var_dump($prj->uuid);
+                // die();
+                $new->project_uuid = $prj->uuid;
+                $new->save();
+            }
+        }
+
+
+        $expenses = (is_array(request()->expenses)) ? request()->expenses : [];
+        $expenses_uuids = [];
+
+        foreach ($expenses as $expense) {
+            $ex = (object) $expense;
+            $expenses_uuids[] = $ex->uuid;    
+        }
+        
+        $delete = PurchaseBillingProjectExpense::where('purchase_billing_uuid','=',$bill->uuid)->whereNotIn('uuid',$expenses_uuids)->delete();
+
+        foreach ($expenses as $expense) {
+            $expense = (object) $expense;
+
+            $exists = PurchaseBillingProjectExpense::where('uuid','=',$expense->uuid)->where('purchase_billing_uuid','=',$bill->uuid)->first();
+
+            $new = ($exists) ? $exists : new PurchaseBillingProjectExpense;
+            $new->purchase_billing_uuid = $bill->uuid;
+            $new->coa_uuid = $expense->coa_uuid;
+            $new->amount = $expense->amount;
+            $new->project_uuid = $expense->project_uuid;
+            $new->project_scope_uuid = $expense->project_scope_uuid;
+            $new->scope_details_uuid = $expense->scope_details_uuid;
+            $new->memo_1 = $expense->memo_1;
+            $new->deleted_at = null;
+            $new->save();
+        }
+
+        return response()->json(['success' => 1, 'message' => 'success', 'data' => $bill], 200);
+
+    }
+
+    public function showExpenses($uuid)
+    {
+        $billingUUID = $uuid;
+        $bill = PurchaseBilling::find($billingUUID);
+
+        if (!$bill) {
+            return response()->json(['success' => 0, 'message' => 'billing not found!'], 200);
+        }
+
+        $supplier = SupplierList::with('VAT')->with('EWT')->find($bill->supplier_uuid);
+        $bill->supplier = $supplier;
+
+        $branch = CompanyBranch::find($bill->branch_uuid);
+        $bill->branch = $branch;
+
+        $branch_location = CompanyBranchLocation::find($bill->branch_location_uuid);
+        $bill->branch_location = $branch_location;
+
+
+        $billingProjects = PurchaseBillingProject::where('purchase_billing_uuid','=',$billingUUID)->get();
+
+        $x = 0;
+        $projects = [];
+
+        foreach ($billingProjects as $billingProject) {
+            $billingProject = (object) $billingProject;
+
+            $projects[$x] = ProjectList::find($billingProject->project_uuid);
+            $x++;
+        }
+
+
+        $bill['projects'] = $projects;
+
+        return response()->json(['success' => 1, 'data' => $bill], 200);
+    }
+
+    public function getExpenses($billingUUID)
+    {
+        $expenses = PurchaseBillingExpense::where('purchase_billing_uuid','=',$billingUUID)->with('Account')->with('Project')->get();
+        return response()->json(['success' => 1, 'message' => 'success', 'rows' => $expenses], 200);
+    }
+
+    public function getProjectExpenses($billingUUID)
+    {
+        $expenses = PurchaseBillingProjectExpense::where('purchase_billing_uuid','=',$billingUUID)->with('Account')->get();
+
+        $x = 0;
+
+        foreach ($expenses as $expense) {
+
+            $expense = (object) $expense;
+
+            $scopeDetails = ProjectScopeDetail::where('project_scope_uuid','=',$expense->project_scope_uuid)->get();
+
+            $expenses[$x]['scopeDetails'] = $scopeDetails;
+            $expenses[$x]['prjScopeDetails'] = [];
+
+            $project =  ProjectList::find($expense->project_uuid);
+
+            $porjectScopes = ProjectTypeScope::where('project_type_uuid','=',$project->project_type_uuid)->with('TypeScope')->get();
+
+            $expenses[$x]['porjectScopes'] = $porjectScopes;
+            $expenses[$x]['prjScopes'] = [];
+            
+            $x++;
+        }
+
+
+        return response()->json(['success' => 1, 'message' => 'success', 'rows' => $expenses], 200);
+    }
+
+    
+
+    // public function saveExpenses($billUUID)
+    // {
+    //     $bill = PurchaseBilling::find($billUUID);
+
+    //     if (!$bill) {
+    //         return response()->json(['success' => 0, 'message' => 'Could not find the bill']);
+    //     }
+
+    //     $expenses = (is_array(request()->expenses)) ? request()->expenses : [];
+
+    //     $expenses_uuids = [];
+
+    //     foreach ($expenses as $expense) {
+    //         $ex = (object) $expense;
+    //         $expenses_uuids[] = $ex->uuid;    
+    //     }
+        
+    //     $delete = PurchaseBillingExpense::where('purchase_billing_uuid','=',$billUUID)->whereNotIn('uuid',$expenses_uuids)->delete();
+
+    //     foreach ($expenses as $expense) {
+    //         $expense = (object) $expense;
+
+    //         $exists = PurchaseBillingExpense::where('uuid','=',$expense->uuid)->where('purchase_billing_uuid','=',$billUUID)->first();
+
+    //         $new = ($exists) ? $exists : new PurchaseBillingExpense;
+    //         $new->purchase_billing_uuid = $billUUID;
+    //         $new->coa_uuid = $expense->coa_uuid;
+    //         $new->project_uuid = $expense->project_uuid;
+    //         $new->amount = $expense->amount;
+    //         $new->memo_1 = $expense->memo_1;
+    //         $new->memo_2 = $expense->memo_2;
+    //         $new->memo_3 = $expense->memo_3;
+    //         $new->deleted_at = null;
+    //         $new->save();
+    //     }
+
+    //     return response()->json(['success' => 1, 'message' => 'saved!']);
+    // }
+
     public function update($billUUID) {
 
         $transaction_type = request()->type;
@@ -393,45 +686,6 @@ class BuyAndPayBillController extends Controller
         return response()->json(['success' => 1, 'message' => 'success', 'data' => $bill], 200);
     } 
 
-    public function saveExpenses($billUUID)
-    {
-        $bill = PurchaseBilling::find($billUUID);
-
-        if (!$bill) {
-            return response()->json(['success' => 0, 'message' => 'Could not find the bill']);
-        }
-
-        $expenses = (is_array(request()->expenses)) ? request()->expenses : [];
-
-        $expenses_uuids = [];
-
-        foreach ($expenses as $expense) {
-            $ex = (object) $expense;
-            $expenses_uuids[] = $ex->uuid;    
-        }
-        
-        $delete = PurchaseBillingExpense::where('purchase_billing_uuid','=',$billUUID)->whereNotIn('uuid',$expenses_uuids)->delete();
-
-        foreach ($expenses as $expense) {
-            $expense = (object) $expense;
-
-            $exists = PurchaseBillingExpense::where('uuid','=',$expense->uuid)->where('purchase_billing_uuid','=',$billUUID)->first();
-
-            $new = ($exists) ? $exists : new PurchaseBillingExpense;
-            $new->purchase_billing_uuid = $billUUID;
-            $new->coa_uuid = $expense->coa_uuid;
-            $new->project_uuid = $expense->project_uuid;
-            $new->amount = $expense->amount;
-            $new->memo_1 = $expense->memo_1;
-            $new->memo_2 = $expense->memo_2;
-            $new->memo_3 = $expense->memo_3;
-            $new->deleted_at = null;
-            $new->save();
-        }
-
-        return response()->json(['success' => 1, 'message' => 'saved!']);
-    }
-
     public function cancel($billUUID)
     {
         $bill = PurchaseBilling::find($billUUID);
@@ -469,9 +723,5 @@ class BuyAndPayBillController extends Controller
         return $no_of_transactions;
     }
 
-    public function getExpenses($billingUUID)
-    {
-        $expenses = PurchaseBillingExpense::where('purchase_billing_uuid','=',$billingUUID)->with('Account')->with('Project')->get();
-        return response()->json(['success' => 1, 'message' => 'success', 'rows' => $expenses], 200);
-    }
+
 }

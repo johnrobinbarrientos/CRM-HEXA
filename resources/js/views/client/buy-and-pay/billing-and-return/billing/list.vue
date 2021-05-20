@@ -27,53 +27,58 @@
 
             <div v-else>
 
-                <div class="table-filter">
-                    <div class="table-filter-row">
-                        <div class="select-wrap">
-                            <select @change="getBills()" v-model="selected_item_group">
-                                <option value="">Item Type</option>     
-                                <option v-for="item_type in options_item_group" :value="item_type.id" :key="'option-' + item_type.id ">{{ item_type.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getBills()" v-model="selected_supplier">
-                                <option value="">Supplier</option>
-                                <option v-for="supplier in options_supplier" :value="supplier.id"  :key="'option-' + supplier.id ">{{ supplier.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getBills()" v-model="selected_branch">
-                                <option value="">Branch</option>
-                                <option v-for="branch in options_branch" :value="branch.id"  :key="'option-' + branch.id ">{{ branch.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getBills()" v-model="selected_branch_location">
-                                <option value="">Location</option>
-                                <option v-for="location in options_branch_location" :value="location.id"  :key="'option-' + location.id ">{{ location.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getBills()" v-model="selected_status">
-                                <option value="">Status</option>
-                                <option value="To Receive">To Pay</option>
-                                <option value="Partially Received">Paid</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <select  @change="getBills()" v-model="selected_reason_code_filter">
-                                <option value="">Reason Code</option>
-                                <option v-for="reason_code in options_reason_code" :value="reason_code.id"  :key="'option-' + reason_code.id ">{{ reason_code.text }}</option>
-                            </select>
-                        </div>
-                        <div class="select-wrap">
-                            <date-picker class="transaction-from" placeholder="Start Date" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_from" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
-                        </div>
-                        <div class="select-wrap">
-                            <date-picker class="transaction-to"  placeholder="End Date" :config="{format: 'YYYY-MM-DD'}" v-model="transaction_to" style="border:none; padding:3px !important; min-height:0px !important; height:27px !important; background:transparent !important;"></date-picker>
-                        </div>
-                        <div class="select-wrap options-wrap" style="width:60px !important;">
-                            <b-button @click="reset()" variant="outline-secondary" size="sm">Reset</b-button>
+                <div class="table-filter-options">
+                    <button @click="toggleTableFilter('filter')" class="btn btn-outline p-1">
+                        <i class="fas fa-filter mr-1"></i> Filter
+                    </button>
+                </div>
+
+                <div v-if="tableFilterOptions.filter" class="table-filter-wrapper">
+                    <div class="table-filter">
+                        <div class="table-filter-row">
+                            <div class="select-wrap">
+                                <select @change="getBills()" v-model="selected_item_group">
+                                    <option value="">Item Type</option>     
+                                    <option v-for="item_type in options_item_group" :value="item_type.id" :key="'option-' + item_type.id ">{{ item_type.text }}</option>
+                                </select>
+                            </div>
+                            <div class="select-wrap">
+                                <select  @change="getBills()" v-model="selected_supplier">
+                                    <option value="">Supplier</option>
+                                    <option v-for="supplier in options_supplier" :value="supplier.id"  :key="'option-' + supplier.id ">{{ supplier.text }}</option>
+                                </select>
+                            </div>
+                            <div class="select-wrap">
+                                <select  @change="getBills()" v-model="selected_branch">
+                                    <option value="">Branch</option>
+                                    <option v-for="branch in options_branch" :value="branch.id"  :key="'option-' + branch.id ">{{ branch.text }}</option>
+                                </select>
+                            </div>
+                            <div class="select-wrap">
+                                <select  @change="getBills()" v-model="selected_branch_location">
+                                    <option value="">Location</option>
+                                    <option v-for="location in options_branch_location" :value="location.id"  :key="'option-' + location.id ">{{ location.text }}</option>
+                                </select>
+                            </div>
+                            <div class="select-wrap">
+                                <select  @change="getBills()" v-model="selected_status">
+                                    <option value="">Status</option>
+                                    <option value="To Receive">To Pay</option>
+                                    <option value="Partially Received">Paid</option>
+                                </select>
+                            </div>
+                            <div class="select-wrap">
+                                <select  @change="getBills()" v-model="selected_reason_code_filter">
+                                    <option value="">Reason Code</option>
+                                    <option v-for="reason_code in options_reason_code" :value="reason_code.id"  :key="'option-' + reason_code.id ">{{ reason_code.text }}</option>
+                                </select>
+                            </div>
+                            <div class="select-wrap">
+                                <DatePicker v-model="transaction_from_to" valueType="format" :placeholder="'From  -  To'" :range="true" :format="'DD-MMM-YYYY'"></DatePicker>
+                            </div>
+                            <div class="select-wrap options-wrap" style="width:60px !important;">
+                                <b-button @click="reset()" variant="outline-secondary" size="sm">Reset</b-button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -99,8 +104,9 @@
                                 <tr v-for="(bill) in bills" :key="bill.uuid">
                                     <template v-if="bill.po_status !== 'Cancelled'">
                                         <td width="100" style="text-align:center;">
-                                            <b-dropdown v-if="bill.transaction_type == 'Expenses' && bill.status == 'To Pay'"  split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/edit' })">
-                                                <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/edit'})">Edit</b-dropdown-item>
+                                            <b-dropdown v-if="bill.transaction_type == 'Expenses' && bill.status == 'To Pay'"  split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="edit(bill)">
+                                                <!-- <b-dropdown-item href="javascript:void(0)" @click="ROUTE({ path: '/buy-and-pay/bills/' + bill.uuid + '/edit'})">Edit</b-dropdown-item> -->
+                                                <b-dropdown-item href="javascript:void(0)" @click="edit(bill)">Edit</b-dropdown-item>
                                                 <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/view' })">View</b-dropdown-item>
                                                 <b-dropdown-item href="javascript:void(0)" @click="cancel(bill.uuid)">Cancel</b-dropdown-item>
                                             </b-dropdown>
@@ -195,8 +201,7 @@
                         </a>
                     </div>
                     <div class="modal-body">
-                        <!-- <search-to-bill></search-to-bill> -->
-                        <billing-tabs></billing-tabs>
+                        <billing-type-list></billing-type-list>
                     </div>
                 </div>
             </div>
@@ -209,14 +214,18 @@
 <script>
 import Swal from 'sweetalert2'
 import moment from 'moment'
-import SearchToBill from './form'
-import BillingTabs from './billing-tabs'
+
+import BillingTypeList from './billing-type-list'
 
 export default {
     name: 'purchase-order',
     props: ['properties'],
     data: function () {
         return {
+            
+            tableFilterOptions: {
+                filter: false
+            },
 
             prerequisite: {
                 getBranch: false,
@@ -227,8 +236,7 @@ export default {
                 getSupplier: false,
             },
 
-            transaction_from: null,
-            transaction_to: null,
+            transaction_from_to: [null, null],
 
             selected_item_group: '',
             options_item_group: [],
@@ -273,8 +281,13 @@ export default {
         }
     },
     components: {
-        'search-to-bill': SearchToBill,
-        'billing-tabs': BillingTabs
+        'billing-type-list': BillingTypeList
+    },
+    watch: {
+        transaction_from_to: function () {
+            var scope = this
+            scope.getBills()
+        },
     },
     computed: {
         listTotalPages: function () {
@@ -284,6 +297,18 @@ export default {
         }
     },
     methods: {
+        toggleTableFilter: function (option) {
+            this.tableFilterOptions[option] = !this.tableFilterOptions[option]
+        },
+        edit: function (bill) {
+            var scope = this
+
+            if (bill.transaction_type == 'Expenses'){
+                scope.ROUTE({ path: '/buy-and-pay/bills/expenses/' + bill.uuid + '/edit'})
+            }else{
+                scope.ROUTE({ path: '/buy-and-pay/bills/' + bill.uuid + '/edit'})
+            }
+        },
         reset: function () {
             var scope = this
             scope.selected_item_group = ""
@@ -292,8 +317,6 @@ export default {
             scope.selected_branch_location = ""
             scope.selected_status = ""
             scope.selected_reason_code_filter = ""
-            scope.transaction_to = ""
-            scope.transaction_from = ""
             scope.getBills()
         },
         getBills: function () {
@@ -309,14 +332,15 @@ export default {
                 branch: scope.selected_branch,
                 branch_location: scope.selected_branch_location,
                 status: scope.selected_status,
-                from: scope.transaction_from,
-                to: scope.transaction_to,
+                from: scope.transaction_from_to[0],
+                to: scope.transaction_from_to[1],
             }
 
             var str = jQuery.param( params );
 
             scope.GET('buy-and-pay/bills?keyword=' + scope.searchKeyword + '&page=' + scope.listCurrentPage + '&take=' + scope.listItemPerPage + '&' + str).then(res => {
                 scope.bills = res.rows
+                //console.log(scope.bills)
                 scope.grand_total = res.grand_total
 
                 scope.listLoading = false
@@ -524,18 +548,18 @@ export default {
                 })
 
                 if (scope.options_supplier[0].vat_uuid!==null){
-                    scope.formdata.is_apply_tax = 1
+                    // scope.formdata.is_apply_tax = 1
 
                     scope.GET('company/taxation/' + scope.options_supplier[0].vat_uuid).then(res => {
-                        scope.formdata.supplier_tax_rate = res.rows.tax_rate
+                        // scope.formdata.supplier_tax_rate = res.rows.tax_rate
                     })
                 }
                 else{
-                    scope.formdata.is_apply_tax = 0
-                    scope.formdata.supplier_tax_rate = 0
+                    // scope.formdata.is_apply_tax = 0
+                    // scope.formdata.supplier_tax_rate = 0
                 }
                 
-                scope.formdata.term = scope.options_supplier[0].lead_time
+                // scope.formdata.term = scope.options_supplier[0].lead_time
                 scope.formdata.date_expected = moment().add(parseInt(scope.options_supplier[0].lead_time) ,'days').format('YYYY-MM-DD')
 
                 $(".form-select-supplier").select2({data: scope.options_supplier});
@@ -584,9 +608,9 @@ export default {
 
         scope.getItemGroup()
         scope.getAssetGroup()
-        scope.getSupplier()
-        scope.getBranchLocations()
-        scope.getBranch()
+        //scope.getSupplier()
+        //scope.getBranchLocations()
+        //scope.getBranch()
     },
 }
 </script>

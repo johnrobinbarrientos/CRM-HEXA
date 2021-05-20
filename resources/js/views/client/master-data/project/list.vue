@@ -17,7 +17,7 @@
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <a @click="create()" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
+                <a @click="ROUTE({path: '/projects/create'})" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                     <i class="las la-plus"></i> <span>New</span>
                 </a>
             </div>
@@ -137,14 +137,7 @@ export default {
                 scope.listResults = res.results
             })
         },
-        create: function () {
-            var scope = this
-            scope.POST('projects').then(res => {
-                if (res.success) {
-                   scope.ROUTE({path: '/projects/' + res.data.uuid })
-                }
-            })
-        },
+
         search: function () {
             var scope = this
             if (scope.timer) {
@@ -154,7 +147,7 @@ export default {
 
             scope.timer = setTimeout(() => {
                 scope.getProjectList()
-            }, 800);
+            }, 100);
         },
         listPaginate: function(page) {
             var scope = this

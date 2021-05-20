@@ -69,4 +69,10 @@ class ProjectTypeController extends Controller
 
         return response()->json(['success' => 1, 'message' => 'Deleted!'], 200);
     }
+
+    public function show($projectTypeUUID)
+    {
+        $type_scope = ProjectTypeScope::where('project_type_uuid','=',$projectTypeUUID)->with('TypeScope')->get();
+        return response()->json(['success' => 1, 'rows' => $type_scope], 200);
+    }
 }

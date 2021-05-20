@@ -35,7 +35,8 @@ import BuyANDPayReceipts from './views/client/buy-and-pay/receipts/main'
 import BuyANDPayReceiptsDetails from './views/client/buy-and-pay/receipts/details'
 
 import BuyANDPayBillingReturnMain from './views/client/buy-and-pay/billing-and-return/main'
-import BuyANDPayBillingReturnDetails from './views/client/buy-and-pay/billing-and-return/billing/details'
+import BuyANDPayBillingReturnDetails from './views/client/buy-and-pay/billing-and-return/billing/inventory/details'
+import BuyANDPayBillingExpenseDetails from './views/client/buy-and-pay/billing-and-return/billing/expenses/expense-details'
 
 import BuyANDPayPayments from './views/client/buy-and-pay/payments/main'
 import BuyANDPayPaymentsForm from './views/client/buy-and-pay/payments/form'
@@ -223,6 +224,13 @@ export default new VueRouter({
           meta: { protected: true }
         },
         {
+          path: '/projects/create',
+          name: 'project-form',
+          component: ProjectForm,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
           path: '/employee-main',
           name: 'employee-main',
           component: EmployeeMain,
@@ -309,6 +317,22 @@ export default new VueRouter({
           path: '/buy-and-pay/bills/create',
           name: 'buy-and-pay-bills-create',
           component: BuyANDPayBillingReturnDetails,
+          props: { view_mode: false },
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/buy-and-pay/bills/create-expenses',
+          name: 'buy-and-pay-bills-create-expenses',
+          component: BuyANDPayBillingExpenseDetails,
+          props: { view_mode: false },
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/buy-and-pay/bills/expenses/:bill_uuid/:action',
+          name: 'buy-and-pay-bills-edit-expenses',
+          component: BuyANDPayBillingExpenseDetails,
           props: { view_mode: false },
           beforeEnter: checkAuth,
           meta: { protected: true }

@@ -112,8 +112,8 @@ class BuyAndPayOrderController extends Controller
 
         if (!empty(request()->from) && !empty(request()->to)) {
             $lists = $lists->where(function ($query) {
-                $query->where('date_purchased','>=',request()->from)
-                    ->where('date_purchased','<=',request()->to);
+                $query->where('date_purchased','>=',date('Y-m-d',strtotime(request()->from)))
+                    ->where('date_purchased','<=',date('Y-m-d',strtotime(request()->to)));
             });
         }
 
