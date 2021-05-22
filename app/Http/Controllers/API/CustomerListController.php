@@ -43,6 +43,16 @@ class CustomerListController extends Controller
 
     }
 
+    public function getAll()
+    {
+        $list = CustomerList::whereNull('deleted_at')
+        ->with('discounts')->with('CustomerGroup')
+        ->with('CustomerChain')->with('CustomerChannel')
+        ->with('CustomerType')->with('PaymentTerm')
+        ->get();
+        return response()->json(['success' => 1, 'rows' => $list], 200);
+    }
+
 
     public function store()
     {

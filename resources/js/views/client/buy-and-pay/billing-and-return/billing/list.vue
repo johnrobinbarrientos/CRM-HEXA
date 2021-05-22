@@ -14,7 +14,7 @@
                                 <option value="50">50</option>
                                 <option value="100">100</option>
                         </select>
-                        <a href="javascript:void(0)" @click="OPEN_MODAL('#modalItemReceipts')" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                        <a href="javascript:void(0)" @click="OPEN_MODAL('#modalTypeList')" class="hx-btn hx-btn-shineblue" data-toggle="modal">
                             <i class="las la-plus"></i> <span>New</span>
                         </a>
 
@@ -191,12 +191,12 @@
 
 
         <!-- Modal -->
-        <div class="modal fade" tabindex="-1" id="modalItemReceipts">
+        <div class="modal fade" tabindex="-1" id="modalTypeList">
             <div class="modal-dialog modal-lg " role="document" style="max-width: 1100px;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Billings</h5>
-                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalItemReceipts');" class="close" data-dismiss="modal" aria-label="Close">
+                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalTypeList');" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
                         </a>
                     </div>
