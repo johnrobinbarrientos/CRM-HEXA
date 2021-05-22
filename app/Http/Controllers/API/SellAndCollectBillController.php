@@ -43,15 +43,6 @@ class SellAndCollectBillController extends Controller
         return $prefix;
     }
 
-    // public function getNumberOfTransactions()
-    // {
-    //     $auth = \Auth::user();
-    //     $no_of_transactions = PurchaseBilling::whereNull('deleted_at')
-    //     ->where('transaction_no','!=','')
-    //     ->whereDate('created_at',date('Y-m-d'))->count();
-
-    //     return $no_of_transactions;
-    // }
 
 
 }
