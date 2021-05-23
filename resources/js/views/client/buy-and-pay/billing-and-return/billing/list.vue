@@ -195,13 +195,23 @@
             <div class="modal-dialog modal-lg " role="document" style="max-width: 1100px;">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Billings</h5>
-                        <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalTypeList');" class="close" data-dismiss="modal" aria-label="Close">
+                        <h5 class="modal-title">
+                            <i
+                                @click="billingTypeList_ChildReturn()"
+                                v-if="breadcrumb_childName"
+                                class="las la-undo mr-1 cursor-pointer"
+                                style="border: 1px solid #999; padding: 1px; border-radius: 5px;"
+                            >
+                            </i>
+                            <span @click="billingTypeList_ChildReturn()" class="cursor-pointer">Billings</span>
+                            <span v-if="breadcrumb_childName" class="text-capitalize"><i class="las la-angle-right"></i> {{ breadcrumb_childName }}</span>
+                        </h5>
+                        <a href="javascript:void(0)" @click="CLOSE_MODAL('#modalTypeList');" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
                         </a>
                     </div>
                     <div class="modal-body">
-                        <billing-type-list></billing-type-list>
+                        <billing-type-list ref="childComponent" @updateBreadcrumb="onClickChild"></billing-type-list>
                     </div>
                 </div>
             </div>
@@ -222,7 +232,8 @@ export default {
     props: ['properties'],
     data: function () {
         return {
-            
+            parentmessage: '',
+            breadcrumb_childName: '',
             tableFilterOptions: {
                 filter: false
             },
@@ -297,6 +308,13 @@ export default {
         }
     },
     methods: {
+        onClickChild: function (value) {
+            this.breadcrumb_childName = value
+        },
+        billingTypeList_ChildReturn: function () {
+            this.$refs.childComponent.resetData();
+            this.breadcrumb_childName = ''
+        },
         toggleTableFilter: function (option) {
             this.tableFilterOptions[option] = !this.tableFilterOptions[option]
         },
