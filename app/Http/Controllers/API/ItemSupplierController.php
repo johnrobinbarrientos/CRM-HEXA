@@ -27,7 +27,7 @@ class ItemSupplierController extends Controller
             if (!empty($supplier['bd_group_supplier_uuid']) || !is_null($supplier['bd_group_supplier_uuid'])) {
 
                 $exists = BDGroupSupplier::where('uuid','=',$supplier['bd_group_supplier_uuid'])
-                    ->where('supplier_uuid','=',$supplier['uuid'])
+                    ->where('supplier_uuid','=',$supplier['supplier_uuid'])
                     ->first();
 
                 if (!$exists) {
@@ -45,7 +45,7 @@ class ItemSupplierController extends Controller
     public static function save($item_uuid, $suppliers)
     {
         foreach ($suppliers as $key => $supplier) {
-            $supplier_uuid = $supplier['uuid'];
+            $supplier_uuid = $supplier['supplier_uuid'];
             $price = $supplier['purchase_price'];
             $bd_group_supplier_uuid = $supplier['bd_group_supplier_uuid'];
 

@@ -38,9 +38,16 @@ class SupplierListController extends Controller
             });
         }
 
+        if (isset(request()->notIn)) {
+            $excluded_uuids = explode(',',request()->notIn);
+            $list = $list->whereNotIn('uuid',$excluded_uuids);
+        }
+
         if (isset(request()->discounts) && request()->discounts == 'included') {
             $list = $list->with('DiscountGroups.Discounts.ExludedItems');
         }
+
+        
 
         $count = $list->count();
 

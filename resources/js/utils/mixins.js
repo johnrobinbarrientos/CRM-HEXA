@@ -4,10 +4,19 @@ export default {
     name: 'mixins',
     data () {
       return {
-        msg: ''
+        msg: '',
+        $_debounceTimer: null,
       }
     },
     methods: {
+        DEBOUNCE (method, timer) {
+            if (this.$_debounceTimer !== null) {
+                clearTimeout(this.$_debounceTimer)
+            }
+            this.$_debounceTimer = setTimeout(() => {
+                method()
+            }, timer)
+        },
         CHECK_VUE_INSTANCE: function () {
             console.log(this)
         },

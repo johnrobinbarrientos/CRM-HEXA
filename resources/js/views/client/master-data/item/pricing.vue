@@ -3,42 +3,54 @@
     <div class="row">
         <div class="col-md-6 col-12">
             <div>
-                <div style="background:#fafafa; border:1px solid #efefef; padding:0px 5px; padding-left:25px; font-weight:600; height:25px; line-height:25px; position:relative;">
-                    <input style="position:absolute; top:5px; left:5px; " type="checkbox" v-model="item.is_purchase_item" value="1" id="is-purchase-item">
-                    Is Purchase Item?
+                <div style="background:#fafafa; border:1px solid #efefef; padding:5px 5px; font-weight:600; height:35px; line-height:25px;">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div style="position:relative; padding-left:25px; ">
+                                <input style="position:absolute; top:5px; left:5px; " type="checkbox" v-model="item.is_purchase_item" value="1" id="is-purchase-item">
+                                Is Purchase Item?
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <button @click="addSupplier()" type="button" v-if="item.is_purchase_item"  style="font-size: 11px; border: 1px solid rgb(204, 204, 204); padding: 0px 10px; float: right; height: 25px; line-height:25px; color: #333; border-radius: 3px;">Add Supplier</button>
+                        </div>
+                    </div>
                 </div>
-                <table v-show="item.is_purchase_item" class="table table-bordered table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Action</th>
-                            <th>Name</th>
-                            <th>Purchase Price</th>
-                            <th>Discount Group</th>
-                            <th>Discount Rate</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="supplier,index in suppliers" :key="'supplier-' + index">
-                            <td width="15">
-                                <input v-model="supplier.selected" type="checkbox" :checked="supplier.selected">
-                            </td>
-                            <td width="80" class="text-center">
-                                <button type="button" class="btn-gray-small" @click="edit(supplier,index)" v-bind:class="{'disabled': !supplier.selected }">Edit</button>
-                            </td>
-                            <td><strong >{{ supplier.supplier_name }}</strong></td>
-                            <td width="100" class="text-right">
-                                <strong v-if="supplier.selected">{{ supplier.purchase_price || 0.00 }}</strong>
-                            </td>
-                            <td width="150" ><strong >{{ supplier.selected_discount_group.name || '' }}</strong></td>
-                            <td width="150" class="text-right"><strong >{{ supplier.selected_discount_group.total_rate || 0 }}%</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div v-if="item.is_purchase_item" >
+                    <div v-if="selected_suppliers.length < 1" style="background:#fafafa; padding:20px 20px; text-align:center;  border:1px solid #efefef; border-top:none;">
+                        No Supplier
+                    </div>
+                    <div v-else>
+                        <table v-show="item.is_purchase_item" class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Action</th>
+                                    <th>Name</th>
+                                    <th>Purchase Price</th>
+                                    <th>Discount Group</th>
+                                    <th>Discount Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item_supplier,index in selected_suppliers" :key="'supplier-' + index">
+                                    <td width="80" class="text-center">
+                                        <button type="button" class="btn-gray-small" @click="edit(item_supplier,index)">Edit</button>
+                                    </td>
+                                    <td><strong >{{ item_supplier.supplier.supplier_name }}</strong></td>
+                                    <td width="100" class="text-right">
+                                        <strong>{{ item_supplier.purchase_price || 0.00 }}</strong>
+                                    </td>
+                                    <td width="150" ><strong v-if="item_supplier.selected_discount_group">{{ item_supplier.selected_discount_group.name || 'None' }}</strong></td>
+                                    <td width="150" class="text-right"><strong v-if="item_supplier.selected_discount_group">{{ item_supplier.selected_discount_group.total_rate || 0 }}%</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <div>
-                <div style="background:#fafafa; border:1px solid #efefef; padding:0px 5px; padding-left:25px; font-weight:600; height:25px; line-height:25px; position:relative;">
+                <div style="margin-top:10px; background:#fafafa; border:1px solid #efefef; padding:0px 5px; padding-left:25px; font-weight:600; height:25px; line-height:25px; position:relative;">
                     <input style="position:absolute; top:5px; left:5px; " type="checkbox" v-model="item.is_sales_item" value="1" id="is-purchase-item">
                     Is Sales Item?
                 </div>
@@ -70,8 +82,9 @@
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 v-if="selected_supplier" class="modal-title">
-                        <span>{{ selected_supplier.supplier_name }}</span>
+                    <h5 class="modal-title">
+                        <span v-if="selected_supplier">{{ selected_supplier.supplier_name }}</span>
+                        <span v-else>New Supplier</span>
                     </h5>
                     <a href="javascript:void(0)"  @click="cancel()" class="close" data-dismiss="modal" aria-label="Close">
                         <i class="bx bx-x"></i>
@@ -79,49 +92,55 @@
                 </div>
                 <div class="modal-body">
                     <form v-if="selected_supplier" action="#" class="form-validate is-alter">
-
                         <div class="row">
                             <div class="col-md-12 col-12">
+                                <div v-if="selected_supplier_index === null" style="margin-bottom:10px;">
+                                    <strong>Supplier</strong>
+                                    <multiselect v-model="selected_supplier.supplier" @search-change="search()" :loading="option_suppliers_loading" :options="option_suppliers"  label="supplier_name" track-by="uuid" :allow-empty="false" deselect-label="Selected" selectLabel="Select">
+                                        <span slot="noResult">No Results</span>
+                                    </multiselect>
+                                </div>
 
-             
-                                <div style="margin-top:0px;">
+                                <div style="margin-bottom:10px;">
                                     <strong>Purchase Price</strong>
                                     <input v-model="selected_supplier.purchase_price" class="form-control-gray-medium"  v-bind:class="{'error' : selected_supplier.purchase_price_error}" type="text" placeholder="Enter Purchase Price">
                                 </div>
-        
-                                <div style="margin-top:10px;">
-                                    <strong>Discount Group</strong>
-                                    <select v-model="selected_supplier.bd_group_supplier_uuid" class="form-control-gray-medium"  v-bind:class="{'error' : selected_supplier.bd_group_supplier_uuid_error}" placeholder="Enter Purchase Price">
-                                        <option :value="null">Select Discount Group</option>
-                                        <option v-for="discount_group,index in selected_supplier.discount_groups" :key="'option-discount-group-' + index" :value="discount_group.uuid">
-                                            {{ discount_group.name }}
-                                        </option>
-                                    </select>
-                                </div>
 
-                                <div v-if="selected_supplier.bd_group_supplier_uuid" style="padding:10px; padding-bottom:20px; margin-top:15px; background:#fafafa; border:1px solid #efefef;">
-                                    
-                                    <span style="font-weight:600; display:inline-block;">Discount List</span>
-                                    <table style="margin-top:5px;" class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr style="background:#fff;">
-                                                <th>Name</th>
-                                                <th>Rate</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr style="background:#fff;" v-for="(discount,discount_index) in getSelectedDiscountGroupDetails(selected_supplier.bd_group_supplier_uuid,selected_supplier.discount_groups).discounts " :key="'edit-group-discount-' + discount_index ">
+                                <template v-if="selected_supplier.supplier">
+                                    <div style="margin-bottom:10px;">
+                                        <strong>Discount Group</strong>
+                                        <select v-model="selected_supplier.bd_group_supplier_uuid" class="form-control-gray-medium"  v-bind:class="{'error' : selected_supplier.bd_group_supplier_uuid_error}" placeholder="Enter Purchase Price">
+                                            <option :value="null">Select Discount Group</option>
+                                            <option v-for="discount_group,index in selected_supplier.supplier.discount_groups" :key="'option-discount-group-' + index" :value="discount_group.uuid">
+                                                {{ discount_group.name }}
+                                            </option>
+                                        </select>
+                                    </div>
 
-                                                <td style="padding:0px 2px;">
-                                                    {{ discount.name }}
-                                                </td>
-                                                <td style="padding:0px 2px; text-align:right;"  width="70">
-                                                    {{ discount.rate }}%
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    <div v-if="selected_supplier.bd_group_supplier_uuid" style="padding:10px; padding-bottom:20px; margin-top:15px; background:#fafafa; border:1px solid #efefef;">
+                                        
+                                        <span style="font-weight:600; display:inline-block;">Discount List</span>
+                                        <table style="margin-top:5px;" class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr style="background:#fff;">
+                                                    <th>Name</th>
+                                                    <th>Rate</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr style="background:#fff;" v-for="(discount,discount_index) in getSelectedDiscountGroupDetails(selected_supplier.bd_group_supplier_uuid,selected_supplier.supplier.discount_groups).discounts " :key="'edit-group-discount-' + discount_index ">
+
+                                                    <td style="padding:0px 2px;">
+                                                        {{ discount.name }}
+                                                    </td>
+                                                    <td style="padding:0px 2px; text-align:right;"  width="70">
+                                                        {{ discount.rate }}%
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </template>
     
                             </div>                                           
                         </div>                                    
@@ -153,26 +172,55 @@ export default {
             selected_supplier: null,
             selected_supplier_index: null,
             suppliers: [],
+            option_suppliers: [],
+            option_suppliers_loading: false,
+            selected_supplier_uuids: [],
+            selected_suppliers: []
         }
     },
+
     methods: {
+        search: function() {
+            var scope = this
+            scope.DEBOUNCE(() => {
+               scope.getSuppliers();
+            },300)
+        },
+        getSuppliers: function () {
+            var scope = this
+            scope.option_suppliers_loading = true
+            scope.GET('suppliers?discounts=included&notIn=' + scope.selected_supplier_uuids).then(res => {
+                scope.option_suppliers_loading = false
+                scope.option_suppliers = res.rows
+            })
+        },
+        addSupplier: function () {
+            var scope = this
+            scope.selected_supplier_index = null
+
+            scope.selected_supplier = {
+                supplier_uuid: null,
+                supplier: null,
+                purchase_price:   0.00,
+                bd_group_supplier_uuid:  null,
+            }
+
+            scope.OPEN_MODAL('#modalSuppliers');
+        },
         edit: function (data,index) {
             var scope = this
 
-            if (!data.selected) {
-                return;
-            }
-
-            scope.$set(data,'edit', true)
             var copy = JSON.parse(JSON.stringify(data))
-           
+ 
             scope.selected_supplier_index = index
             scope.selected_supplier = copy
-            console.log( scope.selected_supplier)
+
+            console.log(copy)
+ 
             scope.OPEN_MODAL('#modalSuppliers');
         },
         cancel: function (data,index) {
-           var scope = this
+            var scope = this
 
             scope.selected_supplier = null 
             scope.selected_supplier_index = null    
@@ -189,63 +237,36 @@ export default {
                 scope.selected_supplier.purchase_price_error = true
             }
 
-        
             if (error) {
                 return
             }
 
             if (scope.selected_supplier_index === null) {
                 var bd_group_supplier_uuid = scope.selected_supplier.bd_group_supplier_uuid
-                var discount_groups = scope.selected_supplier.discount_groups
+                var discount_groups = scope.selected_supplier.supplier.discount_groups
 
+                scope.selected_supplier.supplier_uuid = scope.selected_supplier.supplier.uuid
                 scope.selected_supplier.selected_discount_group = scope.getSelectedDiscountGroupDetails(bd_group_supplier_uuid,discount_groups)
 
-                scope.suppliers.push(scope.selected_supplier);
-            } else {
-
-                var bd_group_supplier_uuid = scope.selected_supplier.bd_group_supplier_uuid
-                var discount_groups = scope.selected_supplier.discount_groups
-
-                scope.selected_supplier.selected_discount_group = scope.getSelectedDiscountGroupDetails(bd_group_supplier_uuid,discount_groups)
-                
                 var copy = JSON.parse(JSON.stringify(scope.selected_supplier))
-                scope.suppliers[scope.selected_supplier_index] = copy
+                scope.selected_suppliers.push(copy)
+            } else {
+                var bd_group_supplier_uuid = scope.selected_supplier.bd_group_supplier_uuid
+                var discount_groups = scope.selected_supplier.supplier.discount_groups
+                scope.selected_supplier.selected_discount_group = scope.getSelectedDiscountGroupDetails(bd_group_supplier_uuid,discount_groups)
+
+                var copy = JSON.parse(JSON.stringify(scope.selected_supplier))
+
+                var index = scope.selected_supplier_index
+                scope.selected_suppliers[index] = copy
             }
 
             scope.selected_supplier = null
             scope.selected_supplier_index = null
             scope.CLOSE_MODAL('#modalSuppliers');
         },
-        getSuppliers: function () {
-           var scope = this
-            scope.GET('suppliers?discounts=included').then(res => {
-                scope.suppliers = res.rows
-
-                scope.suppliers.forEach(function (data) {
-                    var selected_supplier = scope.findSelectedSuppliers(data)
-                    if (selected_supplier !== false){
-                        scope.$set(data,'selected',true)
-                        scope.$set(data,'bd_group_supplier_uuid',selected_supplier.bd_group_supplier_uuid)
-                        scope.$set(data,'purchase_price',selected_supplier.purchase_price)
-
-                        var bd_group_supplier_uuid = data.bd_group_supplier_uuid
-                        var discount_groups = data.discount_groups
-                        scope.$set(data,'selected_discount_group',scope.getSelectedDiscountGroupDetails(bd_group_supplier_uuid,discount_groups))
-                    } else {
-                        scope.$set(data,'selected',false)
-                        scope.$set(data,'bd_group_supplier_uuid',null)
-                        scope.$set(data,'purchase_price',null)
-
-                        var bd_group_supplier_uuid = data.bd_group_supplier_uuid
-                        var discount_groups = data.discount_groups
-                        scope.$set(data,'selected_discount_group',scope.getSelectedDiscountGroupDetails(bd_group_supplier_uuid,discount_groups))
-                    }
-                })
-            })
-        },
         findSelectedSuppliers : function (supplier) {
             var scope = this
-
             var exists = false
             for (let i = 0; i < scope.item.suppliers.length; i++) {
                 var current = scope.item.suppliers[i]
@@ -254,7 +275,6 @@ export default {
                     return exists
                 }
             }
-
             return exists
         },
         getSelectedDiscountGroupDetails: function (bd_group_supplier_uuid, haystack = []) {
@@ -289,19 +309,34 @@ export default {
             return total
 
         },
-        getSelectedSuppliers: function ()
-        {
+        getSelectedSuppliers: function () {
             var scope = this
-            var result = scope.suppliers.filter(obj => {
-                return obj.selected === true
-            })
+            return scope.selected_suppliers
+        },
+        setSelectedSuppliers: function () {
+            var scope = this
+            scope.selected_supplier_uuids = [];
+            for (let i = 0; i < scope.item.suppliers.length; i++) {
+                var current = scope.item.suppliers[i]
+                var selected_discount_group = scope.getSelectedDiscountGroupDetails(current.bd_group_supplier_uuid,current.supplier.discount_groups)
+           
+                var data = {
+                    supplier_uuid: current.supplier.uuid,
+                    supplier: current.supplier,
+                    purchase_price: current.purchase_price,
+                    bd_group_supplier_uuid: current.bd_group_supplier_uuid,
+                    selected_discount_group: selected_discount_group
+                }
 
-            return result
+                scope.selected_supplier_uuids.push(data.supplier_uuid)
+                scope.selected_suppliers.push(data)
+            }
+            scope.getSuppliers()
         }
     },
     mounted() {
         var scope = this
-        scope.getSuppliers()
+        scope.setSelectedSuppliers();
     },
 }
 </script>
