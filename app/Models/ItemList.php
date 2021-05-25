@@ -33,7 +33,7 @@ class ItemList extends Model
 
 
     public function Suppliers(){
-        return $this->hasMany('App\Models\ItemSupplier','item_uuid','uuid')->with('Supplier');
+        return $this->hasMany('App\Models\ItemSupplier','item_uuid','uuid')->with('Supplier.DiscountGroups.Discounts');
     }
 
     public function IncomeAccount(){

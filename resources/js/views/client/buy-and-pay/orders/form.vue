@@ -126,13 +126,13 @@ export default {
 
             branch_name: '',
 
-            selected_supplier_discount_groups: [],
+            selected_bd_group_supplier_uuids: [],
             formdata: { 
                 uuid: null, 
                 po_no: '',
                 item_group_uuid: '',
                 asset_group_uuid: '',
-                selected_supplier_discount_groups: [],
+                selected_bd_group_supplier_uuids: [],
                 term: '',
                 date_purchased: moment(),
                 date_expected: '',
@@ -226,20 +226,19 @@ export default {
             var scope = this
             scope.options_item_discount_group = []
             
-
-            scope.GET('suppliers/' + suppier_uuid + '/supplier-base-discount-group').then(res => {
+            $(".form-select-supplier-discount-group").select2();
+            $(".form-select-supplier-discount-group").html('');
+      
+            scope.GET('suppliers/' + suppier_uuid + '/base-discounts').then(res => {
                 res.rows.forEach(function (data) {
                     scope.options_item_discount_group.push({
                         id: data.uuid,
-                        text: data.group_name
+                        text: data.name
                     })
                 })
 
-                $(".form-select-supplier-discount-group").select2();
-                $(".form-select-supplier-discount-group").html('');
-                $(".form-select-supplier-discount-group").select2({data: scope.options_item_discount_group});
-
                 
+                $(".form-select-supplier-discount-group").select2({data: scope.options_item_discount_group});
                 $(".form-select-supplier-discount-group").val(scope.selected_item_discount_group).trigger('change');
             
 
@@ -384,7 +383,7 @@ export default {
             scope.formdata.asset_group_uuid = scope.selected_asset_group
             scope.formdata.supplier_uuid = scope.selected_supplier
             scope.formdata.orders_reason_code_uuid = scope.selected_reason_code
-            scope.formdata.selected_supplier_discount_groups = scope.selected_supplier_discount_groups
+            scope.formdata.selected_bd_group_supplier_uuids = scope.selected_bd_group_supplier_uuids
             scope.formdata.branch_locations_uuid = scope.selected_branch_location
 
             scope.POST('buy-and-pay/orders', scope.formdata).then(res => {
@@ -443,7 +442,7 @@ export default {
         
         $(".form-select-supplier-discount-group").on('change',function(){
             var ids = $(".form-select-supplier-discount-group").val()
-            scope.selected_supplier_discount_groups = ids
+            scope.selected_bd_group_supplier_uuids = ids
         });
 
 

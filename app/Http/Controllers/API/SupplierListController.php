@@ -11,14 +11,14 @@ use App\Models\ItemSupplier;
 use App\Models\ItemUom; 
 use App\Models\GlobalUom; 
 
-use App\Models\BDSupplier; 
-use App\Models\BDSupplierDiscount; 
-use App\Models\BDSupplierDiscountExcludedItem; 
+use App\Models\BDGroupSupplier; 
+use App\Models\BDGroupSupplierDiscount; 
+use App\Models\BDGroupSupplierDiscountExcludedItem; 
 
 use Illuminate\Support\Facades\Auth; 
 
 
-use  App\Http\Controllers\API\BDSupplierController;
+use  App\Http\Controllers\API\BDGroupSupplierController;
 use  App\Http\Controllers\API\SupplierCheckPayeeController;
 use  App\Http\Controllers\API\SupplierContactController;
 
@@ -38,9 +38,16 @@ class SupplierListController extends Controller
             });
         }
 
+        if (isset(request()->notIn)) {
+            $excluded_uuids = explode(',',request()->notIn);
+            $list = $list->whereNotIn('uuid',$excluded_uuids);
+        }
+
         if (isset(request()->discounts) && request()->discounts == 'included') {
             $list = $list->with('DiscountGroups.Discounts.ExludedItems');
         }
+
+        
 
         $count = $list->count();
 
@@ -82,7 +89,7 @@ class SupplierListController extends Controller
         $children = (object) request()->children;
 
         $groups = (isset($children->discount_groups)) ? $children->discount_groups : [];
-        $check = BDSupplierController::check($groups);
+        $check = BDGroupSupplierController::check($groups);
 
         if ($check['errors'] > 0) {
            return response()->json(['success' => 0, 'groups' => $check['groups'], 'errors' => $check['errors'], 'tab' => 'discounts' ], 500);
@@ -126,11 +133,11 @@ class SupplierListController extends Controller
         $supplier->save();
 
         $supplier = SupplierList::find($supplier->uuid);
-        $bd_groups_save = BDSupplierController::save($supplier->uuid,$groups);
+        $bd_groups_save = BDGroupSupplierController::save($supplier->uuid,$groups);
         $check_payees_save = SupplierCheckPayeeController::save($supplier->uuid,$payees);
         $contacts_save = SupplierContactController::save($supplier->uuid,$contacts);
 
-       //  $BD_groups = BDSupplier::where('supplier_uuid','=',$supplier->uuid)->with('discounts')->get();
+       //  $BD_groups = BDGroupSupplier::where('supplier_uuid','=',$supplier->uuid)->with('discounts')->get();
 
         return response()->json(['success' => 1, 'rows' => $supplier], 200);
     }

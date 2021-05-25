@@ -310,11 +310,12 @@ export default {
             $(this).val('')
         })
         */
-
+       /*
        $(document).on('click','.autocomplete-suggestion',function(){
            var barcode = $(this).data('barcode')
            scope.selectItem(barcode) 
         })
+        */
     },
 }
 

@@ -826,13 +826,13 @@ export default {
                 })
 
                 if (items.length) {
-                    scope.DISCOUNT_BASE_RATE_TOTAL +=  parseFloat(discount.discount_rate)
+                    scope.DISCOUNT_BASE_RATE_TOTAL +=  parseFloat(discount.rate)
                     for (let x = 0; x < items.length; x++) {
                         var item = items[x]
-                        discount.discount_amount += item.gross_amount * (discount.discount_rate / 100)
+                        discount.amount += item.gross_amount * (discount.rate / 100)
                         
                         // only add the discount to the list when the value is greater than 0
-                        if (discount.discount_amount > 0) {
+                        if (discount.amount > 0) {
                             scope.DISCOUNT_BASE_INCLUDED.push(discount);
                         }
                        
@@ -840,7 +840,7 @@ export default {
                 }
 
                
-                scope.DISCOUNT_BASE_AMOUNT_TOTAL +=  discount.discount_amount
+                scope.DISCOUNT_BASE_AMOUNT_TOTAL +=  discount.amount
             }
 
 
@@ -1116,7 +1116,7 @@ export default {
                 scope.__BASE_DISCOUNTS__ = res.base_discounts
                 scope.__PRICE_RULES__ = res.price_rules
                 scope.__ADDITIONALS__ = res.additional_discounts
-
+                console.log('__BASE_DISCOUNTS__',scope.__BASE_DISCOUNTS__)
                 res.rows.forEach(function (data) {
                     data.data = data.uuid
                     data.value = data.item_description 

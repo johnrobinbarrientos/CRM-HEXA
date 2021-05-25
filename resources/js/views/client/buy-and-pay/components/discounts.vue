@@ -32,9 +32,9 @@
                             <th>
                                 <span v-if="index == 0">Base</span>
                             </th>
-                            <th>{{ base_discount.discount_name }}</th>
-                            <th class="text-right">{{ base_discount.discount_rate }}%</th>
-                            <th class="text-right">{{ parseFloat(base_discount.discount_amount).toFixed(2) }}</th>
+                            <th>{{ base_discount.name }}</th>
+                            <th class="text-right">{{ base_discount.rate }}%</th>
+                            <th class="text-right">{{ parseFloat(base_discount.amount).toFixed(2) }}</th>
                         </tr>
                         <tr style="/*background:#abd1f5;*/" class="tr-grey">
                             <!--<th style="background:#77ade0;"></th>-->
@@ -141,7 +141,7 @@ export default {
         updateDISCOUNTS: function (DISCOUNTS,TOTALS) {
             var scope = this
             scope.discounts = DISCOUNTS
-
+            console.log(DISCOUNTS)
             scope.APPLIED_BASE_DISCOUNTS = scope.discounts.base
 
             /* BASE */

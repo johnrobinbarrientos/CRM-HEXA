@@ -70,6 +70,6 @@ class SupplierList extends Model
    
     public function DiscountGroups()
     {
-        return $this->hasMany('App\Models\BDSupplier','supplier_uuid','uuid');
+        return $this->hasMany('App\Models\BDGroupSupplier','supplier_uuid','uuid');
     }
 }

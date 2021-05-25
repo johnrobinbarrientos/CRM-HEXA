@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ItemList; 
 use App\Models\ItemSupplier; 
 use App\Models\ItemUom; 
-use App\Models\BDSupplier; 
+use App\Models\BDGroupSupplier; 
 use Illuminate\Support\Facades\Auth; 
 
 class ItemUOMController extends Controller

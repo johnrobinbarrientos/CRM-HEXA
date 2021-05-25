@@ -115,7 +115,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/{supplier_uuid}','API\SupplierListController@show');
         Route::delete('/{supplier_uuid}', 'API\SupplierListController@delete');
 
-        Route::get('/{supplier_uuid}/base-discounts', 'API\BDSupplierController@index');
+        Route::get('/{supplier_uuid}/base-discounts', 'API\BDGroupSupplierController@index');
         
     });
 
@@ -329,7 +329,6 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/to-bill', 'API\PurchaseBillingController@getToBill');
         Route::post('/billing/{order_uuid}/details', 'API\PurchaseBillingController@save');
         
-
         Route::post('/receipts/{order_uuid}', 'API\BuyAndPayReceiveController@save');
 
         Route::get('/receipts/{order_uuid}', 'API\BuyAndPayReceiveController@show');
