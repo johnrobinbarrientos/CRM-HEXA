@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 100411
 File Encoding         : 65001
 
-Date: 2021-05-22 14:41:53
+Date: 2021-05-26 10:45:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -122,10 +122,10 @@ INSERT INTO `address_list` VALUES ('83', '8b632da0-b3fe-4ba3-9d99-3157d8ee3b3f',
 INSERT INTO `address_list` VALUES ('84', '53a91236-5a3f-497c-9564-a66ed2839328', 'Tumpagon', 'CAGAYAN DE ORO CITY (Capital)', 'MISAMIS ORIENTAL', 'REGION X (Northern Mindanao)', 'Philippines', '9000', '2020-09-16 09:22:23', '2020-09-16 09:22:23', null);
 
 -- ----------------------------
--- Table structure for bd_suppliers
+-- Table structure for bd_group_suppliers
 -- ----------------------------
-DROP TABLE IF EXISTS `bd_suppliers`;
-CREATE TABLE `bd_suppliers` (
+DROP TABLE IF EXISTS `bd_group_suppliers`;
+CREATE TABLE `bd_group_suppliers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uuid` varchar(255) NOT NULL,
   `supplier_uuid` varchar(255) NOT NULL,
@@ -134,51 +134,40 @@ CREATE TABLE `bd_suppliers` (
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
--- Records of bd_suppliers
+-- Records of bd_group_suppliers
 -- ----------------------------
-INSERT INTO `bd_suppliers` VALUES ('1', 'a299fd3d-a9d6-4cdb-9049-1b9f8afa8981', 'b2e545bf-c505-46ad-a498-fe72423537be', 'cholates', '2021-03-24 08:08:42', '2021-03-24 08:08:42', null);
-INSERT INTO `bd_suppliers` VALUES ('2', 'd369a70d-e79b-4314-a404-12dbb20d6358', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'asdasd', '2021-03-29 09:01:26', '2021-03-30 06:34:01', '2021-03-30 06:34:01');
-INSERT INTO `bd_suppliers` VALUES ('3', '01f2c696-df21-46c7-9461-0501f47f3fae', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'rty', '2021-03-30 06:27:52', '2021-03-30 06:34:01', '2021-03-30 06:34:01');
-INSERT INTO `bd_suppliers` VALUES ('4', '40261f2e-d34d-47d1-bd23-4be15db37c60', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'fgh', '2021-03-30 06:34:01', '2021-03-30 06:34:01', null);
 
 -- ----------------------------
--- Table structure for bd_supplier_discounts
+-- Table structure for bd_group_supplier_discounts
 -- ----------------------------
-DROP TABLE IF EXISTS `bd_supplier_discounts`;
-CREATE TABLE `bd_supplier_discounts` (
+DROP TABLE IF EXISTS `bd_group_supplier_discounts`;
+CREATE TABLE `bd_group_supplier_discounts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uuid` varchar(255) NOT NULL,
-  `bd_supplier_uuid` varchar(255) NOT NULL,
+  `bd_group_supplier_uuid` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `rate` decimal(10,2) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
--- Records of bd_supplier_discounts
+-- Records of bd_group_supplier_discounts
 -- ----------------------------
-INSERT INTO `bd_supplier_discounts` VALUES ('1', 'b62afa71-4fce-4611-897c-5b8d9d12216a', 'a299fd3d-a9d6-4cdb-9049-1b9f8afa8981', 'choco 1', '12.00', '2021-03-24 08:08:42', '2021-03-24 08:08:42', null);
-INSERT INTO `bd_supplier_discounts` VALUES ('2', '5ee58a3f-a9f0-4ed2-8be7-cf9def654cfa', 'a299fd3d-a9d6-4cdb-9049-1b9f8afa8981', 'choco 2', '3.00', '2021-03-24 08:08:42', '2021-03-24 08:08:42', null);
-INSERT INTO `bd_supplier_discounts` VALUES ('3', '0915140f-3909-4b2c-8d54-1625560a5e3a', 'd369a70d-e79b-4314-a404-12dbb20d6358', 'wwer', '12.00', '2021-03-29 09:01:26', '2021-03-29 15:20:05', null);
-INSERT INTO `bd_supplier_discounts` VALUES ('4', '8c0b85d6-b198-45ea-b0d5-87c90cf189c1', 'd369a70d-e79b-4314-a404-12dbb20d6358', 'dfgfdg', '3.00', '2021-03-29 09:01:26', '2021-03-29 15:20:05', null);
-INSERT INTO `bd_supplier_discounts` VALUES ('6', '5e064f96-e9f8-46b5-8592-cc0a8e959a0a', 'd369a70d-e79b-4314-a404-12dbb20d6358', 'rty', '20.00', '2021-03-30 06:27:28', '2021-03-30 06:27:52', '2021-03-30 06:27:52');
-INSERT INTO `bd_supplier_discounts` VALUES ('7', '129e6834-8391-4e2d-826e-3f7ad1ae21fc', '01f2c696-df21-46c7-9461-0501f47f3fae', 'hgj', '3.00', '2021-03-30 06:27:52', '2021-03-30 06:27:52', null);
-INSERT INTO `bd_supplier_discounts` VALUES ('8', '8f54e0ba-745b-49c0-9ebd-c781ec2515e3', '40261f2e-d34d-47d1-bd23-4be15db37c60', 'rty', '4.00', '2021-03-30 06:34:01', '2021-03-30 06:34:01', null);
 
 -- ----------------------------
--- Table structure for bd_supplier_discount_excluded_items
+-- Table structure for bd_group_supplier_discount_excluded_items
 -- ----------------------------
-DROP TABLE IF EXISTS `bd_supplier_discount_excluded_items`;
-CREATE TABLE `bd_supplier_discount_excluded_items` (
+DROP TABLE IF EXISTS `bd_group_supplier_discount_excluded_items`;
+CREATE TABLE `bd_group_supplier_discount_excluded_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uuid` varchar(255) NOT NULL,
-  `bd_supplier_discount_uuid` varchar(255) NOT NULL,
+  `bd_group_supplier_discount_uuid` varchar(255) NOT NULL,
   `item_uuid` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -187,7 +176,7 @@ CREATE TABLE `bd_supplier_discount_excluded_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
--- Records of bd_supplier_discount_excluded_items
+-- Records of bd_group_supplier_discount_excluded_items
 -- ----------------------------
 
 -- ----------------------------
@@ -219,7 +208,7 @@ CREATE TABLE `company_accounting_period` (
 -- ----------------------------
 -- Records of company_accounting_period
 -- ----------------------------
-INSERT INTO `company_accounting_period` VALUES ('1', 'dc0efc5c-58dd-4079-bfe0-79307d16d737', '2020', '1', '1', '1', '1', '1', '0', '1', '1', '1', '1', '1', '1', '2021-01-09 06:01:55', '2021-01-09 06:02:06', null);
+INSERT INTO `company_accounting_period` VALUES ('1', 'dc0efc5c-58dd-4079-bfe0-79307d16d737', '2020', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2021-01-09 06:01:55', '2021-04-17 09:14:36', null);
 
 -- ----------------------------
 -- Table structure for company_branch
@@ -283,7 +272,7 @@ CREATE TABLE `company_chart_of_accounts` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of company_chart_of_accounts
@@ -298,7 +287,7 @@ INSERT INTO `company_chart_of_accounts` VALUES ('25', 'b4a27b03-3967-4682-90e0-a
 INSERT INTO `company_chart_of_accounts` VALUES ('26', '24a9cb58-0032-464a-985f-1cb185010587', '1300', 'Inventory', '0ff067d4-6493-43ba-a891-1c1451933287', '0', '2020-09-16 13:30:37', '2020-09-16 13:30:37', null);
 INSERT INTO `company_chart_of_accounts` VALUES ('27', '690d75ac-0ead-4dc3-9e44-2555b908596a', '1310', 'Allowance for Obsolesence', '0ff067d4-6493-43ba-a891-1c1451933287', '0', '2020-09-16 13:30:51', '2020-09-16 13:30:51', null);
 INSERT INTO `company_chart_of_accounts` VALUES ('28', '231dabd8-a9f4-4558-ab5a-590a78fa381e', '1400', 'Other Current Assets', '2630e25b-eb19-4814-825d-f7c1789ef29c', '0', '2020-09-16 13:31:15', '2020-09-16 13:31:15', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('29', '055b293b-1c3b-4fd8-8b54-b0ba75414494', '1401', 'Prepaid Expenses', '2630e25b-eb19-4814-825d-f7c1789ef29c', '0', '2020-09-16 13:31:30', '2021-03-22 08:28:02', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('29', '055b293b-1c3b-4fd8-8b54-b0ba75414494', '1401', 'Prepaid Expenses', '2630e25b-eb19-4814-825d-f7c1789ef29c', '1', '2020-09-16 13:31:30', '2021-03-16 05:04:10', null);
 INSERT INTO `company_chart_of_accounts` VALUES ('30', '8f012b0f-a9cf-4f17-8a24-5878ea7baf71', '1500', 'Motor Vehicle', '1050c03c-e718-4f6a-9ae6-58f23dd616ca', '0', '2020-09-16 13:31:50', '2020-09-16 13:31:50', null);
 INSERT INTO `company_chart_of_accounts` VALUES ('31', '9133572a-de0a-4551-996e-d5032e59bacd', '1510', 'Accumulated Depreciation - Motor Vehicle', '1050c03c-e718-4f6a-9ae6-58f23dd616ca', '0', '2020-09-16 13:32:08', '2020-09-16 13:32:08', null);
 INSERT INTO `company_chart_of_accounts` VALUES ('32', '49a8535e-feca-445b-a456-d652c29882ae', '1520', 'Office Equipment', '1050c03c-e718-4f6a-9ae6-58f23dd616ca', '0', '2020-09-16 13:32:24', '2020-09-16 13:32:24', null);
@@ -331,31 +320,40 @@ INSERT INTO `company_chart_of_accounts` VALUES ('58', '0bad9f76-9417-4aa8-8f70-a
 INSERT INTO `company_chart_of_accounts` VALUES ('59', '58e1a793-3042-48bc-9d11-bf477a2929fa', '4010', 'Sales', '00cb4c7a-3aed-4669-9a57-fcc0f4f9c039', '0', '2020-09-16 13:41:14', '2021-03-13 12:09:44', null);
 INSERT INTO `company_chart_of_accounts` VALUES ('60', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '5050', 'Cost of Sales', 'e0f35f15-5f5a-429b-a48c-0a066a06885a', '0', '2020-09-16 13:41:31', '2021-03-04 17:27:04', null);
 INSERT INTO `company_chart_of_accounts` VALUES ('61', '12736ee9-5d5f-4668-9207-5fb9b7bdd846', '4020', 'Other Income', '678bb988-1cdb-4a91-8b55-a35551d91040', '0', '2020-09-16 13:41:49', '2020-09-16 13:41:49', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('62', '282a2d9e-9a12-481b-b1ac-34b41ffd74fb', '5100', 'Bad Debts', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:42:11', '2021-03-13 12:05:34', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('63', 'e52d5c59-9a98-40e1-80b3-38ebedea948d', '5110', 'Bank Charges', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:42:24', '2021-03-04 17:27:22', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('64', '08246c29-06db-4738-bd33-a16e171809c9', '5120', 'Commissions and Incentives', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:42:35', '2021-03-04 17:27:51', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('65', '363f366c-cb16-4ffd-a835-ad6f01d9ae26', '5130', 'Communications Expense', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:42:50', '2021-03-04 17:28:17', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('66', '0039deec-be79-488f-9c7d-9e620d418c48', '5140', 'Depreciation - Motor Vehicle', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:43:02', '2021-03-13 12:06:29', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('67', 'ca32dfe6-9422-4d50-88ca-1c3242228cdd', '5150', 'Depreciation - Office Equipment', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:43:12', '2021-03-13 12:07:07', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('68', 'ea3e9966-60b8-4621-892e-4250e8efba12', '5160', 'Depreciation - Furniture and Fixture', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:43:25', '2021-03-13 12:07:31', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('69', '0ce30798-4d4a-4e1f-9776-5ab66e10b494', '5170', 'Employee Benefits', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:43:38', '2021-03-04 17:29:47', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('70', '5477e3a9-cdb8-41d1-af64-ab87460a82a7', '5180', 'Fuel', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:43:51', '2021-03-04 17:16:42', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('71', 'd9a83547-db23-4bd3-a0b3-0e0b927572a0', '5190', 'Income Tax Expense', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:44:01', '2021-03-04 17:29:56', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('72', 'b1d8a0af-00e4-42ae-87c9-c780e1316a2c', '5200', 'Insurance Expense', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:44:12', '2021-03-04 17:30:07', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('73', '271ea37e-da1c-4c16-9f67-d724ab2502d2', '5210', 'Interest expense', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:44:24', '2021-03-04 17:30:18', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('74', '9533ff72-c393-4529-a7a7-894c6afed441', '5220', 'Light, Power & Water', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:44:36', '2021-03-04 17:30:28', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('75', '81aee138-066a-4e48-852c-a8c5677b17c6', '5230', 'Meals and Entertainment', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:44:48', '2021-03-22 08:41:02', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('76', 'ba79fb12-1c36-4273-ae9b-729b3d5eb39d', '5240', 'Professional fees', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:45:00', '2021-03-22 08:37:59', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('77', 'b29eb209-9ac9-4477-a4ad-98da65d24be4', '5250', 'Rent Expense', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:45:13', '2021-03-22 08:41:14', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('78', 'e7d696eb-6fd4-4c68-8dd8-dc9da015f34a', '5260', 'Repairs and Maintenance', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:45:26', '2021-03-22 08:41:23', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('79', 'a7c3fd1e-eb56-4fa8-89a4-7df4eeebf9a5', '5270', 'Salaries & Wages', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:45:41', '2021-03-22 08:41:44', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('80', '1d7878d9-3bbb-4ebf-bd1c-07232cf5b7f8', '5280', 'SSS/PHIC/HDMF Expense', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:45:56', '2021-03-04 17:31:29', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('81', 'fef76060-3965-41d4-9686-bda3c4b8cafb', '5290', 'Supplies Expense', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:46:07', '2021-03-22 08:41:59', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('82', 'f88da01f-cc2b-4ba5-907e-bbcf328c6f46', '5300', 'Taxes, Licences and Registrations', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:46:22', '2021-03-04 17:31:48', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('83', '9fffc4e7-c4c4-4208-95a0-aef4f4f3e904', '5310', 'Transportation Expense', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:46:35', '2021-03-04 17:31:58', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('84', '9f61014f-3941-4523-96af-4e42b17492cc', '5320', 'Interest Income', '678bb988-1cdb-4a91-8b55-a35551d91040', '0', '2020-09-16 13:46:48', '2020-09-16 13:47:45', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('85', 'b400c729-013d-4d34-995e-5ce53752554e', '5330', 'Other Operating Income', '678bb988-1cdb-4a91-8b55-a35551d91040', '0', '2020-09-16 13:47:03', '2020-09-16 13:47:35', null);
-INSERT INTO `company_chart_of_accounts` VALUES ('86', 'f505a61e-cf6e-4b92-baf1-31d263ffbc38', '5340', 'Other Expense', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:47:20', '2021-03-13 12:08:48', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('62', '282a2d9e-9a12-481b-b1ac-34b41ffd74fb', '5100', 'Salaries and Wages', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:42:11', '2021-04-24 08:51:03', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('63', 'e52d5c59-9a98-40e1-80b3-38ebedea948d', '5110', 'Contractual Services', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:42:24', '2021-04-24 08:52:08', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('64', '08246c29-06db-4738-bd33-a16e171809c9', '5120', 'Bonuses', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:42:35', '2021-04-24 08:52:47', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('65', '363f366c-cb16-4ffd-a835-ad6f01d9ae26', '5130', 'Employee Benefits and Allowances', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:42:50', '2021-04-24 08:53:17', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('66', '0039deec-be79-488f-9c7d-9e620d418c48', '5140', 'Meals Expense', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:43:02', '2021-04-24 08:53:42', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('67', 'ca32dfe6-9422-4d50-88ca-1c3242228cdd', '5150', 'Incentives and Commissions', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:43:12', '2021-04-24 08:54:02', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('68', 'ea3e9966-60b8-4621-892e-4250e8efba12', '5160', 'SSS/Med/Pag-ibig Contribution', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:43:25', '2021-04-24 08:54:17', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('69', '0ce30798-4d4a-4e1f-9776-5ab66e10b494', '5170', 'Hotel and Lodging', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:43:38', '2021-04-24 08:54:34', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('70', '5477e3a9-cdb8-41d1-af64-ab87460a82a7', '5180', 'Training/Meeting Expenses', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:43:51', '2021-04-24 08:54:53', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('71', 'd9a83547-db23-4bd3-a0b3-0e0b927572a0', '5190', 'Transportation Expense', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:44:01', '2021-04-24 08:55:13', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('72', 'b1d8a0af-00e4-42ae-87c9-c780e1316a2c', '5200', 'Depreciation - Motor Vehicle', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:44:12', '2021-04-24 08:55:43', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('73', '271ea37e-da1c-4c16-9f67-d724ab2502d2', '5210', 'Depreciation - Office Equipment', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:44:24', '2021-04-24 08:56:04', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('74', '9533ff72-c393-4529-a7a7-894c6afed441', '5220', 'Depreciation - Furniture and Fixture', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2020-09-16 13:44:36', '2021-04-24 08:56:20', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('75', '81aee138-066a-4e48-852c-a8c5677b17c6', '5230', 'Fuel and Oil', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:44:48', '2021-04-24 08:56:46', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('76', 'ba79fb12-1c36-4273-ae9b-729b3d5eb39d', '5240', 'Repairs and Maintenance', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:45:00', '2021-04-24 08:57:04', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('77', 'b29eb209-9ac9-4477-a4ad-98da65d24be4', '5250', 'Rent Expense', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:45:13', '2021-04-24 08:57:29', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('78', 'e7d696eb-6fd4-4c68-8dd8-dc9da015f34a', '5260', 'Transportation and Handling Fee', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:45:26', '2021-04-24 08:57:52', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('79', 'a7c3fd1e-eb56-4fa8-89a4-7df4eeebf9a5', '5270', 'Licenses and Registration Fees', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:45:41', '2021-04-24 09:12:20', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('80', '1d7878d9-3bbb-4ebf-bd1c-07232cf5b7f8', '5280', 'Insurance Expense', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:45:56', '2021-04-24 09:20:38', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('81', 'fef76060-3965-41d4-9686-bda3c4b8cafb', '5290', 'Municipal Tax Expense', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:46:07', '2021-04-24 09:20:56', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('82', 'f88da01f-cc2b-4ba5-907e-bbcf328c6f46', '5300', 'Supplies Expense', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:46:22', '2021-04-24 09:21:22', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('83', '9fffc4e7-c4c4-4208-95a0-aef4f4f3e904', '5310', 'Telecommunication Expenses', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:46:35', '2021-04-24 09:21:39', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('84', '9f61014f-3941-4523-96af-4e42b17492cc', '5320', 'Light and Power', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:46:48', '2021-04-24 09:22:24', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('85', 'b400c729-013d-4d34-995e-5ce53752554e', '5330', 'Water', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:47:03', '2021-04-24 09:22:43', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('86', 'f505a61e-cf6e-4b92-baf1-31d263ffbc38', '5340', 'Representation Expense', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2020-09-16 13:47:20', '2021-04-24 09:23:01', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('87', '1a08785a-ca96-45fe-95bb-05cfade797c1', '5350', 'Professional Fees', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2021-04-24 09:23:29', '2021-04-24 09:23:29', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('88', 'e36b6110-09ce-475c-977d-49a1d169a084', '5360', 'Security Services', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2021-04-24 09:23:57', '2021-04-24 09:23:57', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('89', 'c98356e4-bbf6-4835-bbfe-13d1b77c337a', '5370', 'Merchandising and Promotions', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2021-04-24 09:24:17', '2021-04-24 09:24:17', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('90', 'f11594bd-42b9-4945-9e55-f0f9bb993136', '5380', 'Doubtful Accounts Expense', '9c620461-7af0-416f-910d-0b59ad33445c', '0', '2021-04-24 09:24:37', '2021-04-24 09:24:37', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('91', 'b75958ff-ba99-4106-a0c4-d273719a75c6', '5390', 'Software Expense', '9c620461-7af0-416f-910d-0b59ad33445c', '1', '2021-04-24 09:24:53', '2021-04-24 09:24:53', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('92', '5cd29b1d-99f9-42f6-bd97-59f6c1321567', '5400', 'Other Expenses', '2d297ebc-8082-4a4c-aef2-248623884592', '1', '2021-04-24 09:25:11', '2021-04-24 09:26:01', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('93', 'bc733ffa-1a93-4f13-a7e0-a5a776b53bab', '5410', 'Bank and Other Charges', '0da49e61-0ae1-4e32-adc8-06295514c173', '1', '2021-04-24 09:25:43', '2021-04-24 09:25:43', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('94', '7d6a338d-b270-4551-bb8a-c52245101177', '5420', 'Interest Expense', '0da49e61-0ae1-4e32-adc8-06295514c173', '1', '2021-04-24 09:26:21', '2021-04-24 09:26:21', null);
+INSERT INTO `company_chart_of_accounts` VALUES ('95', '3a49897a-b021-4c07-b17f-ab4942cb5f37', '5430', 'Income Tax Expense', 'def041a5-5263-4354-9fbe-a845f997e675', '1', '2021-04-24 09:26:42', '2021-04-24 09:26:42', null);
 
 -- ----------------------------
 -- Table structure for company_chart_of_accounts_account_group
@@ -370,7 +368,7 @@ CREATE TABLE `company_chart_of_accounts_account_group` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of company_chart_of_accounts_account_group
@@ -389,7 +387,10 @@ INSERT INTO `company_chart_of_accounts_account_group` VALUES ('24', 'e31a2c62-07
 INSERT INTO `company_chart_of_accounts_account_group` VALUES ('25', '00cb4c7a-3aed-4669-9a57-fcc0f4f9c039', 'e9ed7560-a02f-479b-81b2-80a000a5f241', 'Income', '2020-09-16 13:26:44', '2020-09-16 13:26:44', null);
 INSERT INTO `company_chart_of_accounts_account_group` VALUES ('26', 'e0f35f15-5f5a-429b-a48c-0a066a06885a', 'e9ed7560-a02f-479b-81b2-80a000a5f241', 'Cost of Sales', '2020-09-16 13:26:56', '2020-09-16 13:53:56', null);
 INSERT INTO `company_chart_of_accounts_account_group` VALUES ('27', '678bb988-1cdb-4a91-8b55-a35551d91040', 'e9ed7560-a02f-479b-81b2-80a000a5f241', 'Other Income', '2020-09-16 13:27:30', '2020-09-16 13:27:30', null);
-INSERT INTO `company_chart_of_accounts_account_group` VALUES ('28', '9c620461-7af0-416f-910d-0b59ad33445c', 'e9ed7560-a02f-479b-81b2-80a000a5f241', 'Operating Expense', '2020-09-16 13:27:44', '2021-03-22 08:29:02', null);
+INSERT INTO `company_chart_of_accounts_account_group` VALUES ('28', '9c620461-7af0-416f-910d-0b59ad33445c', 'e9ed7560-a02f-479b-81b2-80a000a5f241', 'Operating Expense', '2020-09-16 13:27:44', '2021-04-24 08:44:26', null);
+INSERT INTO `company_chart_of_accounts_account_group` VALUES ('29', '2d297ebc-8082-4a4c-aef2-248623884592', 'e9ed7560-a02f-479b-81b2-80a000a5f241', 'Other Expense', '2021-04-24 08:45:08', '2021-04-24 08:45:08', null);
+INSERT INTO `company_chart_of_accounts_account_group` VALUES ('30', '0da49e61-0ae1-4e32-adc8-06295514c173', 'e9ed7560-a02f-479b-81b2-80a000a5f241', 'Finance Charge', '2021-04-24 08:45:23', '2021-04-24 08:45:23', null);
+INSERT INTO `company_chart_of_accounts_account_group` VALUES ('31', 'def041a5-5263-4354-9fbe-a845f997e675', 'e9ed7560-a02f-479b-81b2-80a000a5f241', 'Income Tax', '2021-04-24 08:45:34', '2021-04-24 08:45:34', null);
 
 -- ----------------------------
 -- Table structure for company_chart_of_accounts_report_group
@@ -446,7 +447,7 @@ CREATE TABLE `company_list` (
   `contact_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `tax_id_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `prefix` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address_uuid` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '',
+  `global_address_uuid` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -509,7 +510,7 @@ CREATE TABLE `company_taxation` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of company_taxation
@@ -535,7 +536,7 @@ CREATE TABLE `company_taxation_item` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of company_taxation_item
@@ -592,15 +593,11 @@ CREATE TABLE `customer_branch` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of customer_branch
 -- ----------------------------
-INSERT INTO `customer_branch` VALUES ('11', '8c2d146c-23fe-4fcf-940c-19dc97b1af83', '7250cf2d-03aa-4a0c-b597-f274b55b6e88', 'wre', 'qwe', null, '', 'fds', '123', '1', '2021-03-30 08:41:38', '2021-03-30 08:42:21', '2021-03-30 08:42:21');
-INSERT INTO `customer_branch` VALUES ('12', '2a454935-0a62-4f9b-a271-2602a52a54b3', '7250cf2d-03aa-4a0c-b597-f274b55b6e88', 'test', 'fds', 'purok 1', '84b20a2d-4575-49d2-a33d-3b7f95d7bfb9', 'asd', '3123', '1', '2021-03-30 08:42:21', '2021-05-04 04:16:00', null);
-INSERT INTO `customer_branch` VALUES ('13', '0db2e4bb-bcff-463b-90b2-40c52e22da38', '7250cf2d-03aa-4a0c-b597-f274b55b6e88', 'customer 2', 'fds', 'purok 2', '10560cb7-0f74-4b7e-b6cc-ec6045a9ef3a', 'asdsd', 'fds', '1', '2021-05-04 04:16:00', '2021-05-04 05:29:34', null);
-INSERT INTO `customer_branch` VALUES ('14', 'a7a9eb60-e5af-4cb1-92ed-8e7e27b56e87', '7250cf2d-03aa-4a0c-b597-f274b55b6e88', 'fdgdf', '345', 'ghgfh', '84b20a2d-4575-49d2-a33d-3b7f95d7bfb9', 'hkj', '76576', '1', '2021-05-04 05:29:34', '2021-05-04 05:29:34', null);
 
 -- ----------------------------
 -- Table structure for customer_chain
@@ -750,14 +747,14 @@ CREATE TABLE `customer_list` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of customer_list
 -- ----------------------------
-INSERT INTO `customer_list` VALUES ('8', 'dbfcf281-49f0-4979-85c2-b21fd279da46', 'Customer 1', 'Cust 1', '11111', '140e6a36-662a-478b-a6c3-b0ac9ff591d3', '64d9d72a-3b58-4e20-ad31-957367c34e99', '53a869a8-e373-44a6-9ba1-e39ecbc91214', '01dcb9da-a987-492e-88e9-e26f34e4e4c2', 'c59bad9d-73c9-43b2-9668-b489e0afaee8', null, '506c0f74-1623-4d6c-ac47-6bcad8ea9d2b', '0d94b076-3cab-4006-a86a-96910d0c8009', null, '1', null, null, null, 'c1921889-c4cd-46b1-918b-b79b4f2b6666', null, '1', '2', '3', '2021-03-29 12:17:14', '2021-03-29 12:17:14', null);
-INSERT INTO `customer_list` VALUES ('9', '94cd891c-336a-4ac9-9b4c-91e41a9c58e6', 'Customer 2', 'Cust 2', '22222', '140e6a36-662a-478b-a6c3-b0ac9ff591d3', '64d9d72a-3b58-4e20-ad31-957367c34e99', '53a869a8-e373-44a6-9ba1-e39ecbc91214', '01dcb9da-a987-492e-88e9-e26f34e4e4c2', 'c59bad9d-73c9-43b2-9668-b489e0afaee8', null, '506c0f74-1623-4d6c-ac47-6bcad8ea9d2b', '0d94b076-3cab-4006-a86a-96910d0c8009', null, '1', null, null, null, 'c1921889-c4cd-46b1-918b-b79b4f2b6666', null, '3', '4', '5', '2021-03-29 12:17:48', '2021-03-29 12:17:48', null);
-INSERT INTO `customer_list` VALUES ('10', '7250cf2d-03aa-4a0c-b597-f274b55b6e88', 'Customer 3', 'Cust 3', '3333', '140e6a36-662a-478b-a6c3-b0ac9ff591d3', '64d9d72a-3b58-4e20-ad31-957367c34e99', '53a869a8-e373-44a6-9ba1-e39ecbc91214', '01dcb9da-a987-492e-88e9-e26f34e4e4c2', 'c59bad9d-73c9-43b2-9668-b489e0afaee8', '1e1fc3e0-6431-4597-a811-c4895057667d', '506c0f74-1623-4d6c-ac47-6bcad8ea9d2b', '0d94b076-3cab-4006-a86a-96910d0c8009', null, '1', null, null, null, '40b50570-06d6-4658-9334-3c51fd8b577f', null, '6', '7', '8', '2021-03-29 12:18:17', '2021-05-04 04:07:58', null);
+INSERT INTO `customer_list` VALUES ('8', 'e53e1a09-d818-48a2-9336-23c08e087775', 'UNIPACE CORPORATION', 'UNIPACE CORPORATION', '000-000-000-000', '140e6a36-662a-478b-a6c3-b0ac9ff591d3', '7a8d4f67-816d-4e2b-a39e-14976eb8d6fd', '53a869a8-e373-44a6-9ba1-e39ecbc91214', '01dcb9da-a987-492e-88e9-e26f34e4e4c2', 'ce84e6a2-8a36-472a-8842-8c195b4dc334', '1e1fc3e0-6431-4597-a811-c4895057667d', '2da5250d-98ee-46c3-ab62-596c96432ba9', '0d94b076-3cab-4006-a86a-96910d0c8009', null, '1', 'accounting@unipace.com', 'Miss A', '09101234567', '3cb15a43-2835-4ce8-9434-2d62b422cd4f', 'Corrales ext.', '1', '1', '1', '2021-04-05 23:48:00', '2021-04-05 23:48:00', null);
+INSERT INTO `customer_list` VALUES ('9', '1c90f826-c679-4cd7-8e64-26d3ebba9392', 'ORORAMA SUPERCENTER, INC.', 'ORORAMA', '000-000-000-000', '140e6a36-662a-478b-a6c3-b0ac9ff591d3', '160c0944-c464-420f-b4ff-e4175049412d', '53a869a8-e373-44a6-9ba1-e39ecbc91214', '01dcb9da-a987-492e-88e9-e26f34e4e4c2', 'ce84e6a2-8a36-472a-8842-8c195b4dc334', '1e1fc3e0-6431-4597-a811-c4895057667d', '2da5250d-98ee-46c3-ab62-596c96432ba9', '0d94b076-3cab-4006-a86a-96910d0c8009', null, '1', 'accounting@ororama.com', 'Miss J', '09124563214', '662b18d4-1c97-41cd-a8fa-c07c30985e64', 'Jr borja st., cogon', '1', null, null, '2021-04-06 01:14:32', '2021-04-06 01:14:32', null);
+INSERT INTO `customer_list` VALUES ('10', '3beb2900-1cfd-4189-9008-994edc51cba7', 'AFPCES', 'AFPCES', '000-000-000-000', '140e6a36-662a-478b-a6c3-b0ac9ff591d3', 'a7a0cacc-8539-4518-8df2-da47e4ae2694', '53a869a8-e373-44a6-9ba1-e39ecbc91214', '01dcb9da-a987-492e-88e9-e26f34e4e4c2', 'ce84e6a2-8a36-472a-8842-8c195b4dc334', null, '0b71eeb6-3f03-41f2-afbe-5db3a304609d', '0d94b076-3cab-4006-a86a-96910d0c8009', null, '1', 'cdo@afpces.gov.ph', 'Lt Gen', '09123654789', 'c1921889-c4cd-46b1-918b-b79b4f2b6666', null, null, null, null, '2021-04-06 01:17:13', '2021-04-06 01:17:13', null);
 
 -- ----------------------------
 -- Table structure for customer_type
@@ -872,7 +869,7 @@ CREATE TABLE `employee_list` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of employee_list
@@ -1178,18 +1175,14 @@ CREATE TABLE `item_list` (
   `item_description` varchar(255) DEFAULT '',
   `item_shortname` varchar(255) DEFAULT NULL,
   `is_purchase_item` int(11) DEFAULT NULL,
-  `purchase_price` decimal(10,2) DEFAULT NULL,
   `is_sales_item` int(11) DEFAULT NULL,
   `sales_price` decimal(10,2) DEFAULT NULL,
-  `manual_rate` decimal(10,0) DEFAULT NULL,
-  `customer_group_uuid` varchar(255) DEFAULT NULL,
-  `option_rate` varchar(255) DEFAULT NULL,
   `is_expiry` int(11) DEFAULT NULL,
   `is_maintain_stock` int(11) DEFAULT NULL,
   `is_active` int(11) DEFAULT NULL,
   `coa_income_account_uuid` varchar(255) DEFAULT NULL,
   `coa_cos_account_uuid` varchar(255) DEFAULT NULL,
-  `reorder_qty` int(11) DEFAULT NULL,
+  `ico` int(11) DEFAULT NULL,
   `item_asset_group_uuid` varchar(255) DEFAULT '',
   `vat_uuid` varchar(255) DEFAULT NULL,
   `cat_department_uuid` varchar(255) DEFAULT '',
@@ -1205,21 +1198,21 @@ CREATE TABLE `item_list` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of item_list
 -- ----------------------------
-INSERT INTO `item_list` VALUES ('52', '212df508-0c94-41c7-892d-74a50fc4e3d4', '71a97981-c6ad-4d84-a360-b881991a5818', '1', '1111111111111', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', 'Snickers Classic Singles 51gx24x8', 'Snickers Singles 51g', '1', '1.00', '1', '1.00', null, null, null, '1', '1', '1', '58e1a793-3042-48bc-9d11-bf477a2929fa', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '24', null, null, '9e0520d5-6800-4f91-929d-4a4d7176a55f', '5e9aa710-d7d2-4f24-8c12-3981a75d6fe1', 'ad7ece9d-51b2-4c69-8711-be894ed45202', '018dd910-4af4-46d8-90c2-dac2d285c0d7', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', 'a0ab0577-e45b-4083-b34d-87a76093a29d', 'cc97382d-aab6-443a-94cb-76839e5b3d6f', '3fc3e8ac-1e31-4dda-9291-fd61b46a4702', '', '2021-03-06 01:49:55', '2021-03-06 02:01:29', null);
-INSERT INTO `item_list` VALUES ('53', '6df69b3b-2aa8-467b-a9af-25a99332a681', '71a97981-c6ad-4d84-a360-b881991a5818', '2', '2222222222222', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', 'SKITTLES Single Original Tube 30g 12sx10', 'SKITTLES Orig Tube 30g', '1', '10.00', '1', '10.00', null, null, null, '1', '1', '1', '58e1a793-3042-48bc-9d11-bf477a2929fa', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '12', null, null, '9e0520d5-6800-4f91-929d-4a4d7176a55f', '5e9aa710-d7d2-4f24-8c12-3981a75d6fe1', 'ad7ece9d-51b2-4c69-8711-be894ed45202', 'c318702c-acc1-4b85-adee-67f23acef014', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', 'a0c99f01-8c2e-43cd-90b9-8f45df65b9ad', '478ca56b-c3e2-42da-938a-1ef15f5e3c8c', '9b4a187e-8877-4c73-893c-cddb0ddde403', '', '2021-03-06 02:03:23', '2021-03-06 02:08:06', null);
-INSERT INTO `item_list` VALUES ('54', '189d97c8-25db-4121-9ffe-55472a1a40ea', '71a97981-c6ad-4d84-a360-b881991a5818', '3', '3333333333333', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', 'Ariel Powder Matic 100gx10x10', 'Ariel Powder Matic 100g', '1', '10.00', '1', '10.00', null, null, null, '0', '1', '1', '58e1a793-3042-48bc-9d11-bf477a2929fa', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '100', null, null, '381a54eb-7940-47ae-b031-818a833b9cb0', 'b992035f-1b18-4c04-bbdc-255eb909eb58', '3719ac20-b7ec-4386-b386-81300d034037', '8be85200-2ec9-4b79-98b9-1fa34184e8f0', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', '5dc21b7b-95a0-4de4-821a-a87e777e202b', 'b15d8c98-7089-4f02-ba47-4824a31123a2', '3fc3e8ac-1e31-4dda-9291-fd61b46a4702', '', '2021-03-06 02:08:30', '2021-03-06 02:29:38', null);
-INSERT INTO `item_list` VALUES ('55', '30c792d9-d658-46aa-b5c8-7fb0035634fc', '71a97981-c6ad-4d84-a360-b881991a5818', '4', '44444444444444', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', 'Tide Powder Jumbo 80gx100', 'Tide Pwd Jumbo 80g', '1', '1.00', '1', '1.00', null, null, null, '0', '1', '1', '58e1a793-3042-48bc-9d11-bf477a2929fa', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '100', null, null, '381a54eb-7940-47ae-b031-818a833b9cb0', 'b992035f-1b18-4c04-bbdc-255eb909eb58', '3719ac20-b7ec-4386-b386-81300d034037', '8be85200-2ec9-4b79-98b9-1fa34184e8f0', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', 'a271f458-59ab-419a-8c1f-8bc0779724cf', 'b15d8c98-7089-4f02-ba47-4824a31123a2', '3fc3e8ac-1e31-4dda-9291-fd61b46a4702', '', '2021-03-06 02:37:12', '2021-03-06 02:40:15', null);
-INSERT INTO `item_list` VALUES ('56', '95346bc5-37e3-446f-a653-013dc646a052', '71a97981-c6ad-4d84-a360-b881991a5818', '5', '5555555555555', 'a8186e47-9028-4ade-90bc-aad2c66d0c7b', 'Rice Premium 50g', 'Rice Premium 50g', '1', '50.00', '1', '50.00', null, null, null, '0', '1', '1', '58e1a793-3042-48bc-9d11-bf477a2929fa', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '50', null, null, '9e0520d5-6800-4f91-929d-4a4d7176a55f', '4606de22-5c3d-4e07-9be0-0bcab3c5109d', 'ad7ece9d-51b2-4c69-8711-be894ed45202', '76b053ad-ee24-4264-9ef2-35f8fefbec89', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', '5dc21b7b-95a0-4de4-821a-a87e777e202b', 'b15d8c98-7089-4f02-ba47-4824a31123a2', '3fc3e8ac-1e31-4dda-9291-fd61b46a4702', '', '2021-03-06 02:40:59', '2021-03-06 02:47:09', null);
-INSERT INTO `item_list` VALUES ('57', '0030611b-fcac-4ef6-96bf-c4f1dbfe0f9a', '71a97981-c6ad-4d84-a360-b881991a5818', '6', '6666666666666', 'a8186e47-9028-4ade-90bc-aad2c66d0c7b', 'Rice NFA 25kg', 'Rice NFA 25kg', '1', '20.00', '1', '20.00', null, null, null, '0', '1', '1', '58e1a793-3042-48bc-9d11-bf477a2929fa', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '25', null, null, '9e0520d5-6800-4f91-929d-4a4d7176a55f', '4606de22-5c3d-4e07-9be0-0bcab3c5109d', '3719ac20-b7ec-4386-b386-81300d034037', '8be85200-2ec9-4b79-98b9-1fa34184e8f0', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', '5dc21b7b-95a0-4de4-821a-a87e777e202b', 'b15d8c98-7089-4f02-ba47-4824a31123a2', '3fc3e8ac-1e31-4dda-9291-fd61b46a4702', '', '2021-03-06 02:47:30', '2021-03-06 02:49:27', null);
-INSERT INTO `item_list` VALUES ('58', '7b421504-e18d-4dac-891f-3aba84fbc2f8', '71a97981-c6ad-4d84-a360-b881991a5818', '7', '7777777777777', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', 'M&M Milk Singles 40g', 'M&M Milk Singles 40g', '1', '10.00', '1', '12.00', null, null, null, '1', '1', '1', '58e1a793-3042-48bc-9d11-bf477a2929fa', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '24', null, null, '381a54eb-7940-47ae-b031-818a833b9cb0', 'a5fd5c1e-2419-4f17-9f95-69b0e01a1608', '3719ac20-b7ec-4386-b386-81300d034037', '8be85200-2ec9-4b79-98b9-1fa34184e8f0', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', '5dc21b7b-95a0-4de4-821a-a87e777e202b', 'b15d8c98-7089-4f02-ba47-4824a31123a2', '3fc3e8ac-1e31-4dda-9291-fd61b46a4702', '', '2021-03-13 08:24:28', '2021-03-13 08:28:46', null);
-INSERT INTO `item_list` VALUES ('59', 'b9dc1fa9-1b4c-4ba2-a8e2-59e1f2a04fbb', '71a97981-c6ad-4d84-a360-b881991a5818', '8', '8888888888888', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', 'Doublemint Peppermint Pellet 10s', 'DM Pprmnt Pellet 10s', '1', '1.00', '1', '2.00', null, null, null, '1', '1', '1', '8439f5c6-6b35-495b-a776-b18d30d704e1', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '10', null, null, '381a54eb-7940-47ae-b031-818a833b9cb0', 'a5fd5c1e-2419-4f17-9f95-69b0e01a1608', '3719ac20-b7ec-4386-b386-81300d034037', '8be85200-2ec9-4b79-98b9-1fa34184e8f0', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', '5dc21b7b-95a0-4de4-821a-a87e777e202b', 'b15d8c98-7089-4f02-ba47-4824a31123a2', '3fc3e8ac-1e31-4dda-9291-fd61b46a4702', 'nn', '2021-03-13 08:28:59', '2021-03-13 08:32:12', null);
-INSERT INTO `item_list` VALUES ('60', 'e27d1deb-f851-4b6a-b9a9-c1c9bd9f4b63', '71a97981-c6ad-4d84-a360-b881991a5818', '9', '9999999999999', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', 'Anmum Plain 30g', 'Anmum Plain 30g', '1', '10.00', '1', '15.00', null, null, null, '1', '1', '1', '58e1a793-3042-48bc-9d11-bf477a2929fa', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '10', null, null, '381a54eb-7940-47ae-b031-818a833b9cb0', 'a5fd5c1e-2419-4f17-9f95-69b0e01a1608', '3719ac20-b7ec-4386-b386-81300d034037', '8be85200-2ec9-4b79-98b9-1fa34184e8f0', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', '5dc21b7b-95a0-4de4-821a-a87e777e202b', 'b15d8c98-7089-4f02-ba47-4824a31123a2', '3fc3e8ac-1e31-4dda-9291-fd61b46a4702', '', '2021-03-13 08:32:39', '2021-03-13 08:41:57', null);
-INSERT INTO `item_list` VALUES ('61', '2b53a24e-0225-4bc6-a93e-5c4f86ba5da3', '71a97981-c6ad-4d84-a360-b881991a5818', '10', '1000000000000', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', 'Anchor UHT 50ml', 'Anchor UHT 50ml', '1', '10.00', '1', '12.00', null, null, null, '0', '0', '1', '8439f5c6-6b35-495b-a776-b18d30d704e1', 'd647dd28-3563-4f08-9a81-7afebe6451bd', '10', null, 'e6d858d0-869e-4db4-b61c-32304cf29047', '381a54eb-7940-47ae-b031-818a833b9cb0', 'a5fd5c1e-2419-4f17-9f95-69b0e01a1608', '3719ac20-b7ec-4386-b386-81300d034037', '8be85200-2ec9-4b79-98b9-1fa34184e8f0', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', '5dc21b7b-95a0-4de4-821a-a87e777e202b', 'b15d8c98-7089-4f02-ba47-4824a31123a2', '3fc3e8ac-1e31-4dda-9291-fd61b46a4702', null, '2021-03-13 08:37:56', '2021-03-16 18:05:28', null);
+INSERT INTO `item_list` VALUES ('52', '212df508-0c94-41c7-892d-74a50fc4e3d4', '71a97981-c6ad-4d84-a360-b881991a5818', '1', '1111111111111', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', 'Snickers Classic Singles 51gx24x8', 'Snickers Singles 51g', '1', '1', '1.00', '1', '1', '1', '58e1a793-3042-48bc-9d11-bf477a2929fa', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '24', null, null, '9e0520d5-6800-4f91-929d-4a4d7176a55f', '5e9aa710-d7d2-4f24-8c12-3981a75d6fe1', 'ad7ece9d-51b2-4c69-8711-be894ed45202', '018dd910-4af4-46d8-90c2-dac2d285c0d7', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', 'a0ab0577-e45b-4083-b34d-87a76093a29d', 'cc97382d-aab6-443a-94cb-76839e5b3d6f', '3fc3e8ac-1e31-4dda-9291-fd61b46a4702', '', '2021-03-06 01:49:55', '2021-03-06 02:01:29', null);
+INSERT INTO `item_list` VALUES ('53', '6df69b3b-2aa8-467b-a9af-25a99332a681', '71a97981-c6ad-4d84-a360-b881991a5818', '2', '2222222222222', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', 'SKITTLES Single Original Tube 30g 12sx10', 'SKITTLES Orig Tube 30g', '1', '1', '10.00', '1', '1', '1', '58e1a793-3042-48bc-9d11-bf477a2929fa', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '12', null, null, '9e0520d5-6800-4f91-929d-4a4d7176a55f', '5e9aa710-d7d2-4f24-8c12-3981a75d6fe1', 'ad7ece9d-51b2-4c69-8711-be894ed45202', 'c318702c-acc1-4b85-adee-67f23acef014', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', 'a0c99f01-8c2e-43cd-90b9-8f45df65b9ad', '478ca56b-c3e2-42da-938a-1ef15f5e3c8c', '9b4a187e-8877-4c73-893c-cddb0ddde403', '', '2021-03-06 02:03:23', '2021-03-06 02:08:06', null);
+INSERT INTO `item_list` VALUES ('54', '189d97c8-25db-4121-9ffe-55472a1a40ea', '71a97981-c6ad-4d84-a360-b881991a5818', '3', '3333333333333', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', 'Ariel Powder Matic 100gx10x10', 'Ariel Powder Matic 100g', '1', '1', '10.00', '0', '1', '1', '58e1a793-3042-48bc-9d11-bf477a2929fa', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '100', null, null, '381a54eb-7940-47ae-b031-818a833b9cb0', 'b992035f-1b18-4c04-bbdc-255eb909eb58', '3719ac20-b7ec-4386-b386-81300d034037', '8be85200-2ec9-4b79-98b9-1fa34184e8f0', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', '5dc21b7b-95a0-4de4-821a-a87e777e202b', 'b15d8c98-7089-4f02-ba47-4824a31123a2', '3fc3e8ac-1e31-4dda-9291-fd61b46a4702', '', '2021-03-06 02:08:30', '2021-03-06 02:29:38', null);
+INSERT INTO `item_list` VALUES ('55', '30c792d9-d658-46aa-b5c8-7fb0035634fc', '71a97981-c6ad-4d84-a360-b881991a5818', '4', '44444444444444', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', 'Tide Powder Jumbo 80gx100', 'Tide Pwd Jumbo 80g', '1', '1', '1.00', '0', '1', '1', '58e1a793-3042-48bc-9d11-bf477a2929fa', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '100', null, null, '381a54eb-7940-47ae-b031-818a833b9cb0', 'b992035f-1b18-4c04-bbdc-255eb909eb58', '3719ac20-b7ec-4386-b386-81300d034037', '8be85200-2ec9-4b79-98b9-1fa34184e8f0', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', 'a271f458-59ab-419a-8c1f-8bc0779724cf', 'b15d8c98-7089-4f02-ba47-4824a31123a2', '3fc3e8ac-1e31-4dda-9291-fd61b46a4702', '', '2021-03-06 02:37:12', '2021-03-06 02:40:15', null);
+INSERT INTO `item_list` VALUES ('56', '95346bc5-37e3-446f-a653-013dc646a052', '71a97981-c6ad-4d84-a360-b881991a5818', '5', '5555555555555', 'a8186e47-9028-4ade-90bc-aad2c66d0c7b', 'Rice Premium 50g', 'Rice Premium 50g', '1', '1', '50.00', '0', '1', '1', '58e1a793-3042-48bc-9d11-bf477a2929fa', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '50', null, null, '9e0520d5-6800-4f91-929d-4a4d7176a55f', '4606de22-5c3d-4e07-9be0-0bcab3c5109d', 'ad7ece9d-51b2-4c69-8711-be894ed45202', '76b053ad-ee24-4264-9ef2-35f8fefbec89', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', '5dc21b7b-95a0-4de4-821a-a87e777e202b', 'b15d8c98-7089-4f02-ba47-4824a31123a2', '3fc3e8ac-1e31-4dda-9291-fd61b46a4702', '', '2021-03-06 02:40:59', '2021-03-06 02:47:09', null);
+INSERT INTO `item_list` VALUES ('57', '0030611b-fcac-4ef6-96bf-c4f1dbfe0f9a', '71a97981-c6ad-4d84-a360-b881991a5818', '6', '6666666666666', 'a8186e47-9028-4ade-90bc-aad2c66d0c7b', 'Rice NFA 25kg', 'Rice NFA 25kg', '1', '1', '20.00', '0', '1', '1', '58e1a793-3042-48bc-9d11-bf477a2929fa', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '25', null, null, '9e0520d5-6800-4f91-929d-4a4d7176a55f', '4606de22-5c3d-4e07-9be0-0bcab3c5109d', '3719ac20-b7ec-4386-b386-81300d034037', '8be85200-2ec9-4b79-98b9-1fa34184e8f0', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', '5dc21b7b-95a0-4de4-821a-a87e777e202b', 'b15d8c98-7089-4f02-ba47-4824a31123a2', '3fc3e8ac-1e31-4dda-9291-fd61b46a4702', '', '2021-03-06 02:47:30', '2021-03-06 02:49:27', null);
+INSERT INTO `item_list` VALUES ('58', '7b421504-e18d-4dac-891f-3aba84fbc2f8', '71a97981-c6ad-4d84-a360-b881991a5818', '7', '7777777777777', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', 'M&M Milk Singles 40g', 'M&M Milk Singles 40g', '1', '1', '12.00', '1', '1', '1', '58e1a793-3042-48bc-9d11-bf477a2929fa', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '24', null, null, '381a54eb-7940-47ae-b031-818a833b9cb0', 'a5fd5c1e-2419-4f17-9f95-69b0e01a1608', '3719ac20-b7ec-4386-b386-81300d034037', '8be85200-2ec9-4b79-98b9-1fa34184e8f0', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', '5dc21b7b-95a0-4de4-821a-a87e777e202b', 'b15d8c98-7089-4f02-ba47-4824a31123a2', '3fc3e8ac-1e31-4dda-9291-fd61b46a4702', '', '2021-03-13 08:24:28', '2021-03-13 08:28:46', null);
+INSERT INTO `item_list` VALUES ('59', 'b9dc1fa9-1b4c-4ba2-a8e2-59e1f2a04fbb', '71a97981-c6ad-4d84-a360-b881991a5818', '8', '8888888888888', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', 'Doublemint Peppermint Pellet 10s', 'DM Pprmnt Pellet 10s', '1', '1', '2.00', '1', '1', '1', '8439f5c6-6b35-495b-a776-b18d30d704e1', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '10', null, null, '381a54eb-7940-47ae-b031-818a833b9cb0', 'a5fd5c1e-2419-4f17-9f95-69b0e01a1608', '3719ac20-b7ec-4386-b386-81300d034037', '8be85200-2ec9-4b79-98b9-1fa34184e8f0', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', '5dc21b7b-95a0-4de4-821a-a87e777e202b', 'b15d8c98-7089-4f02-ba47-4824a31123a2', '3fc3e8ac-1e31-4dda-9291-fd61b46a4702', '', '2021-03-13 08:28:59', '2021-03-13 08:32:12', null);
+INSERT INTO `item_list` VALUES ('60', 'e27d1deb-f851-4b6a-b9a9-c1c9bd9f4b63', '71a97981-c6ad-4d84-a360-b881991a5818', '9', '9999999999999', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', 'Anmum Plain 30g', 'Anmum Plain 30g', '1', '1', '15.00', '1', '1', '1', '58e1a793-3042-48bc-9d11-bf477a2929fa', 'd0dc6304-d978-41c7-9580-eccea73d1aca', '10', null, null, '381a54eb-7940-47ae-b031-818a833b9cb0', 'a5fd5c1e-2419-4f17-9f95-69b0e01a1608', '3719ac20-b7ec-4386-b386-81300d034037', '8be85200-2ec9-4b79-98b9-1fa34184e8f0', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', '5dc21b7b-95a0-4de4-821a-a87e777e202b', 'b15d8c98-7089-4f02-ba47-4824a31123a2', '3fc3e8ac-1e31-4dda-9291-fd61b46a4702', null, '2021-03-13 08:32:39', '2021-05-26 02:24:43', null);
+INSERT INTO `item_list` VALUES ('61', '2b53a24e-0225-4bc6-a93e-5c4f86ba5da3', '71a97981-c6ad-4d84-a360-b881991a5818', '10', '1000000000000', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', 'Anchor UHT 50ml', 'Anchor UHT 50ml', '1', '1', '12.00', '0', '0', '1', '8439f5c6-6b35-495b-a776-b18d30d704e1', 'd647dd28-3563-4f08-9a81-7afebe6451bd', '10', null, null, '381a54eb-7940-47ae-b031-818a833b9cb0', 'a5fd5c1e-2419-4f17-9f95-69b0e01a1608', '3719ac20-b7ec-4386-b386-81300d034037', '8be85200-2ec9-4b79-98b9-1fa34184e8f0', '548d5c32-c8f2-4aba-9b6d-bd7c2ee6dec9', '5dc21b7b-95a0-4de4-821a-a87e777e202b', 'b15d8c98-7089-4f02-ba47-4824a31123a2', '3fc3e8ac-1e31-4dda-9291-fd61b46a4702', null, '2021-03-13 08:37:56', '2021-05-25 07:18:11', null);
 
 -- ----------------------------
 -- Table structure for item_suppliers
@@ -1230,27 +1223,20 @@ CREATE TABLE `item_suppliers` (
   `uuid` varchar(255) NOT NULL,
   `item_uuid` varchar(255) NOT NULL,
   `supplier_uuid` varchar(255) NOT NULL,
-  `bd_supplier_uuid` varchar(255) DEFAULT NULL,
+  `bd_group_supplier_uuid` varchar(255) DEFAULT NULL,
   `purchase_price` decimal(10,2) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of item_suppliers
 -- ----------------------------
-INSERT INTO `item_suppliers` VALUES ('60', 'f8066425-dfcd-47ea-8ffc-ae0f9de2ea73', '212df508-0c94-41c7-892d-74a50fc4e3d4', '57fc0388-caf3-40a1-99c8-b5de0481493b', null, null, '2021-03-06 02:01:29', '2021-03-06 02:01:29', null);
-INSERT INTO `item_suppliers` VALUES ('61', '8af013eb-9c21-43a1-aa42-66c6a1f7d2f9', '6df69b3b-2aa8-467b-a9af-25a99332a681', '57fc0388-caf3-40a1-99c8-b5de0481493b', null, null, '2021-03-06 02:08:06', '2021-03-06 02:08:06', null);
-INSERT INTO `item_suppliers` VALUES ('62', '11838a21-a068-4a7e-b014-a144d63b1f39', '189d97c8-25db-4121-9ffe-55472a1a40ea', '5d5d24b3-f48d-44e9-a8d0-e70d2d6e4106', null, null, '2021-03-06 02:29:38', '2021-03-06 02:35:29', null);
-INSERT INTO `item_suppliers` VALUES ('63', 'c6f151b2-c72b-4c37-a875-d7a0befe8737', '30c792d9-d658-46aa-b5c8-7fb0035634fc', '5d5d24b3-f48d-44e9-a8d0-e70d2d6e4106', null, null, '2021-03-06 02:40:15', '2021-03-06 02:40:15', null);
-INSERT INTO `item_suppliers` VALUES ('64', 'e3ef7032-b361-4fe0-ba5a-017896460ecf', '95346bc5-37e3-446f-a653-013dc646a052', '259d1fce-f549-4484-865d-004e1c3fd3da', null, null, '2021-03-06 02:45:52', '2021-03-06 02:47:09', null);
-INSERT INTO `item_suppliers` VALUES ('65', 'bdb0d264-7def-40aa-bdb8-022e7d0ce3aa', '0030611b-fcac-4ef6-96bf-c4f1dbfe0f9a', '259d1fce-f549-4484-865d-004e1c3fd3da', null, null, '2021-03-06 02:49:27', '2021-03-06 02:49:27', null);
-INSERT INTO `item_suppliers` VALUES ('66', 'aba767cb-2db0-411b-b510-3147b51b8ad5', '7b421504-e18d-4dac-891f-3aba84fbc2f8', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', null, null, '2021-03-13 08:28:46', '2021-03-13 08:28:46', null);
-INSERT INTO `item_suppliers` VALUES ('67', '31a4ea3c-e27a-43ce-9f07-3826fd672436', 'b9dc1fa9-1b4c-4ba2-a8e2-59e1f2a04fbb', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', null, null, '2021-03-13 08:32:12', '2021-03-13 08:32:12', null);
-INSERT INTO `item_suppliers` VALUES ('68', '96b2a15e-ebfd-40a8-baf8-f1cad317a4b6', 'e27d1deb-f851-4b6a-b9a9-c1c9bd9f4b63', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', null, null, '2021-03-13 08:37:12', '2021-03-13 08:41:57', null);
-INSERT INTO `item_suppliers` VALUES ('69', '1c0882e4-d0d0-4b11-b4e2-255f84c2a6f6', '2b53a24e-0225-4bc6-a93e-5c4f86ba5da3', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', null, null, '2021-03-13 08:40:17', '2021-03-15 15:56:06', '2021-03-15 15:56:06');
+INSERT INTO `item_suppliers` VALUES ('1', '8c3061bc-f3db-4b2a-97f5-9cb8cddfdf92', '2b53a24e-0225-4bc6-a93e-5c4f86ba5da3', '57fc0388-caf3-40a1-99c8-b5de0481493b', null, '29.00', '2021-05-25 07:18:11', '2021-05-25 07:18:11', null);
+INSERT INTO `item_suppliers` VALUES ('2', '7a67c16d-7b96-4142-92ab-b09e98d9e6cf', '2b53a24e-0225-4bc6-a93e-5c4f86ba5da3', '259d1fce-f549-4484-865d-004e1c3fd3da', null, '25.00', '2021-05-25 07:32:43', '2021-05-25 07:32:43', null);
+INSERT INTO `item_suppliers` VALUES ('3', '5dbb9617-e142-4a63-bbde-0febfb75353b', 'f27b2cdf-08bf-4b7e-b00a-7c75726b5bee', '5d5d24b3-f48d-44e9-a8d0-e70d2d6e4106', null, '40.00', '2021-05-26 02:26:04', '2021-05-26 02:26:04', null);
 
 -- ----------------------------
 -- Table structure for item_uom
@@ -1269,7 +1255,7 @@ CREATE TABLE `item_uom` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of item_uom
@@ -1297,8 +1283,9 @@ INSERT INTO `item_uom` VALUES ('129', 'f6903122-8bbb-4e15-9a9c-26a07f49d5be', '2
 INSERT INTO `item_uom` VALUES ('130', '74a3466c-5620-4b12-89ba-bba161ab1898', '2b53a24e-0225-4bc6-a93e-5c4f86ba5da3', '20575c31-a69f-48fc-96ae-38057748b76b', '1100000000001', '1', 'Anchor UHT 50mlx10', 'Box', '2021-03-13 08:40:17', '2021-03-13 08:42:59', '2021-03-13 08:42:59');
 INSERT INTO `item_uom` VALUES ('131', 'be6c6f5f-3729-49aa-aa05-4852d982db61', 'e27d1deb-f851-4b6a-b9a9-c1c9bd9f4b63', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', '9999999999999', '10', 'Anmum Plain 30g 10s', 'Tie', '2021-03-13 08:41:57', '2021-03-13 08:41:57', null);
 INSERT INTO `item_uom` VALUES ('132', 'b7b21d46-5d96-4857-bc37-53adeb5b4fdc', 'e27d1deb-f851-4b6a-b9a9-c1c9bd9f4b63', '29ac13a3-edd0-4575-8bea-85e5a5b6abad', '9999999999990', '100', 'Anmum Plain 30gx100', 'Case', '2021-03-13 08:41:57', '2021-03-13 08:41:57', null);
-INSERT INTO `item_uom` VALUES ('133', '1dc83b9e-e860-4176-8f55-0a904ec89f89', '2b53a24e-0225-4bc6-a93e-5c4f86ba5da3', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', '1000000000000', '1', 'Anchor UHT 50ml', 'Piece', '2021-03-13 08:42:59', '2021-03-16 17:43:03', '2021-03-16 17:43:03');
-INSERT INTO `item_uom` VALUES ('134', '046b6a29-255d-43d1-b680-00d2ba4d8a30', '2b53a24e-0225-4bc6-a93e-5c4f86ba5da3', '20575c31-a69f-48fc-96ae-38057748b76b', '1000000000001', '1', 'Anchor UHT 50mlx10', 'Box', '2021-03-13 08:42:59', '2021-03-16 17:43:03', '2021-03-16 17:43:03');
+INSERT INTO `item_uom` VALUES ('133', '1dc83b9e-e860-4176-8f55-0a904ec89f89', '2b53a24e-0225-4bc6-a93e-5c4f86ba5da3', 'da4b8fa8-be99-4141-af17-a2f27c4f4533', '1000000000000', '1', 'Anchor UHT 50ml', 'Piece', '2021-03-13 08:42:59', '2021-03-13 08:42:59', null);
+INSERT INTO `item_uom` VALUES ('134', '046b6a29-255d-43d1-b680-00d2ba4d8a30', '2b53a24e-0225-4bc6-a93e-5c4f86ba5da3', '20575c31-a69f-48fc-96ae-38057748b76b', '1000000000001', '1', 'Anchor UHT 50mlx10', 'Box', '2021-03-13 08:42:59', '2021-03-13 08:42:59', null);
+INSERT INTO `item_uom` VALUES ('135', '55553ee7-2014-49d6-9618-4219e375c9b4', 'f27b2cdf-08bf-4b7e-b00a-7c75726b5bee', '294eb0c0-bede-414e-8d59-d17b7293c424', '4324', '12', 'tets', 'testre', '2021-05-26 02:26:04', '2021-05-26 02:26:04', null);
 
 -- ----------------------------
 -- Table structure for migrations
@@ -1354,6 +1341,7 @@ INSERT INTO `oauth_access_tokens` VALUES ('0903360f345bc8a478cc70089828626a92d39
 INSERT INTO `oauth_access_tokens` VALUES ('0b62b1a5981814dd784d7c1c2caf9c9f4770a28ef362f5abd1ca08d3962d6dc1ac231f5d8e497362', '3', '5', 'authToken', '[]', '1', '2020-09-17 14:26:59', '2020-09-17 14:26:59', '2021-09-16 14:26:59');
 INSERT INTO `oauth_access_tokens` VALUES ('0dba948792ca090c422e15a8363bbb4cb31d5de9f3306f19761ecb5d8fffb66858c95bb3e5a09d06', '1', '3', 'authToken', '[]', '1', '2020-08-30 21:58:03', '2020-08-30 21:58:03', '2021-08-30 03:58:03');
 INSERT INTO `oauth_access_tokens` VALUES ('108c185ddd4e22a022a82f34a7eac4c36864ea1c06b3b572333808129ccf82f32d0dc911f8920cab', '3', '5', 'authToken', '[]', '1', '2020-09-17 13:21:43', '2020-09-17 13:21:43', '2021-09-16 13:21:43');
+INSERT INTO `oauth_access_tokens` VALUES ('10b263ac0b66c51c57feed518132ad885eb19f75ec62150a3bbf9a14e75c360719d76b17d92be005', '2', '7', 'authToken', '[]', '1', '2021-04-19 17:04:53', '2021-04-19 17:04:53', '2022-04-19 09:04:53');
 INSERT INTO `oauth_access_tokens` VALUES ('132c458d19fe6355c8b95e597901ee5a6e154697e96af5f1fd270086ba412e9b8e90c984e733c1e5', '1', '5', 'authToken', '[]', '0', '2020-10-22 00:07:05', '2020-10-22 00:07:05', '2021-10-21 12:07:05');
 INSERT INTO `oauth_access_tokens` VALUES ('17734f927259dfb4defc2379368af1c12db6f434c7d43f2ad7d2303e36b028bb12cf3497ff4e9674', '1', '5', 'authToken', '[]', '0', '2020-10-17 10:35:37', '2020-10-17 10:35:37', '2021-10-16 16:35:37');
 INSERT INTO `oauth_access_tokens` VALUES ('185030fd42d40386900b37ffba0296eb9510b3f62ad406c313534d65c2baddfb4a1c366571090924', '3', '5', 'authToken', '[]', '1', '2020-09-17 14:24:18', '2020-09-17 14:24:18', '2021-09-16 14:24:18');
@@ -1363,11 +1351,14 @@ INSERT INTO `oauth_access_tokens` VALUES ('230ab3d4c66f984723bd7dce7bb8802bae2f0
 INSERT INTO `oauth_access_tokens` VALUES ('2326390f17875586d720717482997a137815d395a6604c1addff39c83f1bed9ef2ddb170fe63ce86', '2', '5', 'authToken', '[]', '1', '2020-10-13 07:33:33', '2020-10-13 07:33:33', '2021-10-12 13:33:33');
 INSERT INTO `oauth_access_tokens` VALUES ('24a236c6bd0898eedc8059fee30ac17707b7bd806735492f0ac2ee6f9c05ff28795d6e5f0ff11da4', '1', '5', 'authToken', '[]', '1', '2020-09-17 08:40:17', '2020-09-17 08:40:17', '2021-09-16 08:40:17');
 INSERT INTO `oauth_access_tokens` VALUES ('253a140560a4a5cc13ce96ed7066798166bd09760aa48631ce78c238c6af4e7c327660c33f433cc8', '1', '1', 'authToken', '[]', '1', '2020-08-02 16:14:12', '2020-08-02 16:14:12', '2021-08-01 16:14:12');
+INSERT INTO `oauth_access_tokens` VALUES ('2552d275344830e5aab08c393ad1ebc96014e598d1a1ffae1b5bd2cab18d29202005063e7ac8617a', '1', '7', 'authToken', '[]', '0', '2021-03-31 22:25:07', '2021-03-31 22:25:07', '2022-03-31 14:25:07');
 INSERT INTO `oauth_access_tokens` VALUES ('263748105ed346f8f0cd6a8552a907af1f377b8d1bc27d9a45e56df9afe2f0048a9e0cecc462ff0f', '1', '5', 'authToken', '[]', '0', '2020-09-16 10:40:34', '2020-09-16 10:40:34', '2021-09-15 10:40:34');
+INSERT INTO `oauth_access_tokens` VALUES ('29fedc38fe164b620d033773aa6f7e128902e9bcb2a5c72c98edccebe896c11baec841e4eb01c90e', '2', '7', 'authToken', '[]', '1', '2021-04-30 15:43:48', '2021-04-30 15:43:48', '2022-04-30 07:43:48');
 INSERT INTO `oauth_access_tokens` VALUES ('2bc1c8e50ab890c762bbb367d5a8883514d44bdbb830eb4f81b371f1954a884a81e4ab79e66804df', '1', '5', 'authToken', '[]', '1', '2020-09-19 17:11:37', '2020-09-19 17:11:37', '2021-09-18 23:11:37');
 INSERT INTO `oauth_access_tokens` VALUES ('2bc4bd5066e9d2dc448da2044762eebb89a1236d802fc61b5a59494d4df824180f2d85bfc89bdf3f', '2', '3', 'authToken', '[]', '0', '2020-09-10 09:07:01', '2020-09-10 09:07:01', '2021-09-09 15:07:01');
 INSERT INTO `oauth_access_tokens` VALUES ('2db99e67529f3f5e97e0cc05d45e414275e0419cb7a1146fd0173ecb46f6e301b67928603f08da0a', '1', '5', 'authToken', '[]', '0', '2020-09-17 14:27:06', '2020-09-17 14:27:06', '2021-09-16 14:27:06');
 INSERT INTO `oauth_access_tokens` VALUES ('2e81ed778a2a055a0353c6625e691dd425c0c4e855b1f4ba0bf99c0bdea18aefef43982ec2d1e0f0', '1', '5', 'authToken', '[]', '1', '2020-09-17 03:32:01', '2020-09-17 03:32:01', '2021-09-16 03:32:01');
+INSERT INTO `oauth_access_tokens` VALUES ('2f6460f1de7ab8766065aa333d63324bfe92df006a3785b698edf4fdc813e86e0b1ebf70ec44dea0', '2', '7', 'authToken', '[]', '0', '2021-05-01 20:50:59', '2021-05-01 20:50:59', '2022-05-01 12:50:59');
 INSERT INTO `oauth_access_tokens` VALUES ('35e214f7479ae4361b00e9a0b01f659c37f8a90332ea5e514808125e2fdbf14b2839df9643fa86ee', '1', '5', 'authToken', '[]', '1', '2020-09-17 14:25:05', '2020-09-17 14:25:05', '2021-09-16 14:25:05');
 INSERT INTO `oauth_access_tokens` VALUES ('365f971a6abfbf1b700d87c10e116c987b0607bb11579a66ba52a7aa42ff0cf668f97b6c216a36a6', '2', '5', 'authToken', '[]', '0', '2020-09-17 15:36:18', '2020-09-17 15:36:18', '2021-09-16 15:36:18');
 INSERT INTO `oauth_access_tokens` VALUES ('39d4af0eb38574ead31d44bc040ac7f6405fb92ac506a982396500ba9d7059c617c8786d0838f89c', '2', '5', 'authToken', '[]', '0', '2020-10-11 16:38:48', '2020-10-11 16:38:48', '2021-10-10 22:38:48');
@@ -1388,6 +1379,7 @@ INSERT INTO `oauth_access_tokens` VALUES ('5f8c77ee0c0451536f2b1daee9cbbb2661b86
 INSERT INTO `oauth_access_tokens` VALUES ('602234811b075559d11699146870b6e2a30c97f632e2ab6cb960c07de575959a1979ec268aa6d1c4', '2', '3', 'authToken', '[]', '1', '2020-09-06 07:48:33', '2020-09-06 07:48:33', '2021-09-05 07:48:33');
 INSERT INTO `oauth_access_tokens` VALUES ('621d1b02b7ea1836981cadaa2b893fa9eae0656cfce1ae30672f329701e0406f3c939aff9438f367', '1', '1', 'authToken', '[]', '0', '2020-07-08 13:30:00', '2020-07-08 13:30:00', '2021-07-07 13:30:00');
 INSERT INTO `oauth_access_tokens` VALUES ('63a4cc5d2a72d29afdb37980c197fc5337368ca8a3108350cf60655614fe08e1e9fd5ba5d50fc7dd', '1', '3', 'authToken', '[]', '1', '2020-09-14 00:32:20', '2020-09-14 00:32:20', '2021-09-13 06:32:20');
+INSERT INTO `oauth_access_tokens` VALUES ('64d5eb10833704849cc4c6e088c04fc9e69e781cb73d574bbd52287ab643abbbdb8eb182b45b6b8c', '1', '7', 'authToken', '[]', '0', '2021-05-25 07:15:06', '2021-05-25 07:15:06', '2022-05-25 07:15:06');
 INSERT INTO `oauth_access_tokens` VALUES ('6a366f7c017175a4d860e47f31d00281c6605909774fa9bd5d9508c172eaab8315913e2adc93f2ad', '1', '7', 'authToken', '[]', '0', '2021-03-12 00:03:08', '2021-03-12 00:03:08', '2022-03-11 16:03:08');
 INSERT INTO `oauth_access_tokens` VALUES ('6c69df53030a9f8a3d8c2bc688b5ed8c1d3fc70d692b0a701178c3a74d46a046d16c172336b3d849', '2', '5', 'authToken', '[]', '1', '2020-09-17 03:36:35', '2020-09-17 03:36:35', '2021-09-16 03:36:35');
 INSERT INTO `oauth_access_tokens` VALUES ('6f804dd2143fc7fc6db92cd7be8a1b3967fdd979a8213169ae7aae87f232eb56d75030023fa5cc83', '1', '1', 'authToken', '[]', '0', '2020-07-07 17:46:37', '2020-07-07 17:46:37', '2021-07-06 17:46:37');
@@ -1396,13 +1388,15 @@ INSERT INTO `oauth_access_tokens` VALUES ('7f422649b5eca79aff328e264ab5dc566b782
 INSERT INTO `oauth_access_tokens` VALUES ('7f5c443ccf444093697f3b2bb710fb24d8ff1d18668377fb93ba4539de1920f1b02b66b8151feb4e', '2', '5', 'authToken', '[]', '1', '2020-10-12 03:43:34', '2020-10-12 03:43:34', '2021-10-11 09:43:34');
 INSERT INTO `oauth_access_tokens` VALUES ('80dbcef91e3e19740a8648b092638eace548034e212108f48151a9e75954f3e9486aa7cb58f7da3e', '2', '5', 'authToken', '[]', '1', '2020-09-16 12:43:25', '2020-09-16 12:43:25', '2021-09-15 12:43:25');
 INSERT INTO `oauth_access_tokens` VALUES ('81d31ef4281b7222d74ebf7bea2daf5dcad8599dee2c12d6b6508d8be7e025e6f59a4916158380b9', '3', '3', 'authToken', '[]', '1', '2020-09-10 08:06:44', '2020-09-10 08:06:44', '2021-09-09 14:06:44');
-INSERT INTO `oauth_access_tokens` VALUES ('85016ba4b3badbc766271d17be535ed31aa81f614905236dcd307b7c7a3c17ddc456487221c766f5', '1', '7', 'authToken', '[]', '0', '2021-03-14 10:09:13', '2021-03-14 10:09:13', '2022-03-14 10:09:13');
+INSERT INTO `oauth_access_tokens` VALUES ('866d929a2916811efb347c9cd6831ace2672dd6c3c1504ca5de2deb6f16c79be7821985b364264d7', '1', '7', 'authToken', '[]', '0', '2021-04-20 00:22:39', '2021-04-20 00:22:39', '2022-04-19 16:22:39');
+INSERT INTO `oauth_access_tokens` VALUES ('89dbe77d54707598b404a1deee67f6b1b9851c20a6258dbba47d1e3fc60841964d85b5fd9b559a30', '1', '7', 'authToken', '[]', '0', '2021-03-31 22:26:20', '2021-03-31 22:26:20', '2022-03-31 14:26:20');
 INSERT INTO `oauth_access_tokens` VALUES ('8d0ed0e4107daa9af1b482c2772964bce8754606145ab66ff450943c5377597e9a5381880c59fd6b', '3', '5', 'authToken', '[]', '1', '2020-09-17 10:41:50', '2020-09-17 10:41:50', '2021-09-16 10:41:50');
 INSERT INTO `oauth_access_tokens` VALUES ('8e8f72d1da6cace0ef24f83b4b34678d62aa630b0e3e50b99b98c415315143c4a4d5cad78b9e3ae6', '1', '1', 'authToken', '[]', '0', '2020-08-09 09:38:45', '2020-08-09 09:38:45', '2021-08-08 09:38:45');
 INSERT INTO `oauth_access_tokens` VALUES ('916e1b652689a67dcea79347e6ca12eb352e91f3510977c1de0af5dae5909d4170ee9c1c75e3addc', '2', '5', 'authToken', '[]', '1', '2020-10-16 02:02:36', '2020-10-16 02:02:36', '2021-10-15 08:02:36');
 INSERT INTO `oauth_access_tokens` VALUES ('93a217466caf18ed1d03eb7ae045abfdc08e53935b811d9ce6d26c17cc1c5b57d95b3ed5d8d4e911', '2', '5', 'authToken', '[]', '0', '2020-10-12 00:29:44', '2020-10-12 00:29:44', '2021-10-11 06:29:44');
 INSERT INTO `oauth_access_tokens` VALUES ('95d3089b1c61e55a6346b043dbb329febc55ba07ea180bf9061498a06f224b74c7bc85bc8eaa372d', '1', '1', 'authToken', '[]', '1', '2020-07-31 15:20:24', '2020-07-31 15:20:24', '2021-07-30 15:20:24');
 INSERT INTO `oauth_access_tokens` VALUES ('9a13d58061ef9746e16073024e706060662dbb43823ed5886f2f90bea723c981117936ecbbd95439', '1', '1', 'authToken', '[]', '1', '2020-07-31 15:26:39', '2020-07-31 15:26:39', '2021-07-30 15:26:39');
+INSERT INTO `oauth_access_tokens` VALUES ('9cc6e3c6ea2bee42c95ef092db5757060065178d8ef18510664aeac53f7a3b650ed988d40edb7891', '1', '7', 'authToken', '[]', '0', '2021-03-31 22:25:34', '2021-03-31 22:25:34', '2022-03-31 14:25:34');
 INSERT INTO `oauth_access_tokens` VALUES ('9d3d3107255e7b8ea9cc86284dc3f79016a3d6b35d8d6047158fb31fb2636c59271d8dc37ee70e79', '2', '5', 'authToken', '[]', '0', '2020-09-17 01:14:13', '2020-09-17 01:14:13', '2021-09-16 01:14:13');
 INSERT INTO `oauth_access_tokens` VALUES ('9d9502c1ea01f5acd51d736c365d37ebbd5f1f861ab889de3bf7e21e992d44ed1499e086894aad99', '1', '7', 'authToken', '[]', '1', '2021-03-12 00:32:00', '2021-03-12 00:32:00', '2022-03-11 16:32:00');
 INSERT INTO `oauth_access_tokens` VALUES ('9db9f2ac117a184b292e6239af3ff9f121c293a175a970988afeed3ff66f7f3933cb2f8e26e6a35b', '1', '1', 'authToken', '[]', '0', '2020-08-22 22:45:41', '2020-08-22 22:45:41', '2021-08-21 22:45:41');
@@ -1413,11 +1407,13 @@ INSERT INTO `oauth_access_tokens` VALUES ('a81e9f494a861e368f2a3ca8f1868f3f00466
 INSERT INTO `oauth_access_tokens` VALUES ('a93a4854d17c54f044ad6114b9e5b5a99d6096bb28762a8f411f8593d1be9b9b53c695f71c5a62de', '1', '3', 'authToken', '[]', '1', '2020-09-06 07:41:38', '2020-09-06 07:41:38', '2021-09-05 07:41:38');
 INSERT INTO `oauth_access_tokens` VALUES ('a9caca2f32a4b13240c2e5aebe332ecbb1dc938793080578cdaf21cb455831b4b026bac60fc58e49', '2', '3', 'authToken', '[]', '1', '2020-09-08 07:21:29', '2020-09-08 07:21:29', '2021-09-07 07:21:29');
 INSERT INTO `oauth_access_tokens` VALUES ('ade938849608e7384f0e69cc64e0fb94d26b360cfb8b28b877bf1c423ee159920e5f79af5aedc1bf', '3', '5', 'authToken', '[]', '1', '2020-09-17 13:53:23', '2020-09-17 13:53:23', '2021-09-16 13:53:23');
+INSERT INTO `oauth_access_tokens` VALUES ('b54552da72f8db505f8eb2befab7fff31141203dab6e35ff6feda94a29d558595fbd3a65671ecf6e', '2', '7', 'authToken', '[]', '1', '2021-05-03 11:03:25', '2021-05-03 11:03:25', '2022-05-03 03:03:25');
 INSERT INTO `oauth_access_tokens` VALUES ('b5979fded87fd291c9a5512b6c52932443b20be19094103da00f733502412806e9d32c34dbf0fcda', '1', '5', 'authToken', '[]', '0', '2021-03-05 00:36:55', '2021-03-05 00:36:55', '2022-03-04 17:36:55');
 INSERT INTO `oauth_access_tokens` VALUES ('b62e1c523cfed13c296b7b4fc194cc008572881a710aef09b18808f768b363662f8e59185eeba3e3', '2', '3', 'authToken', '[]', '1', '2020-09-08 02:22:35', '2020-09-08 02:22:35', '2021-09-07 02:22:35');
 INSERT INTO `oauth_access_tokens` VALUES ('b6e1669503bd74836b9574123b4692a2d9b8ef8e73ce742d22595060ee94fa772bdbee2d1a1adc90', '1', '5', 'authToken', '[]', '0', '2020-10-15 06:26:53', '2020-10-15 06:26:53', '2021-10-14 12:26:53');
 INSERT INTO `oauth_access_tokens` VALUES ('b74c3ee1883bb4d691fd55352963dd0886eedfd958ddc7fa5511e404a2122bc313ae1f4a6289db6c', '1', '5', 'authToken', '[]', '0', '2020-10-22 00:06:44', '2020-10-22 00:06:44', '2021-10-21 12:06:44');
 INSERT INTO `oauth_access_tokens` VALUES ('b9652489f9f1e381de8476bc93c9b36a521ee993de13110b223e1472538bff93a643e9da92b2eb74', '1', '1', 'authToken', '[]', '1', '2020-07-31 15:11:53', '2020-07-31 15:11:53', '2021-07-30 15:11:53');
+INSERT INTO `oauth_access_tokens` VALUES ('baba54951b5c8efd493bddbc1f0c9a73c793f19ae4a0092d6a9f0ebe6a7b39e485dfcfa771e3aeb0', '2', '7', 'authToken', '[]', '1', '2021-04-30 14:03:58', '2021-04-30 14:03:58', '2022-04-30 06:03:58');
 INSERT INTO `oauth_access_tokens` VALUES ('bc6f530757813ab5ce628c305749c995bd87dfe1634e87d71786507a69796967b0113dd5cbd38765', '2', '5', 'authToken', '[]', '0', '2020-09-19 17:12:18', '2020-09-19 17:12:18', '2021-09-18 23:12:18');
 INSERT INTO `oauth_access_tokens` VALUES ('bfc8da37e89e55175976cea4f568a06b8ba1ca7c251451785432a2ecce1b88756d5a02abeb13cdd7', '1', '1', 'authToken', '[]', '1', '2020-07-31 15:13:34', '2020-07-31 15:13:34', '2021-07-30 15:13:34');
 INSERT INTO `oauth_access_tokens` VALUES ('c0db29ab56626d5cda301b9059432ce9a7c3d87746572eb1f2053eb5ad3b9836e7b8c40ea514efbb', '2', '5', 'authToken', '[]', '1', '2020-09-17 03:50:17', '2020-09-17 03:50:17', '2021-09-16 03:50:17');
@@ -1444,7 +1440,10 @@ INSERT INTO `oauth_access_tokens` VALUES ('e2f474e8c9af1b2bf3f96d1490bc64b0260e8
 INSERT INTO `oauth_access_tokens` VALUES ('e4eda92f0c39ac71d23a209c8ece44f18a644311ecb0d71ba760d7cd0627dba748e3a11b72ce0083', '1', '1', 'authToken', '[]', '1', '2020-07-08 14:08:18', '2020-07-08 14:08:18', '2021-07-07 14:08:18');
 INSERT INTO `oauth_access_tokens` VALUES ('e6b056f414cb1c955853b12f2de3ea76cae90fce425fc08388147425181ae302ed8712b85838966b', '2', '5', 'authToken', '[]', '1', '2020-09-17 14:48:57', '2020-09-17 14:48:57', '2021-09-16 14:48:57');
 INSERT INTO `oauth_access_tokens` VALUES ('ec5db6ccb4a87180effad2bc41081d66e33fc3acff784edcde475f591ddd9d8aa471657d9737eb50', '1', '1', 'authToken', '[]', '1', '2020-08-02 19:50:22', '2020-08-02 19:50:22', '2021-08-01 19:50:22');
+INSERT INTO `oauth_access_tokens` VALUES ('ed0acfed73a7480b5d1c8885fad347ddebd07a4ebbb93b038c3a55246e5c0dc1dd90761fefb355bf', '2', '7', 'authToken', '[]', '1', '2021-04-29 17:34:27', '2021-04-29 17:34:27', '2022-04-29 09:34:27');
+INSERT INTO `oauth_access_tokens` VALUES ('ee5176a02ece9f8a3c97a449d5e1d0601e38c8eb9f98f74facd5bcf0a8edc1c73568f012cc4c93aa', '1', '7', 'authToken', '[]', '0', '2021-03-31 22:25:27', '2021-03-31 22:25:27', '2022-03-31 14:25:27');
 INSERT INTO `oauth_access_tokens` VALUES ('ee6bdfd76f2f2b373367c97a60418c959c3eb9476f6db04bf7ae830c6286856692e93355053570ed', '2', '5', 'authToken', '[]', '0', '2020-09-17 07:05:10', '2020-09-17 07:05:10', '2021-09-16 07:05:10');
+INSERT INTO `oauth_access_tokens` VALUES ('ef9f7c90455bba339463ee5b987d6e84561f7d99427774eaa4ebee0382b41658dda560b5e80c2196', '2', '7', 'authToken', '[]', '1', '2021-05-06 11:21:26', '2021-05-06 11:21:26', '2022-05-06 03:21:26');
 INSERT INTO `oauth_access_tokens` VALUES ('f3db06f27ad1a717aabca2740ec0ad494c069d07f8a27e0f3f1160a099577927c1317b50c9570e81', '2', '5', 'authToken', '[]', '0', '2020-10-15 22:17:10', '2020-10-15 22:17:10', '2021-10-15 04:17:10');
 INSERT INTO `oauth_access_tokens` VALUES ('f5bab72382ce23ddfc6cc96eb64412c9ba5bc48496140094e7ff2ef2eb72a3b437c2cf6c9c282a8b', '2', '5', 'authToken', '[]', '1', '2020-09-17 13:48:00', '2020-09-17 13:48:00', '2021-09-16 13:48:00');
 INSERT INTO `oauth_access_tokens` VALUES ('f9163edae86470acf6ee618d670d44c4d35409259de4a48b4d5b587bc95c0dd21095a55bd8699076', '3', '5', 'authToken', '[]', '1', '2020-09-17 03:36:52', '2020-09-17 03:36:52', '2021-09-16 03:36:52');
@@ -1539,6 +1538,70 @@ CREATE TABLE `oauth_refresh_tokens` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for pobd_group_suppliers
+-- ----------------------------
+DROP TABLE IF EXISTS `pobd_group_suppliers`;
+CREATE TABLE `pobd_group_suppliers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL,
+  `reference_uuid` varchar(255) DEFAULT NULL,
+  `purchase_order_uuid` varchar(255) DEFAULT NULL,
+  `supplier_uuid` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of pobd_group_suppliers
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for pobd_group_supplier_discounts
+-- ----------------------------
+DROP TABLE IF EXISTS `pobd_group_supplier_discounts`;
+CREATE TABLE `pobd_group_supplier_discounts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL,
+  `reference_uuid` varchar(255) DEFAULT NULL,
+  `purchase_order_uuid` varchar(255) DEFAULT NULL,
+  `pobd_group_supplier_uuid` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `rate` decimal(10,2) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of pobd_group_supplier_discounts
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for pobd_group_supplier_discount_excluded_items
+-- ----------------------------
+DROP TABLE IF EXISTS `pobd_group_supplier_discount_excluded_items`;
+CREATE TABLE `pobd_group_supplier_discount_excluded_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL,
+  `purchase_order_uuid` varchar(255) DEFAULT NULL,
+  `reference_uuid` varchar(255) DEFAULT NULL,
+  `pobd_group_supplier_discount_uuid` varchar(255) NOT NULL,
+  `item_uuid` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of pobd_group_supplier_discount_excluded_items
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for price_rules
 -- ----------------------------
 DROP TABLE IF EXISTS `price_rules`;
@@ -1557,7 +1620,7 @@ CREATE TABLE `price_rules` (
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of price_rules
@@ -1565,6 +1628,7 @@ CREATE TABLE `price_rules` (
 INSERT INTO `price_rules` VALUES ('1', '59987030-666b-4a52-a8d6-4143879bea2a', '57fc0388-caf3-40a1-99c8-b5de0481493b', 'New Year Special', '2.00', '2021-08-01', '2021-08-30', 'mechaniko', 'Buying', '0', '2021-03-29 15:38:37', '2021-03-29 15:38:37', null);
 INSERT INTO `price_rules` VALUES ('4', 'cc85934d-e674-46c0-ab61-d1e1ebfba567', null, 'Supermarket Mania', '2.00', '2021-04-01', '2021-04-30', 'mechaniko', 'Selling', '0', '2021-03-29 16:22:19', '2021-03-29 16:36:31', null);
 INSERT INTO `price_rules` VALUES ('5', 'd2eb9ecf-2a38-4d0c-acc6-3160ef8b25ac', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'Boxes', '2.00', '2021-05-01', '2021-05-31', 'mechaniko', 'Buying', '0', '2021-03-29 22:54:08', '2021-03-29 22:54:08', null);
+INSERT INTO `price_rules` VALUES ('6', '4adb2875-613d-4f63-b2f4-f76287d4b5e9', null, '2-Day Sale', '30.00', '2021-05-06', '2021-05-08', '30% Off on all items', 'Selling', '0', '2021-05-06 03:33:50', '2021-05-06 03:33:50', null);
 
 -- ----------------------------
 -- Table structure for price_rule_customers
@@ -1600,7 +1664,7 @@ CREATE TABLE `price_rule_items` (
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of price_rule_items
@@ -1643,6 +1707,16 @@ INSERT INTO `price_rule_items` VALUES ('39', 'fd5fdc9f-3cbc-440d-b5df-3318bb477a
 INSERT INTO `price_rule_items` VALUES ('40', '48570030-b100-4dd5-b8e2-8d8f00a6f27e', 'd2eb9ecf-2a38-4d0c-acc6-3160ef8b25ac', '7b421504-e18d-4dac-891f-3aba84fbc2f8', '2021-03-29 22:54:08', '2021-03-29 22:54:08', null);
 INSERT INTO `price_rule_items` VALUES ('41', 'aa159fe6-da89-4266-b6ef-f8f2222c28f1', 'd2eb9ecf-2a38-4d0c-acc6-3160ef8b25ac', 'b9dc1fa9-1b4c-4ba2-a8e2-59e1f2a04fbb', '2021-03-29 22:54:08', '2021-03-29 22:54:08', null);
 INSERT INTO `price_rule_items` VALUES ('42', '09b94179-3d76-45f8-bd94-838c08a329f6', 'd2eb9ecf-2a38-4d0c-acc6-3160ef8b25ac', 'e27d1deb-f851-4b6a-b9a9-c1c9bd9f4b63', '2021-03-29 22:54:08', '2021-03-29 22:54:08', null);
+INSERT INTO `price_rule_items` VALUES ('43', 'c14e8e59-abbf-4636-9fed-820c11a8de86', '4adb2875-613d-4f63-b2f4-f76287d4b5e9', '212df508-0c94-41c7-892d-74a50fc4e3d4', '2021-05-06 03:33:50', '2021-05-06 03:33:50', null);
+INSERT INTO `price_rule_items` VALUES ('44', '0ba76fab-0744-44a5-86e0-81dff339f285', '4adb2875-613d-4f63-b2f4-f76287d4b5e9', '6df69b3b-2aa8-467b-a9af-25a99332a681', '2021-05-06 03:33:50', '2021-05-06 03:33:50', null);
+INSERT INTO `price_rule_items` VALUES ('45', 'bbb333de-0858-4b01-9d64-3be1c1d7549d', '4adb2875-613d-4f63-b2f4-f76287d4b5e9', '189d97c8-25db-4121-9ffe-55472a1a40ea', '2021-05-06 03:33:50', '2021-05-06 03:33:50', null);
+INSERT INTO `price_rule_items` VALUES ('46', 'fca7ab6b-4512-4f0f-9d70-74a17d2f2c49', '4adb2875-613d-4f63-b2f4-f76287d4b5e9', '30c792d9-d658-46aa-b5c8-7fb0035634fc', '2021-05-06 03:33:50', '2021-05-06 03:33:50', null);
+INSERT INTO `price_rule_items` VALUES ('47', '4179a1a0-11ff-4b76-a244-c0880449cabc', '4adb2875-613d-4f63-b2f4-f76287d4b5e9', '95346bc5-37e3-446f-a653-013dc646a052', '2021-05-06 03:33:50', '2021-05-06 03:33:50', null);
+INSERT INTO `price_rule_items` VALUES ('48', 'f8633c25-d124-4f3d-a074-703758c0c7ef', '4adb2875-613d-4f63-b2f4-f76287d4b5e9', '0030611b-fcac-4ef6-96bf-c4f1dbfe0f9a', '2021-05-06 03:33:50', '2021-05-06 03:33:50', null);
+INSERT INTO `price_rule_items` VALUES ('49', '4f42e4d8-8e54-4925-9ff8-07ec9480e08d', '4adb2875-613d-4f63-b2f4-f76287d4b5e9', '7b421504-e18d-4dac-891f-3aba84fbc2f8', '2021-05-06 03:33:50', '2021-05-06 03:33:50', null);
+INSERT INTO `price_rule_items` VALUES ('50', '0b953b1a-c2e2-430b-a3b5-4659823bcde3', '4adb2875-613d-4f63-b2f4-f76287d4b5e9', 'b9dc1fa9-1b4c-4ba2-a8e2-59e1f2a04fbb', '2021-05-06 03:33:50', '2021-05-06 03:33:50', null);
+INSERT INTO `price_rule_items` VALUES ('51', '395a5b78-781f-4aa4-af54-7a980b5390ff', '4adb2875-613d-4f63-b2f4-f76287d4b5e9', 'e27d1deb-f851-4b6a-b9a9-c1c9bd9f4b63', '2021-05-06 03:33:50', '2021-05-06 03:33:50', null);
+INSERT INTO `price_rule_items` VALUES ('52', '7cba2f06-ac7a-474d-a4e5-4a07c9fd5390', '4adb2875-613d-4f63-b2f4-f76287d4b5e9', '2b53a24e-0225-4bc6-a93e-5c4f86ba5da3', '2021-05-06 03:33:50', '2021-05-06 03:33:50', null);
 
 -- ----------------------------
 -- Table structure for project_list
@@ -1817,10 +1891,10 @@ CREATE TABLE `project_type_scopes` (
 -- ----------------------------
 INSERT INTO `project_type_scopes` VALUES ('1', '39c84f03-fc0d-4646-b2fc-e3740524d12c', 'eb39aca2-25c0-45cd-b592-4b64b1bef5d1', '966d274e-d4c2-4a65-9fac-0dceb351fdf2', '2021-04-27 03:33:25', '2021-04-27 03:33:25', null);
 INSERT INTO `project_type_scopes` VALUES ('2', '72449f99-9e1c-4912-8b8c-9df89f7580c6', 'cf90019a-9c83-44f1-832d-63a359eedecd', '2d3808ef-de83-4c9d-9bfa-6c2aba978d75', '2021-04-30 19:00:59', '2021-05-08 12:40:07', null);
-INSERT INTO `project_type_scopes` VALUES ('3', '7ee353d8-124c-4555-aae8-9c6e9be38bce', 'e4d39874-0b2b-4396-8296-b07729daaf78', '60bb545c-0d34-402f-87be-258621dc8012', '2021-05-08 04:12:38', '2021-05-11 06:28:28', '2021-05-11 06:28:28');
-INSERT INTO `project_type_scopes` VALUES ('4', '3a56ff13-8695-4a7d-954d-3a17ab6f5d37', 'e4d39874-0b2b-4396-8296-b07729daaf78', 'f25a7b53-de1a-4349-98eb-f073fcb35c79', '2021-05-08 04:12:38', '2021-05-11 06:59:24', null);
-INSERT INTO `project_type_scopes` VALUES ('5', '56b64e24-b85f-4109-98df-fcdcb3a2321e', 'e4d39874-0b2b-4396-8296-b07729daaf78', '2d3808ef-de83-4c9d-9bfa-6c2aba978d75', '2021-05-08 04:12:38', '2021-05-11 06:08:28', '2021-05-11 06:08:28');
-INSERT INTO `project_type_scopes` VALUES ('6', 'c9d30684-87f3-4f4e-9f1a-6f988db41ff4', 'e4d39874-0b2b-4396-8296-b07729daaf78', '966d274e-d4c2-4a65-9fac-0dceb351fdf2', '2021-05-08 04:12:38', '2021-05-11 06:08:28', '2021-05-11 06:08:28');
+INSERT INTO `project_type_scopes` VALUES ('3', '7ee353d8-124c-4555-aae8-9c6e9be38bce', 'e4d39874-0b2b-4396-8296-b07729daaf78', '60bb545c-0d34-402f-87be-258621dc8012', '2021-05-08 04:12:38', '2021-05-08 04:12:38', null);
+INSERT INTO `project_type_scopes` VALUES ('4', '3a56ff13-8695-4a7d-954d-3a17ab6f5d37', 'e4d39874-0b2b-4396-8296-b07729daaf78', 'f25a7b53-de1a-4349-98eb-f073fcb35c79', '2021-05-08 04:12:38', '2021-05-08 04:12:38', null);
+INSERT INTO `project_type_scopes` VALUES ('5', '56b64e24-b85f-4109-98df-fcdcb3a2321e', 'e4d39874-0b2b-4396-8296-b07729daaf78', '2d3808ef-de83-4c9d-9bfa-6c2aba978d75', '2021-05-08 04:12:38', '2021-05-08 04:12:38', null);
+INSERT INTO `project_type_scopes` VALUES ('6', 'c9d30684-87f3-4f4e-9f1a-6f988db41ff4', 'e4d39874-0b2b-4396-8296-b07729daaf78', '966d274e-d4c2-4a65-9fac-0dceb351fdf2', '2021-05-08 04:12:38', '2021-05-08 04:12:38', null);
 INSERT INTO `project_type_scopes` VALUES ('7', 'bf3e6759-b076-4583-931d-6ecc524fda95', 'cf90019a-9c83-44f1-832d-63a359eedecd', 'f25a7b53-de1a-4349-98eb-f073fcb35c79', '2021-05-08 12:40:07', '2021-05-08 12:40:07', null);
 INSERT INTO `project_type_scopes` VALUES ('8', '04dfc94d-b642-438f-8817-69cb25f8382c', 'cf90019a-9c83-44f1-832d-63a359eedecd', '60bb545c-0d34-402f-87be-258621dc8012', '2021-05-08 12:40:07', '2021-05-08 12:40:07', null);
 
@@ -1848,7 +1922,7 @@ CREATE TABLE `purchase_billings` (
 -- ----------------------------
 -- Records of purchase_billings
 -- ----------------------------
-INSERT INTO `purchase_billings` VALUES ('1', '27290dc3-24ed-49ff-af5a-519155a06d78', 'BL_TH2021051500001', '57fc0388-caf3-40a1-99c8-b5de0481493b', 'f224cc74-a36c-4f60-b5c3-28ac5caf5373', 'fd21314d-a2a0-431e-bfb7-45cf1cc6cdc2', '2000.00', 'Expenses', '2021-05-15', 'To Pay', '2021-05-15 05:35:42', '2021-05-15 05:35:42', null);
+INSERT INTO `purchase_billings` VALUES ('1', '53f36b6f-388f-4587-a3db-487dd98de6b5', 'BL_TH2021051200001', '57fc0388-caf3-40a1-99c8-b5de0481493b', 'f224cc74-a36c-4f60-b5c3-28ac5caf5373', 'fd21314d-a2a0-431e-bfb7-45cf1cc6cdc2', '2000.00', 'Expenses', '2021-05-12', 'To Pay', '2021-05-12 19:33:55', '2021-05-12 19:33:55', null);
 
 -- ----------------------------
 -- Table structure for purchase_billing_expenses
@@ -1891,8 +1965,8 @@ CREATE TABLE `purchase_billing_projects` (
 -- ----------------------------
 -- Records of purchase_billing_projects
 -- ----------------------------
-INSERT INTO `purchase_billing_projects` VALUES ('1', '5765d831-2b02-441e-8545-fbdbe56a6525', '27290dc3-24ed-49ff-af5a-519155a06d78', '6b92773d-e8c5-43ed-ae82-6b1f387445c7', '2021-05-15 05:35:42', '2021-05-15 05:35:42', null);
-INSERT INTO `purchase_billing_projects` VALUES ('2', '5e0c1233-198a-40c3-9287-1a9cfa3bd9f2', '27290dc3-24ed-49ff-af5a-519155a06d78', '51512bf4-f940-460e-85bb-7f6a2cb9e2cf', '2021-05-15 05:35:42', '2021-05-15 05:35:42', null);
+INSERT INTO `purchase_billing_projects` VALUES ('1', '7c7d2620-7df2-43cf-b516-4741873e91bc', '53f36b6f-388f-4587-a3db-487dd98de6b5', '6b92773d-e8c5-43ed-ae82-6b1f387445c7', '2021-05-12 19:33:55', '2021-05-12 19:33:55', null);
+INSERT INTO `purchase_billing_projects` VALUES ('2', '547c7318-ebed-418f-b6e6-2dd4b2175445', '53f36b6f-388f-4587-a3db-487dd98de6b5', '51512bf4-f940-460e-85bb-7f6a2cb9e2cf', '2021-05-12 19:33:55', '2021-05-12 19:33:55', null);
 
 -- ----------------------------
 -- Table structure for purchase_billing_project_expenses
@@ -1917,8 +1991,8 @@ CREATE TABLE `purchase_billing_project_expenses` (
 -- ----------------------------
 -- Records of purchase_billing_project_expenses
 -- ----------------------------
-INSERT INTO `purchase_billing_project_expenses` VALUES ('1', 'da54ecdb-dff5-4e7a-a196-c5dee65ccdf1', '27290dc3-24ed-49ff-af5a-519155a06d78', 'ba79fb12-1c36-4273-ae9b-729b3d5eb39d', '200', '6b92773d-e8c5-43ed-ae82-6b1f387445c7', '2d3808ef-de83-4c9d-9bfa-6c2aba978d75', '6af6102a-863e-47c8-b60c-dd8d839a051f', null, '2021-05-15 05:35:42', '2021-05-15 05:35:42', null);
-INSERT INTO `purchase_billing_project_expenses` VALUES ('2', '31302591-0175-4120-921c-e64aeef3fd42', '27290dc3-24ed-49ff-af5a-519155a06d78', 'ba79fb12-1c36-4273-ae9b-729b3d5eb39d', '1585.71', '51512bf4-f940-460e-85bb-7f6a2cb9e2cf', 'f25a7b53-de1a-4349-98eb-f073fcb35c79', '887fdee2-fc1f-422b-b267-df3af4c0526b', null, '2021-05-15 05:35:42', '2021-05-15 05:35:42', null);
+INSERT INTO `purchase_billing_project_expenses` VALUES ('1', 'e2057c06-7fc3-45d5-adc1-4e79fa8173b4', '53f36b6f-388f-4587-a3db-487dd98de6b5', 'd9a83547-db23-4bd3-a0b3-0e0b927572a0', '200', '6b92773d-e8c5-43ed-ae82-6b1f387445c7', 'f25a7b53-de1a-4349-98eb-f073fcb35c79', '57ee58fe-3b5d-460d-8cc1-4f7102658b74', null, '2021-05-12 19:33:55', '2021-05-12 19:33:55', null);
+INSERT INTO `purchase_billing_project_expenses` VALUES ('2', '9c956974-0d93-46a7-8c17-02ed6eb9e35d', '53f36b6f-388f-4587-a3db-487dd98de6b5', 'd9a83547-db23-4bd3-a0b3-0e0b927572a0', '1585.71', '51512bf4-f940-460e-85bb-7f6a2cb9e2cf', '2d3808ef-de83-4c9d-9bfa-6c2aba978d75', '437388c3-04da-42b0-9854-4cf875cb8f0a', null, '2021-05-12 19:33:55', '2021-05-12 19:33:55', null);
 
 -- ----------------------------
 -- Table structure for purchase_orders
@@ -1961,13 +2035,11 @@ CREATE TABLE `purchase_orders` (
   `deleted_at` datetime DEFAULT NULL,
   `billing_type` varchar(0) DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of purchase_orders
 -- ----------------------------
-INSERT INTO `purchase_orders` VALUES ('1', '5c6a93b9-6fae-4d12-acd0-e11128533a61', 'PO_TH2021031800001', null, '', '', '71a97981-c6ad-4d84-a360-b881991a5818', null, null, '7', '2021-03-18', '2021-03-25', null, null, null, null, null, null, null, '57fc0388-caf3-40a1-99c8-b5de0481493b', '12.00', 'To Receive', null, null, null, null, '', null, '1', 'f224cc74-a36c-4f60-b5c3-28ac5caf5373', 'fd21314d-a2a0-431e-bfb7-45cf1cc6cdc2', '2021-03-18 10:56:24', '2021-03-18 10:56:24', null, '');
-INSERT INTO `purchase_orders` VALUES ('2', 'aa5fb74e-d57d-4a13-831a-4ba2a0a568c7', 'PO_TH2021032100001', null, '', '', '71a97981-c6ad-4d84-a360-b881991a5818', null, null, '7', '2021-03-21', '2021-03-28', null, null, null, null, null, null, null, '57fc0388-caf3-40a1-99c8-b5de0481493b', '12.00', 'To Receive', null, null, null, null, '', null, '1', 'f224cc74-a36c-4f60-b5c3-28ac5caf5373', 'fd21314d-a2a0-431e-bfb7-45cf1cc6cdc2', '2021-03-21 09:32:08', '2021-03-21 09:32:08', null, '');
 
 -- ----------------------------
 -- Table structure for purchase_order_additional_discounts
@@ -1985,85 +2057,10 @@ CREATE TABLE `purchase_order_additional_discounts` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of purchase_order_additional_discounts
--- ----------------------------
-INSERT INTO `purchase_order_additional_discounts` VALUES ('1', '6e994371-b6b3-40ca-a1b8-9520383cc9bb', '5c6a93b9-6fae-4d12-acd0-e11128533a61', 'rate', 'Price Off Discount', '0.00', '0.00', '2021-03-18 10:56:24', '2021-03-18 10:56:24', null);
-INSERT INTO `purchase_order_additional_discounts` VALUES ('2', '33ba22d8-5180-4d64-95cb-6bbe63ff3e12', '5c6a93b9-6fae-4d12-acd0-e11128533a61', 'rate', 'Volume Discount', '0.00', '0.00', '2021-03-18 10:56:24', '2021-03-18 10:56:24', null);
-INSERT INTO `purchase_order_additional_discounts` VALUES ('3', 'a1ea2e1e-50ab-4499-a162-7ef41ec70f19', '5c6a93b9-6fae-4d12-acd0-e11128533a61', 'rate', 'Move-out Discount', '0.00', '0.00', '2021-03-18 10:56:24', '2021-03-18 10:56:24', null);
-INSERT INTO `purchase_order_additional_discounts` VALUES ('4', 'bfb2bb77-c328-4ca5-9378-ab004ad04274', '5c6a93b9-6fae-4d12-acd0-e11128533a61', 'rate', 'Seasonal Discount', '0.00', '0.00', '2021-03-18 10:56:24', '2021-03-18 10:56:24', null);
-INSERT INTO `purchase_order_additional_discounts` VALUES ('5', 'f65f00a8-914c-4099-acc4-014b32e33d73', '5c6a93b9-6fae-4d12-acd0-e11128533a61', 'fixed', 'Other Peso Discount', '0.00', '0.00', '2021-03-18 10:56:24', '2021-03-18 10:56:24', null);
-INSERT INTO `purchase_order_additional_discounts` VALUES ('6', '273ef96b-80ea-4baa-8361-64cb51aecfc4', 'aa5fb74e-d57d-4a13-831a-4ba2a0a568c7', 'rate', 'Price Off Discount', '0.00', '0.00', '2021-03-21 09:32:08', '2021-03-21 09:32:08', null);
-INSERT INTO `purchase_order_additional_discounts` VALUES ('7', '0439ca26-2310-4ae3-8657-71db8d06bdd8', 'aa5fb74e-d57d-4a13-831a-4ba2a0a568c7', 'rate', 'Volume Discount', '0.00', '0.00', '2021-03-21 09:32:08', '2021-03-21 09:32:08', null);
-INSERT INTO `purchase_order_additional_discounts` VALUES ('8', '94540f23-9849-4bd0-895f-efba0a4639a5', 'aa5fb74e-d57d-4a13-831a-4ba2a0a568c7', 'rate', 'Move-out Discount', '0.00', '0.00', '2021-03-21 09:32:08', '2021-03-21 09:32:08', null);
-INSERT INTO `purchase_order_additional_discounts` VALUES ('9', '06b9dca1-1f12-44b2-aca4-844f5c2fa8b8', 'aa5fb74e-d57d-4a13-831a-4ba2a0a568c7', 'rate', 'Seasonal Discount', '0.00', '0.00', '2021-03-21 09:32:08', '2021-03-21 09:32:08', null);
-INSERT INTO `purchase_order_additional_discounts` VALUES ('10', '9db4957c-86c9-4324-afa8-b7fcd3129923', 'aa5fb74e-d57d-4a13-831a-4ba2a0a568c7', 'fixed', 'Other Peso Discount', '0.00', '0.00', '2021-03-21 09:32:08', '2021-03-21 09:32:08', null);
-
--- ----------------------------
--- Table structure for purchase_order_base_discount_groups
--- ----------------------------
-DROP TABLE IF EXISTS `purchase_order_base_discount_groups`;
-CREATE TABLE `purchase_order_base_discount_groups` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) NOT NULL,
-  `supplier_uuid` varchar(255) NOT NULL,
-  `supplier_base_discount_group_uuid` varchar(255) NOT NULL,
-  `bp_order_uuid` varchar(255) NOT NULL,
-  `group_name` varchar(255) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of purchase_order_base_discount_groups
--- ----------------------------
-INSERT INTO `purchase_order_base_discount_groups` VALUES ('1', '8b02a4e1-7902-491a-878f-d153957f45c3', '57fc0388-caf3-40a1-99c8-b5de0481493b', '249e3b4d-8c87-4ea5-8160-83bd04a5b6ae', 'aa5fb74e-d57d-4a13-831a-4ba2a0a568c7', 'Wrigley', '2021-03-21 09:32:08', '2021-03-21 09:32:08', null);
-
--- ----------------------------
--- Table structure for purchase_order_base_discount_group_details
--- ----------------------------
-DROP TABLE IF EXISTS `purchase_order_base_discount_group_details`;
-CREATE TABLE `purchase_order_base_discount_group_details` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) DEFAULT NULL,
-  `supplier_base_discount_group_detail_uuid` varchar(255) NOT NULL,
-  `bp_order_uuid` varchar(255) DEFAULT '',
-  `bp_order_base_discount_group_uuid` varchar(255) NOT NULL,
-  `discount_name` varchar(255) DEFAULT NULL,
-  `discount_rate` decimal(10,2) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of purchase_order_base_discount_group_details
--- ----------------------------
-
--- ----------------------------
--- Table structure for purchase_order_base_discount_group_items
--- ----------------------------
-DROP TABLE IF EXISTS `purchase_order_base_discount_group_items`;
-CREATE TABLE `purchase_order_base_discount_group_items` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) NOT NULL,
-  `item_uuid` varchar(255) NOT NULL,
-  `supplier_uuid` varchar(255) NOT NULL,
-  `bp_order_uuid` varchar(255) NOT NULL,
-  `bp_order_base_discount_group_uuid` varchar(255) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of purchase_order_base_discount_group_items
 -- ----------------------------
 
 -- ----------------------------
@@ -2099,72 +2096,6 @@ CREATE TABLE `purchase_order_items` (
 
 -- ----------------------------
 -- Records of purchase_order_items
--- ----------------------------
-
--- ----------------------------
--- Table structure for purchase_price_rules
--- ----------------------------
-DROP TABLE IF EXISTS `purchase_price_rules`;
-CREATE TABLE `purchase_price_rules` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) DEFAULT NULL,
-  `price_rule_supplier_uuid` varchar(255) NOT NULL,
-  `bp_order_uuid` varchar(255) NOT NULL,
-  `rule_name` varchar(255) DEFAULT '',
-  `rate` decimal(10,2) DEFAULT NULL,
-  `date_start` date DEFAULT NULL,
-  `date_end` date DEFAULT NULL,
-  `mechanics` varchar(255) DEFAULT '',
-  `target_amount` decimal(10,2) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of purchase_price_rules
--- ----------------------------
-
--- ----------------------------
--- Table structure for purchase_price_rule_details
--- ----------------------------
-DROP TABLE IF EXISTS `purchase_price_rule_details`;
-CREATE TABLE `purchase_price_rule_details` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) DEFAULT NULL,
-  `bp_order_uuid` varchar(255) NOT NULL,
-  `bp_price_rule_uuid` varchar(255) DEFAULT '',
-  `supplier_uuid` varchar(255) DEFAULT '',
-  `applied_to` varchar(255) DEFAULT '',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of purchase_price_rule_details
--- ----------------------------
-
--- ----------------------------
--- Table structure for purchase_price_rule_items
--- ----------------------------
-DROP TABLE IF EXISTS `purchase_price_rule_items`;
-CREATE TABLE `purchase_price_rule_items` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) DEFAULT NULL,
-  `bp_order_uuid` varchar(255) NOT NULL,
-  `bp_price_rule_detail_uuid` varchar(255) DEFAULT '',
-  `item_uuid` varchar(255) DEFAULT '',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of purchase_price_rule_items
 -- ----------------------------
 
 -- ----------------------------
@@ -2215,31 +2146,6 @@ INSERT INTO `reason_codes` VALUES ('26', 'ab8cf68f-ab19-4e3b-b698-cf8c4c74f088',
 INSERT INTO `reason_codes` VALUES ('27', 'c935d527-0622-42b2-a3dc-4ba750fa16fc', 'OT', 'Other Adjustments', 'Credit Memo', '2021-02-20 16:02:28', '2021-02-20 16:02:28', null);
 
 -- ----------------------------
--- Table structure for sell_billings
--- ----------------------------
-DROP TABLE IF EXISTS `sell_billings`;
-CREATE TABLE `sell_billings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) NOT NULL,
-  `transaction_no` varchar(255) NOT NULL,
-  `customer_uuid` varchar(255) NOT NULL,
-  `branch_uuid` varchar(255) NOT NULL,
-  `branch_location_uuid` varchar(255) NOT NULL,
-  `transaction_type` varchar(255) NOT NULL,
-  `transaction_date` date NOT NULL,
-  `status` varchar(255) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of sell_billings
--- ----------------------------
-INSERT INTO `sell_billings` VALUES ('1', '27290dc3-24ed-49ff-af5a-519155a06d78', 'BL_TH2021051500001', '57fc0388-caf3-40a1-99c8-b5de0481493b', 'f224cc74-a36c-4f60-b5c3-28ac5caf5373', 'fd21314d-a2a0-431e-bfb7-45cf1cc6cdc2', 'Expenses', '2021-05-15', 'To Pay', '2021-05-15 05:35:42', '2021-05-15 05:35:42', null);
-
--- ----------------------------
 -- Table structure for supplier_check_payees
 -- ----------------------------
 DROP TABLE IF EXISTS `supplier_check_payees`;
@@ -2252,7 +2158,7 @@ CREATE TABLE `supplier_check_payees` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of supplier_check_payees
@@ -2264,17 +2170,7 @@ INSERT INTO `supplier_check_payees` VALUES ('4', '72d558c0-ef53-42b6-bd98-2c6546
 INSERT INTO `supplier_check_payees` VALUES ('5', '1405b946-1901-4e23-956f-653dbdbb2c84', '46bac19f-5a5b-47b2-b3ac-f4bb26b7210e', 'test payee', '2021-03-11 17:25:47', '2021-03-11 17:27:21', '2021-03-11 17:27:21');
 INSERT INTO `supplier_check_payees` VALUES ('6', '70026991-0704-4cfb-964f-06b9c8822dbe', '46bac19f-5a5b-47b2-b3ac-f4bb26b7210e', 'test', '2021-03-11 17:33:28', '2021-03-11 17:36:08', '2021-03-11 17:36:08');
 INSERT INTO `supplier_check_payees` VALUES ('7', '684ca0fc-6934-49d8-8681-60256a0a9c63', 'db3e659a-4191-4e6b-8247-4afced13a481', 'ertet', '2021-03-12 03:52:24', '2021-03-12 03:53:47', '2021-03-12 03:53:47');
-INSERT INTO `supplier_check_payees` VALUES ('8', 'dcc65977-fa3d-4db2-af54-0aa66994132f', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'BOX & BASICS', '2021-03-13 08:22:10', '2021-03-29 08:18:52', null);
-INSERT INTO `supplier_check_payees` VALUES ('9', 'c9036eb5-73d7-470d-8701-5b0f22071955', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'test', '2021-03-23 12:16:19', '2021-03-29 08:27:56', '2021-03-29 08:27:56');
-INSERT INTO `supplier_check_payees` VALUES ('10', '1d1368b5-487d-4b71-ad33-34a18503a014', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'ghjgh', '2021-03-29 08:27:56', '2021-03-30 06:15:30', '2021-03-30 06:15:30');
-INSERT INTO `supplier_check_payees` VALUES ('11', 'fc3593d4-3936-44b5-9749-e7190f3d9b28', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'test', '2021-03-30 05:53:17', '2021-03-30 06:16:52', '2021-03-30 06:16:52');
-INSERT INTO `supplier_check_payees` VALUES ('12', 'b2186c74-6db7-4b2b-9e1f-5c180e1a39df', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'yui', '2021-03-30 05:58:23', '2021-03-30 06:17:21', '2021-03-30 06:17:21');
-INSERT INTO `supplier_check_payees` VALUES ('13', '5104cdcf-c8af-4c61-b6d7-f62cd9c55a70', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'zxcz', '2021-03-30 06:15:30', '2021-03-30 06:24:46', '2021-03-30 06:24:46');
-INSERT INTO `supplier_check_payees` VALUES ('14', '9abfc7f7-b22c-4ffd-8c30-ff9cd90e96ba', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'qwerty', '2021-03-30 06:17:21', '2021-03-30 06:25:06', '2021-03-30 06:25:06');
-INSERT INTO `supplier_check_payees` VALUES ('15', '28aa6cf9-1bfe-49f6-a8fe-57da5ef68fb6', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'uiop', '2021-03-30 06:17:21', '2021-03-30 06:25:19', '2021-03-30 06:25:19');
-INSERT INTO `supplier_check_payees` VALUES ('16', '02a9cf59-75bc-4136-8364-ead8c4149936', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'cvb', '2021-03-30 06:24:46', '2021-03-30 06:24:46', null);
-INSERT INTO `supplier_check_payees` VALUES ('17', '799c8455-e286-4dd1-b01b-b9b4aaf623c3', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'dfg', '2021-03-30 06:25:06', '2021-03-30 06:25:06', null);
-INSERT INTO `supplier_check_payees` VALUES ('18', '39337037-a684-4d89-aeda-b8b5ae096b93', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'bnm', '2021-03-30 06:25:36', '2021-03-30 06:25:36', null);
+INSERT INTO `supplier_check_payees` VALUES ('8', 'dcc65977-fa3d-4db2-af54-0aa66994132f', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'BOX & BASICS', '2021-03-13 08:22:10', '2021-03-13 08:22:10', null);
 
 -- ----------------------------
 -- Table structure for supplier_contacts
@@ -2292,16 +2188,13 @@ CREATE TABLE `supplier_contacts` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of supplier_contacts
 -- ----------------------------
-INSERT INTO `supplier_contacts` VALUES ('10', '9f1e5730-95b1-4252-be4e-ea449842bbbe', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'KENNETH JOSEPH CASTILLO', 'PRESIDENT', 'kbcastillo@hexa.ph', '09101234567', '2021-03-23 17:16:08', '2021-03-29 08:59:42', '2021-03-29 08:59:42');
+INSERT INTO `supplier_contacts` VALUES ('10', '9f1e5730-95b1-4252-be4e-ea449842bbbe', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'KENNETH JOSEPH CASTILLO', 'PRESIDENT', 'kbcastillo@hexa.ph', '09101234567', '2021-03-23 17:16:08', '2021-03-23 17:28:37', null);
 INSERT INTO `supplier_contacts` VALUES ('11', 'ddd567d4-d876-4d7b-ad00-fc8d4eeea114', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'SILVESTER AMPER', 'SALES REPRESENTATIVE', 'sramper@hexa.ph', '09101234567', '2021-03-23 17:33:32', '2021-03-23 17:33:32', null);
-INSERT INTO `supplier_contacts` VALUES ('12', '85985bb6-0997-4b38-b362-2a1ac2d9f693', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'sdf', 'asd', 'ds', '123', '2021-03-29 08:59:42', '2021-03-30 06:26:20', '2021-03-30 06:26:20');
-INSERT INTO `supplier_contacts` VALUES ('13', '1a5ba485-e541-44e1-846c-dd6aa6de9331', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'cvb', 'fgh', 'mnb', '645', '2021-03-30 06:26:20', '2021-03-30 06:26:33', '2021-03-30 06:26:33');
-INSERT INTO `supplier_contacts` VALUES ('14', 'c4d418f4-89e2-46dc-bae8-75322d138f25', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'vxc', 'xcv', 'xc', '4543', '2021-03-30 08:45:56', '2021-03-30 08:46:09', '2021-03-30 08:46:09');
 
 -- ----------------------------
 -- Table structure for supplier_group
@@ -2353,24 +2246,16 @@ CREATE TABLE `supplier_list` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of supplier_list
 -- ----------------------------
-INSERT INTO `supplier_list` VALUES ('24', '57fc0388-caf3-40a1-99c8-b5de0481493b', 'HEXA.ph Corp.', 'HEXA', '000-000-000-000', '483e475e-6524-4a37-9fac-c9c40b6d23b8', '7', null, '1', '1e1fc3e0-6431-4597-a811-c4895057667d', '88eea581-40bd-4fb2-b538-ef43679a1076', '64923cca-ea13-4ebe-ae81-61bdf0c5f88b', 'af4b1d33-b78e-4618-967f-a11fe7302f1c', 'ba79fb12-1c36-4273-ae9b-729b3d5eb39d', 'support@hexa.ph', '09101234567', 'cb1d7073-7b12-4ba7-92c6-9fd4b3b6826e', 'mountain view', 'e5cc65be-1f65-499e-b788-efbb50232d11', '2021-03-05 08:24:38', '2021-05-07 10:55:48', null);
-INSERT INTO `supplier_list` VALUES ('25', '5d5d24b3-f48d-44e9-a8d0-e70d2d6e4106', 'Oro Grande Distributors, Inc.', 'OGDI', '000-000-000-000', '1681e70e-b5bd-4c27-a00c-411f00183f41', '7', '1', '1', '1e1fc3e0-6431-4597-a811-c4895057667d', null, '506c0f74-1623-4d6c-ac47-6bcad8ea9d2b', '076cb76b-1165-4c77-82d7-8ac6682f118c', null, 'sales@orogrande.com.ph', '09123456789', 'c1921889-c4cd-46b1-918b-b79b4f2b6666', 'warehouse 2 Montecarlo bldg', 'c59bad9d-73c9-43b2-9668-b489e0afaee8', '2021-03-05 12:15:24', '2021-03-05 12:40:56', null);
-INSERT INTO `supplier_list` VALUES ('26', '259d1fce-f549-4484-865d-004e1c3fd3da', 'SAIGEE TRADING', 'SAIGEE', '000-000-000-000', '15362c9b-24d4-4592-9dfe-fd4865ca686a', '3', '1', '1', null, null, '506c0f74-1623-4d6c-ac47-6bcad8ea9d2b', '076cb76b-1165-4c77-82d7-8ac6682f118c', null, 'sales@saigee.ph', '09134567890', 'c1921889-c4cd-46b1-918b-b79b4f2b6666', null, 'c59bad9d-73c9-43b2-9668-b489e0afaee8', '2021-03-05 12:23:47', '2021-03-06 02:46:50', null);
-INSERT INTO `supplier_list` VALUES ('27', 'ae782cbd-63bd-4ce4-b374-ba7012e55521', 'AMPER BROS. BUILDERS AND CONSTRUCTION SUPPLY', 'AMPER BROS.', '000-000-000-000', '1681e70e-b5bd-4c27-a00c-411f00183f41', '30', '1', '1', null, null, '506c0f74-1623-4d6c-ac47-6bcad8ea9d2b', '0ea6c313-dad5-4c12-8812-f38b5f0ea3ef', null, 'sales@amperbros.ph', '09876543210', 'c1921889-c4cd-46b1-918b-b79b4f2b6666', 'ORO CHAIN VILLAGE, ZONE 2', 'c59bad9d-73c9-43b2-9668-b489e0afaee8', '2021-03-05 12:35:29', '2021-03-05 12:40:42', null);
+INSERT INTO `supplier_list` VALUES ('24', '57fc0388-caf3-40a1-99c8-b5de0481493b', 'HEXA.ph Corp.', 'HEXA', '000-000-000-000', '1681e70e-b5bd-4c27-a00c-411f00183f41', '7', null, '1', '1e1fc3e0-6431-4597-a811-c4895057667d', 'f000df6e-745d-4ad3-9a04-124e9ea0dc93', '2da5250d-98ee-46c3-ab62-596c96432ba9', '076cb76b-1165-4c77-82d7-8ac6682f118c', 'd9a83547-db23-4bd3-a0b3-0e0b927572a0', 'support@hexa.ph', '09101234567', '5d703211-0499-497a-8cc9-93b392f968ec', 'mountain view', null, '2021-03-05 08:24:38', '2021-03-15 11:33:55', null);
+INSERT INTO `supplier_list` VALUES ('25', '5d5d24b3-f48d-44e9-a8d0-e70d2d6e4106', 'Oro Grande Distributors, Inc.', 'OGDI', '000-000-000-000', '1681e70e-b5bd-4c27-a00c-411f00183f41', '7', '1', '1', '1e1fc3e0-6431-4597-a811-c4895057667d', null, '506c0f74-1623-4d6c-ac47-6bcad8ea9d2b', '076cb76b-1165-4c77-82d7-8ac6682f118c', null, 'sales@orogrande.com.ph', '09123456789', 'c1921889-c4cd-46b1-918b-b79b4f2b6666', 'warehouse 2 Montecarlo bldg', null, '2021-03-05 12:15:24', '2021-03-05 12:40:56', null);
+INSERT INTO `supplier_list` VALUES ('26', '259d1fce-f549-4484-865d-004e1c3fd3da', 'SAIGEE TRADING', 'SAIGEE', '000-000-000-000', '15362c9b-24d4-4592-9dfe-fd4865ca686a', '3', '1', '1', null, null, '506c0f74-1623-4d6c-ac47-6bcad8ea9d2b', '076cb76b-1165-4c77-82d7-8ac6682f118c', null, 'sales@saigee.ph', '09134567890', 'c1921889-c4cd-46b1-918b-b79b4f2b6666', null, null, '2021-03-05 12:23:47', '2021-03-06 02:46:50', null);
+INSERT INTO `supplier_list` VALUES ('27', 'ae782cbd-63bd-4ce4-b374-ba7012e55521', 'AMPER BROS. BUILDERS AND CONSTRUCTION SUPPLY', 'AMPER BROS.', '000-000-000-000', '1681e70e-b5bd-4c27-a00c-411f00183f41', '30', '1', '1', null, null, '506c0f74-1623-4d6c-ac47-6bcad8ea9d2b', '0ea6c313-dad5-4c12-8812-f38b5f0ea3ef', null, 'sales@amperbros.ph', '09876543210', 'c1921889-c4cd-46b1-918b-b79b4f2b6666', 'ORO CHAIN VILLAGE, ZONE 2', null, '2021-03-05 12:35:29', '2021-03-05 12:40:42', null);
 INSERT INTO `supplier_list` VALUES ('30', '816b908b-b8e6-43f4-a0fd-a7376bcb95a8', 'BOX & BASICS', 'BOX & BASICS', '000-000-000-000', '483e475e-6524-4a37-9fac-c9c40b6d23b8', '7', '1', '1', '1e1fc3e0-6431-4597-a811-c4895057667d', 'f000df6e-745d-4ad3-9a04-124e9ea0dc93', '2da5250d-98ee-46c3-ab62-596c96432ba9', '076cb76b-1165-4c77-82d7-8ac6682f118c', null, 'aaa@aaa.ph', '09012345678', 'c1921889-c4cd-46b1-918b-b79b4f2b6666', 'Cugman', '6eecfbe4-1d62-4a79-92f6-1c5018399f7d', '2021-03-12 03:53:27', '2021-03-23 15:51:07', null);
-INSERT INTO `supplier_list` VALUES ('37', '430443e0-4ddf-4562-bc5d-1dd96c4f6435', 'fdgdfg', 'jhgj', null, '483e475e-6524-4a37-9fac-c9c40b6d23b8', 'ghj', null, '1', null, null, '506c0f74-1623-4d6c-ac47-6bcad8ea9d2b', '0ea6c313-dad5-4c12-8812-f38b5f0ea3ef', null, null, null, 'c1921889-c4cd-46b1-918b-b79b4f2b6666', null, 'c59bad9d-73c9-43b2-9668-b489e0afaee8', '2021-05-01 17:43:13', '2021-05-01 17:43:13', null);
-INSERT INTO `supplier_list` VALUES ('38', '7fe3017c-d0dd-40ef-8d15-8c7ff077906f', 'nhgjhgj', null, null, '434b3b7c-9b2c-4ed2-b108-deed9175d0b1', null, null, '1', null, null, '506c0f74-1623-4d6c-ac47-6bcad8ea9d2b', '0ea6c313-dad5-4c12-8812-f38b5f0ea3ef', null, null, null, 'c1921889-c4cd-46b1-918b-b79b4f2b6666', null, 'c59bad9d-73c9-43b2-9668-b489e0afaee8', '2021-05-01 17:44:04', '2021-05-01 17:44:04', null);
-INSERT INTO `supplier_list` VALUES ('39', '47b9dd2f-3109-44cf-89ce-bf6ed6e6a9cc', 'gfdg', 'dfgfdg', null, '1681e70e-b5bd-4c27-a00c-411f00183f41', null, null, '1', null, null, '506c0f74-1623-4d6c-ac47-6bcad8ea9d2b', '0ea6c313-dad5-4c12-8812-f38b5f0ea3ef', null, null, null, 'c1921889-c4cd-46b1-918b-b79b4f2b6666', null, 'c59bad9d-73c9-43b2-9668-b489e0afaee8', '2021-05-02 05:48:25', '2021-05-02 05:48:25', null);
-INSERT INTO `supplier_list` VALUES ('40', '28cdb584-a8d5-4696-a0b0-391fb5a07f12', 'fsdgfd', 'gh', null, '1681e70e-b5bd-4c27-a00c-411f00183f41', null, null, '1', null, null, '506c0f74-1623-4d6c-ac47-6bcad8ea9d2b', '0ea6c313-dad5-4c12-8812-f38b5f0ea3ef', null, null, null, 'c1921889-c4cd-46b1-918b-b79b4f2b6666', null, 'c59bad9d-73c9-43b2-9668-b489e0afaee8', '2021-05-02 05:56:00', '2021-05-02 05:56:00', null);
-INSERT INTO `supplier_list` VALUES ('41', '191e045f-c13b-4326-b737-3538d27183c8', 'fdsf', 'fdfd', null, '1681e70e-b5bd-4c27-a00c-411f00183f41', null, null, '1', null, null, '506c0f74-1623-4d6c-ac47-6bcad8ea9d2b', '0ea6c313-dad5-4c12-8812-f38b5f0ea3ef', null, null, null, 'c1921889-c4cd-46b1-918b-b79b4f2b6666', null, 'c59bad9d-73c9-43b2-9668-b489e0afaee8', '2021-05-02 06:10:05', '2021-05-02 06:10:05', null);
-INSERT INTO `supplier_list` VALUES ('42', '6b7aab1d-a0b0-4755-9d4b-239cdb74be64', 'hgfhf', 'dfg', null, '1681e70e-b5bd-4c27-a00c-411f00183f41', null, null, '1', null, null, '506c0f74-1623-4d6c-ac47-6bcad8ea9d2b', '0ea6c313-dad5-4c12-8812-f38b5f0ea3ef', null, null, null, 'c1921889-c4cd-46b1-918b-b79b4f2b6666', null, 'c59bad9d-73c9-43b2-9668-b489e0afaee8', '2021-05-02 06:27:24', '2021-05-02 06:27:24', null);
-INSERT INTO `supplier_list` VALUES ('43', 'e2a75187-d1ed-47fc-b509-8b201bb92775', 'jhgjgh', 'ghj', null, '1681e70e-b5bd-4c27-a00c-411f00183f41', null, null, '1', null, null, '506c0f74-1623-4d6c-ac47-6bcad8ea9d2b', '0ea6c313-dad5-4c12-8812-f38b5f0ea3ef', null, null, null, 'c1921889-c4cd-46b1-918b-b79b4f2b6666', null, 'c59bad9d-73c9-43b2-9668-b489e0afaee8', '2021-05-02 06:45:49', '2021-05-02 06:45:49', null);
-INSERT INTO `supplier_list` VALUES ('44', '136bb7fc-e747-4d24-b677-f4e9643a69ae', 'hgfhf', 'dfgdf', null, '1681e70e-b5bd-4c27-a00c-411f00183f41', null, null, '1', null, null, '506c0f74-1623-4d6c-ac47-6bcad8ea9d2b', '0ea6c313-dad5-4c12-8812-f38b5f0ea3ef', null, null, null, 'c1921889-c4cd-46b1-918b-b79b4f2b6666', null, 'c59bad9d-73c9-43b2-9668-b489e0afaee8', '2021-05-02 07:36:34', '2021-05-02 07:36:34', null);
 
 -- ----------------------------
 -- Table structure for users

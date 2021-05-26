@@ -316,6 +316,7 @@ export default {
         setSelectedSuppliers: function () {
             var scope = this
             scope.selected_supplier_uuids = [];
+            console.log(scope.item.suppliers)
             for (let i = 0; i < scope.item.suppliers.length; i++) {
                 var current = scope.item.suppliers[i]
                 var selected_discount_group = scope.getSelectedDiscountGroupDetails(current.bd_group_supplier_uuid,current.supplier.discount_groups)

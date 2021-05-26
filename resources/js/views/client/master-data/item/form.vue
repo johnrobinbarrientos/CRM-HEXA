@@ -55,8 +55,9 @@
                         <div class="col-md-3 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="item-group">Item Group</label>
-                                <select class="form-select-item-group" v-model="selected_item_group" :options="options_item_group" name="item-group" :disabled="view_mode">
-                                </select>
+                                <multiselect  v-model="selected_item_group" :options="options_item_group" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="item_new_mode" :disabled="view_mode">
+                                    <span slot="noResult">No Results</span>
+                                </multiselect>
                             </div>
                         </div>
 
@@ -81,8 +82,9 @@
                         <div class="col-md-3 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="base-uom">Base UOM</label>
-                                <select class="form-select-base-uom" v-model="selected_base_uom" :options="options_base_uom" name="base-uom" :disabled="view_mode">
-                                </select>
+                                <multiselect  v-model="selected_base_uom" :options="options_base_uom" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="item_new_mode" :disabled="view_mode">
+                                    <span slot="noResult">No Results</span>
+                                </multiselect>
                             </div>
                         </div>
                         <div class="col-md-3 col-12">
@@ -106,7 +108,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="reorder-qty">ICO</label>
                                 <div class="form-control-wrap">
-                                    <input v-model="formdata.reorder_qty" type="text" class="form-control" id="reorder-qty" :readonly="view_mode">
+                                    <input v-model="formdata.ico" type="text" class="form-control" id="reorder-qty" :readonly="view_mode">
                                 </div>
                             </div>
                         </div>
@@ -148,9 +150,6 @@
                     <br/>
                     <div class="hx-tab-2 round">
                         <ul class="nav nav-tabs">
-                            <li>        
-                                <a class="" data-toggle="tab" href="#supplier-discounts">Discount</a>    
-                            </li>  
                             <li v-show="show_asset_group">        
                                 <a class="" data-toggle="tab" href="#asset">Asset</a>    
                             </li> 
@@ -174,8 +173,9 @@
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="income-account">Income Account</label>
-                                                <select class="form-select-income-account" v-model="selected_income_account" :options="options_income_account" name="income-account" :disabled="view_mode">
-                                                </select>
+                                                <multiselect  v-model="selected_income_account" :options="options_income_account" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="item_new_mode" :disabled="view_mode">
+                                                    <span slot="noResult">No Results</span>
+                                                </multiselect>
                                             </div>
                                         </div>
                                     </div>
@@ -183,35 +183,23 @@
                                         <div class="col-md-3 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="cost-of-sales">Cost Of Sales</label>
-                                                <select class="form-select-cost-of-sales" v-model="selected_cost_of_sales" :options="options_cost_of_sales" name="cost-of-sales" :disabled="view_mode">
-                                                </select>
+                                                <multiselect  v-model="selected_cost_of_sales" :options="options_cost_of_sales" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="item_new_mode" :disabled="view_mode">
+                                                    <span slot="noResult">No Results</span>
+                                                </multiselect>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <div class="form-control-wrap">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" v-model="is_vat" value="1" class="custom-control-input" id="is-vat" :disabled="view_mode">
-                                                            <label class="custom-control-label" for="is-vat">Is Vat?</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div v-show="is_vat" class="row">
-                                                    <div class="col-md-4 col-12">
-                                                        <div class="form-group">
-                                                            <label class="form-label" for="vat">VAT</label>
-                                                            <select class="form-select-vat" v-model="selected_vat" :options="options_vat" name="vat" :disabled="view_mode">
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
+                                        <div class="col-md-3 col-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="vat">VAT</label>
+                                                <multiselect  v-model="selected_vat" :options="options_vat" track-by="uuid" label="text" deselect-label="Deselect" selectLabel="Select" :disabled="view_mode">
+                                                    <span slot="noResult">No Results</span>
+                                                </multiselect>
                                             </div>
                                         </div>
+                                    </div>
 
                             </div>
 
@@ -221,24 +209,27 @@
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="cat-department">Department</label>
-                                                <select class="form-select-cat-department" v-model="selected_cat_department" :options="options_cat_department" name="cat-department" :disabled="view_mode">
-                                                </select>
+                                                <multiselect  v-model="selected_cat_department" :options="options_cat_department" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="item_new_mode" :disabled="view_mode">
+                                                    <span slot="noResult">No Results</span>
+                                                </multiselect>
                                             </div>
                                         </div>
 
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="cat-manufacturer">Manufacturer</label>
-                                                <select class="form-select-cat-manufacturer" v-model="selected_cat_manufacturer" :options="options_cat_manufacturer" name="cat-manufacturer" :disabled="view_mode">
-                                                </select>
+                                                <multiselect  v-model="selected_cat_manufacturer" :options="options_cat_manufacturer" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="item_new_mode" :disabled="view_mode">
+                                                    <span slot="noResult">No Results</span>
+                                                </multiselect>
                                             </div>
                                         </div>
 
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="cat-form">Form</label>
-                                                <select class="form-select-cat-form" v-model="selected_cat_form" :options="options_cat_form" name="cat-form" :disabled="view_mode">
-                                                </select>
+                                                <multiselect  v-model="selected_cat_form" :options="options_cat_form" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="item_new_mode" :disabled="view_mode">
+                                                    <span slot="noResult">No Results</span>
+                                                </multiselect>
                                             </div>
                                         </div>
 
@@ -250,16 +241,18 @@
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="cat-section">Section</label>
-                                                <select class="form-select-cat-section" v-model="selected_cat_section" :options="options_cat_section" name="cat-section" :disabled="view_mode">
-                                                </select>
+                                                <multiselect  v-model="selected_cat_section" :options="options_cat_section" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="item_new_mode" :disabled="view_mode">
+                                                    <span slot="noResult">No Results</span>
+                                                </multiselect>
                                             </div>
                                         </div>
 
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="cat-item-type">Item Type</label>
-                                                <select class="form-select-cat-item-type" v-model="selected_cat_item_type" :options="options_cat_item_type" name="cat-item-type" :disabled="view_mode">
-                                                </select>
+                                                <multiselect  v-model="selected_cat_item_type" :options="options_cat_item_type" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="item_new_mode" :disabled="view_mode">
+                                                    <span slot="noResult">No Results</span>
+                                                </multiselect>
                                             </div>
                                         </div>
 
@@ -267,8 +260,9 @@
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="cat-packing-type">Packing Type</label>
-                                                <select class="form-select-cat-packing-type" v-model="selected_cat_packing_type" :options="options_cat_packing_type" name="cat-packing-type" :disabled="view_mode">
-                                                </select>
+                                                <multiselect  v-model="selected_cat_packing_type" :options="options_cat_packing_type" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="item_new_mode" :disabled="view_mode">
+                                                    <span slot="noResult">No Results</span>
+                                                </multiselect>
                                             </div>
                                         </div>
 
@@ -279,16 +273,18 @@
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="cat-category">Category</label>
-                                                <select class="form-select-cat-category" v-model="selected_cat_category" :options="options_cat_category" name="cat-category" :disabled="view_mode">
-                                                </select>
+                                                <multiselect  v-model="selected_cat_category" :options="options_cat_category" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="item_new_mode" :disabled="view_mode">
+                                                    <span slot="noResult">No Results</span>
+                                                </multiselect>
                                             </div>
                                         </div>
 
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="cat-brand">Brand</label>
-                                                <select class="form-select-cat-brand" v-model="selected_cat_brand" :options="options_cat_brand" name="cat-brand" :disabled="view_mode">
-                                                </select>
+                                                <multiselect  v-model="selected_cat_brand" :options="options_cat_brand" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="item_new_mode" :disabled="view_mode">
+                                                    <span slot="noResult">No Results</span>
+                                                </multiselect>
                                             </div>
                                         </div>
 
@@ -304,11 +300,11 @@
                             </div>
 
                             <div class="tab-pane" id="unit-of-measure">
-                                <UOMS v-if="ready"  :item="formdata" :view_mode="view_mode" ref="uoms"></UOMS>
+                                <UOMS v-if="load_ready"  :item="formdata" :view_mode="view_mode" ref="uoms"></UOMS>
                             </div>   
 
                             <div class="tab-pane" id="pricing" style="padding: 0 15px 15px;"> 
-                                <pricing v-if="ready" :item="formdata"  ref="pricing"></pricing>
+                                <pricing v-if="load_ready" :item="formdata"  ref="pricing"></pricing>
                             </div>    
 
 
@@ -316,17 +312,14 @@
                                 <div class="col-md-3 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="asset-group">Asset Group</label>
-                                        <select class="form-select-asset-group" v-model="selected_asset_group" :options="options_asset_group" name="asset-group" :disabled="view_mode">
-                                        </select>
+                                        <multiselect  v-model="selected_asset_group" :options="options_asset_group" track-by="uuid" label="text" deselect-label="Deselect" selectLabel="Select" :disabled="view_mode">
+                                            <span slot="noResult">No Results</span>
+                                        </multiselect>
                                     </div>
                                 </div>   
 
                             </div> 
 
-
-                            <div class="tab-pane" id="supplier-discounts">
-                                <discounts v-if="ready" :properties="{data:formdata}" :view_mode="view_mode" ref="itemDiscounts"></discounts>
-                            </div>   
                         </div>
                     </div>
                 </form>
@@ -337,8 +330,6 @@
 
 <script>
 
-import Swal from 'sweetalert2'
-import Discounts from './discounts'
 import UOMS from './uoms'
 import pricing from './pricing'
 
@@ -360,7 +351,6 @@ export default {
                 getCatForm: false,
                 getCatPackingType: false,
                 getAssetGroup: false,
-                getGlobalUoms: false,
                 getGlobalBaseUOM: false,
                 getAssetGroup: false,
                 getTaxationItem:false,
@@ -368,70 +358,60 @@ export default {
                 
             },
 
-            selected_vat: null,
+            item_new_mode: true,
+
+            selected_vat: [],
             options_vat: [],
 
-            is_vat: 0,
-
-            reference_vat_uuid: '',
-
-            selected_item_group: null,
+            selected_item_group: [],
             options_item_group: [],
 
-
-
-            selected_income_account: null,
+            selected_income_account: [],
             options_income_account: [],
 
-            selected_cost_of_sales: null,
+            selected_cost_of_sales: [],
             options_cost_of_sales: [],
 
-            selected_cat_department: null,
+            selected_cat_department: [],
             options_cat_department: [],
 
-            selected_cat_section: null,
+            selected_cat_section: [],
             options_cat_section: [],
 
-            selected_cat_category: null,
+            selected_cat_category: [],
             options_cat_category: [],
 
-            selected_cat_manufacturer: null,
+            selected_cat_manufacturer: [],
             options_cat_manufacturer: [],
 
-            selected_cat_item_type: null,
+            selected_cat_item_type: [],
             options_cat_item_type: [],
 
-            selected_cat_brand: null,
+            selected_cat_brand: [],
             options_cat_brand: [],
 
-            selected_cat_form: null,
+            selected_cat_form: [],
             options_cat_form: [],
 
-            selected_cat_packing_type: null,
+            selected_cat_packing_type: [],
             options_cat_packing_type: [],
 
-            selected_asset_group: null,
+            selected_asset_group: [],
             options_asset_group: [],
 
 
-            selected_base_uom: null,
+            selected_base_uom: [],
             options_base_uom: [],
 
-            
-            compute_selection: 'manual',
 
             show_asset_group: false,
             show_discounts: false,
+            load_ready: false,
 
-            show_form: false,
 
             itemList: [],
 
-            global_uoms: [],
-            item_uoms: [],
  
-            transfer_price: '',
-
             formdata: { 
                 uuid: null,
                 item_group_uuid: '', 
@@ -441,22 +421,16 @@ export default {
                 item_description: '',
                 item_shortname: '',
 
-                supplier_uuid: '',
                 is_purchase_item: 0,
-                purchase_price: '',
                 is_sales_item: 0,
                 sales_price: '',
-
-                manual_rate: '',
-                customer_group_uuid: '',
-                option_rate: '',
 
                 is_expiry: 0,
                 is_maintain_stock: 0,
                 is_active: 1,
                 coa_income_account_uuid: '',
                 coa_cos_account_uuid: '',
-                reorder_qty: '',
+                ico: '',
                 item_asset_group_uuid: '',
                 cat_department_uuid: '',
                 cat_section_uuid: '',
@@ -467,7 +441,6 @@ export default {
                 cat_form_uuid: '',
                 cat_packing_type_uuid: '',
                 cat_size: '',
-                is_vat: 0,
                 vat_uuid: '',
                 suppliers: [],
                 uoms: []
@@ -479,209 +452,120 @@ export default {
         ready: function () {
             var scope = this
 
-            if (scope.prerequiste.getItemDetails && scope.prerequiste.getItemGroup && scope.prerequiste.getIncomeAccount && scope.prerequiste.getCostofSales 
+            if (scope.prerequiste.getItemGroup && scope.prerequiste.getIncomeAccount && scope.prerequiste.getCostofSales 
                 && scope.prerequiste.getCatDepartment && scope.prerequiste.getCatSection && scope.prerequiste.getCatCategory && scope.prerequiste.getCatManufacturer
                 && scope.prerequiste.getCatItemType && scope.prerequiste.getCatBrand && scope.prerequiste.getCatForm && scope.prerequiste.getCatPackingType
-                && scope.prerequiste.getAssetGroup && scope.prerequiste.getGlobalUoms && scope.prerequiste.getGlobalBaseUOM && scope.prerequiste.getTaxationItem) {
+                && scope.prerequiste.getAssetGroup && scope.prerequiste.getGlobalBaseUOM && scope.prerequiste.getTaxationItem) {
                 return true
             }
 
             return false
         },
-        globalUOMs() {
-            return this.global_uoms
-        }
     },
     watch: {
         ready: function (val) {
             var scope = this
             if (val) {
                 setTimeout(function(){
-                    
 
-                    $(".form-select-item-group").select2({data: scope.options_item_group});
-                    scope.selected_item_group = scope.options_item_group[0].id
+                    scope.getItemDetails(scope.formdata.uuid)
 
-
-
-                    $(".form-select-income-account").select2({data: scope.options_income_account});
-                    scope.selected_income_account = scope.options_income_account[0].id
-
-                    $(".form-select-cost-of-sales").select2({data: scope.options_cost_of_sales});
-                    scope.selected_cost_of_sales = scope.options_cost_of_sales[0].id
-
-                    $(".form-select-cat-department").select2({data: scope.options_cat_department});
-                    scope.selected_cat_department = scope.options_cat_department[0].id
-
-                    $(".form-select-cat-section").select2({data: scope.options_cat_section});
-                    scope.selected_cat_section = scope.options_cat_section[0].id
-
-                    $(".form-select-cat-category").select2({data: scope.options_cat_category});
-                    scope.selected_cat_category = scope.options_cat_category[0].id
-
-                    $(".form-select-cat-manufacturer").select2({data: scope.options_cat_manufacturer});
-                    scope.selected_cat_manufacturer = scope.options_cat_manufacturer[0].id
-
-                    $(".form-select-cat-item-type").select2({data: scope.options_cat_item_type});
-                    scope.selected_cat_item_type = scope.options_cat_item_type[0].id
-
-                    $(".form-select-cat-brand").select2({data: scope.options_cat_brand});
-                    scope.selected_cat_brand = scope.options_cat_brand[0].id
-
-                    $(".form-select-cat-form").select2({data: scope.options_cat_form});
-                    scope.selected_cat_form = scope.options_cat_form[0].id
-
-                    $(".form-select-cat-packing-type").select2({data: scope.options_cat_packing_type});
-                    scope.selected_cat_packing_type = scope.options_cat_packing_type[0].id
-
-                    $(".form-select-base-uom").select2({data: scope.options_base_uom});
-                    scope.selected_base_uom = scope.options_base_uom[0].id
-
-                    $(".form-select-asset-group").select2({data: scope.options_asset_group});
-
-                    $(".form-select-vat").select2({data: scope.options_vat});
-                    scope.selected_vat = scope.options_vat[0].id
                 },500)
                 
             }
         }, 
-        is_vat: function () {
+        
+        selected_item_group: function(){
             var scope = this
-
-            if (scope.formdata.uuid){
-
-                if (scope.is_vat == 1){
-                    scope.selected_vat = scope.options_vat[1].id
-                    
-                    $('.form-select-vat').val(scope.selected_vat);
-                    $('.form-select-vat').trigger('change');
-                    
-                } else {
-                    scope.selected_vat = scope.options_vat[0].id
-                    $('.form-select-vat').val(scope.selected_vat);
-                    $('.form-select-vat').trigger('change');
-
-                }
-
-            } else {
-
-                if (scope.is_vat == 1){
-                    
-                    if (scope.reference_vat_uuid == null){
-
-                        scope.selected_vat = scope.options_vat[1].id
-
-                        $('.form-select-vat').val(scope.selected_vat);
-                        $('.form-select-vat').trigger('change');
-
-                    }else{
-                        scope.selected_vat = scope.reference_vat_uuid
-                        $('.form-select-vat').val(scope.reference_vat_uuid);
-                        $('.form-select-vat').trigger('change');
-                    }   
-
-                }else{
-                    scope.selected_vat = scope.options_vat[0].id
-
-                    $('.form-select-vat').val(scope.selected_vat);
-                    $('.form-select-vat').trigger('change');
-                }
-
-            }
-        },
+            scope.checkAsset()
+        }
 
     },
 
     components: {
-        'discounts' : Discounts,
         'UOMS' : UOMS,
         'pricing' : pricing,
     },
+
     methods: {
+
         getTaxationItem: function () {
            var scope = this
 
-           scope.options_vat.push({
-               id: '',
-               text: 'None'
-           });
-
             scope.GET('company/taxation-item-options').then(res => {
-                
+
                 res.rows.forEach(function (data) {
 
                     scope.options_vat.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.tax_name
                     })
-                
                 })
 
                 scope.prerequiste.getTaxationItem = true
-                
             })
-
         },
 
         getItemGroup: function () {
            var scope = this
+
             scope.GET('items/item-group').then(res => {
+
                 res.rows.forEach(function (data) {
 
                     scope.options_item_group.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.item_group
                     })
                 })
 
                 scope.prerequiste.getItemGroup = true
-                
             })
         },
 
-
-
         getIncomeAccount: function () {
            var scope = this
+
             scope.GET('company/chart-of-accounts?group1=income').then(res => {
+
                 res.rows.forEach(function (data) {
 
                     scope.options_income_account.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.account_name
                     })
                 })
 
                 scope.prerequiste.getIncomeAccount = true
-                
             })
         },
 
         getCostofSales: function () {
            var scope = this
+
             scope.GET('company/chart-of-accounts?group1=cost-of-sales').then(res => {
+
                 res.rows.forEach(function (data) {
 
                     scope.options_cost_of_sales.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.account_name
                     })
                 })
 
                 scope.prerequiste.getCostofSales = true
-
             })
         },
 
-
         getCatDepartment: function () {
            var scope = this
+
             scope.GET('items/cat-department').then(res => {
                 
                 res.rows.forEach(function (data) {
 
                     scope.options_cat_department.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.department
                     })
                 })
@@ -689,232 +573,171 @@ export default {
                 scope.prerequiste.getCatDepartment = true
                 
             })
-
         },
-
 
         getCatSection: function () {
            var scope = this
+
             scope.GET('items/cat-section').then(res => {
                 
                 res.rows.forEach(function (data) {
 
                     scope.options_cat_section.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.section
                     })
                 })
 
                 scope.prerequiste.getCatSection = true
             })
-
         },
 
         getCatCategory: function () {
            var scope = this
+
             scope.GET('items/cat-category').then(res => {
                 
                 res.rows.forEach(function (data) {
 
                     scope.options_cat_category.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.category
                     })
                 })
 
                 scope.prerequiste.getCatCategory = true
-                
             })
-
         },
 
         getCatManufacturer: function () {
            var scope = this
+
             scope.GET('items/cat-manufacturer').then(res => {
                 
                 res.rows.forEach(function (data) {
 
                     scope.options_cat_manufacturer.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.manufacturer
                     })
                 })
 
                 scope.prerequiste.getCatManufacturer = true
             })
-
         },
 
         getCatItemType: function () {
            var scope = this
+
             scope.GET('items/cat-item-type').then(res => {
                 
                 res.rows.forEach(function (data) {
 
                     scope.options_cat_item_type.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.item_type
                     })
                 })
 
                 scope.prerequiste.getCatItemType = true
-                
             })
-
         },
 
         getCatBrand: function () {
            var scope = this
+
             scope.GET('items/cat-brand').then(res => {
                 
                 res.rows.forEach(function (data) {
 
                     scope.options_cat_brand.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.brand
                     })
                 })
 
                 scope.prerequiste.getCatBrand = true
-                
             })
-
         },
 
         getCatForm: function () {
            var scope = this
+
             scope.GET('items/cat-form').then(res => {
                 
                 res.rows.forEach(function (data) {
 
                     scope.options_cat_form.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.form
                     })
                 })
 
                 scope.prerequiste.getCatForm = true
-                
             })
-
         },
 
         getCatPackingType: function () {
            var scope = this
+
             scope.GET('items/cat-packing-type').then(res => {
                 
                 res.rows.forEach(function (data) {
 
                     scope.options_cat_packing_type.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.packing_type
                     })
                 })
 
                 scope.prerequiste.getCatPackingType = true
-                
             })
-
         },
 
         getGlobalBaseUOM: function () {
            var scope = this
+
             scope.GET('globals/base-uom').then(res => {
                 
                 res.rows.forEach(function (data) {
 
                     scope.options_base_uom.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.uom
                     })
                 })
 
                 scope.prerequiste.getGlobalBaseUOM = true
-                
             })
-
         },
 
         getAssetGroup: function () {
            var scope = this
-           
-           scope.options_asset_group.push({
-               id: '',
-               text: 'None'
-           });
 
             scope.GET('items/item-asset-group').then(res => {
                 
                 res.rows.forEach(function (data) {
                     scope.options_asset_group.push({
-                        id: data.uuid,
+                        uuid: data.uuid,
                         text: data.asset_group
                     })
                 })
 
                 scope.prerequiste.getAssetGroup = true
             })
-
-        },
-
-
-        itemUomExists: function(uuid) {
-            var scope = this
-            var data = this.item_uoms.filter((uom) => {
-                return uom.uuid.indexOf(uuid) > -1;
-            })
-            
-            if (data.length < 1) {
-                return false
-            }
-
-            return true
-        },
-        addItemUom: function(uuid) {
-            var scope = this
-            scope.item_uoms.push({uuid: 'PACK', uom: '', barcode: '', sales_description: '', remarks: '', packing: 1});
-            $('#uombarcode').css("background-color", "red")
-        },
-        removeItemUom: function(index) {
-            var scope = this
-            scope.item_uoms.splice(index,1)
-        },
-
-        getGlobalUoms: function () {
-           var scope = this
-            scope.GET('globals/uom').then(res => {
-                scope.global_uoms = res.rows
-
-                scope.prerequiste.getGlobalUoms = true
-            })
-        },
-
-
-
-        getGlobalUOMName: function (uuid) {
-            var data = this.global_uoms.filter((uom) => {
-                return uom.uuid.indexOf(uuid) > -1;
-            })
-            
-            if (data.length < 1) {
-                return ''
-            }
-
-            return data[0].uom
         },
 
         checkAsset: function () {
            var scope = this
+
            for (var i = 0; i < scope.options_item_group.length; i++) {
-                if(scope.options_item_group[i].id==scope.selected_item_group){
+                if(scope.options_item_group[i].uuid==scope.selected_item_group.uuid){
                     if (scope.options_item_group[i].text === 'Asset'){
                         scope.show_asset_group = true
                     }
                     else{
                         scope.show_asset_group = false
-                        scope.selected_asset_group = ''
-                        $('.form-select-asset-group').val(null);
-                        $('.form-select-asset-group').trigger('change');
+                        scope.selected_asset_group = []
                     }
 
                 }
@@ -926,28 +749,24 @@ export default {
             scope.formdata.suppliers =  this.$refs.pricing.getSelectedSuppliers()
             scope.formdata.uoms =  this.$refs.uoms.getUOMS()
 
-            scope.formdata.item_group_uuid = scope.selected_item_group
-            
 
-            scope.formdata.coa_income_account_uuid = scope.selected_income_account
-            scope.formdata.coa_cos_account_uuid = scope.selected_cost_of_sales
-            scope.formdata.item_asset_group_uuid = scope.selected_asset_group
+            scope.formdata.item_group_uuid= (scope.selected_item_group == null) ? null : scope.selected_item_group.uuid
+            scope.formdata.coa_income_account_uuid= (scope.selected_income_account == null) ? null : scope.selected_income_account.uuid
+            scope.formdata.coa_cos_account_uuid= (scope.selected_cost_of_sales == null) ? null : scope.selected_cost_of_sales.uuid
+            scope.formdata.item_asset_group_uuid= (scope.selected_asset_group == null) ? null : scope.selected_asset_group.uuid
 
-            scope.formdata.global_base_uom_uuid = scope.selected_base_uom
+            scope.formdata.global_base_uom_uuid= (scope.selected_base_uom == null) ? null : scope.selected_base_uom.uuid
 
-            scope.formdata.cat_department_uuid = scope.selected_cat_department
-            scope.formdata.cat_section_uuid = scope.selected_cat_section
-            scope.formdata.cat_category_uuid = scope.selected_cat_category
-            scope.formdata.cat_manufacturer_uuid = scope.selected_cat_manufacturer
-            scope.formdata.cat_item_type_uuid = scope.selected_cat_item_type
-            scope.formdata.cat_brand_uuid = scope.selected_cat_brand
-            scope.formdata.cat_form_uuid = scope.selected_cat_form
-            scope.formdata.cat_packing_type_uuid = scope.selected_cat_packing_type
+            scope.formdata.cat_department_uuid= (scope.selected_cat_department == null) ? null : scope.selected_cat_department.uuid
+            scope.formdata.cat_section_uuid= (scope.selected_cat_section == null) ? null : scope.selected_cat_section.uuid
+            scope.formdata.cat_category_uuid= (scope.selected_cat_category == null) ? null : scope.selected_cat_category.uuid
+            scope.formdata.cat_manufacturer_uuid= (scope.selected_cat_manufacturer == null) ? null : scope.selected_cat_manufacturer.uuid
+            scope.formdata.cat_item_type_uuid= (scope.selected_cat_item_type == null) ? null : scope.selected_cat_item_type.uuid
+            scope.formdata.cat_brand_uuid= (scope.selected_cat_brand == null) ? null : scope.selected_cat_brand.uuid
+            scope.formdata.cat_form_uuid= (scope.selected_cat_form == null) ? null : scope.selected_cat_form.uuid
+            scope.formdata.cat_packing_type_uuid= (scope.selected_cat_packing_type == null) ? null : scope.selected_cat_packing_type.uuid
+            scope.formdata.vat_uuid= (scope.selected_vat == null) ? null : scope.selected_vat.uuid
 
-            scope.formdata.is_vat = scope.is_vat
-            scope.formdata.vat_uuid = scope.selected_vat
-
-            scope.formdata.item_uoms = scope.item_uoms
 
             if (scope.formdata.uuid) {
                 window.swal.fire({
@@ -973,12 +792,6 @@ export default {
                                 })
                             } else {
                                 alert('ERROR')
-                                /*
-                                if (res.errors > 0 && res.tab == 'discounts') {
-                                    scope.$refs.discounts.updateDiscountGroups(res.groups)
-                                    $('#suppliers-settings-tab .nav-tabs').find('a[href="#discount-tab"]').trigger('click');
-                                }
-                                */
                             }
                         })
                     }                              
@@ -997,12 +810,6 @@ export default {
                         })
                     } else {
                         alert('ERROR')
-                        /*
-                        if (res.errors > 0 && res.tab == 'discounts') {
-                            scope.$refs.discounts.updateDiscountGroups(res.groups)
-                            $('#suppliers-settings-tab .nav-tabs').find('a[href="#discount-tab"]').trigger('click');
-                        }
-                        */  
                     }
                 })
             }
@@ -1042,13 +849,14 @@ export default {
         getItemDetails: function (itemUUID) {
             var scope = this
 
-            if (!itemUUID) {
-                scope.prerequiste.getItemDetails = true
+            if (itemUUID == null) {
                 return;
             } 
 
             scope.GET('items/' + itemUUID).then(res => {
                 let data = res.data
+
+                console.log(data)
 
                 scope.formdata.uuid = itemUUID
 
@@ -1063,7 +871,7 @@ export default {
 
                 scope.formdata.sales_price = data.sales_price
                 scope.formdata.is_expiry = data.is_expiry
-                scope.formdata.reorder_qty = data.reorder_qty
+                scope.formdata.ico = data.ico
 
                 scope.formdata.is_maintain_stock = data.is_maintain_stock
                 scope.formdata.is_active = data.is_active
@@ -1072,66 +880,121 @@ export default {
 
                 scope.formdata.suppliers = data.suppliers
 
-                if (data.vat_uuid!=null){
-                    scope.is_vat = 1
-                } else {
-                    scope.is_vat = 0
+                scope.load_ready = true
+
+
+
+                if (data.item_group !== null){
+                    scope.selected_item_group = {
+                            uuid: data.item_group.uuid,
+                            text: data.item_group.item_group
+                        }
                 }
 
-                $('.form-select-item-group').val(data.item_group_uuid);
-                $('.form-select-item-group').trigger('change');
+                if (data.income_account !== null){
+                    scope.selected_income_account = {
+                            uuid: data.income_account.uuid,
+                            text: data.income_account.account_name
+                        }
+                }
+
+                if (data.cos_account !== null){
+                    scope.selected_cost_of_sales = {
+                            uuid: data.cos_account.uuid,
+                            text: data.cos_account.account_name
+                        }
+                }
+
+                if (data.cat_department !== null){
+                    scope.selected_cat_department = {
+                            uuid: data.cat_department.uuid,
+                            text: data.cat_department.department
+                        }
+                }
+
+                if (data.cat_section !== null){
+                    scope.selected_cat_section = {
+                            uuid: data.cat_section.uuid,
+                            text: data.cat_section.section
+                        }
+                }
+
+                if (data.cat_category !== null){
+                    scope.selected_cat_category = {
+                            uuid: data.cat_category.uuid,
+                            text: data.cat_category.category
+                        }
+                }
+
+                if (data.cat_manufacturer !== null){
+                    scope.selected_cat_manufacturer = {
+                            uuid: data.cat_manufacturer.uuid,
+                            text: data.cat_manufacturer.manufacturer
+                        }
+                }
+
+                if (data.cat_item_type !== null){
+                    scope.selected_cat_item_type = {
+                            uuid: data.cat_item_type.uuid,
+                            text: data.cat_item_type.item_type
+                        }
+                }
+
+                if (data.cat_brand !== null){
+                    scope.selected_cat_brand = {
+                            uuid: data.cat_brand.uuid,
+                            text: data.cat_brand.brand
+                        }
+                }
+
+                if (data.cat_form !== null){
+                    scope.selected_cat_form = {
+                            uuid: data.cat_form.uuid,
+                            text: data.cat_form.form
+                        }
+                }
+
+                if (data.cat_packing_type !== null){
+                    scope.selected_cat_packing_type = {
+                            uuid: data.cat_packing_type.uuid,
+                            text: data.cat_packing_type.packing_type
+                        }
+                }
+
+                if (data.base_u_o_m !== null){
+                    scope.selected_base_uom = {
+                            uuid: data.base_u_o_m.uuid,
+                            text: data.base_u_o_m.uom
+                        }
+                }
 
 
-                $('.form-select-income-account').val(data.coa_income_account_uuid);
-                $('.form-select-income-account').trigger('change');
-                
-                $('.form-select-cost-of-sales').val(data.coa_cos_account_uuid);
-                $('.form-select-cost-of-sales').trigger('change');
+                if (data.asset_group !== null){
+                    scope.selected_asset_group = {
+                            uuid: data.asset_group.uuid,
+                            text: data.asset_group.asset_group
+                        }
+                }
 
-                $('.form-select-cat-department').val(data.cat_department_uuid);
-                $('.form-select-cat-department').trigger('change');
+                if (data.asset_group !== null){
+                    scope.selected_asset_group = {
+                            uuid: data.asset_group.uuid,
+                            text: data.asset_group.asset_group
+                        }
+                }
 
-                $('.form-select-cat-section').val(data.cat_section_uuid);
-                $('.form-select-cat-section').trigger('change');
-
-                $('.form-select-cat-category').val(data.cat_category_uuid);
-                $('.form-select-cat-category').trigger('change');
-
-                $('.form-select-cat-manufacturer').val(data.cat_manufacturer_uuid);
-                $('.form-select-cat-manufacturer').trigger('change');
-
-                $('.form-select-cat-item-type').val(data.cat_item_type_uuid);
-                $('.form-select-cat-item-type').trigger('change');
-
-                $('.form-select-cat-brand').val(data.cat_brand_uuid);
-                $('.form-select-cat-brand').trigger('change');
-
-                $('.form-select-cat-form').val(data.cat_form_uuid);
-                $('.form-select-cat-form').trigger('change');
-
-                $('.form-select-cat-packing-type').val(data.cat_packing_type_uuid);
-                $('.form-select-cat-packing-type').trigger('change');
-
-                $('.form-select-asset-group').val(data.item_asset_group_uuid);
-                $('.form-select-asset-group').trigger('change');
-
-                $('.form-select-base-uom').val(data.global_base_uom_uuid);
-                $('.form-select-base-uom').trigger('change');
-
-                $('.form-select-vat').val(data.vat_uuid);
-                $('.form-select-vat').trigger('change');
-
-                scope.reference_vat_uuid = data.vat_uuid;
-
-                scope.prerequiste.getItemDetails = true
-                
+                if (data.v_a_t !== null){
+                    scope.selected_vat = {
+                            uuid: data.v_a_t.uuid,
+                            text: data.v_a_t.tax_name
+                        }
+                }
+   
             })
         }
     },
     mounted() {
         var scope = this
-
-        scope.formdata.uuid = (scope.$route.params.itemUUID != 'create') ? scope.$route.params.itemUUID : null
 
         scope.getTaxationItem()
         scope.getItemGroup()
@@ -1148,74 +1011,9 @@ export default {
         scope.getCatPackingType()
 
         scope.getAssetGroup()
-        scope.getGlobalUoms()
         scope.getGlobalBaseUOM()
 
-        scope.getItemDetails(scope.formdata.uuid)
-        
-
-        $(document).on('change','.form-select-item-group', function(e) { 
-            scope.selected_item_group = $('.form-select-item-group').val();
-            scope.checkAsset()
-        })
-
-
-
-        $(document).on('change','.form-select-income-account', function(e) { 
-            scope.selected_income_account = $('.form-select-income-account').val();
-        })
-
-        $(document).on('change','.form-select-cost-of-sales', function(e) { 
-            scope.selected_cost_of_sales = $('.form-select-cost-of-sales').val();
-        })
-
-        $(document).on('change','.form-select-cat-department', function(e) { 
-            scope.selected_cat_department = $('.form-select-cat-department').val();
-        })
-
-        $(document).on('change','.form-select-cat-section', function(e) { 
-            scope.selected_cat_section = $('.form-select-cat-section').val();
-        })
-
-        $(document).on('change','.form-select-cat-category', function(e) { 
-            scope.selected_cat_category = $('.form-select-cat-category').val();
-        })
-
-        $(document).on('change','.form-select-cat-manufacturer', function(e) { 
-            scope.selected_cat_manufacturer = $('.form-select-cat-manufacturer').val();
-        })
-
-        $(document).on('change','.form-select-cat-item-type', function(e) { 
-            scope.selected_cat_item_type = $('.form-select-cat-item-type').val();
-        })
-
-        $(document).on('change','.form-select-cat-brand', function(e) { 
-            scope.selected_cat_brand = $('.form-select-cat-brand').val();
-        })
-
-        $(document).on('change','.form-select-cat-form', function(e) { 
-            scope.selected_cat_form = $('.form-select-cat-form').val();
-        })
-
-        $(document).on('change','.form-select-cat-packing-type', function(e) { 
-            scope.selected_cat_packing_type = $('.form-select-cat-packing-type').val();
-        })
-
-        $(document).on('change','.form-select-asset-group', function(e) { 
-            scope.selected_asset_group = $('.form-select-asset-group').val();
-        })
-
-        $(document).on('change','.form-select-base-uom', function(e) { 
-            scope.selected_base_uom = $('.form-select-base-uom').val();
-        })
-
-        $(document).on('change','.form-select-vat', function(e) { 
-            scope.selected_vat = $('.form-select-vat').val();
-
-            if (scope.selected_vat == ''){
-                scope.is_vat = 0
-            }
-        })
+        scope.formdata.uuid = (scope.$route.params.itemUUID != 'create') ? scope.$route.params.itemUUID : null
 
     },
 }
