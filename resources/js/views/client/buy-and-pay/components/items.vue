@@ -472,7 +472,7 @@ export default {
             item_list_keyword: '',
             selected_item_list_keyword: '',
             memo_po: '',
-            __BASE_DISCOUNTS__: [],
+            discount_groups: [],
             __PRICE_RULES__: [],
             __ADDITIONALS__: [],
             /* BASE */
@@ -747,16 +747,23 @@ export default {
         },
         calculateItemBaseDiscount: function (item) {
             var scope = this
-            var discounts = scope.__BASE_DISCOUNTS__.filter(discount => {
+            var item_discount_group = scope.discount_groups.filter(discount => {
                 return discount.items.includes(item.uuid)
             })
+
+            
             
             var RATE = 0.00
 
-            for (let i = 0; i < discounts.length; i++) {
-                var discount = discounts[i]
-                RATE += parseFloat(discount.discount_rate)
+            if (item_discount_group.length > 0) {
+                var discounts = item_discount_group[0].discounts
+                for (let i = 0; i < discounts.length; i++) {
+                    var discount = discounts[i]
+                    RATE += parseFloat(discount.rate)
+                }
             }
+
+            console.log('RATE ===> ',RATE)
 
             RATE = parseFloat(RATE/100)
             item.discount_base_rate = RATE
@@ -816,8 +823,8 @@ export default {
             scope.DISCOUNT_BASE_AMOUNT_TOTAL = 0.00
             scope.DISCOUNT_BASE_INCLUDED = []
 
-            for (let i = 0; i < scope.__BASE_DISCOUNTS__.length; i++) {
-                var discount =  scope.__BASE_DISCOUNTS__[i]
+            for (let i = 0; i < scope.discount_groups.length; i++) {
+                var discount =  scope.discount_groups[i]
          
                 discount.discount_amount = 0.00
 
@@ -935,11 +942,11 @@ export default {
         },
         findDiscountGroup: function (item) {
             var scope = this
-            for (let i = 0; i < scope.__BASE_DISCOUNTS__.length; i++) {
-                var discount =  scope.__BASE_DISCOUNTS__[i]
+            for (let i = 0; i < scope.discount_groups.length; i++) {
+                var discount =  scope.discount_groups[i]
     
                 if (discount.items.includes(item.uuid)) {
-                    return discount.purchase_order_base_discount_group.group_name
+                    return discount.name
                 }
             }
 
@@ -1113,10 +1120,10 @@ export default {
                 scope.items = res.rows
                 var selected = res.selected_items
                 
-                scope.__BASE_DISCOUNTS__ = res.base_discounts
+                scope.discount_groups = res.discount_groups
                 scope.__PRICE_RULES__ = res.price_rules
                 scope.__ADDITIONALS__ = res.additional_discounts
-                console.log('__BASE_DISCOUNTS__',scope.__BASE_DISCOUNTS__)
+                
                 res.rows.forEach(function (data) {
                     data.data = data.uuid
                     data.value = data.item_description 

@@ -20,7 +20,6 @@ class ItemListController extends Controller
     {
         $list = ItemList::whereNull('deleted_at');
 
-
         // add "children" to request to disable getting all item children details, add "none" to disable all
         if (!isset(request()->children) || request()->children == '') {
             $list = $list->with('ItemGroup')
