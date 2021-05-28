@@ -50,26 +50,22 @@
             </div>
 
             <div>
-                <div style="margin-top:10px; background:#fafafa; border:1px solid #efefef; padding:0px 5px; padding-left:25px; font-weight:600; height:25px; line-height:25px; position:relative;">
-                    <input style="position:absolute; top:5px; left:5px; " type="checkbox" v-model="item.is_sales_item" value="1" id="is-purchase-item">
-                    Is Sales Item?
+                <div style="background:#fafafa; border:1px solid #efefef; padding:5px 5px; font-weight:600; height:35px; line-height:25px;">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div style="position:relative; padding-left:25px; ">
+                                <input style="position:absolute; top:5px; left:5px; " type="checkbox" v-model="item.is_sales_item" value="1" id="is-sales-item">
+                                Is Sales Item?
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div v-show="item.is_sales_item" style="padding:10px; background:#fafafa; border:1px solid #efefef;">
                     <div class="d-flex">
-                        <div class="d-flex align-items-center ml-3 mr-3">
-                            <i class="fas fa-long-arrow-alt-right" style="font-size: 24px; color: var(--warning);"></i>
-                        </div>
                         <div class="form-group" style="display: flex; align-items: center; margin: 0 !important;">
-                            <label class="form-label m-0 mr-2" for="sales-price">Sales Price <small style="color: #999; font-style: italic">(optional)</small>:</label>
+                            <label class="form-label m-0 mr-2" for="sales-price">Sales Price:</label>
                             <div class="form-control-wrap">
                                 <input v-model="item.sales_price" type="text" class="form-control" id="sales-price">
-                            </div>
-                        </div>
-                
-                        <div class="form-group pl-3" style="margin: 0 !important; display: flex; align-items: center;">
-                            <label class="form-label m-0 mr-2" for="transfer-price">Transfer Price:</label>
-                            <div class="form-control-wrap">
-                                <input v-model="item.sales_price" type="text" class="form-control" id="transfer-price" readonly="disabled">
                             </div>
                         </div>
                     </div>
