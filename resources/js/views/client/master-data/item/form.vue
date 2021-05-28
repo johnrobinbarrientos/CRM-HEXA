@@ -312,7 +312,7 @@
                                 <div class="col-md-3 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="asset-group">Asset Group</label>
-                                        <multiselect  v-model="selected_asset_group" :options="options_asset_group" track-by="uuid" label="text" deselect-label="Deselect" selectLabel="Select" :disabled="view_mode">
+                                        <multiselect  v-model="selected_asset_group" :options="options_asset_group" track-by="uuid" label="text" :allow-empty="false" deselect-label="Selected" selectLabel="Select" :preselectFirst="item_new_mode" :disabled="view_mode">
                                             <span slot="noResult">No Results</span>
                                         </multiselect>
                                     </div>
@@ -737,7 +737,7 @@ export default {
                     }
                     else{
                         scope.show_asset_group = false
-                        scope.selected_asset_group = []
+                        //scope.selected_asset_group = []
                     }
 
                 }
@@ -753,10 +753,10 @@ export default {
             scope.formdata.item_group_uuid= (scope.selected_item_group == null) ? null : scope.selected_item_group.uuid
             scope.formdata.coa_income_account_uuid= (scope.selected_income_account == null) ? null : scope.selected_income_account.uuid
             scope.formdata.coa_cos_account_uuid= (scope.selected_cost_of_sales == null) ? null : scope.selected_cost_of_sales.uuid
-            scope.formdata.item_asset_group_uuid= (scope.selected_asset_group == null) ? null : scope.selected_asset_group.uuid
+
+            scope.formdata.item_asset_group_uuid= (scope.selected_item_group.uuid != '08f9498a-8aa3-447a-90df-c7b78fb22a5c' || scope.selected_asset_group == null) ? null : scope.selected_asset_group.uuid
 
             scope.formdata.global_base_uom_uuid= (scope.selected_base_uom == null) ? null : scope.selected_base_uom.uuid
-
             scope.formdata.cat_department_uuid= (scope.selected_cat_department == null) ? null : scope.selected_cat_department.uuid
             scope.formdata.cat_section_uuid= (scope.selected_cat_section == null) ? null : scope.selected_cat_section.uuid
             scope.formdata.cat_category_uuid= (scope.selected_cat_category == null) ? null : scope.selected_cat_category.uuid
@@ -850,6 +850,7 @@ export default {
             var scope = this
 
             if (itemUUID == null) {
+                scope.load_ready = true
                 return;
             } 
 
