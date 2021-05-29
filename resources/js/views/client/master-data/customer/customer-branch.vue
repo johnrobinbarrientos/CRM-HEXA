@@ -2,10 +2,10 @@
     <div>
         <br/>
         <div class="row">
-            <div class="col-md-5 col-12">
+            <div class="col-md-7 col-12">
                 <div class="card-title">
                     <div class="row">
-                        <div class="col-md-6">Branch</div>
+                        <div class="col-md-6"><span class="mt-1 d-block">Branches</span></div>
                         <div class="col-md-6">
                             <div style="text-align:right;">
                                 <button @click="addNewBranch()"  type="button" class="btn-gray-small" :disabled="view_mode">New Branch</button>
@@ -14,8 +14,8 @@
                     </div>
                 </div>
 
-                <div style="margin-bottom:80px;" v-bind:class="{ 'table-responsive': table_responsive }">
-                    <table class="table table-bordered ">
+                <div class="table-responsive" style="margin-bottom:80px;">
+                    <table class="table table-bordered  table-hover table-striped">
                         <thead>
                             <tr>
                                 <th>Action</th>
@@ -63,7 +63,7 @@
                             </template>
                             <template v-else>
                                 <tr>
-                                    <td colspan="7" style="padding:20px; text-align:center; font-weight:600;">No Records</td>
+                                    <td colspan="8" style="padding:20px; text-align:center; font-weight:600;">No Records</td>
                                 </tr>
                             </template>
                         </tbody>
@@ -74,7 +74,7 @@
 
 
         <div class="modal fade modal-md-form" tabindex="-1" id="modalBranches">
-            <div class="modal-dialog modal-md" role="document">
+            <div class="modal-dialog modal-md" role="document" style="max-width: 870px;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 v-if="selected_branch" class="modal-title">

@@ -150,7 +150,7 @@ export default {
         getSupplier: function () {
            var scope = this
 
-            scope.GET('suppliers').then(res => {
+            scope.GET('suppliers/all').then(res => {
 
                 res.rows.forEach(function (data) {
                     scope.options_supplier.push({

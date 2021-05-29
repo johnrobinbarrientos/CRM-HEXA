@@ -63,6 +63,15 @@ class SupplierListController extends Controller
         return response()->json(['success' => 1, 'rows' => $list, 'count' => $count, 'offset' => $offset, 'results' => count($list)], 200);
     }
 
+    public function getAll()
+    {
+        $list = SupplierList::whereNull('deleted_at')
+        ->with('SupplierGroup')->with('PaymentTerm')
+        ->with('AccountPayable')->with('AccountExpense')
+        ->get();
+        return response()->json(['success' => 1, 'rows' => $list], 200);
+    }
+
 
     public function store()
     {

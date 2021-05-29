@@ -81,5 +81,13 @@ class ItemList extends Model
         return $this->belongsTo('App\Models\ItemAssetGroup','item_asset_group_uuid','uuid');
     }
 
+    public function BaseUOM(){
+        return $this->belongsTo('App\Models\GlobalUom','global_base_uom_uuid','uuid');
+    }
+
+    public function VAT(){
+        return $this->belongsTo('App\Models\CompanyTaxation','vat_uuid','uuid');
+    }
+
    
 }

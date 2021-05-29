@@ -109,6 +109,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::delete('/{supplierUUID}/contacts/{contactUUID}', 'API\SupplierContactController@delete');
 
         Route::get('/', 'API\SupplierListController@index');
+        Route::get('/all', 'API\SupplierListController@getAll');
         Route::post('/', 'API\SupplierListController@store');
         Route::put('/{uuid}', 'API\SupplierListController@save');
         Route::get('/{supplier_uuid}','API\SupplierListController@show');
@@ -148,6 +149,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::get('/{customerUUID}/branches', 'API\CustomerBranchController@getBranchesByCustomer');
 
         Route::get('/', 'API\CustomerListController@index');
+        Route::get('/all', 'API\CustomerListController@getAll');
         Route::post('/', 'API\CustomerListController@store');
         Route::put('/{uuid}', 'API\CustomerListController@save');
         Route::get('/{customer_uuid}','API\CustomerListController@show');
@@ -365,6 +367,12 @@ Route::group(['middleware' => ['auth:api'] ], function(){
         Route::post('/payments', 'API\BuyAndPayPaymentController@store');
     });
 
+
+    Route::group(['prefix' => 'sell-and-collect'], function(){
+
+        Route::get('/bills/draft', 'API\SellAndCollectBillController@draft');
+
+    });
     
 
 

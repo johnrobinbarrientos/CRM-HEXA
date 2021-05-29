@@ -45,6 +45,8 @@ import BuyANDPayPaymentsDetails from './views/client/buy-and-pay/payments/detail
 import SalesOrderMain from './views/client/sell-and-collect/orders/main'
 import InvoiceANDReversalMain from './views/client/sell-and-collect/invoicing-and-reversal/main'
 
+import SellANDCollectProgressBillingDetails from './views/client/sell-and-collect/invoicing-and-reversal/invoicing/progress-billing/details'
+
 
 import PriceRuleMain from './views/client/inventory/price-rule/main'
 import PriceRuleForm from './views/client/inventory/price-rule/price-rule-form'
@@ -393,6 +395,14 @@ export default new VueRouter({
           path: '/sell-and-collect/invoicing-reversal',
           name: 'invoicing-and-reversal-main',
           component: InvoiceANDReversalMain,
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/sell-and-collect/bills/create-billings',
+          name: 'sell-and-collect-create-billings',
+          component: SellANDCollectProgressBillingDetails,
+          props: { view_mode: false },
           beforeEnter: checkAuth,
           meta: { protected: true }
         },

@@ -29,10 +29,13 @@ class ItemListController extends Controller
             ->with('CatDepartment')
             ->with('CatSection')
             ->with('CatCategory')
-            ->with('CatManufacturer')->with('CatItemType')
+            ->with('CatManufacturer')
+            ->with('CatItemType')
             ->with('CatBrand')
             ->with('CatForm')
-            ->with('CatPackingType')->with('AssetGroup');
+            ->with('CatPackingType')
+            ->with('BaseUOM')
+            ->with('AssetGroup');
         }
         
 
@@ -103,19 +106,15 @@ class ItemListController extends Controller
         $item->item_description = request()->item_description;
         $item->item_shortname = request()->item_shortname;
         $item->is_purchase_item = request()->is_purchase_item;
-        $item->purchase_price = request()->purchase_price;
         $item->is_sales_item = request()->is_sales_item;
         $item->sales_price = request()->sales_price;
-        $item->manual_rate = request()->manual_rate;
-        $item->customer_group_uuid = request()->customer_group_uuid;
-        $item->option_rate = request()->option_rate;
         $item->is_expiry = request()->is_expiry;
-        $item->vat_uuid = (request()->is_vat) ? request()->vat_uuid : null;
+        $item->vat_uuid = request()->vat_uuid;
         $item->is_maintain_stock = request()->is_maintain_stock;
         $item->is_active = request()->is_active;
         $item->coa_income_account_uuid = request()->coa_income_account_uuid;
         $item->coa_cos_account_uuid = request()->coa_cos_account_uuid;
-        $item->reorder_qty = request()->reorder_qty;
+        $item->ico = request()->ico;
         $item->item_asset_group_uuid = request()->item_asset_group_uuid;
         $item->cat_department_uuid = request()->cat_department_uuid;
         $item->cat_section_uuid = request()->cat_section_uuid;
@@ -150,7 +149,9 @@ class ItemListController extends Controller
         ->with('CatBrand')
         ->with('CatForm')
         ->with('CatPackingType')
+        ->with('BaseUOM')
         ->with('AssetGroup')
+        ->with('VAT')
         ->find($itemUUID);
 
         if (!$item) {

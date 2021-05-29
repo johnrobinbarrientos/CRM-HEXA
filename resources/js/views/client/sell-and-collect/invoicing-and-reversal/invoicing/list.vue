@@ -14,7 +14,7 @@
                                 <option value="50">50</option>
                                 <option value="100">100</option>
                         </select>
-                        <a href="javascript:void(0)" @click="OPEN_MODAL('#modalInvoicing')" class="hx-btn hx-btn-shineblue" data-toggle="modal">
+                        <a href="javascript:void(0)" @click="OPEN_MODAL('#modalInvoicingList')" class="hx-btn hx-btn-shineblue" data-toggle="modal">
                             <i class="las la-plus"></i> <span>New</span>
                         </a>
                     </div>
@@ -72,17 +72,17 @@
 
 
             <!-- Modal -->
-            <div class="modal fade" tabindex="-1" id="modalInvoicing">
+            <div class="modal fade" tabindex="-1" id="modalInvoicingList">
                 <div class="modal-dialog modal-lg " role="document" style="max-width: 1100px;">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Invoice</h5>
-                            <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalInvoicing');" class="close" data-dismiss="modal" aria-label="Close">
+                            <a href="javascript:void(0)"  @click="CLOSE_MODAL('#modalInvoicingList');" class="close" data-dismiss="modal" aria-label="Close">
                                 <i class="bx bx-x"></i>
                             </a>
                         </div>
                         <div class="modal-body">
-                            <selection-form></selection-form>
+                            <invoicing-type-list></invoicing-type-list>
                         </div>
                     </div>
                 </div>
@@ -96,6 +96,8 @@
 import Swal from 'sweetalert2'
 import moment from 'moment'
 import SelectionForm from './selection-form'
+
+import InvoicingTypeList from './invoicing-type-list'
 
 export default {
     name: 'purchase-order',
@@ -113,7 +115,7 @@ export default {
         }
     },
     components: {
-        'selection-form': SelectionForm
+        'invoicing-type-list': InvoicingTypeList
     },
     computed: {
         listTotalPages: function () {
