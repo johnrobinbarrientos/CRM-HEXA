@@ -141,7 +141,6 @@ export default {
         updateDISCOUNTS: function (DISCOUNTS,TOTALS) {
             var scope = this
             scope.discounts = DISCOUNTS
-            console.log(DISCOUNTS)
             scope.APPLIED_BASE_DISCOUNTS = scope.discounts.base
 
             /* BASE */
@@ -168,6 +167,7 @@ export default {
     },
     mounted() {
         var scope = this
+        console.log('__BASE_DISCOUNTS__ ====> ', scope.discounts)
         // scope.$parent.$refs.items.diiiissscccouunnnt();
         // console.log('__BASE_DISCOUNTS__ ====> ', scope.discounts)
     },

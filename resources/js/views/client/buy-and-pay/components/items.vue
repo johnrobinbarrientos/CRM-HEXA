@@ -751,8 +751,6 @@ export default {
                 return discount.items.includes(item.uuid)
             })
 
-            
-            
             var RATE = 0.00
 
             if (item_discount_group.length > 0) {
@@ -762,8 +760,6 @@ export default {
                     RATE += parseFloat(discount.rate)
                 }
             }
-
-            console.log('RATE ===> ',RATE)
 
             RATE = parseFloat(RATE/100)
             item.discount_base_rate = RATE
