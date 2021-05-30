@@ -74,26 +74,44 @@
                                 <div class="col-md-12 col-12">
                                     <div style="padding:5px;">
                                         <!-- <span>{{ getGlobalUOMName(item_uom.uuid) }}</span> -->
-                                        <select v-model="selected_uom.global_uom_uuid" class="form-control-gray-medium">
-                                            <option :value="null">Select a UOM</option>
-                                            <option v-for="(uom,index_uom) in global_uoms" :key="'base-' + uom.uuid + '-' + index_uom" :value="uom.uuid">{{ uom.uom}}</option>
-                                        </select>
-
-                                        <div style="margin-top:10px;">
-                                            <input v-model="selected_uom.barcode" class="form-control-gray-medium"  v-bind:class="{'error' : selected_uom.barcode_error}" type="text" placeholder="Enter barcode">
+                                        <div class="form-group">
+                                            <label class="form-label" for="group-name">Select a UOM</label>
+                                            <div class="form-control-wrap">
+                                                <select v-model="selected_uom.global_uom_uuid" class="form-control">
+                                                    <option :value="null">Select a UOM</option>
+                                                    <option v-for="(uom,index_uom) in global_uoms" :key="'base-' + uom.uuid + '-' + index_uom" :value="uom.uuid">{{ uom.uom}}</option>
+                                                </select>
+                                            </div>
                                         </div>
 
-                                        <div style="margin-top:10px;">
-                                            <input v-model="selected_uom.packing_qtty" class="form-control-gray-medium"  v-bind:class="{'error' : selected_uom.packing_qtty_error}" type="text" placeholder="Enter packing">
+                                        <div class="form-group">
+                                            <label class="form-label" for="group-name">Enter barcode</label>
+                                            <div class="form-control-wrap">
+                                                <input v-model="selected_uom.barcode" class="form-control"  v-bind:class="{'error' : selected_uom.barcode_error}" type="text">
+                                            </div>
                                         </div>
 
-                                        <div style="margin-top:10px;">
-                                            <input v-model="selected_uom.sales_description" class="form-control-gray-medium"  v-bind:class="{'error' : selected_uom.sales_description_error}" type="text" placeholder="Enter sales description">
+                                        <div class="form-group">
+                                            <label class="form-label" for="group-name">Enter packing</label>
+                                            <div class="form-control-wrap">
+                                                <input v-model="selected_uom.packing_qtty" class="form-control"  v-bind:class="{'error' : selected_uom.packing_qtty_error}" type="text">
+                                            </div>
                                         </div>
 
-                                        <div style="margin-top:10px;">
-                                            <input v-model="selected_uom.remarks" class="form-control-gray-medium"  v-bind:class="{'error' : selected_uom.remarks_error}" type="text" placeholder="Enter remarks"> 
+                                        <div class="form-group">
+                                            <label class="form-label" for="group-name">Enter sales description</label>
+                                            <div class="form-control-wrap">
+                                                <input v-model="selected_uom.sales_description" class="form-control"  v-bind:class="{'error' : selected_uom.sales_description_error}" type="text">
+                                            </div>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label" for="group-name">Enter remarks</label>
+                                            <div class="form-control-wrap">
+                                                <input v-model="selected_uom.remarks" class="form-control"  v-bind:class="{'error' : selected_uom.remarks_error}" type="text"> 
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>                                           
                             </div>                                    
@@ -103,7 +121,7 @@
                     <div class="modal-footer bg-light">
                         <button v-if="selected_uom && selected_uom.uuid === null" @click="save()" type="button" class="btn btn-sm btn-primary">Save</button>
                         <button v-else @click="save()" type="button" class="btn btn-sm btn-primary">Update</button>
-                        <button  @click="cancel()" type="button" class="btn btn-sm btn-default">Close</button>
+                        <button  @click="cancel()" type="button" class="btn btn-sm btn-outline-secondary">Close</button>
                     </div>
                 </div>
             </div>
@@ -267,10 +285,11 @@ export default {
 </script>
 
 <style scoped>
-/* .table-tranx { table-layout: auto; width: 200%;} */
 a.disabled {
     pointer-events: none;
     color: #ccc;
 }
+
+.form-group { margin-bottom: 1rem !important; }
 
 </style>

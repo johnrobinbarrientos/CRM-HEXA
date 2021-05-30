@@ -210,7 +210,7 @@
                             <i class="bx bx-x"></i>
                         </a>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" :class="{'minHeight80vh' : breadcrumb_childName == 'fixed asset' || breadcrumb_childName == 'inventory'}">
                         <billing-type-list ref="childComponent" @updateBreadcrumb="onClickChild"></billing-type-list>
                     </div>
                 </div>
@@ -643,4 +643,5 @@ export default {
 
 .td-border-bottom-black tr:nth-last-child(3) td { border-bottom-color: #495057 !important; }
 .td-border-bottom-black tr:nth-last-child(2) td { border-bottom-color: #495057 !important; }
+.minHeight80vh { min-height: 80vh !important }
 </style>

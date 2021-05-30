@@ -12,6 +12,9 @@
 #sidebar-menu ul li ul.sub-menu li a { padding: .5rem 1.5rem .5rem 3.5rem; }
 #sidebar-menu > ul > li { border-bottom: 1px solid #E1E8ED; }
 .vertical-collpsed .vertical-menu #sidebar-menu>ul>li.has-link-active > a { color: var(--shine-blue) !important; }
+.vertical-collpsed .footer {
+    display: none;
+}
 
 .select2-container { display:block; width:100% !important; }
 .nav-tabs .nav-link { font-weight: 500;}
@@ -474,7 +477,7 @@ body.sidebar-enable.vertical-collpsed .hexasuite-text { display: none; }
     width: 100%;
     margin: 0 auto;
     margin-bottom: 68px;
-    overflow: hidden;
+    /* overflow: hidden; */
     transition: border 250ms ease;
 }
 
@@ -1183,6 +1186,16 @@ body.sidebar-enable.vertical-collpsed #sidebar-menu ul li.has-link-active i { co
 .form-control-gray-small { width:100%; border:1px solid #ccc; }
 .form-control-gray-small.error, .form-control-gray-medium.error {  border:1px solid red; color:#000; }
 
+select.form-control {
+    height: 34px;
+    border-radius: .25rem;
+    width: 100%;
+    font-size: 12px;
+    line-height: 30px;
+    padding: 0px 10px;
+    min-height: 30px !important;
+    border: 1px solid #ccc;
+}
 
 /**/
 
@@ -1190,18 +1203,61 @@ nav > .pagination { margin-bottom: 0; }
 
 
 /** multi select **/
+.multiselect__select:before {
+    top: 60% !important;
+}
+.multiselect__tags {
+    border-color: #ced4da !important;
+    border-radius: .25rem !important;
+}
+
+.multiselect__select {
+    max-height: 36.5px !important;
+}
+
 .multiselect__option,
-.multiselect__single { font-size: 14px !important; }
+.multiselect__single { font-size: 13px !important; }
+
+.multiselect__option { min-height: 37px !important; line-height: 13px !important; }
+.multiselect__option:after { line-height: 37px !important; } 
+
+.multiselect__input,
+.multiselect__single {
+    font-size: 13px !important;
+}
+
+.multiselect__tags {
+    min-height: unset !important;
+    max-height: 36.5px !important;
+    padding: 7px 40px 0 8px !important;
+}
 
 .multiselect__option--highlight,
 .multiselect__option--highlight:after {
-    background-color: var(--shine-blue) !important;
+    background-color: #556ee6 !important;
 }
+
+.multiselect__content-wrapper { border-color: #ced4da !important; }
 
 /** mx-input **/
 .mx-input {
     height: 22px !important;
     border: none !important;
     box-shadow: none !important;
+    font-size: 13px !important;
 }
 .table-filter-row .select-wrap { padding-right: 0; }
+
+/*under form-control*/
+.form-control .mx-icon-calendar {
+    right: 0 !important;
+}
+
+.form-control .mx-datepicker {
+    width: 100% !important;
+}
+
+.form-control .mx-input {
+    padding-left: 0 !important;
+
+}

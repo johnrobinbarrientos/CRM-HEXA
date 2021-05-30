@@ -173,8 +173,6 @@ export default {
 </script>
 
 <style scoped>
-.table-tranx { table-layout: auto; width: 200%;}
-
 .td-border-bottom-black tr:nth-last-child(3) td { border-bottom-color: #495057 !important; }
 .td-border-bottom-black tr:nth-last-child(2) td { border-bottom-color: #495057 !important; }
 </style>

@@ -61,10 +61,7 @@
             </div>
         </div>
         <div class="footer">
-                    <div class="d-flex h-100 align-items-center"><span>Elevating OME's. Empowering Entrepreneurs.</span></div>
-                    <!-- <div class="col-sm-6">
-                        <div class="text-sm-right d-none d-sm-block">Powered by <img class="pl-1" height="25" :src="logo"></div>
-                    </div> -->
+            <div class="d-flex h-100 align-items-center"><span>Elevating OME's. Empowering Entrepreneurs.</span></div>
         </div>
     </div>
 

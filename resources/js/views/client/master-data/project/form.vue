@@ -90,7 +90,7 @@
                         <div class="col-md-3 col-12">
                             <div class="form-group">
                                     <label class="form-label" for="date-start">Date Start</label>
-                                    <div class="form-control-wrap">
+                                    <div class="form-control">
                                         <DatePicker v-model="formdata.date_start" valueType="format" :format="'DD-MMM-YYYY'" :clearable="false" :disabled="view_mode"></DatePicker>
                                     </div>
                             </div>
@@ -99,7 +99,7 @@
                         <div class="col-md-3 col-12">
                             <div class="form-group">
                                     <label class="form-label" for="end-date">End Date</label>
-                                    <div class="form-control-wrap">
+                                    <div class="form-control">
                                         <DatePicker v-model="formdata.end_date" valueType="format" :format="'DD-MMM-YYYY'" :disabled="view_mode"></DatePicker>
                                     </div>
                             </div>
