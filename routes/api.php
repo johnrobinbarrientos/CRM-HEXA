@@ -371,6 +371,7 @@ Route::group(['middleware' => ['auth:api'] ], function(){
     Route::group(['prefix' => 'sell-and-collect'], function(){
 
         Route::get('/bills/draft', 'API\SellAndCollectBillController@draft');
+        Route::get('/bills/project/expenses/{project_uuid}', 'API\SellAndCollectBillController@getProjectExpenses');
 
     });
     

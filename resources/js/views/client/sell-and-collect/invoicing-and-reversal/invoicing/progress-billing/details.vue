@@ -106,89 +106,47 @@
 
                                 <div style="margin-bottom:10px;">
                                     <div class="text-right">
-                                        <button type="button" class="btn btn-sm hx-btn-shineblue">Get Charges</button>
+                                        <button type="button" @click="getCharges()"  class="btn btn-sm hx-btn-shineblue">Get Charges</button>
                                     </div>
-                                <table class="table table-bordered mb-0">
-                                    <thead class="th-nowrap">
-                                        <tr>
-                                            <th width="40" >Action</th>
-                                            <th>Account</th>
-                                            <th>Amount</th>
-                                            <th>Project</th>
-                                            <th>Project Scope</th>
-                                            <th>Details</th>
-                                            <th>Memo</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="td-border-bottom-black-2">
-                                        <tr v-for="(expense,index) in expenses" :key="'expense-' + index">
+                                    <table class="table table-bordered mb-0">
+                                        <thead class="th-nowrap">
+                                            <tr>
+                                                <th>Transaction No.</th>
+                                                <th>Account</th>
+                                                <th>Amount</th>
+                                                <th>Project</th>
+                                                <th>Project Scope</th>
+                                                <th>Details</th>
+                                                <th>Memo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(expense,index) in expenses" :key="'expense-' + index">
+                                                <td class="text-center">
+                                                <a :href="'/buy-and-pay/bills/expenses/' + expense.purchase_billing_uuid + '/edit'" target="_blank">{{ expense.purchaseBilling.transaction_no }}</a>
+                                                </td>
+                                                <td>
+                                                    {{ expense.coa.account_name}}
+                                                </td>
+                                                <td class="text-right" >
+                                                    {{ PUT_SEPARATOR(expense.amount)}}
+                                                </td>
+                                                <td>
+                                                    {{ expense.project.project_name}}
+                                                </td>
+                                                <td>
+                                                    {{ expense.projectScope.scope_of_work}}
+                                                </td>
+                                                <td>
+                                                    {{ expense.scopeDetail.detail}}
+                                                </td>
+                                                <td>
+                                                    {{ expense.memo_1}}
+                                                </td>
 
-                                            <td class="text-center">
-                                                <b-button @click="removeSelected(index)" type="button" size ="sm" class="m-2" :disabled="ACTION != 'edit'">Delete</b-button>
-                                            </td>
-
-                                            <td width="250">
-                                                <select style="width:100%; border:none;" v-model="expense.coa_uuid" class="editable-control" :disabled="ACTION != 'edit'">
-                                                    <option value="null">Select an Account</option>
-                                                    <option v-for="coa_expense in options_coa_expense" :value="coa_expense.id" :key="'coa-' + coa_expense.id">
-                                                        {{ coa_expense.text }}
-                                                    </option>
-                                                </select>
-                                            </td>
-
-                                            <td width="150">
-                                                <input v-on:keyup.enter="onEnter(index)" v-model="expense.amount" type="text" style="width:100%; border:none; text-align:right;"  :disabled="ACTION != 'edit'">
-                                            </td>
-
-                                            <td>
-                                                <select style="width:100%; border:none;" v-model="expense.project_uuid" @change="getProjectScopes(expense,index)" class="editable-control" :disabled="ACTION != 'edit'">
-                                                    <option v-for="project in options_projects" :value="project.id" :key="'project-' + project.id">
-                                                        {{ project.text }}
-                                                    </option>
-                                                </select>
-                                            </td>
-
-                                            <td>
-                                                <select style="width:100%; border:none;" v-model="expense.project_scope_uuid" @change="getScopeDetails(expense,index)" class="editable-control" :disabled="ACTION != 'edit'">
-                                                    <option v-for="prj_scope in expense.prjScopes" :value="prj_scope.id" :key="'prj_scope-' + prj_scope.id">
-                                                        {{ prj_scope.text }}
-                                                    </option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select style="width:100%; border:none;" v-model="expense.scope_details_uuid" class="editable-control" :disabled="ACTION != 'edit'">
-                                                    <option v-for="scope_detail in expense.prjScopeDetails" :value="scope_detail.id" :key="'scope_detail-' + scope_detail.id">
-                                                        {{ scope_detail.text }}
-                                                    </option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input v-model="expense.memo_1" type="text" style="width:100%; border:none;"  :disabled="ACTION != 'edit'">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2" class="text-right">Total</td>
-                                            <td v-if="AMOUNT_TO_ALLOCATE >= 0" class="text-right"><strong>{{ PUT_SEPARATOR(AMOUNT_ALLOCATED.toFixed(2)) }}</strong></td>
-                                            <td v-if="AMOUNT_TO_ALLOCATE < 0" class="text-right text-danger"><strong>{{ PUT_SEPARATOR(AMOUNT_ALLOCATED.toFixed(2)) }}</strong></td>
-                                            <td colspan="2"></td>
-                                            
-                                        </tr>
-                                        <tr>
-                                            <td colspan="20">
-                                                <div style="margin-bottom:2px;"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="20">
-                                                <div style="margin-bottom:2px;"></div>
-                                            </td>
-                                        </tr>
-                                    
-                                    </tbody>
-                                </table>
-
-
-
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
 
                             </div>
@@ -267,6 +225,7 @@ export default {
             },
 
             bill: [],
+            expenses: [],
 
             DRAFT: true,
             ACTION: 'view',
@@ -309,9 +268,22 @@ export default {
                 scope.bill.transaction_no = (!scope.bill.transaction_no || scope.bill.transaction_no == '') ? 'To be generated' : scope.bill.transaction_no
                 scope.bill.transaction_date = (!scope.bill.transaction_date || scope.bill.transaction_date == '') ? moment() : scope.bill.transaction_date
 
-                console.log(scope.bill)
+                //console.log(scope.bill)
 
                 scope.prerequiste.getBillDetails = true
+            })
+        },
+
+        getCharges: function () {
+            var scope = this
+
+            console.log(scope.bill.project.uuid)
+
+            scope.GET('sell-and-collect/bills/project/expenses/' + scope.bill.project.uuid).then(res => {
+                
+                scope.expenses = res.rows
+                console.log('scope.expenses')
+                console.log(scope.expenses)
             })
         },
 
