@@ -335,7 +335,13 @@ export default new VueRouter({
           path: '/buy-and-pay/bills/expenses/:bill_uuid/:action',
           name: 'buy-and-pay-bills-edit-expenses',
           component: BuyANDPayBillingExpenseDetails,
-          props: { view_mode: false },
+          beforeEnter: checkAuth,
+          meta: { protected: true }
+        },
+        {
+          path: '/buy-and-pay/bills/expenses/:bill_uuid/:action',
+          name: 'buy-and-pay-bills-view-expenses',
+          component: BuyANDPayBillingExpenseDetails,
           beforeEnter: checkAuth,
           meta: { protected: true }
         },

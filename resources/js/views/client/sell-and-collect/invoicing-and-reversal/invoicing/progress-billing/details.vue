@@ -123,7 +123,7 @@
                                         <tbody>
                                             <tr v-for="(expense,index) in expenses" :key="'expense-' + index">
                                                 <td class="text-center">
-                                                <a :href="'/buy-and-pay/bills/expenses/' + expense.purchase_billing_uuid + '/edit'" target="_blank">{{ expense.purchaseBilling.transaction_no }}</a>
+                                                <a :href="'/buy-and-pay/bills/expenses/' + expense.purchase_billing_uuid + '/view'" target="_blank">{{ expense.purchaseBilling.transaction_no }}</a>
                                                 </td>
                                                 <td>
                                                     {{ expense.coa.account_name}}
@@ -268,7 +268,7 @@ export default {
                 scope.bill.transaction_no = (!scope.bill.transaction_no || scope.bill.transaction_no == '') ? 'To be generated' : scope.bill.transaction_no
                 scope.bill.transaction_date = (!scope.bill.transaction_date || scope.bill.transaction_date == '') ? moment() : scope.bill.transaction_date
 
-                //console.log(scope.bill)
+                console.log(scope.bill)
 
                 scope.prerequiste.getBillDetails = true
             })

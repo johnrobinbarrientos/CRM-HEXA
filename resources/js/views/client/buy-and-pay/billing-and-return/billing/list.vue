@@ -105,13 +105,12 @@
                                     <template v-if="bill.po_status !== 'Cancelled'">
                                         <td width="100" style="text-align:center;">
                                             <b-dropdown v-if="bill.transaction_type == 'Expenses' && bill.status == 'To Pay'"  split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="edit(bill)">
-                                                <!-- <b-dropdown-item href="javascript:void(0)" @click="ROUTE({ path: '/buy-and-pay/bills/' + bill.uuid + '/edit'})">Edit</b-dropdown-item> -->
                                                 <b-dropdown-item href="javascript:void(0)" @click="edit(bill)">Edit</b-dropdown-item>
-                                                <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/view' })">View</b-dropdown-item>
+                                                <b-dropdown-item href="javascript:void(0)" @click="view(bill)">View</b-dropdown-item>
                                                 <b-dropdown-item href="javascript:void(0)" @click="cancel(bill.uuid)">Cancel</b-dropdown-item>
                                             </b-dropdown>
-                                            <b-dropdown v-else  split text="View" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/view' })">
-                                                <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/view' })">View</b-dropdown-item>
+                                            <b-dropdown v-else  split text="View" size ="sm" class="m-2" href="javascript:void(0)" @click="view(bill)">
+                                                <b-dropdown-item href="javascript:void(0)" @click="view(bill)">View</b-dropdown-item>
                                             </b-dropdown>
                                         </td>
                                         <td width="100">{{ bill.transaction_type }}</td>
@@ -325,6 +324,15 @@ export default {
                 scope.ROUTE({ path: '/buy-and-pay/bills/expenses/' + bill.uuid + '/edit'})
             }else{
                 scope.ROUTE({ path: '/buy-and-pay/bills/' + bill.uuid + '/edit'})
+            }
+        },
+        view: function (bill) {
+            var scope = this
+
+            if (bill.transaction_type == 'Expenses'){
+                scope.ROUTE({ path: '/buy-and-pay/bills/expenses/' + bill.uuid + '/view'})
+            }else{
+                scope.ROUTE({ path: '/buy-and-pay/bills/' + bill.uuid + '/view'})
             }
         },
         reset: function () {
