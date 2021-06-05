@@ -27,8 +27,6 @@
                                 <span>Update</span>
                             </a>
 
-                            <a v-if="bill.uuid &&  bill.status =='To Pay' && ACTION == 'view'" @click="cancel()" class="btn btn-md btn-danger waves-effect"  href="javascript:void(0)">Cancel</a>
-
                             <a v-if="bill.uuid &&  bill.status =='To Pay' && ACTION == 'view'"  @click="ROUTE({path: '/buy-and-pay/bills/' + bill.uuid + '/edit'})" class="hx-btn hx-btn-shineblue" data-toggle="modal" href="javascript:void(0)">
                                 <span>Edit</span>
                             </a>
@@ -745,7 +743,9 @@ export default {
 
         var bill_uuid = scope.$route.params.bill_uuid;
 
-        scope.ACTION = ( scope.$route.params.action) ? scope.$route.params.action : 'edit';
+        //scope.ACTION = ( scope.$route.params.action) ? scope.$route.params.action : 'edit';
+        scope.ACTION = scope.$route.params.action
+        console.log(scope.ACTION)
         scope.DRAFT = (!bill_uuid) ? true : false
 
         scope.getBillDetails(bill_uuid)

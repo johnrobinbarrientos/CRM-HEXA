@@ -353,8 +353,7 @@ export default {
                 getAssetGroup: false,
                 getGlobalBaseUOM: false,
                 getAssetGroup: false,
-                getTaxationItem:false,
-                getItemDetails: false
+                getTaxationItem:false
                 
             },
 
@@ -742,6 +741,7 @@ export default {
                 }
             }
         },
+
         save: function () {
             var scope = this
 
@@ -815,6 +815,7 @@ export default {
             }
             
         },
+
         remove: function (data) {
             var scope = this
             window.swal.fire({
@@ -846,6 +847,7 @@ export default {
                 }                              
             })
         },
+
         getItemDetails: function (itemUUID) {
             var scope = this
 
@@ -994,6 +996,7 @@ export default {
             })
         }
     },
+    
     mounted() {
         var scope = this
 

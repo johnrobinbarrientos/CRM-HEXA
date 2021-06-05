@@ -72,7 +72,7 @@
 
 
             <!-- Modal -->
-            <div class="modal fade" tabindex="-1" id="modalInvoicingList">
+            <!-- <div class="modal fade" tabindex="-1" id="modalInvoicingList">
                 <div class="modal-dialog modal-lg " role="document" style="max-width: 1100px;">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -83,6 +83,31 @@
                         </div>
                         <div class="modal-body">
                             <invoicing-type-list></invoicing-type-list>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="modal fade" tabindex="-1" id="modalInvoicingList">
+                <div class="modal-dialog modal-lg " role="document" style="max-width: 1100px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                <i
+                                    @click="billingTypeList_ChildReturn()"
+                                    v-if="breadcrumb_childName"
+                                    class="las la-undo mr-1 cursor-pointer"
+                                    style="border: 1px solid #999; padding: 1px; border-radius: 5px;"
+                                >
+                                </i>
+                                <span @click="billingTypeList_ChildReturn()" class="cursor-pointer">Invoicing</span>
+                                <span v-if="breadcrumb_childName" class="text-capitalize"><i class="las la-angle-right"></i> {{ breadcrumb_childName }}</span>
+                            </h5>
+                            <a href="javascript:void(0)" @click="CLOSE_MODAL('#modalInvoicingList');" class="close" data-dismiss="modal" aria-label="Close">
+                                <i class="bx bx-x"></i>
+                            </a>
+                        </div>
+                        <div class="modal-body">
+                            <invoicing-type-list ref="childComponent" @updateBreadcrumb="onClickChild"></invoicing-type-list>
                         </div>
                     </div>
                 </div>
@@ -104,6 +129,12 @@ export default {
     props: ['properties'],
     data: function () {
         return {
+            parentmessage: '',
+            breadcrumb_childName: '',
+            tableFilterOptions: {
+                filter: false
+            },
+            
             listLoading: true,
             listCurrentPage: 1,
             listItemPerPage: 20,
@@ -125,8 +156,14 @@ export default {
         }
     },
     methods: {
+        billingTypeList_ChildReturn: function () {
+            this.$refs.childComponent.resetData();
+            this.breadcrumb_childName = ''
+        },
+        onClickChild: function (value) {
+            this.breadcrumb_childName = value
+        },
         
-
     },
     mounted() {
         var scope = this

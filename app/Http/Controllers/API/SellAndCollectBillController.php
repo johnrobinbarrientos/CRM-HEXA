@@ -7,9 +7,19 @@ use Illuminate\Support\Facades\Auth;
 
 
 use App\Models\ProjectList;
+use App\Models\ProjectScope;
+use App\Models\ProjectScopeDetail;
+
 use App\Models\CustomerList;
 use App\Models\CompanyBranch;
 use App\Models\CompanyBranchLocation;
+
+use App\Models\PurchaseBilling; 
+use App\Models\PurchaseBillingExpense;
+use App\Models\PurchaseBillingProject;
+use App\Models\PurchaseBillingProjectExpense;
+
+use App\Models\CompanyChartOfAccount; 
 
 use App\Models\CompanyList;
 
@@ -30,6 +40,30 @@ class SellAndCollectBillController extends Controller
 
         return response()->json(['success' => 1, 'data' => $bill], 200);
         
+    }
+
+    public function getProjectExpenses($projectUUID)
+    {
+
+        $projectexpenses = PurchaseBillingProjectExpense::where('project_uuid','=',$projectUUID)->get()->makeHidden('attribute')->toArray();
+
+
+        $x = 0;
+                
+        foreach ($projectexpenses as $expense) {
+            $expense = (object) $expense;
+            $expenses[$x]['purchaseBilling'] = PurchaseBilling::find($expense->purchase_billing_uuid)->makeHidden('attribute')->toArray();
+            $expenses[$x]['coa'] = CompanyChartOfAccount::find($expense->coa_uuid)->makeHidden('attribute')->toArray();
+            $expenses[$x]['project'] = ProjectList::find($expense->project_uuid)->makeHidden('attribute')->toArray();
+            $expenses[$x]['projectScope'] = ProjectScope::find($expense->project_scope_uuid)->makeHidden('attribute')->toArray();
+            $expenses[$x]['scopeDetail'] = ProjectScopeDetail::find($expense->scope_details_uuid)->makeHidden('attribute')->toArray();
+            $expenses[$x]['purchase_billing_uuid'] = $expense->purchase_billing_uuid;
+            $expenses[$x]['amount'] = $expense->amount;
+            $expenses[$x]['memo_1'] = $expense->memo_1;
+            $x++;
+        }
+        
+        return response()->json(['success' => 1, 'rows' => $expenses], 200);
     }
     
 
