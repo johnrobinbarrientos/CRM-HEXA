@@ -166,11 +166,6 @@ export default {
         DATEPICKER_CONFIG: function () {
             return {format: 'YYYY-MM-DD', useCurrent: false, showClear: true, icons: { clear: 'bx bxs-eraser'}}
         },
-        PUT_SEPARATOR: function(value) {
-            var num_parts = value.toString().split(".");
-            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            return num_parts.join(".");
-        },
     }
 }
   

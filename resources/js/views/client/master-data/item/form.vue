@@ -304,7 +304,7 @@
                             </div>   
 
                             <div class="tab-pane" id="pricing" style="padding: 0 15px 15px;"> 
-                                <pricing v-if="load_ready" :item="formdata"  ref="pricing"></pricing>
+                                <pricing v-if="load_ready" :item="formdata" ref="pricing"></pricing>
                             </div>    
 
 
@@ -443,7 +443,7 @@ export default {
                 vat_uuid: '',
                 suppliers: [],
                 uoms: []
-            }
+            },
 
         }
     },
@@ -477,6 +477,16 @@ export default {
         selected_item_group: function(){
             var scope = this
             scope.checkAsset()
+        },
+
+        selected_vat: function (){
+            var scope = this
+            if(scope.load_ready){
+                setTimeout(function(){
+                    var passdata = (scope.selected_vat == null) ? null : scope.selected_vat.text
+                    scope.$refs.pricing.transferPrice(passdata);
+                },500)
+            }
         }
 
     },
@@ -500,7 +510,6 @@ export default {
                         text: data.tax_name
                     })
                 })
-
                 scope.prerequiste.getTaxationItem = true
             })
         },
@@ -986,10 +995,10 @@ export default {
                         }
                 }
 
-                if (data.v_a_t !== null){
+                if (data.v_a_t_item !== null){
                     scope.selected_vat = {
-                            uuid: data.v_a_t.uuid,
-                            text: data.v_a_t.tax_name
+                            uuid: data.v_a_t_item.uuid,
+                            text: data.v_a_t_item.tax_name
                         }
                 }
    

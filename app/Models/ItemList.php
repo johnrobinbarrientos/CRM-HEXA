@@ -85,8 +85,8 @@ class ItemList extends Model
         return $this->belongsTo('App\Models\GlobalUom','global_base_uom_uuid','uuid');
     }
 
-    public function VAT(){
-        return $this->belongsTo('App\Models\CompanyTaxation','vat_uuid','uuid');
+    public function VATItem(){
+        return $this->belongsTo('App\Models\CompanyTaxationItem','vat_uuid','uuid');
     }
 
    

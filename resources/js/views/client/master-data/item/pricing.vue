@@ -27,6 +27,7 @@
                                     <th>Action</th>
                                     <th>Name</th>
                                     <th>Purchase Price</th>
+                                    <th>Transfer Price</th>
                                     <th>Discount Group</th>
                                     <th>Discount Rate</th>
                                 </tr>
@@ -34,12 +35,22 @@
                             <tbody>
                                 <tr v-for="item_supplier,index in selected_suppliers" :key="'supplier-' + index">
                                     <td width="120" class="text-center">
-                                        <button type="button" class="btn-gray-small" @click="edit(item_supplier,index)">Edit</button>
-                                        <button type="button" class="btn-gray-small" @click="remove(item_supplier,index)">Delete</button>
+                                        <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="edit(item_supplier,index)">
+                                            <b-dropdown-item href="javascript:void(0)"  @click="edit(item_supplier,index)">Edit</b-dropdown-item>
+                                            <b-dropdown-item href="javascript:void(0)" @click="remove(item_supplier,index)">Delete</b-dropdown-item>
+                                        </b-dropdown>
                                     </td>
                                     <td><strong >{{ item_supplier.supplier.supplier_name }}</strong></td>
                                     <td width="100" class="text-right">
                                         <strong>{{ item_supplier.purchase_price || 0.00 }}</strong>
+                                    </td>
+                                    <td width="100" class="text-right">             
+                                        <span v-if="vat_name == 'VAT Sales'">
+                                            <strong>{{ PUT_SEPARATOR((item_supplier.purchase_price / 1.12).toFixed(2))}}</strong>
+                                        </span>
+                                        <span v-else>
+                                            <strong>{{ item_supplier.purchase_price}}</strong>
+                                        </span>
                                     </td>
                                     <td width="150" ><strong v-if="item_supplier.selected_discount_group">{{ item_supplier.selected_discount_group.name || 'None' }}</strong></td>
                                     <td width="150" class="text-right"><strong v-if="item_supplier.selected_discount_group">{{ item_supplier.selected_discount_group.total_rate || 0 }}%</strong></td>
@@ -172,7 +183,8 @@ export default {
             option_suppliers: [],
             option_suppliers_loading: false,
             selected_supplier_uuids: [],
-            selected_suppliers: []
+            selected_suppliers: [],
+            vat_name: null,
         }
     },
 
@@ -335,7 +347,6 @@ export default {
         setSelectedSuppliers: function () {
             var scope = this
             scope.selected_supplier_uuids = [];
-            console.log(scope.item.suppliers)
             for (let i = 0; i < scope.item.suppliers.length; i++) {
                 var current = scope.item.suppliers[i]
                 var selected_discount_group = scope.getSelectedDiscountGroupDetails(current.bd_group_supplier_uuid,current.supplier.discount_groups)
@@ -352,6 +363,13 @@ export default {
                 scope.selected_suppliers.push(data)
             }
             scope.getSuppliers()
+        },
+        transferPrice: function (vatname) {
+            var scope = this
+            scope.vat_name = vatname
+            console.log('tets')
+            console.log(scope.vat_name)
+
         }
     },
     mounted() {

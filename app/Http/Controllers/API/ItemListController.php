@@ -151,7 +151,7 @@ class ItemListController extends Controller
         ->with('CatPackingType')
         ->with('BaseUOM')
         ->with('AssetGroup')
-        ->with('VAT')
+        ->with('VATItem')
         ->find($itemUUID);
 
         if (!$item) {
