@@ -364,12 +364,9 @@ export default {
             }
             scope.getSuppliers()
         },
-        transferPrice: function (vatname) {
+        setTransferPrice: function (vatname) {
             var scope = this
             scope.vat_name = vatname
-            console.log('tets')
-            console.log(scope.vat_name)
-
         }
     },
     mounted() {

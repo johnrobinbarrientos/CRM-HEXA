@@ -484,7 +484,7 @@ export default {
             if(scope.load_ready){
                 setTimeout(function(){
                     var passdata = (scope.selected_vat == null) ? null : scope.selected_vat.text
-                    scope.$refs.pricing.transferPrice(passdata);
+                    scope.$refs.pricing.setTransferPrice(passdata);
                 },500)
             }
         }
