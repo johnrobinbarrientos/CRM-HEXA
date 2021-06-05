@@ -33,8 +33,9 @@
                             </thead>
                             <tbody>
                                 <tr v-for="item_supplier,index in selected_suppliers" :key="'supplier-' + index">
-                                    <td width="80" class="text-center">
+                                    <td width="120" class="text-center">
                                         <button type="button" class="btn-gray-small" @click="edit(item_supplier,index)">Edit</button>
+                                        <button type="button" class="btn-gray-small" @click="remove(item_supplier,index)">Delete</button>
                                     </td>
                                     <td><strong >{{ item_supplier.supplier.supplier_name }}</strong></td>
                                     <td width="100" class="text-right">
@@ -211,8 +212,6 @@ export default {
             scope.selected_supplier_index = index
             scope.selected_supplier = copy
 
-            console.log(copy)
- 
             scope.OPEN_MODAL('#modalSuppliers');
         },
         cancel: function (data,index) {
@@ -260,6 +259,30 @@ export default {
             scope.selected_supplier = null
             scope.selected_supplier_index = null
             scope.CLOSE_MODAL('#modalSuppliers');
+        },
+        remove: function (data,index) {
+            var scope = this
+
+            window.swal.fire({
+                title: 'Delete?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    scope.selected_suppliers.splice(index,1)
+                    window.swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Deleted',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })   
+                }                              
+            })
         },
         findSelectedSuppliers : function (supplier) {
             var scope = this

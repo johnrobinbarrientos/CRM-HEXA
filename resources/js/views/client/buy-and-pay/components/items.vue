@@ -751,8 +751,6 @@ export default {
                 return discount.items.includes(item.uuid)
             })
 
-            
-            
             var RATE = 0.00
 
             if (item_discount_group.length > 0) {
@@ -762,8 +760,6 @@ export default {
                     RATE += parseFloat(discount.rate)
                 }
             }
-
-            console.log('RATE ===> ',RATE)
 
             RATE = parseFloat(RATE/100)
             item.discount_base_rate = RATE
@@ -823,31 +819,39 @@ export default {
             scope.DISCOUNT_BASE_AMOUNT_TOTAL = 0.00
             scope.DISCOUNT_BASE_INCLUDED = []
 
+    
             for (let i = 0; i < scope.discount_groups.length; i++) {
-                var discount =  scope.discount_groups[i]
+                var discount_group =  scope.discount_groups[i]
          
-                discount.discount_amount = 0.00
+                discount_group.amount = 0.00
+                discount_group.rate = 0.00
 
                 var items = scope.SELECTED_ITEMS.filter(item => {
-                    return (discount.items.includes(item.uuid))
+                    return (discount_group.items.includes(item.uuid))
                 })
 
-                if (items.length) {
+                var discounts = discount_group.discounts
+
+                for (let i = 0; i < discounts.length; i++) {
+                    var discount = discounts[i]
                     scope.DISCOUNT_BASE_RATE_TOTAL +=  parseFloat(discount.rate)
+                   
                     for (let x = 0; x < items.length; x++) {
                         var item = items[x]
-                        discount.amount += item.gross_amount * (discount.rate / 100)
-                        
-                        // only add the discount to the list when the value is greater than 0
-                        if (discount.amount > 0) {
-                            scope.DISCOUNT_BASE_INCLUDED.push(discount);
-                        }
-                       
+                        discount_group.amount += item.gross_amount * (discount.rate / 100)
                     }
+                    
+                    discount_group.rate +=  parseFloat(discount.rate)
                 }
 
-               
-                scope.DISCOUNT_BASE_AMOUNT_TOTAL +=  discount.amount
+                
+
+                scope.DISCOUNT_BASE_AMOUNT_TOTAL +=  discount_group.amount
+
+                // only add the discount to the list when the value is greater than 0
+                if (discount_group.amount > 0) {
+                    scope.DISCOUNT_BASE_INCLUDED.push(discount_group);
+                }
             }
 
 
@@ -919,8 +923,7 @@ export default {
                 ADDITIONAL_AMOUNT_TOTAL: scope.DISCOUNT_ADDITIONAL_AMOUNT_TOTAL,
                 ADDITIONAL_RATE_TOTAL: scope.DISCOUNT_ADDITIONAL_RATE_TOTAL,
             }
-
-
+            
             scope.$parent.$refs.discounts.updateDISCOUNTS(DISCOUNTS, TOTALS)
            
         },
