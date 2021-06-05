@@ -18,7 +18,7 @@
                 </div>
                 <div v-if="item.is_purchase_item" >
                     <div v-if="selected_suppliers.length < 1" style="background:#fafafa; padding:20px 20px; text-align:center;  border:1px solid #efefef; border-top:none;">
-                        No Supplier
+                        No Records
                     </div>
                     <div v-else>
                         <table v-show="item.is_purchase_item" class="table table-bordered table-hover table-striped">
@@ -109,7 +109,16 @@
                                     </multiselect>
                                 </div>
 
-                                <div style="margin-bottom:10px;">
+                                <div v-if="selected_supplier_index != null" style="margin-bottom:10px;">
+                                    <div class="form-group">
+                                        <label class="form-label" for="item-description"><strong>Supplier</strong></label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="selected_supplier.supplier.supplier_name" type="text" class="form-control" id="item-description" :readonly="true">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div v-if="selected_supplier.supplier" style="margin-bottom:10px;">
                                     <strong>Purchase Price</strong>
                                     <input v-model="selected_supplier.purchase_price" class="form-control-gray-medium"  v-bind:class="{'error' : selected_supplier.purchase_price_error}" type="text" placeholder="Enter Purchase Price">
                                 </div>
@@ -118,7 +127,7 @@
                                     <div style="margin-bottom:10px;">
                                         <strong>Discount Group</strong>
                                         <select v-model="selected_supplier.bd_group_supplier_uuid" class="form-control-gray-medium"  v-bind:class="{'error' : selected_supplier.bd_group_supplier_uuid_error}" placeholder="Enter Purchase Price">
-                                            <option :value="null">Select Discount Group</option>
+                                            <!-- <option :value="null">Select Discount Group</option> -->
                                             <option v-for="discount_group,index in selected_supplier.supplier.discount_groups" :key="'option-discount-group-' + index" :value="discount_group.uuid">
                                                 {{ discount_group.name }}
                                             </option>
@@ -223,6 +232,8 @@ export default {
  
             scope.selected_supplier_index = index
             scope.selected_supplier = copy
+
+            console.log(scope.selected_supplier)
 
             scope.OPEN_MODAL('#modalSuppliers');
         },
