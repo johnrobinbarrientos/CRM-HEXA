@@ -44,13 +44,25 @@ class ItemSupplierController extends Controller
 
     public static function save($item_uuid, $suppliers)
     {
+        $supplier_uuids = [];
+        
+        foreach ($suppliers as $key => $supplier) {
+            if ( is_null($supplier['supplier_uuid'])) {
+                continue;
+            }
+            $supplier_uuids[] = $supplier['supplier_uuid'];
+        }
+
+        // delete
+        ItemSupplier::where('item_uuid','=',$item_uuid)->whereNotIn('supplier_uuid',$supplier_uuids)->delete();
+
         foreach ($suppliers as $key => $supplier) {
             $supplier_uuid = $supplier['supplier_uuid'];
             $price = $supplier['purchase_price'];
             $bd_group_supplier_uuid = $supplier['bd_group_supplier_uuid'];
-
-            $item_supplier = ItemSupplier::where('item_uuid','=',$item_uuid)->where('supplier_uuid','=',$supplier_uuid)->withTrashed()->first(); 
             
+            $item_supplier = ItemSupplier::where('item_uuid','=',$item_uuid)->where('supplier_uuid','=',$supplier_uuid)->withTrashed()->first(); 
+
             $item_supplier = ($item_supplier) ? $item_supplier : new ItemSupplier();
             $item_supplier->item_uuid = $item_uuid;
             $item_supplier->supplier_uuid = $supplier_uuid;

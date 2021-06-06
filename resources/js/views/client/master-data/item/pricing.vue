@@ -52,7 +52,7 @@
                                             <strong>{{ item_supplier.purchase_price}}</strong>
                                         </span>
                                     </td>
-                                    <td width="150" ><strong v-if="item_supplier.selected_discount_group">{{ item_supplier.selected_discount_group.name || 'None' }}</strong></td>
+                                    <td width="150" ><strong v-if="item_supplier.selected_discount_group">{{ item_supplier.selected_discount_group.name }}</strong></td>
                                     <td width="150" class="text-right"><strong v-if="item_supplier.selected_discount_group">{{ item_supplier.selected_discount_group.total_rate || 0 }}%</strong></td>
                                 </tr>
                             </tbody>
@@ -285,27 +285,7 @@ export default {
         },
         remove: function (data,index) {
             var scope = this
-
-            window.swal.fire({
-                title: 'Delete?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.value) {
-                    scope.selected_suppliers.splice(index,1)
-                    window.swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Deleted',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })   
-                }                              
-            })
+            scope.selected_suppliers.splice(index,1)
         },
         findSelectedSuppliers : function (supplier) {
             var scope = this
