@@ -39,7 +39,7 @@
                 </div>
 
                 <li class="dropdown d-inline-block dropdown">
-                    <button id="page-header-notifications-dropdown" aria-haspopup="true" class="btn header-item noti-icon waves-effect pr-18" aria-expanded="false"><i class="bx bx-bell bx-tada"></i><span class="badge badge-danger badge-pill">3</span></button>
+                    <button id="page-header-notifications-dropdown" aria-haspopup="true" class="btn header-item noti-icon waves-effect pr-18" aria-expanded="false"><i class="bx bx-bell bx-tada"></i><span class="badge badge-danger badge-pill"></span></button>
                     <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-lg p-0 dropdown-menu dropdown-menu-right">
                         <div class="p-3">
                             <div class="align-items-center row">
@@ -124,7 +124,7 @@
                 </li>
                 <div class="d-inline-block dropdown">
                     <button id="page-header-user-dropdown" aria-haspopup="true" class="btn header-item waves-effect" aria-expanded="false">
-                        <img class="rounded-circle header-profile-user" :src="avatar" alt="Header Avatar">
+                        <img class="rounded-circle header-profile-user" :src="profile" alt="Header Avatar">
                         <span class="d-none d-xl-inline-block ml-2 mr-1">User</span>
                         <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                     </button>
@@ -156,6 +156,7 @@
 
     import logo from '../../assets/themes/images/hexa-logo.png';
     import avatar from '../../assets/themes/images/icon.png';
+    import profile from '../../assets/themes/images/avatar-1.3921191a.jpg';
 
     export default {
     name: 'Header',
@@ -164,6 +165,7 @@
         return {
             logo,
             avatar,
+            profile,
             company_name: ''
         }
     },
