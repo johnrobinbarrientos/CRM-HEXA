@@ -59,6 +59,7 @@
                                     <div class="media-body">
                                         <p class="text-muted fw-medium">Purchase Orders this month</p>
                                         <h4 class="mb-0">370</h4>
+                                        <a :href="'/buy-and-pay/orders'" target="_blank">View</a>
                                     </div>
                                     <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
                                         <span class="avatar-title">
@@ -76,6 +77,7 @@
                                     <div class="media-body">
                                         <p class="text-muted fw-medium">Received this month</p>
                                         <h4 class="mb-0">203</h4>
+                                        <a :href="'/buy-and-pay/receipts'" target="_blank">View</a>
                                     </div>
                                     <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
                                         <span class="avatar-title">
@@ -93,6 +95,7 @@
                                     <div class="media-body">
                                         <p class="text-muted fw-medium">Billed this month</p>
                                         <h4 class="mb-0">111</h4>
+                                        <a :href="'/buy-and-pay/bills'" target="_blank">View</a>
                                     </div>
                                     <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
                                         <span class="avatar-title">
@@ -110,6 +113,7 @@
                                     <div class="media-body">
                                         <p class="text-muted fw-medium">Paid this month</p>
                                         <h4 class="mb-0">268</h4>
+                                        <a :href="'/buy-and-pay/payments'" target="_blank">View</a>
                                     </div>
                                     <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
                                         <span class="avatar-title">
