@@ -1261,3 +1261,37 @@ nav > .pagination { margin-bottom: 0; }
     padding-left: 0 !important;
 
 }
+
+table .dropdown.testing-only-please-delete-this { margin: 2px 0; }
+table .dropdown.testing-only-please-delete-this button {
+    display: flex !important;
+    align-items: center !important;
+    box-shadow: none !important;
+    background-color: #e7e9ec !important;
+    border-color: #ccc !important;
+    padding: 0 !important;
+    border-top-right-radius: 4px !important;;
+    border-bottom-right-radius: 4px !important;;
+    min-width: unset !important
+}
+
+table .dropdown.testing-only-please-delete-this button .text {
+    padding: 1px 13px;
+}
+
+table .dropdown.testing-only-please-delete-this button .icon {
+    padding: 0 5px;
+    border-left: 1px solid #ccc;
+    line-height: 15px;
+}
+
+table .dropdown.testing-only-please-delete-this button .icon i { font-size: 12px; }
+table .dropdown > .dropdown-menu {
+    border: 1px solid var(--hexa-darkgrey);
+    outline: 0;
+    min-width: 6rem;
+    padding: .2rem 0;
+}
+
+.multiselect__tag { background-color: #556ee6 !important; }
+.multiselect__tag-icon:after { color: #fff !important; }

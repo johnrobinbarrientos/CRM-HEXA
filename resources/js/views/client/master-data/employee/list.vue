@@ -52,11 +52,23 @@
                         <tr v-for="(employee) in employeeList" :key="employee.uuid">
                             <td width="65" class="text-center">
                                 <span class="hx-table-actions">
-                                    <b-dropdown split text="Edit" size ="sm" class="m-2" href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid })">
-                                        <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid })">Edit</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)" @click="ROUTE({path: '/employees/' + employee.uuid + '/view' })">View</b-dropdown-item>
-                                        <b-dropdown-item href="javascript:void(0)" @click="remove(employee)">Delete</b-dropdown-item>
-                                    </b-dropdown>
+
+                                    <div class="dropdown testing-only-please-delete-this">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <div @click="ROUTE({path: '/employees/' + employee.uuid })" class="text">
+                                                Edit
+                                            </div>
+                                            <div class="icon">
+                                                <i class="fas fa-angle-down"></i>
+                                            </div>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a @click="ROUTE({path: '/employees/' + employee.uuid })" class="dropdown-item" href="#">Edit</a>
+                                            <a @click="ROUTE({path: '/employees/' + employee.uuid + '/view' })" class="dropdown-item" href="#">View</a>
+                                            <a @click="remove(employee)" class="dropdown-item" href="#">Delete</a>
+                                        </div>
+                                    </div>
+
                                 </span>
                             </td>
                             <td class="text-right">{{employee.emp_id}}</td>
