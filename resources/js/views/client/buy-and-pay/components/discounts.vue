@@ -59,16 +59,16 @@
                             <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(ADDITIONAL_RATE_TOTAL).toFixed(2) }}%</th>
                             <th class="text-right" style="border-bottom-color: #bbb !important;">{{ parseFloat(ADDITIONAL_AMOUNT_TOTAL).toFixed(2) }}</th>
                         </tr>
-                        <tr v-for="(discount,index) in discounts.APPLIED_PRICE_RULE_DISCOUNTS" :key="'price-rule-discount-summary' + index">
+                        <tr v-for="(discount,index) in APPLIED_PRICE_RULE_DISCOUNTS" :key="'price-rule-discount-summary' + index">
                                 <!--<th style="background:#77ade0;">
                                 <span v-if="index == 0">3</span>
                             </th>-->
                             <th>
                                 <span v-if="index == 0">Price Rule</span>
                             </th>
-                            <th>{{ discount.price_rule_supplier.rule_name }}</th>
-                            <th class="text-right">{{ discount.price_rule_supplier.rate }}%</th>
-                            <th class="text-right">{{ parseFloat(discount.discount_amount).toFixed(2) }}</th>
+                            <th>{{ discount.name }}</th>
+                            <th class="text-right">{{ discount.rate }}%</th>
+                            <th class="text-right">{{ parseFloat(discount.amount).toFixed(2) }}</th>
                         </tr>
                         <tr style="/*background:#abd1f5;*/" class="tr-grey">
                             <!--<th></th>-->
@@ -140,9 +140,12 @@ export default {
     methods: {
         updateDISCOUNTS: function (DISCOUNTS,TOTALS) {
             var scope = this
+            console.log('DISCOUNTS ==> ',DISCOUNTS)
             scope.discounts = DISCOUNTS
             scope.APPLIED_BASE_DISCOUNTS = scope.discounts.base
-            console.log('APPLIED_BASE_DISCOUNTS',scope.APPLIED_BASE_DISCOUNTS)
+
+            scope.APPLIED_PRICE_RULE_DISCOUNTS =  scope.discounts.price_rules
+          
             /* BASE */
             scope.BASE_AMOUNT_TOTAL = TOTALS.BASE_AMOUNT_TOTAL
             scope.BASE_RATE_TOTAL = TOTALS.BASE_RATE_TOTAL
