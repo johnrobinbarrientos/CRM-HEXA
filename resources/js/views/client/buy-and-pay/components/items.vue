@@ -273,8 +273,8 @@
                                 <tr>
                                     <th>Barcode</th>
                                     <th>Item Description</th>
-                                    <th width="50">Ordered  Qty</th>
-                                    <th width="50">Accepted  Qty</th>
+                                    <th width="50">Ordered Qty</th>
+                                    <th width="50">Accepted Qty</th>
                                     <th width="90">UOM Variance?</th>
                                     <th width="50">UOM</th>
                                     <th>Item Group</th>
@@ -482,6 +482,7 @@ export default {
             /* PRICE RULE */
             DISCOUNT_PRICE_RULE_AMOUNT_TOTAL: 0.00,
             DISCOUNT_PRICE_RULE_RATE_TOTAL: 0.00,
+            DISCOUNT_PRICE_RULE_INCLUDED: [],
             /* ADDITIONAL */
             DISCOUNT_ADDITIONAL_AMOUNT_TOTAL: 0.00,
             DISCOUNT_ADDITIONAL_RATE_TOTAL: 0.00,
@@ -770,14 +771,14 @@ export default {
             var scope = this
             
             var discounts = scope.__PRICE_RULES__.filter(discount => {
-                return (discount.applied_to == 'selected' && discount.items.includes(item.uuid)) || discount.applied_to == 'all'
+                return discount.items.includes(item.uuid)
             })
             
             var RATE = 0.00
 
             for (let i = 0; i < discounts.length; i++) {
                 var discount = discounts[i]
-                RATE += parseFloat(discount.price_rule_supplier.rate)
+                RATE += parseFloat(discount.rate)
             }
 
             RATE = parseFloat(RATE/100)
@@ -858,27 +859,33 @@ export default {
             /* PRICE RULE DISCOUNT */
             scope.DISCOUNT_PRICE_RULE_RATE_TOTAL = 0.00
             scope.DISCOUNT_PRICE_RULE_AMOUNT_TOTAL = 0.00
+            scope.DISCOUNT_PRICE_RULE_INCLUDED =  []
             var RATE = 0.00
 
             for (let i = 0; i < scope.__PRICE_RULES__.length; i++) {
                 var discount =  scope.__PRICE_RULES__[i]
          
-                discount.discount_amount = 0.00
+                discount.amount = 0.00
 
                 var items = scope.SELECTED_ITEMS.filter(item => {
-                    return (discount.applied_to == 'selected' && discount.items.includes(item.uuid)) || discount.applied_to == 'all'
+                    return  discount.items.includes(item.uuid)
                 })
 
                 if (items.length) {
-                    scope.DISCOUNT_PRICE_RULE_RATE_TOTAL +=  parseFloat(discount.price_rule_supplier.rate)
+                    scope.DISCOUNT_PRICE_RULE_RATE_TOTAL +=  parseFloat(discount.rate)
                     for (let x = 0; x < items.length; x++) {
                         var item = items[x]
-                        discount.discount_amount += item.gross_amount * (discount.price_rule_supplier.rate / 100)
+                        discount.amount += item.gross_amount * (discount.rate / 100)
                     }
                 }
 
                
-                scope.DISCOUNT_PRICE_RULE_AMOUNT_TOTAL +=  discount.discount_amount
+                scope.DISCOUNT_PRICE_RULE_AMOUNT_TOTAL +=  discount.amount
+
+                // only add the discount to the list when the value is greater than 0
+                if (discount.amount > 0) {
+                    scope.DISCOUNT_PRICE_RULE_INCLUDED.push(discount);
+                }
             } 
 
 
@@ -908,7 +915,7 @@ export default {
 
             var DISCOUNTS  = {
                 base: scope.DISCOUNT_BASE_INCLUDED,
-                price_rules: scope.__PRICE_RULES__,
+                price_rules: scope.DISCOUNT_PRICE_RULE_INCLUDED,
                 additionals: scope.__ADDITIONALS__,
             }
 

@@ -20,9 +20,8 @@ use App\Models\SupplierRegularDiscount;
 use App\Models\SupplierBaseDiscountGroup;
 use App\Models\SupplierBaseDiscountGroupDetail;
 
-use App\Models\PriceRuleSupplier;  
-use App\Models\PriceRuleSupplierDetail;  
-use App\Models\PriceRuleSupplierItem;  
+use App\Models\PriceRule;  
+use App\Models\PriceRuleItem;  
 
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderItem;
@@ -70,23 +69,19 @@ class BuyAndPayItemController extends Controller
      
     
         
-        /*
-        $price_rule_supplier_uuids = PriceRuleSupplier::where('date_start','<=',$po_date)
+        
+        $price_rules = PriceRule::where('date_start','<=',$po_date)
             ->where('date_end','>=',$po_date)
-            ->pluck('uuid')
-            ->toArray();
+            ->where('applicable_to','=','Buying')
+            ->get();
        
 
-        $price_rules = PriceRuleSupplierDetail::whereIn('price_rule_supplier_uuid',$price_rule_supplier_uuids)
-            ->with('PriceRuleSupplier')
-            ->get();
-
         foreach ($price_rules as $price_rule) {
-            $price_rule_items = PriceRuleSupplierItem::where('price_rule_supplier_detail_uuid','=',$price_rule->uuid)->pluck('item_uuid')->toArray();
+            $price_rule_items = PriceRuleItem::where('price_rule_uuid','=',$price_rule->uuid)->pluck('item_uuid')->toArray();
             $price_rule->items = $price_rule_items;
         }
 
-         */
+     
         $additional_discounts = PurchaseOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->get();
 
         foreach ($items as $item) {
@@ -134,8 +129,7 @@ class BuyAndPayItemController extends Controller
             'selected_items' => $selected_items, 
             'additional_discounts' => $additional_discounts, 
             'discount_groups' => $pobd_group_suppliers, 
-            //'price_rules' => $price_rules
-            'price_rules' =>[]
+            'price_rules' => $price_rules
         ], 200);
     }
 
