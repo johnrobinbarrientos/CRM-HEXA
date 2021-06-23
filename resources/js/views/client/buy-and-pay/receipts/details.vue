@@ -267,7 +267,7 @@ export default {
         },
         loadData: function () {
             
-        }``
+        }
     },
     mounted() {
         var scope = this

@@ -55,17 +55,17 @@ class BuyAndPayReceiveController extends Controller
         $branch_location = CompanyBranchLocation::find($order->branch_locations_uuid);
         $order->branch_location = $branch_location;
 
-        $discount_groups = PurchaseOrderBaseDiscountGroup::where('bp_order_uuid','=',$orderUUID)->get();
-        $order->discount_groups = $discount_groups;
+        //$discount_groups = PurchaseOrderBaseDiscountGroup::where('bp_order_uuid','=',$orderUUID)->get();
+        //$order->discount_groups = $discount_groups;
 
-        $additional_discounts = PurchaseOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->get();
-        $order->additional_discounts = $additional_discounts;
+        //$additional_discounts = PurchaseOrderAdditionalDiscount::where('bp_order_uuid','=',$orderUUID)->get();
+        //$order->additional_discounts = $additional_discounts;
 
-        $base_discounts =  PurchaseOrderBaseDiscountGroupDetail::where('bp_order_uuid','=',$orderUUID)->get();
-        $order->base_discounts = $base_discounts;
+        //$base_discounts =  PurchaseOrderBaseDiscountGroupDetail::where('bp_order_uuid','=',$orderUUID)->get();
+        //$order->base_discounts = $base_discounts;
 
-        $price_rule_discounts =  PurchasePriceRule::where('bp_order_uuid','=',$orderUUID)->with('PriceRuleDetail')->get();
-        $order->price_rule_discounts = $price_rule_discounts;
+        //$price_rule_discounts =  PurchasePriceRule::where('bp_order_uuid','=',$orderUUID)->with('PriceRuleDetail')->get();
+        //$order->price_rule_discounts = $price_rule_discounts;
 
         $item_group = ItemGroup::find($order->item_group_uuid);
         $order->item_group = $item_group;
