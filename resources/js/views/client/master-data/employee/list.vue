@@ -53,7 +53,7 @@
                             <td width="65" class="text-center">
                                 <span class="hx-table-actions">
 
-                                    <div class="dropdown testing-only-please-delete-this">
+                                    <div class="dropdown hx-dropdown-actions">
                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <div @click="ROUTE({path: '/employees/' + employee.uuid })" class="text">
                                                 Edit
