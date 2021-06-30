@@ -167,6 +167,23 @@ body.sidebar-enable.vertical-collpsed .hexasuite-text { display: none; }
     border-bottom-left-radius: 0;
     z-index: 999;
 }
+.table-filter-row > .dropdown { width: 100%; }
+.table-filter-row > .dropdown i.las { font-size: 11px; }
+.table-filter-row > .dropdown > a {
+    background: #fff !important;
+    border: none;
+    border-right: 1px solid #d7d8e0 !important;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    font-size: 12px;
+    padding: 5px 5px 5px 10px;
+    text-align: left;
+    width: 100%;
+    box-shadow: none !important;
+}
+.table-filter-row > .dropdown .dropdown-menu.show { border: 1px solid #d7d8e0; min-width: 100%; }
+.table-filter-row > .dropdown .dropdown-menu .dropdown-item { padding: .3rem 1rem; }
+
 
 .select-wrap {
     background:#fff;
@@ -1262,8 +1279,8 @@ nav > .pagination { margin-bottom: 0; }
 
 }
 
-table .dropdown.testing-only-please-delete-this { margin: 2px 0; }
-table .dropdown.testing-only-please-delete-this button {
+table .dropdown.hx-dropdown-actions { margin: 2px 0; }
+table .dropdown.hx-dropdown-actions button {
     display: flex !important;
     align-items: center !important;
     box-shadow: none !important;
@@ -1275,17 +1292,17 @@ table .dropdown.testing-only-please-delete-this button {
     min-width: unset !important
 }
 
-table .dropdown.testing-only-please-delete-this button .text {
+table .dropdown.hx-dropdown-actions button .text {
     padding: 1px 13px;
 }
 
-table .dropdown.testing-only-please-delete-this button .icon {
+table .dropdown.hx-dropdown-actions button .icon {
     padding: 0 5px;
     border-left: 1px solid #ccc;
     line-height: 15px;
 }
 
-table .dropdown.testing-only-please-delete-this button .icon i { font-size: 12px; }
+table .dropdown.hx-dropdown-actions button .icon i { font-size: 12px; }
 table .dropdown > .dropdown-menu {
     border: 1px solid var(--hexa-darkgrey);
     outline: 0;

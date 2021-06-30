@@ -28,51 +28,136 @@
             <div v-else>
                 <div class="table-filter-options">
                     <button @click="toggleTableFilter('filter')" class="btn btn-outline p-1">
-                        <i class="fas fa-filter mr-1"></i> Filter
+                        <i class="fas fa-filter mr-1"></i> Filterrr
                     </button>
                 </div>
                 <div v-if="tableFilterOptions.filter" class="table-filter-wrapper">
                     <div class="table-filter">
                         <div class="table-filter-row">
-                            <div class="select-wrap">
-                                <select @change="getPurchaseOrders()" v-model="selected_item_group">
-                                    <option value="">Item Type</option>     
-                                    <option v-for="item_type in options_item_group" :value="item_type.id" :key="'option-' + item_type.id ">{{ item_type.text }}</option>
-                                </select>
+                            <div class="dropdown show">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <span v-if="selected_item_group == ''">Item Type</span>
+                                            <span v-else>{{ selected_item_group.text }}</span>
+                                        </div>
+                                        <i class="las la-angle-down"></i>
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a @click="selected_item_group = ''; getPurchaseOrders()" class="dropdown-item" href="#">Item Type</a>
+                                    <a
+                                        v-for="item_type in options_item_group"
+                                        :key="'option-' + item_type.id"
+                                        @click="selected_item_group = item_type; getPurchaseOrders()"
+                                        class="dropdown-item" href="#">{{ item_type.text }}
+                                    </a>
+                                </div>
                             </div>
-                            <div class="select-wrap">
-                                <select  @change="getPurchaseOrders()" v-model="selected_supplier">
-                                    <option value="">Supplier</option>
-                                    <option v-for="supplier in options_supplier" :value="supplier.id"  :key="'option-' + supplier.id ">{{ supplier.text }}</option>
-                                </select>
+
+                            <div class="dropdown show">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <span v-if="selected_supplier == ''">Supplier</span>
+                                            <span v-else>{{ selected_supplier.text }}</span>
+                                        </div>
+                                        <i class="las la-angle-down"></i>
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a @click="selected_item_group = ''; getPurchaseOrders()" class="dropdown-item" href="#">Item Type</a>
+                                    <a
+                                        v-for="supplier in options_supplier"
+                                        :key="'option-' + supplier.id"
+                                        @click="selected_supplier = supplier; getPurchaseOrders()"
+                                        class="dropdown-item" href="#">{{ supplier.text }}
+                                    </a>
+                                </div>
                             </div>
-                            <div class="select-wrap">
-                                <select  @change="getPurchaseOrders()" v-model="selected_branch">
-                                    <option value="">Branch</option>
-                                    <option v-for="branch in options_branch" :value="branch.id"  :key="'option-' + branch.id ">{{ branch.text }}</option>
-                                </select>
+
+                            <div class="dropdown show">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <span v-if="selected_branch == ''">Branch</span>
+                                            <span v-else>{{ selected_branch.text }}</span>
+                                        </div>
+                                        <i class="las la-angle-down"></i>
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a @click="selected_branch = ''; getPurchaseOrders()" class="dropdown-item" href="#">Branch</a>
+                                    <a
+                                        v-for="branch in options_branch"
+                                        :key="'option-' + branch.id"
+                                        @click="selected_branch = branch; getPurchaseOrders()"
+                                        class="dropdown-item" href="#">{{ branch.text }}
+                                    </a>
+                                </div>
                             </div>
-                            <div class="select-wrap">
-                                <select  @change="getPurchaseOrders()" v-model="selected_branch_location">
-                                    <option value="">Location</option>
-                                    <option v-for="location in options_branch_location" :value="location.id"  :key="'option-' + location.id ">{{ location.text }}</option>
-                                </select>
+
+                            <div class="dropdown show">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <span v-if="selected_branch_location == ''">Location</span>
+                                            <span v-else>{{ selected_branch_location.text }}</span>
+                                        </div>
+                                        <i class="las la-angle-down"></i>
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a @click="selected_branch_location = ''; getPurchaseOrders()" class="dropdown-item" href="#">Location</a>
+                                    <a
+                                        v-for="location in options_branch_location"
+                                        :key="'option-' + location.id"
+                                        @click="selected_branch_location = location; getPurchaseOrders()"
+                                        class="dropdown-item" href="#">{{ location.text }}
+                                    </a>
+                                </div>
                             </div>
-                            <div class="select-wrap">
-                                <select  @change="getPurchaseOrders()" v-model="selected_status">
-                                    <option value="">Status</option>
-                                    <option value="To Receive">To Receive</option>
-                                    <option value="Partially Received">Partially Received</option>
-                                    <option value="Fully Received">Fully Received</option>
-                                    <option value="Cancelled">Cancelled</option>
-                                </select>
+
+                            <div class="dropdown show">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <span v-if="selected_status == ''">Status</span>
+                                            <span v-else>{{ selected_status.text }}</span>
+                                        </div>
+                                        <i class="las la-angle-down"></i>
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a @click="selected_status = ''; getPurchaseOrders()" class="dropdown-item" href="#">Status</a>
+                                    <a @click="selected_status = 'To Receive'; getPurchaseOrders()" class="dropdown-item" href="#">To Receive</a>
+                                    <a @click="selected_status = 'Partially Received'; getPurchaseOrders()" class="dropdown-item" href="#">Partially Received</a>
+                                    <a @click="selected_status = 'Fully Received'; getPurchaseOrders()" class="dropdown-item" href="#">Fully Received</a>
+                                    <a @click="selected_status = 'Cancelled'; getPurchaseOrders()" class="dropdown-item" href="#">Cancelled</a>
+                                </div>
                             </div>
-                            <div class="select-wrap">
-                                <select  @change="getPurchaseOrders()" v-model="selected_reason_code_filter">
-                                    <option value="">Reason Code</option>
-                                    <option v-for="reason_code in options_reason_code" :value="reason_code.id"  :key="'option-' + reason_code.id ">{{ reason_code.text }}</option>
-                                </select>
+
+                            <div class="dropdown show">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <span v-if="selected_reason_code_filter == ''">Reason Code</span>
+                                            <span v-else>{{ selected_reason_code_filter.text }}</span>
+                                        </div>
+                                        <i class="las la-angle-down"></i>
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a @click="selected_reason_code_filter = ''; getPurchaseOrders()" class="dropdown-item" href="#">Reason Code</a>
+                                    <a
+                                        v-for="reason_code in options_reason_code"
+                                        :key="'option-' + reason_code.id"
+                                        @click="selected_reason_code_filter = reason_code; getPurchaseOrders()"
+                                        class="dropdown-item" href="#">{{ reason_code.text }}
+                                    </a>
+                                </div>
                             </div>
+
                             <div class="select-wrap">
                                 <DatePicker v-model="transaction_from_to" valueType="format" :placeholder="'From  -  To'" :range="true" :format="'DD-MMM-YYYY'"></DatePicker>
                             </div>
