@@ -252,7 +252,7 @@ export default {
     },
 
     methods: {
-
+        
         getProjectType: function () {
            var scope = this
 
